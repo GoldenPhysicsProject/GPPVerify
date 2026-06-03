@@ -24,3 +24,13 @@ import GppVerify.RiemannHypothesis.ShadowSymmetry
 -- Spectral multiplicity argument + riemann_hypothesis theorem
 -- (2 sorries in temperedness, 1 axiom: arithmetic_admissibility)
 import GppVerify.RHSpectralMultiplicity
+
+-- ── L² Constraint ────────────────────────────────────────────
+-- L²(K¹) forces Re(s) = 1/2  (thm:l2-constraint, cited 12×)
+import GppVerify.RiemannHypothesis.L2Constraint
+
+-- ── Standard Model ───────────────────────────────────────────
+-- Three generations from Cayley-Dickson tower (cor:three-generations-anomaly)
+-- NOTE: three_generations + anomaly_cancellation carry
+--       "depends on thm:link6 — open problem"
+import GppVerify.StandardModel.ThreeGenerations
