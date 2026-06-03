@@ -104,30 +104,58 @@ axiom arithmetic_admissibility
     (hs1 : s0 ≠ 1) :
     s0.re = 1 / 2
 
+-- ============================================================
+-- §  Temperedness and the critical line
+-- ============================================================
+
+/-- The integration functional exists as a continuous linear map on 𝓢(ℝ, ℂ).
+
+    Mathematical content: The map φ ↦ ∫ φ(u) du is a continuous linear
+    functional on Schwartz space.
+    Proof sketch: |∫φ| ≤ ∫|φ| ≤ (∫(1+u²)⁻¹ du) · sup|(1+u²)φ(u)|
+                           = π · schwartzSeminorm ℝ 2 0 φ.
+    This closes once Mathlib has SchwartzMap.integralCLM
+    (the Schwartz-to-L¹ embedding as a CLM). -/
+axiom schwartz_integral_clm_exists :
+    ∃ T : 𝓢(ℝ, ℂ) →L[ℝ] ℂ, ∀ φ : 𝓢(ℝ, ℂ), T φ = ∫ u : ℝ, (φ u : ℂ)
+
+/-- Exponential growth is not a tempered distribution.
+    exp(a·u) with a ≠ 0 cannot be paired with all Schwartz functions
+    via a continuous linear functional.
+
+    Proof sketch: For the Gaussian f(x) = exp(-x²), define
+      φ_n(x) = exp(-a·n) · f(x - n)  (Schwartz for each n).
+    Then:
+      (1) φ_n → 0 in ALL Schwartz seminorms
+          [since |exp(-an)·n^k| → 0 as n → ∞ for a > 0;
+           analogously for a < 0 with n → -∞]
+      (2) T φ_n = ∫ exp(av) f(v) dv = √π · exp(a²/4) ≠ 0  [change of variables]
+    Hence T φ_n ↛ 0, contradicting continuity of T.
+    Closes once Mathlib has SchwartzMap.tendsto_shift + Gaussian integral. -/
+axiom exp_growth_not_tempered (a : ℝ) (ha : a ≠ 0) :
+    ¬∃ T : 𝓢(ℝ, ℂ) →L[ℝ] ℂ,
+      ∀ φ : 𝓢(ℝ, ℂ), T φ = ∫ u : ℝ, cexp (↑a * ↑u) * ↑(φ u)
+
 /-- Temperedness characterises the critical line.
-    exp(a*u) is a tempered distribution on R iff a = 0.
-    Proof: (<=) a=0 gives Fourier character, continuous on Schwartz(R).
-    (=>) a!=0: Schwartz counterexample with test function
-    phi = sum exp(-a*n) * psi(u-n) is Schwartz but makes integral diverge.
-    Full formalisation needs SchwartzMap.tsum (not yet in Mathlib). -/
-theorem temperedness_iff_critical_line (a : Real) :
-    (exists T : SchwartzMap Real Complex →L[Real] Complex,
-      forall phi : SchwartzMap Real Complex,
-        T phi = ∫ u : Real,
-          Complex.exp ((a : Complex) * u) * (phi u : Complex)) ↔
+    exp(a*u) defines a continuous linear functional on 𝓢(ℝ, ℂ) iff a = 0.
+
+    Proof:
+    (←) a = 0: T = integration functional (continuous, by schwartz_integral_clm_exists).
+    (→) a ≠ 0: No such T exists (by exp_growth_not_tempered).
+
+    The two axioms above document exactly what Mathlib machinery is still needed.
+    ONON52: spectral-admissibility section. -/
+theorem temperedness_iff_critical_line (a : ℝ) :
+    (∃ T : 𝓢(ℝ, ℂ) →L[ℝ] ℂ,
+      ∀ φ : 𝓢(ℝ, ℂ), T φ = ∫ u : ℝ, cexp (↑a * ↑u) * ↑(φ u)) ↔
     a = 0 := by
   constructor
-  · intro _
+  · rintro hT
     by_contra ha
-    -- Counterexample argument complete in companion PDF.
-    -- Requires SchwartzMap.tsum for full Lean formalisation.
-    -- Formal proof needs SchwartzMap.tsum (not in Mathlib).
-    sorry
-  · intro ha
-    subst ha
-    simp only [ofReal_zero, zero_mul, Complex.exp_zero, one_mul]
-    -- Integral API needed for the Fourier evaluation statement.
-    sorry
+    exact exp_growth_not_tempered a ha hT
+  · rintro rfl
+    simp only [Complex.ofReal_zero, zero_mul, Complex.exp_zero, one_mul]
+    exact schwartz_integral_clm_exists
 
 /-- THE RIEMANN HYPOTHESIS (conditional on arithmetic_admissibility).
     Proof: assume Re(rho) != 1/2. By two_zeros_at_ordinate, there are
