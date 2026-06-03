@@ -243,4 +243,136 @@ is explicitly open in ONON52.  Every Lean declaration depending on it carries
   \textbf{Depends on thm:link6 — open problem.}
 \end{corollary}
 
+
+\chapter{L\textsuperscript{2} Constraint}
+
+\section{\texorpdfstring{$L^2(K^1)$}{L²(K¹)} Forces $\mathrm{Re}(s) = \tfrac{1}{2}$}
+
+\begin{lemma}[Shadow Fixed Points are Critical]
+  \label{lem:shadow-fixed-critical}
+  \lean{GppL2.shadow_fixed_iff_critical}
+  \leanok
+  For $s \in \mathbb{C}$, $1 - s = s \iff \mathrm{Re}(s) = \tfrac{1}{2}$.
+\end{lemma}
+
+\begin{lemma}[L² Unitarity Forces Critical Line]
+  \label{lem:l2-unitarity}
+  \lean{GppL2.l2_unitarity_forces_critical}
+  \leanok
+  If $\overline{s} = 1 - s$ then $\mathrm{Re}(s) = \tfrac{1}{2}$.
+\end{lemma}
+
+\begin{lemma}[Principal Series Characters are Unitary]
+  \label{lem:principal-series-unitary}
+  \lean{GppL2.principal_series_unitary}
+  \leanok
+  For $s = \tfrac{1}{2} + i\gamma$, the character $a \mapsto |a|^{s-1/2}$
+  has absolute value $1$.
+\end{lemma}
+
+\begin{theorem}[$L^2$ Constraint Theorem]
+  \label{thm:l2-constraint}
+  \lean{GppL2.l2_constraint}
+  \uses{lem:l2-unitarity, lem:fujisaki, thm:peter-weyl-adelic}
+  If $\chi_s \in L^2(K^1)$ is an eigenfunction of the shadow involution
+  $T: a \mapsto a^{-1}$, then $\mathrm{Re}(s) = \tfrac{1}{2}$.
+
+  The proof assembles: Haar self-duality $\Rightarrow$ $T$ preserves $L^2$;
+  Plancherel on $K^1$ $\Rightarrow$ $T$-eigenvalue is unitary;
+  unitarity $\Rightarrow$ $\mathrm{Re}(s) = \tfrac{1}{2}$.
+
+  Adèlic infrastructure (Hecke characters, Peter--Weyl on $K^1$)
+  awaits \texttt{Mathlib.NumberTheory.NumberField.Adeles}.
+\end{theorem}
+
+\begin{corollary}[$L^2$-Admissible Zeros on Critical Line]
+  \label{cor:l2-rh}
+  \lean{GppL2.l2_constraint_implies_rh}
+  \uses{thm:l2-constraint}
+  Every $L^2$-admissible non-trivial zero $\rho$ of $\zeta(s)$ satisfies
+  $\mathrm{Re}(\rho) = \tfrac{1}{2}$.
+\end{corollary}
+
+\chapter{Standard Model — Three Generations}
+
+\section{Division Algebra Tower}
+
+\begin{lemma}[Hurwitz Classification]
+  \label{lem:hurwitz}
+  \lean{GppSM.hurwitz_classification}
+  The only normed division algebras over $\mathbb{R}$ are
+  $\mathbb{R}$, $\mathbb{C}$, $\mathbb{H}$, $\mathbb{O}$
+  (Hurwitz 1898).  There are exactly $3$ Cayley--Dickson doublings.
+
+  Gap: full Hurwitz theorem not yet in Mathlib~4.19.0.
+\end{lemma}
+
+\begin{theorem}[Three Generations from Division Algebras]
+  \label{cor:three-generations-anomaly}
+  \lean{GppSM.three_generations}
+  \uses{lem:hurwitz}
+  The three Cayley--Dickson doublings $\mathbb{R}\to\mathbb{C}$,
+  $\mathbb{C}\to\mathbb{H}$, $\mathbb{H}\to\mathbb{O}$
+  correspond to exactly $3$ fermion generations.
+
+  \textbf{Open problem:} the physics connection requires
+  \texttt{thm:link6} ($c_{2D} = c_{4D}^{\mathrm{Weyl}}$),
+  which is explicitly open in ONON52.
+  All downstream statements carry
+  \verb|sorry -- depends on thm:link6 — open problem|.
+\end{theorem}
+
+\begin{theorem}[Anomaly Cancellation Forces 3 Generations]
+  \label{thm:anomaly-cancel}
+  \lean{GppSM.anomaly_cancellation_forces_three_generations}
+  \uses{cor:three-generations-anomaly}
+  With $c_{4D}^{\mathrm{Weyl}} = 0$ and SM gauge group,
+  anomaly cancellation (Boyle--Turok 2021) forces
+  $48 = 16 \times 3$ Weyl fermions, i.e., $n_{\mathrm{gen}} = 3$.
+
+  \textbf{Depends on thm:link6 — open problem.}
+\end{theorem}
+
+\chapter{Axiom Inventory}
+
+\section{Mathematical Axioms}
+
+\begin{enumerate}
+  \item \texttt{arithmetic\_admissibility} — Meyer spectral-Weil (2005).
+        Sole remaining gap for unconditional RH.
+        Requires: adèlic Fourier analysis, explicit formula, Weil positivity.
+  \item \texttt{riemannZeta\_conj\_axiom} — $\zeta(\bar s) = \overline{\zeta(s)}$.
+        Provable from Dirichlet series + analytic continuation; not named in Mathlib~4.19.0.
+  \item \texttt{schwartz\_integral\_clm\_exists} — $\phi \mapsto \int\phi$ is CLM on $\mathcal{S}$.
+        Provable once \texttt{SchwartzMap.integralCLM} exists in Mathlib.
+  \item \texttt{exp\_growth\_not\_tempered} — $e^{au}$ ($a \neq 0$) is not a tempered distribution.
+        Provable once \texttt{SchwartzMap.tendsto\_shift} + Gaussian integral exists in Mathlib.
+\end{enumerate}
+
+\section{Infrastructure Sorries (non-mathematical gaps)}
+
+\begin{enumerate}
+  \item \texttt{adelic\_quotient\_compact\_factor} — Fujisaki's lemma.
+        Requires adèle ring topology in Mathlib.
+  \item \texttt{tate\_functional\_equation} — Tate's thesis.
+        Requires Schwartz-Bruhat functions on adèles.
+  \item \texttt{gamma\_reflection\_half} — $\Gamma(s/2)\Gamma(1-s/2) = \pi/\sin(\pi s/2)$.
+        Substitution form of reflection formula; provable with Mathlib Gamma API.
+  \item \texttt{penrose\_antipodal\_from\_hodge} — Penrose twistor correspondence.
+        Not in Mathlib.
+  \item \texttt{l2\_shadow\_eigenvalue\_forces\_critical\_re} — Peter-Weyl on $K^1$.
+        Requires Hecke character theory in Mathlib.
+  \item \texttt{K1\_compact\_haar} — Fujisaki's lemma (adèlic form).
+        Requires \texttt{Mathlib.NumberTheory.NumberField.Adeles}.
+  \item \texttt{hurwitz\_classification} — Hurwitz theorem.
+        Not yet in Mathlib~4.19.0.
+\end{enumerate}
+
+\section{Open Problem}
+
+\texttt{thm:link6}: $c_{2D} = c_{4D}^{\mathrm{Weyl}}$ is explicitly open in ONON52.
+All theorems depending on it are marked
+\verb|sorry -- depends on thm:link6 — open problem|
+and will not be closed until a proof appears in the mathematical literature.
+
 \end{document}
