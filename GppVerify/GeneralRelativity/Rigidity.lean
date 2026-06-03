@@ -1,4 +1,5 @@
 import GppVerify.RiemannHypothesis.ShadowSymmetry
+import GppVerify.CelestialHolography.Link6
 
 /-!
 # Rigidity Theorem: Einstein Equations from Shadow Symmetry (thm:rigidity, cited 10×)
