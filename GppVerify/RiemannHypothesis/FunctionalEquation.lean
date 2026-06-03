@@ -39,7 +39,7 @@ The Tate step uses:
 | Name | Blocks | Reference |
 |------|--------|-----------|
 | `tate_functional_equation` | Tate integral formalism not in Mathlib | Tate 1950 §4 |
-| `xi_symmetry_from_reflection` | Gamma reflection formula chain | Mathlib partial |
+| `gamma_reflection_half` | Gamma reflection formula chain | Mathlib partial |
 | `completed_zeta_functional_eq` | Combines the above | ONON52 L16391 |
 -/
 
@@ -85,10 +85,6 @@ theorem tate_functional_equation :
     ∀ (_ : True), True := by
   intro _
   -- SORRY: Requires adèlic Fourier transform and Poisson summation
-  -- Proof sketch:
-  --   Z(Φ, s) = ∫_{A×/Q×} Φ(a) |a|^s d×a
-  --   Poisson over Q: ∑_{q ∈ Q×} Φ(qa) = |a|^{-1} ∑_{q ∈ Q×} Φ̂(q a^{-1})
-  --   Substituting and using d×(a⁻¹) = d×a (adelic_haar_self_dual): Z(Φ,s) = Z(Φ̂, 1-s)
   trivial
 
 -- ============================================================
@@ -99,10 +95,12 @@ theorem tate_functional_equation :
     Γ(s/2) Γ(1 - s/2) = π / sin(π s/2).
 
     This is in Mathlib as `Complex.Gamma_mul_Gamma_one_sub` (with appropriate
-    variable substitution). Used to verify the functional equation of ξ. -/
+    variable substitution). Used to verify the functional equation of ξ.
+
+    Note: `Complex.pi` is not in Mathlib 4; use `(↑Real.pi : ℂ)` for π. -/
 lemma gamma_reflection_half (s : ℂ) (hs : ∀ n : ℕ, s ≠ -2 * n) :
     Complex.Gamma (s / 2) * Complex.Gamma (1 - s / 2) =
-      Complex.pi / Complex.sin (Complex.pi * s / 2) := by
+      (↑Real.pi : ℂ) / Complex.sin ((↑Real.pi : ℂ) * s / 2) := by
   -- This follows from Mathlib's Complex.Gamma_mul_Gamma_one_sub
   -- applied to s/2 in place of s:
   --   Γ(z) Γ(1-z) = π / sin(πz)
@@ -127,14 +125,6 @@ theorem completed_zeta_functional_eq (s : ℂ)
     (hn : ∀ n : ℕ, s ≠ -↑n) (hone : s ≠ 1) :
     riemannXi s = riemannXi (1 - s) := by
   -- SORRY: Requires tate_functional_equation + gamma_reflection_half
-  -- Proof sketch:
-  --   riemannXi s = ½ s(s-1) π^{-s/2} Γ(s/2) ζ(s)
-  --   Under s ↦ 1-s:
-  --     s(s-1) ↦ (1-s)(-s) = s(s-1)          ✓ (symmetric)
-  --     π^{-s/2} Γ(s/2) ζ(s) ↦ π^{-(1-s)/2} Γ((1-s)/2) ζ(1-s)
-  --   Using ζ(1-s) = 2(2π)^{-s} cos(πs/2) Γ(s) ζ(s)  [riemannZeta_one_sub in Mathlib]
-  --   and Γ((1-s)/2) Γ(s/2+½) = √π 2^{1-s} / (Γ cancellation)
-  --   yields riemannXi(1-s) = riemannXi(s).
   sorry
 
 -- ============================================================
@@ -150,23 +140,30 @@ theorem xi_zero_symmetric (s : ℂ) (hzero : riemannXi s = 0)
   exact hzero
 
 /-- The functional equation forces the critical line Re(s) = ½ to be
-    the unique fixed-point locus of s ↦ 1-s in the critical strip.
-    This is a *purely algebraic* consequence — no analysis needed.
+    the unique fixed-point locus of the map s ↦ 1 - conj(s) in ℂ.
+    That is: conj(s) = 1 - s iff Re(s) = 1/2.
 
-    Physical interpretation (ONON52 Prologue): this is the same mechanism
-    as thermodynamic equilibrium under T ↦ 1/T being at T = 1. -/
+    Note: the simpler equation `s = 1 - s` would additionally force Im(s) = 0;
+    the correct RH-relevant fixed-point condition uses complex conjugation.
+
+    This is a *purely algebraic* consequence — no analysis needed. -/
 theorem critical_line_is_fixed_locus :
-    ∀ s : ℂ, s = 1 - s ↔ s.re = 1 / 2 := by
+    ∀ s : ℂ, starRingEnd ℂ s = 1 - s ↔ s.re = 1 / 2 := by
   intro s
   constructor
   · intro h
-    have : s.re = (1 - s).re := congr_arg Complex.re h
-    simp [Complex.sub_re] at this
+    have hre := congr_arg Complex.re h
+    simp only [RCLike.star_def, Complex.conj_re,
+               Complex.sub_re, Complex.one_re] at hre
     linarith
   · intro h
-    ext <;> simp [Complex.sub_re, Complex.sub_im]
-    · linarith
-    · ring
+    apply Complex.ext
+    · simp only [RCLike.star_def, Complex.conj_re,
+                 Complex.sub_re, Complex.one_re]
+      linarith
+    · simp only [RCLike.star_def, Complex.conj_im,
+                 Complex.sub_im, Complex.one_im, neg_zero]
+      ring
 
 end GppFE
 
