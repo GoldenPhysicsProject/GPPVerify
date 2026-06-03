@@ -60,3 +60,33 @@ import GppVerify.QuantumGravity.BornRuleHaar
 -- ── General Relativity ───────────────────────────────────────
 -- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
 import GppVerify.GeneralRelativity.Rigidity
+
+-- ── Number Theory (New) ──────────────────────────────────────
+-- Shadow Euler Identity and Hadamard product stubs
+import GppVerify.NumberTheory.ShadowEulerIdentity
+
+-- Weyl vector Casimir ⟨ρ_G,ρ_G⟩ = 5 for U(4) (proved clean)
+import GppVerify.NumberTheory.WeylCasimir
+
+-- ── RH Proof Structure (New) ─────────────────────────────────
+-- Spectral-multiplicity / temperedness / BRST proof architecture
+import GppVerify.RiemannHypothesis.RHProofStructure
+
+-- Haar positivity = Weil positivity = Wightman positivity (unified)
+import GppVerify.RiemannHypothesis.HaarPositivityWeil
+
+-- ── Standard Model — Majorana (New) ─────────────────────────
+-- Majorana neutrinos from T-boundary condition
+import GppVerify.StandardModel.MajoranaCondition
+
+-- ── Celestial Holography — Twistor (New) ────────────────────
+-- Googly problem resolution via Haar self-duality on Gr(2,4)
+import GppVerify.CelestialHolography.TwistorGoogly
+
+-- ── Yang-Mills (New) ─────────────────────────────────────────
+-- Mass gap existence and Sugawara formula M = 2N/(k+N)·Λ_QCD
+import GppVerify.YangMills.MassGap
+
+-- ── Quantum Gravity — Wightman (New) ────────────────────────
+-- All 6 Wightman axioms derived from Gr(2,4) + Penrose + Peter-Weyl
+import GppVerify.QuantumGravity.WightmanAxioms
