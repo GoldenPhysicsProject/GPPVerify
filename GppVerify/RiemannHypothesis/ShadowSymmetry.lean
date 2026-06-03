@@ -61,8 +61,8 @@ theorem shadow_is_involution (Δ : ℤ) : 2 - (2 - Δ) = Δ :=
 /-- On the principal series Δ = 1 + iλ (λ ∈ ℝ), the shadow map corresponds to
     complex conjugation of the conformal dimension:
     shadow(Δ) = 2 - Δ = 2 - (1+iλ) = 1 - iλ = conj(Δ). -/
-theorem shadow_is_conjugation_on_principal_series (λ : ℝ) :
-    let Δ : ℂ := 1 + Complex.I * λ
+theorem shadow_is_conjugation_on_principal_series (lam : ℝ) :
+    let Δ : ℂ := 1 + Complex.I * lam
     (2 : ℂ) - Δ = starRingEnd ℂ Δ := by
   simp [map_add, map_mul, RCLike.star_def, Complex.conj_re, Complex.conj_im]
   ring
@@ -150,8 +150,8 @@ theorem shadow_from_haar_inversion (Δ : ℤ) :
 /-- On the principal series Δ = 1+iλ, time reversal T is antiunitary:
     T(ω^{Δ-1}) = conj(ω^{Δ-1}) = ω^{Δ̄-1} = ω^{(2-Δ)-1}.
     Combined with Step 3, T implements the shadow transform. -/
-theorem time_reversal_is_shadow (λ : ℝ) :
-    let Δ : ℂ := 1 + Complex.I * λ
+theorem time_reversal_is_shadow (lam : ℝ) :
+    let Δ : ℂ := 1 + Complex.I * lam
     starRingEnd ℂ Δ = 2 - Δ := by
   simp [RCLike.star_def, Complex.ext_iff]
   ring
@@ -167,7 +167,7 @@ theorem time_reversal_is_shadow (λ : ℝ) :
     ONON52: Theorem thm:shadow-cpt, L666. Most-cited result (16×).
     This theorem does NOT depend on thm:link6. -/
 theorem shadow_equals_time_reversal :
-    ∀ (λ : ℝ), let Δ := (1 : ℂ) + Complex.I * λ
+    ∀ (lam : ℝ), let Δ := (1 : ℂ) + Complex.I * lam
       starRingEnd ℂ Δ = 2 - Δ :=
   time_reversal_is_shadow
 
