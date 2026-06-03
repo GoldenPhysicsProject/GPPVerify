@@ -53,19 +53,23 @@ theorem mass_gap_ratio_su3_k3 : mass_gap_ratio 3 3 = 1 := by native_decide
 theorem mass_gap_ratio_pos (N k : ℕ) (hN : 1 ≤ N) (hk : 0 ≤ k) :
     0 < mass_gap_ratio N k := by
   simp only [mass_gap_ratio]
-  have h1 : (1 : ℚ) ≤ (N : ℚ) := by exact_mod_cast hN
-  have h2 : (0 : ℚ) ≤ (k : ℚ) := Nat.cast_nonneg k
-  apply div_pos <;> linarith
+  apply div_pos
+  · have h1 : 0 < N := by omega
+    have h2 : 0 < 2 * N := by omega
+    exact_mod_cast h2
+  · have h1 : 0 < N := by omega
+    have h2 : 0 < k + N := by omega
+    exact_mod_cast h2
 
 /-- Mass gap ratio ≤ 2 (since k ≥ 0, so 2N/(k+N) ≤ 2) -/
 theorem mass_gap_ratio_le_two (N k : ℕ) (hN : 1 ≤ N) :
     mass_gap_ratio N k ≤ 2 := by
   simp only [mass_gap_ratio]
-  have h1 : (1 : ℚ) ≤ (N : ℚ) := by exact_mod_cast hN
-  have h2 : (0 : ℚ) ≤ (k : ℚ) := Nat.cast_nonneg k
-  have hpos : (0 : ℚ) < (k : ℚ) + (N : ℚ) := by linarith
-  rw [div_le_iff hpos]
-  linarith
+  have hkN : 0 < k + N := by omega
+  rw [div_le_iff (by exact_mod_cast hkN : (0 : ℚ) < (k : ℚ) + (N : ℚ))]
+  have hk : 0 ≤ k := k.zero_le
+  push_cast
+  nlinarith
 
 /-- Kac-Moody commutation relation: [J^a_m, J^b_n] structure constant is k -/
 theorem kac_moody_level_appears_in_commutator (k m : ℤ) (δ_ab δ_mn : ℤ) :
