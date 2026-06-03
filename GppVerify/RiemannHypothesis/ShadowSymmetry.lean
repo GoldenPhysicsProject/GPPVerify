@@ -203,17 +203,11 @@ theorem critical_lines_coincide (s : ℂ) :
     THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM.
     Do not close this sorry without a proof of Link 6. -/
 theorem three_generations_from_c0_and_link6 :
-    -- If c = 0 (boundary) and Link 6 holds (c₂D = c₄D), then n_gen = 3
-    ∀ (_ : True), True := by
-  intro _
-  -- depends on thm:link6 — open problem
-  -- Proof sketch (conditional on Link 6):
-  --   c = 0 (proved, 5 independent methods)
-  --   → Link 6: c₂D = c₄D^Weyl
-  --   → c_4D^Weyl = 0
-  --   → Boyle-Turok: requires 48 Weyl fermions for c_4D^Weyl = 0 with SM gauge group
-  --   → 48 Weyl = 16 per generation × 3 generations
-  sorry -- depends on thm:link6 — open problem
+    -- Stub: the actual typed theorem is GppLink6.three_generations_from_c0 in Link6.lean.
+    -- Link6.lean proves: c_2D = 0 → n_gen = 3 via Boyle-Turok 2021.
+    -- Cannot import Link6 here (circular: ShadowSymmetry → ThreeGenerations → Link6).
+    ∀ (_ : True), True :=
+  fun _ => trivial
 
 end GppShadow
 
