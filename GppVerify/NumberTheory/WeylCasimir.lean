@@ -1,5 +1,6 @@
 import Mathlib.Algebra.Group.Basic
 import Mathlib.Data.Real.Basic
+import Mathlib.Tactic
 
 /-!
 # Weyl Vector Casimir for U(4) ≅ A₃ ⊕ U(1)
@@ -15,28 +16,28 @@ The Weyl vector ρ = (3,1,-1,-3)/2 in the standard basis.
 namespace GppWeylCasimir
 
 /-- Weyl vector component squares for A₃: (3²+1²+1²+3²)/4 = 20/4 = 5 -/
-theorem weyl_vector_sq_numerator : 3^2 + 1^2 + 1^2 + 3^2 = (20 : ℤ) := by norm_num
+theorem weyl_vector_sq_numerator : 3^2 + 1^2 + 1^2 + 3^2 = (20 : ℤ) := by decide
 
-theorem weyl_vector_casimir_times_four : 3^2 + 1^2 + 1^2 + 3^2 = 4 * 5 := by norm_num
+theorem weyl_vector_casimir_times_four : 3^2 + 1^2 + 1^2 + 3^2 = 4 * 5 := by decide
 
 /-- The Weyl vector Casimir ⟨ρ_G, ρ_G⟩ = 5 for U(4) ≅ A₃ ⊕ U(1).
     ρ = (3,1,-1,-3)/2; ⟨ρ,ρ⟩ = (9+1+1+9)/4 = 5. -/
-theorem weyl_casimir_u4 : (3^2 + 1^2 + 1^2 + 3^2 : ℤ) / 4 = 5 := by norm_num
+theorem weyl_casimir_u4 : (3^2 + 1^2 + 1^2 + 3^2 : ℤ) / 4 = 5 := by decide
 
 /-- Euler characteristic of Gr(2,4): sum of Betti numbers b0+b2+b4+b4+b6+b8 = 1+1+2+1+1 = 6 -/
-theorem gr24_euler_char : 1 + 1 + 2 + 1 + 1 = (6 : ℤ) := by norm_num
+theorem gr24_euler_char : 1 + 1 + 2 + 1 + 1 = (6 : ℤ) := by decide
 
 /-- Gaussian binomial [4 choose 2]_q at q=1 equals 6 = χ(Gr(2,4)) -/
-theorem gaussian_binomial_4_2_at_1 : 1 + 1 + 2 + 1 + 1 = (6 : ℕ) := by norm_num
+theorem gaussian_binomial_4_2_at_1 : 1 + 1 + 2 + 1 + 1 = (6 : ℕ) := by decide
 
 /-- Point count of Gr(2,4) over F_q: 1 + q + 2q² + q³ + q⁴ -/
 def gr24_point_count (q : ℤ) : ℤ := 1 + q + 2 * q^2 + q^3 + q^4
 
 theorem gr24_point_count_at_1 : gr24_point_count 1 = 6 := by
-  simp [gr24_point_count]; ring
+  simp [gr24_point_count]
 
 /-- The physical shadow Casimir ratio: (Δ=1 central charge) / (k+N) coupling -/
-theorem shadow_dimension_at_critical : (1 : ℤ) * 2 = 2 * 1 := by norm_num
+theorem shadow_dimension_at_critical : (1 : ℤ) * 2 = 2 * 1 := by decide
 
 /-- Doubly-degenerate b₄ Betti number for Gr(2,4) -/
 theorem gr24_middle_betti : (2 : ℕ) = 2 := rfl

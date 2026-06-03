@@ -36,7 +36,8 @@ namespace GppHaarPositivityWeil
 /-- A function P: ℝ → ℝ is positive-type if the matrices [P(x_i - x_j)] are PSD -/
 def PositiveType (P : ℝ → ℝ) : Prop :=
   ∀ (n : ℕ) (x : Fin n → ℝ) (c : Fin n → ℂ),
-    0 ≤ ∑ i, ∑ j, (starRingEnd ℂ (c i)) * c j * P (x i - x j)
+    0 ≤ (∑ i : Fin n, ∑ j : Fin n,
+          (starRingEnd ℂ (c i)) * c j * (P (x i - x j) : ℂ)).re
 
 /-- The constant function 1 is positive-type -/
 theorem const_one_positive_type : PositiveType (fun _ => (1 : ℝ)) := by

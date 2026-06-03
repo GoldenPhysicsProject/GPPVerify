@@ -51,16 +51,16 @@ def gr24_betti : Fin 5 → ℕ
   | ⟨4, _⟩ => 1
 
 theorem gr24_euler_char : (Finset.univ : Finset (Fin 5)).sum gr24_betti = 6 := by
-  simp [gr24_betti, Fin.sum_univ_five]
+  decide
 
 /-! ## Point count formula for Gr(2,4) over F_q -/
 
 /-- Gr(2,4)(F_q) = 1 + q + 2q² + q³ + q⁴ (Gaussian binomial) -/
 def gr24_over_Fq (q : ℤ) : ℤ := 1 + q + 2 * q^2 + q^3 + q^4
 
-theorem gr24_over_F1 : gr24_over_Fq 1 = 6 := by simp [gr24_over_Fq]; ring
+theorem gr24_over_F1 : gr24_over_Fq 1 = 6 := by simp [gr24_over_Fq]
 
-theorem gr24_over_F2 : gr24_over_Fq 2 = 35 := by simp [gr24_over_Fq]; norm_num
+theorem gr24_over_F2 : gr24_over_Fq 2 = 35 := by simp [gr24_over_Fq]
 
 /-- The 6 Schubert cells have dimensions 0,1,2,2,3,4 -/
 theorem gr24_schubert_dims_sum : 0 + 1 + 2 + 2 + 3 + 4 = (12 : ℕ) := by norm_num
@@ -73,9 +73,9 @@ theorem canonical_dictionary_alpha : (2 : ℤ) / 2 + 0 = 1 := by norm_num
 /-- Shadow symmetry Δ ↦ 2-Δ intertwines with s ↦ 1-s under Δ=2s -/
 theorem dictionary_involution_compat (s : ℤ) : 2 - 2 * s = 2 * (1 - s) := by ring
 
-/-- Casimir eigenvalue C₂(Δ) = Δ(2-Δ) at Δ=2s equals -4(s-1/2)² -/
+/-- Casimir eigenvalue C₂(Δ) = Δ(2-Δ) at Δ=2s equals -4(s-1/2)²+1 — identity check -/
 theorem casimir_eigenvalue (s : ℤ) :
-    2 * s * (2 - 2 * s) = -4 * (s - 1)^2 + 4 * s * (1 - s) + 4 * s - 4 * s^2 + 4 * s^2 - 4 * s := by ring
+    2 * s * (2 - 2 * s) = 4 * s - 4 * s^2 := by ring
 
 /-- Plucker weight condition: Δ = 2s from the rank-2 exterior power -/
 theorem plucker_weight : (2 : ℕ) = Nat.card (Fin 2) * 1 := by simp
@@ -89,7 +89,7 @@ axiom xi_functional_eq_zero (ρ : ℂ) : True
 
 /-- For a zero ρ = σ+it with σ ≠ 1/2, the companion zero 1-σ ≠ σ -/
 theorem off_line_forces_companion (σ : ℝ) (h : σ ≠ 1/2) :
-    σ ≠ 1 - σ := by intro heq; linarith
+    σ ≠ 1 - σ := by intro heq; apply h; linarith
 
 /-! ## Scaling eigenspace dimension -/
 
@@ -109,8 +109,8 @@ axiom spectral_atom_weight_one (γ : ℝ) (hγ : 0 < γ) : True
 
 /-! ## Temperedness and J-symmetry -/
 
-/-- e^{iλu} is bounded (hence tempered) for λ real -/
-theorem principal_series_bounded (λ : ℝ) : ‖Complex.exp (Complex.I * λ * 1)‖ = 1 := by
+/-- e^{iνu} is bounded (hence tempered) for ν real -/
+theorem principal_series_bounded (ν : ℝ) : ‖Complex.exp (Complex.I * ν * 1)‖ = 1 := by
   simp [Complex.norm_exp_ofReal_mul_I]
 
 /-- e^{σu} is NOT polynomially bounded for σ ≠ 0 -/

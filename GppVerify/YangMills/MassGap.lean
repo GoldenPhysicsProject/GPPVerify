@@ -46,24 +46,26 @@ theorem casimir_adjoint_sun (N : ℕ) : N = N := rfl
 def mass_gap_ratio (N k : ℕ) : ℚ :=
   (2 * N : ℚ) / (k + N : ℚ)
 
-theorem mass_gap_ratio_su3_k1 : mass_gap_ratio 3 1 = 3/2 := by
-  simp [mass_gap_ratio]; norm_num
+theorem mass_gap_ratio_su3_k1 : mass_gap_ratio 3 1 = 3/2 := by native_decide
 
-theorem mass_gap_ratio_su3_k3 : mass_gap_ratio 3 3 = 1 := by
-  simp [mass_gap_ratio]; norm_num
+theorem mass_gap_ratio_su3_k3 : mass_gap_ratio 3 3 = 1 := by native_decide
 
 theorem mass_gap_ratio_pos (N k : ℕ) (hN : 1 ≤ N) (hk : 0 ≤ k) :
     0 < mass_gap_ratio N k := by
-  simp [mass_gap_ratio]
-  positivity
+  simp only [mass_gap_ratio]
+  have h1 : (1 : ℚ) ≤ (N : ℚ) := by exact_mod_cast hN
+  have h2 : (0 : ℚ) ≤ (k : ℚ) := Nat.cast_nonneg k
+  apply div_pos <;> linarith
 
 /-- Mass gap ratio ≤ 2 (since k ≥ 0, so 2N/(k+N) ≤ 2) -/
 theorem mass_gap_ratio_le_two (N k : ℕ) (hN : 1 ≤ N) :
     mass_gap_ratio N k ≤ 2 := by
-  simp [mass_gap_ratio]
-  rw [div_le_iff (by positivity)]
-  push_cast
-  linarith [Nat.zero_le k]
+  simp only [mass_gap_ratio]
+  have h1 : (1 : ℚ) ≤ (N : ℚ) := by exact_mod_cast hN
+  have h2 : (0 : ℚ) ≤ (k : ℚ) := Nat.cast_nonneg k
+  have hpos : (0 : ℚ) < (k : ℚ) + (N : ℚ) := by linarith
+  rw [div_le_iff hpos]
+  linarith
 
 /-- Kac-Moody commutation relation: [J^a_m, J^b_n] structure constant is k -/
 theorem kac_moody_level_appears_in_commutator (k m : ℤ) (δ_ab δ_mn : ℤ) :
@@ -79,12 +81,10 @@ def sugawara_conformal_dim (C2 k h_dual : ℕ) : ℚ :=
   (C2 : ℚ) / ((k : ℚ) + h_dual)
 
 theorem sugawara_dim_adjoint_su3_k1 :
-    sugawara_conformal_dim 3 1 3 = 3/4 := by
-  simp [sugawara_conformal_dim]; norm_num
+    sugawara_conformal_dim 3 1 3 = 3/4 := by native_decide
 
 theorem sugawara_dim_fund_su3_k1 :
-    sugawara_conformal_dim 4 1 3 = 1 := by
-  simp [sugawara_conformal_dim]; norm_num
+    sugawara_conformal_dim 4 1 3 = 1 := by native_decide
 
 /-! ## Mass gap existence (axioms - full QFT not in Mathlib) -/
 

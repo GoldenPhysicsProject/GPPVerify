@@ -104,29 +104,23 @@ lemma coupling_numerator_nonzero (k N : ℤ) (hk : 1 ≤ k) (hN : 2 ≤ N) :
 /-- **def:shadow-coupling** (Toupin 2026, Definition 3.2).
     The shadow coupling `a_{N,k} = |k + N - 2kN| / (2(k+N))`.
     Expressed as a rational number in ℚ. -/
-noncomputable def shadowCoupling (k N : ℤ) : ℚ :=
-  (k + N - 2 * k * N : ℤ).natAbs / (2 * (k + N : ℤ).natAbs : ℕ)
+def shadowCoupling (k N : ℤ) : ℚ :=
+  ((k + N - 2 * k * N : ℤ).natAbs : ℚ) / (2 * ((k + N : ℤ).natAbs : ℚ))
 
 /-- The shadow coupling squared is always rational (obvious from definition). -/
 lemma shadow_coupling_sq_rational (k N : ℤ) :
     ∃ q : ℚ, q = shadowCoupling k N ^ 2 := ⟨_, rfl⟩
 
 /-- The shadow coupling for k=1, N=3 (SU(3) case) is 1/4. -/
-lemma shadow_coupling_su3 : shadowCoupling 1 3 = 1/4 := by
-  simp [shadowCoupling]
-  native_decide
+lemma shadow_coupling_su3 : shadowCoupling 1 3 = 1/4 := by native_decide
 
 /-- Verification: (k=1,N=2) gives numerator 1, denominator 6, coupling 1/6.
     |1 + 2 - 2·1·2| = |3 - 4| = 1; 2(1+2) = 6. -/
-lemma shadow_coupling_k1_N2 : shadowCoupling 1 2 = 1/6 := by
-  simp [shadowCoupling]
-  native_decide
+lemma shadow_coupling_k1_N2 : shadowCoupling 1 2 = 1/6 := by native_decide
 
 /-- Verification: (k=3,N=3) gives coupling 1 (= 12/12).
     |3 + 3 - 18| = 12; 2(3+3) = 12. -/
-lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by
-  simp [shadowCoupling]
-  native_decide
+lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by native_decide
 
 -- ============================================================
 -- §3  INFRASTRUCTURE AXIOMS
