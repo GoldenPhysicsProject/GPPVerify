@@ -1,0 +1,246 @@
+\documentclass[blueprint]{blueprint}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{hyperref}
+
+\title{GPPVerify: Lean 4 Formalization of the ONON Framework}
+\subtitle{Riemann Hypothesis via Haar Measure Self-Duality}
+\author{Daniel Toupin}
+\institute{Golden Physics Project}
+\home{https://goldenphysics.org}
+\github{GoldenPhysicsProject/GPPVerify}
+
+\begin{document}
+
+\chapter{Overview}
+
+This blueprint tracks the formal verification of the ONON framework
+(\emph{On the Nature of Nature}, Daniel Toupin, 2026) in Lean~4 with
+Mathlib~4.19.0.
+
+\textbf{Primary target:} RH Pathway~2 (Spectral/Meyer).
+
+\textbf{Open problem — do not assume:} \texttt{thm:link6} ($c_{2D} = c_{4D}^{\mathrm{Weyl}}$)
+is explicitly open in ONON52.  Every Lean declaration depending on it carries
+\verb|sorry -- depends on thm:link6 — open problem|.
+
+\chapter{Haar Measure Foundation}
+
+\section{Self-Duality on Compact Groups}
+
+\begin{lemma}[Haar Measure Preserved by Automorphisms]
+  \label{lem:haar-invariant}
+  \lean{haar_invariant_under_automorphism}
+  \leanok
+  Let $G$ be a compact second-countable topological group, $\mu$ a Haar measure,
+  and $\phi: G \to G$ a bicontinuous group automorphism. Then
+  $\phi_*\mu = \mu$.
+\end{lemma}
+
+\begin{proof}
+  Proved clean in \texttt{HaarSelfDuality.lean} (zero sorries, zero axioms).
+  Uses \texttt{MulEquiv.isHaarMeasure\_map} and mass preservation.
+\end{proof}
+
+\begin{theorem}[Grassmannian Haar Self-Duality]
+  \label{thm:haar-self-dual}
+  \lean{grassmannian_haar_self_duality}
+  \leanok
+  \uses{lem:haar-invariant}
+  The shadow involution $\phi: g \mapsto g^{-1}$ preserves the Haar measure
+  on any compact group (instance: $\mathrm{Gr}(2,4)$).
+\end{theorem}
+
+\begin{theorem}[Adèlic Haar Self-Duality]
+  \label{thm:adelic-haar}
+  \lean{GppHaar.adelic_haar_self_dual}
+  \leanok
+  \uses{lem:haar-invariant}
+  On any compact topological group, $\phi_*\mu = \mu$ for $\phi = (-)^{-1}$.
+  Instance: $\mathbb{A}^\times/\mathbb{Q}^\times$ with Haar measure $d^\times a$
+  satisfies $d^\times(a^{-1}) = d^\times a$.
+\end{theorem}
+
+\begin{lemma}[Compact Factor $K^1 = \mathbb{A}^1/\mathbb{Q}^\times$]
+  \label{lem:fujisaki}
+  \lean{GppHaar.adelic_quotient_compact_factor}
+  \uses{thm:adelic-haar}
+  The norm-$1$ idèle class group $K^1$ is compact
+  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2).
+\end{lemma}
+
+\begin{theorem}[Peter-Weyl on $K^1$]
+  \label{thm:peter-weyl-adelic}
+  \lean{GppHaar.peter_weyl_adelic_discrete_spectrum}
+  \uses{lem:fujisaki}
+  $L^2(K^1, d^\times a)$ decomposes into finite-dimensional irreducibles,
+  so any left-invariant self-adjoint operator on $L^2(K^1)$ has discrete spectrum.
+\end{theorem}
+
+\chapter{Functional Equation}
+
+\section{Completed Riemann Zeta Function}
+
+\begin{definition}[Riemann Xi Function]
+  \label{def:xi}
+  \lean{GppFE.riemannXi}
+  \leanok
+  $\xi(s) = \tfrac{1}{2} s(s-1) \pi^{-s/2} \Gamma(s/2) \zeta(s)$.
+\end{definition}
+
+\begin{theorem}[Tate Functional Equation]
+  \label{thm:tate-fe}
+  \lean{GppFE.tate_functional_equation}
+  \uses{thm:adelic-haar}
+  For any Schwartz-Bruhat function $\Phi$ on $\mathbb{A}$:
+  $Z(\Phi, s) = Z(\hat\Phi, 1-s)$.
+  Follows from Haar self-duality + Poisson summation over $\mathbb{Q} \subset \mathbb{A}$.
+\end{theorem}
+
+\begin{theorem}[Functional Equation $\xi(s) = \xi(1-s)$]
+  \label{thm:functional-equation}
+  \lean{GppFE.completed_zeta_functional_eq}
+  \uses{thm:tate-fe}
+  $\xi(s) = \xi(1-s)$ for all $s \in \mathbb{C}$ away from poles.
+  This is the arithmetic shadow symmetry.
+\end{theorem}
+
+\begin{lemma}[Zeros Are Symmetric]
+  \label{lem:xi-zero-symmetric}
+  \lean{GppFE.xi_zero_symmetric}
+  \leanok
+  \uses{thm:functional-equation}
+  If $\xi(\rho) = 0$ then $\xi(1-\rho) = 0$.
+\end{lemma}
+
+\begin{lemma}[Critical Line is Fixed Locus]
+  \label{lem:critical-line-fixed}
+  \lean{GppFE.critical_line_is_fixed_locus}
+  \leanok
+  $s = 1-s \iff \mathrm{Re}(s) = \tfrac{1}{2}$.
+\end{lemma}
+
+\chapter{Shadow Symmetry = Time Reversal}
+
+\section{The Three-Step Proof}
+
+\begin{theorem}[Shadow is Involution]
+  \label{thm:shadow-involution}
+  \lean{GppShadow.shadow_is_involution}
+  \leanok
+  The map $\Delta \mapsto 2-\Delta$ has order~$2$.
+\end{theorem}
+
+\begin{theorem}[Penrose Antipodal from Hodge Star]
+  \label{thm:penrose-antipodal}
+  \lean{GppShadow.penrose_antipodal_from_hodge}
+  \uses{thm:haar-self-dual}
+  The orthogonal complement $\Lambda \mapsto \Lambda^\perp$ on $\mathrm{Gr}(2,4)$
+  acts as the antipodal map on $S^2$ via the Penrose correspondence.
+\end{theorem}
+
+\begin{theorem}[Antipodal Forces Energy Inversion]
+  \label{thm:energy-inversion}
+  \lean{GppShadow.energy_inversion_from_antipodal}
+  \leanok
+  \uses{thm:penrose-antipodal}
+  Under $\Lambda \mapsto \Lambda^\perp$, the symplectic normalisation
+  forces $\omega \mapsto \omega^{-1}$.
+\end{theorem}
+
+\begin{theorem}[Shadow = Time Reversal]
+  \label{thm:shadow-cpt}
+  \lean{GppShadow.shadow_equals_time_reversal}
+  \leanok
+  \uses{thm:energy-inversion}
+  On the principal series $\Delta = 1+i\lambda$, time reversal $T$ sends
+  $\Delta \mapsto 2-\Delta$: the shadow transform.
+  (\emph{Most-cited result in ONON52: 16 cross-references.})
+\end{theorem}
+
+\begin{theorem}[Canonical Dictionary $\Delta = 2s$]
+  \label{thm:canonical-dict}
+  \lean{GppShadow.delta_2s_shadow_is_functional_equation}
+  \leanok
+  \uses{thm:shadow-cpt}
+  Under $\Delta = 2s$, shadow $\Delta \leftrightarrow 2-\Delta$ is the
+  functional equation $s \leftrightarrow 1-s$.
+\end{theorem}
+
+\begin{theorem}[Critical Lines Coincide]
+  \label{thm:critical-lines}
+  \lean{GppShadow.critical_lines_coincide}
+  \leanok
+  \uses{thm:canonical-dict}
+  $\mathrm{Re}(\Delta) = 1$ under $\Delta = 2s$ gives $\mathrm{Re}(s) = \tfrac{1}{2}$.
+\end{theorem}
+
+\chapter{Riemann Hypothesis (Pathway 2)}
+
+\section{Two-Zeros Argument}
+
+\begin{lemma}[Functional Equation Gives Zero Companion]
+  \label{lem:zeta-fe-zero}
+  \lean{GppRH.zeta_zero_implies_fe_zero}
+  \leanok
+  \uses{thm:functional-equation}
+  If $\zeta(\rho) = 0$ then $\zeta(1-\rho) = 0$.
+\end{lemma}
+
+\begin{lemma}[Companion Is Distinct Off Critical Line]
+  \label{lem:companion-distinct}
+  \lean{GppRH.companion_ne_of_off_critical}
+  \leanok
+  If $\mathrm{Re}(\rho) \neq \tfrac{1}{2}$ then $1-\bar\rho \neq \rho$.
+\end{lemma}
+
+\begin{theorem}[Two Zeros at Each Off-Critical Ordinate]
+  \label{thm:two-zeros}
+  \lean{GppRH.two_zeros_at_ordinate}
+  \leanok
+  \uses{lem:zeta-fe-zero, lem:companion-distinct}
+  If $\zeta(\rho) = 0$ with $\mathrm{Re}(\rho) \neq \tfrac{1}{2}$,
+  there exist at least two distinct zeros with $\mathrm{Im}(s) = \mathrm{Im}(\rho)$.
+  \emph{(Zero sorries, zero axioms.)}
+\end{theorem}
+
+\section{Spectral Multiplicity}
+
+\begin{theorem}[Temperedness $\Leftrightarrow$ Critical Line]
+  \label{thm:temperedness}
+  \lean{GppRH.temperedness_iff_critical_line}
+  \uses{thm:two-zeros}
+  $e^{au}$ defines a tempered distribution on $\mathbb{R}$ iff $a=0$.
+  Two sorries: requires \texttt{SchwartzMap.tsum} not yet in Mathlib.
+\end{theorem}
+
+\begin{theorem}[Riemann Hypothesis]
+  \label{thm:rh}
+  \lean{GppRH.riemann_hypothesis}
+  \uses{thm:two-zeros, thm:temperedness, thm:peter-weyl-adelic}
+  Every non-trivial zero of $\zeta(s)$ satisfies $\mathrm{Re}(s) = \tfrac{1}{2}$.
+
+  \emph{Status:} Closes via \texttt{arithmetic\_admissibility} axiom (Meyer~2005 step).
+  One axiom remaining; the two-zeros argument is clean.
+\end{theorem}
+
+\chapter{Open Problem: \texttt{thm:link6}}
+
+\begin{theorem}[Link 6: $c_{2D} = c_{4D}^{\mathrm{Weyl}}$]
+  \label{thm:link6}
+  \lean{GppShadow.three_generations_from_c0_and_link6}
+  The Virasoro central charge of the boundary CFT equals the Weyl anomaly
+  of the bulk theory. \textbf{This is an open problem.}
+  All downstream results are marked \texttt{sorry -- depends on thm:link6}.
+\end{theorem}
+
+\begin{corollary}[Three Fermion Generations]
+  \label{cor:three-generations}
+  \lean{GppShadow.three_generations_from_c0_and_link6}
+  \uses{thm:link6}
+  $c = 0$ and Link~6 together with Boyle-Turok~(2021) force exactly
+  $3$ fermion generations (48 Weyl fermions).
+  \textbf{Depends on thm:link6 — open problem.}
+\end{corollary}
+
+\end{document}
