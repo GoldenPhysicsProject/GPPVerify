@@ -43,9 +43,13 @@ def PositiveType (P : ℝ → ℝ) : Prop :=
 /-- The constant function 1 is positive-type -/
 theorem const_one_positive_type : PositiveType (fun _ => (1 : ℝ)) := by
   intro n x c
-  simp
+  simp only [mul_one]
   -- ∑_ij c̄_i c_j = |∑_i c_i|² ≥ 0
-  sorry
+  have key : ∑ i : Fin n, ∑ j : Fin n, starRingEnd ℂ (c i) * c j =
+      starRingEnd ℂ (∑ i : Fin n, c i) * (∑ j : Fin n, c j) := by
+    simp [map_sum, Finset.sum_mul, Finset.mul_sum]
+  rw [key, Complex.conj_mul, Complex.ofReal_re]
+  exact Complex.normSq_nonneg _
 
 /-- P(0) ≥ 0 for any positive-type function -/
 theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 0 := by
@@ -129,10 +133,8 @@ axiom peter_weyl_decomposition : True
 /-! ## Logical status -/
 
 /-- The common thread: Haar convolution squares are always positive-type -/
-theorem haar_squares_always_positive : PositiveType (fun x => (1 : ℝ)) := by
-  intro n x c
-  simp
-  sorry -- needs inner product positivity argument
+theorem haar_squares_always_positive : PositiveType (fun x => (1 : ℝ)) :=
+  const_one_positive_type
 
 /-- The four positivity conditions are equivalent in the Haar framework -/
 axiom four_positivities_equivalent : True

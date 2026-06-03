@@ -1,5 +1,6 @@
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
 import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 import GppVerify.RiemannHypothesis.HaarMeasure
 
@@ -101,10 +102,12 @@ theorem tate_functional_equation :
 lemma gamma_reflection_half (s : ℂ) (hs : ∀ n : ℕ, s ≠ -2 * n) :
     Complex.Gamma (s / 2) * Complex.Gamma (1 - s / 2) =
       (↑Real.pi : ℂ) / Complex.sin ((↑Real.pi : ℂ) * s / 2) := by
-  -- This follows from Mathlib's Complex.Gamma_mul_Gamma_one_sub
-  -- applied to s/2 in place of s:
-  --   Γ(z) Γ(1-z) = π / sin(πz)
-  sorry -- SORRY: variable substitution + hypothesis transfer from Mathlib lemma
+  -- Substitute z = s/2 into Γ(z)Γ(1-z) = π/sin(πz)
+  have h : ∀ n : ℕ, s / 2 ≠ -(n : ℂ) := fun n hn => hs n (by
+    have heq : s = 2 * (s / 2) := by ring
+    rw [heq, hn]; push_cast; ring)
+  rw [Complex.Gamma_mul_Gamma_one_sub (s / 2) h]
+  congr 1; congr 1; ring
 
 -- ============================================================
 -- §4  Main functional equation
