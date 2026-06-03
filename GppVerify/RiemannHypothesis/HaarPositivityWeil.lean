@@ -43,11 +43,12 @@ def PositiveType (P : ℝ → ℝ) : Prop :=
 /-- The constant function 1 is positive-type -/
 theorem const_one_positive_type : PositiveType (fun _ => (1 : ℝ)) := by
   intro n x c
-  simp only [mul_one]
+  simp only [Complex.ofReal_one, mul_one]
   -- ∑_ij c̄_i c_j = |∑_i c_i|² ≥ 0
   have key : ∑ i : Fin n, ∑ j : Fin n, starRingEnd ℂ (c i) * c j =
-      starRingEnd ℂ (∑ i : Fin n, c i) * (∑ j : Fin n, c j) := by
-    simp [map_sum, Finset.sum_mul, Finset.mul_sum]
+      starRingEnd ℂ (∑ i : Fin n, c i) * (∑ i : Fin n, c i) := by
+    rw [map_sum, Finset.sum_mul]
+    simp_rw [Finset.mul_sum]
   rw [key, Complex.conj_mul, Complex.ofReal_re]
   exact Complex.normSq_nonneg _
 
