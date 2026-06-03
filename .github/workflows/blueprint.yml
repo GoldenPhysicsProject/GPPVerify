@@ -32,9 +32,7 @@ jobs:
         run: pip3 install leanblueprint
 
       - name: Build blueprint
-        run: |
-          cd blueprint
-          leanblueprint build
+        run: leanblueprint web
 
       - name: Write CNAME
         run: echo "lean.goldenphysics.org" > blueprint/web/CNAME
