@@ -1,6 +1,6 @@
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.MeasureTheory.Integral.Bochner
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
 
 /-!
 # Haar Positivity, Weil Criterion, and the Common Framework
@@ -54,7 +54,7 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
   exact_mod_cast this
 
 /-- If P = f̄ * f (convolution) then P is positive-type (abstract version) -/
-axiom convolution_square_positive_type (f : ℝ → ℝ) : PositiveType (fun x => ∫ (y : ℝ), f y * f (y - x))
+axiom convolution_square_positive_type (f : ℝ → ℝ) : PositiveType (fun x => ∫ (y : ℝ), f y * f (y - x) ∂MeasureTheory.volume)
 -- NOTE: This is the content of thm:haar-square-positive for unimodular groups.
 -- For ℝ with Lebesgue measure, the proof is: ∑_{ij} c̄_i c_j ∫ f(y)f(y-x_i+x_j)dy
 -- = ∫ |∑_i c_i f(y - x_i)|² dy ≥ 0.

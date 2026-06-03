@@ -66,9 +66,14 @@ theorem mass_gap_ratio_pos (N k : ℕ) (hN : 1 ≤ N) (hk : 0 ≤ k) :
 theorem mass_gap_ratio_le_two (N k : ℕ) (hN : 1 ≤ N) :
     mass_gap_ratio N k ≤ 2 := by
   simp only [mass_gap_ratio]
-  have hkN : (0 : ℚ) < (k : ℚ) + (N : ℚ) := by exact_mod_cast (show 0 < k + N by omega)
-  rw [div_le_iff hkN]
+  have hkN_ne : (k : ℚ) + N ≠ 0 := by exact_mod_cast (show k + N ≠ 0 by omega)
+  have hkN_pos : (0 : ℚ) < (k : ℚ) + N := by exact_mod_cast (show 0 < k + N by omega)
   have hk : (0 : ℚ) ≤ k := by exact_mod_cast k.zero_le
+  have hrw : 2 * (N : ℚ) / ((k : ℚ) + N) = 2 - 2 * k / ((k : ℚ) + N) := by
+    field_simp; ring
+  rw [hrw]
+  have h : 0 ≤ 2 * (k : ℚ) / ((k : ℚ) + N) :=
+    div_nonneg (by linarith) (by linarith)
   linarith
 
 /-- Kac-Moody commutation relation: [J^a_m, J^b_n] structure constant is k -/
