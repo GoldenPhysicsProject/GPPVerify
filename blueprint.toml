@@ -1,0 +1,4 @@
+[blueprint]
+src = "blueprint/src"
+main = "web"
+lean_packages = ["GppVerify"]
