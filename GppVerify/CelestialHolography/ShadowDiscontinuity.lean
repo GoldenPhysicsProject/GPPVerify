@@ -56,14 +56,19 @@ lemma disc_equals_two_i_im (u v : ℝ) :
 lemma shadow_equals_conj_on_principal_series (lam : ℝ) :
     let s : ℂ := 1 + Complex.I * lam
     starRingEnd ℂ s = 2 - s := by
-  simp [RCLike.star_def, Complex.ext_iff, Complex.mul_re, Complex.mul_im,
-        Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im]
-  constructor <;> ring
+  simp only [RCLike.star_def]
+  apply Complex.ext <;>
+    simp [Complex.conj_re, Complex.conj_im, Complex.add_re, Complex.add_im,
+          Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im,
+          Complex.ofReal_re, Complex.ofReal_im, Complex.sub_re, Complex.sub_im,
+          Complex.one_re, Complex.one_im] <;>
+    ring
 
 /-- The residue at a simple pole z₀ of f(z)/(z-z₀): algebraic identity. -/
 lemma residue_simple_pole (c : ℂ) (z z0 : ℂ) (h : z ≠ z0) :
     c / (z - z0) * (z - z0) = c := by
-  field_simp
+  have hne : z - z0 ≠ 0 := sub_ne_zero.mpr h
+  field_simp [hne]
 
 -- ============================================================
 -- §2  Infrastructure axioms
