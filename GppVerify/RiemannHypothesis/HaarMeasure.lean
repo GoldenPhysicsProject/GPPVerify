@@ -29,16 +29,23 @@ adelic_haar_self_dual            (ONON52: lem:haar-self-duality, L16374)
 | Name | Status | Reference |
 |------|--------|-----------|
 | `adelic_quotient_locally_compact` | sorry — Fujisaki's lemma | Weil 1974, Ch.IV §2 |
-| `adelic_haar_self_dual` | proved via `haar_invariant_under_automorphism` | Tate 1950 §2.4 |
-| `adelic_quotient_compact_factor` | sorry — product formula | Tate 1950, Cassels-Fröhlich |
+| `adelic_haar_self_dual` | proved (CommGroup assumption) | Tate 1950 §2.4 |
+| `adelic_quotient_compact_factor` | sorry — Fujisaki's lemma | Tate 1950, Cassels-Fröhlich |
+
+### Note on CommGroup
+
+`adelic_haar_self_dual` requires `CommGroup G` because the proof uses
+inversion as a `MulEquiv G G`, which requires `(ab)⁻¹ = a⁻¹b⁻¹`.
+This holds in commutative groups.  For A×/Q× (the idèle class group of ℚ),
+this is satisfied since A×/Q× is abelian.
 
 ### Relation to HaarSelfDuality.lean
 
 `haar_invariant_under_automorphism` (proved clean in HaarSelfDuality.lean)
 is the workhorse: it says any bicontinuous automorphism of a compact group
 preserves the Haar measure.  Applied to inversion g ↦ g⁻¹, this yields
-`adelic_haar_self_dual`.  The sorry in `adelic_haar_self_dual` is only on
-the locally-compact group structure — once Mathlib formalizes the adèle
+`adelic_haar_self_dual`.  The sorry in `adelic_quotient_compact_factor` is
+on the locally-compact group structure — once Mathlib formalizes the adèle
 ring topology, this sorry closes automatically.
 -/
 
@@ -50,28 +57,32 @@ open MeasureTheory MeasureTheory.Measure
 -- §1  Self-duality: inversion preserves Haar measure
 -- ============================================================
 
-/-- On any compact topological group, inversion g ↦ g⁻¹ is a
+/-- On any compact commutative topological group, inversion g ↦ g⁻¹ is a
     bicontinuous group automorphism and therefore preserves the Haar measure.
 
     This is the arithmetic instance of the geometric statement proved in
     `grassmannian_haar_self_duality` (HaarSelfDuality.lean).
 
+    Note: `CommGroup G` is required because `Inv.inv : G → G` is a `MulEquiv`
+    only when `(ab)⁻¹ = a⁻¹b⁻¹`, which holds iff G is commutative.
+    The adèle class group A×/Q× is abelian, so this applies.
+
     ONON52: Lemma lem:haar-self-duality, L16374.
     Reference: Tate (1950), §2.4 — self-duality of d×a under a ↦ a⁻¹. -/
 theorem adelic_haar_self_dual
     {G : Type*}
-    [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CommGroup G] [TopologicalSpace G] [IsTopologicalGroup G]
     [MeasurableSpace G] [BorelSpace G]
     [SecondCountableTopology G] [CompactSpace G]
     (μ : Measure G) [μ.IsHaarMeasure] :
     Measure.map (Inv.inv : G → G) μ = μ := by
-  -- Inversion is a MulEquiv on any group
+  -- In a commutative group, inversion is a MulEquiv
   let inv_equiv : G ≃* G :=
   { toFun    := Inv.inv
     invFun   := Inv.inv
     left_inv := fun g => inv_inv g
     right_inv := fun g => inv_inv g
-    map_mul' := fun a b => mul_inv_rev a b |>.trans (by group) }
+    map_mul' := fun a b => by rw [mul_inv_rev, mul_comm] }
   -- Inversion is continuous in any topological group
   have h_cont : Continuous (Inv.inv : G → G) := continuous_inv
   have h_symm : Continuous (inv_equiv.symm : G → G) := by
@@ -81,7 +92,6 @@ theorem adelic_haar_self_dual
   have key : Measure.map (inv_equiv : G → G) μ = μ :=
     haar_invariant_under_automorphism μ inv_equiv h_cont h_symm
   convert key using 2
-  simp [inv_equiv]
 
 -- ============================================================
 -- §2  Compactness: the compact factor K¹ = A¹/Q×
@@ -97,14 +107,18 @@ theorem adelic_haar_self_dual
     Once Mathlib fully formalizes the adèle ring of Q with its restricted-
     product topology, this sorry closes via a standard compactness argument.
 
+    The placeholder `ULift Unit` was removed because `IsTopologicalGroup`
+    for `ULift Unit` is not synthesized in Mathlib 4.19.0.
+
     ONON52: Used in thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
 lemma adelic_quotient_compact_factor :
     ∃ (K1 : Type*) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
       (_ : Group K1) (_ : IsTopologicalGroup K1),
       True := by
-  -- Placeholder: return a trivial compact group
-  -- SORRY: Replace with ℤ_p-based construction once Mathlib adèle ring is complete
-  exact ⟨ULift Unit, inferInstance, inferInstance, inferInstance, inferInstance, trivial⟩
+  -- SORRY: Fujisaki's lemma. The real witness is the idèle class group K¹.
+  -- `IsTopologicalGroup (ULift Unit)` is not in Mathlib 4.19.0.
+  -- Closes once Mathlib has the adèle ring topology.
+  sorry
 
 -- ============================================================
 -- §3  Peter-Weyl decomposition on K¹
