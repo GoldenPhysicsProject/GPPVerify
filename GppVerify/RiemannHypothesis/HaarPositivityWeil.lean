@@ -1,5 +1,6 @@
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Analysis.InnerProductSpace.Basic
+import Mathlib.MeasureTheory.Integral.Bochner
 
 /-!
 # Haar Positivity, Weil Criterion, and the Common Framework

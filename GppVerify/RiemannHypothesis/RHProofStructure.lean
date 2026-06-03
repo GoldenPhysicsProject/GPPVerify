@@ -111,8 +111,9 @@ axiom spectral_atom_weight_one (γ : ℝ) (hγ : 0 < γ) : True
 
 /-- e^{iνu} is bounded (hence tempered) for ν real -/
 theorem principal_series_bounded (ν : ℝ) : ‖Complex.exp (Complex.I * ν * 1)‖ = 1 := by
-  rw [mul_one, Complex.norm_eq_abs, Complex.abs_exp]
-  simp [Complex.mul_re, Complex.I_re, Complex.I_im]
+  simp only [mul_one]
+  simp [Complex.norm_exp, Complex.mul_re, Complex.I_re, Complex.I_im,
+        Complex.ofReal_re, Complex.ofReal_im]
 
 /-- e^{σu} is NOT polynomially bounded for σ ≠ 0 -/
 theorem off_line_exponential_growth (σ : ℝ) (hσ : σ ≠ 0) :
