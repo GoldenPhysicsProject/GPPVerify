@@ -34,3 +34,29 @@ import GppVerify.RiemannHypothesis.L2Constraint
 -- NOTE: three_generations + anomaly_cancellation carry
 --       "depends on thm:link6 — open problem"
 import GppVerify.StandardModel.ThreeGenerations
+
+-- ── Celestial Holography ─────────────────────────────────────
+-- c_{2D} = κ₀ × c_{4D}^Weyl  (thm:link6, formalized via physics axioms)
+import GppVerify.CelestialHolography.Link6
+
+-- Shadow operator discontinuity across the critical line
+import GppVerify.CelestialHolography.ShadowDiscontinuity
+
+-- ── RH Spectral Infrastructure ───────────────────────────────
+-- Adèlic L² regularization on K¹ (lem:adelic-l2-regularization)
+import GppVerify.RiemannHypothesis.AdelicL2
+
+-- Spectral Weil explicit formula closes arithmetic admissibility
+import GppVerify.RiemannHypothesis.SpectralWeil
+
+-- ── Standard Model — Dark Matter ─────────────────────────────
+-- DM abundance from shadow unitarity (thm:dm-abundance)
+import GppVerify.StandardModel.DMAbundance
+
+-- ── Quantum Gravity ──────────────────────────────────────────
+-- Born rule from Haar measure on K¹ (lem:born-rule-haar)
+import GppVerify.QuantumGravity.BornRuleHaar
+
+-- ── General Relativity ───────────────────────────────────────
+-- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
+import GppVerify.GeneralRelativity.Rigidity
