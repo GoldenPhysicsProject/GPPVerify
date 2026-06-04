@@ -178,11 +178,20 @@ footer a:hover{color:var(--gpp-gold)}
       <span class="stat-label">Named Results in ONON</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">32</span>
+      <span class="stat-num stat-ci">32</span>
       <span class="stat-label">CI Builds</span>
     </div>
   </div>
 </div>
+
+<div style="background:#050505;border-bottom:1px solid #1a1a1a;padding:10px 20px;text-align:center;font-family:monospace;font-size:0.82rem">
+  <span id="build-status" style="color:var(--green-light)">✓ BUILD GREEN</span>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <span style="color:#555">commit: </span><span id="latest-commit" style="color:#666">loading...</span>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions" target="_blank" style="color:#555;font-size:0.78rem">CI History ↗</a>
+</div>
+<div id="open-prs" style="display:none;background:#0a0800;border-bottom:1px solid #2a2000;padding:8px 20px;text-align:center;font-family:monospace;font-size:0.8rem"></div>
 
 <div class="container section-padding">
 
@@ -366,6 +375,15 @@ footer a:hover{color:var(--gpp-gold)}
   </div>
 </div>
 
+<div style="background:#050505;border-bottom:1px solid #1a1a1a;padding:10px 20px;text-align:center;font-family:monospace;font-size:0.82rem">
+  <span id="build-status" style="color:var(--green-light)">✓ BUILD GREEN</span>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <span style="color:#555">commit: </span><span id="latest-commit" style="color:#666">loading...</span>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions" target="_blank" style="color:#555;font-size:0.78rem">CI History ↗</a>
+</div>
+<div id="open-prs" style="display:none;background:#0a0800;border-bottom:1px solid #2a2000;padding:8px 20px;text-align:center;font-family:monospace;font-size:0.8rem"></div>
+
 <div class="container section-padding">
   <div class="section-heading">
     <h2 style="font-size:1.1rem">Remaining Gaps — Honest & Labeled</h2>
@@ -423,5 +441,53 @@ footer a:hover{color:var(--gpp-gold)}
 
 <script data-goatcounter="https://goldenphysics.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+
+<script>
+// Live stats from GitHub API
+async function updateStats() {
+  try {
+    // Get CI runs count
+    const runsResp = await fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/actions/runs?per_page=1');
+    const runsData = await runsResp.json();
+    const totalRuns = runsData.total_count || 0;
+    document.querySelectorAll('.stat-ci').forEach(el => el.textContent = totalRuns);
+
+    // Get latest build status
+    const latestRun = runsData.workflow_runs?.[0];
+    const buildEl = document.getElementById('build-status');
+    if (buildEl && latestRun) {
+      const isGreen = latestRun.conclusion === 'success';
+      buildEl.textContent = isGreen ? '✓ BUILD GREEN' : '⚠ BUILD ' + (latestRun.conclusion || 'RUNNING').toUpperCase();
+      buildEl.style.color = isGreen ? 'var(--green-light)' : 'var(--yellow-light)';
+    }
+
+    // Get open PRs
+    const prsResp = await fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/pulls?state=open');
+    const prs = await prsResp.json();
+    const prEl = document.getElementById('open-prs');
+    if (prEl) {
+      if (prs.length > 0) {
+        prEl.style.display = 'block';
+        prEl.innerHTML = prs.map(pr => 
+          `<span style="color:var(--yellow-light)">⟳ PR #${pr.number}: ${pr.title.substring(0,60)}</span>`
+        ).join('<br>');
+      }
+    }
+
+    // Get latest commit
+    const commitsResp = await fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/commits?per_page=1');
+    const commits = await commitsResp.json();
+    const commitEl = document.getElementById('latest-commit');
+    if (commitEl && commits[0]) {
+      const c = commits[0];
+      commitEl.textContent = c.sha.substring(0,8) + ' — ' + c.commit.message.split('\n')[0].substring(0,60);
+    }
+  } catch(e) {
+    console.log('Stats update failed:', e);
+  }
+}
+updateStats();
+</script>
+
 </body>
 </html>
