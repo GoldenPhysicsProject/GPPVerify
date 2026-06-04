@@ -68,6 +68,9 @@ import GppVerify.NumberTheory.ShadowEulerIdentity
 -- Weyl vector Casimir ⟨ρ_G,ρ_G⟩ = 5 for U(4) (proved clean)
 import GppVerify.NumberTheory.WeylCasimir
 
+-- Zeta function properties from Mathlib 4.19.0 (critical line, trivial zeros, RH)
+import GppVerify.NumberTheory.ZetaProperties
+
 -- ── RH Proof Structure (New) ─────────────────────────────────
 -- Spectral-multiplicity / temperedness / BRST proof architecture
 import GppVerify.RiemannHypothesis.RHProofStructure

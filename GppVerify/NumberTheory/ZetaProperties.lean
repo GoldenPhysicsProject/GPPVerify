@@ -28,11 +28,9 @@ open Complex
 -- §1  Basic zeta function properties (from Mathlib)
 -- ============================================================
 
-/-- The Riemann xi function is well-defined as a product of known functions. -/
+/-- The Riemann xi function equals ½ s(s-1) Λ(s), where Λ = completedRiemannZeta. -/
 lemma riemannXi_def_eq (s : ℂ) :
-    GppFE.riemannXi s = (1/2) * s * (s - 1) *
-      (Complex.exp (-Real.log Real.pi / 2 * s)) *
-      Complex.Gamma (s / 2) * riemannZeta s := rfl
+    GppFE.riemannXi s = (1/2) * s * (s - 1) * completedRiemannZeta s := rfl
 
 /-- The functional equation fixed locus: Re(s) = 1/2.
     Proved in GppFE.critical_line_is_fixed_locus.
@@ -41,26 +39,34 @@ lemma critical_line_unique_fixed_locus :
     ∀ s : ℂ, starRingEnd ℂ s = 1 - s ↔ s.re = 1/2 :=
   GppFE.critical_line_is_fixed_locus
 
-/-- The shadow involution Δ ↦ 2-Δ on ℂ has exactly the critical line as fixed locus. -/
+/-- The shadow involution Δ ↦ 2-Δ on ℂ has fixed locus {Δ = 1} (Re(Δ) = 1, Im(Δ) = 0).
+    Under the dictionary Δ = 2s, this corresponds to Re(s) = 1/2 (the RH critical line). -/
 lemma shadow_fixed_locus_is_critical_line :
-    ∀ s : ℂ, (2 : ℂ) - s = s ↔ s.re = 1/2 ∧ s.im = 0 := by
+    ∀ s : ℂ, (2 : ℂ) - s = s ↔ s.re = 1 ∧ s.im = 0 := by
   intro s
   constructor
   · intro h
-    have hre : ((2 : ℂ) - s).re = s.re := congr_arg Complex.re h
-    have him : ((2 : ℂ) - s).im = s.im := congr_arg Complex.im h
-    simp [Complex.sub_re, Complex.sub_im] at hre him
+    have hre := congr_arg Complex.re h
+    have him := congr_arg Complex.im h
+    simp only [Complex.sub_re, Complex.sub_im] at hre him
+    have h2re : (2 : ℂ).re = 2 := by norm_num
+    have h2im : (2 : ℂ).im = 0 := by norm_num
+    rw [h2re] at hre; rw [h2im] at him
     exact ⟨by linarith, by linarith⟩
   · intro ⟨hre, him⟩
-    apply Complex.ext
-    · simp [Complex.sub_re, hre]; ring
-    · simp [Complex.sub_im, him]; ring
+    have hs : s = 1 := Complex.ext (by simp only [Complex.one_re]; exact hre)
+                                   (by simp only [Complex.one_im]; exact him)
+    rw [hs]; ring
 
-/-- For the principal series s = 1/2 + it: shadow(s) = 1 - s = conj(s). -/
+/-- For the principal series s = 1/2 + it (Riemann variable): 1 - s = conj(s).
+    In conformal dimension Δ = 2s = 1 + 2it, shadow Δ ↦ 2 - Δ gives conj(Δ). -/
 lemma principal_series_shadow_eq_conj (t : ℝ) :
     let s : ℂ := ⟨1/2, t⟩
-    (2 : ℂ) - s = starRingEnd ℂ s := by
-  simp [RCLike.star_def, Complex.ext_iff, Complex.conj_re, Complex.conj_im]
+    (1 : ℂ) - s = starRingEnd ℂ s := by
+  apply Complex.ext
+  · simp only [Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re]
+    norm_num
+  · simp [RCLike.star_def, Complex.conj_im, Complex.sub_im, Complex.one_im]
 
 -- ============================================================
 -- §2  Trivial zeros of ζ
@@ -74,29 +80,23 @@ lemma trivial_zero_outside_critical_strip (n : ℕ) (hn : n ≠ 0) :
   positivity
 
 /-- The Riemann xi function vanishes exactly at non-trivial zeros of ζ.
-    On the critical line Re(s) = 1/2, zeros of ξ are zeros of ζ. -/
+    Requires s ≠ 0, s ≠ 1, and Gammaℝ s ≠ 0 (no even negative integer poles). -/
 lemma xi_zero_iff_zeta_zero (s : ℂ)
     (hs_ne_zero : s ≠ 0) (hs_ne_one : s ≠ 1)
-    (hs_gamma : Complex.Gamma (s / 2) ≠ 0) :
+    (hGamma : Gammaℝ s ≠ 0) :
     GppFE.riemannXi s = 0 ↔ riemannZeta s = 0 := by
-  simp [GppFE.riemannXi]
+  rw [GppFE.riemannXi, riemannZeta_def_of_ne_zero hs_ne_zero,
+      div_eq_zero_iff, or_iff_left hGamma]
+  have h12 : (1/2 : ℂ) ≠ 0 := by norm_num
+  have hs1 : s - 1 ≠ 0 := sub_ne_zero.mpr hs_ne_one
   constructor
   · intro h
-    rcases mul_eq_zero.mp h with h1 | h1
-    · rcases mul_eq_zero.mp h1 with h2 | h2
-      · rcases mul_eq_zero.mp h2 with h3 | h3
-        · rcases mul_eq_zero.mp h3 with h4 | h4
-          · rcases mul_eq_zero.mp h4 with h5 | h5
-            · norm_num at h5
-            · have : s * (s - 1) = 0 := h5
-              rcases mul_eq_zero.mp this with hs | hs
-              · exact absurd hs hs_ne_zero
-              · have : s = 1 := by linarith [show (s - 1).re = 0 from by simp [hs]]
-                exact absurd this.symm hs_ne_one
-          · exact absurd (Complex.exp_ne_zero _) h4
-        · exact absurd hs_gamma h3
-      · exact h2
-    · exact h1
+    simp only [mul_eq_zero] at h
+    rcases h with (((h | h) | h) | h)
+    · exact absurd h h12
+    · exact absurd h hs_ne_zero
+    · exact absurd h hs1
+    · exact h
   · intro h; simp [h]
 
 -- ============================================================
@@ -142,7 +142,8 @@ theorem rh_partner_on_critical_line (rh : RiemannHypothesis) (s : ℂ)
     (hzero : riemannZeta s = 0) (hstrip : 0 < s.re ∧ s.re < 1) :
     (1 - s).re = 1/2 := by
   have hs := rh_zeros_on_critical_line rh s hzero hstrip
-  simp [Complex.sub_re, Complex.one_re, hs]
+  simp only [Complex.sub_re, Complex.one_re]
+  linarith
 
 /-- Under RH: the imaginary axis Re(s) = 0 has no non-trivial zeros. -/
 theorem rh_no_zeros_on_imaginary_axis (rh : RiemannHypothesis) (s : ℂ)
