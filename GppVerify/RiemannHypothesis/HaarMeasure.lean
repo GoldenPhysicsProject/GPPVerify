@@ -116,7 +116,10 @@ lemma adelic_quotient_compact_factor :
       (_ : Group K1) (_ : IsTopologicalGroup K1),
       True :=
   -- The trivial group Unit witnesses existence. The real K¹ is the idèle class group.
-  ⟨Unit, inferInstance, inferInstance, inferInstance, inferInstance, trivial⟩
+  -- Unit has no IsTopologicalGroup instance in Mathlib 4.19.0, so provide ContinuousMul/Inv.
+  haveI : ContinuousMul Unit := ⟨continuous_const⟩
+  haveI : ContinuousInv Unit := ⟨continuous_const⟩
+  exact ⟨Unit, inferInstance, inferInstance, inferInstance, inferInstance, trivial⟩
 
 -- ============================================================
 -- §3  Peter-Weyl decomposition on K¹

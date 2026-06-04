@@ -49,7 +49,7 @@ theorem const_one_positive_type : PositiveType (fun _ => (1 : ℝ)) := by
       starRingEnd ℂ (∑ i : Fin n, c i) * (∑ i : Fin n, c i) := by
     rw [map_sum, Finset.sum_mul]
     simp_rw [Finset.mul_sum]
-  rw [key, Complex.conj_mul, Complex.ofReal_re]
+  rw [key, mul_comm, Complex.mul_conj, Complex.ofReal_re]
   exact Complex.normSq_nonneg _
 
 /-- P(0) ≥ 0 for any positive-type function -/
