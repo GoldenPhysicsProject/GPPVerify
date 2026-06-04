@@ -1,5 +1,6 @@
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
 import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 import GppVerify.RiemannHypothesis.HaarMeasure
 
@@ -98,13 +99,13 @@ theorem tate_functional_equation :
     variable substitution). Used to verify the functional equation of ξ.
 
     Note: `Complex.pi` is not in Mathlib 4; use `(↑Real.pi : ℂ)` for π. -/
-lemma gamma_reflection_half (s : ℂ) (hs : ∀ n : ℕ, s ≠ -2 * n) :
+lemma gamma_reflection_half (s : ℂ) (_ : ∀ n : ℕ, s ≠ -2 * n) :
     Complex.Gamma (s / 2) * Complex.Gamma (1 - s / 2) =
       (↑Real.pi : ℂ) / Complex.sin ((↑Real.pi : ℂ) * s / 2) := by
-  -- This follows from Mathlib's Complex.Gamma_mul_Gamma_one_sub
-  -- applied to s/2 in place of s:
-  --   Γ(z) Γ(1-z) = π / sin(πz)
-  sorry -- SORRY: variable substitution + hypothesis transfer from Mathlib lemma
+  -- Mathlib 4.19: Complex.Gamma_mul_Gamma_one_sub z : Γ(z)·Γ(1-z) = π/sin(πz)
+  -- (unconditional — both sides 0 at poles by convention)
+  rw [Complex.Gamma_mul_Gamma_one_sub (s / 2)]
+  congr 1; congr 1; ring
 
 -- ============================================================
 -- §4  Main functional equation

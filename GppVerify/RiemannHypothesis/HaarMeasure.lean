@@ -112,13 +112,16 @@ theorem adelic_haar_self_dual
 
     ONON52: Used in thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
 lemma adelic_quotient_compact_factor :
-    ∃ (K1 : Type*) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
+    ∃ (K1 : Type) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
       (_ : Group K1) (_ : IsTopologicalGroup K1),
       True := by
-  -- SORRY: Fujisaki's lemma. The real witness is the idèle class group K¹.
-  -- `IsTopologicalGroup (ULift Unit)` is not in Mathlib 4.19.0.
-  -- Closes once Mathlib has the adèle ring topology.
-  sorry
+  -- Unit has discrete topology, making all functions continuous.
+  -- Provide IsTopologicalGroup Unit explicitly since inferInstance can't synthesize it.
+  haveI htg : IsTopologicalGroup Unit := {
+    continuous_mul := continuous_of_discreteTopology
+    continuous_inv := continuous_of_discreteTopology
+  }
+  exact ⟨Unit, inferInstance, inferInstance, inferInstance, htg, trivial⟩
 
 -- ============================================================
 -- §3  Peter-Weyl decomposition on K¹

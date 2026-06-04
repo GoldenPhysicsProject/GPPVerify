@@ -42,7 +42,18 @@ lemma l_infty_subset_l2_compact {α : Type*} [MeasurableSpace α]
     (μ : Measure α) [IsFiniteMeasure μ] (f : α → ℂ)
     (hf : ∀ a, ‖f a‖ ≤ 1) :
     ∫ a, ‖f a‖^2 ∂μ ≤ (μ Set.univ).toReal := by
-  sorry
+  have hb : ∀ a, ‖f a‖ ^ 2 ≤ 1 := fun a => by
+    have h0 : 0 ≤ ‖f a‖ := norm_nonneg _
+    nlinarith [hf a]
+  calc ∫ a, ‖f a‖ ^ 2 ∂μ
+      ≤ ∫ _ , (1 : ℝ) ∂μ :=
+        integral_mono_of_nonneg
+          (ae_of_all μ fun a => sq_nonneg _)
+          (integrable_const 1)
+          (ae_of_all μ hb)
+    _ = (μ Set.univ).toReal := by
+        rw [integral_const]
+        simp [Measure.real, smul_eq_mul]
 
 /-- The Haar regularization factor vol(K¹) = 1 (normalized).
     This ensures the Plancherel formula has coefficient 1. -/
