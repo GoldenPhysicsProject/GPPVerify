@@ -115,10 +115,13 @@ lemma adelic_quotient_compact_factor :
     ∃ (K1 : Type) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
       (_ : Group K1) (_ : IsTopologicalGroup K1),
       True := by
-  -- Unit has no IsTopologicalGroup instance in Mathlib 4.19.0, so provide ContinuousMul/Inv.
-  haveI : ContinuousMul Unit := ⟨continuous_const⟩
-  haveI : ContinuousInv Unit := ⟨continuous_const⟩
-  exact ⟨Unit, inferInstance, inferInstance, inferInstance, inferInstance, trivial⟩
+  -- Unit has discrete topology, making all functions continuous.
+  -- Provide IsTopologicalGroup Unit explicitly since inferInstance can't synthesize it.
+  haveI htg : IsTopologicalGroup Unit := {
+    continuous_mul := continuous_of_discreteTopology
+    continuous_inv := continuous_of_discreteTopology
+  }
+  exact ⟨Unit, inferInstance, inferInstance, inferInstance, htg, trivial⟩
 
 -- ============================================================
 -- §3  Peter-Weyl decomposition on K¹
