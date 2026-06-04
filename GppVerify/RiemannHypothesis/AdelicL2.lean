@@ -51,7 +51,9 @@ lemma l_infty_subset_l2_compact {α : Type*} [MeasurableSpace α]
           (ae_of_all μ fun a => sq_nonneg _)
           (integrable_const 1)
           (ae_of_all μ hb)
-    _ = (μ Set.univ).toReal := by simp [integral_const]
+    _ = (μ Set.univ).toReal := by
+        rw [integral_const]
+        simp [Measure.real, smul_eq_mul]
 
 /-- The Haar regularization factor vol(K¹) = 1 (normalized).
     This ensures the Plancherel formula has coefficient 1. -/
