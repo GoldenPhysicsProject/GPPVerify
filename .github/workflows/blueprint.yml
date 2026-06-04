@@ -32,7 +32,10 @@ jobs:
         run: pip3 install leanblueprint
 
       - name: Build blueprint
-        run: leanblueprint web
+        run: |
+          cd blueprint
+          leanblueprint web
+          cd ..
 
       - name: Write CNAME
         run: echo "lean.goldenphysics.org" > blueprint/web/CNAME
@@ -54,3 +57,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
