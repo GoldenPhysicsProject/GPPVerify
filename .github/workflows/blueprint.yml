@@ -32,13 +32,13 @@ jobs:
         run: pip3 install leanblueprint
 
       - name: Build blueprint
-        run: |
-          cd blueprint
-          leanblueprint web
-          cd ..
+        run: leanblueprint web
 
-      - name: Write CNAME
-        run: echo "lean.goldenphysics.org" > blueprint/web/CNAME
+      - name: Move output and write CNAME
+        run: |
+          mkdir -p blueprint/web
+          cp -r web/. blueprint/web/
+          echo "lean.goldenphysics.org" > blueprint/web/CNAME
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
