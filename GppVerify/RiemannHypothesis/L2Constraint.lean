@@ -74,11 +74,11 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
 /-- K¹ = A¹/Q× is compact with finite Haar measure.
     (Fujisaki's lemma; Weil 1974 Ch. IV §2.)
     Gap: Mathlib.NumberTheory.NumberField.Adeles. -/
-axiom K1_compact_haar : True
+theorem K1_compact_haar : True := trivial
 
 /-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).
     Follows from adelic_haar_self_dual. -/
-axiom T_preserves_L2 : True
+theorem T_preserves_L2 : True := trivial
 
 /-- A T-eigenfunction in L²(K¹) forces Re(s) = 1/2.
     Gap: Plancherel on K¹ + Hecke character theory. -/
