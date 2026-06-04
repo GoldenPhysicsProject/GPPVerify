@@ -34,57 +34,24 @@ jobs:
       - name: Build blueprint
         run: leanblueprint web
 
-      - name: Fix mobile layout
+      - name: Fix mobile and write CNAME
         run: |
           WEBDIR="blueprint/src/web"
-
-          # Write mobile CSS override
-          cat > "$WEBDIR/styles/mobile-fix.css" << 'CSSEOF'
-/* Mobile fix: show content on small screens */
-@media (max-width: 1023px) {
-  div.wrapper {
-    flex-direction: column;
-  }
-  div.content {
-    display: flex !important;
-    overflow: auto;
-  }
-  nav.toc {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 85vw;
-    height: 100vh;
-    z-index: 100;
-    background: #fff;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.2);
-    overflow-y: auto;
-    padding: 1rem;
-  }
-  nav.toc.active {
-    display: flex !important;
-  }
-  body > header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    padding: 0.75rem 1rem;
-  }
-  svg#toc-toggle {
-    width: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
-  }
-}
-CSSEOF
-
-          # Inject the mobile CSS link into every HTML file
-          for f in "$WEBDIR"/*.html; do
-            sed -i "s|</head>|<link rel=\"stylesheet\" href=\"styles/mobile-fix.css\" />\n<script>document.addEventListener(\"DOMContentLoaded\",function(){var t=document.getElementById(\"toc-toggle\"),n=document.querySelector(\"nav.toc\");if(t&&n){t.addEventListener(\"click\",function(){n.classList.toggle(\"active\");});}});</script>\n</head>|" "$f"
-          done
-
-      - name: Write CNAME
-        run: echo "lean.goldenphysics.org" > blueprint/src/web/CNAME
+          cp blueprint/mobile-fix.css "$WEBDIR/styles/mobile-fix.css"
+          python3 - << 'PYEOF'
+import os, glob
+webdir = "blueprint/src/web"
+inject = '<link rel="stylesheet" href="styles/mobile-fix.css" />\n<script>document.addEventListener("DOMContentLoaded",function(){var t=document.getElementById("toc-toggle"),n=document.querySelector("nav.toc");if(t&&n){t.addEventListener("click",function(){n.classList.toggle("active");});}});</script>\n'
+for path in glob.glob(os.path.join(webdir, "*.html")):
+    with open(path, "r") as f:
+        html = f.read()
+    if "mobile-fix.css" not in html:
+        html = html.replace("</head>", inject + "</head>", 1)
+        with open(path, "w") as f:
+            f.write(html)
+print(f"Patched {len(glob.glob(os.path.join(webdir, '*.html')))} HTML files")
+PYEOF
+          echo "lean.goldenphysics.org" > "$WEBDIR/CNAME"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
