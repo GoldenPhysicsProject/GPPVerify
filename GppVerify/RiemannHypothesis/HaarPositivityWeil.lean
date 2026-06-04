@@ -1,6 +1,8 @@
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.MeasureTheory.Group.Integral
+import Mathlib.MeasureTheory.Group.Measure
 
 /-!
 # Haar Positivity, Weil Criterion, and the Common Framework
@@ -58,13 +60,45 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
   simp at this
   exact_mod_cast this
 
-/-- If P = f̄ * f (convolution) then P is positive-type (abstract version) -/
-axiom convolution_square_positive_type (f : ℝ → ℝ) (μ : MeasureTheory.Measure ℝ) :
-    PositiveType (fun x => ∫ (y : ℝ), f y * f (y - x) ∂μ)
--- NOTE: This is the content of thm:haar-square-positive for unimodular groups.
--- For ℝ with Lebesgue measure, the proof is: ∑_{ij} c̄_i c_j ∫ f(y)f(y-x_i+x_j)dy
--- = ∫ |∑_i c_i f(y - x_i)|² dy ≥ 0.
--- MATHLIB GAP: integral positivity for this form not immediately available.
+/-- If P = f̄ * f (convolution) then P is positive-type.
+
+    Proof sketch (three steps):
+    1. Translation: P(a-b) = ∫ f(y+a)·f(y+b) ∂μ  [right-translation invariance]
+    2. Interchange ∑ and ∫: ∑_ij c̄_i c_j P(x_i-x_j) = ∫ ∑_ij c̄_i c_j f(y+x_i) f(y+x_j) ∂μ
+    3. Algebraic identity: ∑_ij c̄_i c_j a_i a_j = normSq(∑_i c_i a_i) ≥ 0  (for real a_i)
+
+    SORRY 1 (trans_eq): Requires `MeasureTheory.integral_add_right_eq_self`
+      (right-translation invariance of the integral). For abelian groups,
+      `IsAddLeftInvariant` → `IsAddRightInvariant` via commutativity; the
+      integral then transforms as `∫ g(y) ∂μ = ∫ g(y+a) ∂μ`.
+      Import needed: `Mathlib.MeasureTheory.Group.Integral`.
+
+    SORRY 2 (interchange): Requires `MeasureTheory.integral_finset_sum`
+      (finite sum inside integral) and `MeasureTheory.integral_re`
+      (linearity of `.re`). Needs `Integrable (fun y => f (y + x k) * f (y + x l)) μ`
+      for each (k, l), provable from `hf.comp_add_right` + Integrable.mul. -/
+theorem convolution_square_positive_type
+    (f : ℝ → ℝ) (μ : MeasureTheory.Measure ℝ)
+    [MeasureTheory.Measure.IsAddLeftInvariant μ]
+    (hf : MeasureTheory.Integrable f μ) :
+    PositiveType (fun x => ∫ (y : ℝ), f y * f (y - x) ∂μ) := by
+  intro n x c
+  -- Step 1: Translation invariance: P(a - b) = ∫ f(y + a) * f(y + b) ∂μ
+  -- For abelian μ: IsAddLeftInvariant ↔ IsAddRightInvariant.
+  -- MeasureTheory.integral_add_right_eq_self: ∫ g(y + a) ∂μ = ∫ g(y) ∂μ.
+  -- Applying with g(y) = f(y) * f(y-(a-b)) and translating by a gives f(y+a) * f(y+b).
+  have trans_eq : ∀ a b : ℝ,
+      ∫ y, f y * f (y - (a - b)) ∂μ = ∫ y, f (y + a) * f (y + b) ∂μ := by
+    intro a b
+    sorry
+    -- MATHLIB: MeasureTheory.integral_add_right_eq_self (IsAddRightInvariant, abelian case)
+  simp_rw [trans_eq]
+  -- Step 2+3: Interchange ∑↔∫, then apply algebraic identity ∑_ij c̄_i c_j a_i a_j = ‖∑_i c_i a_i‖²
+  -- Goal: 0 ≤ (∑ i j, c̄_i * c_j * ↑(∫ f(y+x_i) * f(y+x_j) ∂μ)).re
+  -- = ∫ (∑ i j, c̄_i * c_j * ↑(f(y+x_i)*f(y+x_j))).re ∂μ  [by linearity + MeasureTheory.integral_re]
+  -- = ∫ normSq(∑_i c_i * f(y+x_i)) ∂μ ≥ 0               [algebraic identity + integral_nonneg]
+  sorry
+  -- MATHLIB: MeasureTheory.integral_finset_sum + integral_re + integral_nonneg
 
 /-! ## GNS construction -/
 
@@ -134,7 +168,7 @@ axiom peter_weyl_decomposition : True
 /-! ## Logical status -/
 
 /-- The common thread: Haar convolution squares are always positive-type -/
-theorem haar_squares_always_positive : PositiveType (fun x => (1 : ℝ)) :=
+theorem haar_squares_always_positive : PositiveType (fun _ => (1 : ℝ)) :=
   const_one_positive_type
 
 /-- The four positivity conditions are equivalent in the Haar framework -/
