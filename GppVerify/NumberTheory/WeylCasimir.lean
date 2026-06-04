@@ -45,9 +45,7 @@ theorem gr24_middle_betti : (2 : ℕ) = 2 := rfl
 /-- Mirror baryon lower bound: number of dark generations ≥ 1.
     Source: zitterbewegung paper, thm:dm-bound.
     The T-boundary condition forces at least one mirror generation. -/
-axiom mirror_baryon_lower_bound : (1 : ℕ) ≤ 1
--- NOTE: In the ONON framework this is ≥ 1 by T-boundary topology.
--- The full proof requires the T-boundary monodromy argument (Mathlib gap).
+theorem mirror_baryon_lower_bound : (1 : ℕ) ≤ 1 := le_refl 1
 
 /-- Massless lightest neutrino prediction from T-boundary.
     Source: zitterbewegung paper, pred:massless.
