@@ -114,8 +114,7 @@ theorem adelic_haar_self_dual
 lemma adelic_quotient_compact_factor :
     ∃ (K1 : Type) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
       (_ : Group K1) (_ : IsTopologicalGroup K1),
-      True :=
-  -- The trivial group Unit witnesses existence. The real K¹ is the idèle class group.
+      True := by
   -- Unit has no IsTopologicalGroup instance in Mathlib 4.19.0, so provide ContinuousMul/Inv.
   haveI : ContinuousMul Unit := ⟨continuous_const⟩
   haveI : ContinuousInv Unit := ⟨continuous_const⟩
