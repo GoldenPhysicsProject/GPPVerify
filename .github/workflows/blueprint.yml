@@ -34,11 +34,17 @@ jobs:
       - name: Build blueprint
         run: leanblueprint web
 
-      - name: Move output and write CNAME
+      - name: Find output and deploy
         run: |
-          mkdir -p blueprint/web
-          cp -r web/. blueprint/web/
-          echo "lean.goldenphysics.org" > blueprint/web/CNAME
+          echo "=== HTML files found ==="
+          find . -name "index.html" -not -path "./.git/*" 2>/dev/null
+          echo "=== All dirs ==="
+          ls -la
+          echo "=== Blueprint toml ==="
+          cat blueprint.toml
+
+      - name: Write CNAME and upload
+        run: echo "lean.goldenphysics.org" > blueprint/web/CNAME
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
