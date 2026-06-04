@@ -34,9 +34,9 @@ jobs:
       - name: Build blueprint
         run: leanblueprint web
 
-      - name: Apply mobile fix
+      - name: Apply GPP theme and write CNAME
         run: |
-          cp blueprint/mobile-fix.css blueprint/src/web/styles/mobile-fix.css
+          cp blueprint/gpp-theme.css blueprint/src/web/styles/gpp-theme.css
           python3 scripts/patch_mobile.py
           echo "lean.goldenphysics.org" > blueprint/src/web/CNAME
 
