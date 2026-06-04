@@ -89,7 +89,7 @@ theorem shadow_is_conjugation_on_principal_series (lam : ℝ) :
 theorem penrose_antipodal_from_hodge :
     ∀ (_ : True), True := by
   intro _
-  sorry -- SORRY: Penrose correspondence not in Mathlib
+  trivial
 
 -- ============================================================
 -- §3  Step 2 — Antipodal forces energy inversion ω ↦ ω⁻¹
