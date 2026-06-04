@@ -195,11 +195,12 @@ def IsInvariant {A : Type} (mu : Measure A) (f : A → A) : Prop :=
 /-- Uniqueness of Haar measure on compact homogeneous spaces.
     Standard result (see Haar 1933, uniqueness theorem for locally
     compact groups); axiomatized here pending full Mathlib integration. -/
-axiom haar_uniqueness {A : Type} (f : A → A) (mu nu : Measure A)
-    (hf   : IsInvolution f)
-    (hmu  : IsInvariant mu f) (hnu  : IsInvariant nu f)
+theorem haar_uniqueness {A : Type} (f : A → A) (mu nu : Measure A)
+    (_hf  : IsInvolution f)
+    (_hmu : IsInvariant mu f) (_hnu : IsInvariant nu f)
     (hmu1 : ∀ x, mu x = 1)   (hnu1 : ∀ x, nu x = 1) :
-    ∀ x, mu x = nu x
+    ∀ x, mu x = nu x :=
+  fun x => (hmu1 x).trans (hnu1 x).symm
 
 theorem haar_self_duality {A : Type} (perp : A → A) (mu : Measure A)
     (h_invar : IsInvariant mu perp) :
