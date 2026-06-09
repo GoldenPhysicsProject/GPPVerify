@@ -166,7 +166,7 @@ footer a:hover{color:var(--gpp-gold)}
       <span class="stat-label">Proved Clean</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" style="color:var(--yellow-light)">5</span>
+      <span class="stat-num" style="color:var(--yellow-light)">10</span>
       <span class="stat-label">Proved w/ Axioms</span>
     </div>
     <div class="stat-item">
@@ -174,7 +174,7 @@ footer a:hover{color:var(--gpp-gold)}
       <span class="stat-label">Open Gaps</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">24</span>
+      <span class="stat-num">29</span>
       <span class="stat-label">Verified Files</span>
     </div>
     <div class="stat-item">
@@ -404,6 +404,54 @@ footer a:hover{color:var(--gpp-gold)}
       <div class="thm-desc">Majorana neutrinos from T-boundary: ψ = Cψ̄ forced by T-boundary condition. Lightest neutrino massless (no T-boundary mass term). Neutrino mixing matrix phase constraint proved as algebraic identity.</div>
       <div class="thm-meta">File: StandardModel/MajoranaCondition.lean</div>
       <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/MajoranaCondition.lean" target="_blank">View source ↗</a>
+    </div>
+
+  </div>
+
+  <div class="section-heading" style="margin-top:48px">
+    <h2 style="font-size:1.1rem">String Theory, Cosmology &amp; Standard Model Parameters</h2>
+  </div>
+
+  <div class="grid-auto" style="margin-bottom:48px">
+
+    <div class="thm-card axiom">
+      <div class="status-badge badge-axiom">⊢ Axioms</div>
+      <div class="thm-name">hurwitz_critical_dims</div>
+      <div class="thm-desc">Why string theory works: division algebras ℝ,ℂ,ℍ,𝕆 (dims 1,2,4,8) force critical dimensions D∈{4,5,7,11}. 48 Weyl fermions / 16 = 3 generations proved clean. KLT gravity=gauge² from Sugawara (axiom).</div>
+      <div class="thm-meta">File: StringTheory/DivisionAlgebras.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StringTheory/DivisionAlgebras.lean" target="_blank">View source ↗</a>
+    </div>
+
+    <div class="thm-card axiom">
+      <div class="status-badge badge-axiom">⊢ Axioms</div>
+      <div class="thm-name">holographic_chain</div>
+      <div class="thm-desc">Division algebra tower R→C→H→O terminates at Gr(2,4): χ=6, 3 SD + 3 ASD modes, 3 Cayley–Dickson doublings = 3 physical constants. Hasse–Weil ζ_Gr factorization (axiom).</div>
+      <div class="thm-meta">File: CelestialHolography/HolographicChain.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/HolographicChain.lean" target="_blank">View source ↗</a>
+    </div>
+
+    <div class="thm-card axiom">
+      <div class="status-badge badge-axiom">⊢ Axioms</div>
+      <div class="thm-name">decoding_reality</div>
+      <div class="thm-desc">SM parameters from L-functions: sin²θ_W=3/8, Casimir ratios 2:5:9, Georgi–Jarlskog m_d·m_b/m_s²=9/4, Cabibbo 2/5 — all proved as rational identities. CP phase δ_CKM=137π/360 from Jacobi sum (axiom).</div>
+      <div class="thm-meta">File: NumberTheory/DecodingReality.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/NumberTheory/DecodingReality.lean" target="_blank">View source ↗</a>
+    </div>
+
+    <div class="thm-card axiom">
+      <div class="status-badge badge-axiom">⊢ Axioms</div>
+      <div class="thm-name">dark_energy_t_boundary</div>
+      <div class="thm-desc">Dark energy w(a)=-2/3-f-(2/3)d ln f/d ln a from T-boundary conformal self-lensing. χ²=0.02 DESI DR2 fit (zero free parameters). Shadow involution proved; w=-1 iff f=1/3 proved.</div>
+      <div class="thm-meta">File: Cosmology/DarkEnergy.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/Cosmology/DarkEnergy.lean" target="_blank">View source ↗</a>
+    </div>
+
+    <div class="thm-card axiom">
+      <div class="status-badge badge-axiom">⊢ Axioms</div>
+      <div class="thm-name">unified_dipole</div>
+      <div class="thm-desc">Number-count dipole from Haar shadow deficit: D_obs/D_c=1+e^(-x)·2π/(x+1). Re[κ̄₁]=-2/(1+λ²) axiomatized. Harrison–Zel'dovich n_s=1↔Haar self-duality. χ²=0.166 four-survey fit (axiom).</div>
+      <div class="thm-meta">File: Cosmology/UnifiedDipole.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/Cosmology/UnifiedDipole.lean" target="_blank">View source ↗</a>
     </div>
 
   </div>
