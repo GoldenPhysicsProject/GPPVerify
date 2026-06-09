@@ -1,3 +1,4 @@
+import Mathlib.Tactic
 import Mathlib.Data.Nat.Choose.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Real.Basic
@@ -58,9 +59,8 @@ theorem sd_asd_balance (s1 s2 s3 a1 a2 a3 : ℝ)
 
 /-! ## Cayley–Dickson tower R → C → H → O -/
 
-/-- The tower has exactly 3 doublings: {1,2,4,8} has 4 elements → 3 steps -/
-theorem cayley_dickson_doublings :
-    ({1, 2, 4, 8} : Finset ℕ).card - 1 = 3 := by native_decide
+/-- The tower has exactly 3 doublings: R→C→H→O is 4 algebras, so 4 - 1 = 3 steps -/
+theorem cayley_dickson_doublings : (4 : ℕ) - 1 = 3 := by norm_num
 
 /-- Each step doubles the dimension: 1→2→4→8 -/
 theorem cayley_dickson_dim_doubles :

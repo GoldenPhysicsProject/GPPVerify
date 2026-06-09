@@ -34,13 +34,13 @@ open Real
     Algebraic derivation: (1-iλ)/(iλ(1+iλ)) = (1-iλ)/(-λ²+iλ);
     Re = (1·(-λ²) + (-λ)·λ)/(λ⁴+λ²) = -2λ²/(λ²(1+λ²)) = -2/(1+λ²).
     Axiomatized pending complex division proof in Lean. -/
-axiom dipole_shadow_eigenvalue_complex (λ : ℝ) (hλ : λ ≠ 0) :
-    (((1 : ℂ) - Complex.I * λ) / (Complex.I * λ * (1 + Complex.I * λ))).re =
-    -2 / (1 + λ^2)
+axiom dipole_shadow_eigenvalue_complex (lam : ℝ) (hlam : lam ≠ 0) :
+    (((1 : ℂ) - Complex.I * lam) / (Complex.I * lam * (1 + Complex.I * lam))).re =
+    -2 / (1 + lam^2)
 
-/-- The real part -2/(1+λ²) is negative for all λ (restoring force) -/
-theorem dipole_eigenvalue_negative (λ : ℝ) :
-    -2 / (1 + λ^2) < 0 := by
+/-- The real part -2/(1+lam²) is negative for all lam (restoring force) -/
+theorem dipole_eigenvalue_negative (lam : ℝ) :
+    -2 / (1 + lam^2) < 0 := by
   apply div_neg_of_neg_of_pos
   · norm_num
   · positivity
@@ -48,17 +48,17 @@ theorem dipole_eigenvalue_negative (λ : ℝ) :
 /-- At unit frequency λ=1, the eigenvalue is exactly -1 -/
 theorem dipole_eigenvalue_at_unit : (-2 : ℝ) / (1 + 1^2) = -1 := by norm_num
 
-/-- The eigenvalue is bounded: |-2/(1+λ²)| ≤ 2 for all λ -/
-theorem dipole_eigenvalue_bounded (λ : ℝ) :
-    2 / (1 + λ^2) ≤ 2 := by
+/-- The eigenvalue is bounded: |-2/(1+lam²)| ≤ 2 for all lam -/
+theorem dipole_eigenvalue_bounded (lam : ℝ) :
+    2 / (1 + lam^2) ≤ 2 := by
   rw [div_le_iff (by positivity)]
-  nlinarith [sq_nonneg λ]
+  nlinarith [sq_nonneg lam]
 
 /-- As the frequency grows, the eigenvalue's magnitude decreases monotonically -/
-theorem dipole_eigenvalue_decreasing (λ μ : ℝ) (h : 0 ≤ λ) (hlt : λ < μ) :
-    -2 / (1 + μ^2) > -2 / (1 + λ^2) := by
+theorem dipole_eigenvalue_decreasing (lam μ : ℝ) (h : 0 ≤ lam) (hlt : lam < μ) :
+    -2 / (1 + μ^2) > -2 / (1 + lam^2) := by
   rw [gt_iff_lt, div_lt_div_iff (by positivity) (by positivity)]
-  nlinarith [sq_nonneg (μ - λ), sq_nonneg (μ + λ)]
+  nlinarith [sq_nonneg (μ - lam), sq_nonneg (μ + lam)]
 
 /-! ## Harrison–Zel'dovich spectrum from Haar measure -/
 
