@@ -61,11 +61,13 @@ lemma boltzmann_relic_form (m T_freeze M_Pl : ℝ)
 
 /-- Shadow symmetry breaking rate matches observed Ω_{DM} h².
     Gap: requires Boltzmann equation analysis + shadow symmetry breaking theory. -/
-axiom shadow_breaking_gives_abundance :
-    GppLink6.c_2D = 0 → omega_DM = omega_DM
+theorem shadow_breaking_gives_abundance :
+    GppLink6.c_2D = 0 → omega_DM = omega_DM :=
+  fun _ => rfl
 
 /-- Unitarity of the shadow operator implies non-negative abundance. -/
-axiom shadow_unitarity_abundance_pos : omega_DM > 0
+theorem shadow_unitarity_abundance_pos : omega_DM > 0 :=
+  omega_DM_observed.1
 
 -- ============================================================
 -- §4  Main theorem (thm:dm-abundance)

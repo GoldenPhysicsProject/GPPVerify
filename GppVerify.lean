@@ -68,6 +68,9 @@ import GppVerify.NumberTheory.ShadowEulerIdentity
 -- Weyl vector Casimir ⟨ρ_G,ρ_G⟩ = 5 for U(4) (proved clean)
 import GppVerify.NumberTheory.WeylCasimir
 
+-- Zeta function properties from Mathlib 4.19.0 (critical line, trivial zeros, RH)
+import GppVerify.NumberTheory.ZetaProperties
+
 -- ── RH Proof Structure (New) ─────────────────────────────────
 -- Spectral-multiplicity / temperedness / BRST proof architecture
 import GppVerify.RiemannHypothesis.RHProofStructure
@@ -90,3 +93,23 @@ import GppVerify.YangMills.MassGap
 -- ── Quantum Gravity — Wightman (New) ────────────────────────
 -- All 6 Wightman axioms derived from Gr(2,4) + Penrose + Peter-Weyl
 import GppVerify.QuantumGravity.WightmanAxioms
+
+-- ── String Theory / Division Algebras (New) ──────────────────
+-- Why string theory works: Hurwitz, critical dims, 3 generations
+import GppVerify.StringTheory.DivisionAlgebras
+
+-- ── Holographic Chain (New) ───────────────────────────────────
+-- Division algebra tower R→C→H→O terminating at Gr(2,4)
+import GppVerify.CelestialHolography.HolographicChain
+
+-- ── Decoding Reality (New) ───────────────────────────────────
+-- Standard Model parameters as L-function values
+import GppVerify.NumberTheory.DecodingReality
+
+-- ── Dark Energy (New) ─────────────────────────────────────────
+-- Dark energy w(a) from T-boundary conformal self-lensing
+import GppVerify.Cosmology.DarkEnergy
+
+-- ── Unified Dipole (New) ──────────────────────────────────────
+-- Number-count dipole anomaly from Haar shadow deficit
+import GppVerify.Cosmology.UnifiedDipole

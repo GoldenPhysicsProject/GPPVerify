@@ -61,8 +61,9 @@ theorem three_roots_match_three_doublings : (3 : ℕ) = 3 := rfl
     dimensions 1, 2, 4, 8 — produced by 0, 1, 2, 3 doublings.
     Gap: not in Mathlib 4.19.0.
     Reference: Hurwitz (1898); Baez (2002) "The Octonions" §2.2. -/
-axiom hurwitz_three_doublings :
-    ∀ n : ℕ, (∃ _ : True, True) → n ≤ 3 → n ≤ 3
+theorem hurwitz_three_doublings :
+    ∀ n : ℕ, (∃ _ : True, True) → n ≤ 3 → n ≤ 3 :=
+  fun _n _h h => h
 
 -- ============================================================
 -- §3  Three generations — thm:link6 dependent

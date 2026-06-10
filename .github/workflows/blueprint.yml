@@ -34,13 +34,16 @@ jobs:
       - name: Build blueprint
         run: leanblueprint web
 
-      - name: Write CNAME
-        run: echo "lean.goldenphysics.org" > blueprint/web/CNAME
+      - name: Apply GPP theme and write CNAME
+        run: |
+          cp blueprint/gpp-theme.css blueprint/src/web/styles/gpp-theme.css
+          python3 scripts/patch_mobile.py
+          echo "lean.goldenphysics.org" > blueprint/src/web/CNAME
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: blueprint/web
+          path: blueprint/src/web
 
   deploy:
     name: Deploy to GitHub Pages
