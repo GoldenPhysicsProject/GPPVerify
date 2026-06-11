@@ -40,14 +40,14 @@ theorem dipole_shadow_eigenvalue_complex (lam : ℝ) (hlam : lam ≠ 0) :
     -2 / (1 + lam^2) := by
   have hlam2 : lam ^ 2 > 0 := by positivity
   have h1p : (0 : ℝ) < 1 + lam ^ 2 := by linarith
-  have hD : (lam ^ 2) ^ 2 + lam ^ 2 ≠ 0 := by nlinarith [sq_nonneg (lam ^ 2)]
+  have hD : (0 : ℝ) < lam ^ 2 + lam ^ 4 := by positivity
   rw [div_eq_mul_inv, Complex.mul_re, Complex.inv_re, Complex.inv_im]
   simp only [Complex.sub_re, Complex.sub_im, Complex.one_re, Complex.one_im,
     Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
     Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im,
     Complex.normSq_apply, mul_zero, zero_mul, zero_add, add_zero,
     mul_one, one_mul, sub_zero, zero_sub, neg_mul, mul_neg, neg_neg]
-  field_simp [hD, h1p.ne']
+  field_simp [hD.ne']
   ring
 
 /-- The real part -2/(1+lam²) is negative for all lam (restoring force) -/
@@ -63,13 +63,13 @@ theorem dipole_eigenvalue_at_unit : (-2 : ℝ) / (1 + 1^2) = -1 := by norm_num
 /-- The eigenvalue is bounded: |-2/(1+lam²)| ≤ 2 for all lam -/
 theorem dipole_eigenvalue_bounded (lam : ℝ) :
     2 / (1 + lam^2) ≤ 2 := by
-  rw [div_le_iff (by positivity)]
+  rw [div_le_iff₀ (by positivity)]
   nlinarith [sq_nonneg lam]
 
 /-- As the frequency grows, the eigenvalue's magnitude decreases monotonically -/
 theorem dipole_eigenvalue_decreasing (lam μ : ℝ) (h : 0 ≤ lam) (hlt : lam < μ) :
     -2 / (1 + μ^2) > -2 / (1 + lam^2) := by
-  rw [gt_iff_lt, div_lt_div_iff (by positivity) (by positivity)]
+  rw [gt_iff_lt, div_lt_div_iff₀ (by positivity) (by positivity)]
   nlinarith [sq_nonneg (μ - lam), sq_nonneg (μ + lam)]
 
 /-! ## Harrison–Zel'dovich spectrum from Haar measure -/
