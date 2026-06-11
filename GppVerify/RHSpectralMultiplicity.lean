@@ -5,11 +5,18 @@
 -- Lean 4 / Mathlib v4.19.0
 -- ============================================================
 import Mathlib.NumberTheory.LSeries.RiemannZeta
+import Mathlib.NumberTheory.LSeries.HurwitzZetaEven
+import Mathlib.NumberTheory.LSeries.AbstractFuncEq
 import Mathlib.Analysis.Distribution.SchwartzSpace
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
+import Mathlib.Analysis.MellinTransform
+import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
+import Mathlib.Tactic
 
-open Complex MeasureTheory
+open Complex MeasureTheory Set HurwitzZeta
+open scoped Real ComplexConjugate
 
 namespace GppRH
 
@@ -36,11 +43,74 @@ lemma zeta_zero_implies_fe_zero (rho : Complex)
     riemannZeta (1 - rho) = 0 := by
   rw [riemannZeta_one_sub hn hone, hzero, mul_zero]
 
-/-- Reality axiom: zeta(conj s) = conj(zeta(s)).
-    Proof sketch: Dirichlet series with real coefficients; analytic
-    continuation.  Not yet in Mathlib as a named lemma. -/
-axiom riemannZeta_conj_axiom (s : Complex) :
-    riemannZeta (starRingEnd Complex s) = starRingEnd Complex (riemannZeta s)
+-- Supporting lemmas for riemannZeta_conj_axiom (proved below)
+
+private lemma mellin_conj_of_im_zero {f : ℝ → ℂ} (hf : ∀ t, (f t).im = 0) (s : ℂ) :
+    mellin f (conj s) = conj (mellin f s) := by
+  simp only [mellin]
+  rw [← integral_conj]
+  refine setIntegral_congr_fun measurableSet_Ioi fun t ht => ?_
+  simp only [map_smul, smul_eq_mul, map_mul]
+  congr 1
+  · rw [cpow_def_of_ne_zero (ofReal_ne_zero.mpr (ne_of_gt ht)),
+        cpow_def_of_ne_zero (ofReal_ne_zero.mpr (ne_of_gt ht)),
+        ← exp_conj, map_mul, ← ofReal_log (le_of_lt ht), conj_ofReal, map_sub, map_one]
+  · exact Complex.ext (by simp [conj_re]) (by simp [conj_im, hf t])
+
+private lemma hurwitzEvenFEPair_zero_fmodif_im (t : ℝ) :
+    ((hurwitzEvenFEPair (0 : UnitAddCircle)).f_modif t).im = 0 := by
+  simp only [WeakFEPair.f_modif, hurwitzEvenFEPair, smul_eq_mul, mul_one, Function.comp]
+  simp only [Pi.add_apply, Set.indicator_apply, Set.mem_Ioi, Set.mem_Ioo]
+  split_ifs <;>
+    simp [Complex.add_im, Complex.sub_im, Complex.ofReal_im, Complex.one_im, Complex.zero_im]
+
+private lemma conj_two_eq : conj (2 : ℂ) = 2 := by
+  have h : (2 : ℂ) = ((2 : ℝ) : ℂ) := by norm_cast
+  rw [h, conj_ofReal]
+
+private lemma completedHurwitzZetaEven₀_zero_conj (s : ℂ) :
+    completedHurwitzZetaEven₀ 0 (conj s) = conj (completedHurwitzZetaEven₀ 0 s) := by
+  simp only [completedHurwitzZetaEven₀, WeakFEPair.Λ₀]
+  rw [show conj s / 2 = conj (s / 2) by rw [map_div₀, conj_two_eq]]
+  rw [mellin_conj_of_im_zero hurwitzEvenFEPair_zero_fmodif_im]
+  rw [map_div₀, conj_two_eq]
+
+private lemma completedHurwitzZetaEven_zero_conj (s : ℂ) :
+    completedHurwitzZetaEven 0 (conj s) = conj (completedHurwitzZetaEven 0 s) := by
+  simp only [completedHurwitzZetaEven_eq, show (0 : UnitAddCircle) = 0 from rfl, if_true]
+  rw [completedHurwitzZetaEven₀_zero_conj]
+  simp [map_sub, map_div₀, map_one, conj_two_eq]
+
+private lemma Gammaℝ_conj_eq (s : ℂ) : Gammaℝ (conj s) = conj (Gammaℝ s) := by
+  simp only [Gammaℝ]
+  have harg : (↑Real.pi : ℂ).arg ≠ Real.pi := by
+    rw [Complex.arg_ofReal_of_nonneg (le_of_lt Real.pi_pos)]
+    exact Real.pi_pos.ne
+  have hcd : conj s / 2 = conj (s / 2) := by rw [map_div₀, conj_two_eq]
+  have hne : -(conj s) / 2 = conj (-(s / 2)) := by
+    rw [map_neg, map_div₀, conj_two_eq, neg_div]
+  simp only [hne, hcd, map_mul, ← Complex.Gamma_conj]
+  congr 1
+  rw [cpow_conj (↑Real.pi : ℂ) (-(s / 2)) harg, conj_ofReal]
+  congr 1; ring
+
+private lemma hurwitzZetaEven_zero_conj (s : ℂ) :
+    hurwitzZetaEven 0 (conj s) = conj (hurwitzZetaEven 0 s) := by
+  by_cases hs : s = 0
+  · subst hs
+    simp [hurwitzZetaEven_apply_zero, conj_two_eq]
+  · have hcs : conj s ≠ 0 := by simp [hs]
+    rw [hurwitzZetaEven_def_of_ne_or_ne (Or.inr hcs),
+        hurwitzZetaEven_def_of_ne_or_ne (Or.inr hs),
+        map_div₀, ← completedHurwitzZetaEven_zero_conj, ← Gammaℝ_conj_eq]
+
+/-- Reality: zeta(conj s) = conj(zeta(s)).
+    Follows from: riemannZeta = hurwitzZetaEven 0, the Mellin transform of a real-valued
+    kernel has conjugate symmetry, and the Gamma factor satisfies Gamma(conj s) = conj(Gamma s). -/
+theorem riemannZeta_conj_axiom (s : Complex) :
+    riemannZeta (starRingEnd Complex s) = starRingEnd Complex (riemannZeta s) := by
+  simp only [riemannZeta]
+  exact hurwitzZetaEven_zero_conj s
 
 /-- The companion 1 - conj(rho) is also a zero of zeta. -/
 lemma zeta_zero_implies_companion_zero (rho : Complex)
