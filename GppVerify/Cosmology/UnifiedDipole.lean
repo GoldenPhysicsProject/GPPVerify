@@ -38,17 +38,33 @@ open Real
 theorem dipole_shadow_eigenvalue_complex (lam : ℝ) (hlam : lam ≠ 0) :
     (((1 : ℂ) - Complex.I * lam) / (Complex.I * lam * (1 + Complex.I * lam))).re =
     -2 / (1 + lam^2) := by
-  have hlam2 : lam ^ 2 > 0 := by positivity
-  have h1p : (0 : ℝ) < 1 + lam ^ 2 := by linarith
-  have hD : (0 : ℝ) < lam ^ 2 + lam ^ 4 := by positivity
-  rw [div_eq_mul_inv, Complex.mul_re, Complex.inv_re, Complex.inv_im]
-  simp only [Complex.sub_re, Complex.sub_im, Complex.one_re, Complex.one_im,
-    Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
-    Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im,
-    Complex.normSq_apply, mul_zero, zero_mul, zero_add, add_zero,
-    mul_one, one_mul, sub_zero, zero_sub, neg_mul, mul_neg, neg_neg]
-  field_simp [hD.ne']
-  ring
+  have h1p : (0 : ℝ) < 1 + lam ^ 2 := by positivity
+  have hzre : ((1 : ℂ) - Complex.I * lam).re = 1 := by
+    simp only [Complex.sub_re, Complex.one_re, Complex.mul_re,
+      Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im]
+    ring
+  have hzim : ((1 : ℂ) - Complex.I * lam).im = -lam := by
+    simp only [Complex.sub_im, Complex.one_im, Complex.mul_im,
+      Complex.I_re, Complex.I_im, Complex.ofReal_re, Complex.ofReal_im]
+    ring
+  have hwre : (Complex.I * lam * (1 + Complex.I * lam)).re = -(lam ^ 2) := by
+    simp only [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+      Complex.one_re, Complex.one_im, Complex.I_re, Complex.I_im,
+      Complex.ofReal_re, Complex.ofReal_im]
+    ring
+  have hwim : (Complex.I * lam * (1 + Complex.I * lam)).im = lam := by
+    simp only [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
+      Complex.one_re, Complex.one_im, Complex.I_re, Complex.I_im,
+      Complex.ofReal_re, Complex.ofReal_im]
+    ring
+  have hns : Complex.normSq (Complex.I * lam * (1 + Complex.I * lam)) =
+      lam ^ 2 * (1 + lam ^ 2) := by
+    rw [Complex.normSq_apply, hwre, hwim]; ring
+  rw [Complex.div_re, hzre, hzim, hwre, hwim, hns]
+  rw [div_add_div_same,
+    show (1 : ℝ) * -(lam ^ 2) + -lam * lam = lam ^ 2 * -2 by ring,
+    mul_comm (lam ^ 2) ((1 : ℝ) + lam ^ 2)]
+  rw [mul_comm (lam ^ 2) (-2 : ℝ), mul_div_mul_right _ _ (pow_ne_zero 2 hlam)]
 
 /-- The real part -2/(1+lam²) is negative for all lam (restoring force) -/
 theorem dipole_eigenvalue_negative (lam : ℝ) :
