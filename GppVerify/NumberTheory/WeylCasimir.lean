@@ -1,5 +1,8 @@
 import Mathlib.Algebra.Group.Basic
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Rat.Basic
+import Mathlib.Data.Matrix.Basic
+import Mathlib.Data.Matrix.Notation
 import Mathlib.Tactic
 
 /-!
@@ -11,17 +14,30 @@ The Weyl vector ρ_G for U(4) has ⟨ρ_G, ρ_G⟩ = 5.
 The roots of A₃ = SU(4) are: ±e_i ± e_j (1≤i<j≤4).
 The Weyl vector ρ = (3,1,-1,-3)/2 in the standard basis.
 ⟨ρ,ρ⟩ = (9+1+1+9)/4 = 20/4 = 5.
+
+The main result is now the actual vector/dot-product computation
+`rhoA3_dot_self`, not just arithmetic on the numerator; the bare
+numerator identities below are recorded as corollaries.
 -/
 
 namespace GppWeylCasimir
 
-/-- Weyl vector component squares for A₃: (3²+1²+1²+3²)/4 = 20/4 = 5 -/
+/-- The Weyl vector of A₃ = SU(4), ρ = (3,1,-1,-3)/2, as an actual
+    vector `Fin 4 → ℚ` rather than four separate numbers. -/
+def rhoA3 : Fin 4 → ℚ := ![3 / 2, 1 / 2, -1 / 2, -3 / 2]
+
+/-- The Weyl vector Casimir ⟨ρ_G, ρ_G⟩ = 5 for U(4) ≅ A₃ ⊕ U(1), computed
+    as an actual Euclidean dot product of the Weyl vector with itself. -/
+theorem rhoA3_dot_self : dotProduct rhoA3 rhoA3 = 5 := by
+  norm_num [dotProduct, rhoA3, Fin.sum_univ_four]
+
+/-- Corollary: the bare numerator identity behind `rhoA3_dot_self`,
+    (3²+1²+1²+3²)/4 = 5. -/
 theorem weyl_vector_sq_numerator : 3^2 + 1^2 + 1^2 + 3^2 = (20 : ℤ) := by decide
 
 theorem weyl_vector_casimir_times_four : 3^2 + 1^2 + 1^2 + 3^2 = 4 * 5 := by decide
 
-/-- The Weyl vector Casimir ⟨ρ_G, ρ_G⟩ = 5 for U(4) ≅ A₃ ⊕ U(1).
-    ρ = (3,1,-1,-3)/2; ⟨ρ,ρ⟩ = (9+1+1+9)/4 = 5. -/
+/-- Corollary: the integer-numerator restatement of `rhoA3_dot_self`. -/
 theorem weyl_casimir_u4 : (3^2 + 1^2 + 1^2 + 3^2 : ℤ) / 4 = 5 := by decide
 
 /-- Euler characteristic of Gr(2,4): sum of Betti numbers b0+b2+b4+b4+b6+b8 = 1+1+2+1+1 = 6 -/

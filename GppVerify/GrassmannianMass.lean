@@ -47,10 +47,17 @@ cross-check on random samples:
 - The Jacobian N of τ, cleared of denominators, satisfies the exact
   polynomial identity N⁴ = (ad-bc)⁴ • I; consequently every eigenvalue of
   the (unnormalized) chart-transition Jacobian has modulus exactly
-  1/|ad-bc|. This numerical/symbolic fact is recorded here in prose, not
-  as a Lean theorem: formalizing "the eigenvalues of a real matrix,
-  listed with multiplicity" is substantial additional Mathlib machinery
-  and is left for a future pass rather than asserted without proof.
+  1/|ad-bc|.
+
+  **This is now a proved Lean theorem, not just prose**: see
+  `GrassmannianJacobian.lean` (`GppGrassmannianJacobian.N_pow_four_eq_D_pow_four_smul_one`),
+  which defines N explicitly and proves N² = D•K, K² = D²•1, hence
+  N⁴ = D⁴•1, entrywise via `Matrix.mul_apply` + `ring`, with no axiom and
+  no `sorry`. The eigenvalue-modulus consequence itself (that these
+  matrix identities imply every eigenvalue of N has modulus |D|) remains
+  documented rather than formalized there: it needs "the eigenvalues of a
+  real matrix, listed with multiplicity" machinery this project does not
+  yet build.
 -/
 
 namespace GppGrassmannian
