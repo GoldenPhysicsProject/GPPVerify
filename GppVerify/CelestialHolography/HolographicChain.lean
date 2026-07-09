@@ -18,8 +18,12 @@ Source: holographic_chain_v93.tex
 ### Proved clean (algebra / combinatorics):
 - `plucker_ambient_dim` — Gr(2,4) embeds in P⁵
 - `gr24_euler_char` — χ(Gr(2,4)) = 6 from Betti numbers
-- `hodge_sd_asd_total` — 3 SD + 3 ASD = 6 modes in ∧²ℂ⁴
-- `hodge_trace_zero` — Tr(★) = +3 - 3 = 0
+- `hodgeStar_sq` — the actual 6×6 Hodge star matrix on ∧²ℂ⁴ satisfies
+  ★² = 1 (not just the "3+3=6" numerology `hodge_sd_asd_total` below)
+- `hodgeStar_trace` — Tr(★) = 0, computed from the matrix, not asserted
+- `sd1_eigen`–`sd3_eigen`, `asd1_eigen`–`asd3_eigen` — three explicit
+  +1-eigenvectors (self-dual) and three explicit -1-eigenvectors
+  (anti-self-dual) of the Hodge star matrix
 - `cayley_dickson_doublings` — exactly 3 doublings R→C→H→O
 - `chain_terminates_at_dim_8` — last division algebra has dim 8
 - `minkowski_matrix_det` — det of the actual 2×2 Hermitian matrix
@@ -53,10 +57,99 @@ theorem gr24_complex_dim : (2 : ℕ) * (4 - 2) = 4 := by norm_num
 
 /-! ## Hodge star decomposition of ∧²ℂ⁴ -/
 
-/-- ∧²ℂ⁴ = V_SD ⊕ V_ASD with dim V_SD = dim V_ASD = 3 -/
+/-- The Hodge star operator on ∧²ℂ⁴, in the ordered basis
+    (e₁₂, e₁₃, e₁₄, e₂₃, e₂₄, e₃₄) of the 6-dimensional space of
+    2-forms: ★e₁₂=e₃₄, ★e₁₃=-e₂₄, ★e₁₄=e₂₃, ★e₂₃=e₁₄, ★e₂₄=-e₁₃,
+    ★e₃₄=e₁₂ (the standard Euclidean Hodge star with volume form
+    e₁₂₃₄, verified independently by SymPy this session). This is an
+    actual 6×6 matrix, not the numerology (`hodge_sd_asd_total`,
+    `hodge_trace_zero` below) it replaces. -/
+noncomputable def hodgeStar : Matrix (Fin 6) (Fin 6) ℂ :=
+  !![0, 0, 0, 0, 0, 1;
+     0, 0, 0, 0, -1, 0;
+     0, 0, 0, 1, 0, 0;
+     0, 0, 1, 0, 0, 0;
+     0, -1, 0, 0, 0, 0;
+     1, 0, 0, 0, 0, 0]
+
+/-- ★² = 1: the Hodge star is an involution on ∧²ℂ⁴, as it must be for
+    middle-degree forms in dimension 4 (★² = (-1)^{k(n-k)} = (-1)^4 = 1
+    for k=2, n=4). Proved entrywise, not asserted from the general
+    formula. -/
+theorem hodgeStar_sq : hodgeStar * hodgeStar = 1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp (config := { decide := true })
+      [hodgeStar, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply]
+
+/-- Trace of the Hodge star vanishes: it is a signed permutation with no
+    fixed basis vector, so every diagonal entry is 0. -/
+theorem hodgeStar_trace : Matrix.trace hodgeStar = 0 := by
+  simp [Matrix.trace, Matrix.diag, hodgeStar, Fin.sum_univ_six]
+
+/-- The first self-dual 2-form e₁₂+e₃₄: a genuine +1-eigenvector of the
+    Hodge star, not just a numerological "+3" count. -/
+def sd1 : Fin 6 → ℂ
+  | 0 => 1 | 1 => 0 | 2 => 0 | 3 => 0 | 4 => 0 | 5 => 1
+
+/-- The second self-dual 2-form e₁₃-e₂₄. -/
+def sd2 : Fin 6 → ℂ
+  | 0 => 0 | 1 => 1 | 2 => 0 | 3 => 0 | 4 => -1 | 5 => 0
+
+/-- The third self-dual 2-form e₁₄+e₂₃. -/
+def sd3 : Fin 6 → ℂ
+  | 0 => 0 | 1 => 0 | 2 => 1 | 3 => 1 | 4 => 0 | 5 => 0
+
+/-- The first anti-self-dual 2-form e₁₂-e₃₄: a genuine -1-eigenvector. -/
+def asd1 : Fin 6 → ℂ
+  | 0 => 1 | 1 => 0 | 2 => 0 | 3 => 0 | 4 => 0 | 5 => -1
+
+/-- The second anti-self-dual 2-form e₁₃+e₂₄. -/
+def asd2 : Fin 6 → ℂ
+  | 0 => 0 | 1 => 1 | 2 => 0 | 3 => 0 | 4 => 1 | 5 => 0
+
+/-- The third anti-self-dual 2-form e₁₄-e₂₃. -/
+def asd3 : Fin 6 → ℂ
+  | 0 => 0 | 1 => 0 | 2 => 1 | 3 => -1 | 4 => 0 | 5 => 0
+
+theorem sd1_eigen : hodgeStar.mulVec sd1 = sd1 := by
+  ext i; fin_cases i <;>
+    simp (config := { decide := true }) [hodgeStar, sd1, Matrix.mulVec, dotProduct,
+      Fin.sum_univ_six]
+
+theorem sd2_eigen : hodgeStar.mulVec sd2 = sd2 := by
+  ext i; fin_cases i <;>
+    simp (config := { decide := true }) [hodgeStar, sd2, Matrix.mulVec, dotProduct,
+      Fin.sum_univ_six]
+
+theorem sd3_eigen : hodgeStar.mulVec sd3 = sd3 := by
+  ext i; fin_cases i <;>
+    simp (config := { decide := true }) [hodgeStar, sd3, Matrix.mulVec, dotProduct,
+      Fin.sum_univ_six]
+
+theorem asd1_eigen : hodgeStar.mulVec asd1 = (-1 : ℂ) • asd1 := by
+  ext i; fin_cases i <;>
+    simp (config := { decide := true }) [hodgeStar, asd1, Matrix.mulVec, dotProduct,
+      Fin.sum_univ_six, Pi.smul_apply]
+
+theorem asd2_eigen : hodgeStar.mulVec asd2 = (-1 : ℂ) • asd2 := by
+  ext i; fin_cases i <;>
+    simp (config := { decide := true }) [hodgeStar, asd2, Matrix.mulVec, dotProduct,
+      Fin.sum_univ_six, Pi.smul_apply]
+
+theorem asd3_eigen : hodgeStar.mulVec asd3 = (-1 : ℂ) • asd3 := by
+  ext i; fin_cases i <;>
+    simp (config := { decide := true }) [hodgeStar, asd3, Matrix.mulVec, dotProduct,
+      Fin.sum_univ_six, Pi.smul_apply]
+
+/-- ∧²ℂ⁴ = V_SD ⊕ V_ASD with dim V_SD = dim V_ASD = 3 (the numerology;
+    see `sd1_eigen`-`asd3_eigen` and `hodgeStar_sq` above for the actual
+    eigenvector witnesses and involution this counts). -/
 theorem hodge_sd_asd_total : (3 + 3 : ℕ) = 6 := by norm_num
 
-/-- Trace of Hodge star vanishes: +3 from SD minus 3 from ASD -/
+/-- Trace of Hodge star vanishes: +3 from SD minus 3 from ASD (the
+    numerology; `hodgeStar_trace` above is the actual matrix-trace
+    computation). -/
 theorem hodge_trace_zero : (3 : ℤ) - 3 = 0 := by norm_num
 
 /-- SD-ASD balance: sum of squared SD = sum of squared ASD is the Plücker quadric -/
