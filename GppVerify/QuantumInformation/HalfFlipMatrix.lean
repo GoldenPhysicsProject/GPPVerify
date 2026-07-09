@@ -45,8 +45,8 @@ theorem SWAP_mulVec_psi : SWAP.mulVec psi = -psi := by
   funext p
   obtain ⟨i, j⟩ := p
   fin_cases i <;> fin_cases j <;>
-    simp [SWAP, psi, Matrix.mulVec, dotProduct, Fintype.sum_prod_type,
-          Fin.sum_univ_two]
+    simp (config := { decide := true }) [SWAP, psi, Matrix.mulVec, dotProduct,
+      Fintype.sum_prod_type, Fin.sum_univ_two]
 
 /-- The singlet vector is nonzero. -/
 theorem psi_ne_zero : psi ≠ 0 := by
