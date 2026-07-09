@@ -51,15 +51,16 @@ theorem hermitian_map_star_eq_transpose {d : Type*} [Fintype d] [DecidableEq d]
     (ρ : Matrix d d ℂ) (hρ : ρ.IsHermitian) :
     ρ.map (starRingEnd ℂ) = ρ.transpose := by
   ext i j
-  have h : ρᴴ j i = ρ j i := by rw [hρ]
-  simp only [Matrix.conjTranspose_apply] at h
+  have h : Matrix.conjTranspose ρ j i = ρ j i := by rw [hρ]
+  simp only [Matrix.conjTranspose_apply, RCLike.star_def] at h
   simpa only [Matrix.map_apply, Matrix.transpose_apply] using h
 
 /-- Lemma 2.1: antiunitary conjugation of a Hermitian density operator is
     unitary conjugation of its transpose. -/
 theorem antiunitary_conj_eq_unitary_transpose {d : Type*} [Fintype d] [DecidableEq d]
     (U ρ : Matrix d d ℂ) (hρ : ρ.IsHermitian) :
-    U * ρ.map (starRingEnd ℂ) * Uᴴ = U * ρ.transpose * Uᴴ := by
+    U * ρ.map (starRingEnd ℂ) * Matrix.conjTranspose U
+      = U * ρ.transpose * Matrix.conjTranspose U := by
   rw [hermitian_map_star_eq_transpose ρ hρ]
 
 /-- Wigner time reversal T = i σ_y K on ℂ², in components:
@@ -76,7 +77,7 @@ theorem wignerT_orthogonal (ψ1 ψ2 : ℂ) :
 /-- Proposition 4.1(a), part 2: T² = -1. -/
 theorem wignerT_wignerT (ψ1 ψ2 : ℂ) :
     wignerT (wignerT ψ1 ψ2).1 (wignerT ψ1 ψ2).2 = (-ψ1, -ψ2) := by
-  simp only [wignerT, map_neg, Complex.conj_conj]
+  simp only [wignerT, map_neg, ← RCLike.star_def, star_star]
 
 /-- Proposition 2.2 (No-Enactment): Choi(transpose) = SWAP, with eigenvalue
     -1 on the antisymmetric subspace of dimension d(d-1)/2, hence the
