@@ -128,3 +128,8 @@ import GppVerify.StandardModel.MassOrientationCoupling
 -- Lemma 2.1: antiunitary conjugation = unitary o transpose on
 -- Hermitian inputs; Wigner time reversal T^2 = -1
 import GppVerify.StandardModel.HalfFlipProposition
+
+-- ── The Half-Flip Obstruction, finite matrix core (New) ───────
+-- SWAP has eigenvalue -1, witnessed exactly by the antisymmetric
+-- singlet vector (Choi(transpose) = SWAP is not positive semidefinite)
+import GppVerify.QuantumInformation.HalfFlipMatrix
