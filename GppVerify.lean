@@ -152,3 +152,11 @@ import GppVerify.NumberTheory.BSDPointCounts
 -- identity is proved here instead, plus an explicit counterexample to
 -- the bare-density claim as literally stated in the source.
 import GppVerify.CelestialHolography.FubiniStudyAntipodal
+
+-- ── Zagier MZV Growth Recurrence, corrected (New) ─────────────
+-- ONON5213.tex's Zagier recurrence d_w = d_{w-2}+d_{w-3} is formalized
+-- with corrected initial conditions (the source's stated d_0=1,d_1=d_2=0
+-- contradicts its own listed sequence); reproduces the listed sequence
+-- exactly. Brown's deep theorem that this equals the true MZV dimension
+-- is left untouched.
+import GppVerify.NumberTheory.ZagierMZVGrowth
