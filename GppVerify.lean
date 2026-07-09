@@ -160,3 +160,10 @@ import GppVerify.CelestialHolography.FubiniStudyAntipodal
 -- exactly. Brown's deep theorem that this equals the true MZV dimension
 -- is left untouched.
 import GppVerify.NumberTheory.ZagierMZVGrowth
+
+-- ── Dark Matter Gamma-Function Ratio (New) ────────────────────
+-- The Grassmannian Spinor Bundle chapter's shadow kernel normalization
+-- ratio N(1/2)/N(3/2) = Gamma(1/2)^2/Gamma(3/2)^2 = 4, formalized via
+-- Mathlib's real Gamma function and its functional equation; feeds the
+-- "factor of 5" leading term of Omega_DM/Omega_b.
+import GppVerify.Cosmology.DarkMatterGammaRatio
