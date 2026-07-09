@@ -174,3 +174,10 @@ import GppVerify.Cosmology.DarkMatterGammaRatio
 -- with the empirical Koide ratio Q=2/3 to derive epsilon = sqrt 2,
 -- the source's boxed conclusion.
 import GppVerify.StandardModel.KoideRelation
+
+-- ── Complementary Pairs, exactly three (New) ──────────────────
+-- An independent combinatorial route to "exactly three generations":
+-- the fixed-point-free involutions on Fin 4 (partitions of {0,1,2,3}
+-- into two complementary pairs) number exactly 3, decided over all
+-- 4^4 candidate maps.
+import GppVerify.StandardModel.ComplementaryPairs
