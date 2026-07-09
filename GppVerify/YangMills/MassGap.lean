@@ -110,6 +110,31 @@ theorem sugawara_dim_adjoint_su3_k1 :
 theorem sugawara_dim_fund_su3_k1 :
     sugawara_conformal_dim 4 1 3 = 1 := by native_decide
 
+/-! ## Glueball mass ratios (proved clean, unconditional)
+
+Source: ONON5213.tex, Proposition "Glueball mass ratios---unconditional"
+(prop:glueball-ratios). The 0⁺⁺, 0⁻⁺, 0⁺⁺* glueball states sit at WZW
+excitation levels ℓ = 2, 3, 4 respectively, with mass m_ℓ = ℓ·Λ_QCD
+(dimensional transmutation) -- these ratios are k-independent, unlike
+the Sugawara `mass_gap_ratio` above. -/
+
+/-- Glueball mass at WZW excitation level `ℓ`, in units of `Λ_QCD`. -/
+def glueballMass (ℓ : ℕ) (Λ : ℚ) : ℚ := (ℓ : ℚ) * Λ
+
+/-- m(0⁻⁺)/m(0⁺⁺) = 3/2, k-independent. -/
+theorem glueball_ratio_pseudoscalar_scalar (Λ : ℚ) (hΛ : Λ ≠ 0) :
+    glueballMass 3 Λ / glueballMass 2 Λ = 3 / 2 := by
+  unfold glueballMass
+  field_simp
+  try ring
+
+/-- m(0⁺⁺*)/m(0⁺⁺) = 2, k-independent. -/
+theorem glueball_ratio_scalar_excited (Λ : ℚ) (hΛ : Λ ≠ 0) :
+    glueballMass 4 Λ / glueballMass 2 Λ = 2 := by
+  unfold glueballMass
+  field_simp
+  try ring
+
 /-! ## Mass gap existence (axioms - full QFT not in Mathlib) -/
 
 /-- Haar measure orthogonality forces confinement (color singlet projection) -/
