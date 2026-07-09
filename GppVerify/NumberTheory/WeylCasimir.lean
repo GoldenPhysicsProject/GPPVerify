@@ -1,6 +1,5 @@
 import Mathlib.Algebra.Group.Basic
 import Mathlib.Data.Real.Basic
-import Mathlib.Data.Rat.Basic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.Data.Matrix.Notation
 import Mathlib.Tactic
