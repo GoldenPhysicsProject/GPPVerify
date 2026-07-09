@@ -145,3 +145,10 @@ import GppVerify.GrassmannianJacobian
 -- Hasse bound a_p^2 <= 4p verified at each. BSD rank formula and
 -- parity conjecture recorded as honest gaps (deep automorphic theory).
 import GppVerify.NumberTheory.BSDPointCounts
+
+-- ── Fubini-Study Antipodal Invariance, corrected (New) ────────
+-- qg_foundations.tex's antipodal lemma compares bare densities and is
+-- false except at |z|=1; the actual Jacobian-inclusive area-form
+-- identity is proved here instead, plus an explicit counterexample to
+-- the bare-density claim as literally stated in the source.
+import GppVerify.CelestialHolography.FubiniStudyAntipodal
