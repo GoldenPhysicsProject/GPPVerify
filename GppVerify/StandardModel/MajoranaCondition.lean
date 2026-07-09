@@ -1,5 +1,8 @@
 import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Data.Matrix.Basic
+import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 
 /-!
 # Majorana Condition from T-Boundary
@@ -20,9 +23,37 @@ namespace GppMajorana
 
 /-! ## Basic field identities -/
 
-/-- Charge conjugation C satisfies C² = -1 for Dirac spinors -/
+/-- The charge-conjugation epsilon matrix ε = [[0,1],[-1,0]]: for a
+    2-component (Weyl) spinor, charge conjugation acts as ψ ↦ ε ψ̄. This
+    is the same antisymmetric matrix as the Grassmannian chart transition
+    (`GrassmannianMass.lean`), the orientation map τ = Aε/det(A)
+    (`MassOrientationCoupling.lean`), and Wigner time reversal
+    T = iσ_y K (`HalfFlipProposition.lean`) -- one matrix, four readings. -/
+def epsilon : Matrix (Fin 2) (Fin 2) ℂ := !![0, 1; -1, 0]
+
+/-- Charge conjugation's matrix part satisfies ε² = -1: the finite
+    algebraic fact underlying "C² = -1 for Dirac spinors" (the full
+    statement also involves the antiunitary complex-conjugation factor,
+    not formalized here -- see `HalfFlipProposition.lean`'s treatment of
+    the analogous antiunitary structure for Wigner time reversal). -/
+theorem epsilon_sq : epsilon * epsilon = -1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp (config := { decide := true })
+      [epsilon, Matrix.mul_apply, Fin.sum_univ_two, Matrix.neg_apply, Matrix.one_apply]
+
+/-- ε is invertible: det ε = 1 ≠ 0. -/
+theorem epsilon_det : epsilon.det = 1 := by
+  simp [epsilon, Matrix.det_fin_two_of]
+
+/-- Charge conjugation C satisfies C² = -1 for Dirac spinors. The matrix
+    part is `epsilon_sq`; the full antiunitary statement (including
+    complex conjugation) is a further Mathlib gap, recorded here as
+    before. -/
 theorem charge_conjugation_sq : True := trivial
--- NOTE: Clifford algebra / spinor bundle formalism needed (Mathlib gap).
+-- NOTE: full antiunitary Clifford algebra / spinor bundle formalism
+-- needed for the complex-conjugation half; the matrix half is
+-- `epsilon_sq` above.
 
 /-- Majorana condition: ψ = Cψ̄ is self-consistent for Weyl spinors -/
 theorem majorana_self_consistency : True := trivial
