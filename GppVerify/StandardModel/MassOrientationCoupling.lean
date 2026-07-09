@@ -50,7 +50,7 @@ open GppGrassmannian
 
 /-- The orientation map τ(a,b,c,d) = (-b,a,-d,c)/(ad-bc), Theorem 3.3(i)'s
     τ, is exactly the Grassmannian chart transition. -/
-def tau (a b c d : ℝ) : ℝ × ℝ × ℝ × ℝ := transition a b c d
+noncomputable def tau (a b c d : ℝ) : ℝ × ℝ × ℝ × ℝ := transition a b c d
 
 /-- Theorem 3.3(i): τ² = -id. Applying the orientation map twice negates
     every coordinate of the chart -- the fermion's internal orientation

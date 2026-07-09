@@ -62,7 +62,7 @@ def massParameter (a b c d : ℝ) : ℝ := |a * d - b * c|
 /-- Chart transition map U_{01} → U_{23} on Gr(2,4), in coordinates:
     τ(a,b,c,d) = (-b,a,-d,c)/(ad-bc). This is exactly the orientation map
     τ(A) = A ε / det(A), ε = [[0,1],[-1,0]], of the companion paper. -/
-def transition (a b c d : ℝ) : ℝ × ℝ × ℝ × ℝ :=
+noncomputable def transition (a b c d : ℝ) : ℝ × ℝ × ℝ × ℝ :=
   (-b / (a * d - b * c), a / (a * d - b * c),
     -d / (a * d - b * c), c / (a * d - b * c))
 
@@ -90,6 +90,6 @@ theorem transition_transition_eq_neg (a b c d : ℝ) (hD : a * d - b * c ≠ 0) 
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
     · rw [transition_det_eq a b c d hD] at hne ⊢
       field_simp
-      ring
+      try ring
 
 end GppGrassmannian
