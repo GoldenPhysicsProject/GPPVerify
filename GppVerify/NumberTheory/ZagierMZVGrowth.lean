@@ -50,6 +50,7 @@ theorem mzvDim_matches_source :
     directly against the defining cubic, to a stated precision. -/
 theorem plastic_constant_cubic_approx :
     |(1.3247179572447458 : ℝ) ^ 3 - (1.3247179572447458 + 1)| < 10 ^ (-9 : ℤ) := by
-  norm_num
+  rw [abs_lt]
+  constructor <;> norm_num
 
 end GppZagier
