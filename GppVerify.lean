@@ -138,3 +138,10 @@ import GppVerify.QuantumInformation.HalfFlipMatrix
 -- N^2 = D*K, K^2 = D^2*1, hence N^4 = D^4*1 for the chart
 -- transition's Jacobian numerator matrix N (D = ad - bc)
 import GppVerify.GrassmannianJacobian
+
+-- ── BSD Point Counts (New) ────────────────────────────────────
+-- Trace of Frobenius a_p for E: y^2 = x^3 - x over F_p, computed as
+-- an actual Finset cardinality, at each small prime of good reduction;
+-- Hasse bound a_p^2 <= 4p verified at each. BSD rank formula and
+-- parity conjecture recorded as honest gaps (deep automorphic theory).
+import GppVerify.NumberTheory.BSDPointCounts
