@@ -22,50 +22,58 @@ below as `True := trivial` gaps rather than disguised as proofs.
 
 namespace GppBSD
 
-/-- The affine points of E : y² = x³ - x over 𝔽_p, as a decidable `Finset`. -/
-def affinePoints (p : ℕ) : Finset (ZMod p × ZMod p) :=
+/-- The affine points of E : y² = x³ - x over 𝔽_p, as a decidable `Finset`.
+    `[NeZero p]` is required so that `ZMod p` is a `Fintype` (it fails to be
+    one at `p = 0`, where `ZMod 0 = ℤ`). -/
+def affinePoints (p : ℕ) [NeZero p] : Finset (ZMod p × ZMod p) :=
   Finset.univ.filter (fun xy => xy.2 ^ 2 = xy.1 ^ 3 - xy.1)
 
 /-- #E(𝔽_p) = #(affine points) + 1, for the point at infinity. -/
-def pointCount (p : ℕ) : ℕ := (affinePoints p).card + 1
+def pointCount (p : ℕ) [NeZero p] : ℕ := (affinePoints p).card + 1
 
 /-- The trace of Frobenius a_p = p + 1 - #E(𝔽_p). -/
-def tracePairing (p : ℕ) : ℤ := (p : ℤ) + 1 - (pointCount p : ℤ)
+def tracePairing (p : ℕ) [NeZero p] : ℤ := (p : ℤ) + 1 - (pointCount p : ℤ)
 
-theorem pointCount_three : pointCount 3 = 4 := by decide
-theorem tracePairing_three : tracePairing 3 = 0 := by decide
+-- The Finset cardinalities below range over `ZMod p × ZMod p`; kernel
+-- `decide` unfolds this far too slowly to be practical, so these are
+-- closed by `native_decide` (compiled evaluation, still a genuine
+-- computational check, not an assumption).
 
-theorem pointCount_five : pointCount 5 = 8 := by decide
-theorem tracePairing_five : tracePairing 5 = -2 := by decide
+theorem pointCount_three : pointCount 3 = 4 := by native_decide
+theorem tracePairing_three : tracePairing 3 = 0 := by native_decide
 
-theorem pointCount_seven : pointCount 7 = 8 := by decide
-theorem tracePairing_seven : tracePairing 7 = 0 := by decide
+theorem pointCount_five : pointCount 5 = 8 := by native_decide
+theorem tracePairing_five : tracePairing 5 = -2 := by native_decide
 
-theorem pointCount_eleven : pointCount 11 = 12 := by decide
-theorem tracePairing_eleven : tracePairing 11 = 0 := by decide
+theorem pointCount_seven : pointCount 7 = 8 := by native_decide
+theorem tracePairing_seven : tracePairing 7 = 0 := by native_decide
 
-theorem pointCount_thirteen : pointCount 13 = 8 := by decide
-theorem tracePairing_thirteen : tracePairing 13 = 6 := by decide
+theorem pointCount_eleven : pointCount 11 = 12 := by native_decide
+theorem tracePairing_eleven : tracePairing 11 = 0 := by native_decide
 
-theorem pointCount_seventeen : pointCount 17 = 16 := by decide
-theorem tracePairing_seventeen : tracePairing 17 = 2 := by decide
+theorem pointCount_thirteen : pointCount 13 = 8 := by native_decide
+theorem tracePairing_thirteen : tracePairing 13 = 6 := by native_decide
 
-theorem pointCount_nineteen : pointCount 19 = 20 := by decide
-theorem tracePairing_nineteen : tracePairing 19 = 0 := by decide
+theorem pointCount_seventeen : pointCount 17 = 16 := by native_decide
+theorem tracePairing_seventeen : tracePairing 17 = 2 := by native_decide
 
-theorem pointCount_twentythree : pointCount 23 = 24 := by decide
-theorem tracePairing_twentythree : tracePairing 23 = 0 := by decide
+theorem pointCount_nineteen : pointCount 19 = 20 := by native_decide
+theorem tracePairing_nineteen : tracePairing 19 = 0 := by native_decide
+
+theorem pointCount_twentythree : pointCount 23 = 24 := by native_decide
+theorem tracePairing_twentythree : tracePairing 23 = 0 := by native_decide
 
 /-- The Hasse bound |a_p| ≤ 2√p, stated integrally as a_p² ≤ 4p to avoid
     irrational square roots, verified at each test prime above. -/
-theorem hasse_bound_three : tracePairing 3 ^ 2 ≤ 4 * 3 := by decide
-theorem hasse_bound_five : tracePairing 5 ^ 2 ≤ 4 * 5 := by decide
-theorem hasse_bound_seven : tracePairing 7 ^ 2 ≤ 4 * 7 := by decide
-theorem hasse_bound_eleven : tracePairing 11 ^ 2 ≤ 4 * 11 := by decide
-theorem hasse_bound_thirteen : tracePairing 13 ^ 2 ≤ 4 * 13 := by decide
-theorem hasse_bound_seventeen : tracePairing 17 ^ 2 ≤ 4 * 17 := by decide
-theorem hasse_bound_nineteen : tracePairing 19 ^ 2 ≤ 4 * 19 := by decide
-theorem hasse_bound_twentythree : tracePairing 23 ^ 2 ≤ 4 * 23 := by decide
+theorem hasse_bound_three : tracePairing 3 ^ 2 ≤ 4 * 3 := by rw [tracePairing_three]; decide
+theorem hasse_bound_five : tracePairing 5 ^ 2 ≤ 4 * 5 := by rw [tracePairing_five]; decide
+theorem hasse_bound_seven : tracePairing 7 ^ 2 ≤ 4 * 7 := by rw [tracePairing_seven]; decide
+theorem hasse_bound_eleven : tracePairing 11 ^ 2 ≤ 4 * 11 := by rw [tracePairing_eleven]; decide
+theorem hasse_bound_thirteen : tracePairing 13 ^ 2 ≤ 4 * 13 := by rw [tracePairing_thirteen]; decide
+theorem hasse_bound_seventeen : tracePairing 17 ^ 2 ≤ 4 * 17 := by rw [tracePairing_seventeen]; decide
+theorem hasse_bound_nineteen : tracePairing 19 ^ 2 ≤ 4 * 19 := by rw [tracePairing_nineteen]; decide
+theorem hasse_bound_twentythree : tracePairing 23 ^ 2 ≤ 4 * 23 := by
+  rw [tracePairing_twentythree]; decide
 
 /-- BSD rank formula (open in general): ord_{s=1} L(E,s) = rank E(ℚ).
     Source: ONON monograph, BSD chapter, "What We Prove" (via modularity
