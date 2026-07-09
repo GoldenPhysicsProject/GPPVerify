@@ -133,3 +133,8 @@ import GppVerify.StandardModel.HalfFlipProposition
 -- SWAP has eigenvalue -1, witnessed exactly by the antisymmetric
 -- singlet vector (Choi(transpose) = SWAP is not positive semidefinite)
 import GppVerify.QuantumInformation.HalfFlipMatrix
+
+-- ── Grassmannian Jacobian, exact matrix identity (New) ────────
+-- N^2 = D*K, K^2 = D^2*1, hence N^4 = D^4*1 for the chart
+-- transition's Jacobian numerator matrix N (D = ad - bc)
+import GppVerify.GrassmannianJacobian
