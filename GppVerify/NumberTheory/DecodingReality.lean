@@ -83,6 +83,36 @@ theorem three_gen_anomaly : (48 : ℕ) / 16 = 3 := by native_decide
 /-- The 48 = 3 × 16 split is exact -/
 theorem three_gen_exact : (3 : ℕ) * 16 = 48 := by norm_num
 
+/-! ## The 16-Weyl-fermion generation structure
+
+Source: ONON5213.tex, "Counting Fermions Per Generation" /
+"Total Fermion Count". Unlike `three_gen_anomaly` above (which just
+divides the two boxed totals), this formalizes the internal structural
+derivation of 16 itself: 2 SU(2)-doublet states × 3 colors (left-handed
+quarks) + 2 singlet states × 3 colors (right-handed quarks) + 2 doublet
+states × 1 (left-handed leptons) + 2 singlet states × 1 (right-handed
+leptons), i.e. `(2·3 + 2·3 + 2·1 + 2·1) = 16`, matching the source's
+own boxed pattern `(2×3 + 2×1)×2 = 16`. -/
+
+/-- One generation's Weyl fermion count, built from the color/doublet
+    structure rather than asserted as a bare numeral: left+right-handed
+    quark doublets (color 3) plus left+right-handed lepton doublets
+    (color 1). -/
+def fermionsPerGeneration : ℕ := 2 * 3 + 2 * 3 + 2 * 1 + 2 * 1
+
+theorem fermions_per_generation_eq : fermionsPerGeneration = 16 := by
+  decide
+
+/-- The source's own factored form of the same count,
+    `(2×3 + 2×1) × 2 = 16` (doublets-and-singlets, with/without color,
+    times two chiralities), agrees with the structural sum above. -/
+theorem fermions_per_generation_factored : (2 * 3 + 2 * 1) * 2 = fermionsPerGeneration := by
+  decide
+
+def totalWeylFermions : ℕ := 3 * fermionsPerGeneration
+
+theorem total_weyl_fermions_eq : totalWeylFermions = 48 := by decide
+
 /-! ## Fermi–Dirac ratio from p=2 -/
 
 /-- R_FB(1) = 1 - 2^(-1) = 1/2 from the p=2 Euler factor (1 - 2^(1-s))ζ(s) at s=1 -/
