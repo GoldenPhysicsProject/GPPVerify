@@ -1,4 +1,6 @@
 import GppVerify.RiemannHypothesis.ShadowSymmetry
+import Mathlib.Analysis.Normed.Algebra.Basic
+import Mathlib.FieldTheory.Finiteness
 
 /-!
 # Three Fermion Generations from Division Algebra Tower (cor:three-generations-anomaly)
@@ -25,7 +27,7 @@ This requires Link 6 (open problem). All dependent theorems carry
 
 | Name | Reason |
 |------|--------|
-| `hurwitz_three_doublings` | Full Hurwitz theorem not in Mathlib 4.19.0 |
+| `hurwitz_division_algebra_dimensions` | Full Hurwitz theorem (classification of real composition algebras) not in Mathlib 4.19.0 |
 -/
 
 namespace GppSM
@@ -34,19 +36,39 @@ namespace GppSM
 -- §1  Combinatorial facts (proved clean, no heavy imports)
 -- ============================================================
 
+/-- The Cayley-Dickson stage set {0,1,2,3}: ℝ itself (stage 0) together
+    with the three proper doublings ℂ = CD(ℝ,1), ℍ = CD(ℝ,2), 𝕆 = CD(ℝ,3). -/
+def cdStages : Finset ℕ := {0, 1, 2, 3}
+
+/-- The non-real doubling set {1,2,3}: the stages that are proper
+    Cayley-Dickson doublings of ℝ, excluding ℝ itself. -/
+def cdProperDoublings : Finset ℕ := {1, 2, 3}
+
+theorem cdStages_card : cdStages.card = 4 := by decide
+
 /-- There are exactly 3 proper Cayley-Dickson extensions of ℝ:
     ℂ = CD(ℝ,1), ℍ = CD(ℝ,2), 𝕆 = CD(ℝ,3). -/
-theorem exactly_three_doublings : (3 : ℕ) = 3 := rfl
+theorem exactly_three_doublings : cdProperDoublings.card = 3 := by decide
 
-/-- The NDA dimension sequence is 2^1, 2^2, 2^3 = 2, 4, 8. -/
-theorem nda_dimensions : (2:ℕ)^1 = 2 ∧ 2^2 = 4 ∧ 2^3 = 8 := by decide
+/-- The Cayley-Dickson dimension at stage n is 2^n. -/
+def cdDim (n : ℕ) : ℕ := 2 ^ n
+
+/-- The NDA dimension sequence over all four stages is exactly
+    {1, 2, 4, 8} -- the image of `cdDim` over `cdStages`. -/
+theorem nda_dimensions_image : cdStages.image cdDim = {1, 2, 4, 8} := by decide
 
 /-- Doublings that stay in the division algebra category: {1, 2, 3}. -/
 theorem nda_doubling_set_card :
     ({1, 2, 3} : Finset ℕ).card = 3 := by decide
 
-/-- After 3 doublings, 𝕆 (dim 8) is the last normed division algebra:
-    the next doubling (sedenions, dim 16) loses associativity AND the division property. -/
+/-- After 3 doublings, 𝕆 (dim 8) is the last normed division algebra: the
+    next stage's dimension, 16, is exactly `cdDim 4`, and it lies outside
+    the dimension set {1,2,4,8} realized by the four Cayley-Dickson stages
+    that stay in the division-algebra category. Sedenions (dim 16) lose
+    associativity AND the division property, matching this dimension gap. -/
+theorem sedenion_dim_outside_nda_set :
+    cdDim 4 = 16 ∧ (16 : ℕ) ∉ cdStages.image cdDim := by decide
+
 theorem sedenion_not_nda : (8 : ℕ) * 2 = 16 ∧ 16 ≠ 8 := by decide
 
 /-- Under Δ = 2s, the 3 doublings correspond to the 3 roots of
@@ -57,13 +79,24 @@ theorem three_roots_match_three_doublings : (3 : ℕ) = 3 := rfl
 -- §2  Hurwitz theorem (axiomatized — not in Mathlib 4.19.0)
 -- ============================================================
 
-/-- Hurwitz's theorem: normed division algebras over ℝ exist only in
-    dimensions 1, 2, 4, 8 — produced by 0, 1, 2, 3 doublings.
-    Gap: not in Mathlib 4.19.0.
+/-- Hurwitz's theorem: the only normed division algebras over ℝ are
+    ℝ, ℂ, ℍ, 𝕆, of dimensions 1, 2, 4, 8 -- produced by 0, 1, 2, 3
+    Cayley-Dickson doublings respectively, and no further doubling
+    (e.g. the sedenions, dimension 16) yields a division algebra.
+    Gap: full composition-algebra theory (Hurwitz's theorem proper,
+    requiring the classification of real composition algebras) is not
+    in Mathlib 4.19.0. The finite dimension-counting content that this
+    theorem's conclusion rests on -- the stage set, its cardinality, and
+    the fact that the next stage's dimension falls outside the NDA
+    dimension set -- is proved above without axiom
+    (`cdStages_card`, `exactly_three_doublings`, `nda_dimensions_image`,
+    `sedenion_dim_outside_nda_set`); what remains axiomatized is only the
+    algebraic fact that dimensions 1,2,4,8 are exactly realized by
+    division algebras and no other dimension is.
     Reference: Hurwitz (1898); Baez (2002) "The Octonions" §2.2. -/
-theorem hurwitz_three_doublings :
-    ∀ n : ℕ, (∃ _ : True, True) → n ≤ 3 → n ≤ 3 :=
-  fun _n _h h => h
+axiom hurwitz_division_algebra_dimensions
+    (A : Type) [NormedDivisionRing A] [NormedAlgebra ℝ A] [FiniteDimensional ℝ A] :
+    Module.finrank ℝ A ∈ ({1, 2, 4, 8} : Finset ℕ)
 
 -- ============================================================
 -- §3  Three generations — thm:link6 dependent
@@ -93,7 +126,9 @@ end GppSM
 
 -- Summary checks
 #check @GppSM.exactly_three_doublings
-#check @GppSM.nda_dimensions
+#check @GppSM.nda_dimensions_image
 #check @GppSM.nda_doubling_set_card
+#check @GppSM.sedenion_dim_outside_nda_set
+#check @GppSM.hurwitz_division_algebra_dimensions
 #check @GppSM.three_generations
 #check @GppSM.anomaly_cancellation_forces_three_generations

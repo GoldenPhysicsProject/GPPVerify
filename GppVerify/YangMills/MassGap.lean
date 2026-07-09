@@ -37,11 +37,13 @@ namespace GppYangMillsMassGap
 
 /-! ## Algebraically provable facts -/
 
-/-- Dual Coxeter number for SU(N): h^∨ = N -/
-theorem dual_coxeter_su (N : ℕ) (_ : 2 ≤ N) : N = N := rfl
+/-- Dual Coxeter number for SU(N): h^∨ = N, by convention (not derived --
+    this is the standard definition for the A_{N-1} series). -/
+def dualCoxeterSU (N : ℕ) : ℕ := N
 
-/-- Quadratic Casimir of adjoint rep of SU(N): C₂(adj) = N -/
-theorem casimir_adjoint_sun (N : ℕ) : N = N := rfl
+/-- Quadratic Casimir of the adjoint representation of SU(N): C₂(adj) = N,
+    by convention (the standard normalization for A_{N-1}). -/
+def casimirAdjointSU (N : ℕ) : ℕ := N
 
 /-- Sugawara formula for mass gap ratio: M/Λ_QCD = 2N/(k+N) -/
 def mass_gap_ratio (N k : ℕ) : ℚ :=
@@ -75,6 +77,19 @@ theorem mass_gap_ratio_le_two (N k : ℕ) (hN : 1 ≤ N) :
   have h : 0 ≤ 2 * (k : ℚ) / ((k : ℚ) + N) :=
     div_nonneg (by linarith) (by linarith)
   linarith
+
+/-- The mass gap ratio is strictly antitone (decreasing) in the
+    Kac-Moody level k, for fixed N ≥ 1: a higher level suppresses the
+    ratio M/Λ_QCD. -/
+theorem mass_gap_ratio_strict_anti (N : ℕ) (hN : 1 ≤ N) {k1 k2 : ℕ} (hk : k1 < k2) :
+    mass_gap_ratio N k2 < mass_gap_ratio N k1 := by
+  simp only [mass_gap_ratio]
+  have hN' : (0 : ℚ) < (N : ℚ) := by exact_mod_cast hN
+  have h1 : (0 : ℚ) < (k1 : ℚ) + N := by positivity
+  have h2 : (0 : ℚ) < (k2 : ℚ) + N := by positivity
+  rw [div_lt_div_iff₀ h2 h1]
+  have hklt : (k1 : ℚ) < (k2 : ℚ) := by exact_mod_cast hk
+  nlinarith
 
 /-- Kac-Moody commutation relation: [J^a_m, J^b_n] structure constant is k -/
 theorem kac_moody_level_appears_in_commutator (k m : ℤ) (δ_ab δ_mn : ℤ) :
