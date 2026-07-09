@@ -113,3 +113,23 @@ import GppVerify.Cosmology.DarkEnergy
 -- ── Unified Dipole (New) ──────────────────────────────────────
 -- Number-count dipole anomaly from Haar shadow deficit
 import GppVerify.Cosmology.UnifiedDipole
+
+-- ── Grassmannian Chart Transition (New) ───────────────────────
+-- Chart transition map on Gr(2,4): tau o tau = -id (Zitterbewegung
+-- as period-4 chart oscillation)
+import GppVerify.GrassmannianMass
+
+-- ── Mass as Orientation Coupling (New) ────────────────────────
+-- Theorem 3.3(i): the orientation map tau(A) = A eps / det(A)
+-- satisfies tau^2 = -id, tau^4 = id
+import GppVerify.StandardModel.MassOrientationCoupling
+
+-- ── The Half-Flip Proposition (New) ───────────────────────────
+-- Lemma 2.1: antiunitary conjugation = unitary o transpose on
+-- Hermitian inputs; Wigner time reversal T^2 = -1
+import GppVerify.StandardModel.HalfFlipProposition
+
+-- ── The Half-Flip Obstruction, finite matrix core (New) ───────
+-- SWAP has eigenvalue -1, witnessed exactly by the antisymmetric
+-- singlet vector (Choi(transpose) = SWAP is not positive semidefinite)
+import GppVerify.QuantumInformation.HalfFlipMatrix
