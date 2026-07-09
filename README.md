@@ -20,13 +20,15 @@ Haar self-duality on A×/Q×          [HaarSelfDuality.lean — CLEAN ✓]
   → Riemann Hypothesis
 ```
 
-**New addition (Hack #2):** `GppVerify/GrassmannianMass.lean`
-- Core statement of Grassmannian Jacobian Mass Theorem
+**Also in progress:** `GppVerify/GrassmannianMass.lean`
+- Core statement of the Grassmannian Jacobian Mass relation
 - massParameter = |det(A)| as Plücker p23
-- mean |Jacobian eigenvalue| = 1 / |det| exactly (numerical correlation 1.0)
 - Massless locus |det|=1 → J^{2} = -I (complex structure)
 - Zitterbewegung as discrete chart oscillation under inversion
-- Direct geometric origin of mass + link to numerical Python verification
+- Geometric origin of mass, tied to the numerical Python verification
+
+Note: the "mean |Jacobian eigenvalue| = 1/|det|" claim in this file's current axioms
+is under review — see the open items below.
 
 ---
 
@@ -36,8 +38,8 @@ Haar self-duality on A×/Q×          [HaarSelfDuality.lean — CLEAN ✓]
 |------|---------|--------|--------|
 | `GppVerify/HaarSelfDuality.lean` | 0 | 0 | **CLEAN** |
 | `GppVerify/CoreTheorems.lean` | 0 | 1 (standard) | Clean |
-| `GppVerify/RHSpectralMultiplicity.lean` | 2 | 1 | Improved (placeholders documented + Grassmannian link) |
-| `GppVerify/GrassmannianMass.lean` | 2 | 2 | **NEW** (core statements + numerical tie-in) |
+| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 3 | `riemannZeta_conj_axiom` closed as a theorem (Mellin/HurwitzZeta argument); `arithmetic_admissibility`, `schwartz_integral_clm_exists`, `exp_growth_not_tempered` remain axioms |
+| `GppVerify/GrassmannianMass.lean` | 0 | 2 | Scaffolded; core axiom's generality needs revisiting (see open items) |
 | `GppVerify/RiemannHypothesis/HaarMeasure.lean` | 3 | 0 | Scaffolded (adelic compactness) |
 | `GppVerify/RiemannHypothesis/FunctionalEquation.lean` | 3 | 0 | Scaffolded |
 | `GppVerify/RiemannHypothesis/ShadowSymmetry.lean` | 2 | 0 | Scaffolded |
@@ -87,4 +89,4 @@ tree extracted from ONON52.tex (686 named results, 22 chapters).
 
 ---
 
-**Machine status:** Multiple hacks executed. Haar self-duality proved. Multiplicity path strengthened. Grassmannian mass theorem scaffolded with numerical evidence. Continuing to close gaps toward unconditional RH.
+**Status:** Haar self-duality proved. The zeta conjugate-symmetry axiom in the multiplicity path is now a proved theorem. The Grassmannian mass relation is scaffolded, with numerical evidence, pending review of its general statement. Work continues on closing the remaining gaps toward an unconditional proof of RH.
