@@ -23,7 +23,11 @@ namespace GppWeylCasimir
 
 /-- The Weyl vector of A₃ = SU(4), ρ = (3,1,-1,-3)/2, as an actual
     vector `Fin 4 → ℚ` rather than four separate numbers. -/
-def rhoA3 : Fin 4 → ℚ := ![3 / 2, 1 / 2, -1 / 2, -3 / 2]
+def rhoA3 : Fin 4 → ℚ
+  | 0 => 3 / 2
+  | 1 => 1 / 2
+  | 2 => -1 / 2
+  | 3 => -3 / 2
 
 /-- The Weyl vector Casimir ⟨ρ_G, ρ_G⟩ = 5 for U(4) ≅ A₃ ⊕ U(1), computed
     as an actual Euclidean dot product of the Weyl vector with itself. -/

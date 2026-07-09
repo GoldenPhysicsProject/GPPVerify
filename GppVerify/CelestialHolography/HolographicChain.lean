@@ -2,6 +2,10 @@ import Mathlib.Tactic
 import Mathlib.Data.Nat.Choose.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Matrix.Basic
+import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+import Mathlib.Data.Complex.Basic
 
 /-!
 # The Holographic Chain: Division Algebra Tower and Gr(2,4)
@@ -18,7 +22,10 @@ Source: holographic_chain_v93.tex
 - `hodge_trace_zero` — Tr(★) = +3 - 3 = 0
 - `cayley_dickson_doublings` — exactly 3 doublings R→C→H→O
 - `chain_terminates_at_dim_8` — last division algebra has dim 8
-- `minkowski_det_formula` — det(tI+xσ₁+yσ₂+zσ₃) = t²-x²-y²-z²
+- `minkowski_matrix_det` — det of the actual 2×2 Hermitian matrix
+  [[t+z,x-iy],[x+iy,t-z]] equals t²-x²-y²-z² (a genuine matrix
+  determinant, not just algebraic rearrangement)
+- `minkowski_det_formula` — the underlying algebraic rearrangement
 - `three_constants_count` — 3 doublings → 3 physical constants
 
 ### Axioms (arithmetic geometry, algebraic K-theory):
@@ -77,7 +84,34 @@ theorem three_constants_count : (3 : ℕ) = 3 := rfl
 
 /-! ## Lorentzian signature from quaternions -/
 
-/-- Minkowski metric from quaternionic determinant: t²-x²-y²-z² -/
+/-- The Minkowski Hermitian matrix X(t,x,y,z) = [[t+z, x-iy],[x+iy, t-z]]:
+    the actual 2×2 Hermitian matrix (quaternion/Pauli representation of a
+    spacetime point) whose determinant gives the Minkowski quadratic
+    form -- not just the algebraic rearrangement `minkowski_det_formula`
+    below, but a genuine matrix determinant computation. -/
+noncomputable def minkowskiMatrix (t x y z : ℝ) : Matrix (Fin 2) (Fin 2) ℂ :=
+  !![(↑(t + z) : ℂ), (↑x - Complex.I * ↑y);
+     (↑x + Complex.I * ↑y), (↑(t - z) : ℂ)]
+
+/-- det X(t,x,y,z) = t²-x²-y²-z², the Minkowski quadratic form, computed
+    as an actual matrix determinant (Matrix.det_fin_two_of), not an
+    algebraic rearrangement. -/
+theorem minkowski_matrix_det (t x y z : ℝ) :
+    (minkowskiMatrix t x y z).det = ((t ^ 2 - x ^ 2 - y ^ 2 - z ^ 2 : ℝ) : ℂ) := by
+  simp only [minkowskiMatrix, Matrix.det_fin_two_of]
+  push_cast
+  linear_combination (y : ℂ) ^ 2 * Complex.I_sq
+
+/-- The null cone {t²=x²+y²+z²} is exactly the zero-set of the Minkowski
+    matrix's determinant. -/
+theorem minkowski_matrix_null_cone (t x y z : ℝ) :
+    (minkowskiMatrix t x y z).det = 0 ↔ t ^ 2 = x ^ 2 + y ^ 2 + z ^ 2 := by
+  rw [minkowski_matrix_det, Complex.ofReal_eq_zero]
+  constructor <;> intro h <;> linarith
+
+/-- Minkowski metric from quaternionic determinant: t²-x²-y²-z² (the
+    bare algebraic rearrangement; see `minkowski_matrix_det` above for
+    the actual matrix-determinant statement). -/
 theorem minkowski_det_formula (t x y z : ℝ) :
     t^2 - (x^2 + y^2 + z^2) = t^2 - x^2 - y^2 - z^2 := by ring
 

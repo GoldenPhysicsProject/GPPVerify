@@ -87,7 +87,7 @@ theorem mass_gap_ratio_strict_anti (N : ℕ) (hN : 1 ≤ N) {k1 k2 : ℕ} (hk : 
   have hN' : (0 : ℚ) < (N : ℚ) := by exact_mod_cast hN
   have h1 : (0 : ℚ) < (k1 : ℚ) + N := by positivity
   have h2 : (0 : ℚ) < (k2 : ℚ) + N := by positivity
-  rw [div_lt_div_iff h2 h1]
+  rw [div_lt_div_iff₀ h2 h1]
   have hklt : (k1 : ℚ) < (k2 : ℚ) := by exact_mod_cast hk
   nlinarith
 
