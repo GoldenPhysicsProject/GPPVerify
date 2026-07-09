@@ -43,6 +43,31 @@ theorem weyl_vector_casimir_times_four : 3^2 + 1^2 + 1^2 + 3^2 = 4 * 5 := by dec
 /-- Corollary: the integer-numerator restatement of `rhoA3_dot_self`. -/
 theorem weyl_casimir_u4 : (3^2 + 1^2 + 1^2 + 3^2 : ℤ) / 4 = 5 := by decide
 
+/-! ## First eigenvalue of the Laplace-Beltrami operator on Gr(2,4)
+
+Source: ONON5213.tex, Dark Matter chapter, Theorem "First Eigenvalue of
+Gr(2,4)" (thm:lambda1): λ₁(Gr(2,4)) = 8, via the Casimir formula
+λ_μ = ⟨μ+ρ_G, μ+ρ_G⟩ - ⟨ρ_G, ρ_G⟩ at the smallest non-trivial
+K-spherical weight μ = (1,0,0,-1). Reuses `rhoA3` above for ρ_G. -/
+
+/-- The shifted weight μ + ρ_G at μ = (1,0,0,-1), the smallest non-trivial
+    K-spherical representation of U(4) for Gr(2,4) = U(4)/(U(2)×U(2)). -/
+def muPlusRhoA3 : Fin 4 → ℚ
+  | 0 => 5 / 2
+  | 1 => 1 / 2
+  | 2 => -1 / 2
+  | 3 => -5 / 2
+
+theorem muPlusRhoA3_dot_self : dotProduct muPlusRhoA3 muPlusRhoA3 = 13 := by
+  norm_num [dotProduct, muPlusRhoA3, Fin.sum_univ_four]
+
+/-- The first non-trivial Laplace-Beltrami eigenvalue on Gr(2,4),
+    λ₁ = ⟨μ+ρ_G,μ+ρ_G⟩ - ⟨ρ_G,ρ_G⟩ = 13 - 5 = 8, computed as an actual
+    dot-product difference (not asserted from the boxed numerals alone). -/
+theorem gr24_lambda1 : dotProduct muPlusRhoA3 muPlusRhoA3 - dotProduct rhoA3 rhoA3 = 8 := by
+  rw [muPlusRhoA3_dot_self, rhoA3_dot_self]
+  norm_num
+
 /-- Euler characteristic of Gr(2,4): sum of Betti numbers b0+b2+b4+b4+b6+b8 = 1+1+2+1+1 = 6 -/
 theorem gr24_euler_char : 1 + 1 + 2 + 1 + 1 = (6 : ℤ) := by decide
 

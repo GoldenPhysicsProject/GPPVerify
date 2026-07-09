@@ -45,4 +45,18 @@ theorem dm_baryon_leading_term :
   rw [gamma_ratio_one_half_three_half]
   norm_num
 
+/-- The shadow kernel normalization N(Δ) = Γ(Δ)/(π·Γ(2-Δ)) at Δ = 3/2
+    (source: ONON5213.tex, Dark Matter chapter, Theorem "Shadow Kernel
+    at Δ = 3/2"): N(3/2) = 1/(2π), the exact normalization of the
+    hidden-sector shadow kernel `K_{3/2}(z,w) = N(3/2)/|z-w|`. -/
+theorem shadow_kernel_normalization_three_half :
+    Real.Gamma (3 / 2 : ℝ) / (Real.pi * Real.Gamma (2 - 3 / 2 : ℝ)) = 1 / (2 * Real.pi) := by
+  have h1 : (2 - 3 / 2 : ℝ) = 1 / 2 := by norm_num
+  rw [h1, gamma_three_half_eq]
+  have hpos : (0 : ℝ) < Real.Gamma (1 / 2) := Real.Gamma_pos_of_pos (by norm_num)
+  have hne : Real.Gamma (1 / 2 : ℝ) ≠ 0 := ne_of_gt hpos
+  have hpi : Real.pi ≠ 0 := Real.pi_ne_zero
+  field_simp
+  try ring
+
 end GppDMGamma
