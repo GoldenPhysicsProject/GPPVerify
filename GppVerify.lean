@@ -167,3 +167,10 @@ import GppVerify.NumberTheory.ZagierMZVGrowth
 -- Mathlib's real Gamma function and its functional equation; feeds the
 -- "factor of 5" leading term of Omega_DM/Omega_b.
 import GppVerify.Cosmology.DarkMatterGammaRatio
+
+-- ── Koide Relation Phase Sum (New) ─────────────────────────────
+-- The SU(3)_F Weyl-orbit phase sum Sum_g cos(2*pi*g/3 - delta) = 0
+-- for all delta, proved as an actual real-analysis theorem; combined
+-- with the empirical Koide ratio Q=2/3 to derive epsilon = sqrt 2,
+-- the source's boxed conclusion.
+import GppVerify.StandardModel.KoideRelation
