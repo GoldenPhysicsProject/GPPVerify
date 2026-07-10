@@ -225,3 +225,12 @@ import GppVerify.RiemannHypothesis.CharacterOrthogonality
 -- thesis. Derived from Mathlib's existing gaussSum_sq -- real
 -- infrastructure, not sourced from a specific paper.
 import GppVerify.NumberTheory.GaussSumModulus
+
+-- ── Haar Measure of a Finite-Index Subgroup (New) ────────────────
+-- H.index * mu(H) = mu(univ) for a left-invariant measure and a
+-- measurable finite-index subgroup H, built from first principles
+-- (coset partition, coset disjointness via quotient-map fibers,
+-- translation invariance). Real infrastructure toward the p-adic/
+-- adelic integral computations Tate's thesis relies on, not sourced
+-- from a specific paper.
+import GppVerify.RiemannHypothesis.HaarSubgroupIndex
