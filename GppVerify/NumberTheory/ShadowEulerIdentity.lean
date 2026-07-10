@@ -97,6 +97,24 @@ lemma coupling_numerator_nonzero (k N : ℤ) (hk : 1 ≤ k) (hN : 2 ≤ N) :
   -- For k ≥ 2, N ≥ 2: 2kN ≥ 4k ≥ 4 + 4(k-1) = 4k, and k+N ≤ k+kN/2... let's use nlinarith.
   nlinarith [mul_pos (by linarith : (0:ℤ) < k) (by linarith : (0:ℤ) < N)]
 
+/-- **Arithmetic progression of coupling numerators** (Toupin 2026,
+    Proposition "Arithmetic progressions in the coupling numerators",
+    `shadow_euler_identity_expanded1.tex`).
+    For k ≥ 1, N ≥ 2, the numerator k+N-2kN is negative. -/
+theorem coupling_numerator_neg (k N : ℤ) (hk : 1 ≤ k) (hN : 2 ≤ N) :
+    k + N - 2 * k * N < 0 := by
+  nlinarith [mul_nonneg (by linarith : (0:ℤ) ≤ k - 1) (by linarith : (0:ℤ) ≤ N - 2),
+    mul_pos (by linarith : (0:ℤ) < k) (by linarith : (0:ℤ) < N)]
+
+/-- Since the numerator is negative (`coupling_numerator_neg`), its
+    absolute value is `2kN - k - N`. For fixed k, this is an arithmetic
+    sequence in N with common difference `2k-1` — an independent
+    combinatorial fact about the shadow-coupling family, distinct from
+    the perfect-square rationality already proved above. -/
+theorem coupling_numerator_arith_progression (k N : ℤ) :
+    (2 * k * (N + 1) - k - (N + 1)) - (2 * k * N - k - N) = 2 * k - 1 := by
+  ring
+
 -- ============================================================
 -- §2  SHADOW COUPLING — PROVED CLEAN
 -- ============================================================
