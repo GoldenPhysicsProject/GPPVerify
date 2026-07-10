@@ -68,6 +68,89 @@ theorem gr24_lambda1 : dotProduct muPlusRhoA3 muPlusRhoA3 - dotProduct rhoA3 rho
   rw [muPlusRhoA3_dot_self, rhoA3_dot_self]
   norm_num
 
+/-! ## Spin(8) triality Casimir: C₂ = 7 for all three 8-dimensional reps
+
+Source: holographic_chain_v932.tex, Definition "Triality" (Def 6.2). The
+Weyl vector of D₄ = Spin(8) is ρ = (3,2,1,0); the vector, spinor, and
+cospinor weights are λᵥ=(1,0,0,0), λₛ=(½,½,½,½), λ_c=(½,½,½,-½). The
+Casimir formula C₂(λ) = ⟨λ,λ+2ρ⟩ gives the same value 7 for all three,
+the algebraic seed of Spin(8) triality. Independently verified via
+Python before being written as Lean proofs. -/
+
+/-- The Weyl vector of D₄ = Spin(8), ρ = (3,2,1,0). -/
+def rhoD4 : Fin 4 → ℚ
+  | 0 => 3
+  | 1 => 2
+  | 2 => 1
+  | 3 => 0
+
+/-- The Casimir formula C₂(λ) = ⟨λ, λ+2ρ⟩ for a weight λ of D₄. -/
+def casimirD4 (lam : Fin 4 → ℚ) : ℚ := dotProduct lam (fun i => lam i + 2 * rhoD4 i)
+
+/-- Vector weight λᵥ = (1,0,0,0) of Spin(8). -/
+def lambdaVector : Fin 4 → ℚ
+  | 0 => 1
+  | 1 => 0
+  | 2 => 0
+  | 3 => 0
+
+/-- Spinor weight λₛ = (½,½,½,½) of Spin(8). -/
+def lambdaSpinor : Fin 4 → ℚ
+  | 0 => 1 / 2
+  | 1 => 1 / 2
+  | 2 => 1 / 2
+  | 3 => 1 / 2
+
+/-- Cospinor weight λ_c = (½,½,½,-½) of Spin(8). -/
+def lambdaCospinor : Fin 4 → ℚ
+  | 0 => 1 / 2
+  | 1 => 1 / 2
+  | 2 => 1 / 2
+  | 3 => -1 / 2
+
+theorem casimir_vector_eq_seven : casimirD4 lambdaVector = 7 := by
+  unfold casimirD4 lambdaVector rhoD4 dotProduct
+  norm_num [Fin.sum_univ_four]
+
+theorem casimir_spinor_eq_seven : casimirD4 lambdaSpinor = 7 := by
+  unfold casimirD4 lambdaSpinor rhoD4 dotProduct
+  norm_num [Fin.sum_univ_four]
+
+theorem casimir_cospinor_eq_seven : casimirD4 lambdaCospinor = 7 := by
+  unfold casimirD4 lambdaCospinor rhoD4 dotProduct
+  norm_num [Fin.sum_univ_four]
+
+/-- **Spin(8) triality**: the three 8-dimensional representations
+    (vector, spinor, cospinor) share the same Casimir eigenvalue, hence
+    the same conformal weight -- the algebraic fact underlying
+    triality. -/
+theorem casimir_triality_equal :
+    casimirD4 lambdaVector = casimirD4 lambdaSpinor ∧
+      casimirD4 lambdaSpinor = casimirD4 lambdaCospinor := by
+  rw [casimir_vector_eq_seven, casimir_spinor_eq_seven, casimir_cospinor_eq_seven]
+  exact ⟨rfl, rfl⟩
+
+/-! ## Peter-Weyl Casimir formula for symmetric SU(4) representations
+
+Source: holographic_chain_v932.tex. For the symmetric representation
+[n,0,0,0] of SU(4), C₂(n) = n(n+6)/2, giving the sequence
+0, 7/2, 8, 27/2, 20 for n = 0,...,4. -/
+
+/-- The quadratic Casimir eigenvalue of the symmetric SU(4) representation
+    [n,0,0,0]. -/
+def casimirSymmetricSU4 (n : ℕ) : ℚ := (n : ℚ) * (n + 6) / 2
+
+theorem casimirSymmetricSU4_zero : casimirSymmetricSU4 0 = 0 := by
+  unfold casimirSymmetricSU4; norm_num
+theorem casimirSymmetricSU4_one : casimirSymmetricSU4 1 = 7 / 2 := by
+  unfold casimirSymmetricSU4; norm_num
+theorem casimirSymmetricSU4_two : casimirSymmetricSU4 2 = 8 := by
+  unfold casimirSymmetricSU4; norm_num
+theorem casimirSymmetricSU4_three : casimirSymmetricSU4 3 = 27 / 2 := by
+  unfold casimirSymmetricSU4; norm_num
+theorem casimirSymmetricSU4_four : casimirSymmetricSU4 4 = 20 := by
+  unfold casimirSymmetricSU4; norm_num
+
 /-- Euler characteristic of Gr(2,4): sum of Betti numbers b0+b2+b4+b4+b6+b8 = 1+1+2+1+1 = 6 -/
 theorem gr24_euler_char : 1 + 1 + 2 + 1 + 1 = (6 : ℤ) := by decide
 

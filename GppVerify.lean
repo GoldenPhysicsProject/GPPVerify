@@ -197,3 +197,9 @@ import GppVerify.StandardModel.KappaShadow3
 -- the Riemann critical-line quadratic form, with no continuous
 -- analysis needed.
 import GppVerify.RiemannHypothesis.CasimirIdentity
+
+-- ── E8 Theta Coefficients and 496 as a Perfect Number (New) ────
+-- 240*sigma_3(n) matches the E8 theta series (weight-4 Eisenstein
+-- series) at n=1..5, and 496=dim(E8) is the third perfect number,
+-- 2^4*31 with 31=2^5-1 Mersenne prime -- finite Nat.sigma facts.
+import GppVerify.NumberTheory.PerfectNumbersE8
