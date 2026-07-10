@@ -148,7 +148,7 @@ theorem cesaro_numerator_integral (R : ℝ) (hR : 1 < R) :
     ∫ r in (1 / R)..R, r⁻¹ = 2 * Real.log R := by
   have hR0 : (0 : ℝ) < R := lt_trans one_pos hR
   have hRinv0 : (0 : ℝ) < 1 / R := by positivity
-  rw [intervalIntegral.integral_inv_of_pos hRinv0 hR0, div_one_div, ← pow_two, Real.log_pow]
+  rw [integral_inv_of_pos hRinv0 hR0, div_one_div, ← pow_two, Real.log_pow]
   push_cast
   ring
 
