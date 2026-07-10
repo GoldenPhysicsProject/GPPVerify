@@ -82,11 +82,11 @@ theorem triality_complementary_angle :
   have hb_nonneg : 0 ≤ b := Real.arccos_nonneg _
   have ha_le : a ≤ Real.pi / 2 := by
     rw [ha_def, Real.arccos_eq_pi_div_two_sub_arcsin]
-    have := Real.arcsin_nonneg hsqrt38_nonneg
+    have := Real.arcsin_nonneg.mpr hsqrt38_nonneg
     linarith
   have hb_le : b ≤ Real.pi / 2 := by
     rw [hb_def, Real.arccos_eq_pi_div_two_sub_arcsin]
-    have := Real.arcsin_nonneg hsqrt58_nonneg
+    have := Real.arcsin_nonneg.mpr hsqrt58_nonneg
     linarith
   have hsum_mem : a + b ∈ Set.Icc (0 : ℝ) Real.pi := by
     constructor <;> linarith

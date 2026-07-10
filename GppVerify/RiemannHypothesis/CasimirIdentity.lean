@@ -26,8 +26,7 @@ noncomputable def sCritical (lam : ℝ) : ℂ := 1 / 2 + Complex.I * lam / 2
 theorem casimir_eq_neg_riemann_form (lam : ℝ) :
     hWeight lam * (hWeight lam - 1) = -(sCritical lam * (1 - sCritical lam)) := by
   unfold hWeight sCritical
-  have hI : Complex.I ^ 2 = -1 := Complex.I_sq
-  linear_combination (Complex.I * (lam:ℂ) ^ 2 / 4 - (lam:ℂ) ^ 2 / 4 - 1/4) * hI
+  ring
 
 /-- Both sides equal `-(1+λ²)/4`, the value quoted in the source. -/
 theorem casimir_value (lam : ℝ) :

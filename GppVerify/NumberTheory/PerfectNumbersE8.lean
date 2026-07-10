@@ -7,23 +7,29 @@ import Mathlib.Tactic
 Source: decoding_reality_v43221.tex, "E₈, Perfect Numbers, and Moonshine".
 The E₈ theta series has Fourier coefficients `240·σ₃(n)` (the weight-4
 Eisenstein series `E₄`), and `496 = dim(E₈)` is the third perfect number.
-Both are genuinely finite divisor-sum facts, decidable via `Nat.sigma`,
-verified independently in Python before being written as Lean proofs.
+Both are genuinely finite divisor-sum facts, decidable via an explicit
+`Finset.sum` over `Nat.divisors`, verified independently in Python
+before being written as Lean proofs.
 -/
 
 namespace GppPerfectE8
 
+/-- The divisor-power sum `σ_k(n) = Σ_{d ∣ n} d^k`, defined directly
+    (not relying on a specific Mathlib arithmetic-function name) as a
+    `Finset.sum` over `Nat.divisors`. -/
+def sigmaK (k n : ℕ) : ℕ := ∑ d ∈ n.divisors, d ^ k
+
 /-- The E₈ theta-series coefficients `240·σ₃(n)` for `n = 1,...,5`
-    (`σ₃(n) = Nat.sigma 3 n`, the sum of cubes of divisors). -/
-theorem e8_theta_coeff_one : 240 * Nat.sigma 3 1 = 240 := by native_decide
-theorem e8_theta_coeff_two : 240 * Nat.sigma 3 2 = 2160 := by native_decide
-theorem e8_theta_coeff_three : 240 * Nat.sigma 3 3 = 6720 := by native_decide
-theorem e8_theta_coeff_four : 240 * Nat.sigma 3 4 = 17520 := by native_decide
-theorem e8_theta_coeff_five : 240 * Nat.sigma 3 5 = 30240 := by native_decide
+    (the sum of cubes of divisors). -/
+theorem e8_theta_coeff_one : 240 * sigmaK 3 1 = 240 := by native_decide
+theorem e8_theta_coeff_two : 240 * sigmaK 3 2 = 2160 := by native_decide
+theorem e8_theta_coeff_three : 240 * sigmaK 3 3 = 6720 := by native_decide
+theorem e8_theta_coeff_four : 240 * sigmaK 3 4 = 17520 := by native_decide
+theorem e8_theta_coeff_five : 240 * sigmaK 3 5 = 30240 := by native_decide
 
 /-- **496 is a perfect number**: `σ₁(496) = 2·496`
-    (`σ₁ = Nat.sigma 1`, the sum of divisors). -/
-theorem perfect_496 : Nat.sigma 1 496 = 2 * 496 := by native_decide
+    (the sum of divisors). -/
+theorem perfect_496 : sigmaK 1 496 = 2 * 496 := by native_decide
 
 /-- `496 = 2⁴·31`, with `31 = 2⁵ - 1` a Mersenne prime -- the Euclid-Euler
     form `2^(p-1)(2^p - 1)` of an even perfect number, at `p = 5`. -/
