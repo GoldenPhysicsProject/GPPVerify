@@ -218,3 +218,10 @@ import GppVerify.NumberTheory.ZetaNegativeIntegers
 -- building block toward the adelic/spectral gaps in AdelicL2.lean and
 -- L2Constraint.lean.
 import GppVerify.RiemannHypothesis.CharacterOrthogonality
+
+-- ── Gauss Sum Modulus Formula (New) ──────────────────────────────
+-- The classical |gaussSum| = sqrt(card R) fact for a nontrivial
+-- quadratic character, underlying epsilon-factor algebra in Tate's
+-- thesis. Derived from Mathlib's existing gaussSum_sq -- real
+-- infrastructure, not sourced from a specific paper.
+import GppVerify.NumberTheory.GaussSumModulus
