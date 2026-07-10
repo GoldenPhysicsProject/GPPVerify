@@ -55,7 +55,8 @@ theorem cosets_pairwise_disjoint (H : Subgroup G) :
     Pairwise (Function.onFun Disjoint (fun x : G ⧸ H => x.out • (H : Set G))) := by
   have hfiber : ∀ x : G ⧸ H, x.out • (H : Set G) = {y : G | (y : G ⧸ H) = x} := by
     intro x
-    rw [← QuotientGroup.eq_class_eq_leftCoset H x.out, Quotient.out_eq']
+    have hxout : (x.out : G ⧸ H) = x := by simp
+    rw [← QuotientGroup.eq_class_eq_leftCoset H x.out, hxout]
   intro x y hxy
   simp only [Function.onFun, hfiber]
   rw [Set.disjoint_left]
@@ -68,6 +69,7 @@ theorem index_smul_measure_eq_univ (μ : Measure G) [μ.IsMulLeftInvariant]
     (H : Subgroup G) [Finite (G ⧸ H)] (hHmeas : MeasurableSet (H : Set G)) :
     (Nat.card (G ⧸ H)) • μ H = μ Set.univ := by
   classical
+  haveI : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
   have hunion : (Set.univ : Set G) = ⋃ x : G ⧸ H, x.out • (H : Set G) :=
     QuotientGroup.univ_eq_iUnion_smul H
   have hmeas : ∀ x : G ⧸ H, MeasurableSet (x.out • (H : Set G)) := fun x =>
