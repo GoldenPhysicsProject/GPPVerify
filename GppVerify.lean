@@ -209,3 +209,12 @@ import GppVerify.NumberTheory.PerfectNumbersE8
 -- value, via Mathlib's riemannZeta_neg_nat_eq_bernoulli' and
 -- bernoulli'_four, is +1/120. A fully clean, no-gap correction.
 import GppVerify.NumberTheory.ZetaNegativeIntegers
+
+-- ── Character Orthogonality (New) ────────────────────────────────
+-- Genuine harmonic-analysis infrastructure (not sourced from a specific
+-- paper): for a left-invariant measure on a group and a nontrivial
+-- multiplicative character chi, integral of chi vanishes. Built from
+-- Mathlib's existing Haar/left-invariant integral theory, as a real
+-- building block toward the adelic/spectral gaps in AdelicL2.lean and
+-- L2Constraint.lean.
+import GppVerify.RiemannHypothesis.CharacterOrthogonality
