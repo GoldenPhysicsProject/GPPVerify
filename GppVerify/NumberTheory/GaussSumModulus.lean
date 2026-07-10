@@ -25,8 +25,15 @@ theorem gaussSum_norm_eq_sqrt_card (χ : MulChar R ℂ) (hχ₁ : χ ≠ 1) (hχ
     (ψ : AddChar R ℂ) (hψ : ψ.IsPrimitive) :
     ‖gaussSum χ ψ‖ = Real.sqrt (Fintype.card R) := by
   have hsq : gaussSum χ ψ ^ 2 = χ (-1) * (Fintype.card R : ℂ) := gaussSum_sq hχ₁ hχ₂ hψ
-  have hne : χ (-1) ≠ 0 :=
-    MulChar.apply_ne_zero_iff.mpr (isUnit_iff_ne_zero.mpr (neg_ne_zero.mpr one_ne_zero))
+  have hself : χ (-1) * χ (-1) = 1 := by
+    rw [← map_mul]
+    have hR : (-1 : R) * (-1) = 1 := by ring
+    rw [hR]
+    exact map_one χ
+  have hne : χ (-1) ≠ 0 := by
+    intro hz
+    rw [hz, mul_zero] at hself
+    exact zero_ne_one hself
   have hval : χ (-1) = 1 ∨ χ (-1) = -1 := (hχ₂ (-1)).resolve_left hne
   have hnorm_chi : ‖χ (-1)‖ = 1 := by rcases hval with h | h <;> simp [h]
   have hnormsq : ‖gaussSum χ ψ‖ ^ 2 = (Fintype.card R : ℝ) := by
