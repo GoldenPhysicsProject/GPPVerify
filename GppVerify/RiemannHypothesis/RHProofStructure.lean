@@ -1,5 +1,6 @@
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.Analysis.SpecialFunctions.Complex.Circle
+import Mathlib.Analysis.SpecialFunctions.Integrals
 import Mathlib.Topology.Algebra.Module.Basic
 
 /-!
@@ -138,11 +139,37 @@ theorem j_maps_functionals : True := trivial
 
 /-! ## Born rule -/
 
-/-- For χ_s(r) = r^{s-1/2}, the Cesàro norm ‖χ_s‖² = 1 iff Re(s) = 1/2 -/
-theorem born_rule_cesaro : True := trivial
+/-- The Cesàro-numerator integral `∫_{1/R}^{R} r⁻¹ dr = 2 log R`, for every `R > 1`.
+    This is the exact analytic fact underlying the Born-rule proposition below: writing
+    the Haar-measure Cesàro numerator of `χ_s(r)² = r^{2(σ-1/2)}` at `σ = 1/2` as
+    `∫_{1/R}^{R} r⁻¹ dr` (since `r^{2(1/2-1/2)} · r⁻¹ = r⁻¹`), this integral equals
+    `2 log R` on the nose, not merely in some limit. -/
+theorem cesaro_numerator_integral (R : ℝ) (hR : 1 < R) :
+    ∫ r in (1 / R)..R, r⁻¹ = 2 * Real.log R := by
+  have hR0 : (0 : ℝ) < R := lt_trans one_pos hR
+  have hRinv0 : (0 : ℝ) < 1 / R := by positivity
+  rw [integral_inv_of_pos hRinv0 hR0, div_div_eq_mul_div, div_one,
+      show R * R = R ^ 2 from by ring, Real.log_pow]
+  push_cast
+  ring
+
+/-- **Born rule (Cesàro form)**: at the critical point `σ = 1/2`, the regularized
+    Cesàro numerator `N_reg(1/2,R) := (∫_{1/R}^{R} r⁻¹ dr) / (2 log R)` equals `1`
+    exactly, for every `R > 1` — not just as `R → ∞`. This is the precise sense in
+    which `Re(s) = 1/2` is singled out: the ratio is constant, rather than merely
+    convergent, only at the critical line. -/
+theorem born_rule_cesaro (R : ℝ) (hR : 1 < R) :
+    (∫ r in (1 / R)..R, r⁻¹) / (2 * Real.log R) = 1 := by
+  rw [cesaro_numerator_integral R hR]
+  have hlogR : Real.log R ≠ 0 := (Real.log_pos hR).ne'
+  have h2 : (2 : ℝ) * Real.log R ≠ 0 := mul_ne_zero two_ne_zero hlogR
+  exact div_self h2
 -- SOURCE: RH_final_v5_1.tex, prop:born-rule
--- STATEMENT: m_C(r^{2(σ-1/2)}) = 1 iff σ=1/2, diverges otherwise.
--- MATHLIB GAP: Cesàro mean for Haar measure on R⁺ not in Mathlib.
+-- STATEMENT (formalized here): m_C(r^{2(σ-1/2)}) = 1 exactly at σ=1/2, via the exact
+-- identity ∫_{1/R}^R r⁻¹ dr = 2 log R. The paper's claim that this pins down Re(s)=1/2
+-- among all σ (i.e. that the ratio diverges or fails to be constant for σ≠1/2) is a
+-- genuine but separate analytic fact (a limit statement, not an identity for fixed R)
+-- and is not formalized here.
 
 /-! ## BRST Ward identity -/
 
