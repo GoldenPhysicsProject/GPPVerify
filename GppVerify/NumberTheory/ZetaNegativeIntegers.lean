@@ -18,6 +18,9 @@ namespace GppZetaNegativeIntegers
 /-- **ζ(-3) = 1/120** (not `-1/120` as asserted in the source), via Mathlib's
     `riemannZeta_neg_nat_eq_bernoulli'` special-value formula and `bernoulli'_four`. -/
 theorem riemannZeta_neg_three : riemannZeta (-3 : ℂ) = 1 / 120 := by
-  norm_num [riemannZeta_neg_nat_eq_bernoulli' 3, bernoulli'_four]
+  have h := riemannZeta_neg_nat_eq_bernoulli' 3
+  push_cast at h
+  norm_num [bernoulli'_four] at h
+  exact h
 
 end GppZetaNegativeIntegers
