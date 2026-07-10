@@ -45,6 +45,24 @@ def dualCoxeterSU (N : ℕ) : ℕ := N
     by convention (the standard normalization for A_{N-1}). -/
 def casimirAdjointSU (N : ℕ) : ℕ := N
 
+/-- Quadratic Casimir of the fundamental representation of SU(N):
+    C₂(fund) = (N²-1)/(2N) (Toupin 2026, YM_PAPER35.tex, Corollary
+    "Conformal Dimensions for SU(N)"). Unlike the adjoint Casimir above,
+    this is genuinely rational, not an integer, for N ≥ 2. -/
+def casimirFundamentalSU (N : ℕ) : ℚ := ((N : ℚ) ^ 2 - 1) / (2 * N)
+
+theorem casimirFundamentalSU_su3 : casimirFundamentalSU 3 = 4 / 3 := by native_decide
+
+/-- The ratio C₂(adj)/C₂(fund) = 2N²/(N²-1), for N ≥ 2. -/
+theorem casimir_adj_fund_ratio (N : ℕ) (hN : 2 ≤ N) :
+    (casimirAdjointSU N : ℚ) / casimirFundamentalSU N = (2 * (N : ℚ) ^ 2) / ((N : ℚ) ^ 2 - 1) := by
+  unfold casimirAdjointSU casimirFundamentalSU
+  have hN' : (2 : ℚ) ≤ N := by exact_mod_cast hN
+  have hne : (N : ℚ) ^ 2 - 1 ≠ 0 := by nlinarith
+  have hnne : (N : ℚ) ≠ 0 := by linarith
+  field_simp
+  ring
+
 /-- Sugawara formula for mass gap ratio: M/Λ_QCD = 2N/(k+N) -/
 def mass_gap_ratio (N k : ℕ) : ℚ :=
   (2 * N : ℚ) / (k + N : ℚ)
@@ -100,15 +118,47 @@ theorem sugawara_construction : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:sugawara-conformal-dim
 -- MATHLIB GAP: WZW model / 2D CFT operator formalism not in Mathlib.
 
-/-- Conformal dimension from Sugawara: Δ = C₂(λ)/(k+h^∨) -/
-def sugawara_conformal_dim (C2 k h_dual : ℕ) : ℚ :=
-  (C2 : ℚ) / ((k : ℚ) + h_dual)
+/-- Conformal dimension from Sugawara: Δ = C₂(λ)/(k+h^∨).
+    `C2` is rational (not `ℕ`), since the fundamental-representation
+    Casimir `casimirFundamentalSU` is genuinely fractional. -/
+def sugawara_conformal_dim (C2 : ℚ) (k h_dual : ℕ) : ℚ :=
+  C2 / ((k : ℚ) + h_dual)
 
 theorem sugawara_dim_adjoint_su3_k1 :
     sugawara_conformal_dim 3 1 3 = 3/4 := by native_decide
 
+/-- CI-caught bug fix: this theorem previously plugged in `C2 = 4`
+    (the numeral for SU(4)'s adjoint Casimir, `casimirAdjointSU 4`, not
+    SU(3)'s fundamental Casimir) and claimed `Δ = 1`. The source's own
+    general formula Δ(fund) = (N²-1)/(2N(k+N)) gives, at N=3, k=1:
+    Δ = (4/3)/4 = 1/3, not 1. Fixed to use `casimirFundamentalSU 3`. -/
 theorem sugawara_dim_fund_su3_k1 :
-    sugawara_conformal_dim 4 1 3 = 1 := by native_decide
+    sugawara_conformal_dim (casimirFundamentalSU 3) 1 3 = 1/3 := by
+  unfold sugawara_conformal_dim casimirFundamentalSU
+  native_decide
+
+/-- Sugawara central charge c = k·dim(𝔤)/(k+h^∨) (Toupin 2026,
+    YM_PAPER35.tex, Definition "Sugawara Construction"), a distinct
+    formula from the conformal-dimension formula above: it uses the
+    total dimension of the Lie algebra, not a single representation's
+    Casimir eigenvalue. -/
+def sugawaraCentralCharge (k dim h_dual : ℕ) : ℚ :=
+  (k * dim : ℚ) / (k + h_dual)
+
+/-- su(2) at level k=1: dim(su(2))=3, h^∨=2, giving c=1. -/
+theorem central_charge_su2_k1 : sugawaraCentralCharge 1 3 2 = 1 := by native_decide
+
+/-- su(2) at level k=2: c=3/2. -/
+theorem central_charge_su2_k2 : sugawaraCentralCharge 2 3 2 = 3/2 := by native_decide
+
+theorem central_charge_pos (k dim h_dual : ℕ) (hk : 1 ≤ k) (hdim : 1 ≤ dim) :
+    0 < sugawaraCentralCharge k dim h_dual := by
+  unfold sugawaraCentralCharge
+  have hk' : (0:ℚ) < k := by exact_mod_cast hk
+  have hdim' : (0:ℚ) < dim := by exact_mod_cast hdim
+  apply div_pos
+  · positivity
+  · positivity
 
 /-! ## Glueball mass ratios (proved clean, unconditional)
 
