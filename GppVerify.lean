@@ -203,3 +203,9 @@ import GppVerify.RiemannHypothesis.CasimirIdentity
 -- series) at n=1..5, and 496=dim(E8) is the third perfect number,
 -- 2^4*31 with 31=2^5-1 Mersenne prime -- finite Nat.sigma facts.
 import GppVerify.NumberTheory.PerfectNumbersE8
+
+-- ── zeta(-3), corrected (New) ───────────────────────────────────
+-- decoding_reality_v43221.tex asserts zeta(-3) = -1/120; the correct
+-- value, via Mathlib's riemannZeta_neg_nat_eq_bernoulli' and
+-- bernoulli'_four, is +1/120. A fully clean, no-gap correction.
+import GppVerify.NumberTheory.ZetaNegativeIntegers
