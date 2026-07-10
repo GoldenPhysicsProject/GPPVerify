@@ -152,10 +152,47 @@ theorem hodge_sd_asd_total : (3 + 3 : ℕ) = 6 := by norm_num
     computation). -/
 theorem hodge_trace_zero : (3 : ℤ) - 3 = 0 := by norm_num
 
-/-- SD-ASD balance: sum of squared SD = sum of squared ASD is the Plücker quadric -/
-theorem sd_asd_balance (s1 s2 s3 a1 a2 a3 : ℝ)
-    (h : s1^2 + s2^2 + s3^2 = a1^2 + a2^2 + a3^2) :
-    s1^2 + s2^2 + s3^2 - (a1^2 + a2^2 + a3^2) = 0 := by linarith
+/-- The Plücker coordinate `p_ij` of the 2-plane spanned by `v1, v2 ∈ ℂ⁴`,
+    indexed by a pair `(i,j)` (only `i,j ∈ Fin 4` need be distinct; the
+    definition is antisymmetric in `i,j` automatically). -/
+def plucker (v1 v2 : Fin 4 → ℂ) (i j : Fin 4) : ℂ := v1 i * v2 j - v1 j * v2 i
+
+/-- **The Plücker relation**, as an actual unconditional polynomial
+    identity in the 8 components of `v1, v2 ∈ ℂ⁴` -- not assumed as a
+    hypothesis (holographic_chain_v932.tex, Theorem 3.1 / "thm:plucker";
+    independently verified via SymPy expansion in the 8 free variables
+    before being written as a Lean proof). -/
+theorem plucker_relation (v1 v2 : Fin 4 → ℂ) :
+    plucker v1 v2 0 1 * plucker v1 v2 2 3
+      - plucker v1 v2 0 2 * plucker v1 v2 1 3
+      + plucker v1 v2 0 3 * plucker v1 v2 1 2 = 0 := by
+  unfold plucker
+  ring
+
+/-- **SD-ASD balance, derived** (not assumed): writing the self-dual and
+    anti-self-dual combinations of the Plücker coordinates of an actual
+    2-plane as `s1 = (p01+p23)/2`, `s2 = (p02-p13)/2`, `s3 = (p03+p12)/2`,
+    `a1 = (p01-p23)/2`, `a2 = (p02+p13)/2`, `a3 = (p03-p12)/2`, the
+    balance `Σsᵢ² = Σaᵢ²` is exactly the Plücker relation
+    `plucker_relation` above, so it holds unconditionally for every
+    2-plane, not merely as an assumed hypothesis. -/
+theorem sd_asd_balance (v1 v2 : Fin 4 → ℂ) :
+    let p01 := plucker v1 v2 0 1
+    let p02 := plucker v1 v2 0 2
+    let p03 := plucker v1 v2 0 3
+    let p12 := plucker v1 v2 1 2
+    let p13 := plucker v1 v2 1 3
+    let p23 := plucker v1 v2 2 3
+    let s1 := (p01 + p23) / 2
+    let s2 := (p02 - p13) / 2
+    let s3 := (p03 + p12) / 2
+    let a1 := (p01 - p23) / 2
+    let a2 := (p02 + p13) / 2
+    let a3 := (p03 - p12) / 2
+    s1 ^ 2 + s2 ^ 2 + s3 ^ 2 - (a1 ^ 2 + a2 ^ 2 + a3 ^ 2) = 0 := by
+  have h := plucker_relation v1 v2
+  unfold plucker at h ⊢
+  linear_combination h
 
 /-! ## Cayley–Dickson tower R → C → H → O -/
 

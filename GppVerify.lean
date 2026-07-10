@@ -181,3 +181,25 @@ import GppVerify.StandardModel.KoideRelation
 -- into two complementary pairs) number exactly 3, decided over all
 -- 4^4 candidate maps.
 import GppVerify.StandardModel.ComplementaryPairs
+
+-- ── Kappa Shadow-3 Sum Rule and Triality Angle (New) ───────────
+-- The Fubini-Study Yukawa curvature kappa(x)=1+3x satisfies
+-- kappa(x)+kappa(1-x)=5 for ANY x (shadow-3 sum rule), and the SM
+-- sector angles satisfy arccos(sqrt(3/8))+arccos(sqrt(5/8))=pi/2
+-- (triality complementary angle). The fitted numerical kappa values
+-- (17/8, 5/2, 23/8) and their 5-12% agreement with experiment are
+-- numerology, not formalized here.
+import GppVerify.StandardModel.KappaShadow3
+
+-- ── sl(2) Casimir / Riemann Quadratic-Form Identity (New) ──────
+-- h(h-1) = -s(1-s) exactly for h=(1+i*lam)/2, s=1/2+i*lam/2: a pure
+-- complex-algebra identity linking the principal-series Casimir to
+-- the Riemann critical-line quadratic form, with no continuous
+-- analysis needed.
+import GppVerify.RiemannHypothesis.CasimirIdentity
+
+-- ── E8 Theta Coefficients and 496 as a Perfect Number (New) ────
+-- 240*sigma_3(n) matches the E8 theta series (weight-4 Eisenstein
+-- series) at n=1..5, and 496=dim(E8) is the third perfect number,
+-- 2^4*31 with 31=2^5-1 Mersenne prime -- finite Nat.sigma facts.
+import GppVerify.NumberTheory.PerfectNumbersE8
