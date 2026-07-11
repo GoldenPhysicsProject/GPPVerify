@@ -27,6 +27,8 @@ variable {G : Type*} [Group G] [MeasurableSpace G] [MeasurableMul G]
 
 /-- A left translate of a set is the preimage of that set under (left) multiplication
     by the inverse element. -/
+@[to_additive "A left translate of a set is the preimage of that set under (left)
+    addition of the negation."]
 theorem smul_eq_preimage_inv_mul (g : G) (s : Set G) :
     g • s = (fun h => g⁻¹ * h) ⁻¹' s := by
   ext x
@@ -39,11 +41,14 @@ theorem smul_eq_preimage_inv_mul (g : G) (s : Set G) :
 
 /-- Translating a set by a group element preserves its measure under a left-invariant
     measure `μ`. -/
+@[to_additive "Translating a set by a group element preserves its measure under a
+    left-invariant measure `μ`."]
 theorem measure_smul_set (μ : Measure G) [μ.IsMulLeftInvariant] (g : G) (s : Set G) :
     μ (g • s) = μ s := by
   rw [smul_eq_preimage_inv_mul, measure_preimage_mul]
 
 /-- A left translate of a measurable set is measurable. -/
+@[to_additive "A left translate of a measurable set is measurable."]
 theorem measurableSet_smul {s : Set G} (hs : MeasurableSet s) (g : G) :
     MeasurableSet (g • s) := by
   rw [smul_eq_preimage_inv_mul]
@@ -51,6 +56,8 @@ theorem measurableSet_smul {s : Set G} (hs : MeasurableSet s) (g : G) :
 
 /-- Distinct left cosets `x.out • H` (for `x : G ⧸ H`) are pairwise disjoint: each coset
     is exactly the fiber of the quotient map over `x`. -/
+@[to_additive "Distinct left cosets `x.out +ᵥ H` (for `x : G ⧸ H`) are pairwise disjoint:
+    each coset is exactly the fiber of the quotient map over `x`."]
 theorem cosets_pairwise_disjoint (H : Subgroup G) :
     Pairwise (Function.onFun Disjoint (fun x : G ⧸ H => x.out • (H : Set G))) := by
   have hfiber : ∀ x : G ⧸ H, x.out • (H : Set G) = {y : G | (y : G ⧸ H) = x} := by
@@ -65,6 +72,8 @@ theorem cosets_pairwise_disjoint (H : Subgroup G) :
   exact absurd (hax.symm.trans hay) hxy
 
 /-- **Haar measure of a finite-index measurable subgroup**: `H.index • μ H = μ univ`. -/
+@[to_additive "**Haar measure of a finite-index measurable subgroup**:
+    `H.index • μ H = μ univ`."]
 theorem index_smul_measure_eq_univ (μ : Measure G) [μ.IsMulLeftInvariant]
     (H : Subgroup G) [Finite (G ⧸ H)] (hHmeas : MeasurableSet (H : Set G)) :
     (Nat.card (G ⧸ H)) • μ H = μ Set.univ := by
