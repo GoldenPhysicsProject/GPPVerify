@@ -33,7 +33,9 @@ noncomputable def haarMeasure : Measure (PadicInt p) :=
     `⊤ = Set.univ`, gives `μ(ℤ_p) = 1`. -/
 theorem haarMeasure_univ : haarMeasure p (Set.univ : Set (PadicInt p)) = 1 := by
   unfold haarMeasure
-  simpa using
-    (Measure.addHaarMeasure_self : Measure.addHaarMeasure (⊤ : PositiveCompacts (PadicInt p)) ⊤ = 1)
+  have hset : (Set.univ : Set (PadicInt p)) =
+      (⊤ : TopologicalSpace.PositiveCompacts (PadicInt p)) := rfl
+  rw [hset]
+  exact Measure.addHaarMeasure_self
 
 end GppPadicHaar
