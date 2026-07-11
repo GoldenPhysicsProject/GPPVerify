@@ -37,7 +37,7 @@ theorem haarMeasure_shell (n : ℕ) :
       ((p : ℝ≥0∞) ^ n)⁻¹ - ((p : ℝ≥0∞) ^ (n + 1))⁻¹ := by
   have hsub : (Ideal.span {(p : PadicInt p) ^ (n + 1)} : Set (PadicInt p)) ⊆
       (Ideal.span {(p : PadicInt p) ^ n} : Set (PadicInt p)) :=
-    Ideal.span_singleton_le_span_singleton.mpr (pow_dvd_pow p (Nat.le_succ n))
+    Ideal.span_singleton_le_span_singleton.mpr (pow_dvd_pow (p : PadicInt p) (Nat.le_succ n))
   have hmeasB : MeasurableSet (Ideal.span {(p : PadicInt p) ^ (n + 1)} : Set (PadicInt p)) :=
     measurableSet_span_pow p (n + 1)
   have hpne : (p : ℝ≥0∞) ≠ 0 := Nat.cast_ne_zero.mpr (Fact.out : p.Prime).pos.ne'
@@ -45,7 +45,7 @@ theorem haarMeasure_shell (n : ℕ) :
       (Ideal.span {(p : PadicInt p) ^ (n + 1)} : Set (PadicInt p)) ≠ ⊤ := by
     rw [GppPadicZetaIntegral.haarMeasure_span_pow]
     exact ENNReal.inv_ne_top.mpr (pow_ne_zero (n + 1) hpne)
-  rw [measure_diff hsub hmeasB hfin, GppPadicZetaIntegral.haarMeasure_span_pow,
+  rw [measure_diff hsub hmeasB.nullMeasurableSet hfin, GppPadicZetaIntegral.haarMeasure_span_pow,
       GppPadicZetaIntegral.haarMeasure_span_pow]
 
 end GppPadicShell
