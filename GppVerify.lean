@@ -255,3 +255,10 @@ import GppVerify.RiemannHypothesis.PadicIndexPn
 -- PadicHaarMeasure, and PadicIndexPn. The p-adic integral formula
 -- from Tate's-thesis lecture notes. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicZetaIntegral
+
+-- ── p-adic Shell Measure (New) ────────────────────────────────────
+-- The Haar measure of the "shell" p^n Z_p \ p^{n+1} Z_p (where
+-- ||x|| = p^{-n} exactly) is p^{-n} - p^{-(n+1)}, the term-by-term
+-- building block for the geometric-series zeta integral. Not
+-- paper-sourced.
+import GppVerify.RiemannHypothesis.PadicShellMeasure
