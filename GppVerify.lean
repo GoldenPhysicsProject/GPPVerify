@@ -249,3 +249,9 @@ import GppVerify.RiemannHypothesis.PadicHaarMeasure
 -- isomorphism theorem. Real infrastructure toward the p-adic zeta
 -- integral, not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicIndexPn
+
+-- ── Haar Measure of p^n Z_p (New) ─────────────────────────────────
+-- The payoff: mu(p^n * Z_p) = p^{-n}, combining HaarSubgroupIndex,
+-- PadicHaarMeasure, and PadicIndexPn. The p-adic integral formula
+-- from Tate's-thesis lecture notes. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicZetaIntegral
