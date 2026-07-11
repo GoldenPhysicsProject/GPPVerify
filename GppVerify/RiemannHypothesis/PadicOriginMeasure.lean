@@ -28,7 +28,7 @@ theorem haarMeasure_singleton_zero :
       GppPadicHaar.haarMeasure p ({0} : Set (PadicInt p)) ≤
         (1 : ℝ≥0∞) * ((p : ℝ≥0∞)⁻¹) ^ n := by
     intro n
-    rw [one_mul, inv_pow, ← GppPadicZetaIntegral.haarMeasure_span_pow p n]
+    rw [one_mul, ← ENNReal.inv_pow, ← GppPadicZetaIntegral.haarMeasure_span_pow p n]
     apply measure_mono
     intro x hx
     simp only [Set.mem_singleton_iff] at hx
