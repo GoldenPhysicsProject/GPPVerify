@@ -241,3 +241,11 @@ import GppVerify.RiemannHypothesis.HaarSubgroupIndex
 -- Mathlib's generic addHaarMeasure construction: mu(Z_p) = 1. Real
 -- infrastructure toward the p-adic zeta integral, not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicHaarMeasure
+
+-- ── Index of p^n Z_p in Z_p (New) ─────────────────────────────────
+-- Nat.card (Z_p / p^n Z_p) = p^n, proved via surjectivity of
+-- PadicInt.toZModPow n (a map whose restriction to N -> Z_p is
+-- already surjective onto ZMod(p^n)) combined with the first
+-- isomorphism theorem. Real infrastructure toward the p-adic zeta
+-- integral, not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicIndexPn
