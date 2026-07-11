@@ -13,6 +13,7 @@ Not sourced from a specific Golden Physics Project paper.
 namespace GppPadicZetaIntegral
 
 open MeasureTheory
+open scoped ENNReal
 
 variable (p : ℕ) [Fact p.Prime]
 
