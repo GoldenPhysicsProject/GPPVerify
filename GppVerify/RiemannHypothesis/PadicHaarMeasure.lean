@@ -28,6 +28,12 @@ instance : BorelSpace (PadicInt p) := ⟨rfl⟩
 noncomputable def haarMeasure : Measure (PadicInt p) :=
   Measure.addHaarMeasure ⊤
 
+/-- `haarMeasure` is left-invariant (needed by downstream users; `haarMeasure` is an
+    opaque `def`, so typeclass search won't unfold it to find the generic instance for
+    `Measure.addHaarMeasure` on its own). -/
+instance : (haarMeasure p).IsAddLeftInvariant :=
+  Measure.isAddLeftInvariant_addHaarMeasure ⊤
+
 /-- **`ℤ_p` has total Haar measure 1**: the canonical additive Haar measure on the
     compact group `ℤ_p`, normalized against the top positive-compact witness
     `⊤ = Set.univ`, gives `μ(ℤ_p) = 1`. -/

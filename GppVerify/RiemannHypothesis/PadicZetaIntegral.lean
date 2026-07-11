@@ -40,7 +40,8 @@ theorem haarMeasure_span_pow (n : ℕ) :
   have hmeas : MeasurableSet (H : Set (PadicInt p)) := hclosed.measurableSet
   have hkey := GppHaarSubgroupIndex.index_vadd_measure_eq_univ (GppPadicHaar.haarMeasure p) H hmeas
   rw [hcard, GppPadicHaar.haarMeasure_univ] at hkey
-  have hp0 : ((p : ℝ≥0∞) ^ n) ≠ 0 := by positivity
+  have hpne : (p : ℝ≥0∞) ≠ 0 := Nat.cast_ne_zero.mpr (Fact.out : p.Prime).pos.ne'
+  have hp0 : ((p : ℝ≥0∞) ^ n) ≠ 0 := pow_ne_zero n hpne
   have hptop : ((p : ℝ≥0∞) ^ n) ≠ ⊤ := by
     exact ENNReal.pow_ne_top (ENNReal.natCast_ne_top p)
   have hmul : ((p : ℝ≥0∞) ^ n) * GppPadicHaar.haarMeasure p (H : Set (PadicInt p)) = 1 := by
