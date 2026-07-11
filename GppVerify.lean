@@ -234,3 +234,10 @@ import GppVerify.NumberTheory.GaussSumModulus
 -- adelic integral computations Tate's thesis relies on, not sourced
 -- from a specific paper.
 import GppVerify.RiemannHypothesis.HaarSubgroupIndex
+
+-- ── Haar Probability Measure on Z_p (New) ────────────────────────
+-- Z_p (PadicInt p) is a compact topological additive group, so it
+-- carries a canonical normalized Haar probability measure via
+-- Mathlib's generic addHaarMeasure construction: mu(Z_p) = 1. Real
+-- infrastructure toward the p-adic zeta integral, not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicHaarMeasure
