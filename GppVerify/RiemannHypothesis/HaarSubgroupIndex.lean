@@ -56,8 +56,9 @@ theorem measurableSet_smul {s : Set G} (hs : MeasurableSet s) (g : G) :
 
 /-- Distinct left cosets `x.out • H` (for `x : G ⧸ H`) are pairwise disjoint: each coset
     is exactly the fiber of the quotient map over `x`. -/
-@[to_additive "Distinct left cosets `x.out +ᵥ H` (for `x : G ⧸ H`) are pairwise disjoint:
-    each coset is exactly the fiber of the quotient map over `x`."]
+@[to_additive cosets_pairwise_disjoint_add "Distinct left cosets `x.out +ᵥ H` (for
+    `x : G ⧸ H`) are pairwise disjoint: each coset is exactly the fiber of the quotient
+    map over `x`."]
 theorem cosets_pairwise_disjoint (H : Subgroup G) :
     Pairwise (Function.onFun Disjoint (fun x : G ⧸ H => x.out • (H : Set G))) := by
   have hfiber : ∀ x : G ⧸ H, x.out • (H : Set G) = {y : G | (y : G ⧸ H) = x} := by
@@ -72,8 +73,6 @@ theorem cosets_pairwise_disjoint (H : Subgroup G) :
   exact absurd (hax.symm.trans hay) hxy
 
 /-- **Haar measure of a finite-index measurable subgroup**: `H.index • μ H = μ univ`. -/
-@[to_additive "**Haar measure of a finite-index measurable subgroup**:
-    `H.index • μ H = μ univ`."]
 theorem index_smul_measure_eq_univ (μ : Measure G) [μ.IsMulLeftInvariant]
     (H : Subgroup G) [Finite (G ⧸ H)] (hHmeas : MeasurableSet (H : Set G)) :
     (Nat.card (G ⧸ H)) • μ H = μ Set.univ := by
@@ -86,6 +85,27 @@ theorem index_smul_measure_eq_univ (μ : Measure G) [μ.IsMulLeftInvariant]
   rw [hunion, measure_iUnion (cosets_pairwise_disjoint H) hmeas]
   have hconst : ∀ x : G ⧸ H, μ (x.out • (H : Set G)) = μ (H : Set G) := fun x =>
     measure_smul_set μ x.out (H : Set G)
+  simp only [hconst]
+  rw [tsum_fintype, Finset.sum_const, Finset.card_univ, Nat.card_eq_fintype_card]
+
+/-- **Haar measure of a finite-index measurable subgroup, additive case**:
+    `H.index • μ H = μ univ`. Written out by hand (rather than via `to_additive`, which
+    hit a type-mismatch on this particular statement mixing group-translation `+ᵥ` with
+    the unrelated `ℕ`-scalar action on `μ H : ℝ≥0∞`), reusing the additive helper lemmas
+    `to_additive` *did* derive successfully above. -/
+theorem index_vadd_measure_eq_univ {G : Type*} [AddGroup G] [MeasurableSpace G]
+    [MeasurableAdd G] (μ : Measure G) [μ.IsAddLeftInvariant]
+    (H : AddSubgroup G) [Finite (G ⧸ H)] (hHmeas : MeasurableSet (H : Set G)) :
+    (Nat.card (G ⧸ H)) • μ H = μ Set.univ := by
+  classical
+  haveI : Fintype (G ⧸ H) := Fintype.ofFinite (G ⧸ H)
+  have hunion : (Set.univ : Set G) = ⋃ x : G ⧸ H, x.out +ᵥ (H : Set G) :=
+    QuotientAddGroup.univ_eq_iUnion_vadd H
+  have hmeas : ∀ x : G ⧸ H, MeasurableSet (x.out +ᵥ (H : Set G)) := fun x =>
+    measurableSet_vadd hHmeas x.out
+  rw [hunion, measure_iUnion (cosets_pairwise_disjoint_add H) hmeas]
+  have hconst : ∀ x : G ⧸ H, μ (x.out +ᵥ (H : Set G)) = μ (H : Set G) := fun x =>
+    measure_vadd_set μ x.out (H : Set G)
   simp only [hconst]
   rw [tsum_fintype, Finset.sum_const, Finset.card_univ, Nat.card_eq_fintype_card]
 
