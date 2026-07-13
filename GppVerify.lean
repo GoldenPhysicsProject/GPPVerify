@@ -292,3 +292,11 @@ import GppVerify.RiemannHypothesis.PadicFullZetaIntegral
 -- shell measure, exact shell norm, and origin-measure-zero facts via
 -- lintegral_iUnion and ENNReal.tsum_geometric. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicZetaIntegralClosedForm
+
+-- ── Bridge to Mathlib's Euler Product (New) ───────────────────────
+-- Mathlib already proves the Euler product for zeta
+-- (riemannZeta_eulerProduct_tprod, Mathlib.NumberTheory.EulerProduct.
+-- DirichletLSeries). This file bridges our local p-adic zeta integral
+-- down to exactly that local factor (1 - p^{-s})^{-1}, cast correctly
+-- through ENNReal -> Real -> Complex. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicEulerFactorBridge
