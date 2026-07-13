@@ -1,5 +1,6 @@
 import Mathlib.MeasureTheory.Integral.Gamma
 import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
+import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
 
 /-!
 # The archimedean local zeta integral
@@ -64,5 +65,17 @@ theorem archimedean_zeta_integral (s : ℝ) (hs : 0 < s) :
   have hexp : s - 1 + 1 = s := by ring
   rw [hexp]
   ring
+
+/-- **Cross-check at `s = 1`**: the `|x|^{s-1}` weight becomes trivial there, so
+    `archimedean_zeta_integral` at `s = 1` and Mathlib's own `integral_gaussian` at `b = π`
+    both compute the *same* integral `∫_ℝ e^{-πx²} dx` — by two independent routes (a
+    Gaussian-Gamma half-line identity vs. a direct Gaussian-integral formula). Equating
+    them pins down `π^{-1/2}Γ(1/2) = 1` (equivalently `Γ(1/2) = √π`) directly from this
+    derivation, without separately citing a Gamma-special-value lemma. -/
+theorem archimedean_zeta_integral_one :
+    Real.pi ^ (-(1 / 2 : ℝ)) * Real.Gamma (1 / 2) = 1 := by
+  have h := archimedean_zeta_integral 1 one_pos
+  simp only [sub_self, Real.rpow_zero, mul_one] at h
+  rw [← h, integral_gaussian, div_self Real.pi_ne_zero, Real.sqrt_one]
 
 end GppArchimedeanZeta
