@@ -19,8 +19,30 @@ thread has not yet proved is that this measure is *multiplicatively* invariant
 under multiplication by a field element (`μ(a • S) = ‖a‖ · μ(S)`) — Mathlib's
 `Measure.addHaar_smul` is specific to finite-dimensional `ℝ`-vector spaces and does not
 apply to `ℚ_p` acting on itself, so this scaling law would need to be derived from
-Haar-measure uniqueness (`Measure.addHaarMeasure_unique`) from scratch. That derivation is
-queued as follow-up work, not attempted here.
+Haar-measure uniqueness from scratch. Queued as follow-up work; **concrete plan**, refined
+against real Mathlib names (confirmed to exist via direct lookup, not yet assembled into a
+proof):
+
+1. For fixed `a ≠ 0`, the map `f_a : x ↦ a⁻¹ * x` is a continuous additive group
+   automorphism of `ℚ_p` (field multiplication distributes over `+`, and `f_a` is its own
+   kind of inverse up to swapping `a ↔ a⁻¹`). Bundle it as a `ContinuousAddEquiv (Padic p)
+   (Padic p)` (or the nearest matching Mathlib structure — the exact bundling of
+   continuity-both-ways needs to be pinned down against the live source, since doc
+   scrapes of its constructor were inconclusive).
+2. `ContinuousAddEquiv.isAddHaarMeasure_map f_a (fieldHaarMeasure p)` gives that
+   `Measure.map f_a (fieldHaarMeasure p)` is again an `IsAddHaarMeasure`.
+3. Since `(Measure.map f_a μ) S = μ (f_a⁻¹' S) = μ (a • S)` for measurable `S`
+   (unwinding `f_a`'s preimage), this pushforward measure is exactly `S ↦ μ(a • S)`.
+4. By Haar-measure uniqueness up to a scalar (`Measure.addHaarMeasure_unique`, or the
+   `haarScalarFactor` machinery in `Mathlib.MeasureTheory.Measure.Haar.Unique`), this
+   pushforward equals `c(a) • μ` for some constant `c(a) ≥ 0`.
+5. Pin `c(a)` down using the already-proven `GppPadicZetaIntegral.haarMeasure_span_pow`
+   (`μ(pⁿℤ_p) = p⁻ⁿ`) at a generating case (e.g. `a = p`, `S =` the closed unit ball),
+   then extend to every `a ≠ 0` via the valuation decomposition `a = u·pⁿ` (`u` a unit,
+   `‖u‖ = 1`) and multiplicativity of `c`.
+
+Not a quick add-on: comparable in scope to the entire earlier `ℤ_p`-side Haar-measure
+sub-thread (`PadicHaarMeasure.lean` through `PadicFullZetaIntegral.lean`, five files).
 
 Not sourced from a specific Golden Physics Project paper.
 -/
