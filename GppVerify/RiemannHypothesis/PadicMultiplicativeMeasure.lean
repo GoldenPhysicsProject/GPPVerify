@@ -23,26 +23,43 @@ Haar-measure uniqueness from scratch. Queued as follow-up work; **concrete plan*
 against real Mathlib names (confirmed to exist via direct lookup, not yet assembled into a
 proof):
 
-1. For fixed `a ≠ 0`, the map `f_a : x ↦ a⁻¹ * x` is a continuous additive group
-   automorphism of `ℚ_p` (field multiplication distributes over `+`, and `f_a` is its own
-   kind of inverse up to swapping `a ↔ a⁻¹`). Bundle it as a `ContinuousAddEquiv (Padic p)
-   (Padic p)` (or the nearest matching Mathlib structure — the exact bundling of
-   continuity-both-ways needs to be pinned down against the live source, since doc
-   scrapes of its constructor were inconclusive).
-2. `ContinuousAddEquiv.isAddHaarMeasure_map f_a (fieldHaarMeasure p)` gives that
-   `Measure.map f_a (fieldHaarMeasure p)` is again an `IsAddHaarMeasure`.
-3. Since `(Measure.map f_a μ) S = μ (f_a⁻¹' S) = μ (a • S)` for measurable `S`
-   (unwinding `f_a`'s preimage), this pushforward measure is exactly `S ↦ μ(a • S)`.
-4. By Haar-measure uniqueness up to a scalar (`Measure.addHaarMeasure_unique`, or the
-   `haarScalarFactor` machinery in `Mathlib.MeasureTheory.Measure.Haar.Unique`), this
-   pushforward equals `c(a) • μ` for some constant `c(a) ≥ 0`.
-5. Pin `c(a)` down using the already-proven `GppPadicZetaIntegral.haarMeasure_span_pow`
-   (`μ(pⁿℤ_p) = p⁻ⁿ`) at a generating case (e.g. `a = p`, `S =` the closed unit ball),
-   then extend to every `a ≠ 0` via the valuation decomposition `a = u·pⁿ` (`u` a unit,
-   `‖u‖ = 1`) and multiplicativity of `c`.
+1. **Done** (`PadicScalingHaar.lean`): for fixed `a ≠ 0`, `scaleAddEquiv p a ha : ℚ_p ≃ₜ+
+   ℚ_p` (`x ↦ a⁻¹ * x`) is a `ContinuousAddEquiv`, built via `{ Homeomorph.mulLeft₀ a⁻¹
+   (inv_ne_zero ha) with map_add' := ... }`.
+2. **Done**: `(scaleAddEquiv p a ha).isAddHaarMeasure_map (fieldHaarMeasure p)` gives that
+   `Measure.map (scaleAddEquiv p a ha) (fieldHaarMeasure p)` is again an
+   `IsAddHaarMeasure` — needed adding an explicit `(fieldHaarMeasure p).IsAddHaarMeasure`
+   instance in `PadicFieldHaarMeasure.lean` first (same opaque-`def` reasoning as the
+   `IsAddLeftInvariant` instance already there; `Measure.isAddHaarMeasure_addHaarMeasure`
+   doesn't auto-unfold through the `def`).
+3. **Done**: `map_scaleAddEquiv_apply` shows this pushforward is exactly
+   `S ↦ μ((fun y => a*y) '' S)` for measurable `S`.
+4. **Confirmed to exist, not yet used**: the exact uniqueness tool is
+   `MeasureTheory.Measure.measure_isAddInvariant_eq_smul_of_isCompact_closure_of_innerRegularCompactLTTop
+   (μ' μ : Measure G) [μ.IsAddHaarMeasure] [IsFiniteMeasureOnCompacts μ'] [μ'.IsAddLeftInvariant]
+   [μ.InnerRegularCompactLTTop] {s : Set G} (hs : MeasurableSet s) (h's : IsCompact (closure s)) :
+   μ' s = μ'.addHaarScalarFactor μ • μ s` (`Mathlib.MeasureTheory.Measure.Haar.Unique`) — gives
+   the scalar equation *at a chosen compact set `s`* directly (not just for integrals),
+   which is exactly the form needed here.
+5. **Genuine obstruction found, not yet resolved**: pinning the scalar via the *existing*
+   `GppPadicZetaIntegral.haarMeasure_span_pow` fact (proved for `GppPadicHaar.haarMeasure`
+   on `PadicInt p`, a *different* ambient space from `Padic p`) is not a free transfer.
+   The natural attempt — push `haarMeasure` forward along the embedding `PadicInt p ↪
+   Padic p` and compare to `fieldHaarMeasure` — fails the uniqueness theorem's own
+   `[μ'.IsAddLeftInvariant]` hypothesis: that pushforward is only invariant under
+   translation by elements *of* `ℤ_p`, not by every element of `ℚ_p`, since the embedding's
+   domain is only `ℤ_p`. So the scalar for `a = p` needs an *independent* derivation, most
+   plausibly by redoing the translation/coset-counting argument
+   (`GppHaarSubgroupIndex.index_vadd_measure_eq_univ`'s technique) *natively* on `Padic p`
+   — i.e. rebuilding the `pⁿℤ_p ⊆ ℤ_p` coset-partition argument for `fieldHaarMeasure`
+   from scratch rather than transferring it. `Padic.norm_le_pow_iff_norm_lt_pow_add_one`
+   (confirmed to exist, `Mathlib.NumberTheory.Padics.PadicNumbers`) is the natural
+   norm-ball characterization to build that on. Not attempted yet.
 
 Not a quick add-on: comparable in scope to the entire earlier `ℤ_p`-side Haar-measure
-sub-thread (`PadicHaarMeasure.lean` through `PadicFullZetaIntegral.lean`, five files).
+sub-thread (`PadicHaarMeasure.lean` through `PadicFullZetaIntegral.lean`, five files) —
+now with steps 1–3 of 5 landed, and step 4's exact tool confirmed, but step 5's transfer
+obstruction genuinely unresolved.
 
 Not sourced from a specific Golden Physics Project paper.
 -/
