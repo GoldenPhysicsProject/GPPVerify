@@ -55,7 +55,8 @@ theorem shell_term_eq (s : ℝ) (n : ℕ) :
   have hpEntop : (p : ℝ≥0∞) ≠ ⊤ := ENNReal.natCast_ne_top p
   have hshellmeasure : ((p : ℝ≥0∞) ^ n)⁻¹ - ((p : ℝ≥0∞) ^ (n + 1))⁻¹ =
       (1 - (p : ℝ≥0∞)⁻¹) * ((p : ℝ≥0∞) ^ n)⁻¹ := by
-    rw [pow_succ, ENNReal.mul_inv (Or.inr hpEntop) (Or.inr hpEnne), tsub_mul, one_mul,
+    rw [pow_succ, ENNReal.mul_inv (Or.inr hpEntop) (Or.inr hpEnne),
+        ENNReal.sub_mul (fun _ _ => ENNReal.inv_ne_top.mpr (pow_ne_zero n hpEnne)), one_mul,
         mul_comm ((p : ℝ≥0∞) ^ n)⁻¹ (p : ℝ≥0∞)⁻¹]
   rw [hshellmeasure]
   rw [show (p : ℝ≥0∞) ^ (-(n : ℝ) * s) * ((1 - (p : ℝ≥0∞)⁻¹) * ((p : ℝ≥0∞) ^ n)⁻¹) =
