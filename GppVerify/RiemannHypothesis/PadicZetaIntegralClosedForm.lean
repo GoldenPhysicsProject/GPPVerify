@@ -48,24 +48,25 @@ theorem shell_term_eq (s : ℝ) (n : ℕ) :
     rw [← Real.rpow_intCast (p : ℝ) (-(n : ℤ)), ← Real.rpow_mul hpR.le]
     norm_num
   rw [ENNReal.ofReal_rpow_of_pos hpow_pos, hval, ← ENNReal.ofReal_rpow_of_pos hpR]
-  have hcast : ENNReal.ofReal (p : ℝ) = (p : ℝ≥0∞) := by
-    rw [← Nat.cast_one (R := ℝ)]
-    simp
+  have hcast : ENNReal.ofReal (p : ℝ) = (p : ℝ≥0∞) := ENNReal.ofReal_natCast p
   rw [hcast]
   -- Goal: (p:ℝ≥0∞)^(-(n:ℝ)*s) * ((p^n)⁻¹ - (p^(n+1))⁻¹) = (1-p⁻¹) * (p^(-(s+1)))^n
   have hpEnne : (p : ℝ≥0∞) ≠ 0 := Nat.cast_ne_zero.mpr (Fact.out : p.Prime).pos.ne'
   have hpEntop : (p : ℝ≥0∞) ≠ ⊤ := ENNReal.natCast_ne_top p
   have hshellmeasure : ((p : ℝ≥0∞) ^ n)⁻¹ - ((p : ℝ≥0∞) ^ (n + 1))⁻¹ =
       (1 - (p : ℝ≥0∞)⁻¹) * ((p : ℝ≥0∞) ^ n)⁻¹ := by
-    rw [pow_succ, ENNReal.mul_inv (Or.inl hpEnne) (Or.inl hpEntop), tsub_mul, one_mul]
+    rw [pow_succ, ENNReal.mul_inv (Or.inr hpEntop) (Or.inr hpEnne), tsub_mul, one_mul,
+        mul_comm ((p : ℝ≥0∞) ^ n)⁻¹ (p : ℝ≥0∞)⁻¹]
   rw [hshellmeasure]
   rw [show (p : ℝ≥0∞) ^ (-(n : ℝ) * s) * ((1 - (p : ℝ≥0∞)⁻¹) * ((p : ℝ≥0∞) ^ n)⁻¹) =
         (1 - (p : ℝ≥0∞)⁻¹) * ((p : ℝ≥0∞) ^ (-(n : ℝ) * s) * ((p : ℝ≥0∞) ^ n)⁻¹) by ring]
   congr 1
-  rw [← ENNReal.rpow_natCast (p : ℝ≥0∞) n, ← ENNReal.rpow_neg, ← ENNReal.rpow_add _ _ hpEnne hpEntop]
-  rw [← ENNReal.rpow_natCast (p : ℝ≥0∞) n]
-  rw [show -(n : ℝ) * s + -(n : ℝ) = -(n : ℝ) * (s + 1) by ring]
-  rw [ENNReal.rpow_mul, ENNReal.rpow_natCast]
+  have hpn : ((p : ℝ≥0∞) ^ n)⁻¹ = (p : ℝ≥0∞) ^ (-(n : ℝ)) := by
+    rw [← ENNReal.rpow_natCast (p : ℝ≥0∞) n, ← ENNReal.rpow_neg]
+  have hrhs : ((p : ℝ≥0∞) ^ (-(s + 1))) ^ n = (p : ℝ≥0∞) ^ (-(s + 1) * (n : ℝ)) := by
+    rw [← ENNReal.rpow_natCast ((p : ℝ≥0∞) ^ (-(s + 1))) n, ← ENNReal.rpow_mul]
+  rw [hpn, hrhs, ← ENNReal.rpow_add _ _ hpEnne hpEntop,
+      show -(n : ℝ) * s + -(n : ℝ) = -(s + 1) * (n : ℝ) by ring]
 
 /-- **The full p-adic zeta integral.** -/
 theorem lintegral_norm_rpow (s : ℝ) :
