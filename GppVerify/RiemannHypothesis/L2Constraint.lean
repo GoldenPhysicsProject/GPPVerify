@@ -80,10 +80,15 @@ theorem K1_compact_haar : True := trivial
     Follows from adelic_haar_self_dual. -/
 theorem T_preserves_L2 : True := trivial
 
-/-- A T-eigenfunction in L²(K¹) forces Re(s) = 1/2.
-    Gap: Plancherel on K¹ + Hecke character theory. -/
-axiom l2_shadow_eigenvalue_forces_critical_re
-    (s : ℂ) (_ : True) (_ : True) : s.re = 1 / 2
+/-- A T-eigenfunction in L²(K¹) forces Re(s) = 1/2. This is *not* an axiom: the real
+    claim is conditional on `χ_s ∈ L²(K¹)` and `χ_s` being a `T`-eigenfunction, neither
+    of which Mathlib's adèlic theory can express yet (`Gap: Plancherel on K¹ + Hecke
+    character theory`). Encoding those hypotheses as bare `True` and asserting the
+    conclusion unconditionally would make the resulting `axiom` — and everything
+    built on it — logically inconsistent: instantiated at any `s` with `s.re ≠ 1/2`
+    (e.g. `s = 2`) it proves `False`. Left as a documented, content-free stub instead,
+    exactly like `K1_compact_haar` and `T_preserves_L2` above. -/
+theorem l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
 
 -- ============================================================
 -- §3  Main theorem (thm:l2-constraint)
@@ -91,19 +96,21 @@ axiom l2_shadow_eigenvalue_forces_critical_re
 
 /-- **L² Constraint Theorem** (thm:l2-constraint, ONON52 §4.3, cited 12×).
 
-    If χ_s ∈ L²(K¹) is a T-eigenfunction, then Re(s) = 1/2.
+    Claim: if `χ_s ∈ L²(K¹)` is a `T`-eigenfunction, then `Re(s) = 1/2`.
 
-    Algebraic core proved: `conj_eq_shadow_iff_critical`.
-    Analytic infrastructure: three axioms documenting Mathlib gaps. -/
-theorem l2_constraint (s : ℂ) (h_l2 : True) (h_eig : True) : s.re = 1 / 2 :=
-  l2_shadow_eigenvalue_forces_critical_re s h_l2 h_eig
+    Algebraic core proved: `conj_eq_shadow_iff_critical` (unitary eigenvalue forces the
+    critical line, *given* the L² hypotheses). The L² hypotheses themselves cannot be
+    stated yet without Mathlib's adèlic quotient theory, so — unlike a previous version
+    of this file — this is *not* encoded as an unconditional theorem with `True` standing
+    in for the missing hypotheses (doing so made the corresponding `axiom` inconsistent).
+    Left as a documented, content-free stub. -/
+theorem l2_constraint : True := trivial
 
-/-- Corollary: every L²-admissible non-trivial zero of ζ satisfies Re(s) = 1/2. -/
-theorem l2_constraint_implies_rh (s : ℂ)
-    (_ : riemannZeta s = 0)
-    (_ : 0 < s.re ∧ s.re < 1)
-    (hl2 : True) : s.re = 1 / 2 :=
-  l2_shadow_eigenvalue_forces_critical_re s hl2 hl2
+/-- Claim: every L²-admissible non-trivial zero of ζ satisfies `Re(s) = 1/2`. Same
+    status as `l2_constraint` above: a real, precisely-stated mathematical claim, not
+    yet formalizable without adèlic L² theory, left honest rather than encoded as an
+    unconditionally-quantified (and hence false) axiom. -/
+theorem l2_constraint_implies_rh : True := trivial
 
 end GppL2
 
