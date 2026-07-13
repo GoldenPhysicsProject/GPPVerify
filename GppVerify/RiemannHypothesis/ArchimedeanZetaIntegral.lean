@@ -31,11 +31,14 @@ open MeasureTheory
 theorem archimedean_zeta_integral (s : ℝ) (hs : 0 < s) :
     ∫ x : ℝ, Real.exp (-Real.pi * x ^ 2) * |x| ^ (s - 1) =
       Real.pi ^ (-(s / 2)) * Real.Gamma (s / 2) := by
-  have hrw : (fun x : ℝ => Real.exp (-Real.pi * x ^ 2) * |x| ^ (s - 1)) =
-      (fun x : ℝ => (fun y : ℝ => Real.exp (-Real.pi * y ^ 2) * y ^ (s - 1)) |x|) := by
-    funext x
-    simp only [sq_abs]
-  rw [hrw, integral_comp_abs]
+  -- `integral_comp_abs`'s statement, specialized to our integrand and beta-reduced by
+  -- `have`'s defeq check (avoiding the beta-redex `rw` would otherwise have to match).
+  have hdouble :
+      (∫ x : ℝ, Real.exp (-Real.pi * |x| ^ 2) * |x| ^ (s - 1)) =
+        2 * ∫ x in Set.Ioi (0 : ℝ), Real.exp (-Real.pi * x ^ 2) * x ^ (s - 1) :=
+    integral_comp_abs (f := fun y : ℝ => Real.exp (-Real.pi * y ^ 2) * y ^ (s - 1))
+  simp_rw [← sq_abs]
+  rw [hdouble]
   have hcomm :
       (∫ x in Set.Ioi (0 : ℝ), Real.exp (-Real.pi * x ^ 2) * x ^ (s - 1)) =
         ∫ x in Set.Ioi (0 : ℝ), x ^ (s - 1) * Real.exp (-Real.pi * x ^ 2) := by
