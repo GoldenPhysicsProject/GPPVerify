@@ -334,3 +334,13 @@ import GppVerify.RiemannHypothesis.ArchimedeanZetaIntegral
 -- exactly S -> mu(a . S). Pinning down the exact scalar (||a||) via
 -- Haar uniqueness is still open. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicScalingHaar
+
+-- ── Transferring haarMeasure_span_pow to Q_p (New) ────────────────
+-- Step 5 of the scaling-law plan, executed: transfers the already-
+-- proven mu(p^n Z_p) = p^-n fact from PadicInt p to Padic p, via
+-- Measure.comap (pullback, not pushforward -- pushforward failed the
+-- uniqueness theorem's own invariance hypothesis) along the open
+-- embedding Z_p -> Q_p, using isAddHaarMeasure_eq_of_isProbabilityMeasure
+-- to identify two probability Haar measures on the compact group Z_p.
+-- Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicHaarTransfer
