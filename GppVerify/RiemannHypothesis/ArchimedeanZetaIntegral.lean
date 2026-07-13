@@ -51,8 +51,15 @@ theorem archimedean_zeta_integral (s : ℝ) (hs : 0 < s) :
     congr 1
     funext x
     ring
-  rw [hcomm,
-      integral_rpow_mul_exp_neg_mul_rpow (p := 2) (q := s - 1) (b := Real.pi)
+  rw [hcomm]
+  -- `integral_rpow_mul_exp_neg_mul_rpow`'s `x ^ p` is `Real.rpow` (since `p : ℝ`), but
+  -- our `x ^ 2` above is the natural-number `Monoid.npow` (from the literal `2` in the
+  -- theorem statement) — same value, different underlying function, so `rw` can't see
+  -- them as the same pattern until this is bridged explicitly.
+  have hpow2 : ∀ x : ℝ, x ^ (2 : ℕ) = x ^ (2 : ℝ) := fun x => by
+    rw [show (2 : ℝ) = ((2 : ℕ) : ℝ) by norm_num, Real.rpow_natCast]
+  simp_rw [hpow2]
+  rw [integral_rpow_mul_exp_neg_mul_rpow (p := 2) (q := s - 1) (b := Real.pi)
         (by norm_num) (by linarith) Real.pi_pos]
   have hexp : s - 1 + 1 = s := by ring
   rw [hexp]
