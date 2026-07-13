@@ -88,4 +88,49 @@ theorem lintegral_norm_rpow (s : ℝ) :
   simp_rw [shell_term_eq p s]
   rw [ENNReal.tsum_mul_left, ENNReal.tsum_geometric]
 
+/-- **Sanity check at `s = 0`**: the integral of the constant function `1` over `ℤ_p`
+    is the total mass `μ(ℤ_p) = 1`. This is the `s = 0` instance of
+    `lintegral_norm_rpow` collapsing to `GppPadicHaar.haarMeasure_univ`, and confirms
+    the closed form is consistent at the one value where the answer is knowable by an
+    entirely independent route. -/
+theorem lintegral_norm_rpow_zero :
+    ∫⁻ x, normRpow p 0 x ∂(GppPadicHaar.haarMeasure p) = 1 := by
+  have hone : ∀ x : PadicInt p, normRpow p 0 x = 1 := by
+    intro x; unfold normRpow; exact ENNReal.rpow_zero
+  simp_rw [hone]
+  rw [lintegral_const, GppPadicHaar.haarMeasure_univ, mul_one]
+
+/-- **The `s = 1` instance**: `∫_{ℤ_p} ‖x‖ dμ`, the first absolute moment of the
+    Haar-random `ℤ_p`-point under the p-adic norm. -/
+theorem lintegral_norm_rpow_one :
+    ∫⁻ x, normRpow p 1 x ∂(GppPadicHaar.haarMeasure p) =
+      (1 - (p : ℝ≥0∞)⁻¹) * (1 - (p : ℝ≥0∞) ^ (-(2 : ℝ)))⁻¹ := by
+  rw [lintegral_norm_rpow]
+  norm_num
+
+/-- **Tate's local zeta integral, in Tate's own normalization.**
+
+    Tate's thesis studies, for the unramified data `f = 1_{ℤ_p}` and the trivial
+    character, the local zeta integral
+    `Z(s) = ∫_{ℚ_p} f(x) |x|^s d^×x = ∫_{ℤ_p \ {0}} ‖x‖^s d^×x`
+    against the *multiplicative* Haar measure `d^×x`. Taking `d^×x` to be the measure
+    induced from our additive `μ` (`GppPadicHaar.haarMeasure`) by `d^×x := dμ / ‖x‖`
+    — the standard construction — gives
+    `Z(s) = ∫_{ℤ_p} ‖x‖^{s-1} dμ = lintegral_norm_rpow (s - 1)`,
+    since dividing by `‖x‖` shifts the exponent down by one and `{0}` is `μ`-null
+    (`GppPadicOrigin.haarMeasure_singleton_zero`) so extending the domain from `ℤ_p\{0}`
+    back to all of `ℤ_p` changes nothing.
+
+    Under this convention `d^×x` is *not* normalized to give `ℤ_p^×` total mass 1: one
+    computes `vol(ℤ_p^×, d^×x) = μ(ℤ_p^×) = μ(ℤ_p) - μ(p ℤ_p) = 1 - p⁻¹` (using
+    `GppPadicZetaIntegral.haarMeasure_span_pow` at `n = 1`), matching exactly the
+    `(1 - p⁻¹)` prefactor below. So this is the classical non-archimedean local Euler
+    factor `(1 - p^{-s})^{-1}` up to precisely that `(1 - p⁻¹)` measure-normalization
+    constant — not an extra unexplained fudge factor, but the volume of `ℤ_p^×` under
+    this specific choice of multiplicative Haar measure. -/
+theorem tate_local_zeta_integral (s : ℝ) :
+    ∫⁻ x, normRpow p (s - 1) x ∂(GppPadicHaar.haarMeasure p) =
+      (1 - (p : ℝ≥0∞)⁻¹) * (1 - (p : ℝ≥0∞) ^ (-s))⁻¹ := by
+  rw [lintegral_norm_rpow, show -(s - 1 + 1) = -s by ring]
+
 end GppPadicFullZeta
