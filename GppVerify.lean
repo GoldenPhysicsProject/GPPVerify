@@ -300,3 +300,11 @@ import GppVerify.RiemannHypothesis.PadicZetaIntegralClosedForm
 -- down to exactly that local factor (1 - p^{-s})^{-1}, cast correctly
 -- through ENNReal -> Real -> Complex. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicEulerFactorBridge
+
+-- ── Additive Haar Measure on the Full Field Q_p (New) ─────────────
+-- First brick toward a genuine multiplicative Haar measure on Q_p^x:
+-- the canonical additive Haar measure on all of Q_p (not just the
+-- compact subring Z_p), normalized via the closed unit ball (= Z_p)
+-- as the positive-compacts witness, matching Tate's own convention.
+-- Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicFieldHaarMeasure
