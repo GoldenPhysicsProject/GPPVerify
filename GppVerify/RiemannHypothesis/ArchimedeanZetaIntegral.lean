@@ -65,4 +65,17 @@ theorem archimedean_zeta_integral (s : ℝ) (hs : 0 < s) :
   rw [hexp]
   ring
 
+/-- **Sanity check at `s = 1`**: the `|x|^{s-1}` weight becomes trivial, so the integral
+    reduces to the bare Gaussian `∫_ℝ e^{-πx²} dx`, whose value from
+    `archimedean_zeta_integral` (`π^{-1/2}Γ(1/2) = π^{-1/2}·√π = 1`, via
+    `Real.Gamma_one_half_eq`) agrees exactly with the value obtained independently from
+    Mathlib's own `integral_gaussian` at `b = π` (`√(π/π) = 1`) — an external consistency
+    check on the whole derivation. -/
+theorem archimedean_zeta_integral_one :
+    ∫ x : ℝ, Real.exp (-Real.pi * x ^ 2) = 1 := by
+  have h := archimedean_zeta_integral 1 one_pos
+  simp only [sub_self, Real.rpow_zero, mul_one] at h
+  rw [h, Real.Gamma_one_half_eq, Real.sqrt_eq_rpow, ← Real.rpow_add Real.pi_pos,
+      show -(1 / 2 : ℝ) + 1 / 2 = 0 by ring, Real.rpow_zero]
+
 end GppArchimedeanZeta
