@@ -325,3 +325,12 @@ import GppVerify.RiemannHypothesis.PadicMultiplicativeMeasure
 -- proved from Mathlib's half-line Gaussian-Gamma integral plus the
 -- even-function doubling identity integral_comp_abs. Not paper-sourced.
 import GppVerify.RiemannHypothesis.ArchimedeanZetaIntegral
+
+-- ── Scaling Pushforward is Haar (New) ─────────────────────────────
+-- First concrete brick of the Q_p^x scaling-law plan: multiplication
+-- by a nonzero field element is a continuous additive automorphism
+-- of Q_p, so pushing fieldHaarMeasure forward along it is again Haar
+-- (ContinuousAddEquiv.isAddHaarMeasure_map), and that pushforward is
+-- exactly S -> mu(a . S). Pinning down the exact scalar (||a||) via
+-- Haar uniqueness is still open. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicScalingHaar
