@@ -1,4 +1,5 @@
 import GppVerify.RiemannHypothesis.PadicFullZetaIntegral
+import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
 
 /-!
 # The full p-adic zeta integral: closed form
