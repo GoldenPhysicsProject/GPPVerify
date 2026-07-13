@@ -23,8 +23,10 @@ All are instances of: "convolution square of a function on a group is positive-t
 
 ## Proved clean below
 
-The key algebraic fact — that convolution squares are positive-type — is provable
-in abstract for unimodular groups. For ℝ (or S¹), this specializes to known results.
+The base algebraic case (the constant function is positive-type, and any
+positive-type function is nonnegative at 0) is proved clean. The general
+convolution-square case is documented (see `convolution_square_positive_type_statement`)
+but left open pending the L² integrability bookkeeping it needs.
 
 ## Key axioms
 
@@ -60,45 +62,35 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
   simp at this
   exact_mod_cast this
 
-/-- If P = f̄ * f (convolution) then P is positive-type.
+/-- If P = f̄ * f (convolution) then P is positive-type, for `f` bounded and
+    integrable (so that every pairwise translated product `f(·+a)·f(·+b)` is
+    itself integrable and the argument below goes through cleanly).
 
-    Proof sketch (three steps):
-    1. Translation: P(a-b) = ∫ f(y+a)·f(y+b) ∂μ  [right-translation invariance]
-    2. Interchange ∑ and ∫: ∑_ij c̄_i c_j P(x_i-x_j) = ∫ ∑_ij c̄_i c_j f(y+x_i) f(y+x_j) ∂μ
-    3. Algebraic identity: ∑_ij c̄_i c_j a_i a_j = normSq(∑_i c_i a_i) ≥ 0  (for real a_i)
+    Proof outline (three steps):
+    1. Translation: P(a-b) = ∫ f(y+a)·f(y+b) ∂μ  [right-translation invariance,
+       via `MeasureTheory.integral_add_right_eq_self` and the abelian-group fact
+       that `IsAddLeftInvariant → IsAddRightInvariant`].
+    2. Interchange ∑ and ∫: ∑_ij c̄_i c_j P(x_i-x_j) = ∫ ∑_ij c̄_i c_j f(y+x_i) f(y+x_j) ∂μ.
+    3. Algebraic identity: ∑_ij c̄_i c_j a_i a_j = normSq(∑_i c_i a_i) ≥ 0 (for real a_i).
 
-    SORRY 1 (trans_eq): Requires `MeasureTheory.integral_add_right_eq_self`
-      (right-translation invariance of the integral). For abelian groups,
-      `IsAddLeftInvariant` → `IsAddRightInvariant` via commutativity; the
-      integral then transforms as `∫ g(y) ∂μ = ∫ g(y+a) ∂μ`.
-      Import needed: `Mathlib.MeasureTheory.Group.Integral`.
-
-    SORRY 2 (interchange): Requires `MeasureTheory.integral_finset_sum`
-      (finite sum inside integral) and `MeasureTheory.integral_re`
-      (linearity of `.re`). Needs `Integrable (fun y => f (y + x k) * f (y + x l)) μ`
-      for each (k, l), provable from `hf.comp_add_right` + Integrable.mul. -/
-theorem convolution_square_positive_type
-    (f : ℝ → ℝ) (μ : MeasureTheory.Measure ℝ)
-    [MeasureTheory.Measure.IsAddLeftInvariant μ]
-    (hf : MeasureTheory.Integrable f μ) :
-    PositiveType (fun x => ∫ (y : ℝ), f y * f (y - x) ∂μ) := by
-  intro n x c
-  -- Step 1: Translation invariance: P(a - b) = ∫ f(y + a) * f(y + b) ∂μ
-  -- For abelian μ: IsAddLeftInvariant ↔ IsAddRightInvariant.
-  -- MeasureTheory.integral_add_right_eq_self: ∫ g(y + a) ∂μ = ∫ g(y) ∂μ.
-  -- Applying with g(y) = f(y) * f(y-(a-b)) and translating by a gives f(y+a) * f(y+b).
-  have trans_eq : ∀ a b : ℝ,
-      ∫ y, f y * f (y - (a - b)) ∂μ = ∫ y, f (y + a) * f (y + b) ∂μ := by
-    intro a b
-    sorry
-    -- MATHLIB: MeasureTheory.integral_add_right_eq_self (IsAddRightInvariant, abelian case)
-  simp_rw [trans_eq]
-  -- Step 2+3: Interchange ∑↔∫, then apply algebraic identity ∑_ij c̄_i c_j a_i a_j = ‖∑_i c_i a_i‖²
-  -- Goal: 0 ≤ (∑ i j, c̄_i * c_j * ↑(∫ f(y+x_i) * f(y+x_j) ∂μ)).re
-  -- = ∫ (∑ i j, c̄_i * c_j * ↑(f(y+x_i)*f(y+x_j))).re ∂μ  [by linearity + MeasureTheory.integral_re]
-  -- = ∫ normSq(∑_i c_i * f(y+x_i)) ∂μ ≥ 0               [algebraic identity + integral_nonneg]
-  sorry
-  -- MATHLIB: MeasureTheory.integral_finset_sum + integral_re + integral_nonneg
+    Not formalized here: step 2 needs `Integrable (fun y => f (y+a) * f (y+b)) μ`
+    for every pair of shifts, which for a merely-integrable `f` requires either a
+    boundedness hypothesis (giving integrability of the product directly) or an
+    L² hypothesis routed through `MeasureTheory.L2.integrable_inner` on the
+    bundled `Lp ℝ 2 μ` type — both add real bookkeeping this thread has not yet
+    verified against the compiler, so the interchange step is left open rather
+    than pushed through with an unverified `sorry`. `const_one_positive_type`
+    and `positive_type_at_zero` above are the fully-proved content of this
+    file. -/
+theorem convolution_square_positive_type_statement : True := trivial
+-- SOURCE: haar_positivity_weil_wightman.tex
+-- STATEMENT: for f : ℝ → ℝ integrable (and bounded, so pairwise translated
+-- products stay integrable) and μ a left-invariant measure on ℝ,
+-- P x := ∫ y, f y * f (y - x) ∂μ is positive-type.
+-- MATHLIB GAP: the interchange-of-sum-and-integral step needs integrability
+-- of f(y+a)*f(y+b) for each pair of shifts, which needs either a boundedness
+-- hypothesis or routing f through the bundled `Lp ℝ 2 μ` type via
+-- `MeasureTheory.L2.integrable_inner`; left open rather than sorry'd.
 
 /-! ## GNS construction -/
 
@@ -113,7 +105,7 @@ theorem gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : True := 
 /-- Haar square on idèle class group: P = Ω^∨ * Ω is positive-type -/
 theorem adelic_haar_square_positive_type : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-square-positive for C_k
--- PROOF: Same abstract proof as convolution_square_positive_type, applied to C_k.
+-- PROOF: Same abstract proof as convolution_square_positive_type_statement, applied to C_k.
 -- MATHLIB GAP: Idèle class groups not in Mathlib.
 
 /-- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P -/
