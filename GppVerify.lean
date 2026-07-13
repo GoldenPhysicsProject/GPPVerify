@@ -269,3 +269,11 @@ import GppVerify.RiemannHypothesis.PadicShellMeasure
 -- squeeze (ENNReal.eq_zero_of_le_mul_pow), no limit machinery
 -- needed. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicOriginMeasure
+
+-- ── Exact Norm on a p-adic Shell (New) ────────────────────────────
+-- Every x in the shell p^n Z_p \ p^{n+1} Z_p has ||x|| = p^{-n}
+-- exactly (via PadicInt.mem_span_pow_iff_le_valuation pinning down
+-- the valuation to exactly n), the last ingredient needed to
+-- evaluate the full zeta integral as a geometric series. Not
+-- paper-sourced.
+import GppVerify.RiemannHypothesis.PadicShellNorm
