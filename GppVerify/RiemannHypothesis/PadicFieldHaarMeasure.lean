@@ -54,6 +54,13 @@ noncomputable def fieldHaarMeasure : Measure (Padic p) :=
 instance : (fieldHaarMeasure p).IsAddLeftInvariant :=
   Measure.isAddLeftInvariant_addHaarMeasure (unitBallPositiveCompacts p)
 
+/-- `fieldHaarMeasure` is a genuine additive Haar measure (same opaque-`def` reasoning as
+    the left-invariance instance above: needed explicitly by downstream users such as
+    `ContinuousAddEquiv.isAddHaarMeasure_map`, which requires the `IsAddHaarMeasure`
+    instance to already be in scope). -/
+instance : (fieldHaarMeasure p).IsAddHaarMeasure :=
+  Measure.isAddHaarMeasure_addHaarMeasure (unitBallPositiveCompacts p)
+
 /-- **`ℚ_p`'s canonical Haar measure gives the closed unit ball (`ℤ_p`) measure 1.** -/
 theorem fieldHaarMeasure_closedBall :
     fieldHaarMeasure p (Metric.closedBall (0 : Padic p) 1) = 1 := by
