@@ -284,3 +284,11 @@ import GppVerify.RiemannHypothesis.PadicShellNorm
 -- partition Z_p \ {0} = union of shells -- the decomposition needed
 -- for the full zeta integral via lintegral_iUnion. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicFullZetaIntegral
+
+-- ── The Full p-adic Zeta Integral: Closed Form (New) ──────────────
+-- The capstone: integral over Z_p of ||x||^s dmu = (1 - 1/p) *
+-- (1 - p^{-(s+1)})^{-1}, for every real s (Tate's-thesis lecture
+-- notes, Example 4.10). Assembled from the shell partition, exact
+-- shell measure, exact shell norm, and origin-measure-zero facts via
+-- lintegral_iUnion and ENNReal.tsum_geometric. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicZetaIntegralClosedForm
