@@ -308,3 +308,12 @@ import GppVerify.RiemannHypothesis.PadicEulerFactorBridge
 -- as the positive-compacts witness, matching Tate's own convention.
 -- Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicFieldHaarMeasure
+
+-- ── Multiplicative Haar Measure on Q_p, via withDensity (New) ─────
+-- The multiplicative measure d^xx := dx/||x||, defined directly on
+-- Q_p via Measure.withDensity rather than building Q_p^x as its own
+-- topological group. Multiplicative invariance is NOT proved here
+-- (needs a from-scratch Haar-measure scaling law for Q_p acting on
+-- itself); this file only establishes the definition and the density
+-- function's measurability. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicMultiplicativeMeasure
