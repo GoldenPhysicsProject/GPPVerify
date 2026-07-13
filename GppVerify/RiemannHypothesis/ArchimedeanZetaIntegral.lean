@@ -1,5 +1,6 @@
 import Mathlib.MeasureTheory.Integral.Gamma
 import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
+import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
 
 /-!
 # The archimedean local zeta integral
