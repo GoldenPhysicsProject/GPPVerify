@@ -120,11 +120,13 @@ theorem shadow_catwise_enhancement :
 /-! ## Axioms (deep: observational fit, cosmological perturbation theory) -/
 
 /-- Four-survey fit: χ² = 0.166, Bayesian evidence ln B = 7.77.
-    Requires integration over flux-limited survey window functions. -/
-axiom dipole_survey_fit : True
+    Requires integration over flux-limited survey window functions. Not an
+    axiom: the statement is content-free (`True`); left as a documented
+    stub rather than adding an unnecessary axiom to the trust base. -/
+theorem dipole_survey_fit : True := trivial
 
 /-- Inflation as near-critical Bost–Connes: β_inf = 1+ε, just above the
     β_c = 1 phase transition. Requires BC Hamiltonian analysis. -/
-axiom bost_connes_inflation_phase : True
+theorem bost_connes_inflation_phase : True := trivial
 
 end GppUnifiedDipole

@@ -253,11 +253,13 @@ theorem null_cone_quadric (t x y z : ℝ) :
 /-! ## Axioms (deep: Hasse–Weil, Bost–Connes) -/
 
 /-- ζ_Gr(s) = ζ(s)·ζ(s-1)·ζ(s-2)²·ζ(s-3)·ζ(s-4) (5 Riemann zeta shifts)
-    Proof requires Hasse–Weil theorem and Weil conjectures (Deligne 1974). -/
-axiom hasse_weil_gr24_factorization : True
+    Proof requires Hasse–Weil theorem and Weil conjectures (Deligne 1974). Not
+    an axiom: the statement is content-free (`True`); left as a documented
+    stub rather than adding an unnecessary axiom to the trust base. -/
+theorem hasse_weil_gr24_factorization : True := trivial
 
 /-- Bost–Connes system is the restriction of the celestial Hilbert space
     to the prime sublattice; Z_BC(β) = ζ(β). -/
-axiom bost_connes_celestial_restriction : True
+theorem bost_connes_celestial_restriction : True := trivial
 
 end GppHolographicChain

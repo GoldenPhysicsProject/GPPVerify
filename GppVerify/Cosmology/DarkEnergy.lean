@@ -80,15 +80,17 @@ theorem cpl_at_present (w0 wa : ℝ) :
 
 /-- Dark energy equation of state from T-boundary:
     w(a) = -2/3 - f(a) - (2/3)(d ln f / d ln a), where f = d ln D / d ln a.
-    Proof requires T-boundary enforcement calculation + conformal self-lensing. -/
-axiom dark_energy_eos_from_t_boundary : True
+    Proof requires T-boundary enforcement calculation + conformal self-lensing.
+    Not an axiom: the statement is content-free (`True`); left as a
+    documented stub rather than adding an unnecessary axiom to the trust base. -/
+theorem dark_energy_eos_from_t_boundary : True := trivial
 
 /-- T-symmetric boundary condition forces Weyl curvature to vanish at ℐ±:
     C_μνρσ|_{ℐ±} = 0. Proof requires conformal compactification. -/
-axiom weyl_curvature_zero_at_boundary : True
+theorem weyl_curvature_zero_at_boundary : True := trivial
 
 /-- DESI DR2 fit: χ² = 0.02 with zero free parameters (vs ΛCDM χ² = 11.2).
     Requires cosmological data analysis. -/
-axiom desi_dr2_fit : True
+theorem desi_dr2_fit : True := trivial
 
 end GppDarkEnergy

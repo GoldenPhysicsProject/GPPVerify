@@ -90,15 +90,17 @@ theorem shadow_t_duality_same (x : ℝ) (hx : x ≠ 0) :
 
 /-- Veneziano amplitude A_V(s,t) and celestial MHV coefficient are both instances
     of ∏ᵢΓ(aᵢ)/Γ(Σaᵢ-c) with c=0 and c=2 respectively.
-    Proof requires Mellin bootstrap and conformal block analysis. -/
-axiom veneziano_celestial_unified : True
+    Proof requires Mellin bootstrap and conformal block analysis. Not an
+    axiom: the statement is content-free (`True`); left as a documented
+    stub rather than adding an unnecessary axiom to the trust base. -/
+theorem veneziano_celestial_unified : True := trivial
 
 /-- KLT gravity = gauge² relation follows from Sugawara T(z) = 1/(2(k+h∨)) ΣₐJᵃJᵃ.
     Proof requires WZW model and affine Kac–Moody representation theory. -/
-axiom klt_gravity_gauge_squared : True
+theorem klt_gravity_gauge_squared : True := trivial
 
 /-- Celestial CFT is the unique IR fixed point of 4D quantum gravity with SM matter.
     Proof requires conformal bootstrap and anomaly cancellation analysis. -/
-axiom celestial_cft_unique_irfp : True
+theorem celestial_cft_unique_irfp : True := trivial
 
 end GppDivisionAlgebras
