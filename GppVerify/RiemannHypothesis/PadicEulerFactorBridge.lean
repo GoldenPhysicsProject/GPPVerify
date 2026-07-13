@@ -38,6 +38,7 @@ theorem riemannZeta_factor_eq_ofReal (s : ℝ) :
   have hcast : (p : ℂ) ^ (-(s : ℂ)) = (((p : ℝ) ^ (-s) : ℝ) : ℂ) := by
     have hexp : (-(s : ℂ)) = ((-s : ℝ) : ℂ) := by push_cast; ring
     rw [hexp, Complex.ofReal_cpow hp (-s)]
+    norm_cast
   rw [hcast]
   norm_cast
 
