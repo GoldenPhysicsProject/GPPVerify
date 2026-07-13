@@ -42,7 +42,7 @@ noncomputable def scaleAddEquiv (a : Padic p) (ha : a ≠ 0) :
     measure on `ℚ_p`. -/
 instance isAddHaarMeasure_map_scaleAddEquiv (a : Padic p) (ha : a ≠ 0) :
     (Measure.map (scaleAddEquiv p a ha) (fieldHaarMeasure p)).IsAddHaarMeasure :=
-  ContinuousAddEquiv.isAddHaarMeasure_map (scaleAddEquiv p a ha) (fieldHaarMeasure p)
+  (scaleAddEquiv p a ha).isAddHaarMeasure_map (fieldHaarMeasure p)
 
 /-- Unwinding the pushforward: `(Measure.map (scaleAddEquiv p a ha) μ) S = μ ((a * ·) '' S)`
     for every measurable `S` — i.e. this pushforward measure *is* the set-function
@@ -51,7 +51,10 @@ theorem map_scaleAddEquiv_apply (a : Padic p) (ha : a ≠ 0) {S : Set (Padic p)}
     (hS : MeasurableSet S) :
     Measure.map (scaleAddEquiv p a ha) (fieldHaarMeasure p) S =
       fieldHaarMeasure p ((fun y => a * y) '' S) := by
-  rw [Measure.map_apply (scaleAddEquiv p a ha).continuous.measurable hS]
+  have hcont : Continuous (⇑(scaleAddEquiv p a ha)) := by
+    show Continuous (fun x : Padic p => a⁻¹ * x)
+    exact continuous_const.mul continuous_id
+  rw [Measure.map_apply hcont.measurable hS]
   congr 1
   ext x
   simp only [Set.mem_preimage, scaleAddEquiv_apply, Set.mem_image]
