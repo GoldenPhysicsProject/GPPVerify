@@ -37,7 +37,13 @@ theorem archimedean_zeta_integral (s : ℝ) (hs : 0 < s) :
       (∫ x : ℝ, Real.exp (-Real.pi * |x| ^ 2) * |x| ^ (s - 1)) =
         2 * ∫ x in Set.Ioi (0 : ℝ), Real.exp (-Real.pi * x ^ 2) * x ^ (s - 1) :=
     integral_comp_abs (f := fun y : ℝ => Real.exp (-Real.pi * y ^ 2) * y ^ (s - 1))
-  simp_rw [← sq_abs]
+  -- A plain `simp_rw [← sq_abs]` loops forever here: after rewriting `x ^ 2` to
+  -- `|x| ^ 2`, that result *itself* matches `sq_abs`'s generic `?a ^ 2` pattern again
+  -- (with `?a := |x|`), so the fixpoint-seeking rewrite never stops. Using a single
+  -- fully-formed pointwise equation instead terminates after exactly one rewrite.
+  have hpt : ∀ x : ℝ, Real.exp (-Real.pi * x ^ 2) * |x| ^ (s - 1) =
+      Real.exp (-Real.pi * |x| ^ 2) * |x| ^ (s - 1) := fun x => by rw [← sq_abs]
+  simp_rw [hpt]
   rw [hdouble]
   have hcomm :
       (∫ x in Set.Ioi (0 : ℝ), Real.exp (-Real.pi * x ^ 2) * x ^ (s - 1)) =
