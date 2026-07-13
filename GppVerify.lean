@@ -317,3 +317,11 @@ import GppVerify.RiemannHypothesis.PadicFieldHaarMeasure
 -- itself); this file only establishes the definition and the density
 -- function's measurability. Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicMultiplicativeMeasure
+
+-- ── The Archimedean Local Zeta Integral (New) ─────────────────────
+-- Tate's-thesis local factor at the real place: integral over R of
+-- e^{-pi x^2} * |x|^{s-1} dx = pi^{-s/2} * Gamma(s/2), for real s>0.
+-- Independent of the p-adic thread's open scaling-law question --
+-- proved from Mathlib's half-line Gaussian-Gamma integral plus the
+-- even-function doubling identity integral_comp_abs. Not paper-sourced.
+import GppVerify.RiemannHypothesis.ArchimedeanZetaIntegral
