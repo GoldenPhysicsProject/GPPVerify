@@ -277,3 +277,10 @@ import GppVerify.RiemannHypothesis.PadicOriginMeasure
 -- evaluate the full zeta integral as a geometric series. Not
 -- paper-sourced.
 import GppVerify.RiemannHypothesis.PadicShellNorm
+
+-- ── p-adic Shell Partition (New) ──────────────────────────────────
+-- Every nonzero x lies in exactly one shell p^n Z_p \ p^{n+1} Z_p
+-- (n = x.valuation), giving a disjoint measurable countable
+-- partition Z_p \ {0} = union of shells -- the decomposition needed
+-- for the full zeta integral via lintegral_iUnion. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicFullZetaIntegral
