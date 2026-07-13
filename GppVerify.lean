@@ -262,3 +262,10 @@ import GppVerify.RiemannHypothesis.PadicZetaIntegral
 -- building block for the geometric-series zeta integral. Not
 -- paper-sourced.
 import GppVerify.RiemannHypothesis.PadicShellMeasure
+
+-- ── Origin has Haar Measure Zero in Z_p (New) ────────────────────
+-- mu({0}) = 0, needed to drop the origin when decomposing Z_p into
+-- shells for the full zeta integral. Proved via a geometric-bound
+-- squeeze (ENNReal.eq_zero_of_le_mul_pow), no limit machinery
+-- needed. Not paper-sourced.
+import GppVerify.RiemannHypothesis.PadicOriginMeasure
