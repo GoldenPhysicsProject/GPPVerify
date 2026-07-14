@@ -322,6 +322,102 @@ The algebra is clean; the physics derivation is documented as axioms.
   \texttt{meyer\_spectral\_weil\_identity}, \texttt{weil\_distribution\_positivity}.
 \end{theorem}
 
+\chapter{Ces\`aro Regularization and the Weil Positivity Criterion}
+
+Results from the Ces\`aro/Abel-regularization papers and the finitely-supported
+core of the Weil positivity criterion. Everything in this chapter is fully proved
+in Lean with no axioms; the honest boundary (the operator theory of the intertwining
+operator $\hat W$, and the analytic input that would discharge the positivity
+hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
+
+\begin{lemma}[Ces\`aro Mean Diverges off the Critical Line]
+  \label{lem:cesaro-divergence}
+  \lean{GppCesaroMean.tendsto_cesaro_mean_atTop_of_ne}
+  \leanok
+  For $\sigma \neq 1/2$, the symmetric Ces\`aro mean
+  $(\int_{1/R}^{R} r^{2\sigma-2}\,dr)/(2\log R)$ tends to $+\infty$ as $R \to \infty$.
+  Together with the exact value $1$ at $\sigma = 1/2$ (\texttt{born\_rule\_cesaro}),
+  this makes $\sigma = 1/2$ the unique locus where the inversion-invariant mean is
+  finite and nonzero.
+\end{lemma}
+
+\begin{theorem}[Abel-Regularized Character Formula]
+  \label{thm:abel-character}
+  \lean{GppAbelCesaro.abel_character_formula_integral}
+  \leanok
+  For $|\alpha| < \varepsilon$:
+  $\tfrac{\varepsilon}{2}\int_{\mathbb R} e^{-\varepsilon|u|}e^{\alpha u}\,du
+  = \varepsilon^2/(\varepsilon^2 - \alpha^2)$.
+\end{theorem}
+
+\begin{corollary}[Unit Mass of the Regularized State]
+  \label{cor:abel-state-one}
+  \lean{GppAbelCesaro.abel_state_one_integral}
+  \leanok
+  \uses{thm:abel-character}
+  $\tfrac{\varepsilon}{2}\int_{\mathbb R} e^{-\varepsilon|u|}\,du = 1$ exactly, for
+  every $\varepsilon > 0$.
+\end{corollary}
+
+\begin{theorem}[Periodic Eta Zeros]
+  \label{thm:eta-periodic}
+  \lean{GppCompletedEta.eta_factor_zero_iff}
+  \leanok
+  $2^{1-s} = 1$ iff $s = 1 - 2\pi i k/\log 2$ for some $k \in \mathbb Z$; every such
+  zero has $\operatorname{Re} s = 1$
+  (\texttt{GppCompletedEta.eta\_periodic\_zero\_re}), outside the open critical strip.
+\end{theorem}
+
+\begin{theorem}[Regularized Matrix Element]
+  \label{thm:yaka-element}
+  \lean{GppYakaboylu.regularized_matrix_element}
+  \leanok
+  On the strip $1 - \varepsilon < \sigma < 1 + \varepsilon$:
+  $\tfrac{\varepsilon}{2}\bigl(\int_0^1 t^{\sigma-2+\varepsilon}\,dt
+  + \int_1^\infty t^{\sigma-2-\varepsilon}\,dt\bigr)
+  = \varepsilon^2/(\varepsilon^2-(\sigma-1)^2)$, with value $1$ at $\sigma = 1$ and
+  limit $0$ as $\varepsilon \to 0^+$ for $\sigma \neq 1$: the Kronecker-delta
+  selection $\rho' = 1-\bar\rho$.
+\end{theorem}
+
+\begin{theorem}[Finite Positivity Criterion]
+  \label{thm:weil-criterion}
+  \lean{GppWeilCriterion.involution_fixed_of_pairedForm_nonneg}
+  \leanok
+  If $Z \subseteq \mathbb C$ is closed under an involution $\iota$ and the paired form
+  $\sum_{\rho \in S} \overline{c(\iota\rho)}\,c(\rho)$ has nonnegative real part on
+  every finite $S \subseteq Z$, then every point of $Z$ is fixed by $\iota$.
+\end{theorem}
+
+\begin{theorem}[Zero Set Closed under $\rho \mapsto 1-\bar\rho$]
+  \label{thm:zeros-closed}
+  \lean{GppWeilCriterion.nontrivialZeros_mem_involution}
+  \leanok
+  The nontrivial zero set of $\zeta$ is closed under $\rho \mapsto 1 - \bar\rho$ ---
+  a proved theorem (functional equation composed with the proved conjugation
+  symmetry), not an assumption.
+\end{theorem}
+
+\begin{theorem}[RH iff Finite Weil-Pairing Positivity]
+  \label{thm:rh-iff-positivity}
+  \lean{GppWeilCriterion.rh_iff_weil_pairedForm_nonneg}
+  \leanok
+  \uses{thm:weil-criterion, thm:zeros-closed}
+  Every nontrivial zero lies on the critical line \emph{iff} the paired form is
+  positive semidefinite on every finite subset of the nontrivial zero set. A
+  rigorous reduction --- not a proof of RH: the analytic input that would discharge
+  the positivity hypothesis is not claimed.
+\end{theorem}
+
+\begin{theorem}[The Eta Value as an Integral]
+  \label{thm:sech-sq-integral}
+  \lean{GppSechIntegral.integral_id_div_cosh_sq}
+  \leanok
+  $\int_0^\infty u/\cosh^2 u\,du = \log 2$ --- that is, $\eta(1) = \log 2$ in Mellin
+  disguise, proved with no series interchange via the explicit antiderivative
+  $u\tanh u - \log\cosh u$.
+\end{theorem}
+
 \chapter{L\textsuperscript{2} Constraint}
 
 \section{\texorpdfstring{$L^2(K^1)$}{L²(K¹)} Forces $\mathrm{Re}(s) = \tfrac{1}{2}$}
