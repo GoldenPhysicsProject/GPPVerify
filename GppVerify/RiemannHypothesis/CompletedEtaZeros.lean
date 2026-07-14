@@ -44,39 +44,50 @@ theorem omega_eq_cosh (t : ℝ) :
   field_simp
   ring
 
+/-- `log 2 ≠ 0` in `ℂ` — the denominator of the zero lattice is nonzero. -/
+theorem complex_log_two_ne_zero : Complex.log 2 ≠ 0 := by
+  have hlog2 : Complex.log 2 = ((Real.log 2 : ℝ) : ℂ) := by
+    rw [show ((2 : ℂ)) = ((2 : ℝ) : ℂ) by norm_num,
+      Complex.ofReal_log (by norm_num : (0 : ℝ) ≤ 2)]
+  rw [hlog2]
+  exact_mod_cast (Real.log_pos one_lt_two).ne'
+
 /-- **The periodic Dirichlet eta zeros** (Yakaboylu Definition 2.1, eq. (2)): the factor
     `2^{1-s}` equals `1` exactly at the lattice `s = 1 - k·2πi/log 2`, `k ∈ ℤ`. Follows
     from `exp z = 1 ↔ z ∈ 2πi·ℤ` after unfolding the complex power. -/
 theorem eta_factor_zero_iff (s : ℂ) :
     (2 : ℂ) ^ ((1 : ℂ) - s) = 1 ↔
-      ∃ k : ℤ, s = 1 - (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / (Real.log 2 : ℂ) := by
-  have hlog2 : Complex.log 2 = ((Real.log 2 : ℝ) : ℂ) := by
-    rw [show ((2 : ℂ)) = ((2 : ℝ) : ℂ) by norm_num, Complex.ofReal_log (by norm_num : (0:ℝ) ≤ 2)]
-  have hne : ((Real.log 2 : ℝ) : ℂ) ≠ 0 := by
-    exact_mod_cast (Real.log_pos one_lt_two).ne'
+      ∃ k : ℤ, s = 1 - (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / Complex.log 2 := by
+  have hne := complex_log_two_ne_zero
   rw [Complex.cpow_def_of_ne_zero two_ne_zero, Complex.exp_eq_one_iff]
   constructor
   · rintro ⟨k, hk⟩
-    rw [hlog2] at hk
     refine ⟨k, ?_⟩
-    field_simp
-    linear_combination -hk
+    rw [← hk, mul_div_cancel_left₀ _ hne]
+    ring
   · rintro ⟨k, rfl⟩
     refine ⟨k, ?_⟩
-    rw [hlog2]
-    field_simp
-    ring
+    have h1 : (1 : ℂ) - (1 - (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / Complex.log 2) =
+        (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / Complex.log 2 := by
+      ring
+    rw [h1, mul_comm, div_mul_cancel₀ _ hne]
 
 /-- **The periodic zeros live on `Re s = 1`** — outside the open critical strip, so they
     never mix with the nontrivial Riemann zeros: the `Z = Z_D ∪ Z_R` decomposition of the
     completed eta function's zero set is clean. -/
 theorem eta_periodic_zero_re (k : ℤ) :
-    ((1 : ℂ) - (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / (Real.log 2 : ℂ)).re = 1 := by
-  have hpure : (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / (Real.log 2 : ℂ) =
+    ((1 : ℂ) - (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / Complex.log 2).re = 1 := by
+  have hlog2 : Complex.log 2 = ((Real.log 2 : ℝ) : ℂ) := by
+    rw [show ((2 : ℂ)) = ((2 : ℝ) : ℂ) by norm_num,
+      Complex.ofReal_log (by norm_num : (0 : ℝ) ≤ 2)]
+  have hpure : (k : ℂ) * (2 * (Real.pi : ℂ) * Complex.I) / Complex.log 2 =
       ((2 * Real.pi * (k : ℝ) / Real.log 2 : ℝ) : ℂ) * Complex.I := by
+    rw [hlog2]
     push_cast
     ring
-  rw [hpure]
-  simp
+  have h0 : (((2 * Real.pi * (k : ℝ) / Real.log 2 : ℝ) : ℂ) * Complex.I).re = 0 := by
+    rw [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, Complex.I_re, Complex.I_im]
+    ring
+  rw [Complex.sub_re, Complex.one_re, hpure, h0, sub_zero]
 
 end GppCompletedEta
