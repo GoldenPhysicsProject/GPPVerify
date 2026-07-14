@@ -80,7 +80,7 @@ theorem sechSqAntideriv_eq (u : ℝ) :
     congr 1
     ring
   have htanh : Real.tanh u = (1 - Real.exp (-(2 * u))) / (1 + Real.exp (-(2 * u))) := by
-    rw [Real.tanh_eq, hsplit]
+    rw [Real.tanh_eq_sinh_div_cosh, Real.sinh_eq, Real.cosh_eq, hsplit]
     have hd : Real.exp u + Real.exp u * Real.exp (-(2 * u)) ≠ 0 := by positivity
     field_simp
     ring
@@ -104,24 +104,28 @@ theorem tendsto_sechSqAntideriv_log_two :
   have h2u : Tendsto (fun u : ℝ => 2 * u) atTop atTop :=
     Tendsto.const_mul_atTop two_pos tendsto_id
   have hnum : Tendsto (fun u : ℝ => 2 * u * Real.exp (-(2 * u))) atTop (nhds 0) := by
-    have h := (Real.tendsto_pow_mul_exp_neg_atTop_nhds_zero 1).comp h2u
-    simpa [Function.comp, pow_one] using h
-  have hexp : Tendsto (fun u : ℝ => Real.exp (-(2 * u))) atTop (nhds 0) := by
-    have h := Real.tendsto_exp_neg_atTop_nhds_zero.comp h2u
-    simpa [Function.comp] using h
+    have h : Tendsto (fun u : ℝ => (2 * u) ^ 1 * Real.exp (-(2 * u))) atTop (nhds 0) :=
+      (Real.tendsto_pow_mul_exp_neg_atTop_nhds_zero 1).comp h2u
+    simpa only [pow_one] using h
+  have hexp : Tendsto (fun u : ℝ => Real.exp (-(2 * u))) atTop (nhds 0) :=
+    Real.tendsto_exp_neg_atTop_nhds_zero.comp h2u
   have hden : Tendsto (fun u : ℝ => 1 + Real.exp (-(2 * u))) atTop (nhds 1) := by
-    have h := tendsto_const_nhds.add hexp
-    simpa using h
+    have h : Tendsto (fun u : ℝ => 1 + Real.exp (-(2 * u))) atTop (nhds (1 + 0)) :=
+      tendsto_const_nhds.add hexp
+    simpa only [add_zero] using h
   have hA : Tendsto
       (fun u : ℝ => 2 * u * Real.exp (-(2 * u)) / (1 + Real.exp (-(2 * u))))
       atTop (nhds 0) := by
     have h := hnum.div hden one_ne_zero
-    simpa using h
+    simpa only [zero_div] using h
   have hB : Tendsto (fun u : ℝ => Real.log (1 + Real.exp (-(2 * u)))) atTop (nhds 0) := by
-    have h := (Real.continuousAt_log one_ne_zero).tendsto.comp hden
-    simpa [Function.comp, Real.log_one] using h
+    have h : Tendsto (fun u : ℝ => Real.log (1 + Real.exp (-(2 * u)))) atTop
+        (nhds (Real.log 1)) :=
+      (Real.continuousAt_log one_ne_zero).tendsto.comp hden
+    rw [Real.log_one] at h
+    exact h
   have h := (tendsto_const_nhds (x := Real.log 2) (f := (atTop : Filter ℝ))).sub hA |>.sub hB
-  simpa using h
+  simpa only [sub_zero] using h
 
 /-- `F(0) = 0`. -/
 theorem sechSqAntideriv_zero : sechSqAntideriv 0 = 0 := by
