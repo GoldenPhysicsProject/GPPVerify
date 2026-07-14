@@ -385,3 +385,13 @@ import GppVerify.RiemannHypothesis.CompletedEtaZeros
 -- multiplicative-variable twin of AbelCesaroRegularization.lean's
 -- log-variable character formula. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
+
+-- ── Arithmetic kernel of the positivity argument (New) ────────────
+-- The finite linear algebra inside Yakaboylu Theorem 5.1 / eq. (67):
+-- the two-point test vector pairing to exactly -2 when a zero is off
+-- the critical line (the contradiction against W >= 0), and the
+-- diagonal form being a nonnegative sum of |c|^2 when every zero is
+-- self-dual. The operator-theoretic content (W well-defined and PSD
+-- via oblique-projection compression) is deep unbounded-operator
+-- theory, deliberately not formalized. Not from ONON52.tex.
+import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
