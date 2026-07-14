@@ -34,6 +34,11 @@ noncomputable def haarMeasure : Measure (PadicInt p) :=
 instance : (haarMeasure p).IsAddLeftInvariant :=
   Measure.isAddLeftInvariant_addHaarMeasure ⊤
 
+/-- `haarMeasure` is a genuine Haar measure (needed by downstream users for the same
+    opaque-`def` reason as the `IsAddLeftInvariant` instance above). -/
+instance : (haarMeasure p).IsAddHaarMeasure :=
+  Measure.isAddHaarMeasure_addHaarMeasure ⊤
+
 /-- **`ℤ_p` has total Haar measure 1**: the canonical additive Haar measure on the
     compact group `ℤ_p`, normalized against the top positive-compact witness
     `⊤ = Set.univ`, gives `μ(ℤ_p) = 1`. -/
