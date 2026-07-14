@@ -56,7 +56,9 @@ theorem tendsto_rpow_div_const_mul_log_atTop {r k : ℝ} (hr : 0 < r) (hk : 0 < 
       mul_le_mul_of_nonneg_left hxev hk.le
     have step2 : M * (k * Real.log x) ≤ M * (k * (1 / (k * M) * x ^ r)) :=
       mul_le_mul_of_nonneg_left step1 hM.le
-    have step3 : M * (k * (1 / (k * M) * x ^ r)) = x ^ r := by field_simp
+    have step3 : M * (k * (1 / (k * M) * x ^ r)) = x ^ r := by
+      field_simp
+      ring
     linarith [step2, step3]
 
 /-- Core divergence estimate for `c > 0`: `(R^c - R^{-c}) / (c · 2 log R) → +∞`. -/
@@ -142,7 +144,7 @@ theorem tendsto_cesaro_mean_atTop_of_ne {σ : ℝ} (hσ : σ ≠ 1 / 2) :
         ((2 * σ - 1) * (2 * Real.log R))) := by
     filter_upwards [eventually_gt_atTop (0 : ℝ)] with R hR
     have hRinv : (0 : ℝ) < 1 / R := by positivity
-    have h0 : (0 : ℝ) ∉ Set.uIcc (1 / R) R := Set.notMem_uIcc_of_lt hRinv hR
+    have h0 : (0 : ℝ) ∉ Set.uIcc (1 / R) R := Set.not_mem_uIcc_of_lt hRinv hR
     rw [integral_rpow (Or.inr ⟨hrne, h0⟩),
         show (2 * σ - 2 + 1 : ℝ) = 2 * σ - 1 by ring,
         show (1 / R : ℝ) = R⁻¹ by rw [one_div],
