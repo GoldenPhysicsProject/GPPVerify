@@ -1,4 +1,5 @@
 import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+import Mathlib.MeasureTheory.Integral.ExpDecay
 import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
 
 /-!
@@ -137,5 +138,71 @@ theorem tendsto_abel_formula_zero {γ : ℝ} (hγ : γ ≠ 0) :
   have hγ2 : γ ^ 2 ≠ 0 := pow_ne_zero 2 hγ
   have := hnum.div hden hγ2
   simpa using this
+
+/-! ## The full-line form
+
+The pieces above state the character formula as the sum of its two half-line integrals —
+exactly how the paper evaluates it. The theorems below glue the halves into the literal
+full-line statement `(ε/2) ∫_ℝ e^{-ε|u|} e^{αu} du = ε²/(ε²-α²)`, which requires knowing
+each half is genuinely integrable (`exp_neg_integrableOn_Ioi` on the right;
+reflection via `IntegrableOn.comp_neg_Iic` on the left). -/
+
+/-- The Abel-weighted character is integrable on the right half-line: on `Ioi 0` it equals
+    the decaying exponential `e^{-(ε-α)u}`. -/
+theorem integrableOn_abel_char_Ioi {ε α : ℝ} (hα : |α| < ε) :
+    IntegrableOn (fun u => Real.exp (-ε * |u|) * Real.exp (α * u)) (Set.Ioi (0 : ℝ)) := by
+  obtain ⟨hα1, hα2⟩ := abs_lt.mp hα
+  have hbase : IntegrableOn (fun u => Real.exp (-(ε - α) * u)) (Set.Ioi (0 : ℝ)) :=
+    exp_neg_integrableOn_Ioi 0 (by linarith)
+  refine hbase.congr_fun ?_ measurableSet_Ioi
+  intro u hu
+  show Real.exp (-(ε - α) * u) = Real.exp (-ε * |u|) * Real.exp (α * u)
+  rw [abs_of_pos hu, ← Real.exp_add]
+  congr 1
+  ring
+
+/-- The Abel-weighted character is integrable on the left half-line: reflected through
+    `u ↦ -u` it becomes the right-half-line decaying exponential `e^{-(ε+α)u}`. -/
+theorem integrableOn_abel_char_Iic {ε α : ℝ} (hα : |α| < ε) :
+    IntegrableOn (fun u => Real.exp (-ε * |u|) * Real.exp (α * u)) (Set.Iic (0 : ℝ)) := by
+  obtain ⟨hα1, hα2⟩ := abs_lt.mp hα
+  have hIci : IntegrableOn (fun u => Real.exp (-(ε + α) * u)) (Set.Ici (-(0 : ℝ))) := by
+    rw [neg_zero, integrableOn_Ici_iff_integrableOn_Ioi]
+    exact exp_neg_integrableOn_Ioi 0 (by linarith)
+  have hneg : IntegrableOn (fun x : ℝ => Real.exp (-(ε + α) * -x)) (Set.Iic (0 : ℝ)) :=
+    hIci.comp_neg_Iic
+  refine hneg.congr_fun ?_ measurableSet_Iic
+  intro u hu
+  show Real.exp (-(ε + α) * -u) = Real.exp (-ε * |u|) * Real.exp (α * u)
+  rw [abs_of_nonpos hu, ← Real.exp_add]
+  congr 1
+  ring
+
+/-- **Character formula, full-line form** (Theorem 3.2 (ii) as literally stated):
+    `(ε/2) ∫_ℝ e^{-ε|u|} e^{αu} du = ε²/(ε²-α²)` for `|α| < ε` — the two-piece version
+    glued at `u = 0`, now that both halves are known integrable. -/
+theorem abel_character_formula_integral {ε α : ℝ} (hα : |α| < ε) :
+    ε / 2 * ∫ u : ℝ, Real.exp (-ε * |u|) * Real.exp (α * u) = ε ^ 2 / (ε ^ 2 - α ^ 2) := by
+  have hsplit : (∫ u : ℝ, Real.exp (-ε * |u|) * Real.exp (α * u)) =
+      (∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * Real.exp (α * u)) +
+        ∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * Real.exp (α * u) := by
+    rw [← setIntegral_univ, ← Set.Iic_union_Ioi (a := (0 : ℝ)),
+      setIntegral_union (Set.Iic_disjoint_Ioi le_rfl) measurableSet_Ioi
+        (integrableOn_abel_char_Iic hα) (integrableOn_abel_char_Ioi hα)]
+  rw [hsplit]
+  exact abel_character_formula hα
+
+/-- **`ω_ε(1) = 1`, full-line form**: the Abel weight `e^{-ε|u|}` integrates to `2/ε` over
+    the whole line, so the normalized state assigns the constant function exactly `1`. -/
+theorem abel_state_one_integral {ε : ℝ} (hε : 0 < ε) :
+    ε / 2 * ∫ u : ℝ, Real.exp (-ε * |u|) = 1 := by
+  have h := abel_character_formula_integral (ε := ε) (α := 0) (by rwa [abs_zero])
+  have hsimp : ∀ u : ℝ, Real.exp (-ε * |u|) * Real.exp ((0 : ℝ) * u) =
+      Real.exp (-ε * |u|) := by
+    intro u
+    rw [zero_mul, Real.exp_zero, mul_one]
+  simp_rw [hsimp] at h
+  rw [h, show (0 : ℝ) ^ 2 = 0 by norm_num, sub_zero]
+  exact div_self (pow_ne_zero 2 (ne_of_gt hε))
 
 end GppAbelCesaro
