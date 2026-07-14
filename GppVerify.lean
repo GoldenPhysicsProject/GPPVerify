@@ -355,3 +355,13 @@ import GppVerify.RiemannHypothesis.PadicHaarTransfer
 -- the gap that file's own doc comment had explicitly flagged as not
 -- formalized. Not derived from ONON52.tex.
 import GppVerify.RiemannHypothesis.CesaroMeanDivergence
+
+-- ── Abel regularization of the Cesàro mean (New) ──────────────────
+-- Formalizes Theorem 3.2 of Toupin's Abel-Cesaro paper
+-- (rh_cesaro_v2.tex): positivity of the regularized state omega_eps,
+-- the character formula omega_eps(t^alpha) = eps^2/(eps^2 - alpha^2)
+-- computed via two convergent exponential integrals in the log
+-- variable, omega_eps(1) = 1 exactly, and the delta-selection limit
+-- eps^2/(eps^2 + gamma^2) -> 0 (gamma != 0) driving the paper's
+-- delta_{rho', 1-rho-bar} matrix-element limit. Not from ONON52.tex.
+import GppVerify.RiemannHypothesis.AbelCesaroRegularization
