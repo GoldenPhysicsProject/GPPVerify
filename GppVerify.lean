@@ -365,3 +365,13 @@ import GppVerify.RiemannHypothesis.CesaroMeanDivergence
 -- eps^2/(eps^2 + gamma^2) -> 0 (gamma != 0) driving the paper's
 -- delta_{rho', 1-rho-bar} matrix-element limit. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.AbelCesaroRegularization
+
+-- ── Periodic zeros of the eta factor 1 - 2^(1-s) (New) ────────────
+-- Formalizes the elementary content of Yakaboylu (arXiv:2408.15135)
+-- Definition 2.1: the periodic Dirichlet eta zeros sit exactly at
+-- s = 1 - 2*pi*i*k/log 2 (via Complex.exp_eq_one_iff), all on the
+-- line Re s = 1 -- outside the open critical strip, so the completed
+-- eta function's zero set decomposes cleanly as Z_D union Z_R. Plus
+-- the weight identity t e^t/(1+e^t)^2 = t/(4 cosh^2(t/2)) bridging
+-- the Yakaboylu and Abel-Cesaro papers' conventions. Not from ONON52.
+import GppVerify.RiemannHypothesis.CompletedEtaZeros
