@@ -14,7 +14,7 @@ more small PRs, each CI-green before merge.*
 
 ## Thread D — Finite Weil-positivity criterion ⇒ RH (conditional, fully rigorous)
 
-**Status: in progress — lands with the same PR that adds this document.**
+**Status: DONE — PR #65 (`WeilPositivityCriterion.lean`), CI-green first try.**
 
 The honest formal content of Yakaboylu Thm 5.1 + Prop 5.3 (Bombieri refinement) at the
 finitely-supported level, as one real theorem chain:
@@ -40,7 +40,12 @@ reduction, not a proof of RH.*
 
 ## Thread C2 — `∫₀^∞ u·sech²(u) du = log 2` (real improper integral, exact value)
 
-**Status: open. Next after Thread D.**
+**Status: in progress — `SechSquaredIntegral.lean`, lands with the PR updating this line.
+All anchors verified at the pinned commit before writing:
+`integral_Ioi_of_hasDerivAt_of_nonneg` (IntegralEqImproper:811), `Real.hasDerivAt_sinh`/
+`_cosh` (Trigonometric/Deriv:531/551), `Real.tendsto_pow_mul_exp_neg_atTop_nhds_zero`
+(Exp:270), `Real.tendsto_exp_neg_atTop_nhds_zero` (Exp:221), `HasDerivAt.log`,
+`Real.cosh_sq_sub_sinh_sq`, `Real.tanh_eq`, `Real.continuousAt_log`.**
 
 Route (no series interchange needed — the antiderivative trick):
 - `F(u) := u·tanh u − log(cosh u)` has `F' (u) = u·sech² u` (mechanical `HasDerivAt`

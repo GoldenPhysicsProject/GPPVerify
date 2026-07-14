@@ -407,3 +407,15 @@ import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 -- rigorous reduction, NOT a proof of RH: the analytic input that
 -- would discharge the positivity hypothesis is not claimed.
 import GppVerify.RiemannHypothesis.WeilPositivityCriterion
+
+-- ── int_0^inf u/cosh^2(u) du = log 2 (New) ────────────────────────
+-- Thread C2 of docs/FORMALIZATION_PLAN.md: eta(1) = log 2 in its
+-- Mellin disguise -- the normalization constant of Yakaboylu's
+-- biorthogonality relation (eq. 50) and the base case of the sech^2
+-- Mellin transform behind N_{1/2} (rh_cesaro_v2 Prop 5.2). Proved
+-- with NO series interchange: explicit antiderivative
+-- F(u) = u tanh u - log cosh u with F' = u/cosh^2 and F -> log 2,
+-- fed to integral_Ioi_of_hasDerivAt_of_nonneg (nonneg integrand =>
+-- integrability and value in one step). Includes hasDerivAt_tanh,
+-- absent from the pinned Mathlib. Not from ONON52.tex.
+import GppVerify.RiemannHypothesis.SechSquaredIntegral
