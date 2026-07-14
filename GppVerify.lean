@@ -375,3 +375,13 @@ import GppVerify.RiemannHypothesis.AbelCesaroRegularization
 -- the weight identity t e^t/(1+e^t)^2 = t/(4 cosh^2(t/2)) bridging
 -- the Yakaboylu and Abel-Cesaro papers' conventions. Not from ONON52.
 import GppVerify.RiemannHypothesis.CompletedEtaZeros
+
+-- ── Yakaboylu's regularized matrix element, eq. (49) (New) ────────
+-- The central calculation of Yakaboylu Lemma 4.3 in real-exponent
+-- form: (eps/2)(int_0^1 t^(sigma-2+eps) + int_1^inf t^(sigma-2-eps))
+-- = eps^2/(eps^2-(sigma-1)^2) on the strip 1-eps < sigma < 1+eps,
+-- plus the two limit facts making it the Kronecker delta of eq. (47):
+-- exactly 1 at sigma = 1, tends to 0 for sigma != 1. This is the
+-- multiplicative-variable twin of AbelCesaroRegularization.lean's
+-- log-variable character formula. Not from ONON52.tex.
+import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
