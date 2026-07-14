@@ -4,6 +4,19 @@
 \usepackage{hyperref}
 \usepackage[showmore, dep_graph, project=../../]{blueprint}
 
+% plasTeX only recognizes theorem-like environments that are declared via
+% \newtheorem -- without these, \begin{theorem}/\begin{lemma}/... fall back to
+% generic node classes ("WARNING: unrecognized command/environment") that
+% plastexdepgraph cannot hash, crashing the dep-graph build
+% (TypeError: unhashable type). This was the actual root cause of the
+% blueprint failures that #39-#41 chased.
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
 \title{GPPVerify: Lean 4 Formalization of the ONON Framework}
 \subtitle{Riemann Hypothesis via Haar Measure Self-Duality}
 \author{Daniel Toupin}
@@ -83,12 +96,12 @@ The algebra is clean; the physics derivation is documented as axioms.
 
 \section{Completed Riemann Zeta Function}
 
-\begin{theorem}[Definition: Riemann Xi Function]
+\begin{definition}[Riemann Xi Function]
   \label{def:xi}
   \lean{GppFE.riemannXi}
   \leanok
   $\xi(s) = \tfrac{1}{2} s(s-1) \pi^{-s/2} \Gamma(s/2) \zeta(s)$.
-\end{theorem}
+\end{definition}
 
 \begin{theorem}[Tate Functional Equation]
   \label{thm:tate-fe}

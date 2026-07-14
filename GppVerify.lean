@@ -395,3 +395,15 @@ import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
 -- via oblique-projection compression) is deep unbounded-operator
 -- theory, deliberately not formalized. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
+
+-- ── Finite Weil-positivity criterion iff RH (New) ─────────────────
+-- Thread D of docs/FORMALIZATION_PLAN.md: the rigorous
+-- finitely-supported content of Yakaboylu Thm 5.1 + Prop 5.3
+-- (Bombieri's refinement of Weil positivity). RH holds iff the
+-- paired form sum conj(c(1-conj rho)) c(rho) is PSD on every finite
+-- subset of the nontrivial zero set -- with the zero-set closure
+-- under rho -> 1 - conj(rho) carried as a real theorem (functional
+-- equation + proved conjugation symmetry), not an assumption. A
+-- rigorous reduction, NOT a proof of RH: the analytic input that
+-- would discharge the positivity hypothesis is not claimed.
+import GppVerify.RiemannHypothesis.WeilPositivityCriterion
