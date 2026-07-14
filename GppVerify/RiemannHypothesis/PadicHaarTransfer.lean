@@ -89,7 +89,7 @@ instance isAddHaarMeasure_comap :
     intro x
     refine Measure.ext fun S hS => ?_
     have hcont : Continuous (fun z : PadicInt p => x + z) := continuous_add_left x
-    have hpre : MeasurableSet ((fun z => x + z) ⁻¹' S) := hS.preimage hcont
+    have hpre : MeasurableSet ((fun z => x + z) ⁻¹' S) := hS.preimage hcont.measurable
     rw [Measure.map_apply hcont.measurable hS, comap_apply p hpre, comap_apply p hS]
     have himg : coeAddHom p '' ((fun z => x + z) ⁻¹' S) =
         (fun y => coeAddHom p x + y) ⁻¹' (coeAddHom p '' S) := by
@@ -115,7 +115,7 @@ instance isAddHaarMeasure_comap :
     intro U hU hne
     have hUmeas : MeasurableSet U := hU.measurableSet
     rw [comap_apply p hUmeas]
-    have hImgOpen : IsOpen (coeAddHom p '' U) := (isOpenEmbedding_coeAddHom p).isOpenMap hU
+    have hImgOpen : IsOpen (coeAddHom p '' U) := (isOpenEmbedding_coeAddHom p).isOpenMap U hU
     exact (IsOpen.measure_pos (fieldHaarMeasure p) hImgOpen
       (Set.Nonempty.image (coeAddHom p) hne)).ne'
 
