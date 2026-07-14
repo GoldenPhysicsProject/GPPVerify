@@ -30,9 +30,9 @@ formalized; these lemmas are the honest boundary of what the elementary layer pr
 
 namespace GppYakaboylu
 
+open Classical in
 /-- For distinct pairing partners `ρ₀ ≠ σ₀` the two-point test vector of Theorem 5.1's
     contradiction exists: some `c : ℂ → ℂ` with `c ρ₀ = 1` and `c σ₀ = -1`. -/
-open Classical in
 theorem swap_test_vector_exists {ρ₀ σ₀ : ℂ} (hne : ρ₀ ≠ σ₀) :
     ∃ c : ℂ → ℂ, c ρ₀ = 1 ∧ c σ₀ = -1 :=
   ⟨fun s => if s = ρ₀ then 1 else if s = σ₀ then -1 else 0, by simp, by simp [Ne.symm hne]⟩
