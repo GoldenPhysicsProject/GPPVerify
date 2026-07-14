@@ -2,6 +2,7 @@ import GppVerify.RiemannHypothesis.PadicZetaIntegral
 import GppVerify.RiemannHypothesis.PadicShellMeasure
 import GppVerify.RiemannHypothesis.PadicFieldHaarMeasure
 import Mathlib.MeasureTheory.Measure.Haar.Unique
+import Mathlib.MeasureTheory.Group.Measure
 import Mathlib.Topology.MetricSpace.Ultra.Basic
 
 /-!
@@ -82,6 +83,10 @@ instance isProbabilityMeasure_comap :
   rw [comap_apply p MeasurableSet.univ, Set.image_univ, range_coeAddHom]
   exact fieldHaarMeasure_closedBall p
 
+instance isProbabilityMeasure_haarMeasure : IsProbabilityMeasure (GppPadicHaar.haarMeasure p) := by
+  constructor
+  exact GppPadicHaar.haarMeasure_univ p
+
 /-- **The transfer**: two probability Haar measures on the same (compact) group `ℤ_p`
     coincide. -/
 theorem comap_eq_haarMeasure :
@@ -113,10 +118,9 @@ theorem image_span_pow_eq_closedBall (n : ℕ) :
     exact (PadicInt.norm_le_pow_iff_mem_span_pow y n).mpr hy
   · intro hx
     have hx1 : ‖x‖ ≤ 1 := le_trans hx hle1
-    refine ⟨⟨x, hx1⟩, ?_, rfl⟩
-    have : ‖(⟨x, hx1⟩ : PadicInt p)‖ ≤ (p : ℝ) ^ (-(n : ℤ)) := by
-      rw [PadicInt.norm_def]; exact hx
-    exact (PadicInt.norm_le_pow_iff_mem_span_pow ⟨x, hx1⟩ n).mp this
+    refine ⟨⟨x, hx1⟩, (PadicInt.norm_le_pow_iff_mem_span_pow ⟨x, hx1⟩ n).mp ?_, rfl⟩
+    rw [PadicInt.norm_def]
+    exact hx
 
 /-- **The payoff**: `fieldHaarMeasure p (pⁿ ℤ_p) = p⁻ⁿ`, transferred from the
     already-proven `GppPadicZetaIntegral.haarMeasure_span_pow` via the embedding — the
