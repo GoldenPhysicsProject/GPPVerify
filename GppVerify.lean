@@ -344,3 +344,14 @@ import GppVerify.RiemannHypothesis.PadicScalingHaar
 -- to identify two probability Haar measures on the compact group Z_p.
 -- Not paper-sourced.
 import GppVerify.RiemannHypothesis.PadicHaarTransfer
+
+-- ── Cesàro-mean divergence away from sigma = 1/2 (New) ────────────
+-- Formalizes the divergence half of Lemma 3.1 of Toupin's "Riemann
+-- Hypothesis as Haar Self-Duality" paper: for sigma != 1/2 the
+-- symmetric Cesaro mean of r^(2sigma-1) diverges to +infinity, built
+-- from scratch against Mathlib's "polynomial beats log" asymptotic
+-- comparison. Combined with the pre-existing born_rule_cesaro
+-- (RHProofStructure.lean, sigma = 1/2 gives exactly 1), this closes
+-- the gap that file's own doc comment had explicitly flagged as not
+-- formalized. Not derived from ONON52.tex.
+import GppVerify.RiemannHypothesis.CesaroMeanDivergence
