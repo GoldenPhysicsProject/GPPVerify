@@ -45,6 +45,7 @@ theorem power_law_classification (φ : ℝ → ℝ)
   -- φ(1) = 1
   have hφ1 : φ 1 = 1 := by
     have h := hmul 1 1 one_pos one_pos
+    rw [one_mul] at h
     have hp := hpos 1 one_pos
     nlinarith [h, hp, sq_nonneg (φ 1 - 1)]
   -- the log-conjugated map is a continuous additive endomorphism of ℝ
