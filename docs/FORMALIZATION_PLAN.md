@@ -79,10 +79,7 @@ Same machinery as C2, longer computation:
 
 ## Thread A1 — `N_σ` finite and positive for all `σ ∈ (0,1)` (eigenstate norms are real)
 
-**Status: in progress — `EigenstateNormStrip.lean`, lands with the PR updating this line.
-Anchors verified at pinned commit: `Real.GammaIntegral_convergent` (Gamma/Basic:64),
-`Integrable.mono'` (L1Space/Integrable:79), `setIntegral_pos_iff_support_of_nonneg_ae`
-(Bochner/Set:536), `Continuous.rpow_const` (Pow/Continuity:278). Includes the
+**Status: DONE — PR #68 (`EigenstateNormStrip.lean`), CI-green first try. Includes the
 `eigenstateNorm_at_half` consistency corollary tying A1 to A2's exact value.**
 
 - Integrand `t^{2σ}/cosh⁴(t/2)` continuous and positive on `Ioi 0`.
@@ -98,8 +95,14 @@ square-integrability claim rests on, for every point of the critical strip.*
 
 ## Thread C1 — alternating harmonic series `Σ(−1)^{k}/(k+1) = log 2`
 
-**Status: open (only if genuinely absent from Mathlib — re-search first:
-`Real.tendsto_sum_range_div…`, `hasSum` forms, Abel-summation theorems).**
+**Status: in progress — `AlternatingHarmonicLog2.lean`, lands with the PR updating this
+line. Absence at the pinned commit confirmed by direct source inspection:
+`hasSum_pow_div_log_of_abs_lt_one` stops strictly inside `|x| < 1`, the alternating series
+*test* (SpecificLimits/Normed:712) gives convergence but no value, and no Abel-summation
+boundary theorem exists. Anchors verified: `geom_sum_eq` (GeomSum:282), `integral_pow`
+(Integrals:401), `integral_one_div` (Integrals:454), `integral_finset_sum`
+(IntervalIntegral/Basic:627), `integral_const_mul` (:655), `integral_comp_add_right`
+(:761).**
 
 Fallback proof if absent, fully elementary: partial-sum identity
 `Σ_{k<n}(−1)^k x^k = (1 − (−x)^n)/(1+x)` integrated over `[0,1]`:

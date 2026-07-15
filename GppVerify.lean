@@ -440,3 +440,14 @@ import GppVerify.RiemannHypothesis.SechFourthIntegral
 -- eigenstateNorm (1/2) = log2/6 - 1/24, tying threads A1 and A2
 -- together on the nose. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.EigenstateNormStrip
+
+-- ── Alternating harmonic series = log 2 (New) ─────────────────────
+-- Thread C1 of docs/FORMALIZATION_PLAN.md: eta(1) = log 2 in series
+-- form, absent from the pinned Mathlib (whose log power series stops
+-- strictly inside |x| < 1). Elementary integral-remainder proof: the
+-- finite geometric sum integrated over [0,1] gives log 2 minus the
+-- partial sum as an explicit remainder integral, sandwiched by
+-- +-1/(n+1). With SechSquaredIntegral.lean this puts eta(1) = log 2
+-- in the repo in both its Mellin and series incarnations. Not from
+-- ONON52.tex.
+import GppVerify.RiemannHypothesis.AlternatingHarmonicLog2
