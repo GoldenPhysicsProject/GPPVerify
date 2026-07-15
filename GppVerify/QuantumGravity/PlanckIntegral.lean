@@ -35,9 +35,8 @@ theorem integral_pow_three_mul_exp (n : ℕ) :
   rw [show (-(3 + 1) / 1 : ℝ) = -((4:ℕ) : ℝ) by norm_num,
       show ((3 + 1) / 1 : ℝ) = 4 by norm_num] at key
   have hg : Real.Gamma 4 = 6 := by
-    have h := Real.Gamma_nat_eq_factorial 3
-    norm_num at h
-    exact h
+    rw [show (4:ℝ) = ((3:ℕ) : ℝ) + 1 by norm_num, Real.Gamma_nat_eq_factorial]
+    norm_num [Nat.factorial]
   rw [hg, Real.rpow_neg hb.le, Real.rpow_natCast] at key
   simp_rw [Real.rpow_one] at key
   -- bridge the statement's npow to the lemma's rpow
@@ -63,7 +62,7 @@ theorem integrable_term (n : ℕ) :
     have hx' : (0:ℝ) < x := hx
     have hbound : Real.exp (-((n:ℝ) + 1) * x) ≤ Real.exp (-x) := by
       apply Real.exp_le_exp.mpr
-      have : (1:ℝ) ≤ (n:ℝ) + 1 := by positivity
+      have hn : (0:ℝ) ≤ (n:ℝ) := Nat.cast_nonneg n
       nlinarith
     have hpow : x ^ ((4:ℝ) - 1) = x ^ (3:ℕ) := by
       rw [show (4:ℝ) - 1 = ((3:ℕ) : ℝ) by norm_num, Real.rpow_natCast]
@@ -108,7 +107,6 @@ theorem planck_summand_eq {x : ℝ} (hx : 0 < x) :
   have hexpne : Real.exp x ≠ 0 := Real.exp_ne_zero x
   rw [Real.exp_neg]
   field_simp
-  ring
 
 /-- **The Planck integral**: `∫₀^∞ x³/(eˣ−1) dx = π⁴/15` — the Stefan–Boltzmann
     quartic, exactly. -/
