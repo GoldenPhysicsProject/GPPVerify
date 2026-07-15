@@ -132,6 +132,15 @@ pinned commit first, honest boundaries, one thread = small CI-green PRs.*
 
 ## Thread P — the Planck integral `∫₀^∞ x³/(eˣ−1) dx = π⁴/15`
 
+**Status: in progress — `QuantumGravity/PlanckIntegral.lean`, lands with the PR updating
+this line. All anchors verified at the pinned commit:
+`integral_rpow_mul_exp_neg_mul_rpow` (Integral/Gamma:39, exact form
+`b^(−(q+1)/p)·(1/p)·Γ((q+1)/p)`), `integral_tsum_of_summable_integral_norm`
+(DominatedConvergence:152, `∑'∫ = ∫∑'`), `hasSum_zeta_four` (ZetaValues:335),
+`Real.Gamma_nat_eq_factorial` (Gamma/Basic:323), `Real.exp_lt_one_iff`/`one_lt_exp_iff`
+(Data/Complex/Exponential:328/323), `hasSum_nat_add_iff` (InfiniteSum/NatInt),
+`Complex.exp_nat_mul` (:145 — Real twin assumed, fallback: derive by induction).**
+
 From `blackbody_law_qg_v1.tex` (the Stefan–Boltzmann quartic). Route: geometric expansion
 `1/(eˣ−1) = Σ_{n≥1} e^{−nx}` on `(0,∞)`, term integrals `∫ x³e^{−nx} = 6/n⁴`
 (Gamma-integral scaling), sum `6·ζ(4) = 6·π⁴/90 = π⁴/15`. Needs: `integral_tsum`
