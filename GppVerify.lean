@@ -430,3 +430,13 @@ import GppVerify.RiemannHypothesis.SechSquaredIntegral
 -- change-of-variables lemma), and eigenstate_norm_half. Not from
 -- ONON52.tex.
 import GppVerify.RiemannHypothesis.SechFourthIntegral
+
+-- ── N_sigma finite and positive across the strip (New) ────────────
+-- Thread A1 of docs/FORMALIZATION_PLAN.md: for every sigma > 0 the
+-- eigenstate norm N_sigma = (1/16) int_0^inf t^(2sigma)/cosh^4(t/2)
+-- is a convergent integral (dominated by 16x the Euler Gamma
+-- integrand at s = 2sigma+1) with strictly positive value (positive
+-- integrand on a set of infinite measure). Consistency corollary:
+-- eigenstateNorm (1/2) = log2/6 - 1/24, tying threads A1 and A2
+-- together on the nose. Not from ONON52.tex.
+import GppVerify.RiemannHypothesis.EigenstateNormStrip

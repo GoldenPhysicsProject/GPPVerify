@@ -62,12 +62,12 @@ Yakaboylu's biorthogonality (eq. 50) — obtained without touching series.*
 
 ## Thread A2 — `N_{1/2} = log 2/6 − 1/24` (rh_cesaro_v2 Prop 5.2, exact value)
 
-**Status: in progress — `SechFourthIntegral.lean`, lands with the PR updating this line.
-Design refinement over the original route: the antiderivative is expressed polynomially
-in `tanh` (via the once-proved `1/cosh² = 1 − tanh²`), making the derivative-identity
-endgame pure `ring`; `F₄ = (1/3)(u·t(1−t²) + (1−t²)/2) + (2/3)F` reuses the C2
-antiderivative `F` and its limit; the `t`-variable form differentiates `4·F₄(t/2)`
-directly, needing no change-of-variables lemma.**
+**Status: DONE — PR #67 (`SechFourthIntegral.lean`). The tanh-polynomial design worked as
+planned. Three more pinned-commit lessons recorded: `Real.sinh_nonneg`/`Real.tanh_lt_one`
+are master-only (first-principles replacements from `sinh_eq`/`cosh_eq` + exp
+monotonicity), `ring` treats `id x` as an atom distinct from `x` (`simp only [id_eq]`
+first), and `HasDerivAt.comp` needs the composition-form ascription plus the explicit
+point to elaborate (`(hg).comp t hf` against a goal stated with `∘`).**
 
 Same machinery as C2, longer computation:
 - Antiderivative `F₄(u) := (1/3)(u·tanh u·sech²u + sech²u/2 + 2u·tanh u − 2·log cosh u)`
@@ -79,7 +79,11 @@ Same machinery as C2, longer computation:
 
 ## Thread A1 — `N_σ` finite and positive for all `σ ∈ (0,1)` (eigenstate norms are real)
 
-**Status: open. After A2.**
+**Status: in progress — `EigenstateNormStrip.lean`, lands with the PR updating this line.
+Anchors verified at pinned commit: `Real.GammaIntegral_convergent` (Gamma/Basic:64),
+`Integrable.mono'` (L1Space/Integrable:79), `setIntegral_pos_iff_support_of_nonneg_ae`
+(Bochner/Set:536), `Continuous.rpow_const` (Pow/Continuity:278). Includes the
+`eigenstateNorm_at_half` consistency corollary tying A1 to A2's exact value.**
 
 - Integrand `t^{2σ}/cosh⁴(t/2)` continuous and positive on `Ioi 0`.
 - Integrability by comparison: `cosh(t/2) ≥ e^{t/2}/2` ⇒ integrand `≤ 16·t^{2σ}e^{−2t}`;
