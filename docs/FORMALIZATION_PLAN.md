@@ -123,6 +123,44 @@ recorded in the source file: idèle class groups are not in Mathlib.**
 
 ---
 
+---
+
+# Phase 2 — multi-domain mining (whole document library, not only RH)
+
+*Scouted 2026-07-15 from the full uploads library. Same rules: verify anchors at the
+pinned commit first, honest boundaries, one thread = small CI-green PRs.*
+
+## Thread P — the Planck integral `∫₀^∞ x³/(eˣ−1) dx = π⁴/15`
+
+From `blackbody_law_qg_v1.tex` (the Stefan–Boltzmann quartic). Route: geometric expansion
+`1/(eˣ−1) = Σ_{n≥1} e^{−nx}` on `(0,∞)`, term integrals `∫ x³e^{−nx} = 6/n⁴`
+(Gamma-integral scaling), sum `6·ζ(4) = 6·π⁴/90 = π⁴/15`. Needs: `integral_tsum`
+(summability of the norms is `Σ 6/n⁴ < ∞`), Mathlib's `riemannZeta_four` (VERIFY at
+pinned; else route through `hasSum_zeta_four`-style Basel machinery). Same grade as
+threads C2/A2 — genuinely hard, fully real.
+
+## Thread M — Mellin kinematics elementary layer
+
+From `mellin_kinematics.tex`: (M1) *power laws are the continuous homomorphisms of
+`(ℝ⁺,×)`* — classification via log/exp conjugation to additive Cauchy + continuity
+(check what Mathlib has for continuous additive ℝ-homs being linear); (M2) *Mellin
+reflection* — the `x ↦ 1/x` change of variables on `((0,∞), dx/x)`, connecting to the
+existing inversion-invariance layer; (M3) *uniqueness of the quadratic scale transport*
+(the origin of `Δ = 2s`) — likely elementary uniqueness, verify statement first.
+
+## Thread Z — zitterbewegung arithmetic layer
+
+From `zitterbewegung_T_boundary_FINAL.tex`: the frequency proposition
+(`ω = 2mc²/ℏ` from shadow symmetry — exact arithmetic) and any boundary-oscillation
+content not already covered by `CoreTheorems.lean`'s oscillator lemmas and
+`MajoranaCondition.lean`. Read the theorem statements in full before scoping.
+
+*Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
+otherwise. The value is that every reduction and every constant in the surrounding tower
+is kernel-checked, with each remaining gap precisely named.*
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
