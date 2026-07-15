@@ -419,3 +419,14 @@ import GppVerify.RiemannHypothesis.WeilPositivityCriterion
 -- integrability and value in one step). Includes hasDerivAt_tanh,
 -- absent from the pinned Mathlib. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.SechSquaredIntegral
+
+-- ── N_{1/2} = log2/6 - 1/24 exactly (New) ─────────────────────────
+-- Thread A2 of docs/FORMALIZATION_PLAN.md: the eigenstate norm at the
+-- critical point (rh_cesaro_v2 Prop 5.2), with no series interchange:
+-- the sech^4 antiderivative in tanh-polynomial form (tanh' = 1-tanh^2
+-- via the once-proved Pythagorean bridge 1/cosh^2 = 1 - tanh^2), its
+-- limit (2/3)log 2 reusing the sech^2 thread, the u-form integral
+-- (2/3)log2 - 1/6, the t-variable form via G(t) = 4 F4(t/2) (no
+-- change-of-variables lemma), and eigenstate_norm_half. Not from
+-- ONON52.tex.
+import GppVerify.RiemannHypothesis.SechFourthIntegral
