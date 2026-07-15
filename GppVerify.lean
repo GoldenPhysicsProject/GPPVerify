@@ -452,6 +452,16 @@ import GppVerify.RiemannHypothesis.EigenstateNormStrip
 -- ONON52.tex.
 import GppVerify.RiemannHypothesis.AlternatingHarmonicLog2
 
+-- ── The Planck integral = pi^4/15 (New) ───────────────────────────
+-- Phase 2 Thread P (blackbody_law_qg_v1.tex): the Stefan-Boltzmann
+-- quartic int_0^inf x^3/(e^x - 1) dx = pi^4/15, executed classically
+-- and in full: geometric expansion of 1/(e^x - 1) pointwise for x>0,
+-- sum-integral interchange justified by summability of the term
+-- norms (integral_tsum_of_summable_integral_norm), term integrals
+-- Gamma(4)/(n+1)^4 = 6/(n+1)^4, and zeta(4) = pi^4/90 via Mathlib's
+-- Bernoulli machinery. No step assumed. Not from ONON52.tex.
+import GppVerify.QuantumGravity.PlanckIntegral
+
 -- ── Convolution squares are positive-type (New) ───────────────────
 -- Thread B of docs/FORMALIZATION_PLAN.md: closes the gap PR #45
 -- honestly stubbed in HaarPositivityWeil.lean. For integrable bounded
