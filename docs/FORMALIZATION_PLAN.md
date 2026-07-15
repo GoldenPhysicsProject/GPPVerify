@@ -150,6 +150,14 @@ threads C2/A2 — genuinely hard, fully real.
 
 ## Thread M — Mellin kinematics elementary layer
 
+**Status: in progress — `CelestialHolography/MellinKinematics.lean`, lands with the PR
+updating this line. Anchors verified at pinned: `AddMonoidHom.toRealLinearMap` +
+`coe_toRealLinearMap` (Topology/Instances/RealVectorSpace),
+`MeasureTheory.integral_comp_rpow_Ioi` (IntegralEqImproper, exact form
+`∫ (|p|·x^{p−1}) • g(x^p) = ∫ g`). Honesty correction recorded: the paper's
+classification lemma asserts a unique `α > 0`, but constants and inversion are continuous
+homs too — formalized with the correct `α : ℝ`.**
+
 From `mellin_kinematics.tex`: (M1) *power laws are the continuous homomorphisms of
 `(ℝ⁺,×)`* — classification via log/exp conjugation to additive Cauchy + continuity
 (check what Mathlib has for continuous additive ℝ-homs being linear); (M2) *Mellin
