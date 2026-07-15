@@ -87,10 +87,13 @@ theorem convolution_square_positive_type_statement : True := trivial
 -- STATEMENT: for f : ℝ → ℝ integrable (and bounded, so pairwise translated
 -- products stay integrable) and μ a left-invariant measure on ℝ,
 -- P x := ∫ y, f y * f (y - x) ∂μ is positive-type.
--- MATHLIB GAP: the interchange-of-sum-and-integral step needs integrability
--- of f(y+a)*f(y+b) for each pair of shifts, which needs either a boundedness
--- hypothesis or routing f through the bundled `Lp ℝ 2 μ` type via
--- `MeasureTheory.L2.integrable_inner`; left open rather than sorry'd.
+-- STATUS: the gap described below is NOW CLOSED — the statement is proved
+-- in full for Lebesgue (= Haar) measure on ℝ as
+-- `GppHaarPositivityWeil.convolution_square_positive_type` in
+-- `ConvolutionSquarePositive.lean` (integrability of the translated
+-- products via `Integrable.comp_add_right` + `Integrable.bdd_mul`, the
+-- interchange via `integral_finset_sum`, and the pointwise Gram-square
+-- identity). This stub is retained only so older references resolve.
 
 /-! ## GNS construction -/
 

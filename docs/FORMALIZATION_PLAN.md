@@ -79,10 +79,7 @@ Same machinery as C2, longer computation:
 
 ## Thread A1 — `N_σ` finite and positive for all `σ ∈ (0,1)` (eigenstate norms are real)
 
-**Status: in progress — `EigenstateNormStrip.lean`, lands with the PR updating this line.
-Anchors verified at pinned commit: `Real.GammaIntegral_convergent` (Gamma/Basic:64),
-`Integrable.mono'` (L1Space/Integrable:79), `setIntegral_pos_iff_support_of_nonneg_ae`
-(Bochner/Set:536), `Continuous.rpow_const` (Pow/Continuity:278). Includes the
+**Status: DONE — PR #68 (`EigenstateNormStrip.lean`), CI-green first try. Includes the
 `eigenstateNorm_at_half` consistency corollary tying A1 to A2's exact value.**
 
 - Integrand `t^{2σ}/cosh⁴(t/2)` continuous and positive on `Ioi 0`.
@@ -98,8 +95,15 @@ square-integrability claim rests on, for every point of the critical strip.*
 
 ## Thread C1 — alternating harmonic series `Σ(−1)^{k}/(k+1) = log 2`
 
-**Status: open (only if genuinely absent from Mathlib — re-search first:
-`Real.tendsto_sum_range_div…`, `hasSum` forms, Abel-summation theorems).**
+**Status: in progress — `AlternatingHarmonicLog2.lean`, lands with the same PR as
+Thread B (this line's PR). Absence at the pinned commit confirmed by direct source
+inspection:
+`hasSum_pow_div_log_of_abs_lt_one` stops strictly inside `|x| < 1`, the alternating series
+*test* (SpecificLimits/Normed:712) gives convergence but no value, and no Abel-summation
+boundary theorem exists. Anchors verified: `geom_sum_eq` (GeomSum:282), `integral_pow`
+(Integrals:401), `integral_one_div` (Integrals:454), `integral_finset_sum`
+(IntervalIntegral/Basic:627), `integral_const_mul` (:655), `integral_comp_add_right`
+(:761).**
 
 Fallback proof if absent, fully elementary: partial-sum identity
 `Σ_{k<n}(−1)^k x^k = (1 − (−x)^n)/(1+x)` integrated over `[0,1]`:
@@ -108,15 +112,52 @@ All finite sums + `intervalIntegral` + squeeze — no boundary Abel theorem need
 
 ## Thread B — HaarPositivityWeil convolution-square integrability gap
 
-**Status: open, last (hardest bookkeeping).**
+**Status: in progress — `ConvolutionSquarePositive.lean`, lands with the same PR as C1
+(this line's PR). Scope chosen: integrable *bounded* `f` on `ℝ` with Lebesgue (= Haar)
+measure — exactly the hypothesis set PR #45's stub proposed, stronger than the `C_c`
+fallback originally sketched here. Anchors verified at pinned commit:
+`Integrable.bdd_mul` (L1Space/Integrable:436), `integral_finset_sum` (Bochner/Basic:241),
+`integral_mul_right_eq_self` + `Integrable.comp_mul_right` with `@[to_additive]`
+(Group/Integral:97/132). The idèle-class-group version stays open for the honest reason
+recorded in the source file: idèle class groups are not in Mathlib.**
 
-`convolution_square_positive_type` was honestly stubbed (PR #45) pending Lp/L² membership
-of pairwise-translated products. Route: restrict to continuous compactly-supported `f`
-(`C_c`), where `MeasureTheory.Continuous.integrable_of_hasCompactSupport` and the
-convolution API (`MeasureTheory.convolution`) give the bookkeeping for free; prove
-positive-typeness `Σ_{i,j} conj(a_i) a_j (f⋆f̃)(x_i⁻¹x_j) ≥ 0` there. VERIFY the pinned
-commit's convolution API surface first — if too thin, narrow to the discrete/compact case
-where sums replace integrals.
+---
+
+---
+
+# Phase 2 — multi-domain mining (whole document library, not only RH)
+
+*Scouted 2026-07-15 from the full uploads library. Same rules: verify anchors at the
+pinned commit first, honest boundaries, one thread = small CI-green PRs.*
+
+## Thread P — the Planck integral `∫₀^∞ x³/(eˣ−1) dx = π⁴/15`
+
+From `blackbody_law_qg_v1.tex` (the Stefan–Boltzmann quartic). Route: geometric expansion
+`1/(eˣ−1) = Σ_{n≥1} e^{−nx}` on `(0,∞)`, term integrals `∫ x³e^{−nx} = 6/n⁴`
+(Gamma-integral scaling), sum `6·ζ(4) = 6·π⁴/90 = π⁴/15`. Needs: `integral_tsum`
+(summability of the norms is `Σ 6/n⁴ < ∞`), Mathlib's `riemannZeta_four` (VERIFY at
+pinned; else route through `hasSum_zeta_four`-style Basel machinery). Same grade as
+threads C2/A2 — genuinely hard, fully real.
+
+## Thread M — Mellin kinematics elementary layer
+
+From `mellin_kinematics.tex`: (M1) *power laws are the continuous homomorphisms of
+`(ℝ⁺,×)`* — classification via log/exp conjugation to additive Cauchy + continuity
+(check what Mathlib has for continuous additive ℝ-homs being linear); (M2) *Mellin
+reflection* — the `x ↦ 1/x` change of variables on `((0,∞), dx/x)`, connecting to the
+existing inversion-invariance layer; (M3) *uniqueness of the quadratic scale transport*
+(the origin of `Δ = 2s`) — likely elementary uniqueness, verify statement first.
+
+## Thread Z — zitterbewegung arithmetic layer
+
+From `zitterbewegung_T_boundary_FINAL.tex`: the frequency proposition
+(`ω = 2mc²/ℏ` from shadow symmetry — exact arithmetic) and any boundary-oscillation
+content not already covered by `CoreTheorems.lean`'s oscillator lemmas and
+`MajoranaCondition.lean`. Read the theorem statements in full before scoping.
+
+*Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
+otherwise. The value is that every reduction and every constant in the surrounding tower
+is kernel-checked, with each remaining gap precisely named.*
 
 ---
 
