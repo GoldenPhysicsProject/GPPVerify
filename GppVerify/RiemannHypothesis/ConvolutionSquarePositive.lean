@@ -1,5 +1,6 @@
 import GppVerify.RiemannHypothesis.HaarPositivityWeil
 import Mathlib.MeasureTheory.Group.Integral
+import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 import Mathlib.Data.Complex.BigOperators
 
 /-!
@@ -63,7 +64,7 @@ theorem gram_square_nonneg {n : ℕ} (c : Fin n → ℂ) (a : Fin n → ℝ) :
     rw [Complex.re_sum]
     apply Finset.sum_congr rfl
     intro i _
-    rw [Complex.re_sum, Finset.mul_sum]
+    rw [Complex.re_sum]
     apply Finset.sum_congr rfl
     intro j _
     have hexpand : (starRingEnd ℂ) (c i * (a i : ℂ)) * (c j * (a j : ℂ)) =
