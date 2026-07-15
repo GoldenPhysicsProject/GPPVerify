@@ -35,7 +35,8 @@ theorem integral_one_div_one_add : ∫ x in (0:ℝ)..1, 1 / (1 + x) = Real.log 2
   have hcongr : ∫ x in (0:ℝ)..1, 1 / (1 + x) = ∫ x in (0:ℝ)..1, 1 / (x + 1) := by
     apply intervalIntegral.integral_congr
     intro x _
-    rw [add_comm]
+    show 1 / (1 + x) = 1 / (x + 1)
+    rw [add_comm 1 x]
   have hshift : (∫ x in (0:ℝ)..1, 1 / (x + 1)) = ∫ x in (1:ℝ)..2, 1 / x := by
     have h := intervalIntegral.integral_comp_add_right (a := (0:ℝ)) (b := 1)
       (f := fun u : ℝ => 1 / u) 1
@@ -86,7 +87,6 @@ theorem log_two_sub_partial (n : ℕ) :
     intro k _
     rw [intervalIntegral.integral_const_mul, integral_pow, one_pow,
       zero_pow (by omega : k + 1 ≠ 0), sub_zero]
-    push_cast
     ring
   have hpt : Set.EqOn (fun x : ℝ => 1 / (1 + x) - ∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k)
       (fun x : ℝ => (-x)^n / (1 + x)) (Set.uIcc (0:ℝ) 1) := by
@@ -129,8 +129,6 @@ theorem remainder_bound (n : ℕ) :
     (continuous_pow n).intervalIntegrable 0 1
   have hval : ∫ x in (0:ℝ)..1, x^n = 1 / ((n:ℝ) + 1) := by
     rw [integral_pow, one_pow, zero_pow (by omega : n + 1 ≠ 0), sub_zero]
-    push_cast
-    ring
   have hub : ∫ x in (0:ℝ)..1, (-x)^n / (1 + x) ≤ 1 / ((n:ℝ) + 1) := by
     rw [← hval]
     apply intervalIntegral.integral_mono_on (by norm_num) hintR hintP
