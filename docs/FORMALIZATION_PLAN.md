@@ -95,8 +95,9 @@ square-integrability claim rests on, for every point of the critical strip.*
 
 ## Thread C1 — alternating harmonic series `Σ(−1)^{k}/(k+1) = log 2`
 
-**Status: in progress — `AlternatingHarmonicLog2.lean`, lands with the PR updating this
-line. Absence at the pinned commit confirmed by direct source inspection:
+**Status: in progress — `AlternatingHarmonicLog2.lean`, lands with the same PR as
+Thread B (this line's PR). Absence at the pinned commit confirmed by direct source
+inspection:
 `hasSum_pow_div_log_of_abs_lt_one` stops strictly inside `|x| < 1`, the alternating series
 *test* (SpecificLimits/Normed:712) gives convergence but no value, and no Abel-summation
 boundary theorem exists. Anchors verified: `geom_sum_eq` (GeomSum:282), `integral_pow`
@@ -111,15 +112,14 @@ All finite sums + `intervalIntegral` + squeeze — no boundary Abel theorem need
 
 ## Thread B — HaarPositivityWeil convolution-square integrability gap
 
-**Status: open, last (hardest bookkeeping).**
-
-`convolution_square_positive_type` was honestly stubbed (PR #45) pending Lp/L² membership
-of pairwise-translated products. Route: restrict to continuous compactly-supported `f`
-(`C_c`), where `MeasureTheory.Continuous.integrable_of_hasCompactSupport` and the
-convolution API (`MeasureTheory.convolution`) give the bookkeeping for free; prove
-positive-typeness `Σ_{i,j} conj(a_i) a_j (f⋆f̃)(x_i⁻¹x_j) ≥ 0` there. VERIFY the pinned
-commit's convolution API surface first — if too thin, narrow to the discrete/compact case
-where sums replace integrals.
+**Status: in progress — `ConvolutionSquarePositive.lean`, lands with the same PR as C1
+(this line's PR). Scope chosen: integrable *bounded* `f` on `ℝ` with Lebesgue (= Haar)
+measure — exactly the hypothesis set PR #45's stub proposed, stronger than the `C_c`
+fallback originally sketched here. Anchors verified at pinned commit:
+`Integrable.bdd_mul` (L1Space/Integrable:436), `integral_finset_sum` (Bochner/Basic:241),
+`integral_mul_right_eq_self` + `Integrable.comp_mul_right` with `@[to_additive]`
+(Group/Integral:97/132). The idèle-class-group version stays open for the honest reason
+recorded in the source file: idèle class groups are not in Mathlib.**
 
 ---
 

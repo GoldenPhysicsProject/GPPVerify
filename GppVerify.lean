@@ -451,3 +451,15 @@ import GppVerify.RiemannHypothesis.EigenstateNormStrip
 -- in the repo in both its Mellin and series incarnations. Not from
 -- ONON52.tex.
 import GppVerify.RiemannHypothesis.AlternatingHarmonicLog2
+
+-- ── Convolution squares are positive-type (New) ───────────────────
+-- Thread B of docs/FORMALIZATION_PLAN.md: closes the gap PR #45
+-- honestly stubbed in HaarPositivityWeil.lean. For integrable bounded
+-- f : R -> R and Lebesgue (= Haar) measure, P(x) = int f(y) f(y-x) dy
+-- is positive-type: pairwise-translated products are integrable
+-- (Integrable.comp_add_right + Integrable.bdd_mul), the translation
+-- identity P(a-b) = int f(y+a) f(y+b) holds by right-invariance, the
+-- finite sum interchanges with the integral, and the pointwise sum is
+-- a Gram square. Plugs directly into HaarPositivityWeil's
+-- PositiveType framework. Not from ONON52.tex.
+import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
