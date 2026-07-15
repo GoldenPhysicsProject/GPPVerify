@@ -462,6 +462,18 @@ import GppVerify.RiemannHypothesis.AlternatingHarmonicLog2
 -- Bernoulli machinery. No step assumed. Not from ONON52.tex.
 import GppVerify.QuantumGravity.PlanckIntegral
 
+-- ── Mellin kinematics elementary layer (New) ──────────────────────
+-- Phase 2 Thread M (mellin_kinematics.tex): power laws are THE
+-- continuous homomorphisms of (R+, x) — proved via log/exp
+-- conjugation to AddMonoidHom.toRealLinearMap, with unique alpha : R
+-- (correcting the paper's alpha > 0 slip: the constant map and
+-- inversion are homs too); the half-density scale shadow
+-- (Sf)(x) = f(1/x)/x is involutive and preserves L^2 mass (the
+-- u = 1/x substitution via integral_comp_rpow_Ioi at p = -1); and
+-- the Mellin kernel transport Delta = alpha*s with the unitary-axis
+-- match forcing alpha = 2 — the origin of the Delta = 2s dictionary.
+import GppVerify.CelestialHolography.MellinKinematics
+
 -- ── Convolution squares are positive-type (New) ───────────────────
 -- Thread B of docs/FORMALIZATION_PLAN.md: closes the gap PR #45
 -- honestly stubbed in HaarPositivityWeil.lean. For integrable bounded
