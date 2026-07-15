@@ -186,10 +186,11 @@ noncomputable def tHalfAntideriv (t : ℝ) : ℝ := 4 * sechFourthAntideriv (t /
 theorem hasDerivAt_tHalfAntideriv (t : ℝ) :
     HasDerivAt tHalfAntideriv (t / Real.cosh (t/2) ^ 4) t := by
   have hhalf : HasDerivAt (fun s : ℝ => s / 2) (1/2) t := (hasDerivAt_id t).div_const 2
-  have hcomp : HasDerivAt (fun s : ℝ => sechFourthAntideriv (s / 2))
+  have hcomp₀ : HasDerivAt (sechFourthAntideriv ∘ fun s : ℝ => s / 2)
       ((t/2) / Real.cosh (t/2) ^ 4 * (1/2)) t :=
-    HasDerivAt.comp (g := sechFourthAntideriv) t
-      (hasDerivAt_sechFourthAntideriv (t/2)) hhalf
+    (hasDerivAt_sechFourthAntideriv (t/2)).comp hhalf
+  have hcomp : HasDerivAt (fun s : ℝ => sechFourthAntideriv (s / 2))
+      ((t/2) / Real.cosh (t/2) ^ 4 * (1/2)) t := hcomp₀
   have h : HasDerivAt (fun s : ℝ => 4 * sechFourthAntideriv (s / 2))
       (4 * ((t/2) / Real.cosh (t/2) ^ 4 * (1/2))) t := hcomp.const_mul 4
   have hval : 4 * ((t/2) / Real.cosh (t/2) ^ 4 * (1/2)) = t / Real.cosh (t/2) ^ 4 := by
