@@ -52,6 +52,12 @@ theorem convolution_shift {f : ℝ → ℝ} (a b : ℝ) :
   simp only [harg] at h
   exact h.symm
 
+/-- `(z·↑r).re = z.re·r` — the specialized form whose rewrite pattern requires the second
+    factor to be a real coercion, so it can never grab a plain complex product elsewhere
+    in the goal (the general `Complex.mul_re` does, by traversal order). -/
+theorem mul_ofReal_re (z : ℂ) (r : ℝ) : (z * (r : ℂ)).re = z.re * r := by
+  rw [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, mul_zero, sub_zero]
+
 /-- The pointwise Gram-square identity: for real amplitudes `aᵢ`,
     `Σᵢⱼ Re(c̄ᵢcⱼ)·aᵢ·aⱼ = normSq(Σᵢ cᵢ·aᵢ) ≥ 0`. -/
 theorem gram_square_nonneg {n : ℕ} (c : Fin n → ℂ) (a : Fin n → ℝ) :
@@ -72,7 +78,7 @@ theorem gram_square_nonneg {n : ℕ} (c : Fin n → ℂ) (a : Fin n → ℝ) :
       rw [map_mul, Complex.conj_ofReal]
       push_cast
       ring
-    rw [hexpand, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, mul_zero, sub_zero]
+    rw [hexpand, mul_ofReal_re]
   rw [hkey]
   have hsum : ∑ i : Fin n, ∑ j : Fin n,
       (starRingEnd ℂ) (c i * (a i : ℂ)) * (c j * (a j : ℂ)) =
@@ -109,7 +115,7 @@ theorem convolution_square_positive_type {f : ℝ → ℝ}
     rw [Complex.re_sum]
     apply Finset.sum_congr rfl
     intro j _
-    rw [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, mul_zero, sub_zero]
+    rw [mul_ofReal_re]
   simp only [hterm]
   -- Step 3: interchange the finite double sum with the integral.
   have hint : ∀ i j : Fin n,
