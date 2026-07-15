@@ -485,3 +485,17 @@ import GppVerify.CelestialHolography.MellinKinematics
 -- a Gram square. Plugs directly into HaarPositivityWeil's
 -- PositiveType framework. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
+
+-- ── Zitterbewegung from shadow symmetry, exact arithmetic (New) ───
+-- Phase 2 Thread Z (zitterbewegung_T_boundary_FINAL.tex): the exact
+-- computational content of the Zitterbewegung proposition — the
+-- shadow partner's energy mu*e^{-log(E/mu)} = mu^2/E EXACTLY (a real
+-- exp/log identity), the splitting E - mu^2/E vanishing on-shell at
+-- mu = E, the interference frequency (E + E)/hbar = 2E/hbar (with
+-- E = mc^2 the classical 2mc^2/hbar), the +-E/hbar beat frequency,
+-- and the mirror-baryon bound Omega_DM/Omega_b >= 1 from the
+-- T-symmetry hypotheses. The physics identifications (which state is
+-- the Dirac negative-energy component, mirror baryons interacting
+-- only gravitationally) are recorded as hypotheses or documentation,
+-- never smuggled into the mathematics.
+import GppVerify.QuantumGravity.ZitterbewegungShadow
