@@ -36,7 +36,6 @@ theorem one_div_cosh_sq (x : ℝ) : 1 / Real.cosh x ^ 2 = 1 - Real.tanh x ^ 2 :=
   have hc : Real.cosh x ≠ 0 := (Real.cosh_pos x).ne'
   rw [Real.tanh_eq_sinh_div_cosh]
   field_simp
-  linarith [Real.sinh_sq x]
 
 /-- `tanh'(x) = 1 − tanh²(x)`: the `tanh`-polynomial form of the derivative. -/
 theorem hasDerivAt_tanh' (x : ℝ) : HasDerivAt Real.tanh (1 - Real.tanh x ^ 2) x := by
@@ -62,7 +61,6 @@ theorem hasDerivAt_sechFourthAntideriv (x : ℝ) :
     ((hasDerivAt_sechSqAntideriv x).const_mul (2/3 : ℝ))
   have hc4 : x / Real.cosh x ^ 4 = x * (1 - Real.tanh x ^ 2) ^ 2 := by
     rw [← one_div_cosh_sq]
-    field_simp
     ring
   have hc2 : x / Real.cosh x ^ 2 = x * (1 - Real.tanh x ^ 2) := by
     rw [← one_div_cosh_sq]
@@ -70,6 +68,7 @@ theorem hasDerivAt_sechFourthAntideriv (x : ℝ) :
   convert hF using 1
   rw [hc4, hc2]
   push_cast
+  simp only [id_eq]
   ring
 
 /-- `F₄(0) = 1/6`. -/
@@ -79,8 +78,9 @@ theorem sechFourthAntideriv_zero : sechFourthAntideriv 0 = 1/6 := by
   rw [Real.tanh_zero, sechSqAntideriv_zero]
   norm_num
 
-/-- The elementary decay bound: `1/cosh²u ≤ 4·e^{−2u}` for `u ≥ 0`, from `cosh u ≥ eᵘ/2`. -/
-theorem one_div_cosh_sq_le {u : ℝ} (hu : 0 ≤ u) :
+/-- The elementary decay bound: `1/cosh²u ≤ 4·e^{−2u}` (in fact for every `u`), from
+    `cosh u ≥ eᵘ/2`. -/
+theorem one_div_cosh_sq_le (u : ℝ) :
     1 / Real.cosh u ^ 2 ≤ 4 * Real.exp (-(2 * u)) := by
   have hcosh_ge : Real.exp u / 2 ≤ Real.cosh u := by
     rw [Real.cosh_eq]
@@ -88,7 +88,7 @@ theorem one_div_cosh_sq_le {u : ℝ} (hu : 0 ≤ u) :
     linarith
   have hc2 : Real.exp u ^ 2 / 4 ≤ Real.cosh u ^ 2 := by
     calc Real.exp u ^ 2 / 4 = (Real.exp u / 2) ^ 2 := by ring
-      _ ≤ Real.cosh u ^ 2 := pow_le_pow_left (by positivity) hcosh_ge 2
+      _ ≤ Real.cosh u ^ 2 := pow_le_pow_left₀ (by positivity) hcosh_ge 2
   have hpos : (0 : ℝ) < Real.exp u ^ 2 / 4 := by positivity
   have hexp2 : Real.exp u ^ 2 = Real.exp (2 * u) := by
     rw [sq, ← Real.exp_add]
@@ -120,17 +120,24 @@ theorem tendsto_sechFourthAntideriv :
       (nhds 0) := by
     apply squeeze_zero' ((eventually_ge_atTop (0 : ℝ)).mono fun u hu => ?_)
       ((eventually_ge_atTop (0 : ℝ)).mono fun u hu => ?_) h4ue
-    · have ht0 : 0 ≤ Real.tanh u := by
+    · have hs : 0 ≤ Real.sinh u := by
+        rw [Real.sinh_eq]
+        have := Real.exp_le_exp.mpr (by linarith : -u ≤ u)
+        linarith
+      have ht0 : 0 ≤ Real.tanh u := by
         rw [Real.tanh_eq_sinh_div_cosh]
-        exact div_nonneg (Real.sinh_nonneg hu) (Real.cosh_pos u).le
+        exact div_nonneg hs (Real.cosh_pos u).le
       have ht1 : 0 ≤ 1 - Real.tanh u ^ 2 := by
         rw [← one_div_cosh_sq]
         positivity
       exact mul_nonneg (mul_nonneg hu ht0) ht1
-    · have ht0 : 0 ≤ Real.tanh u := by
+    · have hsc : Real.sinh u ≤ Real.cosh u := by
+        rw [Real.sinh_eq, Real.cosh_eq]
+        have := (Real.exp_pos (-u)).le
+        linarith
+      have ht1 : Real.tanh u ≤ 1 := by
         rw [Real.tanh_eq_sinh_div_cosh]
-        exact div_nonneg (Real.sinh_nonneg hu) (Real.cosh_pos u).le
-      have ht1 : Real.tanh u ≤ 1 := (Real.tanh_lt_one u).le
+        exact (div_le_one (Real.cosh_pos u)).mpr hsc
       have h1c : (0 : ℝ) ≤ 1 / Real.cosh u ^ 2 := by positivity
       calc u * Real.tanh u * (1 - Real.tanh u ^ 2)
           = u * Real.tanh u * (1 / Real.cosh u ^ 2) := by rw [one_div_cosh_sq]
@@ -139,7 +146,7 @@ theorem tendsto_sechFourthAntideriv :
             exact mul_le_mul_of_nonneg_left ht1 hu
         _ = u * (1 / Real.cosh u ^ 2) := by ring
         _ ≤ u * (4 * Real.exp (-(2 * u))) :=
-            mul_le_mul_of_nonneg_left (one_div_cosh_sq_le hu) hu
+            mul_le_mul_of_nonneg_left (one_div_cosh_sq_le u) hu
         _ = 4 * u * Real.exp (-(2 * u)) := by ring
   have hB : Tendsto (fun u : ℝ => (1 - Real.tanh u ^ 2) / 2) atTop (nhds 0) := by
     apply squeeze_zero' ((eventually_ge_atTop (0 : ℝ)).mono fun u hu => ?_)
@@ -153,7 +160,7 @@ theorem tendsto_sechFourthAntideriv :
         positivity
       calc (1 - Real.tanh u ^ 2) / 2 ≤ 1 - Real.tanh u ^ 2 := half_le_self ht1
         _ = 1 / Real.cosh u ^ 2 := (one_div_cosh_sq u).symm
-        _ ≤ 4 * Real.exp (-(2 * u)) := one_div_cosh_sq_le hu
+        _ ≤ 4 * Real.exp (-(2 * u)) := one_div_cosh_sq_le u
   have hsum := ((hA.add hB).const_mul (1/3 : ℝ)).add
     (tendsto_sechSqAntideriv_log_two.const_mul (2/3 : ℝ))
   have hval : 1/3 * ((0 : ℝ) + 0) + 2/3 * Real.log 2 = 2/3 * Real.log 2 := by ring
@@ -181,7 +188,8 @@ theorem hasDerivAt_tHalfAntideriv (t : ℝ) :
   have hhalf : HasDerivAt (fun s : ℝ => s / 2) (1/2) t := (hasDerivAt_id t).div_const 2
   have hcomp : HasDerivAt (fun s : ℝ => sechFourthAntideriv (s / 2))
       ((t/2) / Real.cosh (t/2) ^ 4 * (1/2)) t :=
-    (hasDerivAt_sechFourthAntideriv (t/2)).comp t hhalf
+    HasDerivAt.comp (g := sechFourthAntideriv) t
+      (hasDerivAt_sechFourthAntideriv (t/2)) hhalf
   have h : HasDerivAt (fun s : ℝ => 4 * sechFourthAntideriv (s / 2))
       (4 * ((t/2) / Real.cosh (t/2) ^ 4 * (1/2))) t := hcomp.const_mul 4
   have hval : 4 * ((t/2) / Real.cosh (t/2) ^ 4 * (1/2)) = t / Real.cosh (t/2) ^ 4 := by
