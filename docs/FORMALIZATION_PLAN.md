@@ -40,12 +40,11 @@ reduction, not a proof of RH.*
 
 ## Thread C2 — `∫₀^∞ u·sech²(u) du = log 2` (real improper integral, exact value)
 
-**Status: in progress — `SechSquaredIntegral.lean`, lands with the PR updating this line.
-All anchors verified at the pinned commit before writing:
-`integral_Ioi_of_hasDerivAt_of_nonneg` (IntegralEqImproper:811), `Real.hasDerivAt_sinh`/
-`_cosh` (Trigonometric/Deriv:531/551), `Real.tendsto_pow_mul_exp_neg_atTop_nhds_zero`
-(Exp:270), `Real.tendsto_exp_neg_atTop_nhds_zero` (Exp:221), `HasDerivAt.log`,
-`Real.cosh_sq_sub_sinh_sq`, `Real.tanh_eq`, `Real.continuousAt_log`.**
+**Status: DONE — PR #66 (`SechSquaredIntegral.lean`). Two CI lessons recorded: the
+exp-form `Real.tanh_eq` does not exist at the pinned commit (route through
+`tanh_eq_sinh_div_cosh` + `sinh_eq`/`cosh_eq`), and bare `simpa` can rewrite a tendsto
+GOAL into a different statement via the default simp set — use have-ascribed terms
+(defeq eats `Function.comp`/beta) plus `simpa only [...]`.**
 
 Route (no series interchange needed — the antiderivative trick):
 - `F(u) := u·tanh u − log(cosh u)` has `F' (u) = u·sech² u` (mechanical `HasDerivAt`
@@ -63,7 +62,12 @@ Yakaboylu's biorthogonality (eq. 50) — obtained without touching series.*
 
 ## Thread A2 — `N_{1/2} = log 2/6 − 1/24` (rh_cesaro_v2 Prop 5.2, exact value)
 
-**Status: open. After C2 (same machinery).**
+**Status: in progress — `SechFourthIntegral.lean`, lands with the PR updating this line.
+Design refinement over the original route: the antiderivative is expressed polynomially
+in `tanh` (via the once-proved `1/cosh² = 1 − tanh²`), making the derivative-identity
+endgame pure `ring`; `F₄ = (1/3)(u·t(1−t²) + (1−t²)/2) + (2/3)F` reuses the C2
+antiderivative `F` and its limit; the `t`-variable form differentiates `4·F₄(t/2)`
+directly, needing no change-of-variables lemma.**
 
 Same machinery as C2, longer computation:
 - Antiderivative `F₄(u) := (1/3)(u·tanh u·sech²u + sech²u/2 + 2u·tanh u − 2·log cosh u)`
