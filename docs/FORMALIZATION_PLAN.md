@@ -330,9 +330,12 @@ idèle transport question; the idèle-level statement stays open (not in Mathlib
 PR #45 recorded gap). (Q4) `cesaro_gram_sq_nonneg`: the Cesàro datum is shadow-positive
 in finite-Gram form (one-line wrapper over PR #61's `abel_state_sq_nonneg`). NOT
 claimed: anything about `arithmetic_admissibility` — per the memo's own protocol.
-Numerics companion: the memo's §4.2 "monogamy" (A and P blocks individually indefinite,
-only A−P PSD) replicated on a THIRD basis family (Legendre-weight, gates-certified
-pipeline) — results recorded here when the run lands.
+Numerics companion: the memo's §4.2 "monogamy" REPLICATED on a third basis family
+(Legendre-weight, the gates-certified Thread N pipeline, N=10, L=2.2, dps 45):
+A (poles+arch) min eig −1.391 (indefinite), P (primes) min eig −1.485 (indefinite),
+W = A−P min eig +2.156e-13 (PSD, = zero side to 16 digits). The pattern — neither
+marginal positive alone, only the difference — now holds across seven basis families of
+two distinct types (six Gaussian variants + compact-support Legendre-weight).
 
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower
