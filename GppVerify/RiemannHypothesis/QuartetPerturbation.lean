@@ -86,13 +86,18 @@ theorem quartet_contribution (C γ δ : ℝ) :
     ring
   have hre : ((-C * (γ^2 - δ^2) : ℝ) : ℂ).re + (((-C * (2*γ*δ) : ℝ) : ℂ)*Complex.I).re
       = -C * (γ^2 - δ^2) := by
-    simp [Complex.mul_re]
+    simp only [Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im,
+      Complex.I_re, Complex.I_im]
+    ring
   have him : ((-C * (γ^2 - δ^2) : ℝ) : ℂ).im + (((-C * (2*γ*δ) : ℝ) : ℂ)*Complex.I).im
       = -C * (2*γ*δ) := by
-    simp [Complex.mul_im]
+    simp only [Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im,
+      Complex.I_re, Complex.I_im]
+    ring
   have hzre : z.re = Real.exp (-C * (γ^2 - δ^2)) * Real.cos (-C * (2*γ*δ)) := by
     rw [hz, Complex.exp_re, harg, Complex.add_re, Complex.add_im, hre, him]
-  calc z + z + ((starRingEnd ℂ) z + (starRingEnd ℂ) z)
+  rw [hconj]
+  calc z + (starRingEnd ℂ) z + (starRingEnd ℂ) z + z
       = 2 * (z + (starRingEnd ℂ) z) := by ring
     _ = 2 * ((2 * z.re : ℝ) : ℂ) := by rw [Complex.add_conj]
     _ = ((4 * z.re : ℝ) : ℂ) := by push_cast; ring
