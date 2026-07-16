@@ -171,8 +171,9 @@ existing inversion-invariance layer; (M3) *uniqueness of the quadratic scale tra
 
 ## Thread Z — zitterbewegung arithmetic layer
 
-**Status: in progress — `QuantumGravity/ZitterbewegungShadow.lean`, lands with the PR
-updating this line. Contents: `shadow_energy_eq` (μ·e^{−log(E/μ)} = μ²/E exactly, the
+**Status: DONE — PR #72, `QuantumGravity/ZitterbewegungShadow.lean`, one CI round
+(lesson confirmed twice: `field_simp` leaves an `E*E` vs `E^2` npow residue — close with
+`ring`). Contents: `shadow_energy_eq` (μ·e^{−log(E/μ)} = μ²/E exactly, the
 one analytic step — `exp_neg` + `exp_log` + `field_simp`), `shadow_splitting` /
 `shadow_splitting_onshell`, `shadow_frequency_onshell` ((E+E²/E)/ℏ = 2E/ℏ, the
 Zitterbewegung frequency 2mc²/ℏ at E = mc²), `beat_frequency` (|E/ℏ−(−E/ℏ)| = 2E/ℏ),
@@ -183,6 +184,31 @@ From `zitterbewegung_T_boundary_FINAL.tex`: the frequency proposition
 (`ω = 2mc²/ℏ` from shadow symmetry — exact arithmetic) and any boundary-oscillation
 content not already covered by `CoreTheorems.lean`'s oscillator lemmas and
 `MajoranaCondition.lean`. Read the theorem statements in full before scoping.
+
+## Thread K — the Cauchy kernel is positive-type (form-domain note companion)
+
+**Status: in progress — `RiemannHypothesis/CauchyKernelPositive.lean`, lands with the PR
+updating this line.** Companion to the form-domain note on Yakaboylu Thm 5.1
+(`yakaboylu_form_domain_note.pdf`): the note splits the finite-ε structure of eq. (75)
+into a provable on-line half and a provably failing off-line half, and this thread
+kernel-checks both. (K1) `integral_exp_neg_mul_cos`: `∫₀^∞ e^{−bt}cos(xt)dt = b/(b²+x²)`
+by explicit antiderivative `e^{−bt}(x·sin−b·cos)/(b²+x²)` + sandwich decay, via
+`integral_Ioi_of_hasDerivAt_of_tendsto'` (verified at pinned, IntegralEqImproper:750 —
+the signed-integrand twin of the `_of_nonneg` version used by Threads C2/A2). (K2)
+`cauchy_kernel_positive_type`: `PositiveType (ε²/(ε²+x²))` reusing Thread B's skeleton
+(`Complex.re_sum` → `mul_ofReal_re` → `integral_finset_sum` → pointwise
+`gram_square_nonneg` twice, on cos and sin amplitudes, after `Real.cos_sub`). (K3) the
+note's Prop 2.1 (`matrix_element_off_line_diag`, `off_line_diag_neg`: diagonal
+`ε²/(ε²−4δ²) < 0` for `ε < 2δ`), the on-line reduction `matrix_element_on_line`
+(element = Cauchy kernel, exact complex algebra), and eq. (7)
+(`tendsto_offline_min_eigenvalue`: `d(ε)−1 → −1`). Numerics cross-checked on the
+100k-zero dataset (two independent runs, δ = 0.05/0.01, identical structure: resonance
+at ε = 2δ exactly, λ_min → −1, test vector → −2 matching PR #65's lemma). Anchors
+verified: `exp_neg_integrableOn_Ioi` (ExpDecay:28), `HasDerivAt.cos/.sin` (Trig/Deriv:
+671/695), `HasDerivAt.exp` (ExpDeriv:284), `Complex.conj_I` (Complex/Basic:461),
+`setIntegral_nonneg` (Bochner/Set:686), `Finset.sum_add_distrib` (to_additive of
+`prod_mul_distrib`, Finset/Basic:267). NOT claimed: ε→0 uniformity over infinite zero
+sets — equivalent to RH by `rh_iff_weil_pairedForm_nonneg`, stays open.
 
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower

@@ -486,6 +486,21 @@ import GppVerify.CelestialHolography.MellinKinematics
 -- PositiveType framework. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
 
+-- ── The Cauchy kernel is positive-type (New) ──────────────────────
+-- Phase 2 Thread K (companion to the form-domain note on Yakaboylu
+-- arXiv:2408.15135 Thm 5.1): on the critical line the regularized
+-- matrix element eps^2/(eps^2 - (conj s + s' - 1)^2) IS the Cauchy
+-- kernel eps^2/(eps^2 + (gamma' - gamma)^2), proved positive-type in
+-- HaarPositivityWeil's exact PSD sense via the Bochner representation
+-- eps^2/(eps^2+x^2) = eps * int_0^inf e^{-eps t} cos(xt) dt (damped-
+-- cosine integral by explicit antiderivative) and a two-Gram-square
+-- decomposition. Off the line: the note's Prop 2.1 (diagonal element
+-- eps^2/(eps^2-4delta^2) < 0 for eps < 2delta) and eq. (7) (limiting
+-- eigenvalue -> -1) as exact algebra/limits. The eps -> 0 uniformity
+-- over infinite zero sets is NOT claimed: by rh_iff_weil_pairedForm_
+-- nonneg it is equivalent to RH, and it stays open here.
+import GppVerify.RiemannHypothesis.CauchyKernelPositive
+
 -- ── Zitterbewegung from shadow symmetry, exact arithmetic (New) ───
 -- Phase 2 Thread Z (zitterbewegung_T_boundary_FINAL.tex): the exact
 -- computational content of the Zitterbewegung proposition — the
