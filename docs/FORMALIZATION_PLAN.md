@@ -260,8 +260,13 @@ not claimed by this thread.
 
 ## Thread L — the Weil support ladder (Connes–Consani rung structure)
 
-**Status: in progress — `RiemannHypothesis/WeilSupportLadder.lean`, lands with the PR
-updating this line.** From arXiv:2106.01715 §2.2 via the joint-session prompt. Contents:
+**Status: DONE — PR #76, `RiemannHypothesis/WeilSupportLadder.lean`, one CI round
+(lessons: `integral_comp_abs` lives in `Mathlib.MeasureTheory.Measure.Lebesgue.Integral`
+— unknown IDENTIFIER = missing import, per the standing rule; and the pattern-capture
+trap again — `rw [mul_neg]` grabbed `-ε * -u` inside the exp argument by traversal order
+instead of the intended `x * -u`; use a targeted `rw [show x * -u = -(x*u) by ring]`).
+The numerical twin (Thread N) used exactly this file's truncation identity for its prime
+side and matched the 100k-zero sum to 16 digits.** From arXiv:2106.01715 §2.2 via the joint-session prompt. Contents:
 `HasSupportIn`; `convolution_hasSupportIn` (support doubling for convolution squares, by
 triangle inequality + pointwise-zero integrand); `primeSide` via Mathlib's
 `ArithmeticFunction.vonMangoldt`; `primeSide_term_eq_zero` + `primeSide_eq_truncation`
@@ -307,6 +312,27 @@ slots to be filled exclusively from a gates-passing Thread N run). Contents: qua
 circularity remark (uniform ε-positivity ⟺ no off-line zeros at any δ ⟺ RH); Bochner
 sharpening of §4.1 with the Lean citations (CauchyKernelPositive.lean); new support-ladder
 section with rung table and WeilSupportLadder.lean citations.
+
+## Thread Q — the off-line quartet + transport seed (memo fragments, checked)
+
+**Status: in progress — `RiemannHypothesis/QuartetPerturbation.lean`, lands with the PR
+updating this line.** From the entanglement/shadow-positivity memo (Sonnet session
+handoff): (Q1) `quartet_contribution` — the memo §4.3 closed form
+`4e^{−C(γ²−δ²)}cos(2Cγδ)` for the functional-equation quartet of an off-line zero under
+Gaussian pairing, as an identity in ℂ (Im = 0 included), via `Complex.exp_conj`
+(Exponential:165), `Complex.add_conj` (:571), `Complex.exp_re` (Data/Complex/
+Trigonometric:506), `Complex.I_sq`; plus `pair_contribution` (on-line `2e^{−Cγ²}`).
+(Q2) sign mechanism: negative iff `cos(2Cγδ) < 0` (both directions, nlinarith with
+product hints) + envelope amplification `e^{Cδ²} ≥ 1` (`Real.add_one_le_exp`). (Q3)
+`positiveType_comp_addMonoidHom`: positivity transports along ANY `ℝ →+ ℝ` (map_sub +
+the PositiveType instance at mapped points) — the ℝ-factor seed of the memo's §6.1
+idèle transport question; the idèle-level statement stays open (not in Mathlib, the
+PR #45 recorded gap). (Q4) `cesaro_gram_sq_nonneg`: the Cesàro datum is shadow-positive
+in finite-Gram form (one-line wrapper over PR #61's `abel_state_sq_nonneg`). NOT
+claimed: anything about `arithmetic_admissibility` — per the memo's own protocol.
+Numerics companion: the memo's §4.2 "monogamy" (A and P blocks individually indefinite,
+only A−P PSD) replicated on a THIRD basis family (Legendre-weight, gates-certified
+pipeline) — results recorded here when the run lands.
 
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower
