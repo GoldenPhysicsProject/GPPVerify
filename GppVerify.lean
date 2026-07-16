@@ -527,3 +527,19 @@ import GppVerify.QuantumGravity.ZitterbewegungShadow
 -- interchange. Exact corollaries: int t/sinh t = pi^2/4 (= M_1 = 1/8
 -- in pi-free form) and int t^3/sinh t = pi^4/8.
 import GppVerify.QuantumGravity.SinhZetaBridge
+
+-- ── The Weil support ladder (New) ─────────────────────────────────
+-- Thread L (Connes-Consani arXiv:2106.01715 sec 2.2): the prime side
+-- of the Weil functional, built on Mathlib's von Mangoldt function,
+-- truncates EXACTLY on supported test classes -- support doubling for
+-- convolution squares (triangle inequality), term vanishing beyond
+-- log n > L, full = finite truncation for L < log(N+1), and rung 0:
+-- below log 2 the entire prime side vanishes and the Weil form IS its
+-- archimedean part. Rung-0 archimedean positivity (Connes-Consani's
+-- analytic theorem) is carried as a NAMED HYPOTHESIS, never proved.
+-- Plus the eps-dictionary: int e^{-eps|u|} cos(xu) du = 2eps/(eps^2+x^2)
+-- (integral_comp_abs + Thread K's damped cosine) -- the Yakaboylu
+-- cutoff and the Cauchy kernel are Fourier duals; the eps -> 0 and
+-- L -> infty uniformity questions are one open question (= RH via
+-- rh_iff_weil_pairedForm_nonneg), not claimed.
+import GppVerify.RiemannHypothesis.WeilSupportLadder
