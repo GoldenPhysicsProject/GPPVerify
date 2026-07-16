@@ -102,7 +102,7 @@ theorem integrable_term {s : ℝ} (hs : 1 < s) (k : ℕ) :
           mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hb hnn) htwo
       _ = 2 * (Real.exp (-t) * t ^ (s-1)) := by ring
 
-set_option maxHeartbeats 400000 in
+set_option maxHeartbeats 1600000 in
 /-- **The odd Dirichlet factor**: `Σ_{k≥0} 1/(2k+1)^s = (1−2^{−s})·Σ_{n} 1/n^s`
     for `s > 1` (the `n = 0` term of the right sum vanishes since `0^s = 0`). -/
 theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
@@ -139,7 +139,11 @@ theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
   have e2 : ∑' k : ℕ, (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1) =
       ∑' k : ℕ, 1 / (2*(k:ℝ)+1) ^ s := tsum_congr hocast
   rw [e1, e2] at hsplit
-  linarith [hsplit]
+  -- hsplit : 2^(-s) * S + (odd sum) = S; avoid linarith here — its preprocessing
+  -- compares distinct tsum atoms up to defeq, unfolding tsum's classical choice.
+  have hb := eq_sub_of_add_eq' hsplit
+  rw [hb]
+  ring
 
 /-- **The zeta bridge** (`kinematic_block_v11` Prop. zetabridge, real form): for `s > 1`,
     `∫₀^∞ t^{s−1}/sinh t dt = 2·(1−2^{−s})·Γ(s)·Σ 1/n^s` — the Riemann zeta function is
