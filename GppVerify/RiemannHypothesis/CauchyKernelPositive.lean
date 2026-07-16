@@ -164,7 +164,7 @@ theorem cauchy_kernel_positive_type {ε : ℝ} (hε : 0 < ε) :
   intro n x c
   -- Step 1: rewrite each matrix entry through the Bochner representation.
   have hentry : ∀ i j : Fin n,
-      ((fun y => ε^2 / (ε^2 + y^2)) (x i - x j) : ℂ) =
+      (((fun y => ε^2 / (ε^2 + y^2)) (x i - x j) : ℝ) : ℂ) =
         ((∫ t in Ioi (0:ℝ), ε * (Real.exp (-ε*t) * Real.cos ((x i - x j)*t)) : ℝ) : ℂ) := by
     intro i j
     norm_cast
@@ -281,7 +281,7 @@ theorem tendsto_offline_min_eigenvalue {δ : ℝ} (hδ : δ ≠ 0) :
     have h2 : ContinuousAt (fun ε : ℝ => ε^2 - 4*δ^2) 0 :=
       ((continuous_pow 2).sub continuous_const).continuousAt
     exact (h1.div h2 hden).sub continuousAt_const
-  have h0 : (fun ε : ℝ => ε^2 / (ε^2 - 4*δ^2) - 1) 0 = -1 := by norm_num
+  have h0 : (0:ℝ)^2 / ((0:ℝ)^2 - 4*δ^2) - 1 = -1 := by norm_num
   have h := hc.tendsto
   rw [h0] at h
   exact h.mono_left nhdsWithin_le_nhds
