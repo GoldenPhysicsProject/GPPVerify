@@ -246,6 +246,47 @@ first sum + the assembly with the second's exact gap named. The reduction of the
 Plancherel integral to `Σ min(m,n)/(m²n³)` (real Fubini on ℝ²) is a separate follow-up,
 not claimed by this thread.
 
+## Thread L — the Weil support ladder (Connes–Consani rung structure)
+
+**Status: in progress — `RiemannHypothesis/WeilSupportLadder.lean`, lands with the PR
+updating this line.** From arXiv:2106.01715 §2.2 via the joint-session prompt. Contents:
+`HasSupportIn`; `convolution_hasSupportIn` (support doubling for convolution squares, by
+triangle inequality + pointwise-zero integrand); `primeSide` via Mathlib's
+`ArithmeticFunction.vonMangoldt`; `primeSide_term_eq_zero` + `primeSide_eq_truncation`
+(exact truncation at `L < log(N+1)`, `tsum_eq_sum`); rung 0
+`primeSide_eq_zero_of_support_lt_log_two` (`vonMangoldt_ne_zero_iff` + `IsPrimePow.two_le`
++ `log_le_log_iff`); conditional `weil_nonneg_of_arch_nonneg_rung_zero` (rung-0
+archimedean positivity = Connes–Consani analytic input, carried as a NAMED hypothesis);
+the ε-dictionary `integral_exp_neg_abs_mul_cos` (`∫ e^{−ε|u|}cos(xu) du = 2ε/(ε²+x²)`,
+via `integral_comp_abs` + Thread K's damped-cosine integral). NOT claimed: the
+ε-uniformity ⟺ all-rungs equivalence (explicit-formula-deep; = RH via Thread D).
+Anchors verified at pinned: `vonMangoldt_apply/_ne_zero_iff` (VonMangoldt:69/88),
+`IsPrimePow.two_le` (IsPrimePow:91), `Real.log_natCast_nonneg` (Log/Basic:207),
+`Real.log_le_log_iff` (Log/Basic:138), `integral_comp_abs` (green in
+ArchimedeanZetaIntegral).
+
+## Thread N — near-null direction of the Weil Gram form at L = 2.2 (numerics)
+
+**Status: running — `scratchpad/weil_nearnull.py`, mpmath dps 45.** Protocol per the
+joint-session prompt: basis `(1−(y/a)²)³·P_n(y/a)` (C² edges → `|ĝ|² ~ t⁻⁸`, zero-side
+tail bound ~1e-31 at 100k zeros — the previous session's double-precision Gaussian-bump
+landmine is structurally excluded); overlap cond 2.4e5 < 1e6 ✓; GATE 1 = explicit-formula
+side (poles G(∓1/2) separable + exact prime truncation at rungs log2..log9 + digamma
+archimedean density `(Re ψ(1/4+it/2) − log π)/2π`) vs zero side (100k zeros, γ₁ restored
+via mp.zetazero — note the uploaded file STARTS AT ZERO #2); GATE 2 = suppression at
+genuine ordinates + minima-gap cv (comb exclusion); then Möbius/BD correlation with block
+bootstrap. Results land in the note addendum only if both gates pass; a gate failure is
+reported as-is and is itself a result.
+
+## Thread Y — form-domain note v2 addendum
+
+**Status: drafted — `scratchpad/form_domain_note_addendum.tex`** (source .tex of the note
+not in this session's uploads; addendum is written for merge, with `\verifiedfigure{}`
+slots to be filled exclusively from a gates-passing Thread N run). Contents: quantitative
+circularity remark (uniform ε-positivity ⟺ no off-line zeros at any δ ⟺ RH); Bochner
+sharpening of §4.1 with the Lean citations (CauchyKernelPositive.lean); new support-ladder
+section with rung table and WeilSupportLadder.lean citations.
+
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower
 is kernel-checked, with each remaining gap precisely named.*
