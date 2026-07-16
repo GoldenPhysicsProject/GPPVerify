@@ -219,8 +219,20 @@ sets — equivalent to RH by `rh_iff_weil_pairedForm_nonneg`, stays open.
 
 ## Thread S — the zeta bridge `∫₀^∞ t^{s−1}/sinh t = 2(1−2^{−s})Γ(s)ζ(s)`
 
-**Status: in progress — `QuantumGravity/SinhZetaBridge.lean`, lands with the PR updating
-this line.** From `kinematic_block_v11.tex` (Prop. zetabridge, "verified to 29 digits")
+**Status: DONE — PR #75, `QuantumGravity/SinhZetaBridge.lean`, six CI rounds. The lesson
+chain, in order of discovery: (1) inline `(by positivity)`/`(by linarith)` term-mode args
+elaborate against metavariable-typed goals and stick on `IsOrderedRing ?m` — hoist into
+typed `have`s; (2) an UN-ASCRIBED cast in a hint list (`nlinarith [Nat.cast_nonneg k]`)
+leaves the target type meta — ascribe (`(Nat.cast_nonneg k : (0:ℝ) ≤ k)`) or hoist;
+(3) `set_option ... in` must precede the DOC COMMENT, not sit between it and `theorem`;
+(4) THE BIG ONE: an implicit function argument whose occurrences are applications
+(`?f (2*k)` in `tsum_even_add_odd`) is a non-Miller higher-order unification problem —
+the unifier can dive into unbounded `whnf` unfolding of `tsum`'s classical-choice
+definition (survived 1.6M heartbeats). Pass such implicits EXPLICITLY
+(`tsum_even_add_odd (f := ...)`). Also: state such `he`/`ho` hypotheses in literal redex
+form `(fun n => ...) (2*k)` so first-order matching works; route subseries summability
+through `Summable.comp_injective` (Group:304 to_additive) rather than
+`of_nonneg_of_le` comparisons.** From `kinematic_block_v11.tex` (Prop. zetabridge, "verified to 29 digits")
 and `haar_qg_paper_v2151.tex` (first Plancherel moment `M₁ = 1/8`). Thread P's proof one
 level up: residue expansion `1/sinh t = 2Σe^{−(2k+1)t}`, real-exponent Gamma term
 integrals (`integral_rpow_mul_exp_neg_mul_rpow` at `q = s−1`, no npow bridge), odd
