@@ -132,8 +132,11 @@ pinned commit first, honest boundaries, one thread = small CI-green PRs.*
 
 ## Thread P — the Planck integral `∫₀^∞ x³/(eˣ−1) dx = π⁴/15`
 
-**Status: in progress — `QuantumGravity/PlanckIntegral.lean`, lands with the PR updating
-this line. All anchors verified at the pinned commit:
+**Status: DONE — PR #70, `QuantumGravity/PlanckIntegral.lean`, one CI round (lessons:
+`norm_num at h` can reduce a hypothesis like `Γ(4)=6`-in-progress to `True` — rewrite the
+goal instead; `positivity` won't prove `1 ≤ (n:ℝ)+1`, use `nlinarith [Nat.cast_nonneg n]`;
+`field_simp` closed `planck_summand_eq` outright, trailing `ring` errored "no goals").
+All anchors verified at the pinned commit:
 `integral_rpow_mul_exp_neg_mul_rpow` (Integral/Gamma:39, exact form
 `b^(−(q+1)/p)·(1/p)·Γ((q+1)/p)`), `integral_tsum_of_summable_integral_norm`
 (DominatedConvergence:152, `∑'∫ = ∫∑'`), `hasSum_zeta_four` (ZetaValues:335),
@@ -150,8 +153,9 @@ threads C2/A2 — genuinely hard, fully real.
 
 ## Thread M — Mellin kinematics elementary layer
 
-**Status: in progress — `CelestialHolography/MellinKinematics.lean`, lands with the PR
-updating this line. Anchors verified at pinned: `AddMonoidHom.toRealLinearMap` +
+**Status: DONE — PR #71, `CelestialHolography/MellinKinematics.lean`, one CI round
+(lesson: `nlinarith` failed on `h : φ (1 * 1) = φ 1 * φ 1` because `φ (1 * 1)` and `φ 1`
+are distinct atoms — `rw [one_mul] at h` first). Anchors verified at pinned: `AddMonoidHom.toRealLinearMap` +
 `coe_toRealLinearMap` (Topology/Instances/RealVectorSpace),
 `MeasureTheory.integral_comp_rpow_Ioi` (IntegralEqImproper, exact form
 `∫ (|p|·x^{p−1}) • g(x^p) = ∫ g`). Honesty correction recorded: the paper's
@@ -166,6 +170,14 @@ existing inversion-invariance layer; (M3) *uniqueness of the quadratic scale tra
 (the origin of `Δ = 2s`) — likely elementary uniqueness, verify statement first.
 
 ## Thread Z — zitterbewegung arithmetic layer
+
+**Status: in progress — `QuantumGravity/ZitterbewegungShadow.lean`, lands with the PR
+updating this line. Contents: `shadow_energy_eq` (μ·e^{−log(E/μ)} = μ²/E exactly, the
+one analytic step — `exp_neg` + `exp_log` + `field_simp`), `shadow_splitting` /
+`shadow_splitting_onshell`, `shadow_frequency_onshell` ((E+E²/E)/ℏ = 2E/ℏ, the
+Zitterbewegung frequency 2mc²/ℏ at E = mc²), `beat_frequency` (|E/ℏ−(−E/ℏ)| = 2E/ℏ),
+`mirror_dm_bound` (Ω_mirror = Ω_b ≤ Ω_DM ⇒ Ω_DM/Ω_b ≥ 1 via `le_div_iff₀`). Physics
+identifications carried as hypotheses/documentation, never smuggled.**
 
 From `zitterbewegung_T_boundary_FINAL.tex`: the frequency proposition
 (`ω = 2mc²/ℏ` from shadow symmetry — exact arithmetic) and any boundary-oscillation
