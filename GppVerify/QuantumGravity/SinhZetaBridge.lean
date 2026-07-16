@@ -73,6 +73,7 @@ theorem integral_term {s : ℝ} (hs : 0 < s) (k : ℕ) :
   ring
 
 /-- Each term is integrable on `(0,∞)`, dominated by twice the Euler Gamma integrand. -/
+set_option maxHeartbeats 400000 in
 theorem integrable_term {s : ℝ} (hs : 1 < s) (k : ℕ) :
     IntegrableOn (fun t : ℝ => 2 * (t ^ (s-1) * Real.exp (-(2*(k:ℝ)+1)*t)))
       (Ioi (0:ℝ)) := by
@@ -80,9 +81,10 @@ theorem integrable_term {s : ℝ} (hs : 1 < s) (k : ℕ) :
     (Real.GammaIntegral_convergent (by linarith : (0:ℝ) < s)).const_mul 2
   refine hg.mono' ?_ ?_
   · apply Continuous.aestronglyMeasurable
-    exact continuous_const.mul
-      ((continuous_id.rpow_const fun x => Or.inr (by linarith)).mul
-        (Real.continuous_exp.comp (continuous_const.mul continuous_id)))
+    apply Continuous.mul continuous_const
+    apply Continuous.mul
+    · exact continuous_id.rpow_const fun x => Or.inr (by linarith)
+    · exact Real.continuous_exp.comp (continuous_const.mul continuous_id)
   · rw [ae_restrict_iff' measurableSet_Ioi]
     apply Filter.Eventually.of_forall
     intro t htt
@@ -129,10 +131,13 @@ theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
     show 1 / ((2*k+1 : ℕ):ℝ) ^ s = 1 / (2*(k:ℝ)+1) ^ s
     rw [show ((2*k+1 : ℕ):ℝ) = 2*(k:ℝ)+1 by push_cast; ring]
   have ho' : Summable (fun k : ℕ => 1 / (2*(k:ℝ)+1) ^ s) := by
-    apply Summable.of_nonneg_of_le (fun k => by positivity) (fun k => ?_) hshift
-    apply one_div_le_one_div_of_le (Real.rpow_pos_of_pos (by positivity) s)
-    apply Real.rpow_le_rpow (by positivity)
-      (by nlinarith [Nat.cast_nonneg k] : (k:ℝ)+1 ≤ 2*(k:ℝ)+1) (by linarith)
+    refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
+    · positivity
+    · have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by nlinarith [Nat.cast_nonneg k]
+      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos (by positivity) s
+      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s :=
+        Real.rpow_le_rpow (by positivity) h1 (by linarith)
+      exact one_div_le_one_div_of_le h2 h3
   have ho : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1)) := by
     apply Summable.congr ho'
     intro k
@@ -170,10 +175,13 @@ theorem sinh_mellin_zeta {s : ℝ} (hs : 1 < s) :
       (f := fun n : ℕ => 1 / (n:ℝ) ^ s) 1).mpr (summable_one_div_nat_rpow.mpr hs)
     simpa [Nat.cast_add, Nat.cast_one] using h2
   have hcomp : Summable (fun k : ℕ => 1 / (2*(k:ℝ)+1) ^ s) := by
-    apply Summable.of_nonneg_of_le (fun k => by positivity) (fun k => ?_) hshift
-    apply one_div_le_one_div_of_le (Real.rpow_pos_of_pos (by positivity) s)
-    apply Real.rpow_le_rpow (by positivity)
-      (by nlinarith [Nat.cast_nonneg k] : (k:ℝ)+1 ≤ 2*(k:ℝ)+1) (by linarith)
+    refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
+    · positivity
+    · have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by nlinarith [Nat.cast_nonneg k]
+      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos (by positivity) s
+      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s :=
+        Real.rpow_le_rpow (by positivity) h1 (by linarith)
+      exact one_div_le_one_div_of_le h2 h3
   have hsum : Summable (fun k : ℕ => 2 * (1 / (2*(k:ℝ)+1) ^ s) * Real.Gamma s) :=
     (hcomp.mul_left 2).mul_right _
   have hsum_norm : Summable (fun k : ℕ =>
