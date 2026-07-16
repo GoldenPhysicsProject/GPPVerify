@@ -132,7 +132,7 @@ theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
   have ho : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1)) :=
     hζ.comp_injective hinj
   -- the even/odd split
-  have hsplit := tsum_even_add_odd he ho
+  have hsplit := tsum_even_add_odd (f := fun n : ℕ => 1 / (n:ℝ) ^ s) he ho
   have e1 : ∑' k : ℕ, (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k) =
       2^(-s) * ∑' n : ℕ, 1 / (n:ℝ) ^ s := by
     rw [tsum_congr heven, tsum_mul_left]
