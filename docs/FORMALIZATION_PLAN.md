@@ -187,8 +187,15 @@ content not already covered by `CoreTheorems.lean`'s oscillator lemmas and
 
 ## Thread K — the Cauchy kernel is positive-type (form-domain note companion)
 
-**Status: in progress — `RiemannHypothesis/CauchyKernelPositive.lean`, lands with the PR
-updating this line.** Companion to the form-domain note on Yakaboylu Thm 5.1
+**Status: DONE — PR #74, `RiemannHypothesis/CauchyKernelPositive.lean`, two CI rounds.
+Lessons: (1) ascribing a lambda application directly to `ℂ` makes the elaborator build
+the body's division in `ℂ` (`HDiv ℝ ℝ ℂ` failure) — inner-ascribe `(… : ℝ)` first so the
+ofReal coercion is inserted outside; (2) `ContinuousAt.tendsto` produces the
+beta-REDUCED value `f 0`, so a `rw` equation for it must be stated reduced, not as
+`(fun x => …) 0`; (3) `rw [integral_const_mul]` is ambiguous when the integrand has a
+nested constant layer `∫ w·(ε·g)` — both sides match; use `simp only
+[integral_const_mul]` to normalize to fixpoint. All the analysis (damped-cosine
+antiderivative, sandwich, Gram squares, complex note objects) compiled first-try.** Companion to the form-domain note on Yakaboylu Thm 5.1
 (`yakaboylu_form_domain_note.pdf`): the note splits the finite-ε structure of eq. (75)
 into a provable on-line half and a provably failing off-line half, and this thread
 kernel-checks both. (K1) `integral_exp_neg_mul_cos`: `∫₀^∞ e^{−bt}cos(xt)dt = b/(b²+x²)`
@@ -209,6 +216,35 @@ verified: `exp_neg_integrableOn_Ioi` (ExpDecay:28), `HasDerivAt.cos/.sin` (Trig/
 `setIntegral_nonneg` (Bochner/Set:686), `Finset.sum_add_distrib` (to_additive of
 `prod_mul_distrib`, Finset/Basic:267). NOT claimed: ε→0 uniformity over infinite zero
 sets — equivalent to RH by `rh_iff_weil_pairedForm_nonneg`, stays open.
+
+## Thread S — the zeta bridge `∫₀^∞ t^{s−1}/sinh t = 2(1−2^{−s})Γ(s)ζ(s)`
+
+**Status: in progress — `QuantumGravity/SinhZetaBridge.lean`, lands with the PR updating
+this line.** From `kinematic_block_v11.tex` (Prop. zetabridge, "verified to 29 digits")
+and `haar_qg_paper_v2151.tex` (first Plancherel moment `M₁ = 1/8`). Thread P's proof one
+level up: residue expansion `1/sinh t = 2Σe^{−(2k+1)t}`, real-exponent Gamma term
+integrals (`integral_rpow_mul_exp_neg_mul_rpow` at `q = s−1`, no npow bridge), odd
+Dirichlet split `Σ(2k+1)^{−s} = (1−2^{−s})Σn^{−s}` via `tsum_even_add_odd` (to_additive
+of `tprod_even_mul_odd`, NatInt:205 — state `he`/`ho` in REDEX form `(fun n => …) (2*k)`
+so the implicit `f` unifies first-order), interchange via
+`integral_tsum_of_summable_integral_norm`. Corollaries: `∫ t/sinh t = π²/4`
+(`M₁ = 1/8` π-free), `∫ t³/sinh t = π⁴/8`. Other anchors verified at pinned:
+`summable_one_div_nat_rpow` (PSeries:297), `summable_nat_add_iff` (to_additive,
+NatInt:227), `one_div_le_one_div_of_le` (Order/Field/Basic:110), `hasSum_zeta_two`
+(ZetaValues:330).
+
+## Thread E — the Euler-sum capstone (`M₂ = 1/90 = ζ(4)/π⁴`)
+
+From `haar_qg_paper_v2151.tex` base case `L = 2`: the two linear Euler sums
+`Σₙ (ζ(2)−H_n⁽²⁾)/n² = π⁴/120 = (3/4)ζ(4)` and
+`Σₘ (ζ(3)−H_{m−1}⁽³⁾)/m = π⁴/72 = (5/4)ζ(4)`, whose sum `2ζ(4) = π⁴/45` gives
+`M₂ = 1/90`. The first reduces to the symmetric double-sum decomposition
+`2·Σ_{m≤n} 1/(m²n²) = ζ(2)² + ζ(4)` — pure ℕ×ℕ tsum bookkeeping plus Mathlib's
+`hasSum_zeta_two/four`. The second is Euler's `Σ Hₙ/n³ = (5/4)ζ(4)` — genuinely harder
+(partial-fraction reindexing over ℕ×ℕ); attempt in full, and if it resists, land the
+first sum + the assembly with the second's exact gap named. The reduction of the 2-D
+Plancherel integral to `Σ min(m,n)/(m²n³)` (real Fubini on ℝ²) is a separate follow-up,
+not claimed by this thread.
 
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower

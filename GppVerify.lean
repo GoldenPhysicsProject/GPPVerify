@@ -514,3 +514,16 @@ import GppVerify.RiemannHypothesis.CauchyKernelPositive
 -- only gravitationally) are recorded as hypotheses or documentation,
 -- never smuggled into the mathematics.
 import GppVerify.QuantumGravity.ZitterbewegungShadow
+
+-- ── The zeta bridge: int_0^inf t^{s-1}/sinh t = 2(1-2^{-s})Gamma(s)zeta(s) (New)
+-- Phase 2 Thread S (kinematic_block_v11 Prop. zetabridge +
+-- haar_qg_paper_v2151 first Plancherel moment M_1 = 1/8): the Riemann
+-- zeta function is the Mellin transform of the 1/sinh thermal kernel,
+-- through the odd Dirichlet factor (1-2^{-s}) -- kernel-checked for
+-- every real s > 1 with zeta in Dirichlet-series form, replacing the
+-- papers' 29-digit numerics. PlanckIntegral's argument one level of
+-- generality up: residue expansion, real-exponent Gamma term
+-- integrals, odd/even Dirichlet split (tsum_even_add_odd), summable
+-- interchange. Exact corollaries: int t/sinh t = pi^2/4 (= M_1 = 1/8
+-- in pi-free form) and int t^3/sinh t = pi^4/8.
+import GppVerify.QuantumGravity.SinhZetaBridge
