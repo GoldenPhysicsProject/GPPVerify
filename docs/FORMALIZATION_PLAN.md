@@ -187,8 +187,15 @@ content not already covered by `CoreTheorems.lean`'s oscillator lemmas and
 
 ## Thread K — the Cauchy kernel is positive-type (form-domain note companion)
 
-**Status: in progress — `RiemannHypothesis/CauchyKernelPositive.lean`, lands with the PR
-updating this line.** Companion to the form-domain note on Yakaboylu Thm 5.1
+**Status: DONE — PR #74, `RiemannHypothesis/CauchyKernelPositive.lean`, two CI rounds.
+Lessons: (1) ascribing a lambda application directly to `ℂ` makes the elaborator build
+the body's division in `ℂ` (`HDiv ℝ ℝ ℂ` failure) — inner-ascribe `(… : ℝ)` first so the
+ofReal coercion is inserted outside; (2) `ContinuousAt.tendsto` produces the
+beta-REDUCED value `f 0`, so a `rw` equation for it must be stated reduced, not as
+`(fun x => …) 0`; (3) `rw [integral_const_mul]` is ambiguous when the integrand has a
+nested constant layer `∫ w·(ε·g)` — both sides match; use `simp only
+[integral_const_mul]` to normalize to fixpoint. All the analysis (damped-cosine
+antiderivative, sandwich, Gram squares, complex note objects) compiled first-try.** Companion to the form-domain note on Yakaboylu Thm 5.1
 (`yakaboylu_form_domain_note.pdf`): the note splits the finite-ε structure of eq. (75)
 into a provable on-line half and a provably failing off-line half, and this thread
 kernel-checks both. (K1) `integral_exp_neg_mul_cos`: `∫₀^∞ e^{−bt}cos(xt)dt = b/(b²+x²)`
@@ -209,6 +216,85 @@ verified: `exp_neg_integrableOn_Ioi` (ExpDecay:28), `HasDerivAt.cos/.sin` (Trig/
 `setIntegral_nonneg` (Bochner/Set:686), `Finset.sum_add_distrib` (to_additive of
 `prod_mul_distrib`, Finset/Basic:267). NOT claimed: ε→0 uniformity over infinite zero
 sets — equivalent to RH by `rh_iff_weil_pairedForm_nonneg`, stays open.
+
+## Thread S — the zeta bridge `∫₀^∞ t^{s−1}/sinh t = 2(1−2^{−s})Γ(s)ζ(s)`
+
+**Status: in progress — `QuantumGravity/SinhZetaBridge.lean`, lands with the PR updating
+this line.** From `kinematic_block_v11.tex` (Prop. zetabridge, "verified to 29 digits")
+and `haar_qg_paper_v2151.tex` (first Plancherel moment `M₁ = 1/8`). Thread P's proof one
+level up: residue expansion `1/sinh t = 2Σe^{−(2k+1)t}`, real-exponent Gamma term
+integrals (`integral_rpow_mul_exp_neg_mul_rpow` at `q = s−1`, no npow bridge), odd
+Dirichlet split `Σ(2k+1)^{−s} = (1−2^{−s})Σn^{−s}` via `tsum_even_add_odd` (to_additive
+of `tprod_even_mul_odd`, NatInt:205 — state `he`/`ho` in REDEX form `(fun n => …) (2*k)`
+so the implicit `f` unifies first-order), interchange via
+`integral_tsum_of_summable_integral_norm`. Corollaries: `∫ t/sinh t = π²/4`
+(`M₁ = 1/8` π-free), `∫ t³/sinh t = π⁴/8`. Other anchors verified at pinned:
+`summable_one_div_nat_rpow` (PSeries:297), `summable_nat_add_iff` (to_additive,
+NatInt:227), `one_div_le_one_div_of_le` (Order/Field/Basic:110), `hasSum_zeta_two`
+(ZetaValues:330).
+
+## Thread E — the Euler-sum capstone (`M₂ = 1/90 = ζ(4)/π⁴`)
+
+From `haar_qg_paper_v2151.tex` base case `L = 2`: the two linear Euler sums
+`Σₙ (ζ(2)−H_n⁽²⁾)/n² = π⁴/120 = (3/4)ζ(4)` and
+`Σₘ (ζ(3)−H_{m−1}⁽³⁾)/m = π⁴/72 = (5/4)ζ(4)`, whose sum `2ζ(4) = π⁴/45` gives
+`M₂ = 1/90`. The first reduces to the symmetric double-sum decomposition
+`2·Σ_{m≤n} 1/(m²n²) = ζ(2)² + ζ(4)` — pure ℕ×ℕ tsum bookkeeping plus Mathlib's
+`hasSum_zeta_two/four`. The second is Euler's `Σ Hₙ/n³ = (5/4)ζ(4)` — genuinely harder
+(partial-fraction reindexing over ℕ×ℕ); attempt in full, and if it resists, land the
+first sum + the assembly with the second's exact gap named. The reduction of the 2-D
+Plancherel integral to `Σ min(m,n)/(m²n³)` (real Fubini on ℝ²) is a separate follow-up,
+not claimed by this thread.
+
+## Thread L — the Weil support ladder (Connes–Consani rung structure)
+
+**Status: in progress — `RiemannHypothesis/WeilSupportLadder.lean`, lands with the PR
+updating this line.** From arXiv:2106.01715 §2.2 via the joint-session prompt. Contents:
+`HasSupportIn`; `convolution_hasSupportIn` (support doubling for convolution squares, by
+triangle inequality + pointwise-zero integrand); `primeSide` via Mathlib's
+`ArithmeticFunction.vonMangoldt`; `primeSide_term_eq_zero` + `primeSide_eq_truncation`
+(exact truncation at `L < log(N+1)`, `tsum_eq_sum`); rung 0
+`primeSide_eq_zero_of_support_lt_log_two` (`vonMangoldt_ne_zero_iff` + `IsPrimePow.two_le`
++ `log_le_log_iff`); conditional `weil_nonneg_of_arch_nonneg_rung_zero` (rung-0
+archimedean positivity = Connes–Consani analytic input, carried as a NAMED hypothesis);
+the ε-dictionary `integral_exp_neg_abs_mul_cos` (`∫ e^{−ε|u|}cos(xu) du = 2ε/(ε²+x²)`,
+via `integral_comp_abs` + Thread K's damped-cosine integral). NOT claimed: the
+ε-uniformity ⟺ all-rungs equivalence (explicit-formula-deep; = RH via Thread D).
+Anchors verified at pinned: `vonMangoldt_apply/_ne_zero_iff` (VonMangoldt:69/88),
+`IsPrimePow.two_le` (IsPrimePow:91), `Real.log_natCast_nonneg` (Log/Basic:207),
+`Real.log_le_log_iff` (Log/Basic:138), `integral_comp_abs` (green in
+ArchimedeanZetaIntegral).
+
+## Thread N — near-null direction of the Weil Gram form at L = 2.2 (numerics)
+
+**Status: DONE — both gates passed; results in the note addendum. GATE 1: the
+explicit-formula side and the 100k-zero side of the 10×10 Weil Gram matrix agree to
+max|Z−W| = 5.2e-20 (relative 2.2e-16) — sixteen digits, simultaneously certifying the
+code and the explicit formula on this class. All ten eigenvalues positive across 13
+decades; λ_min = 2.156e-13, ~7 digits above the certified noise floor (a real,
+strictly positive near-null direction — no fake negatives). GATE 2: |ĝ_c| suppressed at
+γ₁,γ₂,γ₃ by 3e-5/0.013/0.069, minima lock to ordinates, gap-cv 0.14 (no lattice comb).
+PREDICTION P4 REFUTED and retracted: Möbius/BD correlation r = 0.10, 95% CI
+[−0.19, 0.33] — consistent with zero; at L = 2.2 the near-null direction is archimedean/
+low-rung shaped, not yet Möbius-shaped. The BD profile is asymptotic; it does not
+describe the small-support extremal.** Protocol per the joint-session prompt: basis `(1−(y/a)²)³·P_n(y/a)` (C² edges → `|ĝ|² ~ t⁻⁸`, zero-side
+tail bound ~1e-31 at 100k zeros — the previous session's double-precision Gaussian-bump
+landmine is structurally excluded); overlap cond 2.4e5 < 1e6 ✓; GATE 1 = explicit-formula
+side (poles G(∓1/2) separable + exact prime truncation at rungs log2..log9 + digamma
+archimedean density `(Re ψ(1/4+it/2) − log π)/2π`) vs zero side (100k zeros, γ₁ restored
+via mp.zetazero — note the uploaded file STARTS AT ZERO #2); GATE 2 = suppression at
+genuine ordinates + minima-gap cv (comb exclusion); then Möbius/BD correlation with block
+bootstrap. Results land in the note addendum only if both gates pass; a gate failure is
+reported as-is and is itself a result.
+
+## Thread Y — form-domain note v2 addendum
+
+**Status: drafted — `scratchpad/form_domain_note_addendum.tex`** (source .tex of the note
+not in this session's uploads; addendum is written for merge, with `\verifiedfigure{}`
+slots to be filled exclusively from a gates-passing Thread N run). Contents: quantitative
+circularity remark (uniform ε-positivity ⟺ no off-line zeros at any δ ⟺ RH); Bochner
+sharpening of §4.1 with the Lean citations (CauchyKernelPositive.lean); new support-ladder
+section with rung table and WeilSupportLadder.lean citations.
 
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower
