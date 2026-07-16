@@ -267,8 +267,17 @@ ArchimedeanZetaIntegral).
 
 ## Thread N — near-null direction of the Weil Gram form at L = 2.2 (numerics)
 
-**Status: running — `scratchpad/weil_nearnull.py`, mpmath dps 45.** Protocol per the
-joint-session prompt: basis `(1−(y/a)²)³·P_n(y/a)` (C² edges → `|ĝ|² ~ t⁻⁸`, zero-side
+**Status: DONE — both gates passed; results in the note addendum. GATE 1: the
+explicit-formula side and the 100k-zero side of the 10×10 Weil Gram matrix agree to
+max|Z−W| = 5.2e-20 (relative 2.2e-16) — sixteen digits, simultaneously certifying the
+code and the explicit formula on this class. All ten eigenvalues positive across 13
+decades; λ_min = 2.156e-13, ~7 digits above the certified noise floor (a real,
+strictly positive near-null direction — no fake negatives). GATE 2: |ĝ_c| suppressed at
+γ₁,γ₂,γ₃ by 3e-5/0.013/0.069, minima lock to ordinates, gap-cv 0.14 (no lattice comb).
+PREDICTION P4 REFUTED and retracted: Möbius/BD correlation r = 0.10, 95% CI
+[−0.19, 0.33] — consistent with zero; at L = 2.2 the near-null direction is archimedean/
+low-rung shaped, not yet Möbius-shaped. The BD profile is asymptotic; it does not
+describe the small-support extremal.** Protocol per the joint-session prompt: basis `(1−(y/a)²)³·P_n(y/a)` (C² edges → `|ĝ|² ~ t⁻⁸`, zero-side
 tail bound ~1e-31 at 100k zeros — the previous session's double-precision Gaussian-bump
 landmine is structurally excluded); overlap cond 2.4e5 < 1e6 ✓; GATE 1 = explicit-formula
 side (poles G(∓1/2) separable + exact prime truncation at rungs log2..log9 + digamma
