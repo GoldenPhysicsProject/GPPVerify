@@ -1,5 +1,6 @@
 import GppVerify.RiemannHypothesis.CauchyKernelPositive
 import Mathlib.NumberTheory.VonMangoldt
+import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
 
 /-!
 # The support ladder of the Weil functional: rungs, truncation, and the ε-dictionary
@@ -151,7 +152,7 @@ theorem integral_exp_neg_abs_mul_cos {ε : ℝ} (hε : 0 < ε) (x : ℝ) :
     intro u
     rcases abs_cases u with ⟨h1, _⟩ | ⟨h1, _⟩
     · rw [h1]
-    · rw [h1, mul_neg, Real.cos_neg]
+    · rw [h1, show x * -u = -(x*u) by ring, Real.cos_neg]
   calc ∫ u : ℝ, Real.exp (-ε*|u|) * Real.cos (x*u)
       = ∫ u : ℝ, Real.exp (-ε*|u|) * Real.cos (x*|u|) := by
         apply integral_congr_ae
