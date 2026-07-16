@@ -198,7 +198,7 @@ theorem cauchy_kernel_positive_type {ε : ℝ} (hε : 0 < ε) :
       rw [integral_finset_sum]
       · apply Finset.sum_congr rfl
         intro j _
-        rw [integral_const_mul]
+        simp only [integral_const_mul]
       · exact fun j _ => hint i j
     · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
   rw [hswap]
