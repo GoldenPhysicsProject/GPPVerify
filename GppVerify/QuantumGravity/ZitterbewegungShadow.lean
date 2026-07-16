@@ -45,12 +45,13 @@ theorem shadow_splitting {E μ : ℝ} (hE : 0 < E) (hμ : 0 < μ) :
 theorem shadow_splitting_onshell {E : ℝ} (hE : E ≠ 0) :
     E - E ^ 2 / E = 0 := by
   field_simp
+  ring
 
 /-- **The Zitterbewegung frequency**: at `μ = E` the interference frequency
     `(E + Ẽ)/ℏ` is exactly `2E/ℏ` — with `E = mc²`, the classical `2mc²/ℏ`. -/
 theorem shadow_frequency_onshell {E hbar : ℝ} (hE : E ≠ 0) (hh : hbar ≠ 0) :
     (E + E ^ 2 / E) / hbar = 2 * E / hbar := by
-  rw [show E ^ 2 / E = E from by field_simp]
+  rw [show E ^ 2 / E = E from by field_simp; ring]
   ring
 
 /-- The beat between the phase frequencies `+E/ℏ` and `−E/ℏ` is `2E/ℏ`. -/
