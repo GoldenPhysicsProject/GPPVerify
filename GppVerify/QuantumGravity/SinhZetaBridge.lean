@@ -72,8 +72,8 @@ theorem integral_term {s : ℝ} (hs : 0 < s) (k : ℕ) :
   rw [key]
   ring
 
-/-- Each term is integrable on `(0,∞)`, dominated by twice the Euler Gamma integrand. -/
 set_option maxHeartbeats 400000 in
+/-- Each term is integrable on `(0,∞)`, dominated by twice the Euler Gamma integrand. -/
 theorem integrable_term {s : ℝ} (hs : 1 < s) (k : ℕ) :
     IntegrableOn (fun t : ℝ => 2 * (t ^ (s-1) * Real.exp (-(2*(k:ℝ)+1)*t)))
       (Ioi (0:ℝ)) := by
@@ -94,11 +94,12 @@ theorem integrable_term {s : ℝ} (hs : 1 < s) (k : ℕ) :
       apply Real.exp_le_exp.mpr
       have hk : (0:ℝ) ≤ (k:ℝ) := Nat.cast_nonneg k
       nlinarith
-    rw [Real.norm_eq_abs, abs_of_nonneg (by positivity)]
+    have hnonneg : (0:ℝ) ≤ 2 * (t ^ (s-1) * Real.exp (-(2*(k:ℝ)+1)*t)) := by positivity
+    have htwo : (0:ℝ) ≤ 2 := by norm_num
+    rw [Real.norm_eq_abs, abs_of_nonneg hnonneg]
     calc 2 * (t ^ (s-1) * Real.exp (-(2*(k:ℝ)+1)*t))
-        ≤ 2 * (t ^ (s-1) * Real.exp (-t)) := by
-          apply mul_le_mul_of_nonneg_left _ (by norm_num : (0:ℝ) ≤ 2)
-          exact mul_le_mul_of_nonneg_left hb hnn
+        ≤ 2 * (t ^ (s-1) * Real.exp (-t)) :=
+          mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hb hnn) htwo
       _ = 2 * (Real.exp (-t) * t ^ (s-1)) := by ring
 
 /-- **The odd Dirichlet factor**: `Σ_{k≥0} 1/(2k+1)^s = (1−2^{−s})·Σ_{n} 1/n^s`
@@ -134,9 +135,10 @@ theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
     refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
     · positivity
     · have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by nlinarith [Nat.cast_nonneg k]
-      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos (by positivity) s
-      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s :=
-        Real.rpow_le_rpow (by positivity) h1 (by linarith)
+      have hk1 : (0:ℝ) < (k:ℝ)+1 := by positivity
+      have hs0 : (0:ℝ) ≤ s := by linarith
+      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos hk1 s
+      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s := Real.rpow_le_rpow hk1.le h1 hs0
       exact one_div_le_one_div_of_le h2 h3
   have ho : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1)) := by
     apply Summable.congr ho'
@@ -167,7 +169,9 @@ theorem sinh_mellin_zeta {s : ℝ} (hs : 1 < s) :
         2 * (t ^ (s-1) * Real.exp (-(2*(k:ℝ)+1)*t))) (fun t htt => by
       have ht' : (0:ℝ) < t := htt
       have hnn : (0:ℝ) ≤ t ^ (s-1) := Real.rpow_nonneg ht'.le _
-      rw [Real.norm_eq_abs, abs_of_nonneg (by positivity)])]
+      have hnonneg : (0:ℝ) ≤ 2 * (t ^ (s-1) * Real.exp (-(2*(k:ℝ)+1)*t)) := by
+        positivity
+      rw [Real.norm_eq_abs, abs_of_nonneg hnonneg])]
     exact hterm_int k
   -- summability of the term norms
   have hshift : Summable (fun k : ℕ => 1 / ((k:ℝ)+1) ^ s) := by
@@ -178,9 +182,10 @@ theorem sinh_mellin_zeta {s : ℝ} (hs : 1 < s) :
     refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
     · positivity
     · have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by nlinarith [Nat.cast_nonneg k]
-      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos (by positivity) s
-      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s :=
-        Real.rpow_le_rpow (by positivity) h1 (by linarith)
+      have hk1 : (0:ℝ) < (k:ℝ)+1 := by positivity
+      have hs0 : (0:ℝ) ≤ s := by linarith
+      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos hk1 s
+      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s := Real.rpow_le_rpow hk1.le h1 hs0
       exact one_div_le_one_div_of_le h2 h3
   have hsum : Summable (fun k : ℕ => 2 * (1 / (2*(k:ℝ)+1) ^ s) * Real.Gamma s) :=
     (hcomp.mul_left 2).mul_right _
