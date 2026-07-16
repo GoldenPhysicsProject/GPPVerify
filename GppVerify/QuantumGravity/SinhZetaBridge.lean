@@ -102,6 +102,7 @@ theorem integrable_term {s : ℝ} (hs : 1 < s) (k : ℕ) :
           mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hb hnn) htwo
       _ = 2 * (Real.exp (-t) * t ^ (s-1)) := by ring
 
+set_option maxHeartbeats 400000 in
 /-- **The odd Dirichlet factor**: `Σ_{k≥0} 1/(2k+1)^s = (1−2^{−s})·Σ_{n} 1/n^s`
     for `s > 1` (the `n = 0` term of the right sum vanishes since `0^s = 0`). -/
 theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
@@ -134,7 +135,8 @@ theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
   have ho' : Summable (fun k : ℕ => 1 / (2*(k:ℝ)+1) ^ s) := by
     refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
     · positivity
-    · have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by nlinarith [Nat.cast_nonneg k]
+    · have hk : (0:ℝ) ≤ (k:ℝ) := Nat.cast_nonneg k
+      have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by linarith
       have hk1 : (0:ℝ) < (k:ℝ)+1 := by positivity
       have hs0 : (0:ℝ) ≤ s := by linarith
       have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos hk1 s
@@ -181,7 +183,8 @@ theorem sinh_mellin_zeta {s : ℝ} (hs : 1 < s) :
   have hcomp : Summable (fun k : ℕ => 1 / (2*(k:ℝ)+1) ^ s) := by
     refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
     · positivity
-    · have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by nlinarith [Nat.cast_nonneg k]
+    · have hk : (0:ℝ) ≤ (k:ℝ) := Nat.cast_nonneg k
+      have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by linarith
       have hk1 : (0:ℝ) < (k:ℝ)+1 := by positivity
       have hs0 : (0:ℝ) ≤ s := by linarith
       have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos hk1 s
