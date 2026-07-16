@@ -119,36 +119,26 @@ theorem tsum_odd_inv_rpow {s : ℝ} (hs : 1 < s) :
       Real.mul_rpow (by norm_num : (0:ℝ) ≤ 2) (Nat.cast_nonneg k),
       Real.rpow_neg (by norm_num : (0:ℝ) ≤ 2)]
     ring
-  have he : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k)) := by
-    apply Summable.congr (hζ.mul_left (2^(-s)))
-    intro k
-    exact (heven k).symm
-  -- odd terms: comparison with the shifted p-series
-  have hshift : Summable (fun k : ℕ => 1 / ((k:ℝ)+1) ^ s) := by
-    have h2 := (summable_nat_add_iff (f := fun n : ℕ => 1 / (n:ℝ) ^ s) 1).mpr hζ
-    simpa [Nat.cast_add, Nat.cast_one] using h2
+  have he : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k)) :=
+    hζ.comp_injective (mul_right_injective₀ (two_ne_zero' ℕ))
+  -- odd terms: subseries of a summable series along the injection k ↦ 2k+1
   have hocast : ∀ k : ℕ, (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1) =
       1 / (2*(k:ℝ)+1) ^ s := by
     intro k
     show 1 / ((2*k+1 : ℕ):ℝ) ^ s = 1 / (2*(k:ℝ)+1) ^ s
     rw [show ((2*k+1 : ℕ):ℝ) = 2*(k:ℝ)+1 by push_cast; ring]
-  have ho' : Summable (fun k : ℕ => 1 / (2*(k:ℝ)+1) ^ s) := by
-    refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
-    · positivity
-    · have hk : (0:ℝ) ≤ (k:ℝ) := Nat.cast_nonneg k
-      have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by linarith
-      have hk1 : (0:ℝ) < (k:ℝ)+1 := by positivity
-      have hs0 : (0:ℝ) ≤ s := by linarith
-      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos hk1 s
-      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s := Real.rpow_le_rpow hk1.le h1 hs0
-      exact one_div_le_one_div_of_le h2 h3
-  have ho : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1)) := by
-    apply Summable.congr ho'
-    intro k
-    exact (hocast k).symm
+  have hinj : Function.Injective (fun k : ℕ => 2*k+1) :=
+    (add_left_injective 1).comp (mul_right_injective₀ (two_ne_zero' ℕ))
+  have ho : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1)) :=
+    hζ.comp_injective hinj
   -- the even/odd split
   have hsplit := tsum_even_add_odd he ho
-  rw [tsum_congr heven, tsum_mul_left, tsum_congr hocast] at hsplit
+  have e1 : ∑' k : ℕ, (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k) =
+      2^(-s) * ∑' n : ℕ, 1 / (n:ℝ) ^ s := by
+    rw [tsum_congr heven, tsum_mul_left]
+  have e2 : ∑' k : ℕ, (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1) =
+      ∑' k : ℕ, 1 / (2*(k:ℝ)+1) ^ s := tsum_congr hocast
+  rw [e1, e2] at hsplit
   linarith [hsplit]
 
 /-- **The zeta bridge** (`kinematic_block_v11` Prop. zetabridge, real form): for `s > 1`,
@@ -176,20 +166,16 @@ theorem sinh_mellin_zeta {s : ℝ} (hs : 1 < s) :
       rw [Real.norm_eq_abs, abs_of_nonneg hnonneg])]
     exact hterm_int k
   -- summability of the term norms
-  have hshift : Summable (fun k : ℕ => 1 / ((k:ℝ)+1) ^ s) := by
-    have h2 := (summable_nat_add_iff
-      (f := fun n : ℕ => 1 / (n:ℝ) ^ s) 1).mpr (summable_one_div_nat_rpow.mpr hs)
-    simpa [Nat.cast_add, Nat.cast_one] using h2
   have hcomp : Summable (fun k : ℕ => 1 / (2*(k:ℝ)+1) ^ s) := by
-    refine Summable.of_nonneg_of_le (fun k => ?_) (fun k => ?_) hshift
-    · positivity
-    · have hk : (0:ℝ) ≤ (k:ℝ) := Nat.cast_nonneg k
-      have h1 : ((k:ℝ)+1) ≤ 2*(k:ℝ)+1 := by linarith
-      have hk1 : (0:ℝ) < (k:ℝ)+1 := by positivity
-      have hs0 : (0:ℝ) ≤ s := by linarith
-      have h2 : (0:ℝ) < ((k:ℝ)+1) ^ s := Real.rpow_pos_of_pos hk1 s
-      have h3 : ((k:ℝ)+1) ^ s ≤ (2*(k:ℝ)+1) ^ s := Real.rpow_le_rpow hk1.le h1 hs0
-      exact one_div_le_one_div_of_le h2 h3
+    have hζ : Summable (fun n : ℕ => 1 / (n:ℝ) ^ s) := summable_one_div_nat_rpow.mpr hs
+    have hinj : Function.Injective (fun k : ℕ => 2*k+1) :=
+      (add_left_injective 1).comp (mul_right_injective₀ (two_ne_zero' ℕ))
+    have ho : Summable (fun k : ℕ => (fun n : ℕ => 1 / (n:ℝ) ^ s) (2*k+1)) :=
+      hζ.comp_injective hinj
+    apply Summable.congr ho
+    intro k
+    show 1 / ((2*k+1 : ℕ):ℝ) ^ s = 1 / (2*(k:ℝ)+1) ^ s
+    rw [show ((2*k+1 : ℕ):ℝ) = 2*(k:ℝ)+1 by push_cast; ring]
   have hsum : Summable (fun k : ℕ => 2 * (1 / (2*(k:ℝ)+1) ^ s) * Real.Gamma s) :=
     (hcomp.mul_left 2).mul_right _
   have hsum_norm : Summable (fun k : ℕ =>
