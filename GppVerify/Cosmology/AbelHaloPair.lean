@@ -181,21 +181,25 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
             (Real.sqrt (b^2 + rc^2))^2 / (r^2 + rc^2)) b :=
       (h1.div h2 hsp.ne').div_const (r^2 + rc^2)
     -- massage the derivative value in two deterministic stages
+    have hcube_sm : Real.sqrt (b^2 - r^2) ^ 3 = (b^2 - r^2) * Real.sqrt (b^2 - r^2) := by
+      rw [show Real.sqrt (b^2 - r^2)^3
+          = Real.sqrt (b^2 - r^2)^2 * Real.sqrt (b^2 - r^2) by ring, hsmsq]
+    have hcube_sp : Real.sqrt (b^2 + rc^2) ^ 3 = (b^2 + rc^2) * Real.sqrt (b^2 + rc^2) := by
+      rw [show Real.sqrt (b^2 + rc^2)^3
+          = Real.sqrt (b^2 + rc^2)^2 * Real.sqrt (b^2 + rc^2) by ring, hspsq]
     have e1 : (2*b) / (2 * Real.sqrt (b^2 - r^2)) * Real.sqrt (b^2 + rc^2) -
         Real.sqrt (b^2 - r^2) * ((2*b) / (2 * Real.sqrt (b^2 + rc^2))) =
         b * ((Real.sqrt (b^2 + rc^2))^2 - (Real.sqrt (b^2 - r^2))^2) /
           (Real.sqrt (b^2 - r^2) * Real.sqrt (b^2 + rc^2)) := by
       field_simp [hsm.ne', hsp.ne']
+      rw [hcube_sm, hcube_sp]
       ring
-    have hu3 : Real.sqrt (b^2 + rc^2)^3 = (b^2 + rc^2) * Real.sqrt (b^2 + rc^2) := by
-      rw [show Real.sqrt (b^2 + rc^2)^3
-          = Real.sqrt (b^2 + rc^2)^2 * Real.sqrt (b^2 + rc^2) by ring, hspsq]
     have hval : ((2*b) / (2 * Real.sqrt (b^2 - r^2)) * Real.sqrt (b^2 + rc^2) -
         Real.sqrt (b^2 - r^2) * ((2*b) / (2 * Real.sqrt (b^2 + rc^2)))) /
           (Real.sqrt (b^2 + rc^2))^2 / (r^2 + rc^2) =
         b / (Real.sqrt (b^2 - r^2) * Real.sqrt (b^2 + rc^2)^3) := by
       rw [e1, hsmsq, hspsq,
-        show b^2 + rc^2 - (b^2 - r^2) = r^2 + rc^2 by ring, hu3]
+        show b^2 + rc^2 - (b^2 - r^2) = r^2 + rc^2 by ring, hcube_sp]
       field_simp [hsm.ne', hsp.ne', hrden.ne', hbc.ne']
       ring
     rw [hval] at hq
