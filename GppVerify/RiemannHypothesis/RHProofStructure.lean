@@ -194,7 +194,7 @@ theorem weil_positivity_haar_squares : True := trivial
             rh_arithmetic_field1.tex, thm:rh; RH_final_v5_1.tex, thm:rh.
     PROOF: Off-line zero ⟹ two distinct zeros at same ordinate ⟹
            total analytic multiplicity ≥ 2 ⟹ contradicts spectral_atom_weight_one. -/
-theorem riemann_hypothesis : True := trivial
+theorem rh_pathway_target : True := trivial
 -- MATHLIB GAPS blocking unconditional proof:
 -- 1. Meyer spectral-Weil identity (μ_A = μ_W) — see SpectralWeil.lean
 -- 2. Tate functional equation for adèlic Haar squares
@@ -205,7 +205,7 @@ theorem riemann_hypothesis : True := trivial
     SOURCE: rh_physics24_edited.tex, cor:simple-zeros.
     PROOF: RH + spectral atom weight 1 ⟹ each ordinate has total multiplicity 1. -/
 theorem zero_simplicity : True := trivial
--- Conditional on riemann_hypothesis and spectral_atom_weight_one.
+-- Conditional on rh_pathway_target and spectral_atom_weight_one.
 
 /-- Generalised RH for Hecke L-functions.
     SOURCE: rh_cft_proof4.tex, cor:grh.

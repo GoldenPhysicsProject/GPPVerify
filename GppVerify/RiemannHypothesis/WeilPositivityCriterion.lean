@@ -23,7 +23,7 @@ implicit:
 * `nontrivialZeros_mem_involution` — the nontrivial zero set
   `{ρ | ζ(ρ) = 0, 0 < Re ρ < 1}` is **genuinely closed** under `zetaInvolution`: this is
   `GppRH.zeta_zero_implies_companion_zero` (the functional equation composed with the
-  repo's own proved conjugation symmetry `riemannZeta_conj_axiom`), with the `ρ ≠ −n` and
+  repo's own proved conjugation symmetry `riemannZeta_conj`), with the `ρ ≠ −n` and
   `ρ ≠ 1` side conditions discharged from the strip bounds;
 * **`rh_iff_weil_pairedForm_nonneg`** — the two directions assembled: *every nontrivial
   zero lies on the critical line* **iff** *the paired form is positive semidefinite on
@@ -109,7 +109,7 @@ def nontrivialZeros : Set ℂ := {ρ : ℂ | riemannZeta ρ = 0 ∧ 0 < ρ.re �
 /-- **The nontrivial zero set is closed under the zeta involution** — a real theorem, not
     an assumption: the companion `1 − ρ̄` of a strip zero is again a strip zero, by the
     functional equation (`riemannZeta_one_sub`) composed with the proved conjugation
-    symmetry (`GppRH.riemannZeta_conj_axiom`), with the poles-of-`Γ` side conditions
+    symmetry (`GppRH.riemannZeta_conj`), with the poles-of-`Γ` side conditions
     `ρ ≠ −n` and `ρ ≠ 1` discharged from the strip bounds. -/
 theorem nontrivialZeros_mem_involution {ρ : ℂ} (hρ : ρ ∈ nontrivialZeros) :
     zetaInvolution ρ ∈ nontrivialZeros := by

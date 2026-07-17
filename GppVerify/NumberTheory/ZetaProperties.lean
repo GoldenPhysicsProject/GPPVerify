@@ -128,7 +128,8 @@ lemma off_critical_zero_gives_pair (s : ℂ)
 -- §4  RH statement and its consequences (conditional)
 -- ============================================================
 
-/-- The Riemann Hypothesis (conditional — matches GppRH.riemann_hypothesis). -/
+/-- The Riemann Hypothesis as a Prop (for the conditional theorem see
+    GppWeilCriterion.rh_of_weil_pairedForm_nonneg). -/
 def RiemannHypothesis : Prop :=
   ∀ s : ℂ, riemannZeta s = 0 → 0 < s.re → s.re < 1 → s.re = 1/2
 

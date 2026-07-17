@@ -21,8 +21,9 @@ import GppVerify.RiemannHypothesis.FunctionalEquation
 --       "depends on thm:link6 — open problem"
 import GppVerify.RiemannHypothesis.ShadowSymmetry
 
--- Spectral multiplicity argument + riemann_hypothesis theorem
--- (2 sorries in temperedness, 1 axiom: arithmetic_admissibility)
+-- Spectral multiplicity argument (two_zeros_at_ordinate, riemannZeta_conj).
+-- riemann_hypothesis alias + arithmetic_admissibility axiom RETIRED 2026-07-17;
+-- flagship conditional: GppWeilCriterion.rh_of_weil_pairedForm_nonneg
 import GppVerify.RHSpectralMultiplicity
 
 -- ── L² Constraint ────────────────────────────────────────────
@@ -557,5 +558,5 @@ import GppVerify.RiemannHypothesis.WeilSupportLadder
 -- -- the idele-level statement stays open: not in Mathlib), and the
 -- Cesaro/Abel state is shadow-positive in finite-Gram form (wrapper
 -- over PR #61's proved positivity). NOT claimed: anything about the
--- arithmetic_admissibility axiom.
+-- (now-retired) arithmetic_admissibility axiom or the positivity hypothesis.
 import GppVerify.RiemannHypothesis.QuartetPerturbation
