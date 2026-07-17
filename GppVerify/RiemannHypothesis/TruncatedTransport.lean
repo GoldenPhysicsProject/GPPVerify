@@ -22,18 +22,19 @@ Mathlib today.
 * **`truncated_transport`** — the assembly theorem: every positive-type datum on the
   `R`-factor transports to a positive-type datum on the full S-truncated chart, by ONE
   pullback. With `w_p = log p` this is rung-|S| transport;
-* `logPrime_lattice_injective` — faithfulness of the prime chart (stated, one
-  documented `sorry`): `{log p}` is Z-linearly independent — unique factorization in
-  log coordinates. This is what makes the transported Gram data a faithful copy (no two
-  prime-power rungs collide). PROVABLE with current Mathlib — see the proof plan in the
-  docstring; deferred to its own thread so this file's other proofs stay kernel-checked.
+* `logPrime_lattice_injective` — faithfulness of the prime chart, PROVED: `{log p}` is
+  Z-linearly independent — unique factorization in log coordinates, via
+  `Nat.factorization` comparison after splitting each coefficient into nonnegative
+  parts. This is what makes the transported Gram data a faithful copy (no two
+  prime-power rungs collide).
 
 **Honest boundary**: transport is *free* — it holds for arbitrary weights `w` and needs
-no primality. The arithmetic enters only through faithfulness (the sorry above) and
-through what is transported (the archimedean positivity floor, Thread L rung 0, still
-carried as a named hypothesis pending the Connes-Consani formalization). Nothing here
-is uniform in the rung parameter; by `rh_iff_weil_pairedForm_nonneg` the uniform
-statement is equivalent to RH and stays open and named.
+no primality; faithfulness (proved above) needs primality of `S`'s elements only.
+The arithmetic enters through what is transported (the archimedean positivity floor,
+Thread L rung 0, still carried as a named hypothesis pending the Connes-Consani
+formalization). Nothing here is uniform in the rung parameter; by
+`rh_iff_weil_pairedForm_nonneg` the uniform statement is equivalent to RH and stays
+open and named.
 -/
 
 namespace GppTransport
@@ -89,26 +90,130 @@ theorem truncated_transport {ι : Type*} [Fintype ι] (w : ι → ℝ) {P : ℝ 
   positiveTypeOn_comp_addMonoidHom ((positiveTypeOn_real_iff P).mpr hP)
     (truncatedLogHom w)
 
-/-- **Faithfulness of the prime chart** (stated; ONE documented `sorry`): the map
-    `k |-> ∑_{p in S} k_p * log p` on `Z^S` kills only `k = 0` — the Z-linear
-    independence of `{log p : p prime}`, i.e. unique factorization read in log
-    coordinates. This upgrades `truncated_transport` from "a positive-type function on
-    the chart" to "a faithful copy of the S-truncated Gram data": distinct prime-power
-    rungs never collide, so the transported matrices are genuine submatrices of the
-    `R`-side data.
+/-- **Faithfulness of the prime chart**: the map `k |-> ∑_{p in S} k_p * log p` on `Z^S`
+    kills only `k = 0` — the Z-linear independence of `{log p : p prime}`, i.e. unique
+    factorization read in log coordinates. This upgrades `truncated_transport` from "a
+    positive-type function on the chart" to "a faithful copy of the S-truncated Gram
+    data": distinct prime-power rungs never collide, so the transported matrices are
+    genuine submatrices of the `R`-side data.
 
-    PROVABLE WITH CURRENT MATHLIB — this is not an open problem and not a Mathlib gap.
-    Proof plan: split `k` into positive and negative parts `a b : S → ℕ` with disjoint
-    supports; the hypothesis becomes `Real.log (∏ p^(a_p)) = Real.log (∏ p^(b_p))`;
-    `Real.log` is injective on `[1, ∞)` so `∏ p^(a_p) = ∏ p^(b_p)` in `ℕ`; comparing
-    `Nat.factorization` (via `Nat.Prime.factorization_pow` and `Nat.factorization_mul`
-    on the positive products) forces `a = b`, and disjoint supports force both to
-    vanish, so `k = 0`. Deferred to its own thread (see FORMALIZATION_PLAN) to keep
-    this PR's other proofs kernel-checked. -/
+    Proof: split each `k p` into its nonnegative/nonpositive parts `A p, B p : ℕ` (via
+    `Int.toNat`, closed by `omega`); the hypothesis becomes, after grouping,
+    `Real.log (∏ p^(A p)) = Real.log (∏ p^(B p))`; `Real.log` is injective on positives
+    so the two products of prime powers agree as naturals; comparing `Nat.factorization`
+    (`Nat.factorization_prod` + `Nat.Prime.factorization_pow`, evaluated pointwise via
+    `Finsupp.applyAddHom`/`Finsupp.single_apply`/`Finset.sum_ite_eq'`) forces `A q = B q`
+    at every `q ∈ S`; combined with `A q = 0 ∨ B q = 0` this forces both to vanish. -/
 theorem logPrime_lattice_injective {S : Finset ℕ} (hS : ∀ p ∈ S, Nat.Prime p)
     (k : S → ℤ) (hk : ∑ p : S, (k p : ℝ) * Real.log ((p : ℕ) : ℝ) = 0) :
     k = 0 := by
-  sorry
+  classical
+  -- extend `k` to a total function on `ℕ`, zero outside `S`
+  set k' : ℕ → ℤ := fun p => if h : p ∈ S then k ⟨p, h⟩ else 0 with hk'def
+  have hk'_eq : ∀ p : S, k' (p : ℕ) = k p := by
+    intro p
+    simp only [hk'def, dif_pos p.property]
+  have hk_sum : ∑ p ∈ S, (k' p : ℝ) * Real.log (p : ℝ) = 0 := by
+    rw [← Finset.sum_coe_sort S (fun p : ℕ => (k' p : ℝ) * Real.log (p : ℝ))]
+    have heq : ∑ p : S, (k' (p : ℕ) : ℝ) * Real.log ((p : ℕ) : ℝ)
+        = ∑ p : S, (k p : ℝ) * Real.log ((p : ℕ) : ℝ) :=
+      Finset.sum_congr rfl (fun p _ => by rw [hk'_eq p])
+    rw [heq]
+    exact hk
+  -- split each `k' p` into nonnegative parts `A p, B p` with `A p - B p = k' p`
+  set A : ℕ → ℕ := fun p => (k' p).toNat with hAdef
+  set B : ℕ → ℕ := fun p => (-(k' p)).toNat with hBdef
+  have hAB : ∀ p : ℕ, (A p : ℤ) - (B p : ℤ) = k' p := by
+    intro p
+    simp only [hAdef, hBdef]
+    omega
+  have hABzero : ∀ p : ℕ, A p = 0 ∨ B p = 0 := by
+    intro p
+    simp only [hAdef, hBdef]
+    omega
+  -- rewrite the base sum as a difference of two prime-power log sums
+  have hsplit : ∑ p ∈ S, (k' p : ℝ) * Real.log (p : ℝ) =
+      ∑ p ∈ S, (A p : ℝ) * Real.log (p : ℝ) - ∑ p ∈ S, (B p : ℝ) * Real.log (p : ℝ) := by
+    rw [← Finset.sum_sub_distrib]
+    apply Finset.sum_congr rfl
+    intro p _
+    have h : (A p : ℝ) - (B p : ℝ) = (k' p : ℝ) := by exact_mod_cast hAB p
+    rw [← h]; ring
+  rw [hsplit] at hk_sum
+  -- each side is `log` of a natural-number product of prime powers
+  have hprod : ∀ C : ℕ → ℕ, ∑ p ∈ S, (C p : ℝ) * Real.log (p : ℝ) =
+      Real.log ((∏ p ∈ S, p ^ (C p) : ℕ) : ℝ) := by
+    intro C
+    have hcast : ((∏ p ∈ S, p ^ (C p) : ℕ) : ℝ) = ∏ p ∈ S, ((p : ℝ) ^ (C p)) := by
+      push_cast; ring
+    have hne : ∀ p ∈ S, ((p : ℝ) ^ (C p)) ≠ 0 := by
+      intro p hp
+      have hp0 : (p : ℝ) ≠ 0 := by exact_mod_cast (hS p hp).pos.ne'
+      exact pow_ne_zero _ hp0
+    rw [hcast, Real.log_prod S (fun p => (p : ℝ) ^ (C p)) hne]
+    exact Finset.sum_congr rfl (fun p _ => by rw [Real.log_pow])
+  rw [hprod A, hprod B, sub_eq_zero] at hk_sum
+  -- both products are positive naturals; `log` is injective there, so the naturals agree
+  set N : ℕ := ∏ p ∈ S, p ^ (A p) with hNdef
+  set M : ℕ := ∏ p ∈ S, p ^ (B p) with hMdef
+  have hNpos : 0 < N := by
+    rw [hNdef]; exact Finset.prod_pos (fun p hp => pow_pos (hS p hp).pos (A p))
+  have hMpos : 0 < M := by
+    rw [hMdef]; exact Finset.prod_pos (fun p hp => pow_pos (hS p hp).pos (B p))
+  have hNM : N = M := by
+    have hNpos' : (0 : ℝ) < (N : ℝ) := by exact_mod_cast hNpos
+    have hMpos' : (0 : ℝ) < (M : ℝ) := by exact_mod_cast hMpos
+    have heq := Real.log_injOn_pos (Set.mem_Ioi.mpr hNpos') (Set.mem_Ioi.mpr hMpos') hk_sum
+    exact_mod_cast heq
+  -- compare factorizations at each prime in `S`
+  have hfact : ∀ q ∈ S, A q = B q := by
+    intro q hq
+    have hNfact : N.factorization q = A q := by
+      have hprodneA : ∀ p ∈ S, p ^ A p ≠ 0 := fun p hp => pow_ne_zero _ (hS p hp).pos.ne'
+      have hstep1 : N.factorization = ∑ p ∈ S, (p ^ A p).factorization := by
+        rw [hNdef]; exact Nat.factorization_prod hprodneA
+      have hstep2 : (∑ p ∈ S, (p ^ A p).factorization) q
+          = ∑ p ∈ S, (p ^ A p).factorization q :=
+        map_sum (Finsupp.applyAddHom q) (fun p => (p ^ A p).factorization) S
+      have hstep3 : ∀ p ∈ S, (p ^ A p).factorization q = if p = q then A p else 0 := by
+        intro p hp
+        rw [Nat.Prime.factorization_pow (hS p hp), Finsupp.single_apply]
+      calc N.factorization q = (∑ p ∈ S, (p ^ A p).factorization) q := by rw [hstep1]
+        _ = ∑ p ∈ S, (p ^ A p).factorization q := hstep2
+        _ = ∑ p ∈ S, (if p = q then A p else 0) := Finset.sum_congr rfl hstep3
+        _ = if q ∈ S then A q else 0 := Finset.sum_ite_eq' S q A
+        _ = A q := if_pos hq
+    have hMfact : M.factorization q = B q := by
+      have hprodneB : ∀ p ∈ S, p ^ B p ≠ 0 := fun p hp => pow_ne_zero _ (hS p hp).pos.ne'
+      have hstep1 : M.factorization = ∑ p ∈ S, (p ^ B p).factorization := by
+        rw [hMdef]; exact Nat.factorization_prod hprodneB
+      have hstep2 : (∑ p ∈ S, (p ^ B p).factorization) q
+          = ∑ p ∈ S, (p ^ B p).factorization q :=
+        map_sum (Finsupp.applyAddHom q) (fun p => (p ^ B p).factorization) S
+      have hstep3 : ∀ p ∈ S, (p ^ B p).factorization q = if p = q then B p else 0 := by
+        intro p hp
+        rw [Nat.Prime.factorization_pow (hS p hp), Finsupp.single_apply]
+      calc M.factorization q = (∑ p ∈ S, (p ^ B p).factorization) q := by rw [hstep1]
+        _ = ∑ p ∈ S, (p ^ B p).factorization q := hstep2
+        _ = ∑ p ∈ S, (if p = q then B p else 0) := Finset.sum_congr rfl hstep3
+        _ = if q ∈ S then B q else 0 := Finset.sum_ite_eq' S q B
+        _ = B q := if_pos hq
+    rw [← hNfact, ← hMfact, hNM]
+  -- so `A`, `B` (hence `k'`) vanish on `S`, and `k = 0` follows
+  funext p
+  have hq : (p : ℕ) ∈ S := p.property
+  have heq : A (p : ℕ) = B (p : ℕ) := hfact (p : ℕ) hq
+  have hzero : A (p : ℕ) = 0 ∧ B (p : ℕ) = 0 := by
+    rcases hABzero (p : ℕ) with h | h
+    · exact ⟨h, by rw [← heq]; exact h⟩
+    · exact ⟨by rw [heq]; exact h, h⟩
+  have hk'0 : k' (p : ℕ) = 0 := by
+    have hab := hAB (p : ℕ)
+    have h1 := hzero.1
+    have h2 := hzero.2
+    omega
+  rw [hk'_eq p] at hk'0
+  simpa using hk'0
 
 end GppTransport
 

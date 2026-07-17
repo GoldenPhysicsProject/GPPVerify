@@ -80,7 +80,8 @@ import GppVerify.RiemannHypothesis.RHProofStructure
 import GppVerify.RiemannHypothesis.HaarPositivityWeil
 
 -- Thread T: S-truncated transport — group-level positive-type, pullback along
--- the weighted-log chart; faithfulness of the prime chart stated (1 sorry)
+-- the weighted-log chart; faithfulness of the prime chart (Z-linear independence
+-- of {log p}, via Nat.factorization comparison) fully proved, no sorry
 import GppVerify.RiemannHypothesis.TruncatedTransport
 
 -- ── Standard Model — Majorana (New) ─────────────────────────
