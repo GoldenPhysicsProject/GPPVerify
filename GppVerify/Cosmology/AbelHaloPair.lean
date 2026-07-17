@@ -240,7 +240,8 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
       tendsto_atTop_add_const_right atTop (rc^2) (tendsto_pow_atTop two_ne_zero)
     have hdiv : Tendsto (fun t : ℝ => (r^2 + rc^2) / (t^2 + rc^2)) atTop (nhds 0) :=
       Tendsto.div_atTop tendsto_const_nhds hdenom
-    have h := tendsto_const_nhds.sub hdiv
+    have h : Tendsto (fun t : ℝ => (1:ℝ) - (r^2 + rc^2) / (t^2 + rc^2))
+        atTop (nhds ((1:ℝ) - 0)) := tendsto_const_nhds.sub hdiv
     simpa using h
   have hratio : Tendsto (fun t : ℝ => Real.sqrt (t^2 - r^2) / Real.sqrt (t^2 + rc^2))
       atTop (nhds 1) := by
