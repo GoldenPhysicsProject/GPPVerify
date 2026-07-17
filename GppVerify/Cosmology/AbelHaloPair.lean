@@ -81,15 +81,15 @@ theorem abel_forward {rc b : ℝ} (hrc : 0 < rc) (hb : 0 ≤ b) :
     have hsqrtpos : (0:ℝ) < Real.sqrt (r^2 - b^2) := Real.sqrt_pos.mpr hrb
     have hsqrtsq : (Real.sqrt (r^2 - b^2))^2 = r^2 - b^2 := Real.sq_sqrt hrb.le
     have hsq : HasDerivAt (fun t : ℝ => Real.sqrt (t^2 - b^2))
-        (1 / (2 * Real.sqrt (r^2 - b^2)) * (2*r)) r :=
-      (Real.hasDerivAt_sqrt hrb.ne').comp r (hasDerivAt_sq_sub (b^2) r)
+        ((2*r) / (2 * Real.sqrt (r^2 - b^2))) r :=
+      (hasDerivAt_sq_sub (b^2) r).sqrt hrb.ne'
     have hdiv : HasDerivAt (fun t : ℝ => Real.sqrt (t^2 - b^2) / A)
-        (1 / (2 * Real.sqrt (r^2 - b^2)) * (2*r) / A) r := hsq.div_const A
+        ((2*r) / (2 * Real.sqrt (r^2 - b^2)) / A) r := hsq.div_const A
     have harct : HasDerivAt
         (fun t : ℝ => Real.arctan (Real.sqrt (t^2 - b^2) / A))
         (1 / (1 + (Real.sqrt (r^2 - b^2) / A)^2) *
-          (1 / (2 * Real.sqrt (r^2 - b^2)) * (2*r) / A)) r :=
-      (Real.hasDerivAt_arctan _).comp r hdiv
+          ((2*r) / (2 * Real.sqrt (r^2 - b^2)) / A)) r :=
+      hdiv.arctan
     have h := harct.const_mul (2 * rc^2 / A)
     have hstep : 1 + (Real.sqrt (r^2 - b^2) / A)^2 = (r^2 + rc^2) / A^2 := by
       rw [div_pow, hsqrtsq, hA2]
@@ -97,7 +97,7 @@ theorem abel_forward {rc b : ℝ} (hrc : 0 < rc) (hb : 0 ≤ b) :
       field_simp
       ring
     have hval : 2 * rc^2 / A * (1 / (1 + (Real.sqrt (r^2 - b^2) / A)^2) *
-        (1 / (2 * Real.sqrt (r^2 - b^2)) * (2*r) / A)) =
+        ((2*r) / (2 * Real.sqrt (r^2 - b^2)) / A)) =
         2 * (rc^2 / (r^2 + rc^2)) * (r / Real.sqrt (r^2 - b^2)) := by
       rw [hstep, one_div_div]
       field_simp [hApos.ne', hsqrtpos.ne', hrcden r]
@@ -141,9 +141,8 @@ theorem abel_forward {rc b : ℝ} (hrc : 0 < rc) (hb : 0 ≤ b) :
     exact h.const_mul _
   have key := integral_Ioi_of_hasDerivAt_of_nonneg hcont hderiv hpos htop
   rw [key]
-  have hGb : (fun t : ℝ => 2 * rc^2 / A * Real.arctan (Real.sqrt (t^2 - b^2) / A)) b
-      = 0 := by
-    simp [sub_self, Real.sqrt_zero, Real.arctan_zero]
+  have hGb : 2 * rc^2 / A * Real.arctan (Real.sqrt (b^2 - b^2) / A) = 0 := by
+    rw [sub_self, Real.sqrt_zero, zero_div, Real.arctan_zero, mul_zero]
   rw [hGb, sub_zero, div_mul_eq_mul_div,
     show 2 * rc^2 * (Real.pi / 2) = Real.pi * rc^2 by ring]
 
@@ -170,20 +169,20 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
     have hsmsq : (Real.sqrt (b^2 - r^2))^2 = b^2 - r^2 := Real.sq_sqrt hbr.le
     have hspsq : (Real.sqrt (b^2 + rc^2))^2 = b^2 + rc^2 := Real.sq_sqrt hbc.le
     have h1 : HasDerivAt (fun t : ℝ => Real.sqrt (t^2 - r^2))
-        (1 / (2 * Real.sqrt (b^2 - r^2)) * (2*b)) b :=
-      (Real.hasDerivAt_sqrt hbr.ne').comp b (hasDerivAt_sq_sub (r^2) b)
+        ((2*b) / (2 * Real.sqrt (b^2 - r^2))) b :=
+      (hasDerivAt_sq_sub (r^2) b).sqrt hbr.ne'
     have h2 : HasDerivAt (fun t : ℝ => Real.sqrt (t^2 + rc^2))
-        (1 / (2 * Real.sqrt (b^2 + rc^2)) * (2*b)) b :=
-      (Real.hasDerivAt_sqrt hbc.ne').comp b (hasDerivAt_sq_add (rc^2) b)
+        ((2*b) / (2 * Real.sqrt (b^2 + rc^2))) b :=
+      (hasDerivAt_sq_add (rc^2) b).sqrt hbc.ne'
     have hq : HasDerivAt
         (fun t : ℝ => Real.sqrt (t^2 - r^2) / Real.sqrt (t^2 + rc^2) / (r^2 + rc^2))
-        ((1 / (2 * Real.sqrt (b^2 - r^2)) * (2*b) * Real.sqrt (b^2 + rc^2) -
-          Real.sqrt (b^2 - r^2) * (1 / (2 * Real.sqrt (b^2 + rc^2)) * (2*b))) /
+        (((2*b) / (2 * Real.sqrt (b^2 - r^2)) * Real.sqrt (b^2 + rc^2) -
+          Real.sqrt (b^2 - r^2) * ((2*b) / (2 * Real.sqrt (b^2 + rc^2)))) /
             (Real.sqrt (b^2 + rc^2))^2 / (r^2 + rc^2)) b :=
       (h1.div h2 hsp.ne').div_const (r^2 + rc^2)
     -- massage the derivative value in two deterministic stages
-    have e1 : 1 / (2 * Real.sqrt (b^2 - r^2)) * (2*b) * Real.sqrt (b^2 + rc^2) -
-        Real.sqrt (b^2 - r^2) * (1 / (2 * Real.sqrt (b^2 + rc^2)) * (2*b)) =
+    have e1 : (2*b) / (2 * Real.sqrt (b^2 - r^2)) * Real.sqrt (b^2 + rc^2) -
+        Real.sqrt (b^2 - r^2) * ((2*b) / (2 * Real.sqrt (b^2 + rc^2))) =
         b * ((Real.sqrt (b^2 + rc^2))^2 - (Real.sqrt (b^2 - r^2))^2) /
           (Real.sqrt (b^2 - r^2) * Real.sqrt (b^2 + rc^2)) := by
       field_simp [hsm.ne', hsp.ne']
@@ -191,8 +190,8 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
     have hu3 : Real.sqrt (b^2 + rc^2)^3 = (b^2 + rc^2) * Real.sqrt (b^2 + rc^2) := by
       rw [show Real.sqrt (b^2 + rc^2)^3
           = Real.sqrt (b^2 + rc^2)^2 * Real.sqrt (b^2 + rc^2) by ring, hspsq]
-    have hval : (1 / (2 * Real.sqrt (b^2 - r^2)) * (2*b) * Real.sqrt (b^2 + rc^2) -
-        Real.sqrt (b^2 - r^2) * (1 / (2 * Real.sqrt (b^2 + rc^2)) * (2*b))) /
+    have hval : ((2*b) / (2 * Real.sqrt (b^2 - r^2)) * Real.sqrt (b^2 + rc^2) -
+        Real.sqrt (b^2 - r^2) * ((2*b) / (2 * Real.sqrt (b^2 + rc^2)))) /
           (Real.sqrt (b^2 + rc^2))^2 / (r^2 + rc^2) =
         b / (Real.sqrt (b^2 - r^2) * Real.sqrt (b^2 + rc^2)^3) := by
       rw [e1, hsmsq, hspsq,
@@ -234,7 +233,6 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
       have h2 : (0:ℝ) < t^2 + rc^2 := by positivity
       rw [div_pow, Real.sq_sqrt h1.le, Real.sq_sqrt h2.le]
       field_simp
-      ring
     rw [tendsto_congr' hcong]
     have hdenom : Tendsto (fun t : ℝ => t^2 + rc^2) atTop atTop :=
       tendsto_atTop_add_const_right atTop (rc^2) (tendsto_pow_atTop two_ne_zero)
