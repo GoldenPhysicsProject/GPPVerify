@@ -229,14 +229,18 @@ The algebra is clean; the physics derivation is documented as axioms.
   Two sorries: requires \texttt{SchwartzMap.tsum} not yet in Mathlib.
 \end{theorem}
 
-\begin{theorem}[Riemann Hypothesis]
+\begin{theorem}[Riemann Hypothesis, conditional on Weil-pairing positivity]
   \label{thm:rh}
-  \lean{GppRH.riemann_hypothesis}
+  \lean{GppWeilCriterion.rh_of_weil_pairedForm_nonneg}
   \uses{thm:two-zeros, thm:temperedness, thm:peter-weyl-adelic}
-  Every non-trivial zero of $\zeta(s)$ satisfies $\mathrm{Re}(s) = \tfrac{1}{2}$.
+  If the Weil/Yakaboylu paired form is positive semidefinite on every finite
+  subset of the nontrivial zero set, then every non-trivial zero of $\zeta(s)$
+  satisfies $\mathrm{Re}(s) = \tfrac{1}{2}$.
 
-  \emph{Status:} Closes via \texttt{arithmetic\_admissibility} axiom (Meyer~2005 step).
-  One axiom remaining; the two-zeros argument is clean.
+  \emph{Status:} the former \texttt{arithmetic\_admissibility} axiom (which
+  asserted RH verbatim) is retired. The conditional above is proved with no
+  axioms beyond Mathlib's built-ins; the open analytic content is the
+  positivity hypothesis (explicit formula / operator compression).
 \end{theorem}
 
 \chapter{thm:link6 Formalized}

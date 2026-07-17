@@ -34,7 +34,7 @@ kernel-checked:
   is nonnegative on the square of any finite real linear combination, directly from the
   proved `abel_state_sq_nonneg` (PR #61).
 
-What is NOT claimed: anything about `arithmetic_admissibility` (the AAC axiom of
+What is NOT claimed: anything about `arithmetic_admissibility` (the AAC axiom formerly of
 `RHSpectralMultiplicity.lean`). The memo is explicit that none of its findings close it,
 and neither does this file — these are the memo's checkable fragments, checked.
 -/

@@ -21,8 +21,9 @@ import GppVerify.RiemannHypothesis.FunctionalEquation
 --       "depends on thm:link6 — open problem"
 import GppVerify.RiemannHypothesis.ShadowSymmetry
 
--- Spectral multiplicity argument + riemann_hypothesis theorem
--- (2 sorries in temperedness, 1 axiom: arithmetic_admissibility)
+-- Spectral multiplicity argument (two_zeros_at_ordinate, riemannZeta_conj).
+-- riemann_hypothesis alias + arithmetic_admissibility axiom RETIRED 2026-07-17;
+-- flagship conditional: GppWeilCriterion.rh_of_weil_pairedForm_nonneg
 import GppVerify.RHSpectralMultiplicity
 
 -- ── L² Constraint ────────────────────────────────────────────
@@ -77,6 +78,10 @@ import GppVerify.RiemannHypothesis.RHProofStructure
 
 -- Haar positivity = Weil positivity = Wightman positivity (unified)
 import GppVerify.RiemannHypothesis.HaarPositivityWeil
+
+-- Thread T: S-truncated transport — group-level positive-type, pullback along
+-- the weighted-log chart; faithfulness of the prime chart stated (1 sorry)
+import GppVerify.RiemannHypothesis.TruncatedTransport
 
 -- ── Standard Model — Majorana (New) ─────────────────────────
 -- Majorana neutrinos from T-boundary condition
@@ -408,6 +413,10 @@ import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 -- would discharge the positivity hypothesis is not claimed.
 import GppVerify.RiemannHypothesis.WeilPositivityCriterion
 
+-- Thread D2: the two-point criterion — RH iff pair positivity;
+-- the zero side of the Weil criterion carries no analytic content
+import GppVerify.RiemannHypothesis.TwoPointCriterion
+
 -- ── int_0^inf u/cosh^2(u) du = log 2 (New) ────────────────────────
 -- Thread C2 of docs/FORMALIZATION_PLAN.md: eta(1) = log 2 in its
 -- Mellin disguise -- the normalization constant of Yakaboylu's
@@ -486,6 +495,10 @@ import GppVerify.CelestialHolography.MellinKinematics
 -- PositiveType framework. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
 
+-- Thread S2: Schur product for the Weil class — positive-type times convolution
+-- square, with the composed epsilon-regularized datum as corollary
+import GppVerify.RiemannHypothesis.SchurWeilClass
+
 -- ── The Cauchy kernel is positive-type (New) ──────────────────────
 -- Phase 2 Thread K (companion to the form-domain note on Yakaboylu
 -- arXiv:2408.15135 Thm 5.1): on the critical line the regularized
@@ -557,7 +570,7 @@ import GppVerify.RiemannHypothesis.WeilSupportLadder
 -- -- the idele-level statement stays open: not in Mathlib), and the
 -- Cesaro/Abel state is shadow-positive in finite-Gram form (wrapper
 -- over PR #61's proved positivity). NOT claimed: anything about the
--- arithmetic_admissibility axiom.
+-- (now-retired) arithmetic_admissibility axiom or the positivity hypothesis.
 import GppVerify.RiemannHypothesis.QuartetPerturbation
 
 -- ── The pseudo-isothermal halo pair (New) ─────────────────────────
