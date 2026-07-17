@@ -165,7 +165,8 @@ theorem l2_constraint_forces_critical_line :
     ∀ (_ : True), True := by
   intro _
   -- SORRY: Depends on adelic_quotient_compact_factor + peter_weyl_adelic_discrete_spectrum
-  -- + arithmetic_admissibility (see RHSpectralMultiplicity.lean)
+  -- + Weil-pairing positivity (see WeilPositivityCriterion.lean; the former
+  --   arithmetic_admissibility axiom is retired)
   trivial
 
 end GppHaar

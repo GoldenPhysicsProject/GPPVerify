@@ -43,7 +43,7 @@ lemma zeta_zero_implies_fe_zero (rho : Complex)
     riemannZeta (1 - rho) = 0 := by
   rw [riemannZeta_one_sub hn hone, hzero, mul_zero]
 
--- Supporting lemmas for riemannZeta_conj_axiom (proved below)
+-- Supporting lemmas for riemannZeta_conj (proved below)
 
 private lemma mellin_conj_of_im_zero {f : ℝ → ℂ} (hf : ∀ t, (f t).im = 0) (s : ℂ) :
     mellin f (conj s) = conj (mellin f s) := by
@@ -107,7 +107,7 @@ private lemma hurwitzZetaEven_zero_conj (s : ℂ) :
 /-- Reality: zeta(conj s) = conj(zeta(s)).
     Follows from: riemannZeta = hurwitzZetaEven 0, the Mellin transform of a real-valued
     kernel has conjugate symmetry, and the Gamma factor satisfies Gamma(conj s) = conj(Gamma s). -/
-theorem riemannZeta_conj_axiom (s : Complex) :
+theorem riemannZeta_conj (s : Complex) :
     riemannZeta (starRingEnd Complex s) = starRingEnd Complex (riemannZeta s) := by
   simp only [riemannZeta]
   exact hurwitzZetaEven_zero_conj s
@@ -121,7 +121,7 @@ lemma zeta_zero_implies_companion_zero (rho : Complex)
   have hfe : riemannZeta (1 - rho) = 0 :=
     zeta_zero_implies_fe_zero rho hzero hn hone
   have hconj : riemannZeta (starRingEnd Complex (1 - rho)) = 0 := by
-    rw [riemannZeta_conj_axiom, hfe]; simp
+    rw [GppRH.riemannZeta_conj, hfe]; simp
   have hid : starRingEnd Complex (1 - rho) = 1 - starRingEnd Complex rho := by
     simp [map_sub, map_one]
   rwa [hid] at hconj
@@ -175,20 +175,17 @@ theorem meyer_spectral_weil (_ : Real) (_ : Nat) : True := by
   -- this forces multiplicity contradiction off the line.
   trivial
 
-/-- Arithmetic Admissibility Condition.
-    Every zero-evaluation functional is a tempered distribution.
-    Equivalent to RH (proved both directions in companion PDF).
-    This is the sole remaining open step for an unconditional proof.
-    (Bridge Claim / Nuclear-to-Hilbert Upgrade / Cesàro vs distributional trace)
-    Numerical evidence from Grassmannian chart transitions and Jacobian eigenvalue theorem
-    (mean |Jac eigenvalue| = 1/|det(A)| exactly) strongly supports the geometric origin
-    of mass and the critical line selection via Haar self-duality. -/
-axiom arithmetic_admissibility
-    (s0 : Complex)
-    (hs  : riemannZeta s0 = 0)
-    (hnt : Not (exists n : Nat, s0 = -2 * (↑n + 1)))
-    (hs1 : s0 ≠ 1) :
-    s0.re = 1 / 2
+/- RETIRED (2026-07-17): the `arithmetic_admissibility` axiom and its alias
+   `riemann_hypothesis` formerly lived here. The axiom's statement was RH
+   verbatim (every nontrivial zero has Re = 1/2), violating the standing rule
+   of docs/FORMALIZATION_PLAN.md: no axiom asserting an open claim. It
+   predates Thread D and is strictly superseded by the genuine conditional
+     `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
+   (RiemannHypothesis/WeilPositivityCriterion.lean): RH from the finite
+   Weil-pairing positivity hypothesis — an actual mathematical condition,
+   not RH restated. The AAC as a *mathematical condition* (temperedness of
+   zero-evaluation functionals) remains the programme's target; see the
+   temperedness scaffold below and SpectralWeil.lean. -/
 
 /-- The integration functional exists as a continuous linear map on SchwartzMap ℝ ℂ. -/
 axiom schwartz_integral_clm_exists :
@@ -213,13 +210,5 @@ theorem temperedness_iff_critical_line (a : ℝ) :
     simp only [Complex.ofReal_zero, zero_mul, Complex.exp_zero, one_mul]
     exact schwartz_integral_clm_exists
 
-/-- THE RIEMANN HYPOTHESIS (conditional on arithmetic_admissibility). -/
-theorem riemann_hypothesis :
-    forall s : Complex,
-      riemannZeta s = 0 →
-      Not (exists n : Nat, s = -2 * (↑n + 1)) →
-      s ≠ 1 →
-      s.re = 1 / 2 :=
-  arithmetic_admissibility
 
 end GppRH

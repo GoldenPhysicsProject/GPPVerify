@@ -20,6 +20,11 @@ Haar self-duality on A×/Q×          [HaarSelfDuality.lean — CLEAN ✓]
   → Riemann Hypothesis
 ```
 
+**Flagship conditional statement:** `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
+(`WeilPositivityCriterion.lean`) — RH from finite Weil-pairing positivity, no axioms
+beyond Mathlib's built-ins. The former `arithmetic_admissibility` axiom (RH restated)
+is retired as of 2026-07-17.
+
 **Also complete:** `GppVerify/GrassmannianMass.lean` — the Jacobian Mass relation is now a
 real theorem (`transition_transition_eq_neg`, τ∘τ = -id exactly), replacing an earlier
 axiom-based version; see the file's own doc comment for what changed and why.
@@ -36,7 +41,7 @@ axiom-based version; see the file's own doc comment for what changed and why.
 |------|---------|--------|--------|
 | `GppVerify/HaarSelfDuality.lean` | 0 | 0 | **CLEAN** |
 | `GppVerify/CoreTheorems.lean` | 0 | 0 | Clean |
-| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 3 | `riemannZeta_conj_axiom` closed as a theorem (Mellin/HurwitzZeta argument); `arithmetic_admissibility` (honestly documented as equivalent to assuming RH itself — the sole remaining open step), `schwartz_integral_clm_exists`, `exp_growth_not_tempered` remain axioms |
+| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 2 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); remaining axioms `schwartz_integral_clm_exists`, `exp_growth_not_tempered` assert provable facts (follow-up) |
 | `GppVerify/GrassmannianMass.lean` | 0 | 0 | **CLEAN** — `τ∘τ = -id` proved directly, no axioms |
 | `GppVerify/RiemannHypothesis/HaarMeasure.lean` | 0 | 0 | Mostly clean; two results are honest `True := trivial` stubs pending Fujisaki's lemma / adelic compactness (not in Mathlib 4.19.0) — no `sorry`, no axiom smuggling the actual claim |
 | `GppVerify/RiemannHypothesis/FunctionalEquation.lean` | 0 | 0 | **CLEAN** |

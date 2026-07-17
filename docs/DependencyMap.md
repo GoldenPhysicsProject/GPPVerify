@@ -1,3 +1,8 @@
+> **Update 2026-07-17:** the `arithmetic_admissibility` axiom and the
+> `GppRH.riemann_hypothesis` alias referenced below are **retired**. The flagship
+> conditional is now `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
+> (`WeilPositivityCriterion.lean`). Mentions below are historical.
+
 # ONON52 — Lean 4 Formalization Dependency Map
 ## Golden Physics Project | GPPVerify
 

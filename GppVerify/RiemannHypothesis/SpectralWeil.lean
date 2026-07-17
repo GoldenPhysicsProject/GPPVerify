@@ -67,7 +67,7 @@ theorem weil_explicit_formula : True := trivial
 theorem meyer_spectral_weil_identity : True := trivial
 
 /-- Positivity of Weil distribution: the explicit formula has non-negative contributions.
-    Gap: this is the key positivity step in Pathway 2, related to arithmetic_admissibility. -/
+    Gap: this is the key positivity step in Pathway 2, related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
 theorem weil_distribution_positivity : True := trivial
 
 -- ============================================================
@@ -92,7 +92,7 @@ theorem spectral_weil : True := trivial
 /-- Connection to arithmetic_admissibility:
     The spectral-Weil identity is the precise content of `arithmetic_admissibility`.
     Once weil_explicit_formula + weil_distribution_positivity are in Mathlib,
-    arithmetic_admissibility becomes a theorem. -/
+    the (retired) arithmetic_admissibility condition becomes a theorem. -/
 theorem spectral_weil_closes_arithmetic_admissibility : True := trivial
 
 end GppSpectralWeil
