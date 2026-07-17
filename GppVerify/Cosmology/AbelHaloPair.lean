@@ -255,9 +255,8 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
       atTop (nhds (1 / (r^2 + rc^2))) := hratio.div_const _
   have key := integral_Ioi_of_hasDerivAt_of_nonneg hcont hderiv hpos htop
   rw [key]
-  have hHr : (fun t : ℝ => Real.sqrt (t^2 - r^2) / Real.sqrt (t^2 + rc^2) /
-      (r^2 + rc^2)) r = 0 := by
-    simp [sub_self, Real.sqrt_zero]
+  have hHr : Real.sqrt (r^2 - r^2) / Real.sqrt (r^2 + rc^2) / (r^2 + rc^2) = 0 := by
+    rw [sub_self, Real.sqrt_zero, zero_div, zero_div]
   rw [hHr, sub_zero]
 
 /-- **The boxed pseudo-isothermal profile** (`thm:abel-inversion`): the chapter's
