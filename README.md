@@ -42,6 +42,9 @@ axiom-based version; see the file's own doc comment for what changed and why.
 | `GppVerify/HaarSelfDuality.lean` | 0 | 0 | **CLEAN** |
 | `GppVerify/CoreTheorems.lean` | 0 | 0 | Clean |
 | `GppVerify/RHSpectralMultiplicity.lean` | 0 | 2 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); remaining axioms `schwartz_integral_clm_exists`, `exp_growth_not_tempered` assert provable facts (follow-up) |
+| `GppVerify/RiemannHypothesis/TwoPointCriterion.lean` | 0 | 0 | Thread D2: RH iff pair positivity on the reflection pairs `{rho, 1-conj(rho)}` — kernel-checked record that the zero side of the Weil criterion carries no analytic content |
+| `GppVerify/RiemannHypothesis/SchurWeilClass.lean` | 0 | 0 | Thread S2: positive-type x convolution square is positive-type (translates as Gram vectors, no spectral theorem); corollary: the epsilon-regularized Cauchy-kernel datum is positive-type |
+| `GppVerify/RiemannHypothesis/TruncatedTransport.lean` | 1 | 0 | Thread T: rung-level transport onto the S-truncated chart `R x Z^S` — one pullback, no adeles; the sorry is `logPrime_lattice_injective` (provable via Nat.factorization; proof plan in docstring) |
 | `GppVerify/GrassmannianMass.lean` | 0 | 0 | **CLEAN** — `τ∘τ = -id` proved directly, no axioms |
 | `GppVerify/RiemannHypothesis/HaarMeasure.lean` | 0 | 0 | Mostly clean; two results are honest `True := trivial` stubs pending Fujisaki's lemma / adelic compactness (not in Mathlib 4.19.0) — no `sorry`, no axiom smuggling the actual claim |
 | `GppVerify/RiemannHypothesis/FunctionalEquation.lean` | 0 | 0 | **CLEAN** |
