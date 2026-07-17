@@ -78,6 +78,10 @@ import GppVerify.RiemannHypothesis.RHProofStructure
 -- Haar positivity = Weil positivity = Wightman positivity (unified)
 import GppVerify.RiemannHypothesis.HaarPositivityWeil
 
+-- Thread T: S-truncated transport — group-level positive-type, pullback along
+-- the weighted-log chart; faithfulness of the prime chart stated (1 sorry)
+import GppVerify.RiemannHypothesis.TruncatedTransport
+
 -- ── Standard Model — Majorana (New) ─────────────────────────
 -- Majorana neutrinos from T-boundary condition
 import GppVerify.StandardModel.MajoranaCondition
