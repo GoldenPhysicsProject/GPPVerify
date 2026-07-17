@@ -543,3 +543,19 @@ import GppVerify.QuantumGravity.SinhZetaBridge
 -- L -> infty uniformity questions are one open question (= RH via
 -- rh_iff_weil_pairedForm_nonneg), not claimed.
 import GppVerify.RiemannHypothesis.WeilSupportLadder
+
+-- ── The off-line quartet: exact contribution + transport seed (New)
+-- Thread Q (entanglement/shadow-positivity memo secs 3, 4.3, 6.1):
+-- the functional-equation quartet of a hypothetical off-line zero
+-- rho = 1/2 + delta + i gamma contributes EXACTLY
+-- 4 e^{-C(gamma^2-delta^2)} cos(2 C gamma delta) to the Gaussian-paired
+-- explicit formula -- an identity in C, vanishing imaginary part
+-- included -- with the sign flip provably in the oscillatory cross-
+-- term (negative iff cos < 0) and the envelope amplified by
+-- e^{+C delta^2} >= 1. Plus: positivity transports along ANY additive
+-- group hom (the R-factor seed of the memo's idele transport question
+-- -- the idele-level statement stays open: not in Mathlib), and the
+-- Cesaro/Abel state is shadow-positive in finite-Gram form (wrapper
+-- over PR #61's proved positivity). NOT claimed: anything about the
+-- arithmetic_admissibility axiom.
+import GppVerify.RiemannHypothesis.QuartetPerturbation
