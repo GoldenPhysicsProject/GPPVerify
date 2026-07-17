@@ -491,6 +491,10 @@ import GppVerify.CelestialHolography.MellinKinematics
 -- PositiveType framework. Not from ONON52.tex.
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
 
+-- Thread S2: Schur product for the Weil class — positive-type times convolution
+-- square, with the composed epsilon-regularized datum as corollary
+import GppVerify.RiemannHypothesis.SchurWeilClass
+
 -- ── The Cauchy kernel is positive-type (New) ──────────────────────
 -- Phase 2 Thread K (companion to the form-domain note on Yakaboylu
 -- arXiv:2408.15135 Thm 5.1): on the critical line the regularized
