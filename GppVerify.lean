@@ -409,6 +409,10 @@ import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 -- would discharge the positivity hypothesis is not claimed.
 import GppVerify.RiemannHypothesis.WeilPositivityCriterion
 
+-- Thread D2: the two-point criterion — RH iff pair positivity;
+-- the zero side of the Weil criterion carries no analytic content
+import GppVerify.RiemannHypothesis.TwoPointCriterion
+
 -- ── int_0^inf u/cosh^2(u) du = log 2 (New) ────────────────────────
 -- Thread C2 of docs/FORMALIZATION_PLAN.md: eta(1) = log 2 in its
 -- Mellin disguise -- the normalization constant of Yakaboylu's
