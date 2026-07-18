@@ -62,7 +62,7 @@ def CompletelyPositive (Φ : Matrix n n ℂ →ₗ[ℂ] Matrix n n ℂ) : Prop :
 /-- The (unnormalised) maximally entangled test state `Ω = Σᵢ |i,i⟩`, as the rank-one
     positive semidefinite matrix `A Aᴴ` for the single-column matrix `A` whose one column
     is the indicator vector of the diagonal `{(i,i)}`. -/
-def maxEntangled : Matrix (n × n) (n × n) ℂ :=
+noncomputable def maxEntangled : Matrix (n × n) (n × n) ℂ :=
   Matrix.replicateCol (Fin 1) (fun p : n × n => if p.1 = p.2 then (1 : ℂ) else 0) *
     (Matrix.replicateCol (Fin 1) (fun p : n × n => if p.1 = p.2 then (1 : ℂ) else 0))ᴴ
 
@@ -72,7 +72,7 @@ theorem maxEntangled_posSemidef : (maxEntangled (n := n)).PosSemidef :=
 
 /-- The **Choi matrix** of `Φ`: `(Φ ⊗ id_n)` applied to the maximally entangled test
     state. -/
-def ChoiMatrix (Φ : Matrix n n ℂ →ₗ[ℂ] Matrix n n ℂ) : Matrix (n × n) (n × n) ℂ :=
+noncomputable def ChoiMatrix (Φ : Matrix n n ℂ →ₗ[ℂ] Matrix n n ℂ) : Matrix (n × n) (n × n) ℂ :=
   matrixMapTensor Φ maxEntangled
 
 /-- **Choi's theorem, forward direction**: a completely positive map has positive
