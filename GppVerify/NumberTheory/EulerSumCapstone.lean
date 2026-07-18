@@ -48,17 +48,21 @@ theorem term_swap (p : ℕ × ℕ) : term p.swap = term p := by
   simp only [Prod.swap]
   ring
 
-theorem summable_term : Summable term := by
-  have h2 : Summable (fun n : ℕ => (1 : ℝ) / (n : ℝ) ^ 2) := hasSum_zeta_two.summable
-  have h : Summable (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2)) :=
-    h2.mul_of_nonneg h2 (fun n => by positivity) (fun n => by positivity)
-  exact h
+theorem nonneg_inv_sq (n : ℕ) : (0 : ℝ) ≤ 1 / (n : ℝ) ^ 2 := by positivity
 
+set_option maxHeartbeats 1000000 in
+theorem summable_prod_inv_sq :
+    Summable (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2)) := by
+  have h2 : Summable (fun n : ℕ => (1 : ℝ) / (n : ℝ) ^ 2) := hasSum_zeta_two.summable
+  exact h2.mul_of_nonneg h2 nonneg_inv_sq nonneg_inv_sq
+
+set_option maxHeartbeats 1000000 in
+theorem summable_term : Summable term := summable_prod_inv_sq
+
+set_option maxHeartbeats 1000000 in
 theorem hasSum_term : HasSum (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2))
-    ((Real.pi ^ 2 / 6) * (Real.pi ^ 2 / 6)) := by
-  have h2 := hasSum_zeta_two
-  have hsum : Summable (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2)) := summable_term
-  exact h2.mul h2 hsum
+    ((Real.pi ^ 2 / 6) * (Real.pi ^ 2 / 6)) :=
+  hasSum_zeta_two.mul hasSum_zeta_two summable_prod_inv_sq
 
 theorem tsum_term_eq : ∑' p : ℕ × ℕ, term p = (Real.pi ^ 2 / 6) ^ 2 := by
   unfold term
