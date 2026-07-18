@@ -315,8 +315,12 @@ section with rung table and WeilSupportLadder.lean citations.
 
 ## Thread Q — the off-line quartet + transport seed (memo fragments, checked)
 
-**Status: in progress — `RiemannHypothesis/QuartetPerturbation.lean`, lands with the PR
-updating this line.** From the entanglement/shadow-positivity memo (Sonnet session
+**Status: DONE — PR #77, `RiemannHypothesis/QuartetPerturbation.lean`, one CI round
+(lessons: the DEFAULT simp set can over-rewrite `.re`/`.im` goals through `ofReal`
+coercions into `mul_eq_mul_left_iff` disjunctions — use `simp only` with the explicit
+`mul_re/mul_im/ofReal_re/ofReal_im/I_re/I_im` list + `ring`; and a `calc` block's first
+LHS must match the goal EXACTLY — rewrite conjugate terms via the prepared equation
+first).** From the entanglement/shadow-positivity memo (Sonnet session
 handoff): (Q1) `quartet_contribution` — the memo §4.3 closed form
 `4e^{−C(γ²−δ²)}cos(2Cγδ)` for the functional-equation quartet of an off-line zero under
 Gaussian pairing, as an identity in ℂ (Im = 0 included), via `Complex.exp_conj`
@@ -336,6 +340,25 @@ A (poles+arch) min eig −1.391 (indefinite), P (primes) min eig −1.485 (indef
 W = A−P min eig +2.156e-13 (PSD, = zero side to 16 digits). The pattern — neither
 marginal positive alone, only the difference — now holds across seven basis families of
 two distinct types (six Gaussian variants + compact-support Legendre-weight).
+
+## Thread H — the pseudo-isothermal halo pair (Abel projection + inversion, exact)
+
+**Status: in progress — `Cosmology/AbelHaloPair.lean`, lands with the PR updating this
+line.** From ONON5213's Dark Matter chapter (`thm:surface-density-haar`,
+`thm:abel-inversion`, the boxed profile): (H1) `abel_forward` — the line-of-sight
+projection `2∫_b^∞ (r_c²/(r²+r_c²))·r/√(r²−b²) dr = π r_c²/√(b²+r_c²)`, antiderivative
+`(2r_c²/A)·arctan(√(r²−b²)/A)`, `A = √(b²+r_c²)` (the `A²+u²` Cauchy-kernel soul);
+(H2) `abel_inverse_eval` + `dm_profile_boxed` — the inversion integral
+`∫_r^∞ b/(√(b²−r²)·√(b²+r_c²)³) db = 1/(r²+r_c²)`, antiderivative
+`(√(b²−r²)/√(b²+r_c²))/(r²+r_c²)`, recovering `ρ₀/(1+(r/r_c)²)` exactly. Machinery:
+`integral_Ioi_of_hasDerivAt_of_nonneg` (as C2/A2/K). Anchors verified at pinned:
+`Real.hasDerivAt_sqrt` (Sqrt:63), `Real.hasDerivAt_arctan` (ArctanDeriv:75),
+`Real.tendsto_arctan_atTop` (Arctan:161), `Real.continuous_arctan` (Arctan:282),
+`Real.arctan_zero` (:143). Drift-proof routes chosen: `sqrt_le_sqrt`+`sqrt_sq` instead
+of `le_sqrt`; ratio-limit via squaring + `sqrt_sq` instead of `sqrt_div`; explicit
+`mul_le_mul_of_nonneg_right` instead of bare `gcongr`. NOT claimed: general Abel
+uniqueness (Hankel duality); the chapter's Haar normalization and `ρ₀ = α·ρ_b`
+(its Conjecture) physics inputs.
 
 *Standing honesty note: nobody is proving RH itself here, and this plan does not pretend
 otherwise. The value is that every reduction and every constant in the surrounding tower

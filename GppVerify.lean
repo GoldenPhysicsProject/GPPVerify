@@ -80,7 +80,8 @@ import GppVerify.RiemannHypothesis.RHProofStructure
 import GppVerify.RiemannHypothesis.HaarPositivityWeil
 
 -- Thread T: S-truncated transport — group-level positive-type, pullback along
--- the weighted-log chart; faithfulness of the prime chart stated (1 sorry)
+-- the weighted-log chart; faithfulness of the prime chart (Z-linear independence
+-- of {log p}, via Nat.factorization comparison) fully proved, no sorry
 import GppVerify.RiemannHypothesis.TruncatedTransport
 
 -- ── Standard Model — Majorana (New) ─────────────────────────
@@ -572,3 +573,15 @@ import GppVerify.RiemannHypothesis.WeilSupportLadder
 -- over PR #61's proved positivity). NOT claimed: anything about the
 -- (now-retired) arithmetic_admissibility axiom or the positivity hypothesis.
 import GppVerify.RiemannHypothesis.QuartetPerturbation
+
+-- ── The pseudo-isothermal halo pair (New) ─────────────────────────
+-- Thread H (ONON5213 Dark Matter chapter): the boxed halo profile
+-- rho_DM(r) = rho_0/(1+(r/r_c)^2) and the holographic surface density
+-- Sigma(b) = pi rho_0 r_c^2/sqrt(b^2+r_c^2) are an exact Abel-transform
+-- pair, both directions kernel-checked as improper integrals via
+-- explicit antiderivatives (arctan for the forward projection -- the
+-- Cauchy-kernel soul again -- and an algebraic one for the inversion).
+-- The rotation-curve profile is a theorem pair, not a calculation.
+-- NOT claimed: the general Abel inversion/uniqueness theorem (Hankel
+-- duality) and the chapter's Haar/physics normalization inputs.
+import GppVerify.Cosmology.AbelHaloPair
