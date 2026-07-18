@@ -2,6 +2,8 @@ import Mathlib.Tactic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.LinearAlgebra.Matrix.PosDef
 
+open scoped ComplexOrder
+
 /-!
 # The Half-Flip Obstruction: the Finite Matrix Core
 # Lean 4 | GPPVerify
