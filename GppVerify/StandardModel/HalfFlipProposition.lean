@@ -82,16 +82,20 @@ theorem wignerT_wignerT (ψ1 ψ2 : ℂ) :
 /-- Proposition 2.2 (No-Enactment): Choi(transpose) = SWAP, with eigenvalue
     -1 on the antisymmetric subspace of dimension d(d-1)/2, hence the
     transpose (and any antiunitary conjugation built from it) is not
-    completely positive. The d=2 finite matrix core is now fully formalized
-    in `GppHalfFlipMatrix` (`GppVerify/QuantumInformation/HalfFlipMatrix.lean`):
-    `SWAP_has_negative_eigenvector` exhibits the exact eigenvector, and
-    `swap_not_posSemidef` closes the loop all the way to Mathlib's own
-    `Matrix.PosSemidef` — SWAP is *not* positive semidefinite, unconditionally
-    proved, no `sorry`, no numerical approximation. What remains open here is
-    only the general-purpose machinery: a Kronecker-product formalization of
-    the Choi matrix for an arbitrary linear map on `M_d(ℂ)` and the general
-    statement of Choi's theorem (CP ⟺ Choi matrix PSD) connecting the two
-    directions, neither of which exists in Mathlib 4.19.0. Verified
+    completely positive. The d=2 case is now **fully formalized, unconditionally,
+    end to end**: `GppVerify/QuantumInformation/ChoiMatrix.lean` builds the general
+    Choi-matrix / complete-positivity framework (any finite-dimensional linear map,
+    any auxiliary dimension — Choi's theorem's forward direction,
+    `choiMatrix_posSemidef_of_completelyPositive`), and
+    `GppVerify/QuantumInformation/TransposeNotCompletelyPositive.lean` proves
+    `choiMatrix_transposeMap_eq_SWAP` (Choi(transpose) = SWAP, an exact finite
+    computation) and concludes `transposeMap_not_completelyPositive`: the transpose
+    map on `M_2(ℂ)` is not completely positive, full stop — no `sorry`, no
+    numerical approximation, no remaining gap for `d = 2`. What remains open is
+    only the *general* `d`-dimensional statement (the antisymmetric subspace has
+    dimension `d(d-1)/2` for general `d`, not just `d = 2`) and the *converse*
+    direction of Choi's theorem (Choi matrix PSD ⟹ complete positivity, which needs
+    an operator-sum/Kraus decomposition and is not needed here). Verified
     numerically for d = 2..5 in the companion script. -/
 theorem no_enactment : True := trivial
 
