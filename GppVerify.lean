@@ -30,6 +30,11 @@ import GppVerify.RHSpectralMultiplicity
 -- L²(K¹) forces Re(s) = 1/2  (thm:l2-constraint, cited 12×)
 import GppVerify.RiemannHypothesis.L2Constraint
 
+-- ── Momentum generator has no point spectrum ────────────────
+-- Pins down exactly why ONON's thm:no-ghosts-onon Step 1 needs the Cesàro
+-- regularization rather than the ordinary L² inner product.
+import GppVerify.RiemannHypothesis.MomentumGeneratorNoPointSpectrum
+
 -- ── Standard Model ───────────────────────────────────────────
 -- Three generations from Cayley-Dickson tower (cor:three-generations-anomaly)
 -- NOTE: three_generations + anomaly_cancellation carry
