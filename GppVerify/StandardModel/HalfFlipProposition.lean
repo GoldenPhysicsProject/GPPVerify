@@ -82,10 +82,17 @@ theorem wignerT_wignerT (ψ1 ψ2 : ℂ) :
 /-- Proposition 2.2 (No-Enactment): Choi(transpose) = SWAP, with eigenvalue
     -1 on the antisymmetric subspace of dimension d(d-1)/2, hence the
     transpose (and any antiunitary conjugation built from it) is not
-    completely positive. Not formalized: needs a Kronecker/tensor-product
-    Choi-matrix construction and a complete-positivity notion, not
-    presently in Mathlib. Verified numerically for d = 2..5 in the
-    companion script. -/
+    completely positive. The d=2 finite matrix core is now fully formalized
+    in `GppHalfFlipMatrix` (`GppVerify/QuantumInformation/HalfFlipMatrix.lean`):
+    `SWAP_has_negative_eigenvector` exhibits the exact eigenvector, and
+    `swap_not_posSemidef` closes the loop all the way to Mathlib's own
+    `Matrix.PosSemidef` — SWAP is *not* positive semidefinite, unconditionally
+    proved, no `sorry`, no numerical approximation. What remains open here is
+    only the general-purpose machinery: a Kronecker-product formalization of
+    the Choi matrix for an arbitrary linear map on `M_d(ℂ)` and the general
+    statement of Choi's theorem (CP ⟺ Choi matrix PSD) connecting the two
+    directions, neither of which exists in Mathlib 4.19.0. Verified
+    numerically for d = 2..5 in the companion script. -/
 theorem no_enactment : True := trivial
 
 /-- Proposition 4.1(c): the channel E(ρ) = (1/3)Σᵢ σᵢρσᵢ is completely
