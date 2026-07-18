@@ -37,8 +37,11 @@ namespace GppEulerSum
 
 open Real
 
-/-- The symmetric pairwise term `1/(m²n²)`. -/
-noncomputable def term (p : ℕ × ℕ) : ℝ := (1 / (p.1 : ℝ) ^ 2) * (1 / (p.2 : ℝ) ^ 2)
+/-- The symmetric pairwise term `1/(m²n²)`. Reducible (`abbrev`, not `def`): this term
+    needs to unify against raw lambdas produced by generic `tsum`/`Summable` combinators
+    (e.g. `Summable.mul_of_nonneg`'s conclusion), and a semireducible `def` there causes the
+    elaborator's unifier to time out rather than unfold. -/
+noncomputable abbrev term (p : ℕ × ℕ) : ℝ := (1 / (p.1 : ℝ) ^ 2) * (1 / (p.2 : ℝ) ^ 2)
 
 theorem term_swap (p : ℕ × ℕ) : term p.swap = term p := by
   unfold term
@@ -64,21 +67,25 @@ def Lt : Set (ℕ × ℕ) := {p | p.1 < p.2}
 /-- The strict upper-triangle `m > n`. -/
 def Gt : Set (ℕ × ℕ) := {p | p.2 < p.1}
 
+/-- The diagonal parametrized by `ℕ`, via `n ↦ (n, n)`. -/
+def diagEquiv : ℕ ≃ Dg where
+  toFun n := ⟨(n, n), rfl⟩
+  invFun p := p.1.1
+  left_inv n := rfl
+  right_inv p := by
+    obtain ⟨⟨a, b⟩, (h : a = b)⟩ := p
+    subst h
+    rfl
+
+@[simp] theorem diagEquiv_coe (n : ℕ) : ((diagEquiv n : Dg) : ℕ × ℕ) = (n, n) := rfl
+
 theorem tsum_term_diag : ∑' x : Dg, term (x : ℕ × ℕ) = Real.pi ^ 4 / 90 := by
-  have e : ℕ ≃ Dg :=
-    { toFun := fun n => ⟨(n, n), rfl⟩
-      invFun := fun p => p.1.1
-      left_inv := fun n => rfl
-      right_inv := fun p => by
-        obtain ⟨⟨a, b⟩, (h : a = b)⟩ := p
-        subst h
-        rfl }
-  have heq : ∀ n : ℕ, term ((e n : Dg) : ℕ × ℕ) = 1 / (n : ℝ) ^ 4 := by
+  rw [← diagEquiv.tsum_eq (fun x : Dg => term (x : ℕ × ℕ))]
+  have heq : ∀ n : ℕ, term ((diagEquiv n : Dg) : ℕ × ℕ) = 1 / (n : ℝ) ^ 4 := by
     intro n
-    show term (n, n) = 1 / (n : ℝ) ^ 4
+    rw [diagEquiv_coe]
     unfold term
     ring
-  rw [← e.tsum_eq (fun x : Dg => term (x : ℕ × ℕ))]
   simp_rw [heq]
   exact hasSum_zeta_four.tsum_eq
 
@@ -175,6 +182,7 @@ theorem two_mul_tsum_term_Le :
 theorem M2_eq : (Real.pi ^ 4 / 90) / Real.pi ^ 4 = 1 / 90 := by
   have hpi4 : Real.pi ^ 4 ≠ 0 := by positivity
   field_simp [hpi4]
+  ring
 
 /-- **Euler's second sum, `Σₙ Hₙ/n³ = (5/4)ζ(4) = π⁴/72`, is NOT formalized.**
 
