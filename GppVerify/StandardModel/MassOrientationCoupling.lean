@@ -119,7 +119,7 @@ theorem clock_locking_negate (ω : ℝ) (hω : ω ≠ 0) (a b : ℂ) :
     `U(2t*) = +1`. -/
 theorem clock_locking_restore (ω : ℝ) (hω : ω ≠ 0) (a b : ℂ) :
     psiL ω a b (2 * Real.pi / ω) = a ∧ psiR ω a b (2 * Real.pi / ω) = b := by
-  have ht : ω * (2 * Real.pi / ω) = 2 * Real.pi := by field_simp; ring
+  have ht : ω * (2 * Real.pi / ω) = 2 * Real.pi := by field_simp
   refine ⟨?_, ?_⟩
   · simp [psiL, ht, Real.cos_two_pi, Real.sin_two_pi]
   · simp [psiR, ht, Real.cos_two_pi, Real.sin_two_pi]
