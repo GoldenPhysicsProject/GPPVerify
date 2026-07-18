@@ -33,8 +33,9 @@ machinery for a non-symmetric real matrix, which is a substantial further
 undertaking (see the discussion in `GrassmannianMass.lean`).
 
 Lemma 2.1(c) (a positive momentum matrix decomposes as p = λ₁λ₁* + λ₂λ₂*
-with det p = m² = |⟨λ₁,λ₂⟩|², the spinor-helicity decomposition) requires
-the spectral decomposition of a Hermitian matrix and is not formalized here.
+with det p = m² = |⟨λ₁,λ₂⟩|², the spinor-helicity decomposition) is now
+formalized below via an explicit Cholesky-type factorization, avoiding
+Mathlib's abstract spectral theorem for Hermitian matrices entirely.
 
 Theorem 4.1 (clock locking): parts (b)-(d) are now formalized below (special values
 U(π/ω_C) = -1, U(2π/ω_C) = 1; the population oscillation; and the algebraic core of the
@@ -77,12 +78,60 @@ theorem tau_pow_four_remark : True := trivial
     matrices, unit-determinant fourth-roots-of-unity locus). -/
 theorem differential_charpoly : True := trivial
 
-/-- Lemma 2.1(c): a future timelike momentum matrix p decomposes as
-    p = λ₁λ₁* + λ₂λ₂* with det p = m² = |⟨λ₁,λ₂⟩|² (spinor-helicity
-    decomposition). Not formalized: needs the spectral decomposition of a
-    Hermitian matrix. Verified numerically on 200 random samples in the
-    companion script. -/
-theorem momentum_spinor_decomposition : True := trivial
+/-- The Cholesky-type factor `λ¹ = (√p00, p̄01/√p00)` from Lemma 2.1(c). -/
+noncomputable def lambda1 (p00 : ℝ) (p01 : ℂ) : ℂ × ℂ :=
+  (Real.sqrt p00, (starRingEnd ℂ) p01 / (Real.sqrt p00 : ℂ))
+
+/-- The Cholesky-type factor `λ² = (0, √(det p/p00))` from Lemma 2.1(c). -/
+noncomputable def lambda2 (p00 p11 : ℝ) (p01 : ℂ) : ℂ × ℂ :=
+  (0, Real.sqrt ((p00 * p11 - Complex.normSq p01) / p00))
+
+/-- Lemma 2.1(c): a positive-definite momentum matrix `p = [[p00,p01],[p̄01,p11]]`
+    (`p00 > 0`, `det p = p00 p11 - |p01|² > 0`) decomposes as the explicit rank-two
+    Cholesky-type sum `p = λ¹λ¹* + λ²λ²*` for `λ¹ = (√p00, p̄01/√p00)`,
+    `λ² = (0, √(det p/p00))` — captured here by its four defining matrix entries (the
+    diagonal (1,1)/(2,2), the off-diagonal (1,2), and the determinant/symplectic
+    identity `det p = |⟨λ¹,λ²⟩|²` for `⟨λμ⟩ = λ₁μ₂ - λ₂μ₁`). This is the elementary
+    Cholesky factorization of a positive-definite Hermitian 2×2 matrix; the specific
+    closed-form factors avoid Mathlib's abstract n-dimensional spectral theorem (and the
+    index bookkeeping of specializing its `Fintype`-indexed API to `Fin 2`) entirely. -/
+theorem momentum_spinor_decomposition {p00 p11 : ℝ} {p01 : ℂ}
+    (hp00 : 0 < p00) (hdet : 0 < p00 * p11 - Complex.normSq p01) :
+    (lambda1 p00 p01).1 * (starRingEnd ℂ) (lambda1 p00 p01).1
+        + (lambda2 p00 p11 p01).1 * (starRingEnd ℂ) (lambda2 p00 p11 p01).1 = (p00 : ℂ) ∧
+    (lambda1 p00 p01).1 * (starRingEnd ℂ) (lambda1 p00 p01).2
+        + (lambda2 p00 p11 p01).1 * (starRingEnd ℂ) (lambda2 p00 p11 p01).2 = p01 ∧
+    (lambda1 p00 p01).2 * (starRingEnd ℂ) (lambda1 p00 p01).2
+        + (lambda2 p00 p11 p01).2 * (starRingEnd ℂ) (lambda2 p00 p11 p01).2 = (p11 : ℂ) ∧
+    Complex.normSq
+        ((lambda1 p00 p01).1 * (lambda2 p00 p11 p01).2
+          - (lambda1 p00 p01).2 * (lambda2 p00 p11 p01).1)
+      = p00 * p11 - Complex.normSq p01 := by
+  have hApos : 0 < Real.sqrt p00 := Real.sqrt_pos.mpr hp00
+  have hAne : (Real.sqrt p00 : ℂ) ≠ 0 := by exact_mod_cast hApos.ne'
+  have hp00ne : (p00 : ℂ) ≠ 0 := by exact_mod_cast hp00.ne'
+  have hA2R : Real.sqrt p00 * Real.sqrt p00 = p00 := Real.mul_self_sqrt hp00.le
+  have hA2C : (Real.sqrt p00 : ℂ) * (Real.sqrt p00 : ℂ) = (p00 : ℂ) := by exact_mod_cast hA2R
+  have hCR : Real.sqrt ((p00 * p11 - Complex.normSq p01) / p00)
+      * Real.sqrt ((p00 * p11 - Complex.normSq p01) / p00)
+      = (p00 * p11 - Complex.normSq p01) / p00 :=
+    Real.mul_self_sqrt (div_pos hdet hp00).le
+  have hCC : (Real.sqrt ((p00 * p11 - Complex.normSq p01) / p00) : ℂ)
+      * (Real.sqrt ((p00 * p11 - Complex.normSq p01) / p00) : ℂ)
+      = ((p00 * p11 - Complex.normSq p01) / p00 : ℝ) := by exact_mod_cast hCR
+  have hconjB : (starRingEnd ℂ) ((starRingEnd ℂ) p01 / (Real.sqrt p00 : ℂ))
+      = p01 / (Real.sqrt p00 : ℂ) := by
+    rw [map_div₀, starRingEnd_apply, starRingEnd_apply, star_star, Complex.conj_ofReal]
+  simp only [lambda1, lambda2, Complex.conj_ofReal, map_zero, mul_zero, zero_mul, add_zero,
+    zero_add, sub_zero, hconjB]
+  refine ⟨hA2C, ?_, ?_, ?_⟩
+  · field_simp
+  · rw [div_mul_div_comm, mul_comm ((starRingEnd ℂ) p01) p01, Complex.mul_conj, hA2C, hCC]
+    push_cast
+    field_simp
+    ring
+  · rw [Complex.normSq_mul, Complex.normSq_ofReal, Complex.normSq_ofReal, hA2R, hCR]
+    field_simp
 
 /-! ## Theorem 4.1: Clock Locking
 
