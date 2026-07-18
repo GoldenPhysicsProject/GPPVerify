@@ -145,6 +145,11 @@ import GppVerify.StandardModel.HalfFlipProposition
 -- singlet vector (Choi(transpose) = SWAP is not positive semidefinite)
 import GppVerify.QuantumInformation.HalfFlipMatrix
 
+-- ── General Choi matrix / complete positivity (New) ───────────
+-- CompletelyPositive Phi => Choi(Phi) PosSemidef, general n; Choi's
+-- theorem forward direction, no dependence on any specific map.
+import GppVerify.QuantumInformation.ChoiMatrix
+
 -- ── Grassmannian Jacobian, exact matrix identity (New) ────────
 -- N^2 = D*K, K^2 = D^2*1, hence N^4 = D^4*1 for the chart
 -- transition's Jacobian numerator matrix N (D = ad - bc)
