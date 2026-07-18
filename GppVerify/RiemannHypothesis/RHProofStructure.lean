@@ -83,10 +83,15 @@ theorem plucker_weight : (2 : ℕ) = Nat.card (Fin 2) * 1 := by simp
 
 /-! ## Functional equation pairing -/
 
-/-- If ζ(ρ) = 0 then ξ(1-ρ) = 0 (functional equation reflection) -/
-theorem xi_functional_eq_zero (_ : ℂ) : True := trivial
--- NOTE: ξ(s) = ξ(1-s) is in Mathlib but the zero-forcing direction needs
--- the completed zeta function theory. Full proof pending Mathlib development.
+/-- If `ζ(ρ) = 0` then `ζ(1-ρ) = 0` too (functional equation reflection), for `ρ` avoiding
+    `ζ`'s pole and the trivial-zero locations. Directly from Mathlib's `riemannZeta_one_sub`
+    (already imported at the top of this file) — the "NOTE" this replaced was stale: the
+    zero-forcing direction is exactly the case `ζ(ρ)=0` of that functional equation, no
+    further completed-zeta-function theory needed. -/
+theorem zeta_zero_forces_companion_zero {ρ : ℂ} (hz : riemannZeta ρ = 0)
+    (hρ : ∀ n : ℕ, ρ ≠ -n) (hρ' : ρ ≠ 1) :
+    riemannZeta (1 - ρ) = 0 := by
+  rw [riemannZeta_one_sub hρ hρ', hz, mul_zero]
 
 /-- For a zero ρ = σ+it with σ ≠ 1/2, the companion zero 1-σ ≠ σ -/
 theorem off_line_forces_companion (σ : ℝ) (h : σ ≠ 1/2) :
