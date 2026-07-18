@@ -36,12 +36,12 @@ Lemma 2.1(c) (a positive momentum matrix decomposes as p = λ₁λ₁* + λ₂λ
 with det p = m² = |⟨λ₁,λ₂⟩|², the spinor-helicity decomposition) requires
 the spectral decomposition of a Hermitian matrix and is not formalized here.
 
-Theorem 4.1 (clock locking: U(t) = exp(-iω_C t σ₁) with U(π/ω_C) = -1,
-U(2π/ω_C) = 1, and the Dirac γ⁵'' = -(2m)² γ⁵ identity in the Weyl
-representation) requires either the matrix exponential collapsing to
-trigonometric form on a square-root-of-identity generator, or explicit
-4×4 Dirac-matrix computation; both are left open here as genuine
-additional work, not asserted.
+Theorem 4.1 (clock locking): parts (b)-(d) are now formalized below (special values
+U(π/ω_C) = -1, U(2π/ω_C) = 1; the population oscillation; and the algebraic core of the
+gamma5 double-commutator identity). Part (a) (that the closed-form trajectory actually
+solves the rest-frame Dirac ODE) is taken from standard linear-ODE theory and not
+independently re-derived via Lean's derivative machinery -- see the section docstring
+below for the exact scope.
 -/
 
 namespace GppMassOrientationCoupling
@@ -84,17 +84,81 @@ theorem differential_charpoly : True := trivial
     companion script. -/
 theorem momentum_spinor_decomposition : True := trivial
 
-/-- Theorem 4.1(a-c): clock locking, U(t) = exp(-iω_C t σ₁) satisfies
-    U(π/ω_C) = -1, U(2π/ω_C) = 1, with populations cos²(ω_C t)/sin²(ω_C t)
-    oscillating at frequency 2ω_C. Not formalized: needs the matrix
-    exponential collapsing to trigonometric form for a generator squaring
-    to the identity. Verified symbolically in the companion script. -/
-theorem clock_locking : True := trivial
+/-! ## Theorem 4.1: Clock Locking
 
-/-- Theorem 4.1(d): γ⁵''(t) = -(2m)² γ⁵(t) in the Weyl representation,
-    with {γ⁵,γ⁰} = 0. Not formalized: explicit 4×4 Dirac-matrix
-    computation, left for a future pass. Verified symbolically in the
-    companion script. -/
-theorem gamma5_oscillation : True := trivial
+Fetched from the source `mass_orientation_coupling_v3.tex` (Google Drive) to get the
+exact statement rather than guessing conventions. Part (a) (the closed-form trajectory
+solves the rest-frame Dirac ODE `iψ_L' = mc²ψ_R`, `iψ_R' = mc²ψ_L`) is taken from standard
+linear-ODE theory for a constant-coefficient 2-level system and is **not independently
+re-derived here** via `HasDerivAt`; what IS formalized are its exact algebraic
+consequences: parts (b)-(c) (special values, population oscillation) and the independent
+algebraic identity of part (d). -/
+
+/-- The rest-frame Dirac evolution's closed-form trajectory (Theorem 4.1(a)) for general
+    initial data `(a, b) = (ψ_L(0), ψ_R(0))` and frequency `ω = ω_C = mc²/ħ`. -/
+noncomputable def psiL (ω : ℝ) (a b : ℂ) (t : ℝ) : ℂ :=
+  (Real.cos (ω * t) : ℂ) * a - Complex.I * (Real.sin (ω * t) : ℂ) * b
+
+/-- The rest-frame Dirac evolution's closed-form trajectory, right-chirality component. -/
+noncomputable def psiR (ω : ℝ) (a b : ℂ) (t : ℝ) : ℂ :=
+  -Complex.I * (Real.sin (ω * t) : ℂ) * a + (Real.cos (ω * t) : ℂ) * b
+
+theorem psiL_zero (ω : ℝ) (a b : ℂ) : psiL ω a b 0 = a := by simp [psiL]
+theorem psiR_zero (ω : ℝ) (a b : ℂ) : psiR ω a b 0 = b := by simp [psiR]
+
+/-- Theorem 4.1(c): one complete chirality-exchange cycle, `t* = π/ω_C`, negates the
+    state: `U(t*) = -1`. -/
+theorem clock_locking_negate (ω : ℝ) (hω : ω ≠ 0) (a b : ℂ) :
+    psiL ω a b (Real.pi / ω) = -a ∧ psiR ω a b (Real.pi / ω) = -b := by
+  have ht : ω * (Real.pi / ω) = Real.pi := by field_simp
+  refine ⟨?_, ?_⟩
+  · simp [psiL, ht, Real.cos_pi, Real.sin_pi]
+  · simp [psiR, ht, Real.cos_pi, Real.sin_pi]
+
+/-- Theorem 4.1(c): two complete cycles, `2t* = 2π/ω_C`, restore the state:
+    `U(2t*) = +1`. -/
+theorem clock_locking_restore (ω : ℝ) (hω : ω ≠ 0) (a b : ℂ) :
+    psiL ω a b (2 * Real.pi / ω) = a ∧ psiR ω a b (2 * Real.pi / ω) = b := by
+  have ht : ω * (2 * Real.pi / ω) = 2 * Real.pi := by field_simp; ring
+  refine ⟨?_, ?_⟩
+  · simp [psiL, ht, Real.cos_two_pi, Real.sin_two_pi]
+  · simp [psiR, ht, Real.cos_two_pi, Real.sin_two_pi]
+
+/-- Theorem 4.1(b): for the initial condition `ψ_R(0) = 0`, `ψ_L(0) = χ`, the chirality
+    populations oscillate exactly at angular frequency `ω_z = 2ω_C`. -/
+theorem clock_locking_population (ω : ℝ) (χ : ℂ) (t : ℝ) :
+    Complex.normSq (psiL ω χ 0 t) = (Real.cos (ω * t)) ^ 2 * Complex.normSq χ ∧
+    Complex.normSq (psiR ω χ 0 t) = (Real.sin (ω * t)) ^ 2 * Complex.normSq χ := by
+  have hL : psiL ω χ 0 t = (Real.cos (ω * t) : ℂ) * χ := by simp [psiL]
+  have hR : psiR ω χ 0 t = -Complex.I * (Real.sin (ω * t) : ℂ) * χ := by simp [psiR]
+  refine ⟨?_, ?_⟩
+  · rw [hL, Complex.normSq_mul, Complex.normSq_ofReal]; ring
+  · rw [hR, Complex.normSq_mul, Complex.normSq_mul, Complex.normSq_ofReal,
+      Complex.normSq_neg, Complex.normSq_I]
+    ring
+
+/-- Theorem 4.1(d)'s algebraic core: for `Ring` elements satisfying the Clifford
+    relations `{γ5,γ0} = 0` and `γ0² = 1`, the double commutator
+    `[γ0,[γ0,γ5]] = 4·γ5`. This is the whole algebraic content behind the physical
+    statement `γ̈⁵ = -ω_z²γ⁵` with `H = mc²γ⁰`, `ω_z = 2mc²` (units `ħ = 1`): the Clifford
+    algebra alone forces the factor `4 = 2²` here, and the physical identity follows by
+    rescaling `γ0 ↦ mc²·γ0` linearly (a scalar multiple, not separate mathematical
+    content, so not re-derived separately) and negating (from the `i²` of applying the
+    Heisenberg derivative `γ̇ = i[H,γ]` twice). Also not independently re-derived: relating
+    this Heisenberg-picture double commutator to an actual second time-derivative of an
+    evolving operator `γ⁵(t)` needs a further operator-ODE argument beyond the pure
+    algebra formalized here — independent of any specific matrix representation of the
+    Dirac algebra. -/
+theorem gamma0_double_commutator {R : Type*} [Ring R] (γ5 γ0 : R)
+    (hanti : γ5 * γ0 = -(γ0 * γ5)) (hsq : γ0 * γ0 = 1) :
+    γ0 * (γ0 * γ5 - γ5 * γ0) - (γ0 * γ5 - γ5 * γ0) * γ0 = 4 * γ5 := by
+  have key : γ0 * γ5 * γ0 = -γ5 := by
+    have h1 : γ0 * (γ5 * γ0) = γ0 * (-(γ0 * γ5)) := by rw [hanti]
+    rw [mul_assoc, h1, mul_neg, ← mul_assoc, hsq, one_mul]
+  have expand : γ0 * (γ0 * γ5 - γ5 * γ0) - (γ0 * γ5 - γ5 * γ0) * γ0
+      = γ0 * γ0 * γ5 - γ0 * γ5 * γ0 - γ0 * γ5 * γ0 + γ5 * (γ0 * γ0) := by
+    noncomm_ring
+  rw [expand, hsq, key]
+  noncomm_ring
 
 end GppMassOrientationCoupling
