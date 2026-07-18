@@ -1,6 +1,6 @@
 import Mathlib.LinearAlgebra.Matrix.PosDef
 
-open scoped ComplexOrder
+open scoped ComplexOrder Matrix
 
 /-!
 # Complete positivity and the Choi matrix, in general
