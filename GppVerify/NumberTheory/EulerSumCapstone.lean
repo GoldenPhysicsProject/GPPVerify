@@ -50,12 +50,19 @@ theorem term_swap (p : ℕ × ℕ) : term p.swap = term p := by
 
 theorem summable_term : Summable term := by
   have h2 : Summable (fun n : ℕ => (1 : ℝ) / (n : ℝ) ^ 2) := hasSum_zeta_two.summable
-  exact h2.mul_of_nonneg h2 (fun n => by positivity) (fun n => by positivity)
+  have h : Summable (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2)) :=
+    h2.mul_of_nonneg h2 (fun n => by positivity) (fun n => by positivity)
+  exact h
+
+theorem hasSum_term : HasSum (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2))
+    ((Real.pi ^ 2 / 6) * (Real.pi ^ 2 / 6)) := by
+  have h2 := hasSum_zeta_two
+  have hsum : Summable (fun x : ℕ × ℕ => (1 / (x.1 : ℝ) ^ 2) * (1 / (x.2 : ℝ) ^ 2)) := summable_term
+  exact h2.mul h2 hsum
 
 theorem tsum_term_eq : ∑' p : ℕ × ℕ, term p = (Real.pi ^ 2 / 6) ^ 2 := by
-  have h2 := hasSum_zeta_two
-  have h := h2.mul h2 summable_term
-  rw [h.tsum_eq]
+  unfold term
+  rw [hasSum_term.tsum_eq]
   ring
 
 /-- The diagonal `m = n`. -/
