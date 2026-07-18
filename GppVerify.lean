@@ -585,3 +585,14 @@ import GppVerify.RiemannHypothesis.QuartetPerturbation
 -- NOT claimed: the general Abel inversion/uniqueness theorem (Hankel
 -- duality) and the chapter's Haar/physics normalization inputs.
 import GppVerify.Cosmology.AbelHaloPair
+
+-- ── Thread E: the Euler-sum capstone (New) ────────────────────────
+-- M2 = zeta(4)/pi^4 = 1/90 (haar_qg_paper_v2151.tex base case L=2), via
+-- the symmetric double-sum decomposition 2*sum_{m<=n} 1/(m^2 n^2) =
+-- zeta(2)^2 + zeta(4) -- pure NxN tsum bookkeeping (product tsum,
+-- Equiv-based reflection symmetry sum_{m<n}=sum_{m>n}, disjoint-union
+-- splitting). Euler's second sum (sum H_n/n^3 = (5/4)zeta(4)) is NOT
+-- formalized: the summand isn't symmetric under swap, so the same
+-- reflection trick doesn't apply and Mathlib has no multiple-zeta-value
+-- library -- named honestly as an open gap, not faked.
+import GppVerify.NumberTheory.EulerSumCapstone
