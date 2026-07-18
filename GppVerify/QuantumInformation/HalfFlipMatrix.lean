@@ -1,5 +1,6 @@
 import Mathlib.Tactic
 import Mathlib.Data.Matrix.Basic
+import Mathlib.LinearAlgebra.Matrix.PosDef
 
 /-!
 # The Half-Flip Obstruction: the Finite Matrix Core
@@ -14,16 +15,22 @@ The transpose map on M_2(ℂ) has Choi operator equal to the SWAP operator on
 with no axiom, no `sorry`, and no numerical approximation, that SWAP has
 a negative eigenvalue: the antisymmetric singlet vector ψ, with
 ψ(0,1) = 1, ψ(1,0) = -1, and ψ = 0 elsewhere, satisfies SWAP *ᵥ ψ = -ψ
-and ψ ≠ 0. Since a positive semidefinite operator has no negative
-eigenvalue, this is the finite-dimensional witness behind "the transpose
-is not completely positive": the Choi matrix of a completely positive map
-must be positive semidefinite (Choi's theorem), and SWAP is not, exhibited
-here by an exact eigenvector, not a numerical eigenvalue computation.
+and ψ ≠ 0.
+
+We then close the loop all the way to Mathlib's own `Matrix.PosSemidef`
+predicate (`swap_not_posSemidef`): SWAP is *not* positive semidefinite,
+on the nose, not merely "has a negative eigenvalue" left for the reader to
+connect. Since Choi's theorem says a linear map Φ : M_2(ℂ) → M_2(ℂ) is
+completely positive iff its Choi matrix is positive semidefinite, and
+Choi(transpose) = SWAP (Proposition 2.2), this is the exact finite
+obstruction behind "the transpose is not completely positive."
 
 The identification of SWAP with Choi(transpose), and the general
-statement of Choi's theorem, are recorded in comments only; the theorems
-below are self-contained claims about the matrix SWAP and the vector ψ,
-provable without appeal to either.
+statement of Choi's theorem itself (which needs a Kronecker-product
+formalization of the Choi matrix for a general linear map, not attempted
+here), remain recorded in comments only; the theorems below are
+self-contained, unconditional claims about the matrix SWAP and the
+vector ψ, provable without appeal to either.
 -/
 
 namespace GppHalfFlipMatrix
@@ -63,5 +70,22 @@ theorem SWAP_has_negative_eigenvector :
   refine ⟨psi, psi_ne_zero, ?_⟩
   rw [SWAP_mulVec_psi]
   exact (neg_one_smul ℂ psi).symm
+
+/-- **SWAP is not positive semidefinite**, on the nose (via Mathlib's own
+    `Matrix.PosSemidef`), not merely "has a negative eigenvalue." If SWAP
+    were positive semidefinite, its defining inequality applied to ψ would
+    force `0 ≤ Re⟨ψ, SWAP ψ⟩ = Re⟨ψ, -ψ⟩ = -Re⟨ψ, ψ⟩`, i.e. `⟨ψ,ψ⟩ ≤ 0`;
+    but `⟨ψ, ψ⟩ > 0` since `ψ ≠ 0`. Contradiction. This is exactly the
+    finite obstruction Choi's theorem turns into "the transpose is not
+    completely positive." -/
+theorem swap_not_posSemidef : ¬ SWAP.PosSemidef := by
+  intro hPSD
+  have hle : 0 ≤ RCLike.re (dotProduct (star psi) (SWAP.mulVec psi)) :=
+    hPSD.re_dotProduct_nonneg psi
+  rw [SWAP_mulVec_psi, dotProduct_neg, map_neg] at hle
+  have hpos : 0 < dotProduct (star psi) psi :=
+    Matrix.dotProduct_star_self_pos_iff.mpr psi_ne_zero
+  have hpos_re : 0 < RCLike.re (dotProduct (star psi) psi) := (RCLike.pos_iff.mp hpos).1
+  linarith
 
 end GppHalfFlipMatrix
