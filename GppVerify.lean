@@ -150,6 +150,11 @@ import GppVerify.QuantumInformation.HalfFlipMatrix
 -- theorem forward direction, no dependence on any specific map.
 import GppVerify.QuantumInformation.ChoiMatrix
 
+-- ── Proposition 2.2, complete (New) ────────────────────────────
+-- Choi(transpose) = SWAP exactly, hence transpose map on M_2(C) is
+-- not completely positive: no_enactment fully retired for d=2.
+import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
+
 -- ── Grassmannian Jacobian, exact matrix identity (New) ────────
 -- N^2 = D*K, K^2 = D^2*1, hence N^4 = D^4*1 for the chart
 -- transition's Jacobian numerator matrix N (D = ad - bc)
