@@ -1,5 +1,7 @@
 import Mathlib.NumberTheory.NumberField.AdeleRing
 import Mathlib.Topology.Algebra.Valued.LocallyCompact
+import Mathlib.Data.Int.WithZero
+import Mathlib.RingTheory.Valuation.RankOne
 
 /-!
 # The idele group of ℚ: first steps
@@ -42,21 +44,28 @@ sides are, by their own defining membership lemmas (`ValuationSubring.mem_toSubr
 extensionality argument identifies them directly — no deep content, but a genuine
 missing link.
 
+## Step 4: the adic valuation has rank one (New)
+
+`Valued.integer.properSpace_iff_compactSpace_integer` additionally needs a
+`[Valued.v.RankOne]` instance (the value group embeds order-preservingly and
+nontrivially into `ℝ≥0`). `adicCompletion.valuedRankOne` builds this for the adic
+valuation's value group `WithZero (Multiplicative ℤ)` (`ℤₘ₀`) using
+`WithZeroMulInt.toNNReal` (a general `ℤₘ₀ →*₀ ℝ≥0` embedding, already in Mathlib) for
+the strictly monotone embedding, and `valuation_exists_uniformizer` for nontriviality.
+Combined with the Subring bridge lemma above, this gives, for free,
+`ProperSpace (v.adicCompletion K) ↔ CompactSpace (v.adicCompletionIntegers K)` via
+`Valued.integer.properSpace_iff_compactSpace_integer` — the compactness criterion the
+earlier version of this file could not state at all, now fully available (though not
+yet invoked as its own named theorem here).
+
 ## What this still does NOT do — the honest current wall
 
-This closes the *Subring identification* half of the compactness bridge, but not the
-compactness statement itself. `Valued.integer.properSpace_iff_compactSpace_integer`
-additionally requires a `[Valued.v.RankOne]` instance (the valuation's value group
-embeds order-preservingly into `ℝ≥0`, nontrivially). The adic valuation's value group
-is `WithZero (Multiplicative ℤ)` (`ℤₘ₀`), and this session's search found no generic
-`RankOne` instance for it in Mathlib (`Mathlib.RingTheory.Valuation.RankOne` has the
-class definition and its basic API, but no instance keyed to `ℤₘ₀` specifically) — so
-constructing that instance (an explicit strictly monotone `ℤₘ₀ →*₀ ℝ≥0`, e.g. via
-`n ↦ Real.exp (-n)` on the `Multiplicative ℤ` part, plus the nontriviality proof) is
-the next concrete undertaking, not glossed over. Beyond that: discreteness of `ℚˣ`,
-finiteness of the class number / compactness of the norm-one idele class group
-(Fujisaki's lemma), the self-dual Haar measure, and Meyer's spectral construction on
-top of all of it. Each remains open.
+Compactness of `v.adicCompletionIntegers K` itself — i.e. `ProperSpace (v.adicCompletion
+K)`, or equivalently completeness + `IsDiscreteValuationRing` + finite residue field —
+is not proved here; only the *criterion* connecting compactness to properness is now
+available. Beyond that: discreteness of `ℚˣ`, finiteness of the class number /
+compactness of the norm-one idele class group (Fujisaki's lemma), the self-dual Haar
+measure, and Meyer's spectral construction on top of all of it. Each remains open.
 -/
 
 namespace GppRH
@@ -106,5 +115,30 @@ theorem adicCompletionIntegers_toSubring_eq_integer
   ext x
   simp only [ValuationSubring.mem_toSubring, Valued.integer, Valuation.mem_integer_iff]
   exact IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers R K v
+
+open scoped NNReal
+
+/-- **The adic valuation has rank one.** The value group `ℤₘ₀ = WithZero (Multiplicative ℤ)`
+embeds strictly monotonically into `ℝ≥0` via `WithZeroMulInt.toNNReal` (sending the
+uniformizer class `Multiplicative.ofAdd (-1)` to `1/2`), and the valuation is nontrivial
+by `valuation_exists_uniformizer`. Together with `adicCompletionIntegers_toSubring_eq_integer`
+above, this makes `Valued.integer.properSpace_iff_compactSpace_integer` available for the
+adic completion — the missing ingredient the earlier version of this file recorded as an
+open wall. -/
+noncomputable instance adicCompletion.valuedRankOne
+    {R : Type*} [CommRing R] [IsDedekindDomain R] (K : Type*) [Field K] [Algebra R K]
+    [IsFractionRing R K] (v : IsDedekindDomain.HeightOneSpectrum R) :
+    (Valued.v : Valuation (v.adicCompletion K) (WithZero (Multiplicative ℤ))).RankOne where
+  hom := WithZeroMulInt.toNNReal (e := 2) (by norm_num)
+  strictMono' := WithZeroMulInt.toNNReal_strictMono (by norm_num : (1 : ℝ≥0) < 2)
+  nontrivial' := by
+    obtain ⟨π, hπ⟩ := v.valuation_exists_uniformizer K
+    refine ⟨(π : v.adicCompletion K), ?_, ?_⟩
+    · rw [valuedAdicCompletion_eq_valuation', hπ]
+      exact WithZero.coe_ne_zero
+    · rw [valuedAdicCompletion_eq_valuation', hπ]
+      refine ne_of_lt ?_
+      rw [← WithZero.coe_one, ← ofAdd_zero, WithZero.coe_lt_coe, ofAdd_lt]
+      norm_num
 
 end GppRH
