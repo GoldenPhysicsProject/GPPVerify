@@ -1,4 +1,5 @@
 import Mathlib.NumberTheory.NumberField.AdeleRing
+import Mathlib.Topology.Algebra.Valued.LocallyCompact
 
 /-!
 # The idele group of ℚ: first steps
@@ -27,23 +28,35 @@ this to a genuine `IsTopologicalGroup Mˣ` whenever `M` has `ContinuousMul`. Sin
 instance resolution — no new proof content, but a genuine and necessary upgrade from
 "bare group" to "topological group" before compactness/discreteness can even be stated.
 
-## What this does NOT do — the honest current wall
+## Step 3: the Subring bridge lemma (New)
 
-This is still a first step, not the idele class group itself. The next milestone —
-local compactness of the idele group — needs compactness of the local unit groups
-`𝒪ᵥˣ` at almost every place, and Mathlib's general `RestrictedProduct` group theorem
-(`RestrictedProduct.locallyCompactSpace_of_group`) supplies local compactness for
-free *given* that ingredient. That ingredient is where the real remaining difficulty
-sits: Mathlib proves `PadicInt.compactSpace : CompactSpace ℤ_[p]` for the *concrete*
-p-adic integers, but the `FiniteAdeleRing`'s local pieces are built from the *general*
-Dedekind-domain machinery (`IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`),
-and no bridge lemma identifying the two for `R = ℤ, K = ℚ` was found in this session's
-search (which does not prove none exists — only that it wasn't located). Building that
-bridge, or reproving compactness directly for the general `adicCompletionIntegers`, is
-the next real undertaking. Beyond that: discreteness of `ℚˣ`, finiteness of the class
-number / compactness of the norm-one idele class group (Fujisaki's lemma), the
-self-dual Haar measure, and Meyer's spectral construction on top of all of it. Each
-remains open.
+The earlier pass on this file recorded a wall: Mathlib's local-compactness criterion
+`Valued.integer.properSpace_iff_compactSpace_integer` is stated for the generic
+`Subring`-typed `Valued.integer K`, but `adicCompletionIntegers` — the object actually
+built by the Dedekind-domain machinery `FiniteAdeleRing` uses — has type
+`ValuationSubring (adicCompletion K v)`, and no identification between the two was
+found. `adicCompletionIntegers_toSubring_eq_integer` closes exactly that gap: both
+sides are, by their own defining membership lemmas (`ValuationSubring.mem_toSubring`,
+`IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers`, and
+`Valuation.mem_integer_iff`), the same set `{x | Valued.v x ≤ 1}`, so a `Subring`
+extensionality argument identifies them directly — no deep content, but a genuine
+missing link.
+
+## What this still does NOT do — the honest current wall
+
+This closes the *Subring identification* half of the compactness bridge, but not the
+compactness statement itself. `Valued.integer.properSpace_iff_compactSpace_integer`
+additionally requires a `[Valued.v.RankOne]` instance (the valuation's value group
+embeds order-preservingly into `ℝ≥0`, nontrivially). The adic valuation's value group
+is `WithZero (Multiplicative ℤ)` (`ℤₘ₀`), and this session's search found no generic
+`RankOne` instance for it in Mathlib (`Mathlib.RingTheory.Valuation.RankOne` has the
+class definition and its basic API, but no instance keyed to `ℤₘ₀` specifically) — so
+constructing that instance (an explicit strictly monotone `ℤₘ₀ →*₀ ℝ≥0`, e.g. via
+`n ↦ Real.exp (-n)` on the `Multiplicative ℤ` part, plus the nontriviality proof) is
+the next concrete undertaking, not glossed over. Beyond that: discreteness of `ℚˣ`,
+finiteness of the class number / compactness of the norm-one idele class group
+(Fujisaki's lemma), the self-dual Haar measure, and Meyer's spectral construction on
+top of all of it. Each remains open.
 -/
 
 namespace GppRH
@@ -77,5 +90,21 @@ and necessary step: `RationalIdeleGroup` is no longer just an abstract group, it
 the topology that the (still open) local-compactness and discreteness statements need
 to be stated against. -/
 instance : IsTopologicalGroup RationalIdeleGroup := inferInstance
+
+/-- **Bridge lemma.** The `ValuationSubring`-typed local ring of integers built by the
+general Dedekind-domain adic-completion machinery equals, as a `Subring`, the
+`Valued.integer` that Mathlib's local field/compactness criteria
+(`Valued.integer.properSpace_iff_compactSpace_integer` and its variants) are stated
+for. Both sides are the set `{x | Valued.v x ≤ 1}` by their own defining membership
+lemmas, so this is a direct `Subring` extensionality argument, not new mathematical
+content — but it identifies two previously-unlinked objects, closing the gap the
+earlier version of this file recorded as unresolved. -/
+theorem adicCompletionIntegers_toSubring_eq_integer
+    {R : Type*} [CommRing R] [IsDedekindDomain R] (K : Type*) [Field K] [Algebra R K]
+    [IsFractionRing R K] (v : IsDedekindDomain.HeightOneSpectrum R) :
+    (v.adicCompletionIntegers K).toSubring = Valued.integer (v.adicCompletion K) := by
+  ext x
+  simp only [ValuationSubring.mem_toSubring, Valued.integer, Valuation.mem_integer_iff]
+  exact IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers R K v
 
 end GppRH
