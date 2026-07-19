@@ -54,7 +54,7 @@ and neither does this file — these are the memo's checkable fragments, checked
 
 namespace GppQuartet
 
-open Complex
+open Complex MeasureTheory
 
 /-! ## Q1: the quartet closed form -/
 
