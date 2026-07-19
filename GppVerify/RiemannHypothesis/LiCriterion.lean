@@ -86,9 +86,8 @@ theorem deriv_riemannXi_one :
       (completedRiemannZeta₀ 1) 1 := by
     convert hFG using 1
     simp
-  have hXi : HasDerivAt riemannXi ((1 / 2) * completedRiemannZeta₀ 1) 1 := by
-    have h := (hFG'.add_const 1).const_mul ((1 : ℂ) / 2)
-    simpa [riemannXi] using h
+  have hXi : HasDerivAt riemannXi ((1 / 2) * completedRiemannZeta₀ 1) 1 :=
+    (hFG'.add_const 1).const_mul ((1 : ℂ) / 2)
   exact hXi.deriv
 
 /-- **Li's λ₁, exact real closed form.** `ξ'(1)/ξ(1) = (γ - log(4π))/2 + 1`, matching
