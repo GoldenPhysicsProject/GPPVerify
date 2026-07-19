@@ -616,9 +616,15 @@ import GppVerify.NumberTheory.EulerSumCapstone
 -- Not paper-sourced. Builds on Mathlib's NumberField.AdeleRing (added
 -- since the many "idele class groups not in Mathlib" notes elsewhere in
 -- this repo were written): Units of the adele ring gives the idele
--- group for free, and the diagonal embedding Q^x -> (adele ring)^x is
+-- group for free, the diagonal embedding Q^x -> (adele ring)^x is
 -- proved injective via Units.map_injective + the adele ring's own
--- algebraMap_injective. First step only: no topology, discreteness,
--- class-number finiteness, or Haar measure yet -- each a separate,
--- substantially harder open undertaking, named honestly in the file.
+-- algebraMap_injective, and it is a topological group for free via
+-- Mathlib's generic Units-of-a-topological-monoid instances. Honest
+-- current wall for the next step (local compactness): needs
+-- compactness of the local unit groups, and no bridge was found in
+-- this session between Mathlib's proven CompactSpace (PadicInt p) and
+-- the general adicCompletionIntegers used by FiniteAdeleRing -- named
+-- explicitly in the file rather than glossed over. Discreteness,
+-- class-number finiteness, Haar measure, and Meyer's construction
+-- remain open beyond that.
 import GppVerify.RiemannHypothesis.IdeleGroup
