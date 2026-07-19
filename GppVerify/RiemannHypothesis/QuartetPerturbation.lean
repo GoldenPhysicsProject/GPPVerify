@@ -1,6 +1,7 @@
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
 import GppVerify.RiemannHypothesis.AbelCesaroRegularization
 import Mathlib.Data.Complex.Trigonometric
+import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
 
 /-!
 # The off-line quartet: exact contribution, sign mechanism, and positivity transport
@@ -33,6 +34,18 @@ kernel-checked:
   memo's §3 finding in the repo's finite-Gram idiom — the Abel-regularized Cesàro state
   is nonnegative on the square of any finite real linear combination, directly from the
   proved `abel_state_sq_nonneg` (PR #61).
+* **Θ_Ces-invariance of the Cesàro state** (`abel_state_comp_neg_eq`,
+  `abel_state_normalized_comp_neg_eq`): the other half of a shadow-positive datum
+  besides positivity — invariance of the state under its involution. In log
+  coordinates, the Weil-side involution's inversion component `r ↦ 1/r` restricted to
+  the `ℝ⁺` factor of `𝔸×/ℚ×` becomes negation `u ↦ -u`; these theorems show the
+  Abel-regularized state `ω_ε` is invariant under exactly that map, for every test
+  function (not merely the characters the character formula covers), using only the
+  evenness of the Abel weight `e^{-ε|u|}` and the reflection identities already used in
+  `AbelCesaroRegularization.lean`. This does not close the memo's §6.1 idèle-level
+  transport question (still blocked on idèle class groups not being in Mathlib), but it
+  is the concrete, unblocked half of it: the Cesàro-side leg of the shadow-positive
+  datum genuinely has the compatibility property the transport would need to match.
 
 What is NOT claimed: anything about `arithmetic_admissibility` (the AAC axiom formerly of
 `RHSpectralMultiplicity.lean`). The memo is explicit that none of its findings close it,
@@ -176,5 +189,58 @@ theorem cesaro_gram_sq_nonneg {ε : ℝ} (hε : 0 ≤ ε) {n : ℕ}
       ∫ u in Set.Ioi (0 : ℝ),
         Real.exp (-ε * |u|) * (∑ i : Fin n, c i * f i u) ^ 2) :=
   GppAbelCesaro.abel_state_sq_nonneg hε (fun u => ∑ i : Fin n, c i * f i u)
+
+/-! ## Q5: Θ_Ces-invariance of the Cesàro/Abel state — the other half of the transport
+seed
+
+`positiveType_comp_addMonoidHom` above transports *positivity* along a homomorphism.
+A shadow-positive datum `(𝒜, Θ, ω)` in the sense of `HaarPositivityWeil.lean`'s
+`universal_positivity_construction` needs a second, independent compatibility fact:
+the state `ω` itself must be *invariant under Θ*. On the Weil side (the memo's §6.1),
+`Θ_Weil` is inversion composed with conjugation on the idèle class group; in log
+coordinates on its `ℝ⁺` factor, inversion `r ↦ 1/r` becomes negation `u ↦ -u`. The
+theorem below is the Cesàro-side half of that compatibility: the Abel-regularized
+state `ω_ε` is invariant under precomposing its test function with negation, for
+*every* test function `f`, not merely for the characters `t^α` the character formula
+already covers. Since the Abel weight `e^{-ε|u|}` is itself even (`|u| = |-u|`), the
+proof needs no case-split on the sign of `u` at all — only the two reflection
+identities `integral_comp_neg_Iic`/`integral_comp_neg_Ioi` already used throughout
+`AbelCesaroRegularization.lean`, applied to the single combined integrand
+`u ↦ e^{-ε|u|} f(u)`. -/
+theorem abel_state_comp_neg_eq (ε : ℝ) (f : ℝ → ℝ) :
+    ((∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) +
+      ∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) =
+    ((∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f u) +
+      ∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f u) := by
+  have hA : (∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) =
+      ∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f u := by
+    have step1 : (∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) =
+        ∫ u in Set.Iic (0 : ℝ), (fun x => Real.exp (-ε * |x|) * f x) (-u) := by
+      apply setIntegral_congr_fun measurableSet_Iic
+      intro u _
+      simp only [abs_neg]
+    rw [step1, integral_comp_neg_Iic (0 : ℝ) (fun x => Real.exp (-ε * |x|) * f x), neg_zero]
+  have hB : (∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) =
+      ∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f u := by
+    have step1 : (∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) =
+        ∫ u in Set.Ioi (0 : ℝ), (fun x => Real.exp (-ε * |x|) * f x) (-u) := by
+      apply setIntegral_congr_fun measurableSet_Ioi
+      intro u _
+      simp only [abs_neg]
+    rw [step1, integral_comp_neg_Ioi (0 : ℝ) (fun x => Real.exp (-ε * |x|) * f x), neg_zero]
+  rw [hA, hB]
+  ring
+
+/-- The full-line, normalized form of `abel_state_comp_neg_eq`: writing `ω_ε` in the
+    `ε/2 · (…)` normalization used throughout `AbelCesaroRegularization.lean`, the state
+    is invariant under `f ↦ f ∘ Neg.neg` — the Θ_Ces-invariance compatibility condition
+    for the shadow-positive datum `(L^∞(ℝ⁺), Θ_Ces, ω_ε)` on the Cesàro side of the
+    memo's §6.1 transport question. -/
+theorem abel_state_normalized_comp_neg_eq (ε : ℝ) (f : ℝ → ℝ) :
+    ε / 2 * ((∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) +
+      ∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f (-u)) =
+    ε / 2 * ((∫ u in Set.Iic (0 : ℝ), Real.exp (-ε * |u|) * f u) +
+      ∫ u in Set.Ioi (0 : ℝ), Real.exp (-ε * |u|) * f u) := by
+  rw [abel_state_comp_neg_eq]
 
 end GppQuartet
