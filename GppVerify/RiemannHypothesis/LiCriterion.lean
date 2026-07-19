@@ -1,5 +1,7 @@
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
+import Mathlib.Data.Complex.ExponentialBounds
+import Mathlib.Data.Real.Pi.Bounds
 
 /-!
 # Li's criterion: the entire Riemann Xi function and its first coefficient
@@ -35,16 +37,19 @@ product-rule cancellation. Combined with `ξ(1) = 1/2` and Mathlib's
 (`li_lambda_one`): `ξ'(1)/ξ(1) = (γ - log(4π))/2 + 1`, matching the classical numerical
 value `λ₁ ≈ 0.0230957` (Li 1997).
 
-## What this does NOT do
+## Unconditional positivity of λ₁ (New)
 
-The *unconditional positivity* `λ₁ > 0` — equivalent to the numerical inequality
-`γ > log(4π) - 2 ≈ 0.531` — is NOT proved here. Mathlib's own bound
+`eulerMascheroniConstant_gt_log_four_pi_sub_two` proves `γ > log(4π) - 2`, i.e.
+`li_lambda_one_pos : λ₁ > 0`, unconditionally. Mathlib's own bound
 `Real.one_half_lt_eulerMascheroniConstant` (`γ > 1/2`) is not tight enough on its own
-(0.5 < 0.531); a genuine proof needs either a sharper rigorous lower bound on `γ` (e.g.
-via `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant` at a large enough concrete `n`,
-combined with numerical control of `log n`) or a sharper upper bound on `log(4π)`. Left
-as an explicit next step, not glossed over. The full Li ⟺ RH equivalence (all `n`, via
-Hadamard factorization) remains the separately-assessed, much larger open undertaking.
+(`0.5 < 0.531...`), so this uses `Real.eulerMascheroniSeq_lt_eulerMascheroniConstant` at
+`n = 63` (so `n + 1 = 64 = 2⁶`, giving an *exact* multiple of `log 2` for the subtracted
+term) together with the tangent-line bound `log π ≤ π / e` (from
+`Real.log_le_sub_one_of_pos` applied at `π/e`, using `log e = 1`) and Mathlib's decimal
+bounds `Real.pi_lt_d4`, `Real.exp_one_gt_d9`, `Real.log_two_lt_d9` for the resulting
+numerics, closed by comparing against the *exact* rational value of `harmonic 63`. What
+remains open: the full Li ⟺ RH equivalence for all `n` (needs Hadamard factorization of
+`ξ`, not in Mathlib) is the separately-assessed, much larger undertaking.
 -/
 
 namespace GppRH
@@ -91,14 +96,60 @@ theorem deriv_riemannXi_one :
   exact hXi.deriv
 
 /-- **Li's λ₁, exact real closed form.** `ξ'(1)/ξ(1) = (γ - log(4π))/2 + 1`, matching
-Li's classical value `λ₁ ≈ 0.0230957`. The unconditional positivity of this value —
-equivalent to `γ > log(4π) - 2` — is left as an explicit next step (see the module
-docstring): Mathlib's `Real.one_half_lt_eulerMascheroniConstant` alone is not tight
-enough (`0.5 < 0.531...`). -/
+Li's classical value `λ₁ ≈ 0.0230957`. -/
 theorem li_lambda_one :
     deriv riemannXi 1 / riemannXi 1 =
       (Real.eulerMascheroniConstant - Complex.log (4 * Real.pi)) / 2 + 1 := by
   rw [deriv_riemannXi_one, riemannXi_one, completedRiemannZeta₀_one]
   ring
+
+/-- **Unconditional numeric inequality: `γ > log(4π) - 2`.** The tangent-line bound
+`log π ≤ π / e` (from `Real.log_le_sub_one_of_pos` at `π/e`, using `log e = 1`) combined
+with `Real.pi_lt_d4` and `Real.exp_one_gt_d9` gives `log π < 1.156`; combined with
+`Real.log_two_lt_d9` this gives `log(4π) < 2.5423` and `log 64 < 4.1588830848`. Comparing
+`harmonic 63 - log 64` against `log(4π) - 2` via these bounds and the exact rational
+value of `harmonic 63` gives `eulerMascheroniSeq 63 > log(4π) - 2`, and
+`Real.eulerMascheroniSeq_lt_eulerMascheroniConstant` transports this to `γ`. -/
+theorem eulerMascheroniConstant_gt_log_four_pi_sub_two :
+    Real.log (4 * Real.pi) - 2 < Real.eulerMascheroniConstant := by
+  have he : (0 : ℝ) < Real.exp 1 := Real.exp_pos 1
+  have hlogpi : Real.log Real.pi ≤ Real.pi / Real.exp 1 := by
+    have hxpos : (0 : ℝ) < Real.pi / Real.exp 1 := div_pos Real.pi_pos he
+    have h1 := Real.log_le_sub_one_of_pos hxpos
+    rw [Real.log_div (ne_of_gt Real.pi_pos) (ne_of_gt he), Real.log_exp] at h1
+    linarith
+  have hpilt : Real.pi < 1.156 * Real.exp 1 := by
+    linarith [Real.pi_lt_d4, Real.exp_one_gt_d9]
+  have hlogpi' : Real.log Real.pi < 1.156 := by
+    have hdiv : Real.pi / Real.exp 1 < 1.156 := (div_lt_iff₀ he).mpr hpilt
+    linarith [hlogpi, hdiv]
+  have hlog4 : Real.log 4 < 1.3862943616 := by
+    have h4 : Real.log (4 : ℝ) = 2 * Real.log 2 := by
+      rw [show (4 : ℝ) = 2 ^ (2 : ℕ) by norm_num, Real.log_pow]
+      push_cast; ring
+    rw [h4]; linarith [Real.log_two_lt_d9]
+  have hlog4pi : Real.log (4 * Real.pi) < 2.5423 := by
+    rw [Real.log_mul (by norm_num) (ne_of_gt Real.pi_pos)]
+    linarith [hlog4, hlogpi']
+  have hlog64 : Real.log 64 < 4.1588830848 := by
+    have h64 : Real.log (64 : ℝ) = 6 * Real.log 2 := by
+      rw [show (64 : ℝ) = 2 ^ (6 : ℕ) by norm_num, Real.log_pow]
+      push_cast; ring
+    rw [h64]; linarith [Real.log_two_lt_d9]
+  have hharm : (4.71 : ℚ) ≤ harmonic 63 := by
+    simp only [harmonic, Finset.sum_range_succ, Finset.sum_range_zero]
+    norm_num
+  have hharm' : (4.71 : ℝ) ≤ (harmonic 63 : ℝ) := by exact_mod_cast hharm
+  have hseq : Real.log (4 * Real.pi) - 2 < Real.eulerMascheroniSeq 63 := by
+    have h641 : ((63 : ℕ) : ℝ) + 1 = 64 := by norm_num
+    unfold Real.eulerMascheroniSeq
+    rw [h641]
+    linarith [hharm', hlog64, hlog4pi]
+  exact hseq.trans (Real.eulerMascheroniSeq_lt_eulerMascheroniConstant 63)
+
+/-- **Li's λ₁ is unconditionally positive.** -/
+theorem li_lambda_one_pos :
+    0 < (Real.eulerMascheroniConstant - Real.log (4 * Real.pi)) / 2 + 1 := by
+  linarith [eulerMascheroniConstant_gt_log_four_pi_sub_two]
 
 end GppRH
