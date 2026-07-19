@@ -16,16 +16,34 @@ free is showing `ℚˣ` genuinely embeds in it: the diagonal embedding `q ↦ (q
 idele class group construction `𝔸_ℚˣ / ℚˣ` has to be an *injective* group homomorphism
 before the quotient can even be discussed, and this is the first concrete piece of that.
 
-## What this does NOT do
+## Step 2: the idele group is a topological group, for free
 
-This is a first, modest step, not the idele class group itself. Still missing, each a
-separate and substantially harder undertaking: a topology on the idele group making it a
-locally compact topological group (needs the `Units` topology via `u ↦ (u, u⁻¹)` and
-compactness of the local unit groups `𝒪ᵥˣ` at almost every place — plausible via the
-`RestrictedProduct` group theorems already in Mathlib, but not yet wired up here);
-discreteness of `ℚˣ` in that topology; finiteness of the class number / compactness of
-the norm-one idele class group (Fujisaki's lemma); the self-dual Haar measure; and
-Meyer's actual spectral construction on top of all of that. Each remains open.
+`Units.instTopologicalSpaceUnits` gives every `Mˣ` the topology induced by
+`u ↦ (u, u⁻¹) : Mˣ → M × M` (the standard trick that makes inversion continuous), for
+any topological monoid `M`; `Units.instIsTopologicalGroupOfContinuousMul` then upgrades
+this to a genuine `IsTopologicalGroup Mˣ` whenever `M` has `ContinuousMul`. Since
+`AdeleRing R K` already carries `TopologicalSpace` and `IsTopologicalRing` instances
+(hence `ContinuousMul`) in Mathlib, `RationalIdeleGroup` is a topological group by pure
+instance resolution — no new proof content, but a genuine and necessary upgrade from
+"bare group" to "topological group" before compactness/discreteness can even be stated.
+
+## What this does NOT do — the honest current wall
+
+This is still a first step, not the idele class group itself. The next milestone —
+local compactness of the idele group — needs compactness of the local unit groups
+`𝒪ᵥˣ` at almost every place, and Mathlib's general `RestrictedProduct` group theorem
+(`RestrictedProduct.locallyCompactSpace_of_group`) supplies local compactness for
+free *given* that ingredient. That ingredient is where the real remaining difficulty
+sits: Mathlib proves `PadicInt.compactSpace : CompactSpace ℤ_[p]` for the *concrete*
+p-adic integers, but the `FiniteAdeleRing`'s local pieces are built from the *general*
+Dedekind-domain machinery (`IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`),
+and no bridge lemma identifying the two for `R = ℤ, K = ℚ` was found in this session's
+search (which does not prove none exists — only that it wasn't located). Building that
+bridge, or reproving compactness directly for the general `adicCompletionIntegers`, is
+the next real undertaking. Beyond that: discreteness of `ℚˣ`, finiteness of the class
+number / compactness of the norm-one idele class group (Fujisaki's lemma), the
+self-dual Haar measure, and Meyer's spectral construction on top of all of it. Each
+remains open.
 -/
 
 namespace GppRH
@@ -49,5 +67,15 @@ before the much deeper discreteness/compactness content can even be stated, `ℚ
 actually embed. -/
 theorem diagonalEmbedding_injective : Function.Injective diagonalEmbedding :=
   Units.map_injective (NumberField.AdeleRing.algebraMap_injective ℤ ℚ)
+
+/-- **The idele group of `ℚ` is a topological group.** Free from Mathlib's generic
+`Units.instTopologicalSpaceUnits` (the topology making `u ↦ (u, u⁻¹)` an embedding) and
+`Units.instIsTopologicalGroupOfContinuousMul` (any topological monoid with continuous
+multiplication has a topological-group unit group), applied to the adele ring's own
+`TopologicalSpace`/`IsTopologicalRing` instances. No new proof content — but a genuine
+and necessary step: `RationalIdeleGroup` is no longer just an abstract group, it carries
+the topology that the (still open) local-compactness and discreteness statements need
+to be stated against. -/
+instance : IsTopologicalGroup RationalIdeleGroup := inferInstance
 
 end GppRH
