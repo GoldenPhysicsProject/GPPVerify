@@ -136,10 +136,10 @@ theorem eulerMascheroniConstant_gt_log_four_pi_sub_two :
       rw [show (64 : ℝ) = 2 ^ (6 : ℕ) by norm_num, Real.log_pow]
       push_cast; ring
     rw [h64]; linarith [Real.log_two_lt_d9]
-  have hharm : (4.71 : ℚ) ≤ harmonic 63 := by
+  have hharm' : (4.71 : ℝ) ≤ (harmonic 63 : ℝ) := by
     simp only [harmonic, Finset.sum_range_succ, Finset.sum_range_zero]
+    push_cast
     norm_num
-  have hharm' : (4.71 : ℝ) ≤ (harmonic 63 : ℝ) := by exact_mod_cast hharm
   have hseq : Real.log (4 * Real.pi) - 2 < Real.eulerMascheroniSeq 63 := by
     have h641 : ((63 : ℕ) : ℝ) + 1 = 64 := by norm_num
     unfold Real.eulerMascheroniSeq
