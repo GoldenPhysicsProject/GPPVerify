@@ -638,9 +638,13 @@ import GppVerify.RiemannHypothesis.IdeleGroup
 -- derivative completedRiemannZeta0'(1), leaving xi'(1) =
 -- (1/2)*completedRiemannZeta0(1). Combined with xi(1)=1/2 and Mathlib's
 -- completedRiemannZeta0_one, this gives Li's lambda_1 in exact closed
--- form, matching the classical value ~0.0230957 (Li 1997). NOT proved:
--- unconditional positivity of lambda_1 (needs gamma > log(4*pi)-2,
--- tighter than Mathlib's own gamma > 1/2 bound) and the full Li <=> RH
--- equivalence for all n (needs Hadamard factorization of xi, not in
--- Mathlib) -- both named explicitly as open next steps in the file.
+-- form, matching the classical value ~0.0230957 (Li 1997). Also proves
+-- (New) the unconditional positivity of lambda_1: gamma > log(4*pi)-2,
+-- via a tangent-line bound log(pi) <= pi/e combined with Mathlib's
+-- decimal bounds on pi, e, log 2, and the exact rational value of the
+-- 63rd harmonic number (n+1=64=2^6 chosen so the subtracted log term is
+-- an exact multiple of log 2), transported to gamma via
+-- eulerMascheroniSeq_lt_eulerMascheroniConstant. NOT proved: the full
+-- Li <=> RH equivalence for all n (needs Hadamard factorization of xi,
+-- not in Mathlib) -- named explicitly as the remaining open gap.
 import GppVerify.RiemannHypothesis.LiCriterion
