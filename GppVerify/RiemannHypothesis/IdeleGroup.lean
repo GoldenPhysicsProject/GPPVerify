@@ -134,9 +134,9 @@ noncomputable instance adicCompletion.valuedRankOne
   nontrivial' := by
     obtain ⟨π, hπ⟩ := v.valuation_exists_uniformizer K
     refine ⟨(π : v.adicCompletion K), ?_, ?_⟩
-    · rw [valuedAdicCompletion_eq_valuation', hπ]
+    · rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation', hπ]
       exact WithZero.coe_ne_zero
-    · rw [valuedAdicCompletion_eq_valuation', hπ]
+    · rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation', hπ]
       refine ne_of_lt ?_
       rw [← WithZero.coe_one, ← ofAdd_zero, WithZero.coe_lt_coe, ofAdd_lt]
       norm_num
