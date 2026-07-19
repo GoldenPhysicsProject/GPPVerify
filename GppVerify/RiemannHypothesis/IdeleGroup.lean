@@ -70,7 +70,7 @@ measure, and Meyer's spectral construction on top of all of it. Each remains ope
 
 namespace GppRH
 
-open NumberField
+open NumberField Multiplicative
 
 /-- The idele group of `ℚ`: the group of units of the adele ring `𝔸_ℚ = AdeleRing ℤ ℚ`. -/
 abbrev RationalIdeleGroup : Type := (AdeleRing ℤ ℚ)ˣ
