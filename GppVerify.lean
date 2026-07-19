@@ -611,3 +611,14 @@ import GppVerify.Cosmology.AbelHaloPair
 -- reflection trick doesn't apply and Mathlib has no multiple-zeta-value
 -- library -- named honestly as an open gap, not faked.
 import GppVerify.NumberTheory.EulerSumCapstone
+
+-- ── The idele group of Q, first steps (New) ───────────────────────
+-- Not paper-sourced. Builds on Mathlib's NumberField.AdeleRing (added
+-- since the many "idele class groups not in Mathlib" notes elsewhere in
+-- this repo were written): Units of the adele ring gives the idele
+-- group for free, and the diagonal embedding Q^x -> (adele ring)^x is
+-- proved injective via Units.map_injective + the adele ring's own
+-- algebraMap_injective. First step only: no topology, discreteness,
+-- class-number finiteness, or Haar measure yet -- each a separate,
+-- substantially harder open undertaking, named honestly in the file.
+import GppVerify.RiemannHypothesis.IdeleGroup
