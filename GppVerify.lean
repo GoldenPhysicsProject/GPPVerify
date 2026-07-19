@@ -628,3 +628,19 @@ import GppVerify.NumberTheory.EulerSumCapstone
 -- class-number finiteness, Haar measure, and Meyer's construction
 -- remain open beyond that.
 import GppVerify.RiemannHypothesis.IdeleGroup
+
+-- ── Li's criterion: entire Xi function and its first coefficient (New) ─
+-- Task #75. Defines the entire completed Riemann Xi function riemannXi
+-- via Mathlib's already-entire completedRiemannZeta0 (avoiding pole
+-- bookkeeping around Lambda's poles at s=0,1), proves it entire, and
+-- computes xi'(1) in exact closed form: the double zero of s(s-1) at
+-- s=1 annihilates every product-rule term involving the unknown
+-- derivative completedRiemannZeta0'(1), leaving xi'(1) =
+-- (1/2)*completedRiemannZeta0(1). Combined with xi(1)=1/2 and Mathlib's
+-- completedRiemannZeta0_one, this gives Li's lambda_1 in exact closed
+-- form, matching the classical value ~0.0230957 (Li 1997). NOT proved:
+-- unconditional positivity of lambda_1 (needs gamma > log(4*pi)-2,
+-- tighter than Mathlib's own gamma > 1/2 bound) and the full Li <=> RH
+-- equivalence for all n (needs Hadamard factorization of xi, not in
+-- Mathlib) -- both named explicitly as open next steps in the file.
+import GppVerify.RiemannHypothesis.LiCriterion
