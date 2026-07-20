@@ -135,8 +135,12 @@ theorem hasSum_exp_oddPlanckKernel {t : ℝ} (ht : 0 < t) :
     HasSum (fun k : ℕ => ((Real.exp (-(2 * (k : ℝ) + 1) * t) : ℝ) : ℂ)) (oddPlanckKernel t) := by
   set f : ℕ → ℂ := fun n => ((Real.exp (-(↑n + 1) * t) : ℝ) : ℂ) with hf
   have h1 : HasSum f (planckKernel t) := hasSum_exp_planckKernel ht
-  have hinj : Function.Injective (fun k : ℕ => 2 * k) := fun a b h => by omega
-  obtain ⟨A, he⟩ := (h1.summable.comp_injective hinj : Summable (f ∘ fun k => 2 * k))
+  have hinj : Function.Injective (fun k : ℕ => 2 * k) := by
+    intro a b h
+    simp only at h
+    omega
+  have hsummable_even : Summable (fun k : ℕ => f (2 * k)) := h1.summable.comp_injective hinj
+  obtain ⟨A, he⟩ := hsummable_even
   have h2t : (0 : ℝ) < 2 * t := by linarith
   have h2 : HasSum (fun n : ℕ => ((Real.exp (-(↑n + 1) * (2 * t)) : ℝ) : ℂ)) (planckKernel (2 * t)) :=
     hasSum_exp_planckKernel h2t
@@ -178,8 +182,12 @@ theorem mellin_oddPlanckKernel_eq {s : ℂ} (hs : 1 < s.re) :
   have hzeta : HasSum g (riemannZeta s) := by
     have hts := hcsummable.hasSum
     rwa [← zeta_eq_tsum_one_div_nat_add_one_cpow hs] at hts
-  have hinj : Function.Injective (fun k : ℕ => 2 * k) := fun a b h => by omega
-  obtain ⟨B, heg⟩ := (hzeta.summable.comp_injective hinj : Summable (g ∘ fun k => 2 * k))
+  have hinj : Function.Injective (fun k : ℕ => 2 * k) := by
+    intro a b h
+    simp only at h
+    omega
+  have hsummable_even : Summable (fun k : ℕ => g (2 * k)) := hzeta.summable.comp_injective hinj
+  obtain ⟨B, heg⟩ := hsummable_even
   have hodd_eq : ∀ k : ℕ, g (2 * k + 1) = (2 : ℂ) ^ (-s) * g k := by
     intro k
     simp only [hg]
@@ -224,13 +232,16 @@ theorem mellin_oddPlanckKernel_eq {s : ℂ} (hs : 1 < s.re) :
     refine Summable.of_nonneg_of_le (fun k => by positivity) (fun k => ?_) hcomp
     refine one_div_le_one_div_of_le (by positivity) ?_
     exact Real.rpow_le_rpow (by positivity) (by linarith) hs0.le
-  have key := hasSum_mellin (a := fun _ : ℕ => (1 : ℂ)) (p := fun k : ℕ => 2 * (k : ℝ) + 1)
+  have key0 := hasSum_mellin (a := fun _ : ℕ => (1 : ℂ)) (p := fun k : ℕ => 2 * (k : ℝ) + 1)
     (F := oddPlanckKernel) (s := s) hp hs0 hF h_sum
   have hzeta'' := hoddDirichlet.mul_left (Complex.Gamma s)
-  have heq2 : (fun k : ℕ => Complex.Gamma s * (1 : ℂ) / (2 * (k : ℝ) + 1) ^ s) =
-      (fun k : ℕ => Complex.Gamma s * ((1 : ℂ) / (2 * (k : ℝ) + 1) ^ s)) := by
-    funext k; ring
-  rw [heq2] at key
+  have key : HasSum (fun k : ℕ => Complex.Gamma s * ((1 : ℂ) / (2 * (k : ℝ) + 1) ^ s))
+      (mellin oddPlanckKernel s) := by
+    have heq2 : (fun i : ℕ => Complex.Gamma s * (fun _ : ℕ => (1 : ℂ)) i /
+        ↑((fun k : ℕ => 2 * (k : ℝ) + 1) i) ^ s) =
+        (fun k : ℕ => Complex.Gamma s * ((1 : ℂ) / (2 * (k : ℝ) + 1) ^ s)) := by
+      funext k; push_cast; ring
+    rwa [heq2] at key0
   have := key.unique hzeta''
   rw [this]; ring
 
