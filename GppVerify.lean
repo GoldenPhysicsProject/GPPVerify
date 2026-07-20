@@ -671,5 +671,7 @@ import GppVerify.RiemannHypothesis.BlackbodyMellinZeta
 -- product space sends Gr(k,n) into Gr(n-k,n) (grassmannian_orthogonal_dim), is an
 -- involution (grassmannian_orthogonal_involutive), and restricts to a self-map of
 -- Gr(k,n) itself iff n = 2k (grassmannian_self_dual_iff), specialized to the
--- paper's own Gr(2,4) case (gr_two_four_self_dual). No axiom, no sorry.
+-- paper's own Gr(2,4) case (gr_two_four_self_dual). Also proves the algebraic
+-- identity behind the paper's Gaussian-binomial point count of Gr(2,4) over F_q
+-- (grassmannian_gaussian_binomial_two_four). No axiom, no sorry.
 import GppVerify.CelestialHolography.GrassmannianSelfDuality
