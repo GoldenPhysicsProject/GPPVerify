@@ -152,7 +152,40 @@ theorem universal_positivity_construction : True := trivial
 theorem haar_projection_orthogonal : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-projection
 -- P_K = ∫_K U(k)dk is the orthogonal projection onto K-invariant subspace.
--- MATHLIB GAP: Compact group averaging (Peter-Weyl) in functional analysis.
+-- MATHLIB GAP: Compact group averaging (Peter-Weyl) in functional analysis,
+-- for a general (infinite) compact group and a genuine Bochner/vector-valued
+-- integral. The FINITE-group case is a real, non-degenerate instance --
+-- Haar measure on a finite group is exactly normalized counting measure --
+-- and is proved below without any Mathlib gap: `finiteHaarProjection_isIdempotentElem`.
+
+/-- **The finite-group instance of the Haar projection theorem.** Given a homomorphism
+`U : G →* Module.End ℂ H` from a finite group into the endomorphism ring of a complex
+vector space (a linear, not-necessarily-unitary, action -- self-adjointness needs the
+inner-product/isometry hypothesis, not pursued here), the averaged "Reynolds operator"
+`P := (1/|G|) • Σ_g U g` is idempotent. This is the finite-group case of
+`haar_projection_orthogonal`: Haar probability measure on a finite group is exactly the
+normalized counting measure `1/|G| · Σ_g δ_g`, so `∫_G U(g) dμ(g) = (1/|G|) Σ_g U(g)`
+literally, with no approximation. -/
+theorem finiteHaarProjection_isIdempotentElem
+    {G : Type*} [Group G] [Fintype G]
+    {H : Type*} [AddCommGroup H] [Module ℂ H]
+    (U : G →* Module.End ℂ H) :
+    IsIdempotentElem ((Fintype.card G : ℂ)⁻¹ • ∑ g, U g) := by
+  have hGpos : 0 < Fintype.card G := Fintype.card_pos
+  have hGne : (Fintype.card G : ℂ) ≠ 0 := by exact_mod_cast hGpos.ne'
+  unfold IsIdempotentElem
+  set c : ℂ := (Fintype.card G : ℂ)⁻¹ with hc
+  have hreindex : ∀ x : G, ∑ h : G, U (x * h) = ∑ k : G, U k :=
+    fun x => Fintype.sum_bijective (fun h => x * h) (Group.mulLeft_bijective x)
+      (fun h => U (x * h)) (fun k => U k) (fun h => rfl)
+  have key : (∑ g, U g) * (∑ h, U h) = (Fintype.card G : ℂ) • ∑ h, U h := by
+    rw [Finset.sum_mul_sum]
+    simp_rw [← U.map_mul]
+    rw [Finset.sum_congr rfl (fun x _ => hreindex x), Finset.sum_const, Finset.card_univ,
+      ← Nat.cast_smul_eq_nsmul ℂ]
+  have hscalar : c * c * (Fintype.card G : ℂ) = c := by
+    rw [hc]; field_simp
+  rw [smul_mul_smul_comm, key, smul_smul, hscalar]
 
 /-- Peter-Weyl decomposition (compact groups) -/
 theorem peter_weyl_decomposition : True := trivial
