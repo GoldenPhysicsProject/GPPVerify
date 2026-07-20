@@ -648,3 +648,16 @@ import GppVerify.RiemannHypothesis.IdeleGroup
 -- Li <=> RH equivalence for all n (needs Hadamard factorization of xi,
 -- not in Mathlib) -- named explicitly as the remaining open gap.
 import GppVerify.RiemannHypothesis.LiCriterion
+
+-- ── The Mellin transform of the Planck kernel is Gamma(s)*zeta(s) (New) ─
+-- Prompted by re-reading blackbody_law_qg_dtoupin_v1.tex, which claims the
+-- Riemann zeta function is the Mellin transform of a thermal (Planck-law)
+-- kernel. Confirmed this is the classical, true fact (Riemann's own 1859
+-- derivation route via the Jacobi theta function / Bose-Einstein kernel).
+-- planckKernel(t) := 1/(e^t-1), the single-oscillator excited-state
+-- partition function; proves mellin planckKernel s = Gamma(s)*zeta(s) for
+-- Re(s)>1, via Mathlib's already-general hasSum_mellin machinery (sum of
+-- decaying exponentials -> Gamma(s) times the associated Dirichlet
+-- series), applied with the exponential rates p_i = i+1 giving exactly
+-- the zeta Dirichlet series. No axiom, no sorry.
+import GppVerify.RiemannHypothesis.BlackbodyMellinZeta
