@@ -665,3 +665,11 @@ import GppVerify.RiemannHypothesis.LiCriterion
 -- of the geometric series (HasSum.even_add_odd) applied twice. No axiom,
 -- no sorry.
 import GppVerify.RiemannHypothesis.BlackbodyMellinZeta
+
+-- ONON5213.tex, Chapter 7 ("The Isomorphism"), Theorem "Perfect self-duality of
+-- Gr(k,n)": the orthogonal-complement map Λ ↦ Λ^⊥ on a finite-dimensional inner
+-- product space sends Gr(k,n) into Gr(n-k,n) (grassmannian_orthogonal_dim), is an
+-- involution (grassmannian_orthogonal_involutive), and restricts to a self-map of
+-- Gr(k,n) itself iff n = 2k (grassmannian_self_dual_iff), specialized to the
+-- paper's own Gr(2,4) case (gr_two_four_self_dual). No axiom, no sorry.
+import GppVerify.CelestialHolography.GrassmannianSelfDuality
