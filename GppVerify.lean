@@ -659,5 +659,9 @@ import GppVerify.RiemannHypothesis.LiCriterion
 -- Re(s)>1, via Mathlib's already-general hasSum_mellin machinery (sum of
 -- decaying exponentials -> Gamma(s) times the associated Dirichlet
 -- series), applied with the exponential rates p_i = i+1 giving exactly
--- the zeta Dirichlet series. No axiom, no sorry.
+-- the zeta Dirichlet series. Also proves (New) the odd-frequency variant
+-- matching the black-body paper's own kernel exactly: mellin
+-- oddPlanckKernel s = (1-2^{-s})*Gamma(s)*zeta(s), via an even/odd split
+-- of the geometric series (HasSum.even_add_odd) applied twice. No axiom,
+-- no sorry.
 import GppVerify.RiemannHypothesis.BlackbodyMellinZeta

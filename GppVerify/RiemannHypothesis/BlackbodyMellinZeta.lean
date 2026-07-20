@@ -25,10 +25,13 @@ for `Re s > 1`,
   mellin planckKernel s = Γ(s) · ζ(s).
 ```
 This is exactly the "Mellin transform of the thermal kernel is the zeta function"
-statement, in its cleanest (undecorated) form — the black-body paper's own kernel
-`κ(t)` additionally restricts to odd frequencies (giving the Euler-factor-at-2-removed
-variant `(1-2^{-s})Γ(s)ζ(s)`), a straightforward corollary obtained by subtracting the
-even-frequency sub-series `planckKernel (2t)`, not pursued here.
+statement, in its cleanest (undecorated) form. `mellin_oddPlanckKernel_eq` proves the
+black-body paper's own kernel `κ(t) := Σ_{k≥0} e^{-(2k+1)t}` (restricting to odd
+frequencies only) has Mellin transform `(1-2^{-s})Γ(s)ζ(s)` — the Euler-factor-at-2
+exactly removed, matching the paper's stated identity precisely — via an even/odd
+split of the geometric series (`HasSum.even_add_odd`) applied twice: once to the
+kernel itself (`oddPlanckKernel t = planckKernel t - planckKernel (2t)`), once to the
+Dirichlet series (`Σ_{n odd} 1/n^s = ζ(s) - 2^{-s}ζ(s)`).
 
 The proof is a direct instance of Mathlib's already-general abstract machinery
 `hasSum_mellin` (`Mathlib.NumberTheory.LSeries.MellinEqDirichlet`): given a kernel that
@@ -121,5 +124,114 @@ theorem mellin_planckKernel_eq {s : ℂ} (hs : 1 < s.re) :
     ring
   rw [heq] at key
   exact key.unique hzeta'
+
+/-- The odd-frequency Bose–Einstein kernel `κ(t) := Σ_{k≥0} e^{-(2k+1)t}`, matching the
+black-body paper's own kernel exactly (the Planck kernel restricted to odd
+frequencies only, i.e. with the even-frequency sub-series subtracted off). -/
+noncomputable def oddPlanckKernel (t : ℝ) : ℂ := planckKernel t - planckKernel (2 * t)
+
+/-- For `t > 0`, the odd-frequency kernel is the sum `Σ_{k≥0} e^{-(2k+1)t}`. -/
+theorem hasSum_exp_oddPlanckKernel {t : ℝ} (ht : 0 < t) :
+    HasSum (fun k : ℕ => ((Real.exp (-(2 * (k : ℝ) + 1) * t) : ℝ) : ℂ)) (oddPlanckKernel t) := by
+  set f : ℕ → ℂ := fun n => ((Real.exp (-(↑n + 1) * t) : ℝ) : ℂ) with hf
+  have h1 : HasSum f (planckKernel t) := hasSum_exp_planckKernel ht
+  have hinj : Function.Injective (fun k : ℕ => 2 * k) := fun a b h => by omega
+  obtain ⟨A, he⟩ := (h1.summable.comp_injective hinj : Summable (f ∘ fun k => 2 * k))
+  have h2t : (0 : ℝ) < 2 * t := by linarith
+  have h2 : HasSum (fun n : ℕ => ((Real.exp (-(↑n + 1) * (2 * t)) : ℝ) : ℂ)) (planckKernel (2 * t)) :=
+    hasSum_exp_planckKernel h2t
+  have hodd_eq : ∀ k : ℕ, f (2 * k + 1) = ((Real.exp (-(↑k + 1) * (2 * t)) : ℝ) : ℂ) := by
+    intro k
+    simp only [hf]
+    congr 1
+    push_cast
+    ring_nf
+  have ho : HasSum (fun k : ℕ => f (2 * k + 1)) (planckKernel (2 * t)) := by
+    simpa only [hodd_eq] using h2
+  have hcombined := HasSum.even_add_odd he ho
+  have hAeq : A + planckKernel (2 * t) = planckKernel t := hcombined.unique h1
+  have hAval : A = oddPlanckKernel t := by
+    rw [oddPlanckKernel, eq_sub_iff_add_eq]
+    exact hAeq
+  have heven_eq : ∀ k : ℕ, f (2 * k) = ((Real.exp (-(2 * (k : ℝ) + 1) * t) : ℝ) : ℂ) := by
+    intro k
+    simp only [hf]
+    congr 1
+    push_cast
+    ring_nf
+  rw [← hAval]
+  simpa only [heven_eq] using he
+
+/-- **The Mellin transform of the odd-frequency kernel is `(1-2^{-s})·Γ(s)·ζ(s)`,**
+matching the black-body paper's own stated identity exactly. -/
+theorem mellin_oddPlanckKernel_eq {s : ℂ} (hs : 1 < s.re) :
+    mellin oddPlanckKernel s = (1 - (2 : ℂ) ^ (-s)) * Complex.Gamma s * riemannZeta s := by
+  have hs0 : 0 < s.re := lt_trans zero_lt_one hs
+  -- The odd-indexed Dirichlet series `Σ_{k} 1/(2k+1)^s`, via the same even/odd split
+  -- applied to `g n := 1/(n+1)^s`, whose full sum is `ζ(s)` (as in `mellin_planckKernel_eq`).
+  set g : ℕ → ℂ := fun n => (1 : ℂ) / ((n : ℂ) + 1) ^ s with hg
+  have hcsummable : Summable fun n : ℕ => (1 : ℂ) / ((n : ℂ) + 1) ^ s := by
+    have h0 : Summable fun n : ℕ => (1 : ℂ) / (n : ℂ) ^ s :=
+      Complex.summable_one_div_nat_cpow.mpr hs
+    have h1 := (summable_nat_add_iff (f := fun n : ℕ => (1 : ℂ) / (n : ℂ) ^ s) 1).mpr h0
+    simpa using h1
+  have hzeta : HasSum g (riemannZeta s) := by
+    have hts := hcsummable.hasSum
+    rwa [← zeta_eq_tsum_one_div_nat_add_one_cpow hs] at hts
+  have hinj : Function.Injective (fun k : ℕ => 2 * k) := fun a b h => by omega
+  obtain ⟨B, heg⟩ := (hzeta.summable.comp_injective hinj : Summable (g ∘ fun k => 2 * k))
+  have hodd_eq : ∀ k : ℕ, g (2 * k + 1) = (2 : ℂ) ^ (-s) * g k := by
+    intro k
+    simp only [hg]
+    have hcast : (((2 * k + 1 : ℕ) : ℂ) + 1) = ((2 : ℝ) : ℂ) * (((k : ℝ) + 1 : ℝ) : ℂ) := by
+      push_cast; ring
+    rw [hcast,
+      Complex.mul_cpow_ofReal_nonneg (by norm_num : (0 : ℝ) ≤ 2)
+        (by positivity : (0 : ℝ) ≤ (k : ℝ) + 1),
+      Complex.cpow_neg]
+    push_cast
+    field_simp
+  have hog : HasSum (fun k : ℕ => g (2 * k + 1)) ((2 : ℂ) ^ (-s) * riemannZeta s) := by
+    simpa only [hodd_eq] using hzeta.mul_left ((2 : ℂ) ^ (-s))
+  have hcombined := HasSum.even_add_odd heg hog
+  have hBeq : B + (2 : ℂ) ^ (-s) * riemannZeta s = riemannZeta s := hcombined.unique hzeta
+  have hBval : B = (1 - (2 : ℂ) ^ (-s)) * riemannZeta s := by
+    have : B = riemannZeta s - (2 : ℂ) ^ (-s) * riemannZeta s := by
+      rw [eq_sub_iff_add_eq]; exact hBeq
+    rw [this]; ring
+  have heven_eq : ∀ k : ℕ, g (2 * k) = (1 : ℂ) / (2 * (k : ℝ) + 1) ^ s := by
+    intro k
+    simp only [hg]
+    congr 2
+    push_cast
+    ring
+  have hoddDirichlet : HasSum (fun k : ℕ => (1 : ℂ) / (2 * (k : ℝ) + 1) ^ s)
+      ((1 - (2 : ℂ) ^ (-s)) * riemannZeta s) := by
+    rw [← hBval]
+    simpa only [heven_eq] using heg
+  have hp : ∀ k : ℕ, (1 : ℂ) = 0 ∨ 0 < (2 * (k : ℝ) + 1) := fun k => Or.inr (by positivity)
+  have hF : ∀ t ∈ Set.Ioi (0 : ℝ), HasSum
+      (fun k : ℕ => (1 : ℂ) * ((Real.exp (-(2 * (k : ℝ) + 1) * t) : ℝ) : ℂ)) (oddPlanckKernel t) := by
+    intro t ht
+    simpa using hasSum_exp_oddPlanckKernel ht
+  have h_sum : Summable fun k : ℕ => ‖(1 : ℂ)‖ / (2 * (k : ℝ) + 1) ^ s.re := by
+    simp only [norm_one]
+    have hcomp : Summable fun k : ℕ => (1 : ℝ) / ((k : ℝ) + 1) ^ s.re := by
+      have h0 : Summable fun n : ℕ => (1 : ℝ) / (n : ℝ) ^ s.re :=
+        Real.summable_one_div_nat_rpow.mpr hs
+      have h1 := (summable_nat_add_iff (f := fun n : ℕ => (1 : ℝ) / (n : ℝ) ^ s.re) 1).mpr h0
+      simpa using h1
+    refine Summable.of_nonneg_of_le (fun k => by positivity) (fun k => ?_) hcomp
+    refine one_div_le_one_div_of_le (by positivity) ?_
+    exact Real.rpow_le_rpow (by positivity) (by linarith) hs0.le
+  have key := hasSum_mellin (a := fun _ : ℕ => (1 : ℂ)) (p := fun k : ℕ => 2 * (k : ℝ) + 1)
+    (F := oddPlanckKernel) (s := s) hp hs0 hF h_sum
+  have hzeta'' := hoddDirichlet.mul_left (Complex.Gamma s)
+  have heq2 : (fun k : ℕ => Complex.Gamma s * (1 : ℂ) / (2 * (k : ℝ) + 1) ^ s) =
+      (fun k : ℕ => Complex.Gamma s * ((1 : ℂ) / (2 * (k : ℝ) + 1) ^ s)) := by
+    funext k; ring
+  rw [heq2] at key
+  have := key.unique hzeta''
+  rw [this]; ring
 
 end GppRH
