@@ -34,6 +34,8 @@ Weil's criterion (≡ RH) is axiomatized; proving it unconditionally requires
 Tate's thesis + adèlic Fourier theory (Mathlib gaps).
 -/
 
+open scoped InnerProductSpace
+
 namespace GppHaarPositivityWeil
 
 /-! ## Positive-type functions -/
@@ -156,7 +158,12 @@ theorem haar_projection_orthogonal : True := trivial
 -- for a general (infinite) compact group and a genuine Bochner/vector-valued
 -- integral. The FINITE-group case is a real, non-degenerate instance --
 -- Haar measure on a finite group is exactly normalized counting measure --
--- and is proved below without any Mathlib gap: `finiteHaarProjection_isIdempotentElem`.
+-- and is proved IN FULL below without any Mathlib gap: idempotency
+-- (`finiteHaarProjection_isIdempotentElem`), range = invariant subspace
+-- (`finiteHaarProjection_range_eq_invariants`), and self-adjointness under a
+-- unitarity hypothesis (`finiteHaarProjection_isSelfAdjoint`) together give
+-- the complete finite-group instance of "P_K is the orthogonal projection
+-- onto the K-invariant subspace."
 
 /-- **The finite-group instance of the Haar projection theorem.** Given a homomorphism
 `U : G →* Module.End ℂ H` from a finite group into the endomorphism ring of a complex
@@ -186,6 +193,93 @@ theorem finiteHaarProjection_isIdempotentElem
   have hscalar : c * c * (Fintype.card G : ℂ) = c := by
     rw [hc]; field_simp
   rw [smul_mul_smul_comm, key, smul_smul, hscalar]
+
+/-- Evaluating a finite sum of linear endomorphisms at a point distributes over the sum:
+the pointwise-evaluation companion to the ring-level sum identities used above. -/
+theorem finiteSum_end_apply {G : Type*} {H : Type*} [AddCommGroup H] [Module ℂ H]
+    (U : G → Module.End ℂ H) (s : Finset G) (y : H) :
+    (∑ g ∈ s, U g) y = ∑ g ∈ s, U g y := by
+  classical
+  refine Finset.induction_on s ?_ ?_
+  · simp
+  · intro a s' ha ih
+    rw [Finset.sum_insert ha, Finset.sum_insert ha, LinearMap.add_apply, ih]
+
+/-- **Range half of the finite-group Haar projection theorem.** A vector `x` lies in the
+range of the Reynolds operator `P := (1/|G|) • Σ_g U g` iff it is `G`-invariant. Combined
+with `finiteHaarProjection_isIdempotentElem`, this shows `P` is exactly the (algebraic)
+projection onto the `U`-invariant subspace, the finite-group instance of the "onto the
+`K`-invariant subspace" half of `thm:haar-projection`. -/
+theorem finiteHaarProjection_range_eq_invariants
+    {G : Type*} [Group G] [Fintype G]
+    {H : Type*} [AddCommGroup H] [Module ℂ H]
+    (U : G →* Module.End ℂ H) (x : H) :
+    x ∈ LinearMap.range ((Fintype.card G : ℂ)⁻¹ • ∑ g, U g) ↔ ∀ g : G, U g x = x := by
+  have hGpos : 0 < Fintype.card G := Fintype.card_pos
+  have hGne : (Fintype.card G : ℂ) ≠ 0 := by exact_mod_cast hGpos.ne'
+  set c : ℂ := (Fintype.card G : ℂ)⁻¹ with hc
+  set S : Module.End ℂ H := ∑ g, U g with hS
+  have hreindex : ∀ x : G, ∑ h : G, U (x * h) = S :=
+    fun x => Fintype.sum_bijective (fun h => x * h) (Group.mulLeft_bijective x)
+      (fun h => U (x * h)) (fun k => U k) (fun h => rfl)
+  have hgS : ∀ g : G, U g * S = S := by
+    intro g
+    rw [hS, Finset.mul_sum]
+    simp_rw [← U.map_mul]
+    exact hreindex g
+  rw [LinearMap.mem_range]
+  constructor
+  · rintro ⟨y, hy⟩ g
+    have hy' : c • S y = x := by rw [← hy, LinearMap.smul_apply]
+    rw [← hy', map_smul]
+    congr 1
+    show U g (S y) = S y
+    have hmul : (U g * S) y = S y := by rw [hgS g]
+    rwa [Module.End.mul_apply] at hmul
+  · intro hUx
+    refine ⟨x, ?_⟩
+    rw [LinearMap.smul_apply]
+    have hSx : S x = (Fintype.card G : ℂ) • x := by
+      rw [hS, finiteSum_end_apply U Finset.univ x]
+      simp_rw [hUx]
+      rw [Finset.sum_const, Finset.card_univ, ← Nat.cast_smul_eq_nsmul ℂ]
+    rw [hSx, smul_smul]
+    have hcancel : c * (Fintype.card G : ℂ) = 1 := by rw [hc]; field_simp
+    rw [hcancel, one_smul]
+
+/-- **Self-adjointness half of the finite-group Haar projection theorem.** Given the
+unitarity hypothesis `hU` (i.e. `U g⁻¹` really is the adjoint of `U g` -- automatic when
+`U` is a homomorphism into the unitary group of `H`, since then `U g⁻¹ = (U g)⁻¹ = (U g)*`),
+the Reynolds operator `P := (1/|G|) • Σ_g U g` is self-adjoint: `⟪P x, y⟫ = ⟪x, P y⟫`.
+Together with `finiteHaarProjection_isIdempotentElem` and
+`finiteHaarProjection_range_eq_invariants`, this closes the finite-group case of
+`thm:haar-projection` in full: `P` is an idempotent, self-adjoint operator (hence an
+orthogonal projection in the Hilbert-space sense) with range exactly the invariant
+subspace. -/
+theorem finiteHaarProjection_isSelfAdjoint
+    {G : Type*} [Group G] [Fintype G]
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    (U : G →* Module.End ℂ H)
+    (hU : ∀ g : G, ∀ x y : H, ⟪U g x, y⟫_ℂ = ⟪x, U g⁻¹ y⟫_ℂ) (x y : H) :
+    ⟪((Fintype.card G : ℂ)⁻¹ • ∑ g, U g) x, y⟫_ℂ
+      = ⟪x, ((Fintype.card G : ℂ)⁻¹ • ∑ g, U g) y⟫_ℂ := by
+  have hGpos : 0 < Fintype.card G := Fintype.card_pos
+  have hGne : (Fintype.card G : ℂ) ≠ 0 := by exact_mod_cast hGpos.ne'
+  set c : ℂ := (Fintype.card G : ℂ)⁻¹ with hc
+  have hcconj : (starRingEnd ℂ) c = c := by rw [hc, map_inv₀, map_natCast]
+  have hSx : ((c • ∑ g, U g) : Module.End ℂ H) x = c • ∑ g, U g x := by
+    rw [LinearMap.smul_apply]; congr 1; exact finiteSum_end_apply U Finset.univ x
+  have hSy : ((c • ∑ g, U g) : Module.End ℂ H) y = c • ∑ g, U g y := by
+    rw [LinearMap.smul_apply]; congr 1; exact finiteSum_end_apply U Finset.univ y
+  rw [hSx, hSy, inner_smul_left, inner_smul_right, hcconj]
+  congr 1
+  rw [sum_inner, inner_sum]
+  have hstep : ∑ g : G, ⟪U g x, y⟫_ℂ = ∑ g : G, ⟪x, U g⁻¹ y⟫_ℂ :=
+    Finset.sum_congr rfl (fun g _ => hU g x y)
+  have hreindex_inv : ∑ g : G, ⟪x, U g⁻¹ y⟫_ℂ = ∑ g : G, ⟪x, U g y⟫_ℂ :=
+    Fintype.sum_bijective (fun g : G => g⁻¹) inv_involutive.bijective
+      (fun g => ⟪x, U g⁻¹ y⟫_ℂ) (fun g => ⟪x, U g y⟫_ℂ) (fun g => rfl)
+  rw [hstep, hreindex_inv]
 
 /-- Peter-Weyl decomposition (compact groups) -/
 theorem peter_weyl_decomposition : True := trivial
