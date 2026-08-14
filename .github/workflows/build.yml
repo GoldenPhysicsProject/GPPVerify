@@ -40,16 +40,46 @@ jobs:
         run: lake exe cache get || true
 
       - name: Build
-        run: lake build
+        run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
+
+      - name: Sorry gate (FAILS the build)
+        run: |
+          echo "=== Sorry gate ==="
+          # Gate on Lean's OWN diagnostic, not on grepping source. Source-grepping
+          # for the string "sorry" false-positives on every doc comment that
+          # discusses a gap (this repo has ~17 such lines), and false-negatives on
+          # sorries introduced by a tactic rather than the literal token.
+          # `lake` replays warnings for cached modules, so this is reliable on a
+          # fully-cached build.
+          if grep -F "declaration uses 'sorry'" /tmp/build.log; then
+            echo "::error::A declaration uses 'sorry'. Standing rule: no sorry ever committed."
+            exit 1
+          fi
+          echo "OK — no declaration uses 'sorry'."
 
       - name: Axiom audit
         run: |
           echo "=== Axiom audit ==="
-          lake env lean --run scripts/check_axioms.lean 2>&1 || \
-            echo "(check_axioms.lean not yet written — skipping)"
+          # No `--run`: the script has no `main`, so `--run` exits nonzero on
+          # "unknown declaration 'main'" even when the audit succeeded.
+          # Any `sorryAx` in this output means a flagship theorem rests on a sorry.
+          lake env lean scripts/check_axioms.lean | tee /tmp/axioms.log
+          if grep -F "sorryAx" /tmp/axioms.log; then
+            echo "::error::A flagship theorem depends on sorryAx."
+            exit 1
+          fi
 
-      - name: Sorry count
+      - name: Stub census (informational — does NOT fail)
         run: |
-          echo "=== Sorry count ==="
-          grep -rn "sorry" GppVerify/ --include="*.lean" | grep -v "^.*--.*sorry" | wc -l || true
-          grep -rn "sorry" GppVerify/ --include="*.lean" | grep -v "^.*--.*sorry" || true
+          echo "=== Open-result stubs: theorem _ : True := trivial ==="
+          # These are the honest parking convention for open results, NOT proofs.
+          # Invisible to both the sorry gate and the axiom audit, so surface them
+          # in every run to keep the drift visible.
+          TOTAL=$(grep -rn ": True := trivial" GppVerify/ --include="*.lean" | wc -l)
+          echo "Total stubs: $TOTAL"
+          echo "--- per file ---"
+          grep -rc ": True := trivial" GppVerify/ --include="*.lean" \
+            | grep -v ':0$' | sort -t: -k2 -rn
+          echo
+          echo "NOTE: a file can report 0 sorries and 0 axioms and still be mostly stubs."
+          echo "Quote all three numbers (sorry / axiom / stub) in any status claim."

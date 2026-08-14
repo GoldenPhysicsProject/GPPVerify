@@ -41,10 +41,10 @@ axiom-based version; see the file's own doc comment for what changed and why.
 |------|---------|--------|--------|
 | `GppVerify/HaarSelfDuality.lean` | 0 | 0 | **CLEAN** |
 | `GppVerify/CoreTheorems.lean` | 0 | 0 | Clean |
-| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 2 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); remaining axioms `schwartz_integral_clm_exists`, `exp_growth_not_tempered` assert provable facts (follow-up) |
+| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 1 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); `schwartz_integral_clm_exists` **retired 2026-08-14** — now a theorem via Mathlib's `SchwartzMap.integralCLM`, kernel-verified to depend on no custom axiom. Sole remaining axiom: `exp_growth_not_tempered` (see `docs/FORMALIZATION_PLAN.md` Phase 4 — the Lean statement is subtler than the mathematics, because Mathlib's integral takes a junk value on non-integrable integrands) |
 | `GppVerify/RiemannHypothesis/TwoPointCriterion.lean` | 0 | 0 | Thread D2: RH iff pair positivity on the reflection pairs `{rho, 1-conj(rho)}` — kernel-checked record that the zero side of the Weil criterion carries no analytic content |
 | `GppVerify/RiemannHypothesis/SchurWeilClass.lean` | 0 | 0 | Thread S2: positive-type x convolution square is positive-type (translates as Gram vectors, no spectral theorem); corollary: the epsilon-regularized Cauchy-kernel datum is positive-type |
-| `GppVerify/RiemannHypothesis/TruncatedTransport.lean` | 1 | 0 | Thread T: rung-level transport onto the S-truncated chart `R x Z^S` — one pullback, no adeles; the sorry is `logPrime_lattice_injective` (provable via Nat.factorization; proof plan in docstring) |
+| `GppVerify/RiemannHypothesis/TruncatedTransport.lean` | 0 | 0 | Thread T: rung-level transport onto the S-truncated chart `R x Z^S` — one pullback, no adeles. `logPrime_lattice_injective` is now **PROVED** (this row previously claimed 1 sorry; stale — kernel-verified clean 2026-08-14) |
 | `GppVerify/GrassmannianMass.lean` | 0 | 0 | **CLEAN** — `τ∘τ = -id` proved directly, no axioms |
 | `GppVerify/RiemannHypothesis/HaarMeasure.lean` | 0 | 0 | Mostly clean; two results are honest `True := trivial` stubs pending Fujisaki's lemma / adelic compactness (not in Mathlib 4.19.0) — no `sorry`, no axiom smuggling the actual claim |
 | `GppVerify/RiemannHypothesis/FunctionalEquation.lean` | 0 | 0 | **CLEAN** |
@@ -56,6 +56,32 @@ claim (that exact bug shape was found and fixed once, in `L2Constraint.lean` —
 history). Genuinely open results are `theorem foo : True := trivial` stubs with a doc
 comment naming the precise Mathlib gap, never a bare `axiom` asserting the open claim
 itself.
+
+### Three categories, always quoted together
+
+Sorry and axiom counts alone overstate how much is proved, because the `True := trivial`
+convention is invisible to both. **Any status claim about this repo should quote all three
+numbers.** As of 2026-08-14, `grep`-verified against the tree:
+
+| Category | Count | Meaning |
+|---|---|---|
+| `sorry` | **0** | Enforced discipline. Never commit one. |
+| `axiom` | **16** | Mostly named physics parameters (`omega_DM`, `c_2D`, `kappa_0`) and explicitly-open physics inputs (`link6_from_physics`, `boyle_turok_2021`). One analytic axiom remains: `exp_growth_not_tempered`. |
+| `theorem _ : True := trivial` | **~131** in 25 files | Open results parked honestly, each with a doc comment naming the upstream gap. **Not a proof of anything.** |
+
+Densest stub files: `RiemannHypothesis/HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`,
+`NumberTheory/ShadowEulerIdentity` (12 each), `CelestialHolography/TwistorGoogly` (11),
+`YangMills/MassGap`, `StandardModel/MajoranaCondition` (10 each).
+
+Reproduce:
+```bash
+grep -rn "^\s*sorry\s*$" --include="*.lean" GppVerify/ | wc -l
+grep -rn "^axiom " --include="*.lean" GppVerify/ | wc -l
+grep -rn ": True := trivial" --include="*.lean" GppVerify/ | wc -l
+```
+
+A stub is retired only by **proving** it. Deleting it, or weakening its statement while
+keeping its name, is the one move that would make this tree dishonest.
 
 ---
 

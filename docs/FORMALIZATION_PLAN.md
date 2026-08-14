@@ -366,6 +366,133 @@ is kernel-checked, with each remaining gap precisely named.*
 
 ---
 
+# Phase 3 — arcs merged since this document last tracked (PRs #79–#102)
+
+*This document drifted 22 PRs out of date (last substantive edit: PR #80, 2026-07-17).
+Recorded here retrospectively from git log so the drift does not recur. **Update this file
+in the same PR that advances a thread** — that is the rule that failed.*
+
+**Weil/criterion layer.** Thread D2 (#79) `TwoPointCriterion.lean` — RH iff pair positivity
+on reflection pairs `{ρ, 1−conj ρ}`; the zero side of the Weil criterion carries no analytic
+content. Thread S2 (#81) `SchurWeilClass.lean` — positive-type × convolution square is
+positive-type, via translated Gram vectors, no spectral theorem. Thread T (#82)
+`TruncatedTransport.lean` — rung-level positivity on the S-truncated chart `ℝ × ℤ^S`, one
+pullback, no adeles. **#78 retired the `arithmetic_admissibility` axiom** and its
+`riemann_hypothesis` alias (they restated RH verbatim); the flagship RH statement is now the
+Thread D conditional.
+
+**Thread E — DONE (#83).** The Euler-sum capstone `M₂ = ζ(4)/π⁴ = 1/90`, including Euler's
+`Σ Hₙ/n³ = (5/4)ζ(4)`, which the plan had flagged as the step that might resist.
+
+**Li's criterion arc (#94, #97).** `Li's criterion: entire Ξ and the λ₁ closed form`, then
+**unconditional `λ₁ > 0`** from `γ > log(4π) − 2`. A genuinely unconditional positivity
+result on the Li sequence — the strongest unconditional zeta-side statement in the tree.
+
+**Idèle-group arc (85cd8ae, c7cad4c, #95, #96).** First steps toward the object PR #45
+recorded as missing from Mathlib: diagonal embedding injectivity, topological group
+structure, a `Subring` bridge lemma for the compactness criterion, and a `RankOne` instance
+for the adic valuation. This is the long pole for every "idèle class group" gap named
+elsewhere in this plan.
+
+**Mellin/zeta kernel arc (#98, #99).** Mellin transform of the Planck/Bose–Einstein kernel
+is `Γ(s)ζ(s)`; the odd-frequency variant matches the black-body paper's exact kernel.
+Generalizes Threads P and S from fixed exponents to the transform itself.
+
+**Haar projection arc (#100, #101).** Finite-group instance of the Haar projection theorem
+(Reynolds operator), then its range and self-adjointness — a complete, concrete instance of
+the projection that the adelic layer can only state.
+
+**Grassmannian / QI layer (#88, #89, #90, #102).** SWAP is not PSD (closing the loop to
+Mathlib's `PosSemidef`); general Choi-matrix / complete-positivity infrastructure;
+Proposition 2.2 complete (transpose on `M₂(ℂ)` is not completely positive);
+`Gr(k,n)` orthogonal-complement self-duality (Ch. 7), generalizing the paper's own
+`Gr(2,4)` case.
+
+**Spectral/spinor layer (#84–#87).** Theorem 4.1(b)–(d) clock-locking special values and the
+γ₅ identity; `momentum_spinor_decomposition` (Lemma 2.1(c)); `zeta_zero_forces_companion_zero`
+promoted from a stale stub to a real proof; and the momentum generator has no L² point
+spectrum (pinning down the `thm:no-ghosts-onon` gap).
+
+---
+
+# Phase 4 — the axiom ledger, and the next boundary
+
+## Retired this session: `schwartz_integral_clm_exists`
+
+**Status: DONE — now a theorem, kernel-verified.** Mathlib v4.19.0 already had the tool:
+`SchwartzMap.integralCLM` (Analysis/Distribution/SchwartzSpace.lean:1110), integration as a
+continuous linear map `𝓢(D,V) →L[𝕜] V` for any `HasTemperateGrowth` measure. On `ℝ`,
+`volume` is an additive Haar measure, so
+`MeasureTheory.Measure.IsAddHaarMeasure.instHasTemperateGrowth` (ibid.:600) supplies the
+instance, and `integralCLM_apply` is a `rfl` lemma — so the witness is
+`⟨SchwartzMap.integralCLM ℝ volume, fun _ => rfl⟩`. Kernel audit after the change:
+
+```
+'GppRH.schwartz_integral_clm_exists' depends on axioms:
+  [propext, Classical.choice, Quot.sound]          -- i.e. none of ours
+'GppRH.temperedness_iff_critical_line' depends on axioms:
+  [propext, Classical.choice, GppRH.exp_growth_not_tempered, Quot.sound]
+```
+
+`temperedness_iff_critical_line` is down from two custom axioms to one. This is exactly the
+"close them one step at a time as Mathlib matures" discipline: the gap was real when written
+and is not real any more.
+
+## Next boundary: `exp_growth_not_tempered` — and a subtlety that must be faced first
+
+The one remaining custom axiom on the temperedness scaffold:
+
+```lean
+axiom exp_growth_not_tempered (a : ℝ) (ha : a ≠ 0) :
+    ¬∃ T : SchwartzMap ℝ ℂ →L[ℝ] ℂ,
+      ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, cexp (↑a * ↑u) * ↑(φ u)
+```
+
+**Do not attempt this as a routine port — the Lean statement is subtler than the
+mathematics.** Mathlib's Bochner integral is a *junk value* (`0`) on non-integrable
+integrands. Schwartz functions decay faster than every polynomial but *not* faster than
+every exponential (e.g. `u ↦ exp(−√(1+u²))` is Schwartz), so `u ↦ e^{au}φ(u)` is genuinely
+non-integrable for suitable `φ`, and on exactly those `φ` the defining equation asserts
+`T φ = 0` rather than asserting anything divergent. So the informal argument "the integral
+diverges, hence no such `T`" does **not** transfer: the contradiction has to come from
+*linearity*, not from divergence.
+
+Route to prove it honestly: exhibit Schwartz `φ₁, φ₂` with `e^{au}φᵢ` non-integrable
+(so `T φᵢ = 0` by the junk-value convention) but `e^{au}(φ₁+φ₂)` integrable with nonzero
+integral — contradicting additivity of `T`. Verify at the pinned commit before writing:
+the Schwartz-membership of a chosen `exp(−√(1+u²))`-type witness, and
+`MeasureTheory.integral_undef`. If a clean pair resists construction, the honest fallback is
+to *restate* the axiom in the form the mathematics actually supports (no continuous extension
+of the pairing to all of `𝓢`) rather than leave a statement whose Lean meaning is
+accidental. **Restating is allowed; weakening a statement to make it provable while keeping
+the strong name is not.**
+
+## The third category: `True := trivial` stubs — documented but untracked
+
+Beyond `sorry` (zero) and `axiom` (16 declarations), the tree carries **~131
+`theorem foo : True := trivial` stubs across 25 files**. The README documents this
+convention explicitly and it is the *right* call — parking an open result as a vacuous
+statement with a doc comment naming the upstream gap is strictly more honest than an `axiom`
+asserting the open claim.
+
+The gap is that it is **not tracked**. A file full of stubs still reports `0 sorry / 0 axiom`
+and reads as clean; `#print axioms` on a stub returns a spotless list. Densest files:
+`HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`, `NumberTheory/ShadowEulerIdentity`
+(12 each), `CelestialHolography/TwistorGoogly` (11), `YangMills/MassGap` and
+`StandardModel/MajoranaCondition` (10 each).
+
+Two concrete follow-ups, both small:
+1. **Report the stub count wherever the sorry/axiom count is reported** — README table gets a
+   third column; any status claim quotes all three numbers.
+2. **Make CI actually gate.** `build.yml`'s "Sorry count" step ends in `|| true` and only
+   *prints* — it cannot fail. It should fail the build on any `sorry`, and print (not fail)
+   a stub census so drift is visible in every run.
+
+*Retire a stub only by proving it. Deleting it, or weakening its statement while keeping its
+name, is the one move that would make this tree dishonest.*
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
