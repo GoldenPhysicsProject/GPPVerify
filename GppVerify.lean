@@ -573,6 +573,21 @@ import GppVerify.QuantumGravity.SinhZetaBridge
 -- rh_iff_weil_pairedForm_nonneg), not claimed.
 import GppVerify.RiemannHypothesis.WeilSupportLadder
 
+-- ── The prime-Archimedean heat trace: elementary layer (New)
+-- Thread HT, from arithmetic_principal_series_RH_program34.tex (the BPY
+-- prime-Archimedean spectral program). That paper reformulates RH as
+-- "the completed heat trace K(t) is completely monotone on (0,inf)".
+-- Formalized here: CompletelyMonotone (absent from Mathlib at the pin),
+-- the single heat mode e^{-at} is completely monotone, the Laplace
+-- bookkeeping 1/(u+1+gamma^2) = int_0^inf e^{-(1+u)t}e^{-gamma^2 t} dt
+-- used in the paper's proof, subordination at x = 0, and the bridge
+-- primeSide_heatGaussian showing the paper's arithmetic sum IS Thread L's
+-- prime side at an even test function (so the ladder truncation lemmas
+-- apply verbatim). NOT claimed: general-x subordination (a K_{1/2} Bessel
+-- evaluation absent from Mathlib), Bernstein's theorem, or the criterion
+-- itself. Nothing here proves or assumes RH.
+import GppVerify.RiemannHypothesis.HeatTraceCriterion
+
 -- ── The off-line quartet: exact contribution + transport seed (New)
 -- Thread Q (entanglement/shadow-positivity memo secs 3, 4.3, 6.1):
 -- the functional-equation quartet of a hypothetical off-line zero

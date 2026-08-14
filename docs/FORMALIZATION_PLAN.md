@@ -467,6 +467,78 @@ of the pairing to all of `𝓢`) rather than leave a statement whose Lean meanin
 accidental. **Restating is allowed; weakening a statement to make it provable while keeping
 the strong name is not.**
 
+## Thread HT — the prime–Archimedean heat trace (elementary layer)
+
+**Status: DONE (elementary layer) — `RiemannHypothesis/HeatTraceCriterion.lean`, typechecks
+clean first try after two pinned-name fixes; all five results kernel-audited to Lean
+built-ins only.**
+
+Source: `arithmetic_principal_series_RH_program34.tex` (the BPY prime–Archimedean spectral
+program). The paper reformulates RH as a **zero-independent** statement: with
+`𝒦(t) = (4πt)^{-1/2}⟨𝒲, e^{−(·)²/(4t)}⟩` for `𝒲 = ν_∞ − ν_p`,
+
+> **RH ⟺ `𝒦` is completely monotone on `(0,∞)`**, and under RH `𝒦(t) = Σ_{γ>0} m_γ e^{−γ²t}`.
+
+Note the paper states plainly at §intro: *"RH is not claimed."* It also runs its own
+circularity audit — one route is rejected in-text as "only RH in different words" — and
+carries a long series of explicit no-go theorems (Born kernel not pointwise positive, theta
+lift sign-indefinite, no positive exponential tilt, HCM insufficient, Hilbert doubling
+insufficient). That is the right posture and it is why this thread was worth mining.
+
+Formalized:
+- `CompletelyMonotone` — the definition. **Absent from Mathlib at the pin**; verified by
+  direct search, there is no Bernstein/Hausdorff–Widder theory upstream.
+- `completelyMonotone_exp_neg` — `t ↦ e^{−at}` is completely monotone for `a ≥ 0`, i.e. the
+  single heat mode of `Σ m_γ e^{−γ²t}` at `a = γ²`. Via root-namespace
+  `iteratedDeriv_exp_const_mul` and `(-1)ⁿ(-a)ⁿ = aⁿ`.
+- `resolvent_laplace` / `laplace_resolvent_shift` — `∫₀^∞ e^{−ct}dt = 1/c`, and the paper's
+  displayed termwise step `∫₀^∞ e^{−(1+u)t}e^{−γ²t}dt = 1/(u+1+γ²)`, the identity by which
+  uniqueness of the Laplace transform converts the Hadamard partial-fraction sum into the
+  heat expansion.
+- `subordination_at_zero` — the `x = 0` case of the paper's boxed subordination formula,
+  `∫₀^∞ e^{−r²t}(4πt)^{-1/2}dt = 1/(2r)`, via the `a = 1/2` Gamma integral and `Γ(1/2)=√π`.
+- **`primeSide_heatGaussian` — the bridge to Thread L.** The paper's arithmetic sum
+  `Σ_n Λ(n)n^{-1/2}e^{−(log n)²/(4t)}` is *exactly half* of `GppWeilLadder.primeSide` at the
+  heat Gaussian, because that test function is even. **The new paper's prime side is the
+  Weil support ladder's prime side** — so `primeSide_eq_truncation`,
+  `primeSide_eq_zero_of_support_lt_log_two` and the rest of Thread L apply to it verbatim.
+  This is the payoff of the thread: two independent programmes land on one formal object.
+
+Anchors verified at the pin by reading pinned source (loogle deliberately not trusted):
+`Real.integral_rpow_mul_exp_neg_mul_Ioi` (Gamma/Basic:474), `Real.Gamma_one_half_eq`
+(GaussianIntegral:332), `Real.sqrt_sq` (Data/Real/Sqrt:160), `Real.sqrt_mul` (ibid.:302),
+`iteratedDeriv_exp_const_mul` (ExpDeriv:366).
+
+**Pin lesson recorded:** `iteratedDeriv_exp_const_mul` is in the **root** namespace, not
+`Real` — it is declared under `open Real in` *after* `end Real`. Writing
+`Real.iteratedDeriv_exp_const_mul` gives "unknown constant". This is the same class of trap
+as the loogle pin-mismatch lesson: grep finding a name in a file does not tell you its
+namespace. Also re-confirmed: `field_simp` can close a goal outright, leaving a trailing
+`ring` to error "no goals".
+
+**NOT claimed, and named precisely:**
+1. **General-`x` subordination**, `e^{−rx}/(2r) = ∫₀^∞ e^{−r²t}(4πt)^{-1/2}e^{−x²/(4t)}dt`.
+   Only `x = 0` is proved. The general case is the classical
+   `∫₀^∞ e^{−at−b/t}t^{-1/2}dt = √(π/a)e^{−2√(ab)}` — a `K_{1/2}` Bessel evaluation, **not in
+   Mathlib at the pin** (searched). Needs the Glasser-type substitution
+   `u = √(at) − √(b/t)`. That is its own thread, not a corollary. **This is the single
+   highest-value next target in Thread HT** — it is self-contained real analysis with no
+   arithmetic input, and it is the engine of the paper's entire reformulation.
+2. **Bernstein's theorem** (completely monotone ⟺ Laplace transform of a positive measure).
+   Absent from Mathlib. The paper's `(2)⇒(3)⇒(1)` direction rests on it.
+3. **The heat-trace criterion itself.** The forward direction needs the centered Hadamard
+   product for `ξ` plus zero-counting — the same missing infrastructure that blocks the RH
+   thread repo-wide regardless of reformulation, as recorded in the mining plan.
+
+*Audit against the corpus root-error pattern (`memory.context.rh_corpus_root_error_pattern`):
+this reformulation does **not** reproduce it. The fatal pattern is treating a zero ordinate
+as a genuine point-spectrum eigenvalue of the scaling generator with `E_A({t₀}) ≠ 0` — false
+unconditionally, Lean-proved in `MomentumGeneratorNoPointSpectrum.lean`. The heat-trace route
+never asserts a spectral atom: it asks for complete monotonicity of an explicit
+zero-independent arithmetic function, a classical real-analysis property, and gets its
+measure from Bernstein rather than from a spectral projection. The open content sits in
+Bernstein's hypothesis, not in a false eigenvalue claim. Clean on this axis.*
+
 ## The third category: `True := trivial` stubs — documented but untracked
 
 Beyond `sorry` (zero) and `axiom` (16 declarations), the tree carries **~131

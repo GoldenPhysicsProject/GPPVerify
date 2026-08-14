@@ -54,6 +54,14 @@ import GppVerify
 #print axioms GppRH.schwartz_integral_clm_exists
 #print axioms GppRH.temperedness_iff_critical_line
 
+-- Thread HT — the prime–Archimedean heat trace (elementary layer).
+-- All expected: Lean built-ins only. Nothing here proves or assumes RH.
+#print axioms GppHeatTrace.completelyMonotone_exp_neg
+#print axioms GppHeatTrace.resolvent_laplace
+#print axioms GppHeatTrace.laplace_resolvent_shift
+#print axioms GppHeatTrace.subordination_at_zero
+#print axioms GppHeatTrace.primeSide_heatGaussian
+
 -- OPEN PHYSICS INPUTS — these are EXPECTED to carry custom axioms. Listed so the
 -- dependency is visible in every CI run rather than buried. `link6_from_physics`
 -- is the open thm:link6; `boyle_turok_2021` is an uncited external analysis.
