@@ -79,3 +79,10 @@ import GppVerify
 -- built-ins only. Promotes a numerical-checkpoint correction (lean_results
 -- 079ca52f) to a closed-form theorem. No claim about Q_{lambda,N}'s eigenvalues.
 #print axioms GppWeilParity.archimedean_diagonal_tail
+
+-- Thread Weil-Parity — cross-resolvent core (formalization_queue items 3ebed50a,
+-- 0cf9aebf). Expected: Lean built-ins only. Abstract finite-dimensional theorems;
+-- the actual arithmetic CCM matrix's positivity hypotheses are NOT established
+-- (research_notes 35a9efdc: counterexample at c=13,N=6). No RH claim.
+#print axioms cross_resolvent_det_identity
+#print axioms parity_crossing_obstruction

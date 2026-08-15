@@ -611,6 +611,61 @@ comparing observed eigenvalue parity splits against a derived pure-prolate asymp
   the Connes–Consani archimedean Weil/prolate Selecta construction. No RH claim anywhere
   in this thread.
 
+### `public.formalization_queue` — the canonical ChatGPT→Lean handoff (2026-08-15)
+
+Daniel introduced a dedicated Supabase table, `public.formalization_queue`, as the
+canonical research-to-formalization handoff for this thread going forward — read it (not
+just `lean_results`) at the start of every Weil-Parity session, oldest-`ready`-first by
+priority. Two flagship items formalized this pass, both in
+`GppVerify/ThreadWeilParity/CrossResolvent.lean`, both **PROVED unconditionally**, both
+kernel-clean, no axiom, no sorry:
+
+- **`cross_resolvent_det_identity`** (queue item `3ebed50a`, the item explicitly marked
+  "start here"). Coordinate/Schur-complement form of the parity displacement determinant
+  identity: for the even block `A` in `Unit ⊕ n` block form and the odd block
+  `B = E − βη'ᵀ` that the Sylvester relation `CA − BC = βη'ᵀ` forces, `det(B−zI) =
+  det(A−zI) · η((A−zI)⁻¹e0)`. Proved via `Matrix.det_fromBlocks₂₂` (Schur complement) for
+  `det(A−zI)` and `Matrix.det_add_mul` (the Matrix determinant lemma) for `det(B−zI)` as a
+  rank-one update of the same Schur block, then solving `(A−zI)x = e0` explicitly and
+  substituting. This is the coordinatized reduction of the abstract statement (arbitrary
+  `V`, `W`, surjective `C` with `ker C = span{e0}`) — choosing a basis adapted to `ker C`
+  is exactly what those hypotheses force, so the coordinate form carries the full content.
+- **`parity_crossing_obstruction`** (queue item `0cf9aebf`). If `C A₊ − A₋C = βηᴴ` and
+  `λ` is a common eigenvalue of Hermitian `A₊` (eigenvector `e`) and `A₋` (nonzero
+  eigenvector `o`), then `⟪o,β⟫·⟪η,e⟫ = 0`. Proved via a short self-adjoint pairing
+  argument (`hermitian_dotProduct_mulVec`: for Hermitian `M` with `M·x=μx`,
+  `⟪x,Mv⟫=conj(μ)⟪x,v⟫`), applied to the Sylvester relation evaluated at `e` and paired
+  against `o`. Only `A₋` Hermitian is actually used by the proof (kept `A₊` Hermitian as a
+  hypothesis for fidelity to the queue item's physical setup).
+
+Both were developed by writing Lean directly against the queue's stated hypotheses and
+iterating on compiler feedback — per Daniel's explicit instruction this pass, no
+by-hand pre-verification gate was inserted before attempting the formalization; Lean
+itself was the check. Neither needed correction: both compiled to the exact statement as
+queued.
+
+**Not attempted this pass, and why**: the remaining `A. WEIL-PARITY CORE` queue items
+(`Odd eigenpair canonical lift`, `Positive residues imply strict interlacing`, `Positive
+commuting metric equivalent to residue positivity`, the two cross-resolvent/cross-heat
+positivity items, `Continuation of even ground`) build on these two and are the natural
+next targets — genuinely tractable with the same toolkit, just not reached this session.
+The `C`/`D` sections (Singular Pick/Nevanlinna kernel theory, Suzuki self-adjoint
+extensions, Herglotz/Vitali convergence) require entire theories absent from Mathlib at
+this pin (no Pick interpolation, no deficiency-index self-adjoint extension theory, no
+Herglotz function machinery) — these are multi-session undertakings on their own, not
+attempted here.
+
+**Standing warning, from `research_notes` (`35a9efdc…`), that must travel with every use
+of these two theorems**: a stress test of the exact reconstructed CCM matrix found a
+counterexample to global residue positivity — at `c=13,N=6` the top cross-resolvent
+residue is negative (`≈ −1.71×10⁻²`), so there is **no** universally positive commuting
+metric for the real arithmetic object. `cross_resolvent_det_identity` and
+`parity_crossing_obstruction` are real, unconditional, abstract theorems about *any*
+operator pencil satisfying their stated hypotheses — but the actual finite CCM Weil
+matrix is not known to satisfy the positivity hypotheses the downstream queue items
+(`Positive residues imply strict interlacing`, etc.) would need to say anything about its
+real spectrum. Nothing proved this session is a step toward RH.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**

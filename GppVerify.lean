@@ -717,3 +717,18 @@ import GppVerify.ThreadS.SignatureInertia
 -- those depend on an operator-comparison theorem that does not yet exist even on
 -- paper (see the checkpoint for the precise gap). No axiom, no sorry, no RH claim.
 import GppVerify.ThreadWeilParity.ArchimedeanTail
+
+-- ── Thread Weil-Parity: cross-resolvent determinant identity + parity crossing (New) ──
+-- From public.formalization_queue (Supabase), section "A. WEIL-PARITY CORE". Two abstract,
+-- fully unconditional finite-dimensional theorems: cross_resolvent_det_identity (queue item
+-- 3ebed50a, the flagship "start here" item -- coordinate/Schur-complement form of the
+-- parity displacement determinant identity) and parity_crossing_obstruction (queue item
+-- 0cf9aebf -- rank-one Sylvester displacement forces disjoint parity spectra unless a
+-- cross-overlap vanishes). Both proved directly, no pre-verification shortcut, iterating
+-- against the Lean compiler; both kernel-clean, no axiom, no sorry.
+-- IMPORTANT: research_notes 35a9efdc records a stress-test counterexample showing the
+-- actual arithmetic CCM matrix does NOT have a universally positive commuting metric --
+-- so the positivity hypotheses these theorems need are not established for the real
+-- object. These are real, unconditional abstract implications; they are NOT steps toward
+-- RH by themselves, and nothing here claims otherwise.
+import GppVerify.ThreadWeilParity.CrossResolvent
