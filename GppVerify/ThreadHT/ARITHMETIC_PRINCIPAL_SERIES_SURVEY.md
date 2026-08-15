@@ -171,12 +171,80 @@ repo) — the blocker is named precisely rather than left as a vague "too hard."
 ## Two flagged candidates for a future session, ranked
 
 1. **General-`x` subordination** (line 2946's cited classical identity) — the single
-   highest-value target. Self-contained real analysis, no paper-specific apparatus, and it
-   is the engine of the whole heat-trace reformulation (§ "the prime–Archimedean heat
-   trace"). A derivation route (an `a↔b`-symmetric ODE argument via differentiation under
-   the integral sign) was sketched but not attempted as Lean this session — it is
-   substantial, multi-step analysis and deserves its own dedicated attempt, not a rushed
-   one.
+   highest-value target. **A complete, verified, Bessel-function-free derivation was found
+   this continuation** (superseding the earlier ODE sketch, which is now abandoned in favor
+   of this cleaner route). Precise state below.
 2. **Line 6929 / 7328** — two further candidates that *may* reduce to digamma or
    fractional-Sobolev machinery already worth checking for at the pin; not investigated
    this session beyond noting the resemblance to the blocked digamma piece of line 2765.
+
+## General-`x` subordination: a complete elementary derivation, and the exact Lean gap
+
+**Target:** `∫₀^∞ t^{-1/2} e^{-at-b/t} dt = √(π/a)·e^{-2√(ab)}` for `a,b > 0` (with `a=r²`,
+`b=x²/4` this is the paper's boxed subordination formula for general `x ≥ 0`, of which
+`subordination_at_zero` already proves the `x=0`/`b=0` case). Confirmed at the start of
+this session: no Bessel-K machinery of any kind exists in Mathlib at the pin, so a
+Bessel-K route is not available — but one is not needed. The following route avoids
+Bessel functions **entirely**, verified by hand (cross-checked twice, dimensionally and
+numerically consistent with the `b=0` case already proved).
+
+**Step 1 (reduce to a single elementary auxiliary integral).** Substituting
+`t = (√b/√a)·w²` turns the target into `I(a,b) = 2(b/a)^{1/4}·K(√(ab))`, where
+`K(c) := ∫₀^∞ e^{-c(w²+1/w²)} dw`. So it suffices to prove
+**`K(c) = (1/2)√(π/c)·e^{-2c}`** for `c > 0`.
+
+**Step 2 (the `w ↦ 1/w` symmetry — cleanly available at the pin).** The integrand
+`E(w) := e^{-c(w²+1/w²)}` satisfies `E(1/w) = E(w)`. Applying
+`MeasureTheory.integral_comp_rpow_Ioi` (IntegralEqImproper.lean:1071) with `p = -1` gives
+`∫₀^∞ w^{-2}·E(1/w) dw = ∫₀^∞ E(w) dw`, i.e. — using the symmetry —
+`∫₀^∞ w^{-2}·E(w) dw = K(c)` as well. Adding this to the definition of `K(c)`:
+**`2K(c) = ∫₀^∞ (1 + w^{-2})·e^{-c(w²+1/w²)} dw`.**
+
+**Step 3 (the load-bearing substitution).** `p(w) := w − 1/w` is strictly increasing on
+`(0,∞)` (since `p'(w) = 1 + 1/w² > 0` everywhere), with `p(1)=0`, `p(w)→-∞` as `w→0⁺`, and
+`p(w)→+∞` as `w→∞` — a genuine bijection `(0,∞) → ℝ`. Its derivative is *exactly* the
+weight `1+w^{-2}` appearing in Step 2, and `w²+1/w² = p(w)² + 2`. Changing variables:
+`∫₀^∞ (1+w^{-2})e^{-c(w²+1/w²)} dw = ∫_{-∞}^{∞} e^{-c(p²+2)} dp = e^{-2c}·∫_{-∞}^∞ e^{-cp²} dp`.
+
+**Step 4 (a genuine two-sided Gaussian integral — directly in Mathlib).**
+`Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral.integral_gaussian (c) :
+∫ x : ℝ, exp(-c*x²) = √(π/c)` — exact match, unconditional in `c` (junk value on `c≤0`,
+irrelevant here since `c=√(ab)>0`). So Step 3's right side is `e^{-2c}·√(π/c)`.
+
+**Assembling:** `2K(c) = e^{-2c}√(π/c)`, so `K(c) = (1/2)√(π/c)e^{-2c}` — exactly the
+target. Substituting back through Step 1 and simplifying (`(b/a)^{1/4}·(ab)^{-1/4} = a^{-1/2}`)
+recovers `I(a,b) = √(π/a)e^{-2√(ab)}` exactly, matching the `b=0` limit already proved.
+
+**The exact remaining Lean gap, precisely named and now nearly fully tool-mapped.**
+Steps 1, 2, and 4 use Mathlib tools confirmed present and directly usable
+(`MeasureTheory.integral_comp_rpow_Ioi`, `Real.integral_gaussian`, plus algebra already
+proved reusable in this file). **Step 3 was the open gap; a clean route to it was found
+this session** (superseding an earlier, messier split-at-`w=1`-plus-negation plan):
+
+`MeasureTheory.integral_image_eq_integral_abs_deriv_smul` (Function/Jacobian.lean:1199) —
+`∫ x in f''s, g x = ∫ x in s, |f' x| • g(f x)` — takes **any** measurable `s` (no finite
+left-endpoint restriction, unlike `integral_comp_smul_deriv_Ioi`), so `s := Ioi 0`,
+`f(w) := w − 1/w`, `f'(w) := 1+1/w²` apply directly, **provided `f '' (Ioi 0) = Set.univ`
+is shown separately** (surjectivity onto all of `ℝ`) — this is the one remaining sub-lemma,
+and a concrete route to it was also found:
+
+- `isPreconnected_Ioi` (IntermediateValue.lean:391) gives `IsPreconnected (Ioi 0)`.
+- `IsPreconnected.intermediate_value_Ioi` (:152) — with one filter `𝓝[>] 1 → 𝓝 (f 1) = 𝓝 0`
+  (continuity at `w=1`, where `f(1)=0` exactly) and the other `atTop → atTop` (since
+  `f(w)→∞` as `w→∞`) — gives `Ioi 0 ⊆ f '' (Ioi 0)`.
+- `IsPreconnected.intermediate_value_Iio` (:158) — symmetrically, one filter `𝓝[>]0 →
+  atBot` (`f(w)→-∞` as `w→0⁺`) and the other `𝓝[<]1 → 𝓝 0` — gives `Iio 0 ⊆ f '' (Ioi 0)`.
+- `f(1)=0` gives the point `{0}` directly.
+- Union of the three covers `Set.univ`, giving the surjectivity needed.
+
+This is a complete tool-by-tool roadmap — every lemma named, every hypothesis identified —
+but assembling and debugging it (the `HasDerivWithinAt`/`InjOn` obligations for
+`integral_image_eq_integral_abs_deriv_smul`, the `NeBot`/`Tendsto` obligations for the two
+`intermediate_value_*` applications, then the final algebraic reassembly back through
+Step 1's `t=(√b/√a)w²` substitution into the original `a,b` variables) is realistically
+150–250 more lines with several independent failure points, each of the kind this session's
+smaller proofs needed 1–3 rounds to close. Deliberately not attempted in this pass, to
+avoid a half-finished multi-hour proof with unknown remaining friction. **This is now
+genuinely bounded engineering work with every tool named — not a research gap** — and is
+the correct starting point for the next Thread HT session, which should not need to
+re-derive any of the mathematics above.
