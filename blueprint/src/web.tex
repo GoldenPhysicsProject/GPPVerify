@@ -565,6 +565,128 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   in the gravitational action consistent with shadow symmetry.
 \end{corollary}
 
+\chapter{Thread HT --- Prime--Archimedean Heat Trace (Elementary Layer)}
+
+From \texttt{arithmetic\_principal\_series\_RH\_program34.tex} (the BPY prime--Archimedean
+spectral program). That paper reformulates RH as a zero-independent statement: with
+$m_*(u) = \tfrac{1}{2\sqrt{1+u}}(\xi'/\xi)(\tfrac12+\sqrt{1+u})$, $\mathcal{W}=\nu_\infty-\nu_p$
+the completed prime--Archimedean boundary distribution, and
+$\mathcal{K}(t)=(4\pi t)^{-1/2}\langle\mathcal{W},e^{-(\cdot)^2/(4t)}\rangle$, subordination of
+the massive resolvent gives $m_*(u)=\int_0^\infty e^{-(1+u)t}\mathcal{K}(t)\,dt$, and the
+paper's heat-trace criterion states
+$\mathrm{RH} \iff \mathcal{K}$ is completely monotone on $(0,\infty)$.
+
+This chapter covers the elementary, kernel-checkable layer of that chain: the arithmetic and
+Laplace-transform bookkeeping. Two genuinely hard inputs (Bernstein/Hausdorff--Widder for the
+criterion itself, and the digamma piece of the Archimedean Laplace transform) are named and
+\emph{not} claimed here --- see the honest-boundary note at the end of this chapter.
+
+\section{Complete Monotonicity and Laplace Bookkeeping}
+
+\begin{definition}[Completely Monotone]
+  \label{def:completely-monotone}
+  \lean{GppHeatTrace.CompletelyMonotone}
+  \leanok
+  $f$ is completely monotone on $(0,\infty)$ if $(-1)^n f^{(n)}(t) \geq 0$ for all $n$ and
+  all $t>0$. Absent from Mathlib at the pinned commit \texttt{c44e0c8} --- no
+  Bernstein/Hausdorff--Widder theory exists upstream.
+\end{definition}
+
+\begin{lemma}[Single Heat Mode is Completely Monotone]
+  \label{lem:completely-monotone-exp-neg}
+  \lean{GppHeatTrace.completelyMonotone_exp_neg}
+  \leanok
+  \uses{def:completely-monotone}
+  $t \mapsto e^{-at}$ is completely monotone for $a \geq 0$. In the paper's notation this is
+  one term of $\mathcal{K}(t)=\sum_{\gamma>0} m_\gamma e^{-\gamma^2 t}$.
+\end{lemma}
+
+\begin{lemma}[Elementary Resolvent Laplace Transform]
+  \label{lem:resolvent-laplace}
+  \lean{GppHeatTrace.resolvent_laplace}
+  \leanok
+  $\int_0^\infty e^{-ct}\,dt = 1/c$ for $c>0$.
+\end{lemma}
+
+\begin{lemma}[Shifted Resolvent Laplace Transform]
+  \label{lem:laplace-resolvent-shift}
+  \lean{GppHeatTrace.laplace_resolvent_shift}
+  \leanok
+  \uses{lem:resolvent-laplace}
+  $\int_0^\infty e^{-(1+u)t}e^{-\gamma^2 t}\,dt = 1/(u+1+\gamma^2)$. The paper's displayed
+  step converting the Hadamard partial-fraction sum into the heat expansion, by uniqueness
+  of the Laplace transform.
+\end{lemma}
+
+\section{Subordination}
+
+\begin{theorem}[Subordination at $x=0$]
+  \label{thm:subordination-at-zero}
+  \lean{GppHeatTrace.subordination_at_zero}
+  \leanok
+  $\int_0^\infty e^{-r^2t}(4\pi t)^{-1/2}\,dt = 1/(2r)$ for $r>0$. The $x=0$ case of the
+  paper's boxed identity $e^{-rx}/(2r) = \int_0^\infty e^{-r^2t}(4\pi t)^{-1/2}e^{-x^2/(4t)}\,dt$.
+\end{theorem}
+
+\begin{theorem}[Subordination, General $x$ --- $K_{1/2}$ Bessel Evaluation]
+  \label{thm:subordination-general}
+  \lean{GppHeatTrace.subordination_general}
+  \leanok
+  \uses{thm:subordination-at-zero}
+  For $a,b>0$: $\int_0^\infty t^{-1/2}e^{-at-b/t}\,dt = \sqrt{\pi/a}\,e^{-2\sqrt{ab}}$. This
+  is a genuine $K_{1/2}$ Bessel evaluation, confirmed absent from Mathlib entirely at the
+  pin, proved here \emph{without any Bessel-function machinery}: the substitution
+  $t=(\sqrt{b}/\sqrt{a})w^2$ reduces it to an auxiliary integral
+  $\kappa(c) := \int_0^\infty e^{-c(w^2+w^{-2})}\,dw$; the $w\mapsto 1/w$ symmetry of the
+  integrand doubles it to $2\kappa(c)=\int_0^\infty(1+w^{-2})e^{-c(w^2+w^{-2})}\,dw$; the
+  substitution $p=w-1/w$ --- a bijection $(0,\infty)\to\mathbb{R}$ whose derivative is
+  exactly the weight $1+w^{-2}$ --- turns this into a two-sided Gaussian integral, closed by
+  \texttt{Real.integral\_gaussian}. This is the general-$x$ instance of the paper's boxed
+  subordination formula, in full.
+\end{theorem}
+
+\section{Bridge to Thread L, and the Archimedean Laplace Transform}
+
+\begin{theorem}[Thread L Bridge: Heat Gaussian Prime Side]
+  \label{thm:prime-side-heat-gaussian}
+  \lean{GppHeatTrace.primeSide_heatGaussian}
+  \leanok
+  $\sum_{n\geq 2}\Lambda(n)n^{-1/2}e^{-(\log n)^2/(4t)}$ is exactly one half of
+  \texttt{GppWeilLadder.primeSide} evaluated at the heat Gaussian
+  $x\mapsto e^{-x^2/(4t)}$, since that test function is even. Consequence: the whole
+  support-ladder toolkit of \texttt{WeilSupportLadder.lean} applies verbatim to the heat
+  trace's prime side --- the two threads are the same object.
+\end{theorem}
+
+\begin{lemma}[Archimedean Laplace, First Elementary Sub-identity]
+  \label{lem:archimedean-laplace-aux-one}
+  \lean{GppHeatTrace.archimedeanLaplace_aux_one}
+  \leanok
+  \uses{lem:resolvent-laplace}
+  For $r>-1/2$: $\int_0^\infty(e^{-rx}-e^{-x})e^{-x/2}\,dx = 1/(r+1/2)-2/3$.
+\end{lemma}
+
+\begin{lemma}[Archimedean Laplace, Second Elementary Sub-identity]
+  \label{lem:archimedean-laplace-aux-two}
+  \lean{GppHeatTrace.archimedeanLaplace_aux_two}
+  \leanok
+  \uses{lem:resolvent-laplace}
+  For $r>1/2$: $\int_0^\infty(e^{-rx}-e^{-x})e^{x/2}\,dx = 1/(r-1/2)-2$. Together with
+  Lemma~\ref{lem:archimedean-laplace-aux-one}, these are the two purely elementary pieces of
+  the paper's Archimedean Laplace transform $A_\infty(r)$; the remaining digamma piece is
+  \textbf{not} formalized here (digamma is confirmed entirely absent from Mathlib at this
+  pin) and $A_\infty$ itself is not assembled in this file.
+\end{lemma}
+
+\section{Honest Boundary}
+
+Not claimed in this chapter: Bernstein's theorem / the Hausdorff--Widder characterization of
+completely monotone functions as Laplace transforms of positive measures (needed for the
+heat-trace criterion itself, still absent from Mathlib at the pin), the digamma function and
+its integral representation (needed to assemble the full Archimedean Laplace transform
+$A_\infty$), and the heat-trace criterion RH $\iff \mathcal{K}$ completely monotone, as a
+single theorem. Nothing in this chapter proves or assumes RH.
+
 \chapter{Axiom Inventory}
 
 \section{Mathematical Axioms}
