@@ -689,70 +689,103 @@ single theorem. Nothing in this chapter proves or assumes RH.
 
 \chapter{Axiom Inventory}
 
-\section{Mathematical Axioms}
+\noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
+"\textasciicircum axiom " GppVerify/}) rather than carried forward from an earlier snapshot.
+There are exactly \textbf{13} custom axioms in the repo at commit \texttt{001aea7}. The
+sections below categorize all 13; nothing is omitted.
+
+\section{Physics Parameters (named constants, not claims)}
+
+These declare a real-valued or natural-number physical quantity to exist and, in a few
+cases, constrain its sign or range from observation --- they assert no derivation and are
+not open mathematical or physical claims.
 
 \begin{enumerate}
-  \item \texttt{arithmetic\_admissibility} — Meyer spectral-Weil (2005).
-        Sole remaining gap for unconditional RH.
-        Requires: ad\`elic Fourier analysis, explicit formula, Weil positivity.
-        Partially addressed by \texttt{SpectralWeil.lean}.
-  \item \texttt{riemannZeta\_conj\_axiom} — $\zeta(\bar s) = \overline{\zeta(s)}$.
-        Provable from Dirichlet series + analytic continuation; not named in Mathlib~4.19.0.
-  \item \texttt{schwartz\_integral\_clm\_exists} — $\phi \mapsto \int\phi$ is CLM on $\mathcal{S}$.
-        Provable once \texttt{SchwartzMap.integralCLM} exists in Mathlib.
-  \item \texttt{exp\_growth\_not\_tempered} — $e^{au}$ ($a \neq 0$) is not a tempered distribution.
-        Provable once \texttt{SchwartzMap.tendsto\_shift} + Gaussian integral exists in Mathlib.
-  \item \texttt{link6\_from\_physics} — $c_{2D} = \kappa_0 \cdot c_{4D}^{\mathrm{Weyl}}$.
-        Physics derivation from Weinberg soft theorem + Cachazo-Strominger OPE
-        + Capper-Duff anomaly + Adler-Bardeen non-renormalization.
+  \item \texttt{omega\_DM} --- observed dark matter abundance $\Omega_{DM}$ (dimensionless);
+        \texttt{omega\_DM\_observed} constrains it to $(0,1)$ (Planck 2018: $\Omega_{DM}h^2
+        \approx 0.12$). \hfill \texttt{StandardModel/DMAbundance.lean}
+  \item \texttt{shadow\_breaking\_scale} --- the shadow-symmetry breaking scale, in Planck
+        units; \texttt{shadow\_breaking\_scale\_pos} constrains it positive.
+        \hfill \texttt{StandardModel/DMAbundance.lean}
+  \item \texttt{c\_2D}, \texttt{c\_4D\_weyl} --- the 2D celestial-OPE central charge and the
+        4D graviton-self-energy Weyl anomaly coefficient. \hfill
+        \texttt{CelestialHolography/Link6.lean}
+  \item \texttt{n\_gen} --- the number of fermion generations, as a physical observable
+        (not yet derived to equal 3 inside this axiom). \hfill \texttt{Link6.lean}
+  \item \texttt{kappa\_0} --- the canonical-OPE-normalization proportionality constant;
+        \texttt{kappa\_0\_pos} constrains it positive. \hfill \texttt{Link6.lean}
 \end{enumerate}
 
-\section{Physics Axioms (New — Celestial Holography)}
+\section{Open Physics Claims}
 
 \begin{enumerate}
-  \item \texttt{weinberg\_soft\_tree} — Weinberg soft graviton theorem.
-  \item \texttt{cachazo\_strominger} — Cachazo-Strominger celestial OPE.
-  \item \texttt{capper\_duff\_one\_loop} — Capper-Duff one-loop Weyl anomaly.
-  \item \texttt{adler\_bardeen\_nonrenorm} — Adler-Bardeen non-renormalization.
-  \item \texttt{boyle\_turok\_2021} — $c_{4D}^{\mathrm{Weyl}} = 0 \Rightarrow n_{\mathrm{gen}} = 3$.
+  \item \texttt{link6\_from\_physics} --- $c_{2D} = \kappa_0 \cdot c_{4D}^{\mathrm{Weyl}}$
+        (\textbf{thm:link6}). The intended proof route is via four QFT inputs (Weinberg
+        soft theorem, Cachazo-Strominger celestial OPE, Capper-Duff one-loop anomaly,
+        Adler-Bardeen non-renormalization) --- these four are \emph{not} axiomatized any
+        longer: they were converted to the repo's honest \texttt{True}-stub convention (see
+        below) in \texttt{CelestialHolography/Link6.lean}, each parked as
+        \texttt{theorem foo : True := trivial} with a doc comment naming the precise
+        physics input. \texttt{link6\_from\_physics} itself remains a standalone axiom ---
+        it is \emph{not} derived from those four stubs, since a vacuous statement derives
+        nothing.
+  \item \texttt{boyle\_turok\_2021} --- $c_{4D}^{\mathrm{Weyl}}=0 \Rightarrow n_{\mathrm{gen}}=3$
+        (Boyle--Turok 2021), an uncited external analysis. \hfill \texttt{Link6.lean}
 \end{enumerate}
 
-\section{Infrastructure Axioms (new files)}
+\section{Mathlib-Gap Axioms}
+
+Provable in principle; blocked only by content absent from Mathlib at the pinned commit
+\texttt{c44e0c8}, not by any open mathematical or physical question.
 
 \begin{enumerate}
-  \item \texttt{peter\_weyl\_K1}, \texttt{plancherel\_K1}, \texttt{spectrum\_discrete\_K1}
-        — spectral theory of $L^2(K^1)$.
-  \item \texttt{weil\_explicit\_formula}, \texttt{meyer\_spectral\_weil\_identity},
-        \texttt{weil\_distribution\_positivity} — Weil explicit formula.
-  \item \texttt{shadow\_breaking\_gives\_abundance}, \texttt{shadow\_unitarity\_abundance\_pos}
-        — DM abundance from shadow breaking.
-  \item \texttt{K1\_haar\_probability}, \texttt{born\_from\_haar}, \texttt{gleason\_uniqueness}
-        — Born rule.
-  \item \texttt{lovelock\_theorem}, \texttt{shadow\_forces\_massless\_graviton},
-        \texttt{c0\_eliminates\_higher\_curvature} — Einstein rigidity.
-  \item \texttt{celestial\_amplitude\_has\_cut}, \texttt{disc\_equals\_loop\_integrand},
-        \texttt{shadow\_disc\_mellin\_density} — shadow discontinuity.
+  \item \texttt{hurwitz\_division\_algebra\_dimensions} --- Hurwitz's theorem: the only
+        normed division algebras over $\mathbb{R}$ are $\mathbb{R},\mathbb{C},\mathbb{H},
+        \mathbb{O}$, of dimensions $1,2,4,8$. \hfill \texttt{StandardModel/ThreeGenerations.lean}
+  \item \texttt{exp\_growth\_not\_tempered} --- $e^{au}$ ($a\neq0$) is not a tempered
+        distribution. Provable once Mathlib gains a Schwartz-shift-tendsto lemma.
+        \hfill \texttt{RHSpectralMultiplicity.lean}
 \end{enumerate}
 
-\section{Infrastructure Sorries (non-mathematical gaps)}
+\section{Retired Axioms}
+
+Two axioms that appeared in earlier snapshots of this inventory no longer exist in the
+tree --- genuinely eliminated, not renamed:
 
 \begin{enumerate}
-  \item \texttt{adelic\_quotient\_compact\_factor} — Fujisaki's lemma.
-        Requires ad\`ele ring topology in Mathlib.
-  \item \texttt{tate\_functional\_equation} — Tate's thesis.
-        Requires Schwartz-Bruhat functions on ad\`eles.
-  \item \texttt{gamma\_reflection\_half} — $\Gamma(s/2)\Gamma(1-s/2) = \pi/\sin(\pi s/2)$.
-        Substitution form of reflection formula; provable with Mathlib Gamma API.
-  \item \texttt{penrose\_antipodal\_from\_hodge} — Penrose twistor correspondence.
-        Not in Mathlib.
-  \item \texttt{l2\_shadow\_eigenvalue\_forces\_critical\_re} — Peter-Weyl on $K^1$.
-        Requires Hecke character theory in Mathlib.
-  \item \texttt{K1\_compact\_haar} — Fujisaki's lemma (ad\`elic form).
-        Requires \texttt{Mathlib.NumberTheory.NumberField.Adeles}.
-  \item \texttt{hurwitz\_classification} — Hurwitz theorem.
-        Not yet in Mathlib~4.19.0.
-  \item \texttt{l\_infty\_subset\_l2\_compact} — $L^\infty \subseteq L^2$ on finite measure spaces.
-        1 sorry: \texttt{integral\_mono} with nnorm bound absent in Mathlib~4.19.0.
+  \item \texttt{arithmetic\_admissibility} and its \texttt{riemann\_hypothesis} alias ---
+        \textbf{retired 2026-07-17} (commit \texttt{da2eaf4}). It restated RH verbatim as
+        an axiom; superseded by the genuine conditional
+        \texttt{GppWeilCriterion.rh\_of\_weil\_pairedForm\_nonneg} (see
+        Theorem~\ref{thm:rh}), which derives RH \emph{from} a stated positivity
+        hypothesis rather than assuming it.
+  \item \texttt{schwartz\_integral\_clm\_exists} --- \textbf{retired 2026-08-14}, now proved
+        via Mathlib's \texttt{SchwartzMap.integralCLM}.
 \end{enumerate}
+
+\section{The \texttt{True}-Stub Convention (not axioms, not sorries)}
+
+Roughly twenty further declarations named in earlier snapshots of this chapter under
+``Infrastructure Axioms'' and ``Infrastructure Sorries'' --- e.g.\ \texttt{peter\_weyl\_K1},
+\texttt{weil\_explicit\_formula}, \texttt{K1\_haar\_probability}, \texttt{lovelock\_theorem},
+\texttt{celestial\_amplitude\_has\_cut} --- were spot-checked against the current tree while
+re-auditing this chapter (2026-08-15) and are \textbf{no longer axioms}: each is now a
+\texttt{theorem foo : True := trivial}, the repo's deliberate, documented convention for
+parking an open result as a vacuous statement carrying a doc comment that names the precise
+upstream gap, rather than smuggling it in as an axiom or leaving a live \texttt{sorry}. A
+few others (\texttt{shadow\_breaking\_gives\_abundance}, \texttt{shadow\_unitarity\_
+abundance\_pos}) turned out to be fully proved theorems, not placeholders at all.
+
+There are currently \textbf{133} such stubs across 24 files. \textbf{This is the single
+most important caveat for reading this repo}: a file containing only stubs reports zero
+sorries and zero axioms --- the cleanest possible bill of health --- while asserting
+nothing. The full per-file, per-thread ledger (which stub covers which named gap, and the
+plan for closing it) lives in \texttt{docs/FORMALIZATION\_PLAN.md} in the repository, not
+in this blueprint; it is updated in the same PR that advances any thread.
+
+\textbf{Sorry count: 0.} Enforced by a dedicated CI gate on every push
+(\texttt{.github/workflows/build.yml}). Declarations named in earlier snapshots of this
+chapter as carrying a live \texttt{sorry} have each since been resolved --- closed with a
+real proof, converted to a named axiom above, or converted to a \texttt{True}-stub.
 
 \end{document}
