@@ -539,19 +539,24 @@ zero-independent arithmetic function, a classical real-analysis property, and ge
 measure from Bernstein rather than from a spectral projection. The open content sits in
 Bernstein's hypothesis, not in a false eigenvalue claim. Clean on this axis.*
 
-**General-`x` subordination — complete Bessel-free derivation found, full tool roadmap
-named (this continuation).** The formula reduces (via `t=(√b/√a)w²`) to
-`K(c):=∫₀^∞e^{-c(w²+1/w²)}dw = (1/2)√(π/c)e^{-2c}`, proved via: the `w↦1/w` symmetry
-(`integral_comp_rpow_Ioi`, p=-1, confirmed usable as-is) giving
-`2K(c)=∫₀^∞(1+w^{-2})e^{-c(w²+1/w²)}dw`; the substitution `p=w-1/w` (a genuine bijection
-`(0,∞)→ℝ`, derivative exactly `1+w^{-2}`, turning the integral into
-`e^{-2c}∫_ℝe^{-cp²}dp`) via `integral_image_eq_integral_abs_deriv_smul` — surjectivity of
-`w-1/w` onto all of `ℝ` closes via `IsPreconnected.intermediate_value_Ioi`/`_Iio` on
-`Ioi 0`; then `Real.integral_gaussian` for the final step. Every tool is named and
-confirmed present at the pin; assembling is ~150–250 more lines with several independent
-side-conditions, not attempted this pass to avoid a half-finished multi-hour proof. Full
-derivation and lemma names in the survey doc below — the next session should start there,
-not re-derive the mathematics.
+**General-`x` subordination — DONE.** `GppHeatTrace.subordination_general`, kernel-verified
+to `[propext, Classical.choice, Quot.sound]` only, **no Bessel-function machinery used**
+(none exists in Mathlib at the pin). Proved via: `t=(√b/√a)w²` reduces the target to
+`auxK(c):=∫₀^∞e^{-c(w²+1/w²)}dw = (1/2)√(π/c)e^{-2c}`; the `w↦1/w` symmetry
+(`integral_comp_rpow_Ioi`, p=-1) gives `2·auxK(c)=∫₀^∞(1+w^{-2})e^{-c(w²+1/w²)}dw`; the
+substitution `p=w-1/w` (a genuine bijection `(0,∞)→ℝ`, derivative exactly `1+w^{-2}`) turns
+this into `e^{-2c}∫_ℝe^{-cp²}dp` via `integral_image_eq_integral_abs_deriv_smul`, with
+surjectivity of `w-1/w` onto `ℝ` closed by `IsPreconnected.intermediate_value_Ioi`/`_Iio` on
+`Ioi 0`; `Real.integral_gaussian` closes the final Gaussian step. Two pin-specific pitfalls
+hit and recorded: (1) `set`-bound local values (`set k := ... with hkdef`) can be silently
+unfolded back by `field_simp`/`ring` mid-proof, defeating a deliberate `k → √k·√k`
+substitution — fixed by `clear_value` to sever the `let`-transparency once the defining
+equations are extracted; (2) `Mathlib.MeasureTheory.Integral.ExpDecay`'s
+`integrable_of_isBigO_exp_neg`, when given a hand-built `ContinuousOn` term via
+`.comp`/`.continuousOn`, can hit a genuine `isDefEq` timeout (confirmed not to resolve even
+at 5× the default heartbeat budget) — resolved by using the more specific
+`exp_neg_integrableOn_Ioi` directly wherever the dominating function is literally
+`exp(-(c·x))`, sidestepping the problematic unification entirely.
 
 **Full-paper survey (this session):** `GppVerify/ThreadHT/ARITHMETIC_PRINCIPAL_SERIES_SURVEY.md`
 indexes and classifies **all 102** theorem-level environments in the source `.tex`, per the

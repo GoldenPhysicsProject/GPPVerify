@@ -61,6 +61,8 @@ import GppVerify
 #print axioms GppHeatTrace.laplace_resolvent_shift
 #print axioms GppHeatTrace.subordination_at_zero
 #print axioms GppHeatTrace.primeSide_heatGaussian
+-- The general-x subordination formula, in full (no Bessel-function machinery used).
+#print axioms GppHeatTrace.subordination_general
 #print axioms GppHeatTrace.archimedeanLaplace_aux_one
 #print axioms GppHeatTrace.archimedeanLaplace_aux_two
 

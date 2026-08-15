@@ -69,7 +69,7 @@ point-spectrum eigenvalue), and does not overclaim anywhere it was checked.
 | **2765** | **thm** | **Exact Archimedean Laplace transform** | **PARTIAL — DONE (2 of 3 pieces)** | `⟨ν_∞,e^{−r·}⟩=A_∞(r)` via a digamma-difference identity (needs Mathlib's digamma — **confirmed absent from the pin entirely**, not even the function itself exists) plus two elementary exponential integrals. The two elementary pieces are now `archimedeanLaplace_aux_one`/`_two` in `HeatTraceCriterion.lean` (this session). The digamma piece is out of reach without building digamma from scratch — a separate, large undertaking, not attempted. |
 | 2819 | thm | Completed massive-resolvent identity | APPARATUS | Depends on 2765's `A_∞` in full (including the digamma piece), so not reachable until that piece is closed. |
 | 2914 | def | Completed arithmetic heat trace | DONE | The object `𝒦(t)` is exactly what `HeatTraceCriterion.lean` targets; the definition itself needs no proof. |
-| 2946 | thm | Exact heat subordination | DONE (x=0 case only) | `subordination_at_zero` proves the `x=0` case. The general-`x` case is presented in the paper as "the standard subordination formula" (classical, cited without its own proof) — **confirmed absent from Mathlib** (no Bessel-K machinery at all in the pin) and **not proved here**. This is the single highest-value remaining target for Thread HT: a genuine `K_{1/2}`-Bessel evaluation, `∫₀^∞ t^{-1/2}e^{-at-b/t}dt=√(π/a)e^{-2√(ab)}`. A derivation sketch (an `a↔b` symmetric first-order-ODE argument via differentiation under the integral sign) was worked out this session but is real, substantial, multi-step analysis — not attempted as a rushed proof. |
+| 2946 | thm | Exact heat subordination | **DONE, in full** | `subordination_at_zero` proves the `x=0` case; the general-`x` case — presented in the paper as "the standard subordination formula" (classical, cited without its own proof) — is now proved **in full** as `subordination_general`, a genuine `K_{1/2}`-Bessel evaluation `∫₀^∞ t^{-1/2}e^{-at-b/t}dt=√(π/a)e^{-2√(ab)}` proved **without any Bessel-function machinery** (confirmed absent from Mathlib at the pin) via an elementary substitution chain. Kernel-verified to Lean built-ins only. |
 | 2967 | thm | Heat-trace criterion for RH | DONE (structure only) | This is the RH ⟺ complete-monotonicity criterion Thread HT already targets; `CompletelyMonotone` is defined, Bernstein's theorem (needed for the criterion itself) is confirmed absent and scoped as Thread HT's own separate next thread. |
 | 3014 | thm | Unconditional complex heat expansion | APPARATUS | Needs the involution-indexed zero multiplicity framework `F`, `ζ∼−ζ`. |
 | 3073 | thm | One fixed Hausdorff sequence | APPARATUS | The two-grid sequence `b_n=𝒦(n+1)+𝒦(√2(n+1))` — tractable *definition*, but the theorem needs the full heat-trace criterion machinery to state its content. |
@@ -168,17 +168,19 @@ from Mathlib; Bessel-K absent from Mathlib; OS axioms, Tate/adelic cohomology, a
 Möbius–Koszul cohomology all absent, matching blockers already recorded elsewhere in this
 repo) — the blocker is named precisely rather than left as a vague "too hard."
 
-## Two flagged candidates for a future session, ranked
+## One flagged candidate remains for a future session
 
-1. **General-`x` subordination** (line 2946's cited classical identity) — the single
-   highest-value target. **A complete, verified, Bessel-function-free derivation was found
-   this continuation** (superseding the earlier ODE sketch, which is now abandoned in favor
-   of this cleaner route). Precise state below.
+1. **General-`x` subordination** (line 2946's cited classical identity) — **DONE.** Proved
+   in full as `GppHeatTrace.subordination_general` (`HeatTraceCriterion.lean`),
+   kernel-verified to `[propext, Classical.choice, Quot.sound]` only, no Bessel-function
+   machinery. Derivation and exact Lean route below (kept as documentation of how it was
+   closed, including two genuine pin-specific pitfalls hit and recorded in
+   `docs/FORMALIZATION_PLAN.md`'s Thread HT section).
 2. **Line 6929 / 7328** — two further candidates that *may* reduce to digamma or
    fractional-Sobolev machinery already worth checking for at the pin; not investigated
    this session beyond noting the resemblance to the blocked digamma piece of line 2765.
 
-## General-`x` subordination: a complete elementary derivation, and the exact Lean gap
+## General-`x` subordination: the complete elementary derivation (now fully proved in Lean)
 
 **Target:** `∫₀^∞ t^{-1/2} e^{-at-b/t} dt = √(π/a)·e^{-2√(ab)}` for `a,b > 0` (with `a=r²`,
 `b=x²/4` this is the paper's boxed subordination formula for general `x ≥ 0`, of which
@@ -237,14 +239,16 @@ and a concrete route to it was also found:
 - `f(1)=0` gives the point `{0}` directly.
 - Union of the three covers `Set.univ`, giving the surjectivity needed.
 
-This is a complete tool-by-tool roadmap — every lemma named, every hypothesis identified —
-but assembling and debugging it (the `HasDerivWithinAt`/`InjOn` obligations for
-`integral_image_eq_integral_abs_deriv_smul`, the `NeBot`/`Tendsto` obligations for the two
-`intermediate_value_*` applications, then the final algebraic reassembly back through
-Step 1's `t=(√b/√a)w²` substitution into the original `a,b` variables) is realistically
-150–250 more lines with several independent failure points, each of the kind this session's
-smaller proofs needed 1–3 rounds to close. Deliberately not attempted in this pass, to
-avoid a half-finished multi-hour proof with unknown remaining friction. **This is now
-genuinely bounded engineering work with every tool named — not a research gap** — and is
-the correct starting point for the next Thread HT session, which should not need to
-re-derive any of the mathematics above.
+**Update: this was fully assembled and proved in a later continuation the same day.**
+`GppHeatTrace.subordination_general`, kernel-verified to `[propext, Classical.choice,
+Quot.sound]` only. It took ~470 lines including the naming and derivative/monotonicity/
+surjectivity groundwork (`subInvolution_*`, `subScale_*`, `auxK`, `two_auxK_eq`, `auxK_eq`),
+roughly matching the estimate above. Two genuine pin-specific pitfalls were hit and are
+recorded in `docs/FORMALIZATION_PLAN.md`'s Thread HT section: `set`-bound local values
+getting silently unfolded back by `field_simp`/`ring` (fixed via `clear_value`), and a
+genuine `isDefEq` timeout inside `integrable_of_isBigO_exp_neg` when given a hand-built
+continuity proof via `.comp` (fixed by using the more specific `exp_neg_integrableOn_Ioi`
+directly wherever the dominating function was literally `exp(-(c·x))`). Neither pitfall was
+anticipated by the roadmap above — both are the kind of thing only surfaces when the proof
+is actually written, which is exactly why this session chose to write it rather than stop
+at the roadmap.
