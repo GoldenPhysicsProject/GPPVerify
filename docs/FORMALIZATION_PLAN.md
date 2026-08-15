@@ -539,6 +539,56 @@ zero-independent arithmetic function, a classical real-analysis property, and ge
 measure from Bernstein rather than from a spectral projection. The open content sits in
 Bernstein's hypothesis, not in a false eigenvalue claim. Clean on this axis.*
 
+## Thread S — the signature/inertia route (August 2026 Anthropic result)
+
+**Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**
+`GppVerify/ThreadS/{SOURCES.md, MATHLIB_RECON.md, SignatureInertia.lean}`.
+
+Source verified real (not a fabrication, not a memory-cutoff hallucination — confirmed by
+web search and direct download): Claude/Anthropic, *"More than two thirds of the zeros of
+the Riemann zeta function are simple and on the critical line"*, dated 2026-08-11.
+**Unconditional.** Raises the proven lower bound on zeros that are simple and on the
+critical line from 5/12 to 2/3 (indicator window) / `2 − c_MT⁻¹ = 0.67250…` (optimal
+Montgomery–Taylor window, `c_MT⁻¹ := (1/2)cot(1/√2) + 1/√2`, symbolic — never hardcode the
+decimal). Own Lean artifact (`github.com/anthropics/zeta-23-lean`, Apache 2.0, no custom
+axiom, no sorry in the main library) already exists, at a **newer** pin (Lean v4.33.0-rc2,
+Mathlib `51e6992e`) than GPPVerify's own (`c44e0c8`) — not ported here, both because of the
+pin gap and because copying it would add nothing GPPVerify doesn't already have by reading
+it directly. See `SOURCES.md` for the full source audit.
+
+**The RED-ALERT replacement lemma, resolved and named:** the paper's own text states it
+plainly — "RH entered only to read the zero side termwise as a positive sum over real
+ordinates." The replacement: truncate Weil's Hermitian form, decompose `G̃ = P + Q`
+(on-line zeros → rank-one positive blocks in `P`; off-line pairs → signature-(1,1) blocks
+in `Q`, Bombieri 2000's observation), and combine a Hilbert–Schmidt second-moment bound on
+`n₊(Q)` with the rank–trace inequality `rank P1 ≥ 2 tr P1 + 4 tr Q' − 4b − ‖P1+Q'‖²_HS`
+(the paper's Lemma 3.2) — never assuming `n₊(Q)=0`. **This inequality is Thread S's actual
+target and is not yet formalized here.**
+
+`SignatureInertia.lean` has exactly one theorem: `inertia_sum`,
+`nPos hQ + nNeg hQ + nZero hQ = Fintype.card n` for `Q : Matrix n n ℂ` Hermitian, via
+`Matrix.IsHermitian.eigenvalues : n → ℝ` (indexed directly by `n` at the pin — no extra
+reindexing needed) and a trichotomy partition of `Finset.univ`, using
+`Finset.filter_card_add_filter_neg_card_eq_card` twice. Kernel-clean.
+
+`MATHLIB_RECON.md` records what GPPVerify's own pin has: `Matrix.IsHermitian.eigenvalues`/
+`eigenvectorBasis`/`spectral_theorem` (Spectrum.lean), `Matrix.PosSemidef`/`PosDef` with a
+bridge to `QuadraticForm ℝ` (PosDef.lean), and — genuinely useful — **Sylvester's law of
+inertia already exists for real quadratic forms** (`QuadraticForm/Real.lean`,
+`equivalent_one_neg_one_weighted_sum_squared` etc.), reachable from the Hermitian case via
+realification, so Step 5 (congruence invariance) is not a from-scratch reconstruction of
+Sylvester's theorem — it is a bridge to an existing one. Confirmed absent: any Hermitian
+"inertia"/"signature"/"congruence" concept, and the rank–trace inequality itself (searched;
+not of this shape anywhere in the pinned tree).
+
+**NOT done, stated plainly rather than implied:** the subspace-dimension bounds
+(`dim_le_nPos_of_posDef_on`/`dim_le_nNeg_of_negDef_on`), congruence invariance
+(`inertia_congruent`), the rank–trace inequality (the actual payload), the finite
+zero-configuration instantiation with named analytic hypotheses H0–H5, the bridge to
+`WeilPositivityCriterion.lean`/`CauchyKernelPositive.lean`, and the falsification harness.
+This is Step 1's first theorem only — a foundation, not a milestone. No claim of RH, no
+claim of reproducing Anthropic's result, is made or implied by anything in this section.
+
 ## The third category: `True := trivial` stubs — documented but untracked
 
 Beyond `sorry` (zero) and `axiom` (16 declarations), the tree carries **~131

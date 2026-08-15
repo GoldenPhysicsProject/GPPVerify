@@ -688,3 +688,19 @@ import GppVerify.RiemannHypothesis.BlackbodyMellinZeta
 -- Gr(k,n) itself iff n = 2k (grassmannian_self_dual_iff), specialized to the
 -- paper's own Gr(2,4) case (gr_two_four_self_dual). No axiom, no sorry.
 import GppVerify.CelestialHolography.GrassmannianSelfDuality
+
+-- ── Thread S, Step 1: abstract Hermitian inertia core (New) ──
+-- From the Anthropic/Claude Aug 2026 paper "More than two thirds of the zeros
+-- of the Riemann zeta function are simple and on the critical line": its
+-- unconditional mechanism replaces RH (which read the zero side termwise as a
+-- positive sum) with Sylvester's law of inertia on a finite compression of
+-- Weil's Hermitian form + a rank-trace inequality. This file is the abstract,
+-- finite-dimensional, zero-free, analysis-free base layer only: nPos/nNeg/nZero
+-- eigenvalue counts for a Hermitian matrix and the inertia_sum identity
+-- nPos+nNeg+nZero = card n. Independent GPPVerify-native development against
+-- this repo's OWN pin (c44e0c8), not a port of Anthropic's zeta-23-lean repo
+-- (different, newer Mathlib pin). See GppVerify/ThreadS/SOURCES.md and
+-- MATHLIB_RECON.md. NOT done: the subspace-dimension bounds, congruence
+-- invariance, and the actual rank-trace inequality (the load-bearing lemma) --
+-- this file is the foundation only, not the payload. No axiom, no sorry.
+import GppVerify.ThreadS.SignatureInertia

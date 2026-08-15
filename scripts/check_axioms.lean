@@ -62,6 +62,10 @@ import GppVerify
 #print axioms GppHeatTrace.subordination_at_zero
 #print axioms GppHeatTrace.primeSide_heatGaussian
 
+-- Thread S, Step 1 — abstract Hermitian inertia core (base layer only).
+-- Expected: Lean built-ins only.
+#print axioms GppThreadS.inertia_sum
+
 -- OPEN PHYSICS INPUTS — these are EXPECTED to carry custom axioms. Listed so the
 -- dependency is visible in every CI run rather than buried. `link6_from_physics`
 -- is the open thm:link6; `boyle_turok_2021` is an uncited external analysis.
