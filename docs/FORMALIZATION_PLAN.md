@@ -644,11 +644,33 @@ by-hand pre-verification gate was inserted before attempting the formalization; 
 itself was the check. Neither needed correction: both compiled to the exact statement as
 queued.
 
+**Third item, same pass, in `ThreadWeilParity/OddEigenpairLift.lean`** — queue item
+`c0c96bbc`, "Odd eigenpair canonical lift and Schur-Rayleigh defect identity", building
+directly on `CrossResolvent.lean`'s block structure and Schur-complement scalar (there
+`s`, here `φ`). Three theorems, all **PROVED**, kernel-clean:
+
+- `odd_eigenpair_defect_step1`: `(E-λI)x1 = s•b` (`s := η1ᴴx1`), from the Sylvester
+  relation applied at an `Aminus`-eigenvector `(λ,y)`, `x1 := D⁻¹y`.
+- `odd_eigenpair_defect_step2`: `x1 = s•(E-λI)⁻¹b` when `E-λI` is invertible.
+- `odd_eigenpair_canonical_lift`: the canonical lift `x := s•(-1,(E-λI)⁻¹b)` satisfies
+  `η*x=0` and `(Aplus-λI)x = -s·φ(λ)·e0`. **Carries one extra explicit hypothesis**,
+  `hw1 : η1ᴴ((E-λI)⁻¹b) = 1`, that the queue item's prose doesn't name separately — it
+  is not a free assumption about arbitrary `b,η1,E,λ`; combining steps 1+2 forces it
+  automatically whenever `s≠0` (divide `s=η1ᴴx1=η1ᴴ(s•(E-λI)⁻¹b)=s·(η1ᴴ(E-λI)⁻¹b)` by
+  `s`). It's a genuine solvability/quantization condition on `λ`, stated explicitly per
+  standing discipline rather than silently assumed. The item's closing Rayleigh-quotient
+  remark (`⟪x,(Aplus-λI)x⟫=|s|²φ(λ)`) is definitionally the same content as the second
+  conjunct paired against `x`, so it is not restated as a separate theorem.
+
 **Not attempted this pass, and why**: the remaining `A. WEIL-PARITY CORE` queue items
-(`Odd eigenpair canonical lift`, `Positive residues imply strict interlacing`, `Positive
-commuting metric equivalent to residue positivity`, the two cross-resolvent/cross-heat
-positivity items, `Continuation of even ground`) build on these two and are the natural
-next targets — genuinely tractable with the same toolkit, just not reached this session.
+(`Positive residues imply strict interlacing`, `Positive commuting metric equivalent to
+residue positivity`, the two cross-resolvent/cross-heat positivity items, `Continuation
+of even ground`) build on these three and are the natural next targets — genuinely
+tractable with the same toolkit, just not reached this session. `Positive residues
+implies strict interlacing` in particular is a substantially larger lift than the three
+proved so far: it needs a genuine spectral decomposition of the resolvent
+(`η*(A-zI)⁻¹e0 = Σⱼ cⱼ/(αⱼ-z)`) plus real-analysis machinery (monotonicity, IVT) that
+none of this session's algebraic block-matrix work required.
 The `C`/`D` sections (Singular Pick/Nevanlinna kernel theory, Suzuki self-adjoint
 extensions, Herglotz/Vitali convergence) require entire theories absent from Mathlib at
 this pin (no Pick interpolation, no deficiency-index self-adjoint extension theory, no

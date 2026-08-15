@@ -732,3 +732,19 @@ import GppVerify.ThreadWeilParity.ArchimedeanTail
 -- object. These are real, unconditional abstract implications; they are NOT steps toward
 -- RH by themselves, and nothing here claims otherwise.
 import GppVerify.ThreadWeilParity.CrossResolvent
+
+-- ── Thread Weil-Parity: odd eigenpair canonical lift (New) ──────────────────────────
+-- formalization_queue item c0c96bbc: "Odd eigenpair canonical lift and Schur-Rayleigh
+-- defect identity". Builds directly on CrossResolvent.lean's block structure. Three
+-- theorems, all PROVED, kernel-clean, no axiom, no sorry:
+--   - odd_eigenpair_defect_step1: (E-lamI)x1 = s*b from the Sylvester relation applied
+--     at an Aminus-eigenvector.
+--   - odd_eigenpair_defect_step2: x1 = s*(E-lamI)^-1 b when E-lamI is invertible.
+--   - odd_eigenpair_canonical_lift: the canonical lift x=s*(-1,(E-lamI)^-1 b) satisfies
+--     eta*x=0 and (Aplus-lamI)x=-s*phi(lam)*e0. IMPORTANT: this theorem's hw1 hypothesis
+--     (eta1*(E-lamI)^-1 b = 1) is not a free assumption -- it is a solvability condition
+--     that steps 1+2 force whenever s != 0, documented in the file header rather than
+--     silently smuggled in.
+-- Same standing warning as CrossResolvent.lean: abstract, unconditional facts about any
+-- operator pencil satisfying the stated relations; no claim about the real CCM matrix.
+import GppVerify.ThreadWeilParity.OddEigenpairLift

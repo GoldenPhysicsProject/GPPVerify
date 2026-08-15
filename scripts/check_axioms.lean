@@ -86,3 +86,9 @@ import GppVerify
 -- (research_notes 35a9efdc: counterexample at c=13,N=6). No RH claim.
 #print axioms cross_resolvent_det_identity
 #print axioms parity_crossing_obstruction
+
+-- Thread Weil-Parity — odd eigenpair canonical lift (formalization_queue item c0c96bbc).
+-- Expected: Lean built-ins only.
+#print axioms odd_eigenpair_defect_step1
+#print axioms odd_eigenpair_defect_step2
+#print axioms odd_eigenpair_canonical_lift
