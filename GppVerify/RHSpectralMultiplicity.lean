@@ -187,10 +187,19 @@ theorem meyer_spectral_weil (_ : Real) (_ : Nat) : True := by
    zero-evaluation functionals) remains the programme's target; see the
    temperedness scaffold below and SpectralWeil.lean. -/
 
-/-- The integration functional exists as a continuous linear map on SchwartzMap ℝ ℂ. -/
-axiom schwartz_integral_clm_exists :
+/-- The integration functional exists as a continuous linear map on `SchwartzMap ℝ ℂ`.
+
+    RETIRED AS AN AXIOM (this session): Mathlib v4.19.0 provides
+    `SchwartzMap.integralCLM` (Analysis/Distribution/SchwartzSpace.lean:1110), the integral
+    as a continuous linear map `𝓢(D, V) →L[𝕜] V`, for any measure with
+    `HasTemperateGrowth`. On `ℝ`, `volume` is an additive Haar measure, so the instance
+    `MeasureTheory.Measure.IsAddHaarMeasure.instHasTemperateGrowth` (ibid.:600) applies and
+    the witness is immediate; `integralCLM_apply` is a `rfl` lemma, so the defining equation
+    needs no rewriting. This is now a theorem, proved, with no axiom. -/
+theorem schwartz_integral_clm_exists :
     ∃ T : SchwartzMap ℝ ℂ →L[ℝ] ℂ,
-      ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, (φ u : ℂ)
+      ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, (φ u : ℂ) :=
+  ⟨SchwartzMap.integralCLM ℝ volume, fun _ => rfl⟩
 
 /-- Exponential growth is not a tempered distribution. -/
 axiom exp_growth_not_tempered (a : ℝ) (ha : a ≠ 0) :

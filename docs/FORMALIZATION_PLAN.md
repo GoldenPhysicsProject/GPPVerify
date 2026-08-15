@@ -366,6 +366,285 @@ is kernel-checked, with each remaining gap precisely named.*
 
 ---
 
+# Phase 3 — arcs merged since this document last tracked (PRs #79–#102)
+
+*This document drifted 22 PRs out of date (last substantive edit: PR #80, 2026-07-17).
+Recorded here retrospectively from git log so the drift does not recur. **Update this file
+in the same PR that advances a thread** — that is the rule that failed.*
+
+**Weil/criterion layer.** Thread D2 (#79) `TwoPointCriterion.lean` — RH iff pair positivity
+on reflection pairs `{ρ, 1−conj ρ}`; the zero side of the Weil criterion carries no analytic
+content. Thread S2 (#81) `SchurWeilClass.lean` — positive-type × convolution square is
+positive-type, via translated Gram vectors, no spectral theorem. Thread T (#82)
+`TruncatedTransport.lean` — rung-level positivity on the S-truncated chart `ℝ × ℤ^S`, one
+pullback, no adeles. **#78 retired the `arithmetic_admissibility` axiom** and its
+`riemann_hypothesis` alias (they restated RH verbatim); the flagship RH statement is now the
+Thread D conditional.
+
+**Thread E — DONE (#83).** The Euler-sum capstone `M₂ = ζ(4)/π⁴ = 1/90`, including Euler's
+`Σ Hₙ/n³ = (5/4)ζ(4)`, which the plan had flagged as the step that might resist.
+
+**Li's criterion arc (#94, #97).** `Li's criterion: entire Ξ and the λ₁ closed form`, then
+**unconditional `λ₁ > 0`** from `γ > log(4π) − 2`. A genuinely unconditional positivity
+result on the Li sequence — the strongest unconditional zeta-side statement in the tree.
+
+**Idèle-group arc (85cd8ae, c7cad4c, #95, #96).** First steps toward the object PR #45
+recorded as missing from Mathlib: diagonal embedding injectivity, topological group
+structure, a `Subring` bridge lemma for the compactness criterion, and a `RankOne` instance
+for the adic valuation. This is the long pole for every "idèle class group" gap named
+elsewhere in this plan.
+
+**Mellin/zeta kernel arc (#98, #99).** Mellin transform of the Planck/Bose–Einstein kernel
+is `Γ(s)ζ(s)`; the odd-frequency variant matches the black-body paper's exact kernel.
+Generalizes Threads P and S from fixed exponents to the transform itself.
+
+**Haar projection arc (#100, #101).** Finite-group instance of the Haar projection theorem
+(Reynolds operator), then its range and self-adjointness — a complete, concrete instance of
+the projection that the adelic layer can only state.
+
+**Grassmannian / QI layer (#88, #89, #90, #102).** SWAP is not PSD (closing the loop to
+Mathlib's `PosSemidef`); general Choi-matrix / complete-positivity infrastructure;
+Proposition 2.2 complete (transpose on `M₂(ℂ)` is not completely positive);
+`Gr(k,n)` orthogonal-complement self-duality (Ch. 7), generalizing the paper's own
+`Gr(2,4)` case.
+
+**Spectral/spinor layer (#84–#87).** Theorem 4.1(b)–(d) clock-locking special values and the
+γ₅ identity; `momentum_spinor_decomposition` (Lemma 2.1(c)); `zeta_zero_forces_companion_zero`
+promoted from a stale stub to a real proof; and the momentum generator has no L² point
+spectrum (pinning down the `thm:no-ghosts-onon` gap).
+
+---
+
+# Phase 4 — the axiom ledger, and the next boundary
+
+## Retired this session: `schwartz_integral_clm_exists`
+
+**Status: DONE — now a theorem, kernel-verified.** Mathlib v4.19.0 already had the tool:
+`SchwartzMap.integralCLM` (Analysis/Distribution/SchwartzSpace.lean:1110), integration as a
+continuous linear map `𝓢(D,V) →L[𝕜] V` for any `HasTemperateGrowth` measure. On `ℝ`,
+`volume` is an additive Haar measure, so
+`MeasureTheory.Measure.IsAddHaarMeasure.instHasTemperateGrowth` (ibid.:600) supplies the
+instance, and `integralCLM_apply` is a `rfl` lemma — so the witness is
+`⟨SchwartzMap.integralCLM ℝ volume, fun _ => rfl⟩`. Kernel audit after the change:
+
+```
+'GppRH.schwartz_integral_clm_exists' depends on axioms:
+  [propext, Classical.choice, Quot.sound]          -- i.e. none of ours
+'GppRH.temperedness_iff_critical_line' depends on axioms:
+  [propext, Classical.choice, GppRH.exp_growth_not_tempered, Quot.sound]
+```
+
+`temperedness_iff_critical_line` is down from two custom axioms to one. This is exactly the
+"close them one step at a time as Mathlib matures" discipline: the gap was real when written
+and is not real any more.
+
+## Next boundary: `exp_growth_not_tempered` — and a subtlety that must be faced first
+
+The one remaining custom axiom on the temperedness scaffold:
+
+```lean
+axiom exp_growth_not_tempered (a : ℝ) (ha : a ≠ 0) :
+    ¬∃ T : SchwartzMap ℝ ℂ →L[ℝ] ℂ,
+      ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, cexp (↑a * ↑u) * ↑(φ u)
+```
+
+**Do not attempt this as a routine port — the Lean statement is subtler than the
+mathematics.** Mathlib's Bochner integral is a *junk value* (`0`) on non-integrable
+integrands. Schwartz functions decay faster than every polynomial but *not* faster than
+every exponential (e.g. `u ↦ exp(−√(1+u²))` is Schwartz), so `u ↦ e^{au}φ(u)` is genuinely
+non-integrable for suitable `φ`, and on exactly those `φ` the defining equation asserts
+`T φ = 0` rather than asserting anything divergent. So the informal argument "the integral
+diverges, hence no such `T`" does **not** transfer: the contradiction has to come from
+*linearity*, not from divergence.
+
+Route to prove it honestly: exhibit Schwartz `φ₁, φ₂` with `e^{au}φᵢ` non-integrable
+(so `T φᵢ = 0` by the junk-value convention) but `e^{au}(φ₁+φ₂)` integrable with nonzero
+integral — contradicting additivity of `T`. Verify at the pinned commit before writing:
+the Schwartz-membership of a chosen `exp(−√(1+u²))`-type witness, and
+`MeasureTheory.integral_undef`. If a clean pair resists construction, the honest fallback is
+to *restate* the axiom in the form the mathematics actually supports (no continuous extension
+of the pairing to all of `𝓢`) rather than leave a statement whose Lean meaning is
+accidental. **Restating is allowed; weakening a statement to make it provable while keeping
+the strong name is not.**
+
+## Thread HT — the prime–Archimedean heat trace (elementary layer)
+
+**Status: DONE (elementary layer) — `RiemannHypothesis/HeatTraceCriterion.lean`, typechecks
+clean first try after two pinned-name fixes; all five results kernel-audited to Lean
+built-ins only.**
+
+Source: `arithmetic_principal_series_RH_program34.tex` (the BPY prime–Archimedean spectral
+program). The paper reformulates RH as a **zero-independent** statement: with
+`𝒦(t) = (4πt)^{-1/2}⟨𝒲, e^{−(·)²/(4t)}⟩` for `𝒲 = ν_∞ − ν_p`,
+
+> **RH ⟺ `𝒦` is completely monotone on `(0,∞)`**, and under RH `𝒦(t) = Σ_{γ>0} m_γ e^{−γ²t}`.
+
+Note the paper states plainly at §intro: *"RH is not claimed."* It also runs its own
+circularity audit — one route is rejected in-text as "only RH in different words" — and
+carries a long series of explicit no-go theorems (Born kernel not pointwise positive, theta
+lift sign-indefinite, no positive exponential tilt, HCM insufficient, Hilbert doubling
+insufficient). That is the right posture and it is why this thread was worth mining.
+
+Formalized:
+- `CompletelyMonotone` — the definition. **Absent from Mathlib at the pin**; verified by
+  direct search, there is no Bernstein/Hausdorff–Widder theory upstream.
+- `completelyMonotone_exp_neg` — `t ↦ e^{−at}` is completely monotone for `a ≥ 0`, i.e. the
+  single heat mode of `Σ m_γ e^{−γ²t}` at `a = γ²`. Via root-namespace
+  `iteratedDeriv_exp_const_mul` and `(-1)ⁿ(-a)ⁿ = aⁿ`.
+- `resolvent_laplace` / `laplace_resolvent_shift` — `∫₀^∞ e^{−ct}dt = 1/c`, and the paper's
+  displayed termwise step `∫₀^∞ e^{−(1+u)t}e^{−γ²t}dt = 1/(u+1+γ²)`, the identity by which
+  uniqueness of the Laplace transform converts the Hadamard partial-fraction sum into the
+  heat expansion.
+- `subordination_at_zero` — the `x = 0` case of the paper's boxed subordination formula,
+  `∫₀^∞ e^{−r²t}(4πt)^{-1/2}dt = 1/(2r)`, via the `a = 1/2` Gamma integral and `Γ(1/2)=√π`.
+- **`primeSide_heatGaussian` — the bridge to Thread L.** The paper's arithmetic sum
+  `Σ_n Λ(n)n^{-1/2}e^{−(log n)²/(4t)}` is *exactly half* of `GppWeilLadder.primeSide` at the
+  heat Gaussian, because that test function is even. **The new paper's prime side is the
+  Weil support ladder's prime side** — so `primeSide_eq_truncation`,
+  `primeSide_eq_zero_of_support_lt_log_two` and the rest of Thread L apply to it verbatim.
+  This is the payoff of the thread: two independent programmes land on one formal object.
+
+Anchors verified at the pin by reading pinned source (loogle deliberately not trusted):
+`Real.integral_rpow_mul_exp_neg_mul_Ioi` (Gamma/Basic:474), `Real.Gamma_one_half_eq`
+(GaussianIntegral:332), `Real.sqrt_sq` (Data/Real/Sqrt:160), `Real.sqrt_mul` (ibid.:302),
+`iteratedDeriv_exp_const_mul` (ExpDeriv:366).
+
+**Pin lesson recorded:** `iteratedDeriv_exp_const_mul` is in the **root** namespace, not
+`Real` — it is declared under `open Real in` *after* `end Real`. Writing
+`Real.iteratedDeriv_exp_const_mul` gives "unknown constant". This is the same class of trap
+as the loogle pin-mismatch lesson: grep finding a name in a file does not tell you its
+namespace. Also re-confirmed: `field_simp` can close a goal outright, leaving a trailing
+`ring` to error "no goals".
+
+**NOT claimed, and named precisely:**
+1. **General-`x` subordination**, `e^{−rx}/(2r) = ∫₀^∞ e^{−r²t}(4πt)^{-1/2}e^{−x²/(4t)}dt`.
+   Only `x = 0` is proved. The general case is the classical
+   `∫₀^∞ e^{−at−b/t}t^{-1/2}dt = √(π/a)e^{−2√(ab)}` — a `K_{1/2}` Bessel evaluation, **not in
+   Mathlib at the pin** (searched). Needs the Glasser-type substitution
+   `u = √(at) − √(b/t)`. That is its own thread, not a corollary. **This is the single
+   highest-value next target in Thread HT** — it is self-contained real analysis with no
+   arithmetic input, and it is the engine of the paper's entire reformulation.
+2. **Bernstein's theorem** (completely monotone ⟺ Laplace transform of a positive measure).
+   Absent from Mathlib. The paper's `(2)⇒(3)⇒(1)` direction rests on it.
+3. **The heat-trace criterion itself.** The forward direction needs the centered Hadamard
+   product for `ξ` plus zero-counting — the same missing infrastructure that blocks the RH
+   thread repo-wide regardless of reformulation, as recorded in the mining plan.
+
+*Audit against the corpus root-error pattern (`memory.context.rh_corpus_root_error_pattern`):
+this reformulation does **not** reproduce it. The fatal pattern is treating a zero ordinate
+as a genuine point-spectrum eigenvalue of the scaling generator with `E_A({t₀}) ≠ 0` — false
+unconditionally, Lean-proved in `MomentumGeneratorNoPointSpectrum.lean`. The heat-trace route
+never asserts a spectral atom: it asks for complete monotonicity of an explicit
+zero-independent arithmetic function, a classical real-analysis property, and gets its
+measure from Bernstein rather than from a spectral projection. The open content sits in
+Bernstein's hypothesis, not in a false eigenvalue claim. Clean on this axis.*
+
+**General-`x` subordination — complete Bessel-free derivation found, full tool roadmap
+named (this continuation).** The formula reduces (via `t=(√b/√a)w²`) to
+`K(c):=∫₀^∞e^{-c(w²+1/w²)}dw = (1/2)√(π/c)e^{-2c}`, proved via: the `w↦1/w` symmetry
+(`integral_comp_rpow_Ioi`, p=-1, confirmed usable as-is) giving
+`2K(c)=∫₀^∞(1+w^{-2})e^{-c(w²+1/w²)}dw`; the substitution `p=w-1/w` (a genuine bijection
+`(0,∞)→ℝ`, derivative exactly `1+w^{-2}`, turning the integral into
+`e^{-2c}∫_ℝe^{-cp²}dp`) via `integral_image_eq_integral_abs_deriv_smul` — surjectivity of
+`w-1/w` onto all of `ℝ` closes via `IsPreconnected.intermediate_value_Ioi`/`_Iio` on
+`Ioi 0`; then `Real.integral_gaussian` for the final step. Every tool is named and
+confirmed present at the pin; assembling is ~150–250 more lines with several independent
+side-conditions, not attempted this pass to avoid a half-finished multi-hour proof. Full
+derivation and lemma names in the survey doc below — the next session should start there,
+not re-derive the mathematics.
+
+**Full-paper survey (this session):** `GppVerify/ThreadHT/ARITHMETIC_PRINCIPAL_SERIES_SURVEY.md`
+indexes and classifies **all 102** theorem-level environments in the source `.tex`, per the
+standing instruction to account for everything in it. Result: ~99 depend on paper-private
+apparatus (the BPY law, four-field Euclidean fields, Wigner–Born distributions,
+Thorin–Stieltjes representations, Möbius–Koszul complexes, Hardy defect spaces, Cayley
+atlases, prime–Archimedean Gram matrices, causal-commutator algebras) — formalizing any one
+would be its own multi-file thread, comparable in scope to Thread S's `SignatureInertia.lean`
+foundation, not an incremental addition. Two more elementary pieces were extracted and
+proved this session: `archimedeanLaplace_aux_one`/`_two` in `HeatTraceCriterion.lean`, the
+purely exponential-integral half of the paper's "Exact Archimedean Laplace transform"
+theorem (its third piece needs digamma, **confirmed entirely absent from Mathlib at the
+pin** — not even the function itself exists, a separate large undertaking). The paper's own
+Conclusion was read in full: it ends "No proof of global trace conservation or positivity is
+supplied here. Therefore no proof of RH is claimed" — consistent, word for word in spirit,
+with everything already found in this repo's corpus-error audits.
+
+## Thread S — the signature/inertia route (August 2026 Anthropic result)
+
+**Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**
+`GppVerify/ThreadS/{SOURCES.md, MATHLIB_RECON.md, SignatureInertia.lean}`.
+
+Source verified real (not a fabrication, not a memory-cutoff hallucination — confirmed by
+web search and direct download): Claude/Anthropic, *"More than two thirds of the zeros of
+the Riemann zeta function are simple and on the critical line"*, dated 2026-08-11.
+**Unconditional.** Raises the proven lower bound on zeros that are simple and on the
+critical line from 5/12 to 2/3 (indicator window) / `2 − c_MT⁻¹ = 0.67250…` (optimal
+Montgomery–Taylor window, `c_MT⁻¹ := (1/2)cot(1/√2) + 1/√2`, symbolic — never hardcode the
+decimal). Own Lean artifact (`github.com/anthropics/zeta-23-lean`, Apache 2.0, no custom
+axiom, no sorry in the main library) already exists, at a **newer** pin (Lean v4.33.0-rc2,
+Mathlib `51e6992e`) than GPPVerify's own (`c44e0c8`) — not ported here, both because of the
+pin gap and because copying it would add nothing GPPVerify doesn't already have by reading
+it directly. See `SOURCES.md` for the full source audit.
+
+**The RED-ALERT replacement lemma, resolved and named:** the paper's own text states it
+plainly — "RH entered only to read the zero side termwise as a positive sum over real
+ordinates." The replacement: truncate Weil's Hermitian form, decompose `G̃ = P + Q`
+(on-line zeros → rank-one positive blocks in `P`; off-line pairs → signature-(1,1) blocks
+in `Q`, Bombieri 2000's observation), and combine a Hilbert–Schmidt second-moment bound on
+`n₊(Q)` with the rank–trace inequality `rank P1 ≥ 2 tr P1 + 4 tr Q' − 4b − ‖P1+Q'‖²_HS`
+(the paper's Lemma 3.2) — never assuming `n₊(Q)=0`. **This inequality is Thread S's actual
+target and is not yet formalized here.**
+
+`SignatureInertia.lean` has exactly one theorem: `inertia_sum`,
+`nPos hQ + nNeg hQ + nZero hQ = Fintype.card n` for `Q : Matrix n n ℂ` Hermitian, via
+`Matrix.IsHermitian.eigenvalues : n → ℝ` (indexed directly by `n` at the pin — no extra
+reindexing needed) and a trichotomy partition of `Finset.univ`, using
+`Finset.filter_card_add_filter_neg_card_eq_card` twice. Kernel-clean.
+
+`MATHLIB_RECON.md` records what GPPVerify's own pin has: `Matrix.IsHermitian.eigenvalues`/
+`eigenvectorBasis`/`spectral_theorem` (Spectrum.lean), `Matrix.PosSemidef`/`PosDef` with a
+bridge to `QuadraticForm ℝ` (PosDef.lean), and — genuinely useful — **Sylvester's law of
+inertia already exists for real quadratic forms** (`QuadraticForm/Real.lean`,
+`equivalent_one_neg_one_weighted_sum_squared` etc.), reachable from the Hermitian case via
+realification, so Step 5 (congruence invariance) is not a from-scratch reconstruction of
+Sylvester's theorem — it is a bridge to an existing one. Confirmed absent: any Hermitian
+"inertia"/"signature"/"congruence" concept, and the rank–trace inequality itself (searched;
+not of this shape anywhere in the pinned tree).
+
+**NOT done, stated plainly rather than implied:** the subspace-dimension bounds
+(`dim_le_nPos_of_posDef_on`/`dim_le_nNeg_of_negDef_on`), congruence invariance
+(`inertia_congruent`), the rank–trace inequality (the actual payload), the finite
+zero-configuration instantiation with named analytic hypotheses H0–H5, the bridge to
+`WeilPositivityCriterion.lean`/`CauchyKernelPositive.lean`, and the falsification harness.
+This is Step 1's first theorem only — a foundation, not a milestone. No claim of RH, no
+claim of reproducing Anthropic's result, is made or implied by anything in this section.
+
+## The third category: `True := trivial` stubs — documented but untracked
+
+Beyond `sorry` (zero) and `axiom` (16 declarations), the tree carries **~131
+`theorem foo : True := trivial` stubs across 25 files**. The README documents this
+convention explicitly and it is the *right* call — parking an open result as a vacuous
+statement with a doc comment naming the upstream gap is strictly more honest than an `axiom`
+asserting the open claim.
+
+The gap is that it is **not tracked**. A file full of stubs still reports `0 sorry / 0 axiom`
+and reads as clean; `#print axioms` on a stub returns a spotless list. Densest files:
+`HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`, `NumberTheory/ShadowEulerIdentity`
+(12 each), `CelestialHolography/TwistorGoogly` (11), `YangMills/MassGap` and
+`StandardModel/MajoranaCondition` (10 each).
+
+Two concrete follow-ups, both small:
+1. **Report the stub count wherever the sorry/axiom count is reported** — README table gets a
+   third column; any status claim quotes all three numbers.
+2. **Make CI actually gate.** `build.yml`'s "Sorry count" step ends in `|| true` and only
+   *prints* — it cannot fail. It should fail the build on any `sorry`, and print (not fail)
+   a stub census so drift is visible in every run.
+
+*Retire a stub only by proving it. Deleting it, or weakening its statement while keeping its
+name, is the one move that would make this tree dishonest.*
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
