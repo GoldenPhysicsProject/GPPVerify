@@ -574,6 +574,43 @@ Conclusion was read in full: it ends "No proof of global trace conservation or p
 supplied here. Therefore no proof of RH is claimed" — consistent, word for word in spirit,
 with everything already found in this repo's corpus-error audits.
 
+## Thread Weil-Parity — the exact semilocal Weil form / prime–Archimedean Gram matrix
+
+**Status: one closed-form calculus fact proved (`archimedean_diagonal_tail`). Everything
+else about this thread is open, numerical-evidence-only research — not close to formal.**
+
+From `arithmetic_principal_series_RH_program34.tex`, "The exact semilocal Weil form"
+(~line 6414): the finite prime–Archimedean Gram matrix `Q_{λ,N}` — the object flagged
+but not investigated in the Thread HT writeup above. This session opened it via a
+numerical checkpoint (not a Lean proof attempt) implementing the exact construction and
+comparing observed eigenvalue parity splits against a derived pure-prolate asymptotic
+(Connes–Consani prolate-function route). `lean_results` rows `09e24660…`, `02a84cc3…`,
+`079ca52f…` record the checkpoint in full; summary:
+
+- The paper's `W_ℝ♯` (Archimedean piece of `Ψ♯`) integrates `[u^{1/2}F(u) − F(1)]/(u−u⁻¹)`
+  over `[1,∞)`. A first numerical pass truncated this at the support boundary and produced
+  a spurious negative scalar "floor" in the raw eigenvalues.
+- The bug was diagnosed exactly: for the diagonal case (`F(1)=2`, `F` supported in
+  `[1,c]`), the omitted tail is `−2∫_c^∞ du/(u²−1) = −log((c+1)/(c−1))`. Restoring it
+  reconciles the computation with Connes–Consani's published tiny positive minima.
+- **`archimedean_diagonal_tail` in `ThreadWeilParity/ArchimedeanTail.lean` promotes this
+  closed form to an actual Lean theorem**, proved from Mathlib's elementary calculus +
+  `integral_Ioi_of_hasDerivAt_of_nonneg'` (FTC-2 on `(a,∞)`), kernel-verified to Lean
+  built-ins only. This is a real, if small, contribution: the numerical fix used an
+  identity that was correct but unproved; now it is proved.
+- **Not attempted, and not close to formalizable**: the observed odd/even parity ratio
+  `δ₋/δ₊` (numerically in the hundreds and growing with `N`), the derived pure-prolate
+  asymptotic ratio `~(1408π²/195)λ⁴` from Fuchs's fixed-mode asymptotic, and — most
+  importantly — the theorem that would connect them: a "second-cancellation/double-defect
+  factorization" making the finite-Galerkin transfer error `O(1−χ)` rather than
+  `O(√(1−χ))`, which the checkpoint explicitly names as **required and not yet derived,
+  even informally on paper**. This is genuinely open research, not a formalization gap —
+  there is no classical proof to formalize yet. Per standing discipline, no axiom stands
+  in for it and no shortcut was taken to manufacture a compiling theorem; it is named here
+  honestly as the exact remaining boundary. Next source target named in the checkpoint:
+  the Connes–Consani archimedean Weil/prolate Selecta construction. No RH claim anywhere
+  in this thread.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**

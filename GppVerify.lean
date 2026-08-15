@@ -704,3 +704,16 @@ import GppVerify.CelestialHolography.GrassmannianSelfDuality
 -- invariance, and the actual rank-trace inequality (the load-bearing lemma) --
 -- this file is the foundation only, not the payload. No axiom, no sorry.
 import GppVerify.ThreadS.SignatureInertia
+
+-- ── Thread Weil-Parity: exact Archimedean renormalization tail (New) ────
+-- From arithmetic_principal_series_RH_program34.tex, "The exact semilocal Weil form"
+-- (~line 6414): the finite prime-Archimedean Gram matrix Q_{lambda,N} construction.
+-- A numerical checkpoint this session (lean_results 02a84cc3.../079ca52f...) found and
+-- fixed a truncation bug in W_R^sharp's integral (omitted tail beyond the support
+-- cutoff), used but never proved in closed form. archimedean_diagonal_tail below IS
+-- that closed form: -2*int_c^infty du/(u^2-1) = -log((c+1)/(c-1)), proved from
+-- Mathlib's elementary calculus + FTC-2-on-(a,infty) machinery. Says nothing about the
+-- actual eigenvalues of Q_{lambda,N} or any Weil-positivity/parity-ratio claim --
+-- those depend on an operator-comparison theorem that does not yet exist even on
+-- paper (see the checkpoint for the precise gap). No axiom, no sorry, no RH claim.
+import GppVerify.ThreadWeilParity.ArchimedeanTail

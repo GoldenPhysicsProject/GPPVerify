@@ -74,3 +74,8 @@ import GppVerify
 -- dependency is visible in every CI run rather than buried. `link6_from_physics`
 -- is the open thm:link6; `boyle_turok_2021` is an uncited external analysis.
 #print axioms GppLink6.three_generations_from_c0
+
+-- Thread Weil-Parity — the exact Archimedean renormalization tail. Expected: Lean
+-- built-ins only. Promotes a numerical-checkpoint correction (lean_results
+-- 079ca52f) to a closed-form theorem. No claim about Q_{lambda,N}'s eigenvalues.
+#print axioms GppWeilParity.archimedean_diagonal_tail
