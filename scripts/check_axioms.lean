@@ -61,6 +61,8 @@ import GppVerify
 #print axioms GppHeatTrace.laplace_resolvent_shift
 #print axioms GppHeatTrace.subordination_at_zero
 #print axioms GppHeatTrace.primeSide_heatGaussian
+#print axioms GppHeatTrace.archimedeanLaplace_aux_one
+#print axioms GppHeatTrace.archimedeanLaplace_aux_two
 
 -- Thread S, Step 1 — abstract Hermitian inertia core (base layer only).
 -- Expected: Lean built-ins only.

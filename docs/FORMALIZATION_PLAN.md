@@ -539,6 +539,22 @@ zero-independent arithmetic function, a classical real-analysis property, and ge
 measure from Bernstein rather than from a spectral projection. The open content sits in
 Bernstein's hypothesis, not in a false eigenvalue claim. Clean on this axis.*
 
+**Full-paper survey (this session):** `GppVerify/ThreadHT/ARITHMETIC_PRINCIPAL_SERIES_SURVEY.md`
+indexes and classifies **all 102** theorem-level environments in the source `.tex`, per the
+standing instruction to account for everything in it. Result: ~99 depend on paper-private
+apparatus (the BPY law, four-field Euclidean fields, Wigner–Born distributions,
+Thorin–Stieltjes representations, Möbius–Koszul complexes, Hardy defect spaces, Cayley
+atlases, prime–Archimedean Gram matrices, causal-commutator algebras) — formalizing any one
+would be its own multi-file thread, comparable in scope to Thread S's `SignatureInertia.lean`
+foundation, not an incremental addition. Two more elementary pieces were extracted and
+proved this session: `archimedeanLaplace_aux_one`/`_two` in `HeatTraceCriterion.lean`, the
+purely exponential-integral half of the paper's "Exact Archimedean Laplace transform"
+theorem (its third piece needs digamma, **confirmed entirely absent from Mathlib at the
+pin** — not even the function itself exists, a separate large undertaking). The paper's own
+Conclusion was read in full: it ends "No proof of global trace conservation or positivity is
+supplied here. Therefore no proof of RH is claimed" — consistent, word for word in spirit,
+with everything already found in this repo's corpus-error audits.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**

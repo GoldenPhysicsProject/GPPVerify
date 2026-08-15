@@ -198,4 +198,55 @@ theorem primeSide_heatGaussian (t : ℝ) :
   simp only [heatGaussian]
   ring
 
+/-! ### The Archimedean Laplace transform: two elementary sub-identities
+
+The paper's "Exact Archimedean Laplace transform" theorem (§, immediately preceding the
+heat-trace section) proves, for `r > 1`, `⟨ν_∞, e^{−r(·)}⟩ = A_∞(r)`, where `A_∞` is built
+from a digamma difference **plus** two elementary exponential integrals. The digamma piece
+needs Mathlib's digamma/polygamma function, which is **confirmed absent from Mathlib
+entirely at this pin** (searched — no `digamma`, `polyGamma`, or `deriv_Gamma`-based
+integral representation anywhere in the tree). That piece is out of reach without building
+digamma from scratch, a separate and much larger undertaking.
+
+The two purely elementary sub-identities, however, need nothing beyond what
+`resolvent_laplace` already supplies, applied twice and subtracted. They are proved here
+as standalone facts, not wired into `A_∞` (which is not defined in this file — only its
+two elementary building blocks are). -/
+
+/-- First elementary sub-identity of the Archimedean Laplace transform: for `r > −1/2`,
+`∫₀^∞ (e^{−rx} − e^{−x})·e^{−x/2} dx = 1/(r+1/2) − 2/3`. -/
+theorem archimedeanLaplace_aux_one {r : ℝ} (hr : -(1/2 : ℝ) < r) :
+    ∫ x : ℝ in Ioi (0:ℝ), (Real.exp (-(r * x)) - Real.exp (-x)) * Real.exp (-(x / 2))
+      = 1 / (r + 1/2) - 2/3 := by
+  have hc1 : (0:ℝ) < r + 1/2 := by linarith
+  have hc2 : (0:ℝ) < (3:ℝ)/2 := by norm_num
+  have hpt : ∀ x : ℝ, (Real.exp (-(r * x)) - Real.exp (-x)) * Real.exp (-(x / 2))
+      = Real.exp (-((r + 1/2) * x)) - Real.exp (-((3:ℝ)/2 * x)) := by
+    intro x
+    rw [sub_mul, ← Real.exp_add, ← Real.exp_add]
+    ring_nf
+  rw [setIntegral_congr_fun measurableSet_Ioi (fun x _ => hpt x)]
+  rw [integral_sub (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc1)
+      (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc2)]
+  rw [resolvent_laplace hc1, resolvent_laplace hc2]
+  norm_num
+
+/-- Second elementary sub-identity of the Archimedean Laplace transform: for `r > 1/2`,
+`∫₀^∞ (e^{−rx} − e^{−x})·e^{x/2} dx = 1/(r−1/2) − 2`. -/
+theorem archimedeanLaplace_aux_two {r : ℝ} (hr : (1/2 : ℝ) < r) :
+    ∫ x : ℝ in Ioi (0:ℝ), (Real.exp (-(r * x)) - Real.exp (-x)) * Real.exp (x / 2)
+      = 1 / (r - 1/2) - 2 := by
+  have hc1 : (0:ℝ) < r - 1/2 := by linarith
+  have hc2 : (0:ℝ) < (1:ℝ)/2 := by norm_num
+  have hpt : ∀ x : ℝ, (Real.exp (-(r * x)) - Real.exp (-x)) * Real.exp (x / 2)
+      = Real.exp (-((r - 1/2) * x)) - Real.exp (-((1:ℝ)/2 * x)) := by
+    intro x
+    rw [sub_mul, ← Real.exp_add, ← Real.exp_add]
+    ring_nf
+  rw [setIntegral_congr_fun measurableSet_Ioi (fun x _ => hpt x)]
+  rw [integral_sub (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc1)
+      (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc2)]
+  rw [resolvent_laplace hc1, resolvent_laplace hc2]
+  norm_num
+
 end GppHeatTrace
