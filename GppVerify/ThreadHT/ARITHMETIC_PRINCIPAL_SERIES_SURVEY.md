@@ -112,7 +112,7 @@ point-spectrum eigenvalue), and does not overclaim anywhere it was checked.
 | 6107 | thm | Resonance conservation for an exact split | APPARATUS | |
 | 6172 | prop | No scalar absolute-error stability | NO-GO/APPARATUS | |
 | 6219 | thm | Exact causal Möbius inverse | APPARATUS | Convolution algebra of causal distributions. |
-| 6430 | def | Exact finite prime–Archimedean Gram matrix | APPARATUS | |
+| 6430 | def | Exact finite prime–Archimedean Gram matrix | APPARATUS | Opened via a numerical checkpoint (`lean_results` `09e24660…`/`02a84cc3…`/`079ca52f…`), not a Lean proof of the matrix itself. One derived closed-form piece — the Archimedean `W_ℝ♯` diagonal-tail identity used in the checkpoint's correction — is now `GppWeilParity.archimedean_diagonal_tail` (`ThreadWeilParity/ArchimedeanTail.lean`), proved, kernel-clean. The matrix's actual eigenvalues, the observed odd/even parity ratio, and the operator-comparison theorem needed to connect them to the derived pure-prolate asymptotic remain open — see `docs/FORMALIZATION_PLAN.md`'s Thread Weil-Parity section for the precise boundary. |
 | 6459 | prop | Parity and displacement structure | APPARATUS | |
 | 6560 | thm | Exact finite self-adjoint prime–Archimedean core | APPARATUS | |
 | 6655 | thm | Regularized determinant | APPARATUS | |
