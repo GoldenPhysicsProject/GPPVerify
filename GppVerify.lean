@@ -783,3 +783,23 @@ import GppVerify.ThreadWeilParity.OddEigenpairLift
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.QuantumGravity.GammaModulusIdentity
 import GppVerify.QuantumGravity.AllLoopFiniteness
+
+-- ── Thread QG-Blackbody, round 2: kinematic-block zeta bridge + Weierstrass product (New) ──
+-- From kinematic_block_v1.tex Proposition prop:zetabridge(a) and blackbody_law_qg_dtoupin_v1.tex
+-- Test T4 (verify_blackbody_capstone.py). Both kernel-clean, no axiom, no sorry:
+--   - GppKinematicBlock.zeta_bridge_kappa: restates SinhZetaBridge.sinh_mellin_zeta at the
+--     kinematic-block paper's own kernel normalization kappa(t)=(2 sinh t)^-1, giving
+--     (1-2^-s)Gamma(s)zeta(s) directly (the leading factor of 2 cancels the 1/2).
+--   - GppSinhWeierstrass.tendsto_prod_one_add_sq_div: the Weierstrass product
+--     sinh(pi*lam) = pi*lam * prod_n(1+lam^2/n^2), proved as a genuine infinite product
+--     (Tendsto of partial products, for every real lam) rather than the paper's own
+--     truncated-at-N=2000-with-Hurwitz-remainder numerical bound -- derived from Mathlib's
+--     Complex.tendsto_euler_sin_prod (Euler's product for sin) via the substitution z=i*lam.
+-- Proposition 7.1(b)'s analytic continuation to Re s > -1, and Theorem 6.1 (First Moment,
+-- needs a digamma function -- Mathlib v4.19.0 has NONE, grepped, zero hits for
+-- digamma/polygamma anywhere in the tree) and Theorems 2.1/3.1/4.1/4.4 (conical reduction,
+-- shadow=Legendre-degree symmetry, Mehler-Fock, Temperedness -- need Legendre/conical
+-- special functions, also entirely absent from Mathlib) remain open; see
+-- docs/FORMALIZATION_PLAN.md for the precise boundary of each gap.
+import GppVerify.QuantumGravity.KinematicZetaBridge
+import GppVerify.QuantumGravity.SinhWeierstrassProduct

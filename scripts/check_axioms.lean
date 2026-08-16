@@ -117,3 +117,9 @@ import GppVerify
 #print axioms GppStefanBoltzmann.m_three_eq
 #print axioms GppGammaModulus.gamma_one_add_mul_gamma_one_sub
 #print axioms GppAllLoopFiniteness.finiteness
+
+-- Thread QG-Blackbody round 2 (KinematicZetaBridge, SinhWeierstrassProduct) — from
+-- kinematic_block_v1.tex Prop 7.1(a) and blackbody_law_qg_dtoupin_v1.tex T4.
+-- Expected: Lean built-ins only, on both.
+#print axioms GppKinematicBlock.zeta_bridge_kappa
+#print axioms GppSinhWeierstrass.tendsto_prod_one_add_sq_div

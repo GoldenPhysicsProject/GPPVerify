@@ -670,14 +670,47 @@ The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
   by $1$, discards it, and factorizes what remains via $\int_0^\infty P(\lambda)d\lambda = \pi/4$.
 \end{theorem}
 
+\begin{theorem}[Kinematic-Block Zeta Bridge]
+  \label{thm:kinematic-zeta-bridge}
+  \lean{GppKinematicBlock.zeta_bridge_kappa}
+  \leanok
+  \uses{thm:stefan-boltzmann-family}
+  With $\kappa(t) := (2\sinh t)^{-1}$, for every real $s > 1$,
+  \[
+    \int_0^\infty t^{s-1}\kappa(t)\,dt \;=\; \bigl(1-2^{-s}\bigr)\Gamma(s)\zeta(s).
+  \]
+  \emph{Proved clean}: `kinematic\_block\_v1.tex`, Proposition \texttt{prop:zetabridge}(a),
+  at the paper's own kernel normalization --- a direct corollary of the pre-existing
+  Thread~S zeta bridge (the leading factor of $2$ there cancels $\kappa$'s own $1/2$).
+\end{theorem}
+
+\begin{theorem}[Weierstrass Product for \texorpdfstring{$\sinh$}{sinh}]
+  \label{thm:sinh-weierstrass}
+  \lean{GppSinhWeierstrass.tendsto_prod_one_add_sq_div}
+  \leanok
+  For every real $\lambda$,
+  \[
+    \sinh(\pi\lambda) \;=\; \pi\lambda \prod_{n=1}^{\infty}\Bigl(1+\frac{\lambda^2}{n^2}\Bigr),
+  \]
+  as a genuine infinite product (the partial products converge).
+  \emph{Proved clean}: \texttt{blackbody\_law\_qg\_dtoupin\_v1.tex}, Test T4 --- stronger
+  than the paper's own numerical certification, which truncates at $N=2000$ with a
+  Hurwitz-zeta tail bound. Derived from Mathlib's Euler product for $\sin$ via the
+  substitution $z=i\lambda$.
+\end{theorem}
+
 \textbf{Honest boundary.} Not formalized from this upload: the rationality/PSLQ program
 beyond $M_1, M_2$ (already covered by the pre-existing Thread~S/Thread~E); the
-Wiener--Hopf/Parseval odd-zeta cancellation and wall-count combinatorics; the entire
-kinematic-block/conical-function program of \texttt{kinematic\_block\_v1.tex} (conical
-reduction, shadow=Legendre-degree symmetry, the Mehler--Fock pair, the $\Delta=2s$
-dictionary --- none of this is in the tree, and it is a separate undertaking, not merely a
-missing lemma); and most of the blackbody capstone's remaining structural theorems beyond
-the Gamma-modulus and Stefan--Boltzmann faces proved here.
+Wiener--Hopf/Parseval odd-zeta cancellation and wall-count combinatorics; Proposition
+\texttt{prop:zetabridge}(b)'s analytic continuation to $\mathrm{Re}\,s>-1$; and most of the
+blackbody capstone's remaining structural theorems beyond the Gamma-modulus,
+Stefan--Boltzmann, and Weierstrass-product faces proved here. Two gaps are blocking further
+progress and are recorded precisely in \texttt{docs/FORMALIZATION\_PLAN.md} rather than
+attempted as rushed partial versions: Mathlib \texttt{v4.19.0} has \emph{no digamma or
+polygamma function at all} (blocking the First Moment Theorem, \texttt{thm:moment}), and
+\emph{no Legendre or conical special functions} (blocking the entire
+kinematic-block/conical-function program: conical reduction, shadow=Legendre-degree
+symmetry, the Mehler--Fock pair, the Temperedness Theorem).
 
 \chapter{General Relativity --- Rigidity}
 
