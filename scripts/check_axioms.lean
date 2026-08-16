@@ -92,3 +92,19 @@ import GppVerify
 #print axioms odd_eigenpair_defect_step1
 #print axioms odd_eigenpair_defect_step2
 #print axioms odd_eigenpair_canonical_lift
+
+-- Tree-loop-sewing topology (GppTreeLoopSewing) — from Toupin "Loop Integrands Hidden
+-- in Trees" (Aug 2026). Pure graph-combinatorics: expected Lean built-ins only. The
+-- genuinely analytic celestial-sewing identity is a LOCAL hypothesis
+-- (ShadowPairSewing.sewing_identity), not proved here — tree_to_loop_extraction is
+-- correctly conditional on it (an instance argument), so auditing it shows the
+-- built-ins used to derive the corollary from that hypothesis, not a claim the
+-- hypothesis itself is discharged.
+#print axioms GppTreeLoopSewing.principalSeries_isShadowPair
+#print axioms GppTreeLoopSewing.shadowPair_sum_two
+#print axioms GppTreeLoopSewing.shadowDim_involutive
+#print axioms GppTreeLoopSewing.pairSewing_cycleRank
+#print axioms GppTreeLoopSewing.tree_to_L_loop_counts
+#print axioms GppTreeLoopSewing.sixPoint_onePair_oneLoop_counts
+#print axioms GppTreeLoopSewing.boxDenominator_is_pairClosure
+#print axioms GppTreeLoopSewing.ShadowPairSewing.tree_to_loop_extraction

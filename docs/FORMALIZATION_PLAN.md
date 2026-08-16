@@ -688,6 +688,58 @@ matrix is not known to satisfy the positivity hypotheses the downstream queue it
 (`Positive residues imply strict interlacing`, etc.) would need to say anything about its
 real spectrum. Nothing proved this session is a step toward RH.
 
+## Thread Tree-Loop-Sewing — tree-to-loop topology behind the shadow-discontinuity program
+
+**Status: graph-combinatorics layer PROVED unconditionally; the analytic celestial-sewing
+identity is isolated as a named local hypothesis, not proved, not hidden.**
+
+From Toupin, *Loop Integrands Hidden in Trees: Explicit Extraction by Double Shadow
+Discontinuities* (Aug.\ 2026), delivered as a handoff package
+(`GPPVERIFY_TREE_LOOP_HANDOFF.md` + `GppTreeLoopSewing.lean` draft). The paper's central
+claim: a higher-point *tree* celestial correlator's shadow-pole analytic structure already
+encodes a lower-point loop *integrand*, extractable by a double shadow discontinuity
+`dDisc_sh^(56) := Disc^sh_6 ∘ Disc^sh_5`. Landed in new file
+`GppVerify/CelestialHolography/TreeLoopSewing.lean`, commit `<pending>`.
+
+- **Graph-combinatorics (PROVED, unconditional, all `L`).** `pairSewing_cycleRank`: a
+  connected cubic tree with `4+2L` external leaves, after sewing `L` disjoint pairs of the
+  extra `2L` leaves, is a connected 4-point graph of cycle rank exactly `L`. This corrects
+  an earlier draft's "L+1 shadow closures" language — closing `L` disjoint pairs is `L`
+  pair sewings, not `L+1`; the handoff doc and the paper's own v18 both make this
+  correction explicit. `sixPoint_onePair_oneLoop_counts` specializes to the one-loop box
+  (6-point tree, one pair sewing → cycle rank 1). `boxDenominator_is_pairClosure`: the
+  closed box denominator is definitionally the missing closure edge `Q(ℓ)` times the three
+  denominators already present in the open six-point chain. All proved by direct
+  `omega`/`norm_num` computation on the vertex/edge/leg counts — no graph object is
+  constructed, only its counts, which is exactly what the paper's topology theorem claims
+  and no more.
+- **Analytic interface (NOT proved, correctly isolated).** The paper's own boxed
+  "remaining analytic theorem" — `𝓜⁻¹_{5,6}[dDisc_sh^(56) T̃₆] = (i/(ℓ²+i0)) T₆(...)` —
+  is represented by `ShadowPairSewing.sewing_identity`, a field of a local structure, not
+  a global axiom and not a stub. `ShadowPairSewing.tree_to_loop_extraction` is the
+  (structurally immediate) corollary that the pipeline commutes, conditional on that one
+  named hypothesis via an instance argument. Nothing here proves `sewing_identity` for an
+  explicit six-point celestial amplitude — the paper itself states the exact
+  normalization/sign/prescription must be derived from actual celestial conventions, not
+  inserted because it is the target.
+- **Does NOT touch the existing `GppShadowDisc` stubs.** `celestial_amplitude_has_cut`,
+  `disc_equals_loop_integrand`, `shadow_disc_mellin_density` in
+  `CelestialHolography/ShadowDiscontinuity.lean` remain exactly as they were —
+  `theorem foo : True := trivial` stubs (confirmed by re-reading the file, not axioms
+  despite the handoff doc's looser "infrastructure assumptions" language). This thread
+  does not discharge, replace, or duplicate them; per the handoff's explicit instruction,
+  they are left untouched until an explicit six-point sewing identity is actually proved.
+- **Blueprint correction, same pass.** While adding this thread's blueprint chapter,
+  re-audited the pre-existing `thm:shadow-discontinuity` entry and found it read as more
+  proved than it is: `GppShadowDisc.shadow_discontinuity` is itself a `True`-stub, and the
+  blueprint's "Proved clean" bullet list actually names four *ingredient* lemmas (complex
+  discontinuity formula, shadow involution, shadow-conjugate identity, simple-pole
+  residue), not a proof of the boxed claim. Added an explicit correction note in the
+  blueprint chapter rather than silently leaving the stronger-sounding original wording.
+- **Not attempted / out of scope for GPPVerify:** the handoff's item 9 (update the LaTeX
+  paper to the corrected `L` pair-sewing count) — the paper source is not part of any repo
+  in this session's scope; only the Lean/blueprint side was actioned.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**

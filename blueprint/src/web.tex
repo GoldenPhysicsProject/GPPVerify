@@ -278,7 +278,16 @@ The algebra is clean; the physics derivation is documented as axioms.
   $z \mapsto \bar{z}$ (i.e., $\Delta \mapsto 2-\bar\Delta$) equals the loop integrand,
   replacing Feynman diagrams with analytic continuation.
 
-  \emph{Proved clean:}
+  \textbf{Correction, re-audited 2026-08-15:} the cited declaration
+  \texttt{GppShadowDisc.shadow\_discontinuity} is a \texttt{theorem foo : True := trivial}
+  stub, not a proof of the statement above. The four ``proved clean'' facts below it
+  \emph{are} real, kernel-checked theorems in \texttt{ShadowDiscontinuity.lean} --- but
+  they are elementary complex-analysis/algebra lemmas the main claim would use as
+  ingredients, not a proof of the claim itself. See
+  Section~\ref{sec:tree-loop-sewing} for the concrete topology-level advance on this
+  thread and the precise remaining analytic gap.
+
+  \emph{Proved clean (as standalone lemmas, not as a proof of the boxed claim above):}
   \begin{itemize}
     \item $\mathrm{Disc}\,f(x) = 2i\,\mathrm{Im}\,f(x)$ (basic complex analysis).
     \item Shadow is an involution: $2-(2-s)=s$.
@@ -287,8 +296,80 @@ The algebra is clean; the physics derivation is documented as axioms.
   \end{itemize}
 
   \emph{Gap:} celestial amplitude theory, unitarity cut equations, celestial OPE
-  (not in Mathlib 4.19.0).
+  (not in Mathlib 4.19.0). Tracked honestly as three named stubs,
+  \texttt{celestial\_amplitude\_has\_cut}, \texttt{disc\_equals\_loop\_integrand},
+  \texttt{shadow\_disc\_mellin\_density} --- none discharged by this chapter.
 \end{theorem}
+
+\section{Tree-to-Loop Topology (Shadow-Pair Sewing)}
+\label{sec:tree-loop-sewing}
+
+From Toupin, \emph{Loop Integrands Hidden in Trees: Explicit Extraction by Double Shadow
+Discontinuities} (Aug.\ 2026). The paper's central claim: a higher-point \emph{tree}
+celestial correlator's shadow-pole analytic structure already encodes a lower-point loop
+\emph{integrand}, extractable by a double shadow discontinuity. This section covers the
+graph-theoretic layer of that claim, formalized in \texttt{GppTreeLoopSewing.lean} ---
+unconditional, no axiom, no sorry --- and states precisely what remains open.
+
+\begin{theorem}[Pair-Sewing Cycle Rank]
+  \label{thm:pairsewing-cyclerank}
+  \lean{GppTreeLoopSewing.pairSewing_cycleRank}
+  \leanok
+  For a connected cubic tree with $n = 4+2L$ external leaves ($V_T = n-2$ trivalent
+  vertices, $I_T = n-3$ internal edges), sewing $L$ disjoint pairs among the designated
+  $2L$ extra leaves leaves $4$ external legs and $I = I_T + L = 3L+1$ internal edges, with
+  cycle rank $\beta_1 = I - V_T + 1 = L$. Proved for all $L$ by direct computation on the
+  vertex/edge counts (\texttt{omega}); no combinatorial machinery beyond arithmetic is
+  needed since only the counts, not an explicit graph object, are formalized here.
+\end{theorem}
+
+\begin{corollary}[One-Loop Box Specialization]
+  \label{cor:sixpoint-oneloop}
+  \lean{GppTreeLoopSewing.sixPoint_onePair_oneLoop_counts}
+  \leanok
+  \uses{thm:pairsewing-cyclerank}
+  At $L=1$: the open six-point cubic tree (4 vertices, 3 internal edges) with one pair
+  sewing gives 4 external legs, 4 internal edges, cycle rank 1 --- the one-loop box
+  topology.
+\end{corollary}
+
+\begin{lemma}[Box Denominator is the Closure Edge Times the Open Chain]
+  \label{lem:box-denominator-closure}
+  \lean{GppTreeLoopSewing.boxDenominator_is_pairClosure}
+  \leanok
+  With $D(x) := Q(x)$ the propagator-denominator function, the closed box denominator
+  $Q(\ell)\,Q(\ell-p_1)\,Q(\ell-p_1-p_2)\,Q(\ell+p_4)$ is literally the missing closure
+  edge $Q(\ell)$ times the three denominators already present in the open six-point
+  chain. A definitional identity once the open-chain object is named.
+\end{lemma}
+
+\begin{definition}[Shadow-Pair Sewing Interface --- the Isolated Open Problem]
+  \label{def:shadow-pair-sewing}
+  \lean{GppTreeLoopSewing.ShadowPairSewing}
+  A structure with fields \texttt{doubleDisc} (tree $\to$ pair shadow discontinuity),
+  \texttt{inverseMellin}, \texttt{closePair} (the same closure described directly in
+  momentum space), and a field \texttt{sewing\_identity} asserting
+  \texttt{inverseMellin(doubleDisc T a b) = closePair T a b}. This is the paper's own
+  boxed ``remaining analytic theorem''
+  ($\mathcal M^{-1}_{5,6}[\mathrm{dDisc}_{\rm sh}^{(56)}\widetilde T_6] =
+  \tfrac{i}{\ell^2+i0}T_6(\ell,p_1,\dots,-\ell)$), stated here as a \emph{local}
+  hypothesis rather than a global axiom or an unnamed gap. Nothing in this file proves
+  \texttt{sewing\_identity} for an explicit six-point celestial amplitude, and it is not
+  claimed to be proved. \texttt{ShadowPairSewing.tree\_to\_loop\_extraction} is the
+  (structurally trivial) corollary that the extraction pipeline commutes, conditional on
+  this one named hypothesis.
+\end{definition}
+
+\emph{Honest boundary.} What is proved: the graph-combinatorial topology count
+(Theorem~\ref{thm:pairsewing-cyclerank}), its one-loop specialization
+(Corollary~\ref{cor:sixpoint-oneloop}), and the denominator bookkeeping
+(Lemma~\ref{lem:box-denominator-closure}) --- all unconditional. What is \emph{not}
+proved, and is isolated rather than hidden: the analytic celestial-sewing identity
+(Definition~\ref{def:shadow-pair-sewing}), which requires an explicit six-point celestial
+tree amplitude computation the paper itself states has not yet been carried out. This
+section does not discharge, and does not claim to discharge,
+\texttt{disc\_equals\_loop\_integrand} or the other two stubs in
+Theorem~\ref{thm:shadow-discontinuity}.
 
 \chapter{\texorpdfstring{Ad\`elic $L^2$}{Adelic L2} Regularization}
 

@@ -48,6 +48,18 @@ import GppVerify.CelestialHolography.Link6
 -- Shadow operator discontinuity across the critical line
 import GppVerify.CelestialHolography.ShadowDiscontinuity
 
+-- Tree-to-loop topology behind the shadow-discontinuity program (New). From Toupin
+-- "Loop Integrands Hidden in Trees" (Aug 2026): a (4+2L)-point cubic tree, with L
+-- disjoint leaf-pair sewings, is a connected 4-point graph of cycle rank exactly L
+-- (pairSewing_cycleRank, proved for all L; sixPoint_onePair_oneLoop_counts specializes
+-- to the one-loop box). Pure graph-theoretic combinatorics, unconditional. The genuinely
+-- analytic celestial-sewing identity (inverse-Mellin of the pair shadow discontinuity =
+-- momentum-space pair closure) is isolated as a LOCAL hypothesis,
+-- ShadowPairSewing.sewing_identity, not proved here and not a global axiom -- it does
+-- NOT discharge the existing celestial_amplitude_has_cut / disc_equals_loop_integrand /
+-- shadow_disc_mellin_density stubs above, which are untouched. No axiom, no sorry.
+import GppVerify.CelestialHolography.TreeLoopSewing
+
 -- ── RH Spectral Infrastructure ───────────────────────────────
 -- Adèlic L² regularization on K¹ (lem:adelic-l2-regularization)
 import GppVerify.RiemannHypothesis.AdelicL2
