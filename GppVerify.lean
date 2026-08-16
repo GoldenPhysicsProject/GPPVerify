@@ -760,3 +760,26 @@ import GppVerify.ThreadWeilParity.CrossResolvent
 -- Same standing warning as CrossResolvent.lean: abstract, unconditional facts about any
 -- operator pencil satisfying the stated relations; no claim about the real CCM matrix.
 import GppVerify.ThreadWeilParity.OddEigenpairLift
+
+-- ── Thread QG-Blackbody: Stefan-Boltzmann family, Gamma-modulus, all-loop finiteness (New) ──
+-- From haar_qg_paper_v215.tex, kinematic_block_v1.tex and blackbody_law_qg_dtoupin_v1.tex
+-- (companions: verify_qg_measure.py, verify_qg_kinematics.py, verify_blackbody_capstone.py).
+-- Generalizes the pre-existing SinhZetaBridge.lean/PlanckIntegral.lean threads (which already
+-- covered M_1=1/8 and M_2=1/90 from earlier drafts of these same papers) to three new results:
+--   - stefan_boltzmann_family: m_s = pi^-(s+1)(1-2^-(s+1))Gamma(s+1)zeta(s+1) for ALL real
+--     s > 0 (T7 of verify_blackbody_capstone.py), not just the sampled s=1,2,3.
+--   - gamma_one_add_mul_gamma_one_sub: Gamma(1+i*lam)*Gamma(1-i*lam) = pi*lam/sinh(pi*lam)
+--     exactly, via Euler's reflection formula (T2/T4 of the capstone script).
+--   - GppAllLoopFiniteness.finiteness: 0 < M_L <= (1/8)^L for EVERY loop order L (paper's
+--     thm:finiteness, its central new claim) -- proved by induction on a recursively-defined
+--     chain kernel (Fubini's own iterated-integral expansion of the paper's R_{>0}^L integral,
+--     peeling off one loop variable at a time) carried entirely in ENNReal/lintegral so Tonelli
+--     and monotonicity are unconditional, with no integrability side-conditions threaded by
+--     hand anywhere in the induction.
+-- All three kernel-clean, no axiom, no sorry. Remaining unformalized from this upload: the
+-- rationality/PSLQ program beyond M_1,M_2 (M_3=1/16 etc.), the entire kinematic-block/conical-
+-- Legendre-function program, and most of the blackbody capstone's structural theorems
+-- (T1,T3,T5,T6,T13,T14) -- honestly scoped as future work, not claimed here.
+import GppVerify.QuantumGravity.StefanBoltzmannFamily
+import GppVerify.QuantumGravity.GammaModulusIdentity
+import GppVerify.QuantumGravity.AllLoopFiniteness

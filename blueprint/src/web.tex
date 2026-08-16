@@ -615,6 +615,70 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   \texttt{gleason\_uniqueness} (Gleason 1957, not in Mathlib).
 \end{lemma}
 
+\chapter{Quantum Gravity --- Blackbody Law and All-Loop Finiteness}
+
+From ``On Self-Dual Measure and Finite Quantum Gravity'' (\texttt{haar\_qg\_paper\_v215.tex})
+and ``The Blackbody Law of Quantum Gravity'' (\texttt{blackbody\_law\_qg\_dtoupin\_v1.tex}).
+The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
+
+\begin{theorem}[Stefan--Boltzmann Family]
+  \label{thm:stefan-boltzmann-family}
+  \lean{GppStefanBoltzmann.stefan_boltzmann_family}
+  \leanok
+  For every real $s > 0$,
+  \[
+    m_s \;:=\; \frac{1}{2\pi}\int_0^\infty \lambda^{s-1} P(\lambda)\,d\lambda
+    \;=\; \pi^{-(s+1)}\bigl(1-2^{-(s+1)}\bigr)\Gamma(s+1)\zeta(s+1).
+  \]
+  \emph{Proved clean, for all real $s>0$}, not merely the sampled $s=1,2,3$: a
+  $\pi$-substitution reduces the integral to the pre-existing zeta-bridge identity of
+  \S\,Thread~S (\texttt{SinhZetaBridge.sinh\_mellin\_zeta}) at exponent $s+1$. Corollaries
+  give $m_1 = 1/8$ and $m_3 = 1/16$ exactly.
+\end{theorem}
+
+\begin{theorem}[Gamma-Modulus Identity]
+  \label{thm:gamma-modulus}
+  \lean{GppGammaModulus.gamma_one_add_mul_gamma_one_sub}
+  \leanok
+  For every real $\lambda \neq 0$,
+  \[
+    \Gamma(1+i\lambda)\,\Gamma(1-i\lambda) \;=\; \frac{\pi\lambda}{\sinh(\pi\lambda)} \;=\; P(\lambda).
+  \]
+  \emph{Proved clean}: Euler's reflection formula
+  ($\Gamma(z)\Gamma(1-z) = \pi/\sin(\pi z)$, unconditional in Mathlib) shifted by one factor
+  of $i\lambda$, with $\sin(x\cdot i) = i\sinh(x)$ turning the denominator real.
+\end{theorem}
+
+\begin{theorem}[All-Loop Finiteness]
+  \label{thm:all-loop-finiteness}
+  \lean{GppAllLoopFiniteness.finiteness}
+  \leanok
+  For the bare $L$-loop planar-ladder Plancherel measure
+  \[
+    \mathcal{M}_L \;=\; \frac{1}{(2\pi)^L}\int_{\mathbb{R}_{>0}^L}
+      \Bigl[\prod_{j=1}^L P(\lambda_j)\Bigr]\Bigl[\prod_{j=1}^{L-1}P(|\lambda_j-\lambda_{j+1}|)\Bigr]
+      \,d\lambda_1\cdots d\lambda_L,
+  \]
+  and for every loop order $L \geq 1$: $0 < \mathcal{M}_L \leq (1/8)^L$.
+
+  \emph{Proved clean, for every $L$ at once} (not instantiated at small $L$): the $L$-fold
+  integral is encoded via a recursively-defined chain kernel realizing Fubini/Tonelli's own
+  iterated-integral expansion of $\mathcal{M}_L$ (peeling off one loop variable, its external
+  weight, and its connecting rung, at a time), carried entirely in the extended
+  nonnegative reals so Tonelli's theorem and monotonicity of the integral are unconditional
+  --- exactly mirroring the paper's own proof, which bounds every rung $P(|\lambda_j-\lambda_{j+1}|)$
+  by $1$, discards it, and factorizes what remains via $\int_0^\infty P(\lambda)d\lambda = \pi/4$.
+\end{theorem}
+
+\textbf{Honest boundary.} Not formalized from this upload: the rationality/PSLQ program
+beyond $M_1, M_2$ (already covered by the pre-existing Thread~S/Thread~E); the
+Wiener--Hopf/Parseval odd-zeta cancellation and wall-count combinatorics; the entire
+kinematic-block/conical-function program of \texttt{kinematic\_block\_v1.tex} (conical
+reduction, shadow=Legendre-degree symmetry, the Mehler--Fock pair, the $\Delta=2s$
+dictionary --- none of this is in the tree, and it is a separate undertaking, not merely a
+missing lemma); and most of the blackbody capstone's remaining structural theorems beyond
+the Gamma-modulus and Stefan--Boltzmann faces proved here.
+
 \chapter{General Relativity --- Rigidity}
 
 \begin{theorem}[Einstein Uniqueness from Shadow Symmetry]
