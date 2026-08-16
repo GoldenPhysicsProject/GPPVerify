@@ -857,13 +857,75 @@ kinematic-block/conical-function material existed yet).
 paper's own three-loop closed-form derivation via 44-digit PSLQ relation-hunting is not
 formalized, nor is `M₂`'s independent re-derivation via this family's `s=2` — only `L=1,3`
 were needed for cross-checks here); the Wiener–Hopf/Parseval odd-zeta cancellation and
-wall-count combinatorics; the **entire kinematic-block/conical-function program**
-(`kinematic_block_v1.tex` Theorems 2.1, 3.1, 4.1, 4.4, the Mehler–Fock pair, the `Δ=2s`
-dictionary — none of this exists in the tree, and Mathlib's support for conical/Legendre
-functions is thin enough that scoping it is a separate task, not started); and most of the
-blackbody capstone's remaining structural theorems (T1 triple equality, T3 logistic
-characteristic function, T5 cumulant law, T6 Matsubara residues, T13 Fourier/Kirchhoff pair,
-T14) beyond the two (T2, T7-family) landed here.
+wall-count combinatorics; and most of the blackbody capstone's remaining structural theorems
+(T1 triple equality, T3 logistic characteristic function, T6 Matsubara residues, T13
+Fourier/Kirchhoff pair, T14) beyond the two (T2, T7-family) landed here. (T5, the cumulant
+law, is now a plausible *next* target — see below.)
+
+## Thread QG-Blackbody, round 2 — kinematic-block zeta bridge and the Weierstrass product for `sinh`
+
+**Status: DONE, two new theorems, kernel-clean, no axiom, no sorry.** Continued straight
+into `kinematic_block_v1.tex` after round 1, prioritizing what's actually reachable given
+Mathlib's current special-function coverage (checked before attempting — see the gap list
+below).
+
+* **`QuantumGravity/KinematicZetaBridge.lean`** — `zeta_bridge_kappa`: Proposition
+  `prop:zetabridge`(a) at the paper's own kernel normalization `κ(t) = (2sinh t)⁻¹`, giving
+  `∫₀^∞ t^{s-1}κ(t)dt = (1-2^{-s})Γ(s)ζ(s)` directly (the leading factor of `2` in
+  `SinhZetaBridge.sinh_mellin_zeta`'s conclusion exactly cancels `κ`'s own `1/2` — a
+  five-line corollary once stated correctly).
+* **`QuantumGravity/SinhWeierstrassProduct.lean`** — `tendsto_prod_one_add_sq_div`: the
+  Weierstrass product `sinh(πλ) = πλ·∏ₙ(1+λ²/n²)`, proved as a genuine infinite product (a
+  `Tendsto` statement for the partial products, for **every** real `λ`) — stronger than the
+  capstone script's own certification (T4), which truncates at `N=2000` and bounds the tail
+  by a Hurwitz-zeta remainder. Derived from Mathlib's `Complex.tendsto_euler_sin_prod`
+  (Euler's product for `sin`, already in the pinned tree) via the substitution `z = iλ`:
+  `sin(πiλ) = iλπ∏(1-(iλ)²/n²) = iλπ∏(1+λ²/n²)`, with `Complex.sin_mul_I` turning the left
+  side into `i·sinh(πλ)`. The real-part extraction from the complex `Tendsto` needed three
+  redone attempts before landing on fully-typed intermediate `have`s rather than chained
+  in-place hypothesis mutations (`simp_rw ... at h`) — the untyped-mutation version keeps
+  compiling but silently fails to collapse `Complex.re ∘ (single-cast sequence)` down to the
+  plain real sequence, because a `simp_rw`/`rw` direction mismatch means the rewrite never
+  fires and downstream errors point at the wrong step. Lesson for next time: when a chain of
+  `have h := ...; simp only [...] at h; ... at h` steps produces a confusing "type mismatch
+  after simplification" error far downstream, stop and give every intermediate `have` its
+  full stated type — the error moves to exactly the step that's actually wrong instead of
+  three steps later.
+
+**What this unlocks, not yet attempted:** `tendsto_prod_one_add_sq_div` is exactly the
+ingredient the capstone's **T5 (cumulant law)** needs — `log P(λ) = -Σ(-1)^{k+1}ζ(2k)λ^{2k}/k`
+follows from taking `log` of the Weierstrass product and expanding `log(1+x)` termwise, then
+swapping the sum over `n` and the sum over `k` (a genuine double-series interchange requiring
+an absolute-convergence estimate, not yet attempted — real work, but no longer blocked on a
+missing special function).
+
+### Two genuine Mathlib gaps, scoped and named so a future session doesn't re-discover them
+
+1. **No digamma/polygamma function at all.** `grep -rli "digamma\|polygamma"
+   .lake/packages/mathlib/Mathlib/` returns **zero hits** at the pinned `v4.19.0` commit.
+   Mathlib has `Complex.Gamma`/`Real.Gamma` and their differentiability
+   (`Analysis/SpecialFunctions/Gamma/Deriv.lean`), but not `ψ = Γ'/Γ`, its Gauss/Weierstrass
+   series `ψ(w) = -γ + Σ[1/(n+1) - 1/(n+w)]`, or the Euler–Mascheroni constant's defining
+   properties needed to state `ψ(1/2) = -γ - 2log2`. This blocks **Theorem `thm:moment` (the
+   First Moment Theorem)** of `kinematic_block_v1.tex` entirely — the paper's own six-step
+   proof (partial fractions of `ψ`, a Laplace-transform identity for the resolvent, the
+   `tanh²` Mehler–Fock-density collapse, a final geometric sum) is fully elementary and
+   *would* port cleanly once `ψ` exists, but building the digamma function itself (from the
+   Weierstrass product for `Γ`, or as a term-by-term derivative of the Gauss series) is its
+   own multi-session foundational undertaking, not attempted here as a rushed partial version.
+2. **No Legendre or conical special functions.** Confirmed by direct grep (repeated from
+   round 1, still zero hits for `Legendre`/`conical`/`Mehler`). Blocks
+   **Theorems `thm:conical` (2.1), `thm:shadowconn` (3.1), `thm:prefactor` (4.1),
+   `thm:tempered` (4.4)** and the Mehler–Fock transform pair entirely — this is the paper's
+   own largest and most novel piece (the conical reduction of the chiral kinematic block to
+   a Legendre function of the second kind, and the shadow-transform symmetry as the Legendre
+   degree involution `P_ν = P_{-ν-1}`), and building the needed special-function
+   infrastructure from scratch is a separate, dedicated multi-session research arc — not
+   something to bolt onto an existing thread.
+
+Both gaps are now documented precisely enough (exact theorem names, exact missing Mathlib
+objects) that a future session can pick either up directly instead of re-deriving the scope
+from scratch.
 
 ---
 
