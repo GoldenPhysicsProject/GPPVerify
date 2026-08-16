@@ -108,3 +108,12 @@ import GppVerify
 #print axioms GppTreeLoopSewing.sixPoint_onePair_oneLoop_counts
 #print axioms GppTreeLoopSewing.boxDenominator_is_pairClosure
 #print axioms GppTreeLoopSewing.ShadowPairSewing.tree_to_loop_extraction
+
+-- Thread QG-Blackbody (StefanBoltzmannFamily, GammaModulusIdentity, AllLoopFiniteness)
+-- — from haar_qg_paper_v215.tex, kinematic_block_v1.tex, blackbody_law_qg_dtoupin_v1.tex.
+-- Expected: Lean built-ins only, on all five.
+#print axioms GppStefanBoltzmann.stefan_boltzmann_family
+#print axioms GppStefanBoltzmann.m_one_eq
+#print axioms GppStefanBoltzmann.m_three_eq
+#print axioms GppGammaModulus.gamma_one_add_mul_gamma_one_sub
+#print axioms GppAllLoopFiniteness.finiteness

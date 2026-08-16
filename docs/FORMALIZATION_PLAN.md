@@ -816,6 +816,57 @@ name, is the one move that would make this tree dishonest.*
 
 ---
 
+## Thread QG-Blackbody — Stefan–Boltzmann family, Gamma-modulus identity, all-loop finiteness
+
+**Status: DONE (this session), three new theorems, kernel-clean, no axiom, no sorry.**
+From a fresh upload of `haar_qg_paper_v215.tex` ("On Self-Dual Measure and Finite Quantum
+Gravity"), `kinematic_block_v1.tex`, and the capstone `blackbody_law_qg_dtoupin_v1.tex`, with
+companion scripts `verify_qg_measure.py` / `verify_qg_kinematics.py` /
+`verify_blackbody_capstone.py`. Earlier drafts of the first two papers
+(`haar_qg_paper_v2151.tex`, `kinematic_block_v11.tex`) were already the source for Thread S
+(`SinhZetaBridge.lean`, `M₁ = 1/8`) and Thread E (`M₂ = 1/90`) — this pass covers three
+genuinely new results the new drafts add, checked directly against the live tree (grepped for
+`Plancherel`/`conical`/`Legendre`/`Mehler`/`Temperedness` before starting; none of that
+kinematic-block/conical-function material existed yet).
+
+* **`QuantumGravity/StefanBoltzmannFamily.lean`** — `stefan_boltzmann_family`: the general
+  moment `m_s = π^{-(s+1)}(1-2^{-(s+1)})Γ(s+1)ζ(s+1)` for **every real `s > 0`** (T7 of the
+  capstone script), not merely the sampled `s = 1, 2, 3, 1.37`. Proved by a `π`-substitution
+  (`integral_comp_mul_left_Ioi`) reducing to `SinhZetaBridge.sinh_mellin_zeta` at exponent
+  `s+1`. Corollaries `m_one_eq` (`= 1/8`) and `m_three_eq` (`= 1/16`, the capstone's T7'').
+* **`QuantumGravity/GammaModulusIdentity.lean`** — `gamma_one_add_mul_gamma_one_sub`:
+  `Γ(1+iλ)Γ(1-iλ) = πλ/sinh(πλ)` exactly (T2/T4 of the capstone), via Euler's reflection
+  formula (`Complex.Gamma_mul_Gamma_one_sub`, unconditional) shifted by one factor of `iλ`
+  and `Complex.sin_mul_I` turning the denominator into `sinh(πλ)·i`.
+* **`QuantumGravity/AllLoopFiniteness.lean`** — **`GppAllLoopFiniteness.finiteness`**: for
+  every loop order `L ≥ 1`, `0 < 𝓜_L ≤ (1/8)^L` (`thm:finiteness`, the paper's own central new
+  claim — the all-loop bound the Python script only spot-checks at `L=1`). The `L`-fold
+  `ℝ_{>0}^L` integral is encoded via its own Fubini/Tonelli iterated-integral expansion — a
+  recursive chain kernel `K n` (`K 0 = P⁺`, `K (n+1) λ = P⁺(λ)·∫⁻μ, K n μ·P⁺(|μ-λ|)`) — rather
+  than general `Fin L`-indexed product-measure machinery. Carried entirely in `ℝ≥0∞`
+  (`lintegral`), which makes Tonelli and monotonicity *unconditional*: no integrability side
+  conditions had to be threaded by hand anywhere in the induction, since the paper's own proof
+  (bound each rung `P(|λⱼ-λⱼ₊₁|) ≤ 1`, discard it, factorize what remains) is exactly a
+  positivity argument. Positivity `0 < 𝓜_L` is carried as the stronger pointwise-everywhere
+  invariant `∀λ>0, 0<K n λ`, closed via `lintegral_pos_iff_support` on an explicit
+  λ-avoiding subset. Proved for **every** `L` at once by induction — not merely instantiated
+  at small `L`.
+
+**Honest boundary — NOT done, named plainly:** the rationality/PSLQ program beyond `M₁,M₂`
+(the paper's `M₃ = 1/16` numeric value is now *implied* by `m_three_eq` above, but the
+paper's own three-loop closed-form derivation via 44-digit PSLQ relation-hunting is not
+formalized, nor is `M₂`'s independent re-derivation via this family's `s=2` — only `L=1,3`
+were needed for cross-checks here); the Wiener–Hopf/Parseval odd-zeta cancellation and
+wall-count combinatorics; the **entire kinematic-block/conical-function program**
+(`kinematic_block_v1.tex` Theorems 2.1, 3.1, 4.1, 4.4, the Mehler–Fock pair, the `Δ=2s`
+dictionary — none of this exists in the tree, and Mathlib's support for conical/Legendre
+functions is thin enough that scoping it is a separate task, not started); and most of the
+blackbody capstone's remaining structural theorems (T1 triple equality, T3 logistic
+characteristic function, T5 cumulant law, T6 Matsubara residues, T13 Fourier/Kirchhoff pair,
+T14) beyond the two (T2, T7-family) landed here.
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
