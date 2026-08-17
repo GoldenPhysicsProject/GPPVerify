@@ -371,6 +371,67 @@ section does not discharge, and does not claim to discharge,
 \texttt{disc\_equals\_loop\_integrand} or the other two stubs in
 Theorem~\ref{thm:shadow-discontinuity}.
 
+\section{Dispersion Reconstruction: the Mechanism Behind \texorpdfstring{\texttt{sewing\_identity}}{sewing\_identity}}
+\label{sec:dispersion-reconstruction}
+
+From a fresh session (2026-08-17) attacking Definition~\ref{def:shadow-pair-sewing}'s
+open hypothesis head-on. \texttt{DispersionReconstruction.lean} proves the general,
+physics-convention-independent complex-analysis mechanism --- the algebraic core of the
+Sokhotski--Plemelj formula --- by which a discontinuity across a real pole determines the
+meromorphic function having that pole. This is \emph{not} a celestial calculation: it is
+the classical dispersion-relation fact
+$F(z) = \tfrac{1}{2\pi i}\int_\R [\mathrm{Disc}\,F(x)]/(x-z)\,dx$ that Theorem
+\ref{thm:shadow-discontinuity}'s own Step~6 invokes (via cut-constructibility) without
+deriving.
+
+\begin{theorem}[Exact Finite-\texorpdfstring{$\varepsilon$}{eps} Lorentzian Jump]
+  \label{thm:lorentzian-jump}
+  \lean{GppDispersion.lorentzian_jump}
+  \leanok
+  For real $z_0,\varepsilon,x$ with $\varepsilon\neq0$,
+  $\dfrac{1}{(x-z_0)+i\varepsilon} - \dfrac{1}{(x-z_0)-i\varepsilon}
+    = \dfrac{-2i\varepsilon}{(x-z_0)^2+\varepsilon^2}$, exactly, with no limiting
+  procedure --- the finite-$\varepsilon$ content of ``the jump of a regulated simple pole
+  is a Lorentzian kernel.''
+\end{theorem}
+
+\begin{theorem}[Pointwise Vanishing Off the Pole]
+  \label{thm:lorentzian-vanish}
+  \lean{GppDispersion.lorentzian_kernel_tendsto_zero_off_pole}
+  \leanok
+  \uses{thm:lorentzian-jump}
+  Away from $x=z_0$, the Lorentzian kernel $\varepsilon/((x-z_0)^2+\varepsilon^2)$ tends to
+  $0$ as $\varepsilon\to0^+$ --- the rigorous, non-distributional half of ``the regulated
+  jump concentrates at the pole.'' The complementary mass statement
+  $\int_\R \varepsilon/((x-z_0)^2+\varepsilon^2)\,dx = \pi$ for every $\varepsilon>0$ (a
+  standard Cauchy/Poisson-kernel fact, reducible to Mathlib's
+  \texttt{integral\_univ\_inv\_one\_add\_sq} by the affine substitution
+  $x=z_0+\varepsilon u$) is numerically certified in \texttt{verify\_dispersion.py} but
+  \emph{not} additionally formalized this session --- the substitution needs a
+  translation-invariance-of-Lebesgue-measure lemma not chased down; named honestly as a
+  gap rather than forced.
+\end{theorem}
+
+\emph{What this does and does not establish about \texttt{sewing\_identity}.} These two
+theorems make precise which three analytic facts about the actual six-point celestial
+tree would let \texttt{sewing\_identity} be \emph{derived} rather than assumed, via the
+classical dispersion relation (valid for $F$ meromorphic off the real axis with a single
+real simple pole and suitable decay --- Titchmarsh, \emph{Theory of Functions}, Ch.~5):
+\textbf{(H1) Meromorphy} --- after the $\ell$-space completeness/inverse-Mellin integral
+of $\mathrm{dDisc}_{\rm sh}^{(56)}\widetilde T_6$, the result is meromorphic in $\ell^2$
+with its only singularity a simple pole at $\ell^2=0$; \textbf{(H2) Decay} --- that
+function vanishes at infinity fast enough for the dispersion contour to close;
+\textbf{(H3) Residue match} --- the discontinuity computed via the shadow-pair OPE (the
+existing Steps~1--5 of Theorem~\ref{thm:shadow-discontinuity}) has, at $\ell^2=0$, exactly
+the residue $-2\pi i\cdot T_6(\ell,p_1,\dots,p_4,-\ell)$ required. \textbf{None of
+(H1)--(H3) is established here} for the actual $(z,\bar z)$-dependent celestial six-point
+amplitude --- that is exactly the open boundary every paper in this program already
+names. What is new is that the \emph{mechanism} (Sokhotski--Plemelj) is now a proved fact
+in this tree instead of an implicit citation, and the remaining gap is three named,
+checkable analytic properties of $G_6^{\rm tree}$ instead of one opaque hypothesis. This
+section does not discharge \texttt{sewing\_identity} or touch any \texttt{GppShadowDisc}
+stub.
+
 \chapter{\texorpdfstring{Ad\`elic $L^2$}{Adelic L2} Regularization}
 
 \begin{lemma}[Ad\`elic $L^2$ Regularization]

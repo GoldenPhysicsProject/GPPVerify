@@ -123,3 +123,11 @@ import GppVerify
 -- Expected: Lean built-ins only, on both.
 #print axioms GppKinematicBlock.zeta_bridge_kappa
 #print axioms GppSinhWeierstrass.tendsto_prod_one_add_sq_div
+
+-- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
+-- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
+-- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see
+-- DispersionReconstruction.lean's module doc for the three named hypotheses (H1-H3)
+-- this reduces the opaque hypothesis to.
+#print axioms GppDispersion.lorentzian_jump
+#print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole

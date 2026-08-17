@@ -740,6 +740,79 @@ encodes a lower-point loop *integrand*, extractable by a double shadow discontin
   paper to the corrected `L` pair-sewing count) — the paper source is not part of any repo
   in this session's scope; only the Lean/blueprint side was actioned.
 
+### Follow-up, 2026-08-17: dispersion reconstruction attacks `sewing_identity` directly
+
+**Status: the general Sokhotski–Plemelj mechanism is now proved unconditionally; the
+celestial specialization to the actual six-point tree is still open, but the gap is now
+three named analytic hypotheses instead of one opaque one.**
+
+Triggered by a fresh handoff bundling four connected papers (shadow-discontinuity/tree-
+to-loop, Haar/QG measure `haar_qg_paper_v215.tex`, kinematic-block, blackbody) and an
+explicit instruction to attack `ShadowPairSewing.sewing_identity` head-on rather than
+narrate around it. Read all four papers and re-audited `TreeLoopSewing.lean`,
+`ShadowDiscontinuity.lean`, `MellinKinematics.lean`, and the three QG-Blackbody files
+directly against `main` (commit `0a53705`) before starting — everything matched the
+existing docs exactly, no drift found. Also checked `public.formalization_queue` (27
+rows, all Weil-Parity/Suzuki-Herglotz/Prime-* threads — nothing on celestial holography)
+and `public.research_notes`/`lean_results` for anything newer or contradicting on this
+thread — found none; `eb6d17f0…` (the original Tree-Loop-Sewing landing) is the latest
+record and matches the repo state exactly.
+
+**New file: `GppVerify/CelestialHolography/DispersionReconstruction.lean`.** The paper's
+own Step 6 (`haar_qg_paper_v215.tex`, Theorem `thm:shadow-disc`) invokes cut-
+constructibility to go from "the shadow discontinuity is the unitarity cut" to "the loop
+integrand is reconstructed," without deriving the actual mechanism — precisely the gap
+the task singled out: a discontinuity naturally gives on-shell support like `δ⁺(q²)`,
+while the loop integrand needs `1/(q²+i0)`. This file proves the general, physics-
+convention-independent complex-analysis fact that supplies that mechanism (the algebraic
+core of Sokhotski–Plemelj), **unconditional, two theorems, both kernel-clean** (`#print
+axioms` shows Lean built-ins only):
+
+- `lorentzian_jump`: the exact finite-`ε` identity
+  `1/((x-z₀)+iε) - 1/((x-z₀)-iε) = -2iε/((x-z₀)²+ε²)` — no limiting procedure, no
+  distributions, pure algebra (`div_sub_div` + a `linear_combination` against
+  `Complex.I_sq` for the denominator product).
+- `lorentzian_kernel_tendsto_zero_off_pole`: the regulated kernel vanishes pointwise away
+  from the pole as `ε→0⁺` (via `Continuous.div` + evaluating at `ε=0`).
+
+**Numerically checked first** (`verify_dispersion.py`, mpmath, 40 dps): (1) the exact
+Lorentzian jump identity at several `(z₀,ε,x)`, machine-zero residual; (2) the classical
+`ε→0` dispersion-integral reconstruction of a toy simple-pole propagator `F(z)=R/(z-z₀)`
+from its own regulated discontinuity, confirming the reconstruction error shrinks with
+`ε` as expected — this is the general mechanism, explicitly *not* a celestial
+calculation, and explicitly *not* a reparametrized Feynman integral (the `box_shadow_1d`
+mistake the task warned against).
+
+**What this does and does not do to `sewing_identity`.** It reduces the opaque hypothesis
+to three named, checkable analytic properties of the actual six-point celestial tree,
+stated in the module doc and mirrored in the blueprint
+(`sec:dispersion-reconstruction`): **(H1) meromorphy** of the pair-sewn spectral object
+in `ℓ²` with only a simple pole at `ℓ²=0`; **(H2) decay** at infinity sufficient to close
+the dispersion contour; **(H3) residue match** — the shadow-pair-OPE discontinuity (the
+existing Steps 1–5) has residue exactly `-2πi·T₆(ℓ,p₁,…,p₄,-ℓ)` at `ℓ²=0`. **None of
+H1–H3 is established for the actual `(z,z̄)`-dependent celestial amplitude this session**
+— that remains the open boundary every paper in this program already names. This file
+does **not** discharge `sewing_identity`, does not touch any `GppShadowDisc` stub, and
+does not prove the mass-normalization half of Sokhotski–Plemelj
+(`∫ε/((x-z₀)²+ε²)dx = π`, reducible to Mathlib's `integral_univ_inv_one_add_sq` by an
+affine substitution) — named honestly as a gap since the needed translation-invariance-
+of-Lebesgue-measure lemma wasn't chased down this pass, not forced with a `sorry`.
+
+**Graph-layer strengthening (item A/B/C of the handoff's Lean tasks): scoped, not
+attempted.** Searched Mathlib's `SimpleGraph.Acyclic` for the anchor needed to upgrade
+`cubicTreeVertices`/`cubicTreeInternalEdges` from definitions to theorems about an actual
+graph: found `SimpleGraph.IsTree.card_edgeFinset : G.edgeFinset.card + 1 =
+Fintype.card V` (general tree edge-count formula, `Combinatorics/SimpleGraph/
+Acyclic.lean:152`) as the correct starting anchor for "one sewing raises cycle rank by
+one" (add an edge between two non-adjacent tree vertices via `T ⊔ SimpleGraph.fromEdgeSet
+{s(a,b)}`, show it stays connected and gains exactly one edge). Did not attempt the
+proof itself this pass — the harder, un-anchored part is the cubic/trivalent-vertex
+leaf-count combinatorics (`n` leaves ⟹ `n-2` trivalent vertices), which needs a
+handshake-lemma-style degree-sum argument with no direct Mathlib anchor found yet, and
+attempting a rushed partial `SimpleGraph` proof under time pressure risked exactly the
+"no half-finished implementations" failure mode. Left as a concretely scoped next step
+(anchor lemma named) rather than a guess.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**

@@ -60,6 +60,14 @@ import GppVerify.CelestialHolography.ShadowDiscontinuity
 -- shadow_disc_mellin_density stubs above, which are untouched. No axiom, no sorry.
 import GppVerify.CelestialHolography.TreeLoopSewing
 
+-- Dispersion reconstruction: proves the general (physics-convention-independent)
+-- Sokhotski-Plemelj mechanism -- the exact finite-eps Lorentzian jump identity and
+-- pointwise off-pole vanishing of the regulated kernel -- that TreeLoopSewing's
+-- ShadowPairSewing.sewing_identity would need specialized to the actual six-point
+-- celestial tree (three named hypotheses H1-H3, none proved here) to be DERIVED
+-- rather than assumed. Does not discharge sewing_identity or any GppShadowDisc stub.
+import GppVerify.CelestialHolography.DispersionReconstruction
+
 -- ── RH Spectral Infrastructure ───────────────────────────────
 -- Adèlic L² regularization on K¹ (lem:adelic-l2-regularization)
 import GppVerify.RiemannHypothesis.AdelicL2
