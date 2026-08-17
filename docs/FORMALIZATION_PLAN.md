@@ -813,6 +813,37 @@ attempting a rushed partial `SimpleGraph` proof under time pressure risked exact
 "no half-finished implementations" failure mode. Left as a concretely scoped next step
 (anchor lemma named) rather than a guess.
 
+**Structural finding, same pass (paper-level, NOT yet Lean, NOT a Lean gap): the naive
+per-diagram energy Mellin transform of the comb ordering does not exhibit the claimed
+joint shadow pole.** Attacking "the shadow pole must be derived, not assumed" directly
+for the exact comb tree used throughout this thread (vertices A–B–C–D; legs `(5,1)` at
+`A`, `2` at `B`, `3` at `C`, `(4,6)` at `D` — the ordering `openSixPointChainDenominator`
+formalizes, chosen because *closing* legs 5,6 gives the box). Checked symbolically
+(`check_comb_factorization.py`, sympy, not committed — same convention as the other
+companion scripts) which propagator denominators depend on which of `ω5, ω6`: using
+overall momentum conservation to rewrite the third denominator as `(k5+p1+p2+p3)² =
+-(p4+k6)² = 2p4·k6`, the three denominators are `D1 ∝ ω5`, `D2` linear in `ω5` (at fixed
+`ω1,ω2`), `D3 ∝ ω6` (at fixed `ω4`) — **`D1,D2` never depend on `ω6` and `D3` never
+depends on `ω5`, confirmed symbolically.** Consequently
+`∫dω5 dω6 ω5^{Δ5-1}ω6^{Δ6-1}/(D1D2D3)` factorizes exactly into a product of two
+*independent* 1D Mellin transforms, one in `Δ5` alone, one in `Δ6` alone — each a bare
+power-law integral over `(0,∞)`, whose standard regularization is a delta function
+fixing that single leg's own dimension (`Mellin[1](λ)=2πδ(λ)`, i.e. `D3` alone forces
+`Δ6=1`), **not a joint pole at `Δ5+Δ6=2`.** This rules out, for this specific ordering,
+the naive reading of the task's warning to "derive the shadow pole, don't assume it": a
+bare energy-space Mellin transform of one color-ordered Feynman term is structurally the
+wrong place to look, because legs 5 and 6 share no propagator in this ordering (that's
+also exactly *why* sewing them supplies the missing box edge rather than duplicating an
+existing one). The shadow-pair singularity `Δ5+Δ6=2` must instead come from the
+`(z,z̄)`-plane OPE/conformal-partial-wave decomposition of the full correlator in the
+56-exchange channel (the standard machinery `kinematic_block_v1.tex` already builds —
+conical/Legendre reduction of the chiral block, the shadow-is-degree-symmetry theorem,
+Mehler–Fock density) applied to this specific tree, not a property of one ordering's
+energy integral — sharpening H1–H3 above by ruling out one candidate route to them.
+**Not yet attempted:** the actual OPE-channel/conformal-partial-wave computation for
+this tree. This finding is recorded, with the same classification, in Supabase
+`research_notes` (kind `structural_no_go`) for cross-session continuity.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**
