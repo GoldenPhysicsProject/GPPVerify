@@ -844,6 +844,83 @@ energy integral — sharpening H1–H3 above by ruling out one candidate route t
 this tree. This finding is recorded, with the same classification, in Supabase
 `research_notes` (kind `structural_no_go`) for cross-session continuity.
 
+#### Follow-up, 2026-08-17 (same day, later): the OPE-channel/completeness-relation
+computation, attempted from scratch — genuinely singular where the reconstruction
+needs to happen, not a dead end
+
+Located and read the actual historical manuscript source (`ONON_V19_3.tex`, ~36k
+lines, plus the structurally identical Section 6 in `CH_v13.5_GRAM_PENROSE_1.tex`)
+that the "16-digit scalar box / 11-digit graviton box" claim traces back to.
+**Audited it critically rather than trusting it**: its `Disc G_6 = 2πi·Res[...]`
+step is valid generic Sokhotski–Plemelj applied to an ASSERTED pole
+(`⟨O_Δ5 O_Δ6⟩ ∝ 1/(Δ5+Δ6-2)`, stated without derivation from any actual two-point
+function or OPE computation — exactly the failure mode this thread already
+flags); its final reconstruction step says the residue "can be shown to be" the
+box dilogarithm formula with no shown work; and its own worked numerical example
+(`I_4(s=4,t=9)`) is independently **verified wrong** here — the manuscript claims
+`≈0.149872` where the manuscript's own stated closed form gives `0.0731183421701…`
+(checked directly with mpmath against `I_4(s,t)=(2/st)[Li₂(1-s/t)+Li₂(1-t/s)+π²/6]`
+— not a rounding difference, no sign-typo correction reproduces the claimed value
+either). The one non-trivial (asymmetric) check in the source is simply incorrect;
+the "16-digit agreement" claim is not supported by any artifact found in this
+project's history, including this one. (Full audit trail, including the Google
+Drive search and the December-2025 "mission report" files documenting a
+GPT-identifies-gap → theorem-inserted → "HOORAH, ready for the Clay Institute"
+workflow on the unrelated RH/adelic-positivity thread, is in the chat session, not
+reproduced in git.)
+
+Then attempted the OPE-channel/completeness-relation computation genuinely, from
+scratch, in `celestial_kinematics.py` + `shadow_sewing.py` (mpmath + sympy,
+scratch-only, not committed — same convention as this thread's other companion
+scripts). Method, with nothing inserted by hand at any step:
+
+- Verified the standard celestial null-vector dot-product identity
+  `q_i·q_j = +2(z_i-z_j)(z̄_i-z̄_j)` (mostly-minus metric) by direct symbolic
+  expansion — not assumed from the literature, and caught a sign/factor-of-2 error
+  in the first attempt before trusting it further.
+- Built explicit, generic, asymmetric massless 4-momenta `p1,p2,p3,p4` for the
+  6-point comb tree's fixed external legs (legs 1–4; only legs 5,6, the pair being
+  sewn, are celestial/Mellin-transformed).
+- **Step A**: Mellin-transformed leg 5 only: `L(Δ5,z5,z̄5) := ∫dω5 ω5^{Δ5-1}/(D1·D2)`.
+  `D1,D2` are respectively a pure power and a linear function of `ω5`, so this is
+  the classical Beta-function Mellin transform
+  `∫w^{Δ-1}/(Bw+s)dw = πs^{Δ-1}/(B^Δ sin(πΔ))`. Verified this closed form against
+  direct numerical quadrature at generic complex `Δ5` to machine precision
+  (**after** catching and fixing a real bug: a finite quadrature cutoff at
+  `w=2000` gave up to 8.7% spurious error from the integrand's slowly-decaying
+  tail — using mpmath's genuine improper-integral limit fixed it to `~1e-11`–`1e-17`
+  relative error; recorded as a lesson, not glossed over).
+- **Step B**: Mellin-transformed leg 6 only: `R(Δ6,z6,z̄6) := ∫dω6 ω6^{Δ6-1}/D3`,
+  `D3` a pure power of `ω6` — the Mellin transform of a bare power law, a genuine
+  distribution (`Mellin[1](λ)=2πδ(λ)`), confirmed numerically by showing the
+  regulated integral is bounded/oscillatory for `λ6≠0` but log-diverges as the
+  cutoff is removed exactly at `λ6=0`.
+- **Step C, the actual finding**: the physically correct sewing operation is the
+  `SL(2,ℂ)` Plancherel completeness relation already used correctly in the
+  existing `thm:shadow-disc` Step 5 (not a "search for a pole in `(Δ5,Δ6)`-space",
+  which the prior finding above already ruled out): `Sewn = ∫dλ/2π P(λ) ∫d²z
+  L(1+iλ,z) R(1-iλ,z)`. `R`'s delta-function support sits **exactly** at `λ=0`
+  (forcing `Δ5=Δ6=1` on the shadow locus). Checked directly whether `L` is regular
+  there: **it has a genuine simple pole at `Δ5=1`** (`|L(1+ε)|` grows as `1/ε` —
+  confirmed numerically, `0.95, 9.6, 96, 962` for `ε=0.1,0.01,0.001,0.0001`, the
+  correct `1/ε` scaling). **The naive real-`λ` completeness-relation sewing is
+  therefore ill-defined as literally written for this tree ordering** — a
+  zero-width delta function multiplying a simple pole is not a number.
+
+**This is not a dead end — it is the first honest computational identification of
+exactly where the missing analytic step must act.** A delta-function/pole collision
+at precisely the point the reconstruction needs to be finite is the textbook
+signature that the naive real-locus construction needs replacing by genuine
+analytic continuation off that locus (deforming `Δ5,Δ6` into the complex plane,
+extracting a residue/discontinuity there, then continuing back) — i.e. exactly the
+Sokhotski–Plemelj/dispersion mechanism `DispersionReconstruction.lean` already
+formalizes in the abstract, now with a concrete, verified target to apply it to.
+**Not yet attempted**: the actual regularized extraction (deform off the real
+locus, extract a finite residue/discontinuity, do the `z,z̄` integral, and check
+whether what remains is recognizable as two-particle-cut/box data) — a substantial
+further calculation, honestly scoped as the next step rather than rushed. No box
+integrand has been reconstructed; none is claimed.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**
