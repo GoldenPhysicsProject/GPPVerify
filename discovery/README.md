@@ -177,9 +177,55 @@ soft/IR double pole and the `(z,z̄)` integral supplying `t`-dependence are
 both still missing. No claim that `Sewn` equals any piece of the box
 integral — a finite, doubly-verified closed form, nothing more asserted.
 
+## Follow-up: the soft pole turns out to already be handled, and a sharp
+(rigorous, not structural-argument-only) limit of the current toy model
+
+Two more checks, closing out the loose ends listed above:
+
+- **The `ω5=0` soft/IR double pole does not contribute to `disc(Δ)` at
+  all.** Checked directly: evaluating the retarded-minus-advanced
+  discontinuity at three different `Δ` in the convergence strip `(2,3)`
+  (`2.1`, `2.5`, `2.9` — the strip's lower edge `Δ=2` is exactly where the
+  soft pole lives) gives the *same* closed form at every point, with no
+  sensitivity to how close `Δ` sits to the soft endpoint. The soft
+  singularity is present identically in `M_ret` and `M_adv` (it doesn't
+  depend on `D2`'s `iε` at all, since it comes from the `ω→0` endpoint,
+  not the `D2` threshold) and therefore cancels exactly out of the
+  difference. **The closed form already found is the complete `D2`-
+  threshold answer** — no separate soft-pole treatment needed.
+
+- **Rigorous (not just structural) confirmation that `t` cannot appear in
+  this toy model, ever.** The exact kinematic identity `p1+p2+p3=-p4`
+  (verified directly from `make_kinematics`, not assumed) forces
+  `D3=(k5+p1+p2+p3)²=(k5-p4)²=-2k5·p4` — `p3`'s dependence cancels
+  *identically*, not approximately. This means no `(z,z̄)` integral of the
+  *current* construction (4 ordinary momenta + 1 sewn pair) can ever
+  produce `t`-dependence, regardless of measure or contour: `t` genuinely
+  never appears in `D1,D2,D3` as functions of the sewn variables. Reaching
+  the actual box requires promoting legs 1–4 to genuine celestial
+  operators too (a full 6-point treatment with cross-ratios among all six
+  `z_i`), not extending the current one-sewn-pair construction.
+
 ## Status
 
-Not converged, but sharpened twice more, then genuinely advanced twice. Three regularization ideas ruled
+Not converged, but sharpened twice, then genuinely advanced twice, then
+clarified once more: the `D2`-threshold closed form (`Sewn`, above) is now
+known to be *complete* for what it computes, and it's now rigorously
+established that the current construction is structurally incapable of
+ever reproducing `t`-dependence — the honest next frontier, if this is
+pursued further, is a genuine 6-point all-celestial treatment (all six
+`z_i` as operators, cross-ratio-dependent conformal blocks), which is a
+substantially larger undertaking than anything attempted in this sandbox
+so far. This sandbox has verified one real, non-trivial building block
+(the `D2`-threshold Sokhotski-Plemelj discontinuity, closed-form, doubly
+verified) toward the shadow-discontinuity mechanism at one loop, for one
+specific propagator of one specific tree topology. It has not shown, and
+does not claim to show, anything about the mechanism at higher loop
+orders or non-perturbatively — extending the general `L`-loop structural
+pattern already proved unconditionally in `TreeLoopSewing.lean`
+(`pairSewing_cycleRank`) to genuine analytic content, pair-sewing by
+pair-sewing with this now-working mechanism, is itself an open, likely
+multi-session research program, not something this pass has attempted. Three regularization ideas ruled
 out now (one of them — the D3-shift family — ruled out *in general*, for
 every regulator of that shape, not case by case), each for a clear,
 recorded reason rather than a dead end. The pattern across all three: any
