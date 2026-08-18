@@ -276,9 +276,15 @@ where each open question currently stands:
 
 **What's still open**: whether `Sewn_s` and `Sewn_t` combine (once the
 still-missing `(z,z̄)` integral is done on both) into anything resembling
-the box formula's crossing-symmetric structure; the sign difference
-between `Sewn_s` and `Sewn_t` at matching kinematics, noted but not yet
-explained; and, at a much larger scale, whether any of this generalizes
+the box formula's crossing-symmetric structure. The sign difference
+between them is now confirmed *robust*, not an accident of one kinematic
+point: checked at 5 independent `(s,t,z)` points, `Sewn_s`'s prefactor
+sign is `-1` and `Sewn_t`'s is `+1` at every single one where both land
+on the physical branch. A consistent relative sign between two channel
+orderings is exactly the kind of structure a genuine crossing-symmetric
+assembly would need — worth taking seriously as a real clue, though *why*
+it's always exactly this sign is not yet derived, only observed. And, at
+a much larger scale, whether any of this generalizes
 beyond one loop or one topology. This sandbox has verified several real,
 doubly-checked building blocks toward the shadow-discontinuity mechanism
 at one loop, for two thresholds of one tree topology. It has not shown,
