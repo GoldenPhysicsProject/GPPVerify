@@ -6,9 +6,14 @@ sandbox's README: shadow_sewing.py found that the naive real-lambda
 completeness-relation sewing is ill-defined (a delta function at lambda=0
 multiplying a simple pole at lambda=0). This script investigates WHY that
 happens and attempts the physical regularization (deform off the real locus,
-extract a finite discontinuity via Sokhotski-Plemelj), following the same
-mechanism DispersionReconstruction.lean formalizes abstractly
-(lorentzian_jump: 1/(x+ieps) - 1/(x-ieps) = -2i*eps/(x^2+eps^2)).
+extract a finite discontinuity via Sokhotski-Plemelj:
+1/(x+ieps) - 1/(x-ieps) = -2i*eps/(x^2+eps^2), the elementary identity behind
+this technique). [Correction 2026-08-18: this docstring originally claimed
+the mechanism was formalized abstractly in "DispersionReconstruction.lean"
+under a lemma "lorentzian_jump" -- that file does not exist anywhere in this
+repo or its git history, and no such lemma exists under any name. False
+citation, caught by an explicit repo-wide search this session. Nothing in
+this file is verified against Lean; it is a Python-only numerical check.]
 
 Nothing here is proved or claimed as a derivation of the box integral.
 This is exploratory. Honest findings only.

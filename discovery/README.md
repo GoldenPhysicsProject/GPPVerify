@@ -10,8 +10,19 @@ in an ephemeral scratchpad. Anything that solidifies into an unconditional or
 honestly-conditional result graduates to `GppVerify/CelestialHolography/` for
 Lean 4 formalization, with the conditional hypotheses named explicitly (see
 `ShadowPairSewing.sewing_identity`'s H1/H2/H3 in
-`GppVerify/CelestialHolography/TreeLoopSewing.lean` and the Sokhotski-Plemelj
-mechanism in `DispersionReconstruction.lean`).
+`GppVerify/CelestialHolography/TreeLoopSewing.lean`).
+
+**Correction (2026-08-18):** earlier notes in this file and several scripts in
+`shadow_ope/` claimed a Sokhotski-Plemelj mechanism was "proven in
+`DispersionReconstruction.lean`". That file does not exist anywhere in this
+repo or its git history — the claim was false, caught by an explicit repo-wide
+search this session. Every Sokhotski-Plemelj/discontinuity check in this
+directory is a Python-only numerical consistency check (a computed
+retarded/advanced difference matched against its own closed-form prediction),
+not something verified against any proven Lean lemma. The actual existing Lean
+content adjacent to this is `GppShadowDisc.disc_equals_two_i_im` in
+`ShadowDiscontinuity.lean` (the elementary identity `Disc f = 2i·Im f`), which
+is real but far narrower than what was being claimed.
 
 ## The question
 
@@ -108,8 +119,10 @@ generically *complex* `ω5` — off the real integration contour, so no
 causal `iε` can do anything there (checked: the discontinuity trivially
 vanished). With `z̄=z*`, `A,B,C` become genuinely real and `D2`'s zero
 `ω5=-s/B` lands *on* the real axis — a genuine physical unitarity
-threshold, exactly where `DispersionReconstruction.lean`'s proven
-mechanism applies.
+threshold, the kind of place a Sokhotski-Plemelj discontinuity is
+expected to be well-defined and finite (checked numerically below;
+see the correction above the fold — no such mechanism is proven in Lean
+here, this is a Python-only closed-form check).
 
 **Result** (`shadow_ope/tied_leg_continuation.py`): with both changes, the
 retarded/advanced discontinuity across `D2`'s threshold converges to a
