@@ -97,6 +97,54 @@ clean, general, transferable reason rather than a case-by-case failure:
   discontinuity in it doesn't do anything unless `s` itself is later
   continued/integrated (it isn't, in this construction).
 
+## Follow-up (2026-08-18): the original coincident-pole pathology, resolved
+on its own terms via a residue at the pole (Daniel's steer: "there is a
+discontinuity somewhere and you need to take the residue at it")
+
+`shadow_sewing.py`'s pathology was `R`'s delta-function support at `Δ6=1`
+landing exactly on `L`'s own genuine simple pole at `Δ5=1` — the three
+regularizations above all tried to fix this by touching `D3`/`R`, and were
+all ruled out. `shadow_ope/residue_at_coincidence.py` fixes the actual
+mistake instead: the delta function sitting on the pole doesn't mean
+"evaluate `L` at its pole" (undefined) — it means the `Δ5`-contour (the
+principal-series line) can't literally pass through the pole and must be
+deformed to one side or the other, exactly as in any Mellin-Barnes contour
+integral with a pole sitting on the naive contour line. The difference
+between the two deformations is the residue there — a completely standard,
+finite fact, not a further divergence.
+
+`Res_{Δ5=1}[L(Δ5)] = 1/(A·s)`, verified two independent ways (the `δ→0`
+limit of `δ·L(1+δ)`, and a direct contour integral around `Δ5=1`, matching
+to `~1e-33`). Then checked that the *full* sewing integral's
+contour-deformation discontinuity (shifting the `Δ5`-contour left vs. right
+of the pole, including the Plancherel measure, not just the bare pole in
+isolation) genuinely converges to that same residue as `ε→0` — confirmed
+with clean `O(ε)` convergence (error ratio ≈3.3 for every 3.33× shrink in
+`ε`), and independent of the truncation radius (identical at `Λ=15` and
+`Λ=30`, confirming it's genuinely localized at the pole).
+
+**Result**: `Sewn_residue(z5,z6) = 1/(A(z5)·C(z6)·s)`, finite and
+closed-form. One subtlety found and fixed while building this: `z5` must
+stay on the general independent-complex "split signature" (not the
+real-Lorentzian slice used elsewhere in this thread) — putting `z5` on the
+real slice pushes `L`'s own internal threshold `w0=-s/B` onto the positive
+real axis, exactly the contour its defining integral runs over, breaking
+its well-definedness. `z6` has no such constraint (it only appears via the
+external prefactor `1/C`, with no integral of its own remaining after the
+residue reduction), so putting `z6` on the real-Lorentzian slice is fine —
+and doing so makes `C` real, so `Sewn_residue` comes out exactly real (`A`
+is `z5`-independent regardless, by the `A=-4E` identity already established).
+
+**Honest scope**: this is a genuinely *different* object from
+`tied_leg_continuation.py`'s `Sewn_s`/`Sewn_t` — real rather than purely
+imaginary, coming from the original untied (independent-legs) picture
+rather than the crossing-symmetry-tied one. Whether it should be *added* to
+`Sewn_s+Sewn_t`, is a different representation of the same physics, or is
+simply not the right quantity for this problem is not established — would
+need its own `(z5,z6)` double integral (harder than anything integrated so
+far in this thread) to even start comparing. No claim this equals a piece
+of the box integral.
+
 ## Follow-up: tying legs 5,6 by crossing symmetry finds a genuine, finite,
 verified Sokhotski-Plemelj discontinuity -- the first positive result
 
