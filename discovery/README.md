@@ -470,3 +470,36 @@ The two remaining candidates worth trying next are genuinely different
 not the two-point simplification `u=v=z` used throughout this attempt),
 or treating the internal leg position as a true integration variable
 against a round-sphere-type measure rather than a fixed chart point.
+
+## Follow-up: six more candidate `z6` positions ruled out; the z-integration
+idea is real but needs a proper contour, not a naive real-axis integral
+
+Motivated by `FubiniStudyAntipodal.lean` (which proves `z↦-1/z̄` is the
+*correct*, Jacobian-verified measure-preserving involution on the
+celestial sphere) and every source's identification of shadow symmetry
+with exactly this antipodal/Haar involution, tried making the
+shadow-partner leg 6 sit at the antipode of leg 5's position
+(`z6=-1/z`) instead of the same point (`z6=z`, used throughout). Also
+tried `z6∈{1/z, -z, 1-z, z/(z-1)}` for comparison. **All six ruled out**:
+every one gives a *worse* spread across kinematic points than the
+original `z6=z` choice (best alternative `z6=1-z` at `3.2×` spread vs.
+`z6=z`'s `2.4×`; `z6=z/(z-1)` degenerates to numerical zero). `z6=z` (the
+simplest guess, tying both shadow-paired legs to the same point) remains
+the best of everything tried.
+
+Also tried the actual `z`-as-integration-variable idea directly
+(`shadow_ope/z_integration_attempt.py`), using the standard shadow-formalism
+3-point structure functions `C_12(z2,z)~(z2-z)^{-Δ5}`,
+`C_34(z3,z4,z)~(z3-z)^{-Δ6}(z4-z)^{-Δ6}` with `z2,z3,z4` the real celestial
+positions of legs 2,3,4 (leg 1 sent to infinity) and integrating over the
+real `z` line. **Result: NaN, with a clear diagnosis, not a bug.** For
+`Δ5=1+iλ` a genuinely complex power, `(z2-z)^{-Δ5}` for real `z` crossing
+`z2` means raising a negative real number to a complex power — a genuine
+branch-cut ambiguity, not a removable glitch; naive real-axis quadrature
+(even excluding small neighborhoods of the singular points) can't resolve
+it. This is informative: the z-integration idea is real and worth pursuing,
+but doing it correctly needs the same kind of causal `iε`/contour
+prescription that `tied_leg_continuation.py` used successfully for the
+`ω5` integral earlier this session — not a naive real-axis integral. That
+contour-prescription work is a substantially bigger undertaking than
+anything attempted tonight, and is the honest next concrete step.
