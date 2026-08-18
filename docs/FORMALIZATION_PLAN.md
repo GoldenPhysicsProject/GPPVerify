@@ -739,6 +739,22 @@ encodes a lower-point loop *integrand*, extractable by a double shadow discontin
 - **Not attempted / out of scope for GPPVerify:** the handoff's item 9 (update the LaTeX
   paper to the corrected `L` pair-sewing count) — the paper source is not part of any repo
   in this session's scope; only the Lean/blueprint side was actioned.
+- **Follow-up (2026-08-18, discovery-sandbox only, no new Lean).** `pairSewing_cycleRank`
+  independently re-derived from scratch in Python (`discovery/shadow_ope/loop_counting_rule.py`)
+  for `L=0..6`, confirming the Lean proof rather than just trusting it; also confirmed the
+  specific comb ordering used throughout `discovery/shadow_ope/` gives the box topology
+  specifically (a literal 4-cycle), not just a generic cycle-rank-1 graph. Separately,
+  `discovery/shadow_ope/residue_at_coincidence.py` + `residue_double_integral.py` resolve
+  `shadow_ope/shadow_sewing.py`'s original coincident-pole pathology (the naive
+  completeness-relation delta-function-meets-pole collision, previously ruled out three
+  regularization ways) via a residue-at-the-pole argument instead, and complete its
+  `(z5,z6)` double celestial-sphere integral — a genuinely different construction from
+  `tied_leg_continuation.py`'s crossing-symmetry-tied `Sewn_s`/`Sewn_t` (real vs purely
+  imaginary; untied vs tied-leg picture). **None of this touches or discharges
+  `ShadowPairSewing.sewing_identity`** — it is exploratory numerics in the discovery
+  sandbox's own "nothing here is proved" discipline, offered as a head start for whoever
+  next attempts the analytic sewing identity, not as progress on it. See
+  `discovery/README.md` for full details, both positive and negative findings.
 
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
