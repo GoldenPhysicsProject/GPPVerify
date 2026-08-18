@@ -247,6 +247,50 @@ structure. That comparison isn't meaningful yet, because both are still
 functions of one fixed `z` — the `(z,z̄)` integral is still missing from
 both channels.
 
+## Follow-up: direct attempt at the actual open problem (the kinematic
+block `K_1(λ;s,t)`) -- a genuine new result, and an honest, informative
+negative
+
+Reading the full source material (see the conversation record) located
+the precise open problem: the target is
+`I_4^shadow(s,t) = ∫dλ/2π P(λ) K_1(λ;s,t)`, where `K_1` is a single
+kinematic conformal block jointly dependent on both `s` and `t` — not a
+sum of separately-`s`- and separately-`t`-dependent pieces the way
+`Sewn_s`/`Sewn_t` above were built. Every source read (both ONON drafts,
+the compact companion paper, and the paper specifically devoted to
+developing `K_1`) states this derivation as open; the dedicated
+companion's own words: *"The derivation is open and is claimed nowhere
+in this paper."*
+
+**A genuine new result** (`shadow_ope/kinematic_block_attempt.py`, Part
+1): no source pins down the cross-ratio `z` as an explicit function of
+`s,t` for this specific six-point construction. Derived it directly from
+this session's own verified null-vector kinematics — extract each
+external leg's celestial position (`z_1→∞` in this frame; handled via
+the standard cross-ratio limit) and compute the 4-point cross-ratio.
+Result, verified **exactly** (not approximately) at four independent
+`(s,t)` points: `z(s,t) = s/(s+t)`. Nobody had written this down for this
+construction; it's real, checkable progress.
+
+**An honest negative, with a concrete diagnosis** (Part 2): assembled a
+first candidate `K_1` from the now-proven conical-block reduction
+(`k_h(z)`, proven in the kinematic companion) and the scalar 3-point OPE
+coefficient, using `z̄=z` (real, from the chart above). It does **not**
+reproduce the box — and diagnostically, `K_1(λ)` isn't even in `λ`,
+which it should be (swapping `λ→−λ` swaps which of `Δ5,Δ6` is which, a
+symmetry the true construction should respect). That points at what's
+missing: the Temperedness Theorem's cancellation mechanism needs a
+genuine complex `z̄=z*` (unit-circle) evaluation, not the real `z̄=z`
+this chart gives; and/or an explicit shadow-symmetrization step the
+dedicated companion's own strategy calls for and this first pass
+skipped.
+
+**Status of the central question**: not resolved, honestly. This is a
+real, bounded attempt at the actual open problem, not a completed
+derivation, and not a deflection either. The cross-ratio result is a
+genuine, reusable piece; the assembly failure is diagnosed, not just
+observed, and points at two concrete next things to try.
+
 ## Status
 
 Not converged, but genuinely advanced several times in a row now. Recap of
