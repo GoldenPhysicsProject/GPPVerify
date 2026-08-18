@@ -206,35 +206,85 @@ Two more checks, closing out the loose ends listed above:
   operators too (a full 6-point treatment with cross-ratios among all six
   `z_i`), not extending the current one-sewn-pair construction.
 
+## Follow-up: t doesn't need the full 6-point rebuild after all -- a
+different comb ordering gets there with the SAME machinery
+
+The "t can never appear" finding was about *this specific* comb ordering
+(`5-1-2-3-4-6`), not about the construction in principle. Tested the
+obvious alternative before assuming the full 6-point-all-celestial
+rewrite was required: swap which legs sit next to the sewn leg. Ordering
+`5-2-3-1-4-6` (comb `A(5,2)-B(3)-C(1)-D(4,6)`) gives:
+
+```
+D1' = (k5+p2)²          = ω5·A'          (A' = 2q·p2)
+D2' = (k5+p2+p3)²       = ω5·B'' + t     ((p2+p3)² = t exactly)
+D3' = (k5+p2+p3+p1)²    = -ω5·C          (unchanged -- D3 only ever sees
+                                           p4, by the same momentum-
+                                           conservation identity,
+                                           regardless of how 1,2,3 are
+                                           ordered among themselves)
+```
+
+Ran the *exact same* verified machinery (tied legs, real Lorentzian
+slice, causal `iε` on the affine propagator, principal-series
+integration) with `(A,B,s)→(A',B'',t)`. Both independent checks pass at
+the same precision as the `s`-channel result (`shadow_ope/
+t_channel_sewing.py`): the discontinuity matches its closed form to
+`~1e-9`, and the principal-series integral matches its `sech²` closed
+form to `~1e-31`, at two independent kinematic points.
+
+```
+Sewn_t = -iπ/(2·A'·C·B'') · w0_t⁻² · sech(ln(w0_t)/2)²    (w0_t = -t/B'')
+```
+
+Genuinely `t`-dependent, doubly verified. One thing noted honestly, not
+explained yet: the sign of the imaginary part is *opposite* `Sewn_s`'s at
+the same kinematic point.
+
+**Not yet shown**: whether `Sewn_s` and `Sewn_t` combine into anything
+resembling the box formula's crossing-symmetric `Li₂(1-s/t)+Li₂(1-t/s)`
+structure. That comparison isn't meaningful yet, because both are still
+functions of one fixed `z` — the `(z,z̄)` integral is still missing from
+both channels.
+
 ## Status
 
-Not converged, but sharpened twice, then genuinely advanced twice, then
-clarified once more: the `D2`-threshold closed form (`Sewn`, above) is now
-known to be *complete* for what it computes, and it's now rigorously
-established that the current construction is structurally incapable of
-ever reproducing `t`-dependence — the honest next frontier, if this is
-pursued further, is a genuine 6-point all-celestial treatment (all six
-`z_i` as operators, cross-ratio-dependent conformal blocks), which is a
-substantially larger undertaking than anything attempted in this sandbox
-so far. This sandbox has verified one real, non-trivial building block
-(the `D2`-threshold Sokhotski-Plemelj discontinuity, closed-form, doubly
-verified) toward the shadow-discontinuity mechanism at one loop, for one
-specific propagator of one specific tree topology. It has not shown, and
-does not claim to show, anything about the mechanism at higher loop
-orders or non-perturbatively — extending the general `L`-loop structural
+Not converged, but genuinely advanced several times in a row now. Recap of
+where each open question currently stands:
+
+- **The original coincident-pole divergence** (naive completeness-relation
+  sewing, `shadow_sewing.py`): resolved for one propagator's threshold by
+  tying legs 5,6 via crossing symmetry and working on a real Lorentzian
+  celestial slice, rather than by any of the three regulators tried and
+  ruled out first (Feynman `iε`/mass/Schwinger-damping on `D3` — ruled out
+  *in general*, for every regulator of that shape, not case by case — and
+  `iε` on the fixed external Mandelstam `s`, inert for the standard
+  reason). The pattern behind all three failures: a fix has to act on
+  whatever is genuinely being varied/integrated in the reconstruction, not
+  on `D3` additively and not on a fixed external invariant.
+- **The `D2`-threshold discontinuity, integrated over the whole principal
+  series** (`Δ5+Δ6=2`): finite, closed-form, doubly verified
+  (`Sewn_s`, `tied_leg_continuation.py` / `principal_series_sewing.py`).
+- **The `ω=0` soft/IR pole**: confirmed to cancel out of the discontinuity
+  automatically — `Sewn_s` is already the complete `D2`-threshold answer,
+  nothing further needed there.
+- **`t`-dependence**: *not* structurally impossible as first thought — that
+  was specific to the one comb ordering tried first. A different ordering
+  (`5-2-3-1-4-6`) reaches a genuinely `t`-dependent threshold with the
+  *same* verified machinery, giving `Sewn_t`, doubly verified at the same
+  precision as `Sewn_s` (`t_channel_sewing.py`).
+
+**What's still open**: whether `Sewn_s` and `Sewn_t` combine (once the
+still-missing `(z,z̄)` integral is done on both) into anything resembling
+the box formula's crossing-symmetric structure; the sign difference
+between `Sewn_s` and `Sewn_t` at matching kinematics, noted but not yet
+explained; and, at a much larger scale, whether any of this generalizes
+beyond one loop or one topology. This sandbox has verified several real,
+doubly-checked building blocks toward the shadow-discontinuity mechanism
+at one loop, for two thresholds of one tree topology. It has not shown,
+and does not claim to show, anything about higher loop orders or
+non-perturbative completeness — extending the general `L`-loop structural
 pattern already proved unconditionally in `TreeLoopSewing.lean`
 (`pairSewing_cycleRank`) to genuine analytic content, pair-sewing by
 pair-sewing with this now-working mechanism, is itself an open, likely
-multi-session research program, not something this pass has attempted. Three regularization ideas ruled
-out now (one of them — the D3-shift family — ruled out *in general*, for
-every regulator of that shape, not case by case), each for a clear,
-recorded reason rather than a dead end. The pattern across all three: any
-fix has to act on whatever variable is genuinely being varied/integrated in
-the reconstruction (the `Δ5,Δ6`/`λ` contour itself, or the eventual `ℓ²`),
-not on `D3` additively and not on a fixed external Mandelstam invariant.
-Two live hypotheses remain, neither attempted yet: (1) the not-yet-included
-`(z,z̄)` conformal-block factor supplies compensating structure once the
-full construction (not just the energy/Mellin sub-integral) is assembled;
-or (2) the Sokhotski-Plemelj `iε` belongs on the final assembled `1/ℓ²`
-propagator after reconstruction (matching `DispersionReconstruction.lean`'s
-proven mechanism directly), not on any intermediate Mellin-space object.
+multi-session research program, not something attempted here.
