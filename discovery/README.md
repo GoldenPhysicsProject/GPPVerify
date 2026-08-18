@@ -688,3 +688,87 @@ proved in `GppVerify` (confirmed independently by the Lean-tree audit:
 gap named explicitly as "requires unitarity cut equations + celestial OPE
 theory"). Nothing here is proved; everything positive and negative is
 recorded honestly above.
+
+## Follow-up: the `(z5,z6)` double integral of `Sewn_residue`, and a real
+correction found while doing it
+
+`shadow_ope/residue_double_integral.py` carries out the double
+celestial-sphere integral of `residue_at_coincidence.py`'s
+`Sewn_residue(z5,z6)=1/(A(z5)·C(z6)·s)`. Before integrating, checked
+whether `Res_{Δ5=1}[L]` stays universal (`=1/(As)`) once `z5` is put on the
+real Lorentzian slice needed to integrate over the physical sphere, rather
+than the split-signature choice used for well-definedness before. A first
+numerical pass appeared to show the residue decaying to zero — traced this
+down rather than accepted it: a genuine `mp.quad` artifact failing to
+resolve the near-non-integrable `w^{δ-1}` behavior at the `w→0` endpoint
+for tiny `δ`, not a real vanishing. Fixed with a `w=e^{-x}` substitution;
+confirmed clean `O(δ)` convergence to exactly `1/(As)`, independent of
+`z5`'s reality — the pole comes entirely from the `w→0` endpoint, decoupled
+from the `w0` threshold, so there's no hidden extra discontinuity there.
+
+**The `z5` integral is therefore trivial** — `A` is `z5`-independent, so it's
+just multiplication by the round-sphere's total measure `π`. **The `z6`
+integral is the real content**, regularized with the same collinear-pole
+technique as the earlier `s`-channel `z`-integral.
+
+**A real error caught and corrected**: `residue_at_coincidence.py` had
+claimed "no t-dependence whatsoever." That conflated two different
+statements — `t` never appears as an explicit symbol in `A`, `B`, `C`'s
+*formulas* (true, matches `dispersive_extraction.py`'s original finding for
+`A`,`B`) — with "the integrated result doesn't depend on `t`" (false).
+`C=2q(z6)·p4` is evaluated at the actual momentum `p4`, and
+`make_kinematics(s,t)` rotates `p4` by the scattering angle `θ(t)` — so
+`κ=2(p4⁰+p4³)` works out to exactly `-t/E` (verified to machine precision),
+and `z4`'s celestial position also shifts with `t`. First run of the
+"independence check" therefore measured a genuine ~2× swing in the result
+across `t` at fixed `s`, catching the overstatement directly rather than
+letting it stand. Result: `FullSewnResidue(s,t)` is a genuine function of
+both `s` and `t`, computed directly (not assumed factorizable) since `z4`'s
+shifting position rules out a simple closed form. Rho0-independence
+re-confirmed at the point that triggered `scipy` convergence warnings
+(`s=3,t=-2.5`): `0.478→0.474→0.472→0.472` as `ρ0` shrinks — the warnings
+were benign, same discontinuous-cutoff artifact already understood from
+`sewn_z_integral.py`.
+
+Honest scope unchanged from `residue_at_coincidence.py`: still a different
+object from `Sewn_s`/`Sewn_t`, still no claim of equaling a piece of the box.
+
+## Follow-up: the loop-counting rule ("loops come from double
+discontinuities") — already proven in Lean, independently re-verified here
+
+Daniel recalled, imprecisely, a rule connecting discontinuity count to loop
+order. `GppVerify/CelestialHolography/TreeLoopSewing.lean` already proves
+this unconditionally (`pairSewing_cycleRank`, pure graph theory, zero
+physics content): sewing `L` disjoint leaf-pairs of an open `(4+2L)`-point
+cubic tree gives a connected 4-point graph of cycle rank exactly `L`. The
+file's own header documents a correction of an EARLIER WRONG version of
+this exact claim — an early manuscript draft said "`L+1` shadow closures,"
+corrected here to `L` pair sewings — almost certainly the actual source of
+the half-remembered rule.
+
+`shadow_ope/loop_counting_rule.py` re-derives this from scratch in Python
+(no Lean, no library), independent confirmation for `L=0..6`, all exact
+matches. Also checked a subtlety cycle-rank alone doesn't capture: does
+sewing the comb's two *far* ends (matching the discovery scripts'
+`5-1-2-3-4-6` ordering) give the box *specifically*, not just some generic
+cycle-rank-1 graph? Confirmed directly — it produces a literal 4-cycle,
+matching `closedBoxDenominator`'s four factors exactly; sewing two *adjacent*
+legs instead gives the same cycle rank (1) but a topologically different
+graph (a tadpole), confirming which pairing matters for topology even
+though the loop *count* doesn't care which pairing is chosen.
+
+Where "double" precisely enters: each pair-sewing is
+`doubleShadowDisc := disc₆ ∘ disc₅`, literally 2 leg-wise shadow
+discontinuities. So `L=1` (one loop) is exactly *one* double discontinuity
+— matches "loops come from double discontinuities" precisely for one loop.
+`L=2` is *two* double discontinuities (4 leg-wise ops total), not a single
+"triple" discontinuity — the "triple for 2 loops" half of the
+half-remembered rule doesn't match this project's actual construction.
+
+**Honest scope, the important part**: this is pure graph theory, fully
+proven. The open, physics-laden claim is `ShadowPairSewing.sewing_identity`
+— that the *analytic* double-shadow-discontinuity on an actual celestial
+correlator really does equal the momentum-space pair closure. The graph
+theory proves the *topology* count; it says nothing about the *amplitude
+value* — that gap is exactly the K1/box-reconstruction problem this entire
+session has been attacking, and remains open.

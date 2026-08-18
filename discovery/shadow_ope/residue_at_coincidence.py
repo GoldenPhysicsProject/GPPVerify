@@ -83,11 +83,24 @@ STRUCTURAL OBSERVATIONS, checked not asserted:
     discontinuities) on that same real slice. This is not a discontinuity
     object in the same sense; it is closer to an OPE coefficient / residue
     at a physical pole.
-  - No t-dependence whatsoever (t=(p2+p3)^2 does not appear in A, C, or s) --
-    independently reconfirms, via a totally different construction, the
-    structural fact already established in dispersive_extraction.py: t can
-    only enter through the (z,zbar) integral, never through the bare L, R,
-    or now Sewn_residue objects alone.
+  - CORRECTION (found while doing the (z5,z6) double integral in
+    residue_double_integral.py, not caught here): "t does not appear in A,
+    C, or s" is true only as a statement about the FORMULA -- none of A, B,
+    C reference the symbol t explicitly, matching dispersive_extraction.py's
+    original structural finding for A, B. But C=2q(z6).p4 is evaluated at
+    p4, and p4 ITSELF is a t-dependent momentum once a specific kinematic
+    frame is chosen (make_kinematics(s,t) rotates p4 by the scattering angle
+    theta(t)) -- so C's ACTUAL VALUE, and hence Sewn_residue's actual value
+    at fixed z5,z6 labels, does shift with t, even though no "t" symbol
+    appears in the formula for C itself. Once z6 is integrated over the
+    celestial sphere in this frame, the result is a genuine function of both
+    s and t (kappa=2(p4^0+p4^3)=-t/E exactly, and z4's position also shifts
+    with t) -- see residue_double_integral.py for the corrected, verified
+    (s,t)-dependence. The narrower true statement (t never enters as an
+    explicit additive/multiplicative parameter INSIDE the propagator
+    denominators D1,D2,D3, unlike s in D2) still stands and is the real
+    content of the original finding; "no t-dependence after integrating"
+    does not follow from it and was an overstatement.
 
 HONEST SCOPE, stated plainly, not glossed over:
   - This is a genuinely NEW and DIFFERENT object from tied_leg_continuation.py's
