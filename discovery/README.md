@@ -86,9 +86,56 @@ clean, general, transferable reason rather than a case-by-case failure:
   discontinuity in it doesn't do anything unless `s` itself is later
   continued/integrated (it isn't, in this construction).
 
+## Follow-up: tying legs 5,6 by crossing symmetry finds a genuine, finite,
+verified Sokhotski-Plemelj discontinuity -- the first positive result
+
+All three regularizations above shared an assumption: legs 5 and 6 are
+independent celestial operators (separate `z5,z6`, separate `ω5,ω6`,
+separate Mellin transforms). But "sewing" 5,6 should mean they're the two
+ends of the *same* internal line, so crossing symmetry ties them:
+`k6=-k5`. For null `q(z,z̄)` this forces the *same* celestial point
+(`z6=z5`) and `ω6=-ω5`, reached by continuing `ω5` around `ω=0` — an
+actual contour choice, not an inserted regulator. That collapses the two-
+variable construction (whose coincident-pole pathology was ruled out
+three separate ways) into a single-variable Mellin transform in `ω5`
+alone, sidestepping the pathology rather than trying to regularize it.
+
+Second, necessary change: use a **real Lorentzian celestial point**
+(`z̄=z*`), not the independent complex `z,z̄` ("split signature") used
+everywhere else in this thread's history, including the historical
+manuscripts. With independent complex `z,z̄`, `D2`'s zero lands at a
+generically *complex* `ω5` — off the real integration contour, so no
+causal `iε` can do anything there (checked: the discontinuity trivially
+vanished). With `z̄=z*`, `A,B,C` become genuinely real and `D2`'s zero
+`ω5=-s/B` lands *on* the real axis — a genuine physical unitarity
+threshold, exactly where `DispersionReconstruction.lean`'s proven
+mechanism applies.
+
+**Result** (`shadow_ope/tied_leg_continuation.py`): with both changes, the
+retarded/advanced discontinuity across `D2`'s threshold converges to a
+finite, `ε`-independent, nonzero limit that matches the exact closed form
+`disc(Δ) = -2πi/(ACB)·w0^{Δ-3}` (`w0=-s/B`) to `~1e-10` relative error,
+with the residual shrinking as `O(ε²)` (`4e-6→4e-12` as `ε` goes
+`0.01→0.00001`) — clean convergence, unlike every regulator tried before,
+which stayed pathological regardless of `ε`. Verified at two independent
+kinematic points, not one.
+
+**What this does and doesn't show**: this is a real, verified building
+block — the first place in this whole investigation where a genuine
+Sokhotski-Plemelj discontinuity survives the `ε→0` limit with a finite,
+non-trivial, closed-form value, directly instantiating the mechanism
+already proven abstractly in Lean. It is *not* a derivation of the box
+integral. The other singularity of the tied-leg amplitude (a double pole
+at `ω5=0`, from `D1` and the crossing-continued `D3` vanishing together)
+is a standard soft/IR singularity — expected structure, not evidence of
+anything new, and not yet treated. Also not yet done: the full inverse-
+Mellin assembly back to real loop-momentum space, the `(z,z̄)` integral
+that must supply `t`-dependence, and a numeric comparison of the fully
+assembled result against the known box formula.
+
 ## Status
 
-Not converged, but sharpened twice more. Three regularization ideas ruled
+Not converged, but sharpened twice more, then genuinely advanced once. Three regularization ideas ruled
 out now (one of them — the D3-shift family — ruled out *in general*, for
 every regulator of that shape, not case by case), each for a clear,
 recorded reason rather than a dead end. The pattern across all three: any
