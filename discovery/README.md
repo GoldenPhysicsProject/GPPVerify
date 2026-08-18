@@ -419,3 +419,41 @@ loop-measure derivation uses for the transverse/z-integration — which
 would mean `z` itself should be an *integration variable* alongside `λ`,
 with the `s,t`-dependence entering through the integration domain rather
 than by plugging a fixed `z=s/(s+t)` into the blocks. Not yet tried.
+
+## Follow-up: an exact, confirmed scaling law the construction must satisfy
+-- and two cheap candidate fixes tried and ruled out
+
+Chased the missing-prefactor diagnosis to a precise statement
+(`shadow_ope/kinematic_block_scaling.py`). `K1_v2` depends only on the
+scale-invariant ratio `z=s/(s+t)`, so its spectral integral `I(z)` is
+invariant under `(s,t)→(c·s,c·t)`. But `box_exact` has mass dimension `-2`
+and its own closed form shows `box_exact(s,t)=H(z)/(s+t)²` for some
+function `H`. So `I(z)/box_exact` must scale as exactly `c²` at fixed `z`
+— checked holding `z=0.6` fixed across four different overall scales
+(`s+t ∈ {-5,-10,-15,-50}`): `ratio/(s+t)²` is constant to all 10 digits
+shown in every case (`0.03813598329...`). **Confirmed, not approximate**:
+the construction is missing an overall `(s,t)`-dependent prefactor of
+exactly this weight — plausibly the `1/(ω5 ω6)` energy factor every
+source's general derivation carries and that this construction (fixed
+chart point, λ-only integral) has been dropping.
+
+That fixes the *scale* but not the *shape*: the residual
+`ratio/(s+t)²`, now genuinely a function of `z` alone, still varies by
+more than an order of magnitude across six `z` values tested (`0.038` to
+`2.25`) — a real, unresolved shape mismatch. Two cheap candidate fixes
+were tried and **both ruled out**: (a) scanning a single power `z^p`
+multiplying `K1_v2` for `p∈{-3,...,1}` — best case (`p=-2.5`) still
+leaves a `2.4×` spread across just four `z` points, no simple power law
+reconciles it; (b) adding a `t`-channel analog with `z_t=1-z_s` (echoing
+the genuinely-verified `Sewn_s`/`Sewn_t` two-channel structure from
+`t_channel_sewing.py`/`sign_derivation.py`) — narrows the spread
+somewhat at moderate `z` but is far from uniform and even flips sign
+relative to the box at extreme asymmetric kinematics.
+
+**Where this leaves it**: the missing piece is real, confirmed in its
+scaling weight, and definitely not a simple multiplicative correction.
+The two remaining candidates worth trying next are genuinely different
+`u≠1-v` cross-ratios per channel (built from all six operator positions,
+not the two-point simplification `u=v=z` used throughout this attempt),
+or treating the internal leg position as a true integration variable
+against a round-sphere-type measure rather than a fixed chart point.
