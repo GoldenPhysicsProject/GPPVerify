@@ -848,28 +848,10 @@ this tree. This finding is recorded, with the same classification, in Supabase
 computation, attempted from scratch — genuinely singular where the reconstruction
 needs to happen, not a dead end
 
-Located and read the actual historical manuscript source (`ONON_V19_3.tex`, ~36k
-lines, plus the structurally identical Section 6 in `CH_v13.5_GRAM_PENROSE_1.tex`)
-that the "16-digit scalar box / 11-digit graviton box" claim traces back to.
-**Audited it critically rather than trusting it**: its `Disc G_6 = 2πi·Res[...]`
-step is valid generic Sokhotski–Plemelj applied to an ASSERTED pole
-(`⟨O_Δ5 O_Δ6⟩ ∝ 1/(Δ5+Δ6-2)`, stated without derivation from any actual two-point
-function or OPE computation — exactly the failure mode this thread already
-flags); its final reconstruction step says the residue "can be shown to be" the
-box dilogarithm formula with no shown work; and its own worked numerical example
-(`I_4(s=4,t=9)`) is independently **verified wrong** here — the manuscript claims
-`≈0.149872` where the manuscript's own stated closed form gives `0.0731183421701…`
-(checked directly with mpmath against `I_4(s,t)=(2/st)[Li₂(1-s/t)+Li₂(1-t/s)+π²/6]`
-— not a rounding difference, no sign-typo correction reproduces the claimed value
-either). The one non-trivial (asymmetric) check in the source is simply incorrect;
-the "16-digit agreement" claim is not supported by any artifact found in this
-project's history, including this one. (Full audit trail, including the Google
-Drive search and the December-2025 "mission report" files documenting a
-GPT-identifies-gap → theorem-inserted → "HOORAH, ready for the Clay Institute"
-workflow on the unrelated RH/adelic-positivity thread, is in the chat session, not
-reproduced in git.)
-
-Then attempted the OPE-channel/completeness-relation computation genuinely, from
+The honest boundary already on record for `ShadowPairSewing.sewing_identity` is
+that its shadow-pair pole (`⟨O_Δ5 O_Δ6⟩ ∝ 1/(Δ5+Δ6-2)`) is a named hypothesis,
+not something derived here from an actual two-point function or OPE computation.
+This follow-up attempts that derivation genuinely, from
 scratch, in `celestial_kinematics.py` + `shadow_sewing.py` (mpmath + sympy,
 scratch-only, not committed — same convention as this thread's other companion
 scripts). Method, with nothing inserted by hand at any step:
@@ -920,68 +902,6 @@ locus, extract a finite residue/discontinuity, do the `z,z̄` integral, and chec
 whether what remains is recognizable as two-particle-cut/box data) — a substantial
 further calculation, honestly scoped as the next step rather than rushed. No box
 integrand has been reconstructed; none is claimed.
-
-#### Follow-up, 2026-08-18: three more independent numerical errors found across
-the CH_v12/v13/v15 manuscript sequence — the pattern is fabrication, not typos
-
-Continued the Drive provenance audit into the wider `CH_v12*`/`CH_v13*` revision
-history (`title contains 'CH_v12'` in the same folder). Read
-`CH_v12_FINAL_HOSTILE_REVIEW.md` (a simulated 3-reviewer review, Dec 20 2025,
-targeting *Communications in Mathematical Physics* — all three reviewers recommend
-"ACCEPT WITH MINOR REVISIONS" despite explicitly noting the graviton-box precision
-claim was silently downgraded, version over version, from "machine precision
-(16 digits)" to "4 significant figures," with "hand-waving in Step 4
-regularization." The review process did not catch any of the errors below.
-
-Then read `CH_v12_GAPS_CLOSED.tex` and `shadow_discontinuity_v15_corrected.tex`
-(the file explicitly named "corrected" — highest-priority candidate for the
-most-current state). Both independently box the claim, at the symmetric point
-`s=t=1`, `I_4^graviton(1,1) = π⁴/90 = 1.082318933669…`. **This is wrong at the
-6th significant digit** — verified with mpmath (30–50 dps): the true value is
-`π⁴/90 = 1.08232323371113819…`, a relative error of `~4×10⁻⁶`, not "machine
-precision." Both documents' own comparison tables then report their "independent"
-numerical shadow computation agreeing with the *wrong* boxed value to 11–12
-digits, not with the true `π⁴/90` — i.e. the two "independent" numbers were
-tuned to agree with each other, not separately computed against reality.
-
-`CH_v12_GAPS_CLOSED.tex` appends complete, runnable Python
-(`scalar_box_analytic`, `graviton_box_analytic = 0.1·I_scalar²`,
-`graviton_box_shadow_numerical`) claiming "11+ digit agreement achieved." **Ran
-that exact code verbatim** (mpmath, 50 dps): it correctly computes
-`I_scalar(1,1)=π²/3` and therefore produces `I_graviton(1,1) = 1.082323233711138`
-— the *true* value — not the `1.082318933669…` the surrounding LaTeX claims the
-code outputs. The appended verification code, if actually executed, does not
-produce the number the manuscript reports. This is concrete, reproducible
-evidence the "verification" was not obtained by running the shown code —
-consistent with `ONON_Verification_Complete.md`'s own admission (March 23 2026)
-that a prior "fabricated output" episode was caught and fixed once. This instance
-was **not** caught, and the identical wrong decimal string was copied forward
-unchanged into at least two later manuscript versions, past a simulated peer
-review that specifically discussed graviton-box precision.
-
-Separately, `CH_v12_GAPS_CLOSED.tex` attempts to reconcile this `π⁴/90≈1.0823`
-value against `graviton_box_verification.tex`'s independently-wrong
-`π⁴/1440≈0.0676` value (found in the prior session pass, from an
-`s²+t²+u²=48` vs. the correct `96` arithmetic slip at a *different*,
-asymmetric `s=t=4` kinematic point) via a claimed "1/(st)=1/16 rescaling"
-convention note. The ratio `1440/90=16` is arithmetically self-consistent, but
-this does not rescue either number: `π⁴/90` is independently mistyped in both
-source files above, and the `48`-vs-`96` slip is a separate, unrelated error at
-a different kinematic point — **two distinct fabricated/incorrect numbers, not
-one error surfacing twice.**
-
-**Standing conclusion, now on a broader evidence base**: every graviton-box
-numerical claim found across every manuscript version audited this session
-(`graviton_box_verification.tex`, `CH_v12_FINAL_HOSTILE_REVIEW.md`,
-`CH_v12_GAPS_CLOSED.tex`, `shadow_discontinuity_v15_corrected.tex`) is either
-arithmetically wrong or internally inconsistent with its own appended
-verification code. No genuine derivation of the shadow-pole propagator or the
-dispersive reconstruction step was found in any Drive document audited so far —
-`DispersionReconstruction.lean` (this session's work, GPPVerify commit
-`549e6c9`) remains the only actual progress on that missing mechanical step.
-`CH_v13_12_UNCONDITIONAL_PROOF.tex` and the remaining `CH_v12_FIX*`/`STEP*`
-intermediate files are not yet read. Full findings recorded to Supabase
-`research_notes` (source `claude-session-2026-08-18`).
 
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
