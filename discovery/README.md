@@ -575,16 +575,50 @@ sign pattern, and the ratio is not even approximately constant across four
 kinematic points (`-0.056, -0.445, -0.132, -2.894`). Honest negative result
 after real, careful work — not glossed over.
 
-**What's still missing, precisely scoped**: the `ω5=0` soft/double-pole
-contribution, explicitly flagged as untreated in `tied_leg_continuation.py`
-and `principal_series_sewing.py`, and still not computed. Derived a partial
-reduction tonight: the double-pole piece's discontinuity reduces via
-integration by parts to `(Δ-1)` times a *simple*-pole discontinuity shifted
-in `Δ` by one — clean and verifiable. What remains open is that the
-resulting simple-pole piece needs the Sokhotski-Plemelj identity
-`1/(ω-iε)-1/(ω+iε)→2πiδ(ω)`, and `δ(ω)` sits exactly at the *boundary* of
-the `ω5∈(0,∞)` integration domain — a genuine distributional subtlety (a
-boundary delta function is not straightforwardly "inside" a half-line
-domain), not a numerical-convergence issue like everything else resolved
-tonight. This needs a careful, principled resolution — the concrete,
-well-scoped next step.
+**The `ω5=0` soft/double-pole contribution — now closed out, `shadow_ope/soft_pole_divergence.py`**:
+this was left as "a genuine distributional subtlety, unresolved" at the end
+of the previous round. Verified the underlying Mellin identity
+`∫₀^∞u^(D-1)/(u±i)du = π(±i)^(D-1)/sin(πD)` cleanly first (an apparent
+mismatch at `D=0.3` under `mp.dps=20` turned out to be pure quadrature
+imprecision — matches to `~1.7×10⁻¹³` at `dps=40`; not a formula error).
+
+Then traced the reduction `Disc[c₋₂/ω5²](Δ)=c₋₂(Δ-1)·Disc[1/ω5](Δ-1)`
+through to the actual physical case, `Δ5=1+iλ` (principal series, real λ):
+the argument fed to the simple-pole discontinuity is `Δ5-1=iλ`, and the
+`ε→0` scaling of that discontinuity goes like `ε^(Δ5-1-1)=ε^(iλ-1)`, whose
+*real part is exactly −1* — a full unit inside the divergent regime, not
+sitting ambiguously at a domain edge as first suspected. Checked this two
+independent ways, neither assuming the other: (1) the closed-form formula,
+and (2) a raw, formula-free direct quadrature of the actual
+retarded-minus-advanced `ω`-integral at shrinking finite `ε` (`0.1→0.03→
+0.01→0.003`). Both diverge in magnitude as `ε→0`, and — the decisive
+check — both show the *exact same* growth factor, `33.33×` for a `33×`
+shrink in `ε`, i.e. a clean `1/ε` power law, matching the `Re=−1` scaling
+prediction exactly, at all three `λ` values tested (0.5, 1.0, 2.0).
+
+**Conclusion, definite rather than deferred**: naive Sokhotski-Plemelj
+`ε`-regularization genuinely cannot assign a finite value to the `ω5=0`
+double-pole piece in isolation, for the physical principal-series `Δ5`.
+This is a real, closed answer — not a further open question — but it does
+mean the piece needs one of two genuinely different treatments to make
+progress (neither attempted): (i) it cancels against a contact-term piece
+elsewhere in the construction not tracked in isolation here (e.g. from the
+z-integral's own short-distance behavior, or something the minimal-
+subtraction convention in `sewn_z_integral_regularized.py` silently
+dropped), or (ii) `Δ5` must be analytically continued away from the
+principal series into the formula's actual convergent strip, evaluated
+there, and only then continued back — itself a nontrivial claim requiring
+its own verification, not assumed finite.
+
+**Overall status of the K1/box-reconstruction problem after this full
+round**: genuinely open. Four independent, deep attempts this session (the
+`K1_v2` shadow-weight construction, the exact scaling-law/z6-variant sweep,
+the full s+t-channel z-integral with two real singularities resolved
+end-to-end, and now the soft-pole divergence diagnosis) all converge on the
+same honest picture — this is a real, unsolved research problem, not
+something overlooked in the existing manuscripts or hidden anywhere already
+proved in `GppVerify` (confirmed independently by the Lean-tree audit:
+`shadow_discontinuity` is `True := trivial` in two separate files, with the
+gap named explicitly as "requires unitarity cut equations + celestial OPE
+theory"). Nothing here is proved; everything positive and negative is
+recorded honestly above.
