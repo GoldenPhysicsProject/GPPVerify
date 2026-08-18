@@ -503,3 +503,88 @@ prescription that `tied_leg_continuation.py` used successfully for the
 `ω5` integral earlier this session — not a naive real-axis integral. That
 contour-prescription work is a substantially bigger undertaking than
 anything attempted tonight, and is the honest next concrete step.
+
+## Follow-up: the dedicated deep-dive — completing the `Sewn(z)` z-integral
+properly, with a real causal contour treatment. Substantial new structural
+results; still an honest negative on matching the box.
+
+Went back to the most solid ground in this whole thread — the doubly-verified
+tied-leg `Sewn(z)` closed form (`principal_series_sewing.py`) — and pushed its
+own explicitly-flagged "not yet done" item (the `(z,z̄)` integral) all the way
+through, properly, rather than guessing at more literature formulas.
+
+**Structural fact found first, changing the whole picture**: in the
+`make_kinematics(s,t)` frame, `A(z)=2q(z)·p1` is *exactly* z-independent (a
+frame degeneracy — `p1` sits along the same axis as the chart's pole), and
+`B(z)=2q(z)·(p1+p2)` is *exactly* one-signed everywhere (`=-4E(1+|z|²)`,
+never zero) — so `Sewn(z)`'s only genuine singularity in `(x,y)` comes from
+`C(z)=2q(z)·p4`. Checked directly: `C(z)` is *exactly* proportional to
+`|z-z4|²` (a standard celestial-holography identity for null momenta,
+confirmed both algebraically — `C` is a literal perfect-square quadratic
+form — and numerically, its root matches the standard celestial position of
+leg 4 to 10 digits). So `1/C(z)` is a `1/|z-z4|²` singularity: the textbook
+*marginal* divergence of shadow-formalism OPE-position integrals at external
+dimension `Δ=1`, not a bug.
+
+**Large-`|z|` divergence resolved for free**: an earlier attempt this
+session (`z_integral_attempt.py`, flat measure, different quantity) found a
+log divergence at large `|z|`, explicitly flagged there as possibly an
+artifact of the wrong measure. Confirmed here: with the *correct*
+round-sphere measure `dx dy/(1+x²+y²)²`, the full polar integrand decays
+like `~1/r⁴` and converges cleanly (`R=5→80`: stable to 5 digits, no
+regulator needed). The round-sphere measure — motivated independently by
+the loop-measure derivation read in the historical manuscripts — genuinely
+fixes that earlier divergence.
+
+**Collinear singularity at `z=z4` regularized via the standard technique**:
+analytic continuation of the singular power (`C^{-1}→C^{-1+δ}`, i.e.
+`Δ_ext: 1→1-δ`), with the pole coefficient extracted *analytically* from
+the local behavior (far more reliable than fitting several noisy `δ`
+values — double-precision adaptive quadrature genuinely cannot resolve a
+sharpening near-singularity well enough for that, confirmed by inconsistent
+fits across `δ`-pairs). The finite remainder was cross-checked via
+`ρ0`-independence (the arbitrary matching radius between the local analytic
+piece and the numerical rest-of-domain integral) — confirmed stable to 4
+digits between `ρ0=0.2` and `ρ0=0.02`. One genuine subtlety caught and
+fixed: the analogous t-channel coefficient (`A'(z)∝|z-z2|²`) has a
+*negative* prefactor, and raising a negative real number to a fractional
+power is a genuine branch ambiguity — resolved by only fractionally-powering
+the manifestly-nonnegative radial distance, keeping the real coefficient as
+an exact prefactor (unambiguous regardless of its sign).
+
+**A second singularity found in the t-channel piece, and resolved with a
+real physical proof, not a guess**: `t_channel_sewing.py`'s `B''(z)`
+(unlike the s-channel's `B`) genuinely changes sign across the plane, so
+`w0_t=-t/B''` crosses zero on a real curve — naively a branch cut needing a
+contour prescription. Tested directly whether restricting to `{w0_t>0}` is
+correct or an approximation: computed the *original*, un-closed-formed
+retarded/advanced `ω5`-quadrature discontinuity at a `w0_t<0` kinematic
+point directly. Result: `~3×10⁻⁶`, pure regulator noise — genuinely zero.
+This *proves* (not assumes) that `w0_t<0` means the would-be threshold sits
+at unphysical negative `ω5`, so there is no discontinuity there at all —
+the `{w0_t>0}` restriction is the physically correct prescription, not an
+incomplete hack.
+
+**Result**: `Sewn_s(z)+Sewn_t(z)`, fully z-integrated and regularized this
+way (`shadow_ope/sewn_combined_st.py`), does **not** match `2i·Im(box_exact(s,t))`
+(the physically correct target for a discontinuity object — comparing to
+`box_exact` directly, as every earlier K1 attempt did, was a category error,
+since a discontinuity is manifestly purely imaginary by Schwarz reflection
+while the full amplitude generally isn't). Wrong order of magnitude, wrong
+sign pattern, and the ratio is not even approximately constant across four
+kinematic points (`-0.056, -0.445, -0.132, -2.894`). Honest negative result
+after real, careful work — not glossed over.
+
+**What's still missing, precisely scoped**: the `ω5=0` soft/double-pole
+contribution, explicitly flagged as untreated in `tied_leg_continuation.py`
+and `principal_series_sewing.py`, and still not computed. Derived a partial
+reduction tonight: the double-pole piece's discontinuity reduces via
+integration by parts to `(Δ-1)` times a *simple*-pole discontinuity shifted
+in `Δ` by one — clean and verifiable. What remains open is that the
+resulting simple-pole piece needs the Sokhotski-Plemelj identity
+`1/(ω-iε)-1/(ω+iε)→2πiδ(ω)`, and `δ(ω)` sits exactly at the *boundary* of
+the `ω5∈(0,∞)` integration domain — a genuine distributional subtlety (a
+boundary delta function is not straightforwardly "inside" a half-line
+domain), not a numerical-convergence issue like everything else resolved
+tonight. This needs a careful, principled resolution — the concrete,
+well-scoped next step.
