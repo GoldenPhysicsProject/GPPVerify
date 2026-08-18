@@ -133,9 +133,53 @@ Mellin assembly back to real loop-momentum space, the `(z,z̄)` integral
 that must supply `t`-dependence, and a numeric comparison of the fully
 assembled result against the known box formula.
 
+## Follow-up: integrated over the WHOLE principal series ("wherever the
+internal operators sum to 2") -- converges to an exact closed form
+
+Daniel's steer: the shadow-pair condition `Δ5+Δ6=2` is always satisfied on
+the principal series `Δ=1+iλ` paired with its shadow `2-Δ=1-iλ`, so the
+natural completion of the tied-leg result is to integrate `disc(Δ)` over
+the *entire* principal series against the Plancherel measure — the exact
+operation that diverged in every earlier attempt (`shadow_sewing.py`,
+`dispersive_extraction.py`, `mandelstam_regulator_check.py`).
+
+On the principal series, `w0^{Δ-3} = w0^{-2}·e^{iλ ln w0}` — a pure phase
+times a fixed prefactor, so `|disc(1+iλ)|` is *constant* in `λ`: no
+growth, no pole, anywhere on this contour. Multiplied by the exponentially
+-decaying Plancherel measure, the sewing integral is manifestly absolutely
+convergent — textbook convergence, unlike anything tried before.
+
+Scanning the real integral inside against candidate closed forms at five
+different `x` values matched *exactly* (ratio `=π` to 8 digits at every
+point) to a standard Fourier-transform identity for the Plancherel kernel,
+giving:
+
+```
+Sewn = -iπ/(2·A·C·B) · w0⁻² · sech(ln(w0)/2)²      (w0 = -s/B)
+```
+
+Verified against **direct numerical quadrature of the λ-integral** (a
+second, independent check beyond the earlier `ε→0` discontinuity
+verification) to `~1e-30` relative error at **three** independent
+kinematic points (`shadow_ope/principal_series_sewing.py`). Cutoff-
+robustness checked too (`λ∈[-20,20]` vs `[-80,80]`: identical to 15
+digits).
+
+**What this shows**: the tied-leg / real-Lorentzian-slice construction
+gives a finite, closed-form, non-singular value for the `D2`-threshold's
+contribution to the shadow-pair sewing integral, integrated over the
+*entire* principal series — the operation whose divergence this whole
+sandbox exists to investigate now converges cleanly with an exact answer.
+
+**What this doesn't show**: still only the `D2`-threshold piece, at one
+fixed celestial point `z` (not integrated over the sphere). The `ω5=0`
+soft/IR double pole and the `(z,z̄)` integral supplying `t`-dependence are
+both still missing. No claim that `Sewn` equals any piece of the box
+integral — a finite, doubly-verified closed form, nothing more asserted.
+
 ## Status
 
-Not converged, but sharpened twice more, then genuinely advanced once. Three regularization ideas ruled
+Not converged, but sharpened twice more, then genuinely advanced twice. Three regularization ideas ruled
 out now (one of them — the D3-shift family — ruled out *in general*, for
 every regulator of that shape, not case by case), each for a clear,
 recorded reason rather than a dead end. The pattern across all three: any
