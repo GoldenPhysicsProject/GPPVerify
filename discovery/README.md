@@ -250,15 +250,33 @@ form to `~1e-31`, at two independent kinematic points.
 Sewn_t = -iπ/(2·A'·C·B'') · w0_t⁻² · sech(ln(w0_t)/2)²    (w0_t = -t/B'')
 ```
 
-Genuinely `t`-dependent, doubly verified. One thing noted honestly, not
-explained yet: the sign of the imaginary part is *opposite* `Sewn_s`'s at
-the same kinematic point.
+Genuinely `t`-dependent, doubly verified.
+
+**Follow-up (2026-08-18), `shadow_ope/sign_opposition_sweep.py`**: the sign
+opposition noted above was only checked at 1-2 kinematic points at the
+time — tested it properly. A structured grid (39 points surviving the
+physical-branch constraints, out of 96 tried) and an independent 3000-trial
+random sweep (666 points surviving the same filter) both give **zero**
+exceptions: `Im(Sewn_s)<0` and `Im(Sewn_t)>0` at every single valid point.
+Went further and found the actual reason, promoting this from "observed,
+not explained" to a genuine proof: `A=2q(z).p1=-4E` is an exact
+**z-independent negative constant** (`p1` has no transverse momentum in
+this frame), `A'=2q(z).p2=-4E|z|²` is manifestly `≤0`, and `C(z)=κ|z-z4|²`
+with `κ=2E(1-cosθ)>0` strictly whenever `t<0` (already known to be a
+perfect square from the earlier z-integral work). The physical-branch
+condition itself forces `B<0` (since `s>0`) and `B''>0` (since `t<0`). All
+four signs are therefore fixed independent of the specific `(s,t,z)`, and
+`sign(Im(Sewn_s))=-sign(A·C·B)=-1`, `sign(Im(Sewn_t))=-sign(A'·C·B'')=+1`
+follow immediately — an exact kinematic identity, not a numerical
+curiosity, using no new physics assumption.
 
 **Not yet shown**: whether `Sewn_s` and `Sewn_t` combine into anything
 resembling the box formula's crossing-symmetric `Li₂(1-s/t)+Li₂(1-t/s)`
 structure. That comparison isn't meaningful yet, because both are still
 functions of one fixed `z` — the `(z,z̄)` integral is still missing from
-both channels.
+both channels. (That integral was subsequently done — see the z-integral
+section below — and did not reproduce the box; this sign fact is a clean
+structural stepping stone, not itself progress on that question.)
 
 ## Follow-up: direct attempt at the actual open problem (the kinematic
 block `K_1(λ;s,t)`) -- a genuine new result, and an honest, informative
