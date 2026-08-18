@@ -274,6 +274,43 @@ where each open question currently stands:
   *same* verified machinery, giving `Sewn_t`, doubly verified at the same
   precision as `Sewn_s` (`t_channel_sewing.py`).
 
+## Follow-up: attempted the `(z,z̄)` integral -- a genuine, clean log
+divergence, with a plausible (unverified) physical reading
+
+Ran the natural next step: integrate `Sewn_s(z)` over the celestial
+sphere (real slice, `z=x+iy`, `q(z,z*)=(1+x²+y², 2x, 2y, 1-x²-y²)`).
+Grid-scanned first — smooth and finite everywhere checked. Then checked
+the large-`|z|` falloff directly (an earlier hand estimate for this
+guessed `1/r⁴`; computing it instead of trusting the guess showed that
+was wrong): `|Sewn_s(z)| ~ K/r²` as `r→∞`, with `K` a **universal
+constant independent of angle** — checked at 6 different angles, all
+converging to the same `K≈0.26` (`shadow_ope/z_integral_attempt.py`).
+Makes sense structurally: at large `|z|`, `q(z,z*)` is dominated by its
+leading `r²` piece regardless of direction, so `A,B,C` all approach the
+same asymptotic ratio.
+
+**Consequence**: the flat-measure integral `∫d²z |Sewn_s(z)|` is a
+confirmed, clean **logarithmic divergence** at large `z` — not a
+numerical artifact, a directly verified `1/r²` falloff with an isotropic
+coefficient.
+
+**A plausible reading, explicitly flagged as a hypothesis, not verified**:
+the known massless box integral is itself only finite after IR
+regularization in the fully massless case (the historical manuscripts
+audited earlier in this thread's history say so explicitly, in their own
+box definition). A log-divergent `z`-integral is at least *consistent*
+with reproducing that same IR structure, rather than evidence the
+construction is wrong. Confirming that (versus it being an artifact of
+the wrong measure choice) would need the divergence's coefficient
+compared against the box's known IR-divergent piece in a matching
+regularization scheme — not attempted.
+
+**Explicitly still open**: whether the *flat* measure `d²z` is even the
+right one for this specific completeness-relation context — a different,
+standard celestial-CFT convention (a conformal weight factor like
+`(1+|z|²)⁻²` for a weight-`(1/2,1/2)` primary) would change convergence
+entirely, and no settled derivation of which applies here has been done.
+
 **What's still open**: whether `Sewn_s` and `Sewn_t` combine (once the
 still-missing `(z,z̄)` integral is done on both) into anything resembling
 the box formula's crossing-symmetric structure. The sign difference
