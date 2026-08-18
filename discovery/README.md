@@ -60,14 +60,44 @@ hand.
     `Δ5=1`, so the naive limit is a genuine `∞·finite`, not a removable
     singularity.
 
+## Follow-up: why the D3-regulator idea was doomed in general (not just that
+specific choice), and one more ruled-out idea
+
+Two further checks, both negative but each narrowing the search space with a
+clean, general, transferable reason rather than a case-by-case failure:
+
+- **General no-go for the whole "shift D3 by a small constant" family.**
+  Any regulator of the form `D3 → ω6·C + X` (Feynman `iε`, a tiny mass, an
+  exponential-damping/Schwinger regulator via `Γ(ν)/η^ν` — all checked)
+  produces a Mellin transform whose `X`-dependence enters as `X^{Δ6-1}`.
+  At the coincidence point `Δ6=1` this power is `X^0 = 1` **for every `X`,
+  including `X→0`** — the regulator is algebraically incapable of touching
+  that point, no matter which specific regulator is chosen. This rules out
+  the entire class at once, not just the one `iε` choice tried first.
+- **`iε` on `s` (the physical Mandelstam scale in `D2`) instead of `D3`:**
+  `L`'s own residue at `Δ5=1` genuinely depends on `s` (not degenerate the
+  way `D3`'s regulator was), so `Res[L]|_{s∓iε}` is a legitimate retarded/
+  advanced pair. Checked numerically: their difference is
+  `2iε/(A(s²+ε²)) → 0` linearly as `ε→0`, exactly the expected Sokhotski-
+  Plemelj behavior *away from* the invariant's own threshold (`s=0`). This
+  is the correct, unsurprising answer for our generic external `s≠0` — but
+  it also shows this specific move can't be the resolution: `s` is a fixed
+  external kinematic input here, not a variable being integrated over, so a
+  discontinuity in it doesn't do anything unless `s` itself is later
+  continued/integrated (it isn't, in this construction).
+
 ## Status
 
-Not converged, but sharpened. The naive completeness-relation sewing's
-divergence is now confirmed genuine by two independent methods, not a
-regularization-scheme artifact. Two live hypotheses for where the actual
-fix lives, neither attempted yet: (1) the not-yet-included `(z,z̄)`
-conformal-block factor supplies compensating structure that cancels the
-divergence once the full construction (not just the energy/Mellin
-sub-integral) is assembled; or (2) the Sokhotski-Plemelj `iε` belongs on
-the final assembled `1/ℓ²` propagator after reconstruction, not on the
-intermediate Mellin-space objects `L`, `R`.
+Not converged, but sharpened twice more. Three regularization ideas ruled
+out now (one of them — the D3-shift family — ruled out *in general*, for
+every regulator of that shape, not case by case), each for a clear,
+recorded reason rather than a dead end. The pattern across all three: any
+fix has to act on whatever variable is genuinely being varied/integrated in
+the reconstruction (the `Δ5,Δ6`/`λ` contour itself, or the eventual `ℓ²`),
+not on `D3` additively and not on a fixed external Mandelstam invariant.
+Two live hypotheses remain, neither attempted yet: (1) the not-yet-included
+`(z,z̄)` conformal-block factor supplies compensating structure once the
+full construction (not just the energy/Mellin sub-integral) is assembled;
+or (2) the Sokhotski-Plemelj `iε` belongs on the final assembled `1/ℓ²`
+propagator after reconstruction (matching `DispersionReconstruction.lean`'s
+proven mechanism directly), not on any intermediate Mellin-space object.
