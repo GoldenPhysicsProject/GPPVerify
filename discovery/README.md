@@ -804,3 +804,48 @@ even fully finite and doubly cross-checked at every regularization step,
 does not reproduce the box or its real part — a genuinely different,
 self-consistent construction from the tied-leg Sokhotski-Plemelj picture,
 but neither one alone gets there.
+
+## Follow-up: the soft-pole divergence, revisited — logarithmic, not
+power-law (real progress, not yet a full resolution)
+
+`soft_pole_divergence.py` found the `ω5=0` double-pole discontinuity
+diverges as `ε→0` — but that check was of a *pointwise-in-`λ`* object.
+`shadow_ope/soft_pole_log_divergence.py` checks the actual physical
+quantity: the *`λ`-integrated* soft-pole contribution against the
+Plancherel measure. Oscillatory phase cancellation across `λ` can soften a
+pointwise divergence, and here it genuinely does — factoring out the
+`ε`-dependence shows the entire `λ`-integral reduces to a Fourier
+transform of `g(λ)=πλ²/(sinh(πλ)cosh(πλ/2))`, whose nearest singularity to
+the real axis (needed for the `ε→0` asymptotics) is a *double* pole at
+`λ=-i`. A double pole gives `Coeff(x)~(Ax+B)eˣ` as `x=ln(ε)→-∞`, i.e. the
+`λ`-integrated discontinuity `Sewn_soft(ε)~A·ln(ε)+B` — **logarithmic, not
+power-law**.
+
+Verified two independent ways, both converging on the exact same
+coefficient: (1) direct quadrature of the `λ`-integral across six decades
+of `ε`, two-point slopes converging cleanly to `0.63507→0.63646→0.63660→
+0.636618→0.6366196`; (2) an entirely independent direct residue
+computation via a small contour integral around `λ=-i` (not using the
+`λ`-integral at all), giving the same slope. Both match `2/π=0.63661977…`
+to 6+ significant figures. (A hand-algebra attempt at the same residue got
+`2/π²` — an arithmetic slip, not trusted; the two independent *numerical*
+methods, agreeing with each other, are what's reported.)
+
+**Why this matters**: log divergences are the standard kind handled by
+minimal subtraction in ordinary QFT; power-law divergences (what the
+pointwise check alone suggested) usually signal a genuinely ill-posed
+construction. The clean exact coefficient `2/π` (not some messy irrational
+number) is itself a sign this is real structure, not noise.
+
+**Honestly not yet done**: this treated the Laurent coefficient `c₋₂` as a
+constant (it's actually `z`-dependent, dropped throughout — restoring it
+only rescales the result, doesn't change the log-vs-power-law finding).
+Extracting the actual finite remainder after minimal-subtracting the
+`(2/π)ln(ε)` piece needs a reference scale (or a demonstration the
+remainder is scale-independent) — not done. That remainder would then need
+its own `z`-integral before it could be added to `Sewn_s+Sewn_t` and
+compared to the box again — real further work, not attempted tonight.
+Avenue (ii) from the original diagnosis — a cancelling contact term
+elsewhere in the construction — remains completely untried. This closes
+out "is it hopelessly power-law divergent" (no) without yet closing out
+the soft-pole piece entirely.
