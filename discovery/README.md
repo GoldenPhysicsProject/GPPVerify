@@ -904,3 +904,68 @@ genuine Beta-function integral, not a bare conformal block). The well-scoped
 next step is expressing `L(Δ5)` itself in Legendre-function form and *then*
 applying Theorem 3.1's shadow-difference identity to that — not attempted
 tonight, flagged precisely rather than guessed at further.
+
+## Follow-up: literature check — is "shadow discontinuity of tree gives loop
+integrand" an established technique at all? Found the real mechanism, and it's
+different, plus a clean structural finding about which variables can carry λ
+
+Prompted directly by "keep trying to figure out the loop integrands." Rather
+than another ad hoc K1 ansatz, checked whether this session's (and the whole
+Tree-Loop-Sewing thread's) core hypothesis — that a shadow discontinuity of a
+6-point tree celestial correlator at `Δ5+Δ6=2` directly *is* the 4-point
+1-loop integrand — has any basis in the actual celestial-holography literature,
+as opposed to only in this project's own manuscripts (which the previous
+session already found to contain a specific, confirmed-wrong version of this
+claim — the `(λ,z,z̄)→d⁴ℓ` measure-bridge audit).
+
+Found the directly on-topic paper: Gonzalez, Puhm, Rojas, **"Loops on the
+Celestial Sphere"** (arXiv:2009.07290, Phys.Rev.D 102 (2020) 126027) — full
+text extracted and grepped for `shadow`/`discontinuity`/`dispersion`/
+`inversion`: **zero hits** on any shadow-discontinuity-of-a-higher-point-tree
+mechanism. Their actual, established technique (§3.2, eq. 3.7–3.9) goes the
+opposite direction: take the *already known* momentum-space loop integral
+(the scalar box `M_ε(s,t)`, computed by ordinary QFT methods, expressed via
+hypergeometric functions) and Mellin-transform *that* directly, promoting the
+momentum-space scalar prefactor to a differential/shift operator acting on the
+celestial *tree* amplitude. This "repackage a known loop answer celestially"
+approach is fundamentally different from "derive the loop answer purely from
+tree-level shadow structure" — the latter, this project's actual goal, does
+not appear to be an established result. A separate search for a celestial
+analog of ordinary QFT's generalized-unitarity-cuts method (which *does*
+build loop integrands from products of tree amplitudes, the closest real
+analog of what this thread wants) turned up nothing celestial-specific either.
+
+**A genuine, checkable structural finding along the way**
+(`direct_mellin_scale_covariance.py`): tried adapting Gonzalez-Puhm-Rojas's
+single-variable Mellin transform (their eq. 2.16, over the overall energy
+scale `w` at fixed cross-ratio `r`) directly to the box integral's own `s,t`,
+instead of to the two extra sewn legs 5,6 the way this project's actual
+constructions do. Result: `box(r·w, -w) = C(r)/w²` **exactly** for every
+`w>0` (verified to `~1e-25`, not asymptotically) — because along a fixed-ratio
+ray the dilogarithm arguments `s/t = -r` never change with `w`, only the bare
+`1/(st)` prefactor does. A pure power law's Mellin transform is a delta
+function (or its derivatives) pinning `Δ` to one value — exactly the
+degenerate `f_tree ~ δ(λ)` behavior Gonzalez-Puhm-Rojas found for the tree
+amplitude itself. **Consequence**: transforming the box's own `(s,t)` at
+fixed external kinematics can never produce a genuine `λ`-dependent
+`K1(λ;s,t)` — confirms, rather than just assumes, that `celestial_kinematics.py`'s
+actual convention (legs 1–4 stay ordinary momentum-space externals; only the
+extra sewn legs 5,6's energies `ω5,ω6` get Mellin-transformed) is the *only*
+choice that can carry `λ`-dependence at all. The existing machinery
+(`Sewn_s`, `Sewn_t`, `L(Δ5)`, the residue construction) was targeting the
+right variables all along — this doesn't solve the open problem, but it does
+rule out one entire alternative direction ("just transform the box directly")
+and removes one candidate source of the persistent mismatch.
+
+**Honest bottom line**: the specific mechanism this thread has spent the
+session testing does not have a known literature precedent to fall back on or
+compare against — every comparison so far has had to be self-consistent
+within this project's own constructions, with no external "known-correct"
+target besides the bare `box_exact(s,t)` itself. The next most literature-
+grounded move, not yet attempted, would be to try reproducing
+Gonzalez-Puhm-Rojas's own *operator* construction directly (take their
+eq. 3.7–3.9 differential-operator-on-Δ recipe and see whether it can be
+re-expressed as some kind of shadow-pair-sewing statement after all, rather
+than assuming from the start that it must be) — a genuinely different
+question from anything tried so far, and worth a dedicated attempt before
+inventing another K1 ansatz.
