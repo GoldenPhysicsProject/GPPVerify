@@ -868,3 +868,39 @@ Avenue (ii) from the original diagnosis — a cancelling contact term
 elsewhere in the construction — remains completely untried. This closes
 out "is it hopelessly power-law divergent" (no) without yet closing out
 the soft-pole piece entirely.
+
+## Follow-up: is `verify_qg_kinematics.py`'s Theorem 3.1 (Shadow connection)
+the missing piece for K1? Tested directly — not yet, but a real lead found
+
+Prompted by being asked directly whether this thread was actually using
+the measure/kinematics/blackbody papers' established machinery. Answer was
+partly no — fixed for the blackbody connection above, and now for
+kinematics too. `verify_qg_kinematics.py`'s **Theorem 3.1** gives an exact
+closed form for the shadow-difference of Legendre functions,
+`Q_{-ν-1}(x)-Q_ν(x) = iπ·tanh(πλ/2)·P_ν(x)`, with `P_ν=P_{-ν-1}` manifestly
+**shadow-even** — combined with **Theorem 2.1**
+(`k_h(z)=c(λ)Q_{h-1}(2/z-1)`), this makes `P_ν(2/z-1)` the properly
+normalized shadow-*difference* of the chiral block and its shadow partner
+— a structurally better-motivated candidate than every K1 attempt earlier
+this session, which used the *product* `k_h·k_{1-h}` instead of a
+difference. Re-verified both theorems independently at fresh points
+first (not the paper's own test set): both confirmed to `1e-31`–`1e-35`.
+
+`shadow_ope/shadow_even_legendre_attempt.py` builds
+`K1_Pnu(λ,z)=C(λ)z⁻²P_ν(2/z-1)` in the exact same framework as the
+earlier `kinematic_block_attempt2.py` (same `z=s/(s+t)`, same `C(λ)`) for
+an apples-to-apples comparison. `λ`-parity is clean (confirmed to
+`~1e-47`, as expected from shadow-evenness). But the spectral-integral-vs-box
+ratio is still not constant across kinematic points, and applying the
+already-established `(s+t)⁻²` scale fix from `kinematic_block_scaling.py`
+made it *worse*, not better — an honest negative, not a match.
+
+**The real lead, not a dead end**: Theorem 3.1 gives the shadow-discontinuity
+of a *bare* Legendre-Q object, but it was applied here to the bare chiral
+block `k_h(z)`. The physically relevant object in the untied/residue
+construction is `L(Δ5)` (`residue_at_coincidence.py`'s Mellin-transformed
+tree amplitude, which has the actual physical `s`-threshold built in — a
+genuine Beta-function integral, not a bare conformal block). The well-scoped
+next step is expressing `L(Δ5)` itself in Legendre-function form and *then*
+applying Theorem 3.1's shadow-difference identity to that — not attempted
+tonight, flagged precisely rather than guessed at further.
