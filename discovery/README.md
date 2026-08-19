@@ -772,3 +772,35 @@ correlator really does equal the momentum-space pair closure. The graph
 theory proves the *topology* count; it says nothing about the *amplitude
 value* — that gap is exactly the K1/box-reconstruction problem this entire
 session has been attacking, and remains open.
+
+## Follow-up: does the residue construction reproduce the box? Tested both
+single-channel and s+t combined — honest negative both times
+
+Natural next test after `residue_double_integral.py`: `Sewn_residue` comes
+from the completeness relation directly (not a retarded-minus-advanced
+discontinuity), so unlike `Sewn_s`/`Sewn_t` it's real-valued — meaning the
+right comparison target is plausibly `box_exact(s,t)` itself, or its real
+part, not `2i·Im(box)`. Checked both, single s-channel-ordering first:
+neither ratio (`FullSewnResidue/box`, `FullSewnResidue/Re(box)`) is
+constant across the four kinematic points.
+
+`shadow_ope/residue_t_channel.py` completes the natural next step —
+building the t-channel analog (comb ordering `5-2-3-1-4-6`, mirroring how
+`t_channel_sewing.py` completed the tied-leg construction) and testing the
+combined `Sewn_s(residue)+Sewn_t(residue)`. New wrinkle handled along the
+way: `A'(z5)=2q(z5).p2=-4E|z5|²` is genuinely `z5`-dependent (unlike
+`A=2q(z5).p1=-4E`, which wasn't) — so the `z5` integral is no longer
+trivial multiplication by `π`; it has its own collinear singularity at
+`z5=0`, regularized with the same analytic-continuation technique as
+everywhere else, rho0-independence re-confirmed cleanly.
+
+**Result, honest and clean**: neither ratio is even close to constant, and
+this combined version doesn't hold a consistent *sign* either (unlike the
+single-channel case, which at least stayed one-signed):
+`ratio/box` = `-0.008-0.011i, +0.012+0.010i, -0.036-0.042i, +0.042+0.029i`
+across the four points; `ratio/Re(box)` = `-0.022, +0.021, -0.085, +0.062`.
+Closes out this natural line of testing: the untied/residue construction,
+even fully finite and doubly cross-checked at every regularization step,
+does not reproduce the box or its real part — a genuinely different,
+self-consistent construction from the tied-leg Sokhotski-Plemelj picture,
+but neither one alone gets there.
