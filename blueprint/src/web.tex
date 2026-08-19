@@ -360,13 +360,39 @@ unconditional, no axiom, no sorry --- and states precisely what remains open.
   this one named hypothesis.
 \end{definition}
 
+\begin{theorem}[Sewing Sign Opposition]
+  \label{thm:shadow-sign-opposition}
+  \lean{GppShadowSignOpposition.sign_opposition}
+  \leanok
+  Fix a celestial null 4-vector $q(x,y) = (1+x^2+y^2,\,2x,\,2y,\,1-x^2-y^2)$ (the real
+  Lorentzian slice $\bar z = z^*$, $z=x+iy$) and the frame legs $p_1=(-E,0,0,E)$,
+  $p_2=(-E,0,0,-E)$, $p_4=(E,-E\sin\theta,0,-E\cos\theta)$. Writing $A := 2q{\cdot}p_1$,
+  $A' := 2q{\cdot}p_2$, $B := 2q{\cdot}(p_1{+}p_2)$, $C := 2q{\cdot}p_4$: $A = -4E$
+  identically (no $z$-dependence), $A' = -4E|z|^2 \le 0$, $B = -4E(1+|z|^2) < 0$ for
+  $E>0$, and $C$ clears its $(1-\cos\theta)$ factor to an exact sum of two squares,
+  hence $C \ge 0$ for $\cos\theta < 1$ (i.e. $t \ne 0$). Consequently, for any physical
+  t-channel threshold $B''>0$ and any point with $C \ne 0$ (away from the collinear
+  point), the two tied-leg sewing coefficients $-1/(2ACB)$ and $-1/(2A'CB'')$ have a
+  nonpositive product --- they are never both nonnegative and never both nonpositive.
+  This is the exact algebraic content behind the numerical finding (checked at 39/39
+  structured and 666/666 random kinematic points, zero exceptions, in
+  \texttt{discovery/shadow\_ope/sign\_opposition\_sweep.py}) that the tied-leg
+  discontinuities $\mathrm{Sewn}_s$, $\mathrm{Sewn}_t$ always carry opposite-sign
+  imaginary parts. Pure real algebra and elementary geometry: no Mellin transforms, no
+  complex analysis, no Legendre functions.
+\end{theorem}
+
 \emph{Honest boundary.} What is proved: the graph-combinatorial topology count
 (Theorem~\ref{thm:pairsewing-cyclerank}), its one-loop specialization
-(Corollary~\ref{cor:sixpoint-oneloop}), and the denominator bookkeeping
-(Lemma~\ref{lem:box-denominator-closure}) --- all unconditional. What is \emph{not}
+(Corollary~\ref{cor:sixpoint-oneloop}), the denominator bookkeeping
+(Lemma~\ref{lem:box-denominator-closure}), and the sewing sign-opposition fact
+(Theorem~\ref{thm:shadow-sign-opposition}) --- all unconditional. What is \emph{not}
 proved, and is isolated rather than hidden: the analytic celestial-sewing identity
 (Definition~\ref{def:shadow-pair-sewing}), which requires an explicit six-point celestial
-tree amplitude computation the paper itself states has not yet been carried out. This
+tree amplitude computation the paper itself states has not yet been carried out, and the
+Sokhotski-Plemelj discontinuity construction itself (the actual $\mathrm{Sewn}_s$,
+$\mathrm{Sewn}_t$, their $\lambda$-integral closed forms, and any comparison to the box
+integral), which remains exploratory Python in \texttt{discovery/}, not formalized. This
 section does not discharge, and does not claim to discharge,
 \texttt{disc\_equals\_loop\_integrand} or the other two stubs in
 Theorem~\ref{thm:shadow-discontinuity}.
