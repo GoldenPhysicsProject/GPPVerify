@@ -78,6 +78,44 @@ power-law divergences, which usually signal a genuinely ill-posed
 construction. The clean, simple, exact (not messy/irrational) coefficient
 is itself a signal this is real, structured content, not noise.
 
+FOLLOW-UP (2026-08-19): direct connection to the already-verified blackbody
+paper machinery (`verify_blackbody_capstone.py`, T6 "Matsubara residues"
+and T13 "Fourier pair"), pointed out explicitly rather than left implicit --
+T6 already establishes and verifies to 20+ digits exactly this technique
+(residue of a Plancherel-type kernel at a Matsubara pole lam=i*n) for the
+closely related kernel P(lam)=pi*lam/sinh(pi*lam); T13's
+P^hat(k)=(pi/2)sech^2(k/2) is the exact identity `principal_series_sewing.py`
+already used earlier this session. This file's g(lam) is a different but
+structurally analogous kernel, and the SAME residue-extraction discipline
+applies directly.
+
+Used it to pin down a fully rigorous value for the leading Laurent
+coefficient at lam=-i, independent of the residue-contour numerics above:
+direct raw evaluation of delta^2*g(-i+delta) as delta->0 (no contour
+integral, no lambda-integral, just the bare function) converges cleanly to
+2i/pi (checked at delta=1e-4, 1e-5, Richardson-extrapolated to match
+2/pi to ~2e-9). This is now a THIRD independent confirmation of the same
+coefficient, agreeing with both Method 1 (lambda-integral quadrature) and
+Method 2 (small-circle residue contour) above.
+
+METHODOLOGICAL PITFALL CAUGHT ALONG THE WAY: an initial attempt to get this
+same Laurent coefficient via `mp.taylor(h, 0, 2)` (h(delta):=delta^2*g(-i+delta),
+expecting a regular Taylor series since the double pole should cancel)
+returned h0=0 -- WRONG, contradicting the other three methods. Traced this
+to a genuine bug/precision failure in mpmath's automatic-differentiation-
+based `taylor()` when the expansion point sits this close to a genuine
+pole of the underlying function (numerical differentiation of a sharply
+blowing-up function is ill-conditioned). Diagnosed by falling back to the
+most elementary possible check -- literally evaluating g(-i+delta) at a
+few small delta and inspecting delta^2*g and delta*g directly -- which
+immediately showed the correct 2i/pi (imaginary, delta^2 coefficient) and
+-4/pi (real, delta^1 coefficient) structure. Lesson: for coefficients this
+close to a real pole, prefer direct evaluation/Richardson extrapolation
+over `mp.taylor`, and never trust a single method when a cheap independent
+check is available -- caught exactly the kind of silent, wrong-but-
+plausible-looking numerical result this whole thread's discipline exists
+to catch.
+
 HONEST SCOPE, NOT YET DONE:
   - This computation treated the Laurent coefficient c_{-2} as a fixed
     constant (dropped throughout, restore it by an overall multiplicative
@@ -120,6 +158,12 @@ def residue_at_minus_i(x, r=mp.mpf('0.1')):
     return mp.quad(f, [0, 2 * mp.pi]) / (2j * mp.pi)
 
 
+def leading_laurent_coeff(delta):
+    """delta^2 * g(-i+delta) -- direct evaluation, NOT mp.taylor (which has
+    a numerical bug this close to the pole, see docstring)."""
+    return (delta ** 2 * g(-1j + delta)).imag
+
+
 def main():
     print("=" * 78)
     print("Method 1: direct quadrature of the lambda-integral, six decades of eps")
@@ -147,6 +191,18 @@ def main():
         ratio = res / mp.e ** x
         print(f"  x={float(x)}: Res(x)/exp(x) = {mp.nstr(ratio,10)}")
     print("  (slope of this vs x should also match -2/pi, independent of Method 1)")
+
+    print()
+    print("=" * 78)
+    print("Method 3: direct Laurent-coefficient evaluation (Richardson-extrapolated)")
+    print("=" * 78)
+    d1, d2 = mp.mpf('0.0001'), mp.mpf('0.00001')
+    c1, c2 = leading_laurent_coeff(d1), leading_laurent_coeff(d2)
+    extrap = c2 + (c2 - c1) / (d1 / d2 - 1)
+    print(f"  delta=1e-4: Im(delta^2*g) = {mp.nstr(c1,12)}")
+    print(f"  delta=1e-5: Im(delta^2*g) = {mp.nstr(c2,12)}")
+    print(f"  Richardson-extrapolated: {mp.nstr(extrap,12)}  (2/pi={mp.nstr(2/mp.pi,12)}, "
+          f"match to {mp.nstr(abs(extrap-2/mp.pi),4)})")
 
 
 if __name__ == "__main__":

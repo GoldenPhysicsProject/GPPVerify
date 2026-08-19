@@ -837,6 +837,25 @@ pointwise check alone suggested) usually signal a genuinely ill-posed
 construction. The clean exact coefficient `2/π` (not some messy irrational
 number) is itself a sign this is real structure, not noise.
 
+**Follow-up: explicit connection to the already-verified blackbody-paper
+machinery**, prompted by a direct question about whether this thread was
+actually drawing on it — it hadn't been, explicitly, and should have been.
+`verify_blackbody_capstone.py`'s T6 ("Matsubara residues", verified to
+20+ digits for `P(λ)=πλ/sinh(πλ)`) is *exactly* the residue-at-a-pole
+technique used above; T13 (`P̂(k)=(π/2)sech²(k/2)`) is the same identity
+`principal_series_sewing.py` already used earlier this session. Used the
+same discipline to get a fully independent, rigorous *third* confirmation
+of the `2/π` coefficient: direct raw evaluation of `δ²·g(-i+δ)` (no
+contour integral, no `λ`-integral at all) converges cleanly to `2i/π`,
+Richardson-extrapolated to match `2/π` to `~2×10⁻⁹`. A first attempt at
+this via `mp.taylor()` returned a flatly wrong `0` for the same
+coefficient — traced to a genuine numerical bug in mpmath's automatic
+differentiation when the expansion point sits this close to an actual
+pole (ill-conditioned finite differences), caught only by falling back to
+the most elementary possible check (literal function evaluation) rather
+than trusting the fancier tool. Exactly the kind of silent-wrong-result
+this thread's discipline exists to catch.
+
 **Honestly not yet done**: this treated the Laurent coefficient `c₋₂` as a
 constant (it's actually `z`-dependent, dropped throughout — restoring it
 only rescales the result, doesn't change the log-vs-power-law finding).
