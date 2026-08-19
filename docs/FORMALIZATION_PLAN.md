@@ -755,6 +755,25 @@ encodes a lower-point loop *integrand*, extractable by a double shadow discontin
   sandbox's own "nothing here is proved" discipline, offered as a head start for whoever
   next attempts the analytic sewing identity, not as progress on it. See
   `discovery/README.md` for full details, both positive and negative findings.
+- **Follow-up (2026-08-19), promoted to Lean.** `discovery/shadow_ope/sign_opposition_sweep.py`
+  found — first numerically (39/39 structured points, 666/666 random points, zero
+  exceptions), then analytically — that the tied-leg construction's s-channel and
+  t-channel discontinuities `Sewn_s`, `Sewn_t` always carry opposite-sign imaginary
+  parts. Promoted the algebraic explanation to a real theorem,
+  `GppShadowSignOpposition.sign_opposition` (new file
+  `GppVerify/CelestialHolography/ShadowSignOpposition.lean`): `A(x,y)=2q(x,y)·p1` is an
+  exact z-independent constant `-4E`, `A'(x,y)=2q(x,y)·p2=-4E|z|²` is manifestly `≤0`,
+  `C(x,y)=2q(x,y)·p4` clears to an exact sum of two squares (`κ|z-z4|²`, `κ>0` for
+  `t<0`), and `B(x,y)=2q(x,y)·(p1+p2)=-4E(1+|z|²)` is unconditionally negative — all
+  four proved by direct `ring`/`linear_combination`/`nlinarith` computation from the
+  bare kinematics, combined into the sign-opposition fact (physical-branch `B''>0`
+  taken as a hypothesis, since it genuinely changes sign over the sphere). Pure real
+  algebra and elementary geometry — no Mellin transforms, no complex analysis, no
+  Legendre functions (still entirely absent from Mathlib v4.19.0). Zero axioms, zero
+  sorries; full project build re-verified green after adding it. Does **not** touch or
+  discharge `ShadowPairSewing.sewing_identity` — the Sokhotski-Plemelj discontinuity
+  construction itself, the λ-integral closed form, and everything about the box remain
+  exploratory Python in `discovery/`, per that directory's own convention.
 
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 

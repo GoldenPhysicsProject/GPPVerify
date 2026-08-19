@@ -803,3 +803,20 @@ import GppVerify.QuantumGravity.AllLoopFiniteness
 -- docs/FORMALIZATION_PLAN.md for the precise boundary of each gap.
 import GppVerify.QuantumGravity.KinematicZetaBridge
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
+
+-- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
+-- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
+-- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry
+-- opposite-sign imaginary parts (39/39 structured points, 666/666 random points, zero
+-- exceptions, then explained analytically). Promotes the algebraic explanation to a real
+-- theorem: A(x,y)=2q(x,y).p1=-4E is an exact z-independent constant, A'(x,y)=2q(x,y).p2=
+-- -4E|z|^2 is manifestly <=0, C(x,y)=2q(x,y).p4 clears to an exact sum of two squares
+-- (kappa*|z-z4|^2, kappa=2E(1-cos theta)>0 for t<0), and B(x,y)=2q(x,y).(p1+p2)=
+-- -4E(1+|z|^2) is unconditionally negative -- all four proved by direct `ring`/`nlinarith`
+-- computation from the bare kinematics, not assumed. sign_opposition combines them into
+-- the exact algebraic content of Im(Sewn_s)<0<Im(Sewn_t) on the physical branch (B''>0
+-- taken as a hypothesis, since it genuinely changes sign over the sphere and is not
+-- pinned down by E,theta alone). Pure real algebra and elementary geometry -- no Mellin
+-- transforms, no complex analysis, no Legendre functions (still absent from Mathlib
+-- v4.19.0, see the note above) -- does NOT touch or discharge ShadowPairSewing.sewing_identity.
+import GppVerify.CelestialHolography.ShadowSignOpposition
