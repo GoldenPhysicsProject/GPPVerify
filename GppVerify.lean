@@ -129,6 +129,14 @@ import GppVerify.CelestialHolography.HolographicChain
 -- Standard Model parameters as L-function values
 import GppVerify.NumberTheory.DecodingReality
 
+-- ── Spin-Statistics Eta (New, 2026-08-19, from ONON5213.tex) ─────
+-- η(2n)/ζ(2n) = 1 - 2^{1-2n} for all n ≥ 1, and η(4)/ζ(4) = 7/8
+import GppVerify.NumberTheory.SpinStatisticsEta
+
+-- ── Squarefree Density Euler Product (New, 2026-08-19, ONON5213.tex) ──
+-- ∏_p (1 - p⁻²) = 6/π² = 1/ζ(2), the arithmetic content of thm:squarefree
+import GppVerify.NumberTheory.SquarefreeDensityZeta
+
 -- ── Dark Energy (New) ─────────────────────────────────────────
 -- Dark energy w(a) from T-boundary conformal self-lensing
 import GppVerify.Cosmology.DarkEnergy
@@ -166,6 +174,11 @@ import GppVerify.QuantumInformation.ChoiMatrix
 -- Choi(transpose) = SWAP exactly, hence transpose map on M_2(C) is
 -- not completely positive: no_enactment fully retired for d=2.
 import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
+
+-- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, ONON5213.tex) ─
+-- S = -1-√2 at the source's optimal angles, |S|>2, and the CKW
+-- monogamy consequence 1+x²≤y²≤1 ⟹ x=0
+import GppVerify.QuantumInformation.CHSHViolation
 
 -- ── Grassmannian Jacobian, exact matrix identity (New) ────────
 -- N^2 = D*K, K^2 = D^2*1, hence N^4 = D^4*1 for the chart

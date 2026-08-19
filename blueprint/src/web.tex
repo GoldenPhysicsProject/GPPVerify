@@ -625,6 +625,83 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   and \texttt{shadow\_unitarity\_abundance\_pos}.
 \end{theorem}
 
+\chapter{Arithmetic and Quantum-Information Miscellanea (from ONON5213.tex)}
+
+Three small, self-contained results mined from the master manuscript
+\texttt{ONON5213.tex} in the 2026-08-19 session, none previously
+formalized. Each is genuinely tied to real Mathlib infrastructure
+(\texttt{riemannZeta}, its Euler product, or elementary trigonometry) —
+none is restated bare-numeral arithmetic. Session note: this pass also
+triaged large parts of \texttt{ONON5213.tex} that were \emph{not}
+formalized, either because the underlying claim was already covered by
+an existing file (the bulk of the "Complete Arithmetic Table" and
+Standard-Model chapters — see \texttt{DecodingReality.lean},
+\texttt{WeylCasimir.lean}, \texttt{PerfectNumbersE8.lean},
+\texttt{KappaShadow3.lean}, \texttt{ThreeGenerations.lean}, etc.) or
+because the claim itself does not survive scrutiny (the "Path A" /
+"Bridge" Riemann-Hypothesis section's Gram-matrix argument rests on a
+ratio $\Lambda(1-s)/\Lambda(s)$ that the functional equation makes
+identically $1$ for \emph{every} $s$, not a quantity that varies with
+$\mathrm{Re}(s)$ as the argument requires) — the latter is recorded
+privately in Supabase \texttt{research\_notes}, per this project's
+standing rule against cataloguing manuscript errors in the public tree.
+
+\begin{theorem}[Spin-Statistics Eta/Zeta Ratio]
+  \label{thm:spin-stats-eta}
+  \lean{GppSpinStatisticsEta.eta_div_zeta_two_mul_nat}
+  \leanok
+  For every $n \geq 1$, the Dirichlet eta function
+  $\eta(s) = (1-2^{1-s})\zeta(s)$ satisfies
+  $\eta(2n)/\zeta(2n) = 1 - 2^{1-2n}$, unconditionally (requires
+  $\zeta(2n) \neq 0$, from \texttt{riemannZeta\_ne\_zero\_of\_one\_le\_re}).
+  The concrete instance $\eta(4)/\zeta(4) = 7/8$
+  (\texttt{eta\_four\_div\_zeta\_four'}) and the explicit value
+  $\eta(4) = 7\pi^4/720$ (\texttt{eta\_four\_eq}, via
+  \texttt{riemannZeta\_four}) are also proved.
+
+  \emph{Honest boundary:} the physical identification of this ratio with
+  a fermion/boson thermal-capacity ratio in $3{+}1$ dimensions is not
+  formalized — only the arithmetic value.
+\end{theorem}
+
+\begin{theorem}[Squarefree-Density Euler Product]
+  \label{thm:squarefree-density}
+  \lean{GppSquarefreeDensity.squarefree_density_partial_products_tendsto_six_div_pi_sq}
+  \leanok
+  The partial products $\prod_{p < n}(1-p^{-2})$ over primes converge to
+  $6/\pi^2 = 1/\zeta(2)$, obtained by inverting Mathlib's convergent
+  Euler product $\prod_{p<n}(1-p^{-2})^{-1} \to \zeta(2)$
+  (\texttt{riemannZeta\_eulerProduct}) term-by-term and evaluating via
+  \texttt{riemannZeta\_two}.
+
+  \emph{Honest boundary:} the physical identification
+  $\alpha/\pi^2 = (\alpha/6)\prod_p(1-p^{-2})$ with the fine-structure
+  constant is not formalized — only the underlying arithmetic identity
+  both rest on.
+\end{theorem}
+
+\begin{theorem}[CHSH Bell Violation and CKW Monogamy]
+  \label{thm:chsh-violation}
+  \lean{GppCHSHViolation.chshValue_exceeds_classical_bound}
+  \leanok
+  At the angle configuration $\theta_{ab}=0,\ \theta_{ab'}=\pi/2,\
+  \theta_{a'b}=\theta_{a'b'}=\pi/4$, the CHSH combination
+  $S = E(a,b)-E(a,b')+E(a',b)+E(a',b')$ with $E(\theta)=-\cos\theta$
+  evaluates exactly to $-1-\sqrt2$
+  (\texttt{chshValue\_eq}), so $|S| = 1+\sqrt2 > 2$, exceeding the
+  classical bound, while respecting Tsirelson's bound $|S|\le 2\sqrt2$
+  (\texttt{chshValue\_within\_tsirelson\_bound}). Separately,
+  \texttt{ckw\_forces\_zero\_concurrence} formalizes the elementary
+  consequence of the CKW monogamy inequality: given
+  $1+x^2 \le y^2 \le 1$, necessarily $x=0$.
+
+  \emph{Honest boundary:} this is standard textbook CHSH/CKW material,
+  not GPP-specific; the source's stronger claim that Haar measure on
+  $\mathrm{Gr}(2,4)$ \emph{forces} exactly the Tsirelson bound is not
+  formalized, nor is the general quantum correlation-function formalism
+  — only the source's own explicit numerical evaluation.
+\end{theorem}
+
 \chapter{Quantum Gravity --- Born Rule from Haar}
 
 \begin{lemma}[Born Rule from Haar Measure]

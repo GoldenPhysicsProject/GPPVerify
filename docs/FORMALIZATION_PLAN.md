@@ -964,6 +964,65 @@ from scratch.
 
 ---
 
+## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)
+
+**Task**: Daniel handed off `ONON5213.tex` (43,669 lines, ~682 theorem-like environments —
+the full "master book," spanning measure theory, RH, BSD, Yang–Mills, the Standard Model,
+cosmology, and quantum information) with instructions to formalize as much as genuinely
+compiles, skip dead ends without publicly cataloguing manuscript errors, and keep going.
+
+**Triage finding, stated once so it doesn't need re-deriving next time**: the overwhelming
+majority of this manuscript's *physics-numerology* content (the "Complete Arithmetic Table":
+Weinberg angle, Casimir mass ratios, Cabibbo angle, `E₈`/496/perfect-number facts, Zagier/MZV
+growth, three-generations counting, strong-CP `θ=0`, etc.) has already been mined across many
+prior sessions into `DecodingReality.lean`, `WeylCasimir.lean`, `PerfectNumbersE8.lean`,
+`KappaShadow3.lean`, `ThreeGenerations.lean`, `ZagierMZVGrowth.lean`, and others — confirmed
+line-by-line against this specific document before writing anything new, so nothing there was
+re-added. The manuscript's `cp_phase_from_jacobi_sum` claim (CP phase from a Jacobi sum in
+`ℚ(ζ₁₂)`) has an honest `True`-stub already in `DecodingReality.lean`, correctly gapped on
+Stickelberger's theorem (not in Mathlib) — re-confirmed, not re-attempted.
+
+**Dead end, correctly abandoned rather than forced**: the manuscript's "Path A: Matrix
+Realization of the Shadow–Weil Operator" and the following "Bridge" section both build an
+"unconditional proof of RH" on a `2×2` Gram-matrix eigenvalue argument
+`λ_± = 1 ± |Λ(1-s)/Λ(s)|`, claiming this ratio departs from `1` off the critical line. But
+`Λ(s) = Λ(1-s)` is exactly Riemann's functional equation — the ratio is identically `1` for
+*every* `s`, not a quantity that tracks `Re(s)`. The argument is self-contradictory as stated
+and was not pursued further (consistent with the project's standing policy: this kind of
+finding is recorded in Supabase `research_notes`, not narrated in this file or the blueprint).
+
+**Three new results landed, all genuinely tied to Mathlib infrastructure (not bare rational
+arithmetic), full project rebuild green (3309/3310, sorry-gate clean, 13/13 axioms unchanged
+from baseline)**:
+
+1. `GppSpinStatisticsEta` (`NumberTheory/SpinStatisticsEta.lean`) — `η(2n)/ζ(2n) = 1-2^{1-2n}`
+   for all `n ≥ 1` (needs `ζ(2n) ≠ 0`, from `riemannZeta_ne_zero_of_one_le_re`), plus the
+   concrete `η(4)/ζ(4) = 7/8` and explicit value `η(4) = 7π⁴/720` (via `riemannZeta_four`).
+   Source: "Spin-Statistics from the Prime `p=2`," `thm:spin-stats-p2`.
+2. `GppSquarefreeDensity` (`NumberTheory/SquarefreeDensityZeta.lean`) — the Euler product
+   `∏_{p<n}(1-p⁻²) → 6/π² = 1/ζ(2)`, by inverting Mathlib's `riemannZeta_eulerProduct`
+   convergence term-by-term (`Filter.Tendsto.inv₀`) and evaluating via `riemannZeta_two`.
+   Source: "The Squarefree Coupling: `α/π²`," `thm:squarefree`.
+3. `GppCHSHViolation` (`QuantumInformation/CHSHViolation.lean`) — the source's own CHSH
+   angle-configuration computation `S = -1-√2` exactly (`Real.cos_pi_div_four` etc.), hence
+   `|S| = 1+√2 > 2` (exceeds the classical bound) while `|S| ≤ 2√2` (respects Tsirelson's
+   bound); plus the CKW monogamy consequence `1+x² ≤ y² ≤ 1 ⟹ x = 0` as pure real algebra.
+   Source: "Bell Inequalities from Haar Measure" / "Monogamy of Entanglement." This is
+   standard CHSH/CKW material, not GPP-specific — the source's stronger claim that Haar
+   measure on `Gr(2,4)` *forces* exactly the Tsirelson bound is explicitly not formalized.
+
+All three: `\leanok` in the blueprint's new "Arithmetic and Quantum-Information Miscellanea"
+chapter, added in the same push per the standing blueprint-sync rule.
+
+**Not yet mined, left for a future pass** (large sections of `ONON5213.tex` not yet checked
+against the tree in detail): the T-Symmetric Cosmology chapter (narrative-heavy, few crisp
+statements), the CKM/PMNS mixing-angle and fermion-mass-hierarchy sections (Spin(8)/G₂ coset
+geometry — likely overlaps `KoideRelation.lean`/`WeylCasimir.lean`, not individually
+re-checked), and the numerical-verification Python appendices (not Lean targets as such, but
+worth spot-checking against `discovery/` for anything already independently verified there).
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
