@@ -124,6 +124,10 @@ import GppVerify
 #print axioms GppKinematicBlock.zeta_bridge_kappa
 #print axioms GppSinhWeierstrass.tendsto_prod_one_add_sq_div
 
+-- Thread QG-Blackbody round 3 (CumulantLaw) — from blackbody_law_qg_dtoupin_v1.tex T5.
+-- Expected: Lean built-ins only.
+#print axioms GppCumulantLaw.cumulant_law
+
 -- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
 -- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
 -- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see

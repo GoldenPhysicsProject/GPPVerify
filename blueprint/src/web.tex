@@ -760,18 +760,36 @@ The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
   substitution $z=i\lambda$.
 \end{theorem}
 
+\begin{theorem}[The Cumulant Law]
+  \label{thm:cumulant-law}
+  \lean{GppCumulantLaw.cumulant_law}
+  \leanok
+  \uses{thm:sinh-weierstrass}
+  For every real $\lambda$ with $|\lambda|<1$,
+  \[
+    -\log P(\lambda) \;=\; \sum_{k=0}^{\infty} (-1)^k\,\zeta(2(k+1))\,\frac{\lambda^{2(k+1)}}{k+1},
+  \]
+  equivalently $\log P(\lambda) = -\sum_{k\ge1}(-1)^{k+1}\zeta(2k)\lambda^{2k}/k$.
+  \emph{Proved clean}: \texttt{blackbody\_law\_qg\_dtoupin\_v1.tex}, Test T5 ("cumulants are
+  even zeta values"). Derived by taking $\log$ of the Weierstrass product
+  (Theorem~\ref{thm:sinh-weierstrass}), expanding each factor's $\log(1+x)$ as its Taylor
+  series, and swapping the resulting double sum (joint summability from an explicit product
+  majorant).
+\end{theorem}
+
 \textbf{Honest boundary.} Not formalized from this upload: the rationality/PSLQ program
 beyond $M_1, M_2$ (already covered by the pre-existing Thread~S/Thread~E); the
 Wiener--Hopf/Parseval odd-zeta cancellation and wall-count combinatorics; Proposition
 \texttt{prop:zetabridge}(b)'s analytic continuation to $\mathrm{Re}\,s>-1$; and most of the
-blackbody capstone's remaining structural theorems beyond the Gamma-modulus,
-Stefan--Boltzmann, and Weierstrass-product faces proved here. Two gaps are blocking further
-progress and are recorded precisely in \texttt{docs/FORMALIZATION\_PLAN.md} rather than
-attempted as rushed partial versions: Mathlib \texttt{v4.19.0} has \emph{no digamma or
-polygamma function at all} (blocking the First Moment Theorem, \texttt{thm:moment}), and
-\emph{no Legendre or conical special functions} (blocking the entire
-kinematic-block/conical-function program: conical reduction, shadow=Legendre-degree
-symmetry, the Mehler--Fock pair, the Temperedness Theorem).
+blackbody capstone's remaining structural theorems (T1, T3, T6, T13, T14) beyond the
+Gamma-modulus, Stefan--Boltzmann, Weierstrass-product, and cumulant-law faces proved here.
+Two gaps are blocking further progress and are recorded precisely in
+\texttt{docs/FORMALIZATION\_PLAN.md} rather than attempted as rushed partial versions:
+Mathlib \texttt{v4.19.0} has \emph{no digamma or polygamma function at all} (blocking the
+First Moment Theorem, \texttt{thm:moment}), and \emph{no Legendre or conical special
+functions} (blocking the entire kinematic-block/conical-function program: conical
+reduction, shadow=Legendre-degree symmetry, the Mehler--Fock pair, the Temperedness
+Theorem).
 
 \chapter{General Relativity --- Rigidity}
 

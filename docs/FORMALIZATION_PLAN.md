@@ -1055,12 +1055,45 @@ below).
   full stated type — the error moves to exactly the step that's actually wrong instead of
   three steps later.
 
-**What this unlocks, not yet attempted:** `tendsto_prod_one_add_sq_div` is exactly the
-ingredient the capstone's **T5 (cumulant law)** needs — `log P(λ) = -Σ(-1)^{k+1}ζ(2k)λ^{2k}/k`
-follows from taking `log` of the Weierstrass product and expanding `log(1+x)` termwise, then
-swapping the sum over `n` and the sum over `k` (a genuine double-series interchange requiring
-an absolute-convergence estimate, not yet attempted — real work, but no longer blocked on a
-missing special function).
+**What this unlocked**: `tendsto_prod_one_add_sq_div` was exactly the ingredient the
+capstone's **T5 (cumulant law)** needed — `log P(λ) = -Σ(-1)^{k+1}ζ(2k)λ^{2k}/k`. See the
+next round below: this is now DONE.
+
+## Thread QG-Blackbody, round 3 — the cumulant law (T5)
+
+**Status: DONE, `GppVerify/QuantumGravity/CumulantLaw.lean`, kernel-clean, no axiom, no
+sorry.** `GppCumulantLaw.cumulant_law`: for `|λ| < 1`,
+`-log(P(λ)) = Σ_{k≥0} (-1)^k·ζ(2(k+1))·λ^{2(k+1)}/(k+1)` (`k` zero-indexed, so `k+1` ranges
+over the paper's `k≥1`) — exactly T5 of `verify_blackbody_capstone.py`
+("cumulants are even zeta values"), `log P(λ) = -Σ_{k≥1}(-1)^{k+1}ζ(2k)λ^{2k}/k`.
+
+Proof shape, following the plan above exactly:
+
+* Take `log` of the Weierstrass product (`SinhWeierstrassProduct.tendsto_prod_one_add_sq_div`)
+  via `Real.log_prod` on each finite partial product plus continuity of `log` at the positive
+  limit `sinh(πλ)/(πλ)`, converting the `Tendsto` of partial products into
+  `HasSum (fun j => log(1+λ²/(j+1)²)) (log(sinh(πλ)/(πλ)))` — summability of the log-series
+  itself established via `log(1+x) ≤ x` compared against the shifted Basel series
+  `Σ1/(j+1)²` (`summable_nat_add_iff` shifting Mathlib's `hasSum_zeta_two`).
+* Expand each `log(1+λ²/(j+1)²)` via Mathlib's `hasSum_pow_div_log_of_abs_lt_one` (the
+  standard `log(1-x)` Taylor series, applied at `x = -λ²/(j+1)²`), giving, for each `j`, a
+  `HasSum` in the Taylor index `k`.
+* Establish joint summability of the resulting `(j,k)`-indexed double array via an explicit
+  product majorant `(1/(j+1)²)·(λ²)^{k+1}` (`Summable.mul_of_nonneg` on the two marginal
+  geometric/Basel series), then upgrade from absolute to unconditional summability
+  (`Summable.of_abs`).
+* Swap the double sum (`Summable.tsum_comm`), and factor the inner `j`-sum's constants out
+  via `tsum_mul_left` to land on the stated closed form.
+
+Two genuine debugging lessons recorded for future double-series work in this repo:
+(1) a `heartbeat` timeout appeared in the joint-summability lemma's calc chain and needed
+`set_option maxHeartbeats 1000000 in` — a legitimate fix here (the chain is a real, if
+slow, sequence of `positivity`/`div_le_div_of_nonneg_left` calls, not a genuine infinite
+loop); (2) `rw [div_pow, ← pow_mul]` with no explicit arguments silently rewrote the wrong
+one of two available `(a^m)^n` matches, leaving a residual `x^(2k)` vs `(x²)^k` mismatch that
+`ring`/`ring_nf` cannot bridge on its own (they don't apply `pow_mul` for symbolic exponents)
+— fixed by giving `pow_mul` its arguments explicitly (`← pow_mul lam 2 (k+1)`) to pin down
+exactly which occurrence gets rewritten.
 
 ### Two genuine Mathlib gaps, scoped and named so a future session doesn't re-discover them
 
