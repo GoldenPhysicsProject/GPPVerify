@@ -1125,6 +1125,45 @@ from scratch.
 
 ---
 
+## Thread QG-Blackbody, round 4 — Planck form and the reciprocal Weierstrass product
+
+**Status: DONE, `GppVerify/QuantumGravity/SpectralWeightIdentities.lean`, kernel-clean, no
+axiom, no sorry.** From updated companion papers ("The Spectral Weight π λ / sinh π λ" and
+"Modular Thermality of the Celestial Spectral Weight"), with `verify_blocks_v2.py` and
+`verify_ode_resolution.py` independently rerun (every claim reproduces to `1e-21`–`1e-41`
+relative error) and `dispersion_step3a.py` — the loop-from-cut dispersion reconstruction —
+independently verified for the first time this round (`0` to `1.6e-21` direct-vs-dispersion,
+`1.4e-11`/`2.9e-7` for the Mellin-space dispersion relation).
+
+* **`planck_form`**: for `λ > 0`, `P(λ) = 2πλ·(bose(πλ) - bose(2πλ))` where
+  `bose(y) = 1/(exp y - 1)` — a genuine Planck-form identity for the spectral weight, proved
+  by clearing denominators through `Real.sinh_eq` and the exponential of a sum.
+* **`one_div_P_tendsto_tprod`**: `1/P(λ)` is the Weierstrass product `∏ₙ(1+λ²/n²)` as a
+  `Tendsto` statement, an immediate corollary of `SinhWeierstrassProduct.
+  tendsto_prod_one_add_sq_div` for `λ ≠ 0`.
+
+Also corrected this round: `AllLoopFiniteness.lean` and the blueprint's QG-Blackbody chapter
+described `P(λ)` as "the Plancherel spectral weight" and `𝓜_L` as a "Plancherel loop
+measure" — both wrong (the `SL(2,ℂ)` Plancherel density for the scalar principal series
+grows like `λ²`, not `P`). Retitled to describe `P` as what it is: the two-particle
+massless phase-space weight of a celestial unitarity cut. No Lean statement or proof
+changed — only doc comments and the blueprint's prose.
+
+### Not yet formalized, scoped for a future round
+
+* **The weight-shift ODE for `P`'s Fourier transform** (`P(λ∓i) = (1±iλ)/(∓iλ)·P(λ)`, and
+  `(1/2)sinh(x)·p̂'(x) = p̂(x) - p̂(0)` for `p̂(x) = (1/4)sech²(x/2)`): pure real analysis, no
+  digamma needed, but requires setting up the Fourier transform of `P` as an integral and
+  differentiating under it — a real but bounded piece of work, not attempted this round.
+* **The digamma-moment theorem** (`thm:moment`, First Moment Theorem) and the deviation
+  moments `A_k` built on it: still blocked on digamma per round 3's gap #1 above — the new
+  papers' closed-form proof of `thm:moment` is elementary once `ψ` exists, but `ψ` itself
+  is not yet built.
+* **Matsubara residues** (`Res_{λ=in} P(λ) = i(-1)^n n`): needs `P` continued to `ℂ` and
+  Mathlib's residue-calculus machinery; not attempted this round.
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*

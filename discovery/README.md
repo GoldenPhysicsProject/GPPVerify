@@ -518,3 +518,34 @@ normalization) — deliberately not started before this synchronization was
 committed and reported. **NOT claimed, by this track or any part of this
 repository**: a general all-topology/all-loop theorem, or any connection
 whatsoever to the Riemann Hypothesis or the Yang–Mills mass gap.
+
+---
+
+## Update (2026-08-20, later same day): dispersion reconstruction verified, three companion papers added
+
+`dispersion_step3a.py` — the piece flagged above as not yet supplied — has
+now been independently rerun: the loop reconstructed from its cut via an
+unsubtracted dispersion relation matches the direct Feynman-parameter
+integral at four Euclidean kinematic points (relative error `0` to
+`1.6e-21`), and the celestial (Mellin-space) dispersion relation
+`M_J(σ) = (8π²/sin πσ)·M_C(σ)` checks to `1.4e-11` (real `σ`) and `2.9e-7`
+(complex `σ`).
+
+Three companion papers are also added: `principal_series_blocks_v2.tex`
+(the conical reduction of the chiral block to the Legendre function
+`Q_{h-1}`, the shadow involution as the Legendre degree symmetry, and the
+first moment of `P` against the digamma function in closed form),
+`spectral_weight_v2.tex` and `modular_thermality_v2.tex` (the Planck form,
+Fourier pair, Weierstrass product, Matsubara pole structure, and moment
+family of `P(λ) = πλ/sinh(πλ)`, the two-particle phase-space weight of the
+celestial cut). Every numerical claim in `verify_blocks_v2.py` and
+`verify_ode_resolution.py` was independently rerun and reproduces to
+`1e-21`–`1e-41` relative error. `GppVerify/QuantumGravity/
+SpectralWeightIdentities.lean` formalizes the Planck-form identity and the
+reciprocal-product identity for `P` from this material; the digamma-moment
+theorem and the weight-shift ODE for `P`'s Fourier transform remain open,
+scoped in `docs/FORMALIZATION_PLAN.md`.
+
+Corrections to earlier drafts in this series, and the full record of what
+changed and why, are logged in Supabase `lean_results` rather than kept
+here.

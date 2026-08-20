@@ -97,7 +97,7 @@ theorem stefan_boltzmann_family {s : ℝ} (hs : 0 < s) :
   rw [div_eq_mul_inv, show π⁻¹ = π ^ (-(1:ℝ)) by rw [Real.rpow_neg hp.le, Real.rpow_one],
     ← Real.rpow_add hp, show -s + -(1:ℝ) = -(s+1) by ring]
 
-/-- Special value `m₁ = 1/8` (the `haar_qg` paper's first Plancherel loop moment,
+/-- Special value `m₁ = 1/8` (the `haar_qg` paper's first moment of P,
     already `SinhZetaBridge.plancherel_first_moment`; re-derived here as a special case
     of the general family for cross-verification). -/
 theorem m_one_eq :

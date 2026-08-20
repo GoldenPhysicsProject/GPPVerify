@@ -7,7 +7,7 @@ import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 # The zeta bridge: `∫₀^∞ t^{s−1}/sinh(t) dt = 2·(1−2^{−s})·Γ(s)·ζ(s)`
 
 Thread S of `docs/FORMALIZATION_PLAN.md`, from `kinematic_block_v11.tex` (Proposition
-"zetabridge") and `haar_qg_paper_v2151.tex` (the first Plancherel loop moment
+"zetabridge") and `Toupin, "Modular Thermality of the Celestial Spectral Weight" (the first moment of P
 `M₁ = 1/8`): the Riemann zeta function is the Mellin transform of the `1/sinh` thermal
 kernel, through the odd Dirichlet factor `(1−2^{−s})`. The papers verify the bridge to
 29 digits numerically; here it is a kernel-checked theorem for every real `s > 1`, with
@@ -200,7 +200,7 @@ theorem sinh_mellin_zeta {s : ℝ} (hs : 1 < s) :
 /-! ## Exact corollaries: the `M₁` family -/
 
 /-- `∫₀^∞ t/sinh t dt = π²/4` — the odd Basel value, and the analytic content of the
-    `haar_qg` paper's first Plancherel loop moment. -/
+    `haar_qg` paper's first moment of P. -/
 theorem integral_id_div_sinh :
     ∫ t in Ioi (0:ℝ), t / Real.sinh t = π^2 / 4 := by
   have h := sinh_mellin_zeta (by norm_num : (1:ℝ) < 2)
@@ -245,7 +245,7 @@ theorem integral_cube_div_sinh :
   rw [hg, h2, hζ4]
   ring
 
-/-- **The first Plancherel loop moment `M₁ = 1/8`** (`haar_qg_paper_v2151`, eq. (M1)),
+/-- **The first moment of P `M₁ = 1/8`** (`haar_qg_paper_v2151`, eq. (M1)),
     in π-free normalization: `(1/2π²)·∫₀^∞ t/sinh t dt = 1/8`. The substitution
     `λ = t/π` to the paper's `(1/2π)·∫ πλ/sinh(πλ) dλ` is elementary and not
     formalized. -/

@@ -3,21 +3,23 @@ import Mathlib.MeasureTheory.Measure.Prod
 import Mathlib.MeasureTheory.Integral.Lebesgue.Basic
 
 /-!
-# All-loop finiteness of the bare Plancherel loop measure: `0 < 𝓜_L ≤ (1/8)^L`
+# Ladder convolution bound: `0 < 𝓜_L ≤ (1/8)^L`
 
-From `haar_qg_paper_v215.tex`, Theorem `thm:finiteness` — the paper's central new claim,
-and the mathematical content behind `verify_qg_measure.py`'s `check_finiteness`.
+`P(λ) = πλ/sinh(πλ)` is the two-particle massless phase-space weight of a celestial
+unitarity cut (Toupin, "The Spectral Weight π λ / sinh π λ", 2026): the Mellin image of
+two-particle phase space, restricted to the shadow locus, equals `Γ(1+iλ)Γ(1-iλ)`.
 
 ## The object
 
-For an `L`-loop planar ladder, `𝓜_L` is the `L`-fold spectral convolution
+For `L ≥ 1`, `𝓜_L` is the `L`-fold chain convolution of `P` against itself
 
 ```
 𝓜_L = (2π)^{-L} ∫_{ℝ_{>0}^L} [∏_{j=1}^L P(λ_j)] [∏_{j=1}^{L-1} P(|λ_j-λ_{j+1}|)] dλ_1⋯dλ_L
 ```
 
-with `L` external Plancherel weights and `L-1` internal "rung" weights coupling adjacent
-loop variables. This file encodes the same object via the ladder's own recursive
+with `L` external factors of `P` and `L-1` internal "rung" factors coupling adjacent
+integration variables. This is a statement about the convolution integral itself, not a
+claim about any physical loop amplitude. This file encodes the object via its own recursive
 description ("passing from `𝓜_{L-1}` to `𝓜_L` multiplies the integrand by one new
 external factor and one new connecting rung"): a chain kernel `K n : ℝ → ℝ≥0∞`
 (`n = L - 1`, so `K 0` is the one-loop weight `P`) with
@@ -206,7 +208,7 @@ theorem lintegral_K_le : ∀ n, ∫⁻ lam in Ioi (0:ℝ), K n lam ≤ (ENNReal.
         _ = B * ENNReal.ofReal (π / 4) := by rw [lintegral_Pe_eq]
         _ = (ENNReal.ofReal (π / 4)) ^ (n + 2) := by rw [hB, ← pow_succ]
 
-/-- The `n`-th bare Plancherel loop measure (`n = L - 1`, so `n = 0` is `𝓜_1`). -/
+/-- The `n`-th P-ladder chain measure (`n = L - 1`, so `n = 0` is `𝓜_1`). -/
 noncomputable def M (n : ℕ) : ℝ≥0∞ :=
   (ENNReal.ofReal (2 * π))⁻¹ ^ (n + 1) * ∫⁻ lam in Ioi (0:ℝ), K n lam
 
@@ -219,7 +221,7 @@ theorem twoPiInv_mul_piOverFour :
   ring
 
 /-- **All-loop finiteness** (`thm:finiteness`, `haar_qg_paper_v215.tex`): for every
-    `n : ℕ` (i.e. every loop order `L = n+1 ≥ 1`), the bare Plancherel loop measure
+    `n : ℕ` (i.e. every loop order `L = n+1 ≥ 1`), the P-ladder chain measure
     satisfies `0 < 𝓜_L ≤ (1/8)^L` — proved for every loop order at once, by induction on
     the ladder's own recursive construction, exactly matching the paper's proof (bound
     each rung by 1 and discard it, then factorize the remaining product integral). -/
