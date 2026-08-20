@@ -1,0 +1,574 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\usepackage{booktabs}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Disc}{\operatorname{Disc}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\cM}{\mathcal{M}}
+\newcommand{\dLIPS}{\dd\Pi_2}
+
+\title{Loop Amplitudes from Unitarity Cuts in Celestial Mellin Space:\\[4pt]
+A Complete Derivation for the Scalar Box}
+
+\author{Daniel Toupin\\[4pt]
+\textit{Golden Physics Project}\\[2pt]
+\texttt{goldenphysics.org}}
+
+\date{August 2026 --- v19, superseding arXiv-style drafts v14--v18 and PhilArchive TOULAF-2}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+We derive, with every Jacobian computed and every constant fixed by
+first principles, the complete chain that turns tree-level data into a
+one-loop amplitude in celestial (Mellin) space.  The chain has four
+links, each verified numerically to between $7$ and $30$ significant
+digits with \emph{zero} fitted parameters.
+(i)~The two-particle massless unitarity cut, written in celestial
+coordinates, is uniform on the round celestial sphere with measure
+$\dd^2z/\bigl(8\pi^2(1+|z|^2)^2\bigr)$, and momentum conservation forces
+the cut pair to antipodal points $z_6=-1/\bar z_5$.
+(ii)~The Mellin image of the cut measure is
+$\Phi(\Delta_5,\Delta_6;M)=\tfrac{1}{8\pi}(M/2)^{\Delta_5+\Delta_6-2}
+\,\Gamma(\Delta_5)\Gamma(\Delta_6)/\Gamma(\Delta_5+\Delta_6)$: the
+celestial three-point (OPE) Gamma structure is a theorem of phase space,
+and the shadow locus $\Delta_5+\Delta_6=2$ is the locus of exact scale
+invariance of the cut, not a pole at which a residue is taken.
+(iii)~For the internally regulated scalar box the $s$-channel cut
+reduces to a two-dimensional celestial integral with the exact closed
+form $C=\tfrac{1}{8\pi}\int_0^1\dd x\,[\mu^2(s+\mu^2)+s(s+t)x(1-x)]^{-1}$;
+its Mellin transform at fixed angle has a universal, infrared-safe
+double pole $\tfrac{1}{4\pi\kappa}(2-\sigma)^{-2}$, with the collinear
+logarithm confined to the subleading simple pole.
+(iv)~The full loop is recovered from the cut by an unsubtracted
+fixed-$u$ dispersion relation whose normalization,
+$\operatorname{Im}J=8\pi^2 C$, is derived and anchored exactly on the
+bubble; the reconstruction agrees with the directly computed box to
+machine precision ($\lesssim 10^{-21}$) at all tested kinematics.  In
+Mellin space the entire dispersion collapses to multiplication by a
+universal kernel,
+\[
+\cM_{J}(\sigma)\;=\;\frac{8\pi^2}{\sin(\pi\sigma)}\;\cM_{C}(\sigma),
+\qquad 0<\operatorname{Re}\sigma<1 ,
+\]
+which we propose as the correct, derived form of the ``loop integrands
+from shadow discontinuities'' program.  The spectral weight
+$P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$ used in earlier drafts is
+recovered here as the \emph{derived} phase-space factor
+$\Gamma(1{+}i\lambda)\Gamma(1{-}i\lambda)$ on the shadow locus; it is
+not a replacement for the Feynman measure and it does not by itself
+render loop expansions ultraviolet finite.  We state precisely which
+claims of the earlier drafts survive, which are corrected, and which
+are withdrawn.
+\end{abstract}
+
+\medskip
+\noindent\textbf{Keywords:} celestial holography, unitarity, Cutkosky
+rules, Mellin amplitudes, dispersion relations, scalar box.
+
+\tableofcontents
+\newpage
+
+% =====================================================================
+\section{Introduction and statement of results}
+% =====================================================================
+
+Generalized unitarity reconstructs loop amplitudes from products of
+trees sewn across cuts \cite{Bern1994}.  Celestial holography rewrites
+scattering in a boost (Mellin) basis on the celestial sphere
+\cite{Pasterski2017,Raclariu2021}.  Earlier drafts in this series
+(v14--v18, and the PhilArchive record TOULAF-2) proposed that loop
+integrands are encoded in tree celestial amplitudes and extracted by
+``shadow discontinuities'' supported on the locus
+$\Delta_5+\Delta_6=2$.  The proposal contained a true statement wrapped
+in an incorrect mechanism, and its numerical support did not withstand
+audit: the archived benchmark \texttt{check\_box} compared a
+Feynman-parameter integral against a reparameterization of itself, and
+the published closed-form checks of the v3 lineage fail recomputation.
+
+This paper replaces the mechanism with a derivation.  The strategy is
+the only unconditionally safe one available: we do not guess a
+celestial extraction rule and match it to a known answer; we
+Mellin-transform the one true loops-from-trees statement in quantum
+field theory --- the Cutkosky unitarity relation --- computing every
+Jacobian along the way.  What emerges is a four-link chain, each link a
+theorem verified numerically with no adjustable constants:
+
+\begin{enumerate}
+\item[\textbf{L1.}] \emph{Cut geometry} (Thm.~\ref{thm:measure},
+\ref{thm:phasespace}): the two-particle massless phase space in
+celestial coordinates, including the antipodal pairing of the cut legs.
+\item[\textbf{L2.}] \emph{Mellin image of the cut}
+(Thm.~\ref{thm:mellincut}): the
+$\Gamma\Gamma/\Gamma$ structure and the true meaning of the shadow
+locus.
+\item[\textbf{L3.}] \emph{The box cut and its Mellin poles}
+(Thm.~\ref{thm:boxcut}, \ref{thm:poles}): an exact closed form and the
+universal infrared-safe double pole.
+\item[\textbf{L4.}] \emph{Reconstruction} (Thm.~\ref{thm:disp},
+\ref{thm:celdisp}): the loop from its cut by dispersion, and its
+Mellin-space form as multiplication by $8\pi^2/\sin(\pi\sigma)$.
+\end{enumerate}
+
+Section~\ref{sec:relation} states the corrected relation to the earlier
+shadow-discontinuity program and to the companion drafts on the
+``Plancherel loop measure,'' the kinematic block, and the blackbody
+analogy.  Section~\ref{sec:notclaimed} lists what is \emph{not} claimed.
+
+% =====================================================================
+\section{Conventions}
+\label{sec:conventions}
+% =====================================================================
+
+Metric $(+,-,-,-)$.  A massless momentum is parameterized as
+\begin{equation}
+\ell \;=\; \omega\, q(z,\bar z),\qquad
+q(z,\bar z) \;=\; \bigl(1+|z|^2,\; z+\bar z,\; -i(z-\bar z),\;
+1-|z|^2\bigr),\qquad \omega>0,
+\label{eq:param}
+\end{equation}
+so that $q^2=0$ identically and, for two celestial points,
+\begin{equation}
+q(z)\cdot q(w) \;=\; 2\,|z-w|^2 .
+\label{eq:qq}
+\end{equation}
+Loop integrals are normalized as $I=\int
+\frac{\dd^4\ell}{(2\pi)^4}\prod_i (D_i+i\varepsilon)^{-1}$.  Two-particle
+Lorentz-invariant phase space is
+$\dLIPS=(2\pi)^4\delta^4(P-\ell_5-\ell_6)\prod_{i=5,6}
+\frac{\dd^3\ell_i}{(2\pi)^3 2E_i}$, with the standard massless total
+$\int\dLIPS=\tfrac{1}{8\pi}$.  All numerical statements below are
+reproduced by the scripts listed in Sec.~\ref{sec:code}; quoted
+relative errors are those of the archived runs.
+
+% =====================================================================
+\section{Link 1: the unitarity cut on the celestial sphere}
+\label{sec:link1}
+% =====================================================================
+
+\begin{lemma}[On-shell measure]
+\label{lem:onshell}
+With the parameterization \eqref{eq:param},
+$\displaystyle \frac{\dd^3\ell}{2E} = 2\,\omega\,\dd\omega\,\dd^2z$,
+where $\dd^2z=\dd x\,\dd y$.  The Jacobian
+$\det \partial(\ell^1,\ell^2,\ell^3)/\partial(\omega,x,y)
+=4\omega^2(1+|z|^2)$ is computed symbolically in the companion script.
+\end{lemma}
+
+\begin{theorem}[Cut geometry: antipodal pairing and uniform measure]
+\label{thm:measure}
+Let $P=(M,0,0,0)$, $M>0$.  The constraint
+$\delta^4(P-\ell_5-\ell_6)$ with both legs massless and forward is
+solved \emph{uniquely} by
+\begin{equation}
+z_6=-\frac{1}{\bar z_5},\qquad
+\omega_5=\frac{M}{2(1+|z_5|^2)},\qquad
+\omega_6=\frac{M\,|z_5|^2}{2(1+|z_5|^2)},
+\label{eq:antipode}
+\end{equation}
+with constraint Jacobian $\det=2M^2|z_5|^2$, and the phase-space
+measure reduces to
+\begin{equation}
+\dLIPS \;=\; \frac{\dd^2 z_5}{8\pi^2\,(1+|z_5|^2)^2},
+\qquad \int \dLIPS=\frac{1}{8\pi}.
+\label{eq:lips}
+\end{equation}
+\end{theorem}
+
+\begin{remark}
+Equation~\eqref{eq:lips} is the round (Fubini--Study) measure on the
+celestial sphere: \emph{the cut is uniform on the sphere}, and the two
+cut particles sit at exactly antipodal points.  The antipodal map ---
+the geometric core of the shadow/CPT structure --- is thus an output of
+momentum conservation, not an input.  All four components of the
+constraint vanish identically on \eqref{eq:antipode}
+(verified symbolically), and the total $\tfrac{1}{8\pi}$ is recovered
+exactly.
+\end{remark}
+
+% =====================================================================
+\section{Link 2: the Mellin image of the cut and the shadow locus}
+\label{sec:link2}
+% =====================================================================
+
+Define the Mellin image of the cut measure, weighting the two cut
+energies by boost weights,
+\begin{equation}
+\Phi(\Delta_5,\Delta_6;M)\;:=\;\int \dLIPS\;
+\omega_5^{\Delta_5-1}\,\omega_6^{\Delta_6-1}.
+\end{equation}
+
+\begin{theorem}[Mellin image of the two-particle cut]
+\label{thm:mellincut}
+\begin{equation}
+\Phi(\Delta_5,\Delta_6;M)
+\;=\;
+\frac{1}{8\pi}\,\Bigl(\frac{M}{2}\Bigr)^{\Delta_5+\Delta_6-2}\,
+\frac{\Gamma(\Delta_5)\,\Gamma(\Delta_6)}{\Gamma(\Delta_5+\Delta_6)} .
+\label{eq:phi}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Insert \eqref{eq:antipode} into \eqref{eq:lips}; with $u=|z_5|^2$ the
+angular integral is trivial and the radial integral is the Euler Beta
+function $B(\Delta_6,\Delta_5)$.  Verified by quadrature at five points
+with complex $\Delta$ on and off the principal series to relative error
+$10^{-20}$--$10^{-31}$.
+\end{proof}
+
+\begin{corollary}[Cutkosky closure on the bubble]
+\label{cor:bubble}
+$\Phi(1,1;M)=\tfrac{1}{8\pi}=2\operatorname{Im}I_2(s)$ for the massless
+bubble, whose absorptive part is the constant
+$\operatorname{Im}I_2=\tfrac{1}{16\pi}$.
+\end{corollary}
+
+\begin{remark}[The true meaning of $\Delta_5+\Delta_6=2$]
+\label{rem:shadowlocus}
+Three statements replace the earlier ``residue at the shadow pole'':
+\begin{enumerate}
+\item The $M$-dependence of the cut's Mellin image is
+$(M/2)^{\Delta_5+\Delta_6-2}$.  The locus $\Delta_5+\Delta_6=2$ is the
+locus of \emph{exact scale invariance of the cut}; for the bubble,
+whose absorptive part is constant in $s$, the physical cut sits
+precisely there.  Nothing is localized by a pole; there is no residue
+to take.
+\item The pairing $(\Delta,2-\Delta)$ of the two cut legs is the shadow
+pairing of the massless completeness relation on the principal series
+\cite{LamShao2018,CelestialOptical2024}; the associated normalization
+$N_{h,m=0}$ must be carried when the sewing is written in a
+celestial-native operator form.
+\item The $\Gamma\Gamma/\Gamma$ structure asserted for celestial
+three-point coefficients in every earlier draft is \emph{derived} in
+\eqref{eq:phi} from pure phase space.  On the shadow locus with
+$\Delta_5=1+i\lambda$,
+\begin{equation}
+\Gamma(1+i\lambda)\Gamma(1-i\lambda)
+=\frac{\pi\lambda}{\sinh(\pi\lambda)}\;=\;P(\lambda),
+\label{eq:plambda}
+\end{equation}
+which identifies the spectral weight of the earlier drafts as the
+phase-space/OPE factor of the cut --- see
+Sec.~\ref{sec:relation}.
+\end{enumerate}
+\end{remark}
+
+% =====================================================================
+\section{Link 3: the scalar box cut and its Mellin poles}
+\label{sec:link3}
+% =====================================================================
+
+\subsection{The regulated box and its $s$-channel cut}
+
+Take the all-incoming planar box with massless external legs
+$k_1,\dots,k_4$, massless propagators $\ell^2$ and $(\ell-k_1-k_2)^2$
+(the cut lines), and mass-$\mu$ propagators $(\ell-k_1)^2-\mu^2$ and
+$(\ell+k_4)^2-\mu^2$ (the tree lines).  The regulator keeps the cut
+legs massless --- so Theorem~\ref{thm:measure} applies verbatim ---
+while removing the collinear divergences of the strictly massless box
+and rendering every comparison scheme-free.  Channel invariants:
+$s=(k_1+k_2)^2>0$, and the second (massive-line) channel invariant is
+$u=(k_2+k_3)^2<0$; physical $s$-channel kinematics has
+$-s<t<0$, $s+t=-u$.  Define the pure cut integral
+\begin{equation}
+C(s,t,\mu^2)\;:=\;\int \dLIPS\;
+\frac{1}{\bigl[(\ell_5-k_1)^2-\mu^2\bigr]\,
+\bigl[(\ell_5+k_4)^2-\mu^2\bigr]}\;>0 .
+\label{eq:cutdef}
+\end{equation}
+
+\begin{theorem}[Exact box cut]
+\label{thm:boxcut}
+With $c=\mu^2(s+\mu^2)$ and $d=s(s+t)=-su>0$,
+\begin{equation}
+C(s,t,\mu^2)
+=\frac{1}{8\pi}\int_0^1\!\frac{\dd x}{\,c+d\,x(1-x)\,}
+=\frac{1}{8\pi}\,\frac{4}{\sqrt{d(d+4c)}}\,
+\operatorname{artanh}\!\sqrt{\frac{d}{d+4c}} ,
+\label{eq:cutclosed}
+\end{equation}
+and in celestial variables (leg $1$ at $z_1=0$, leg $4$ at
+$z_4=-\cot(\theta^*/2)$, $\omega_4=\tfrac{M}{2}\sin^2(\theta^*/2)$),
+\begin{equation}
+C=\int\!\frac{\dd^2 z}{8\pi^2(1+|z|^2)^2}\,
+\frac{1}{\Bigl[\dfrac{M^2|z|^2}{1+|z|^2}+\mu^2\Bigr]
+\Bigl[\,4\,\omega_5\omega_4|z-z_4|^2+\mu^2\Bigr]},
+\qquad \omega_5=\frac{M}{2(1+|z|^2)} .
+\label{eq:cutcelestial}
+\end{equation}
+The two representations and a direct center-of-mass angular integral
+agree at four kinematic points to relative error
+$10^{-23}$--$10^{-26}$.  As $\mu\to0$,
+$C\to \log\!\bigl[s(s+t)/(\mu^2 s)\bigr]/\bigl[4\pi s(s+t)\bigr]$
+(collinear logarithm; verified to $10^{-5}$ relative at
+$\mu^2=10^{-5}$).
+\end{theorem}
+
+Equation~\eqref{eq:cutcelestial} is the honest ``shadow discontinuity''
+of the program: a rational integrand on the celestial sphere, built
+from tree propagators via \eqref{eq:qq}, integrated against the derived
+measure \eqref{eq:lips}.  It contains no inserted factors.
+
+\subsection{Mellin poles of the cut}
+
+At fixed scattering angle, $\kappa:=(s+t)/s=(1+\cos\theta^*)/2$ is
+constant, and we define
+$\cM_C^{\angle}(\sigma)=\int_0^\infty\dd s\,s^{\sigma-1}C(s)$ on the
+strip $0<\operatorname{Re}\sigma<2$.
+
+\begin{theorem}[Universal double pole; infrared confinement to the
+simple pole]
+\label{thm:poles}
+$\cM_C^{\angle}(\sigma)$ continues meromorphically to
+$\sigma=2$ with
+\begin{equation}
+\cM_C^{\angle}(\sigma)
+=\frac{1}{4\pi\kappa}
+\left[\frac{1}{(2-\sigma)^2}
++\frac{\log(\kappa/\mu^2)}{2-\sigma}\right]
++\;\text{regular}.
+\label{eq:poles}
+\end{equation}
+The double-pole coefficient $\tfrac{1}{4\pi\kappa}$ is
+$\mu$-independent (universal); the collinear logarithm resides entirely
+in the simple pole.  Verified to $7$ (double pole) and $8$ (simple
+pole) significant digits at two kinematics, using an exact analytic
+tail: naive numerical limits fail because at $\sigma=2-\epsilon$ the
+Mellin mass sits at $s\sim e^{1/\epsilon}$.
+\end{theorem}
+
+The value of $\cM_C^{\angle}(1+i\lambda)$ on the principal line is
+finite and smooth; it is the honest spectral density of the cut
+(the object earlier drafts called $K_1$), now obtained from the true
+side of the equation.
+
+% =====================================================================
+\section{Link 4: the loop from its cut, and the celestial dispersion
+relation}
+\label{sec:link4}
+% =====================================================================
+
+Write the box in Feynman-parametric form,
+$I_4=\tfrac{i}{16\pi^2}J(s,u)$ with
+\begin{equation}
+J(s,u)=\int_{\Sigma_3}\!\dd^4x\;\delta\Bigl(1-\textstyle\sum x_i\Bigr)\,
+\Delta(x)^{-2},\qquad
+\Delta=\mu^2(x_2+x_4)-s\,x_1x_3-u\,x_2x_4 ,
+\label{eq:parametric}
+\end{equation}
+real and positive in the Euclidean region $s,u<0$.
+
+\begin{lemma}[Cutkosky normalization, derived and anchored]
+\label{lem:cutkosky}
+$\operatorname{Im}J(s,u)=8\pi^2\,C(s,u,\mu^2)$ for $s>0$, $u<0$.  The
+constant follows from the cutting rule
+$\prod_{\rm cut}(D_i+i\varepsilon)^{-1}\to(-2\pi i)\,\delta^+(D_i)$
+together with the measure identity
+$\int\frac{\dd^4\ell}{(2\pi)^4}(2\pi)^2\delta^+(D_1)\delta^+(D_3)f
+=\int\dLIPS\,f$, and is anchored \emph{exactly} on the bubble:
+$\operatorname{Im}J_2=\pi=8\pi^2\cdot\tfrac{1}{8\pi}$.
+\end{lemma}
+
+\begin{theorem}[Loop reconstruction; zero free parameters]
+\label{thm:disp}
+For $s<0$, $u<0$ (so that only the massless $s$-channel cut exists, the
+massive channel opening only at $u\ge 4\mu^2$), the unsubtracted
+fixed-$u$ dispersion relation holds:
+\begin{equation}
+J(s,u)\;=\;8\pi\int_0^{\infty}\!\dd s'\,
+\frac{C(s',u,\mu^2)}{s'-s}.
+\label{eq:disp}
+\end{equation}
+Verified against the direct parametric integral
+\eqref{eq:parametric} at four Euclidean points to relative error
+$0$--$1.6\times10^{-21}$, with the inner Feynman-parameter integral
+done in the exact closed form
+$\int_0^1\dd y\,[c+dy(1-y)]^{-2}
+=\tfrac{8}{\sqrt d\,w^{3/2}}\operatorname{artanh}\sqrt{d/w}
++\tfrac{2}{cw}$, $w=d+4c$.
+\end{theorem}
+
+\begin{theorem}[Celestial dispersion relation]
+\label{thm:celdisp}
+Let $\cM_J(\sigma)=\int_0^\infty\dd S\,S^{\sigma-1}J(-S,u)$ and
+$\cM_C(\sigma)=\int_0^\infty\dd s'\,s'^{\sigma-1}C(s',u,\mu^2)$ at
+fixed $u<0$.  Then on the common strip $0<\operatorname{Re}\sigma<1$,
+\begin{equation}
+\boxed{\;\;
+\cM_J(\sigma)\;=\;\frac{8\pi^2}{\sin(\pi\sigma)}\;\cM_C(\sigma).
+\;\;}
+\label{eq:celdisp}
+\end{equation}
+Verified to $10^{-11}$ (real $\sigma$) and $3\times10^{-7}$
+(complex $\sigma$; nested-quadrature limited).
+\end{theorem}
+
+\begin{proof}
+Mellin transform of \eqref{eq:disp} using the Stieltjes kernel
+$\int_0^\infty\dd S\,S^{\sigma-1}(s'+S)^{-1}
+=s'^{\sigma-1}\pi/\sin(\pi\sigma)$ and Fubini on the positive
+integrand.
+\end{proof}
+
+\begin{remark}
+Equation~\eqref{eq:celdisp} is the corrected content of the tree-to-loop
+program: \emph{in Mellin space, the loop amplitude is the Mellin
+transform of the tree-level cut multiplied by a universal elementary
+kernel}.  The poles of $1/\sin(\pi\sigma)$ at integer $\sigma$ are the
+familiar $\beta$-plane poles of celestial amplitudes; loop corrections
+promote them to higher order via the pole structure of $\cM_C$
+(Thm.~\ref{thm:poles}), consistent with the known analytic structure of
+loop-level celestial amplitudes \cite{AHH2020,Chang2021}.
+\end{remark}
+
+% =====================================================================
+\section{Relation to the shadow-discontinuity program and the
+companion drafts}
+\label{sec:relation}
+% =====================================================================
+
+\subsection{What survives of v14--v18}
+\begin{itemize}
+\item \textbf{Topology selection (survives, reinterpreted).}  The v18
+statement that choosing a factorization channel of higher-point tree
+data and closing a designated leg pair selects a definite loop topology
+is correct, and is here realized concretely: the choice of cut channel
+fixes the two uncut tree propagators in \eqref{eq:cutdef}; sewing the
+pair over the derived phase space \eqref{eq:lips} closes the cycle.
+The counting (tree with $4+2L$ legs $\to$ $L$-loop four-point topology
+by $L$ pairwise closures) remains a plausible \emph{conjecture} beyond
+one loop; no theorem is claimed here for $L\ge2$.
+\item \textbf{The shadow pairing (survives, derived).}
+$\Delta_6=2-\Delta_5$ is the completeness-relation pairing of the cut
+pair; the antipodal map $z_6=-1/\bar z_5$ is forced by momentum
+conservation (Thm.~\ref{thm:measure}).
+\item \textbf{The locus $\Delta_5+\Delta_6=2$ (corrected).}  It is the
+scale-invariance locus of the cut (Rem.~\ref{rem:shadowlocus}), not a
+simple pole of the six-point tree from which a residue is extracted.
+Drafts v14--v15, built on the residue mechanism and on the discredited
+closed-form and \texttt{check\_box} benchmarks, are withdrawn.  The v18
+separation of extraction/sewing/evaluation and its disavowal of the
+mislabeled benchmarks are endorsed and completed here: the
+``direct-shadow, no-Feynman-subroutine'' benchmark that v18 called for
+is precisely the celestial integral \eqref{eq:cutcelestial}, now
+implemented and verified.
+\end{itemize}
+
+\subsection{The ``Plancherel loop measure'' (haar\_qg v2.1.5.1)}
+The spectral weight $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$ is
+\emph{real and derived}: it is
+$\Gamma(1+i\lambda)\Gamma(1-i\lambda)$, the phase-space/OPE factor of
+the cut on the shadow locus, Eq.~\eqref{eq:plambda}.  It is
+\emph{not} the $\mathrm{SL}(2,\C)$ Plancherel density (which is
+$\propto\lambda^2$ for the scalar principal series), it is not a
+replacement for the Feynman loop measure, and it does not render loop
+expansions ultraviolet finite: the reconstruction
+\eqref{eq:disp}--\eqref{eq:celdisp} reproduces the standard loop
+integral exactly, divergences and all (here regulated by $\mu$).  The
+claims $\cM_L\le(1/8)^L$ ``UV finiteness with no counterterms,'' the
+identification of $\cM_1=1/8,\ \cM_2=1/90$ as physical loop
+normalizations, and the fifteen-digit box verification (which reduces
+to \texttt{check\_box}) are withdrawn.  The iterated moments of
+$P(\lambda)$ and their Bernoulli-fraction values remain correct as
+special-function identities.
+
+\subsection{The kinematic block (v1.1) and the blackbody draft}
+The special-function content of the kinematic-block paper --- the
+reduction of the chiral block $k_h(z)$ on the principal series to the
+conical Legendre function $Q_{h-1}$, the shadow involution as the
+degree symmetry $\nu\mapsto-\nu-1$, and the Mehler--Fock structure of
+the shadow-symmetric part --- is correct classical mathematics and is
+retained: it is exactly the toolkit required for the celestial-native
+partial-wave decomposition of the cut \eqref{eq:cutcelestial}
+(companion work; the genuine $\mathrm{SL}(2,\C)$ Plancherel density
+enters there, resolving the long-standing ``missing normalization'').
+The blackbody draft's identity relating $P(\lambda)$ to a modular
+(Bisognano--Wichmann, $\beta=2\pi$) oscillator remains a correct
+identity about the function \eqref{eq:plambda}; its framing as a cure
+of ultraviolet divergences is withdrawn with the parent claim.
+
+% =====================================================================
+\section{What is not claimed}
+\label{sec:notclaimed}
+% =====================================================================
+\begin{enumerate}
+\item Results are proven for the massless bubble and the internally
+$\mu$-regulated scalar box: one complete, fully verified worked case.
+A general theorem for arbitrary topologies, masses, and multiplicities
+is not claimed; the machinery (derived cut measure, closed
+cut forms, exact-tail Mellin continuation, dispersion with derived
+normalization) is expected to generalize and is left to future work.
+\item The strictly massless box requires dimensional or mass
+regularization of its collinear cut; Theorem~\ref{thm:poles} shows
+precisely how the infrared logarithm is confined to the subleading
+Mellin pole, but no scheme-independence statement beyond that is made.
+\item The multi-loop pattern ($(4+2L)$-point tree data $\to$ $L$-loop
+integrands) is a conjecture.
+\item No connection to the Riemann Hypothesis or to any Millennium
+Prize problem is asserted in this paper.
+\end{enumerate}
+
+% =====================================================================
+\section{Data and code availability}
+\label{sec:code}
+% =====================================================================
+All results are reproduced by five self-contained Python scripts
+(\texttt{mpmath}/\texttt{sympy}), archived with this paper and in
+\texttt{GppVerify/discovery/shadow\_ope/}:
+\texttt{celestial\_cut\_step1.py} (Thms.~\ref{thm:measure},
+\ref{thm:mellincut}),
+\texttt{box\_cut\_step2a.py} (Thm.~\ref{thm:boxcut}),
+\texttt{mellin\_cut\_step2c.py} (Thm.~\ref{thm:poles}),
+\texttt{dispersion\_step3a.py} (Thms.~\ref{thm:disp},
+\ref{thm:celdisp}),
+plus session notes \texttt{REDO\_NOTES\_LOOPS\_FROM\_TREES.md}.
+The archived routines \texttt{box\_shadow\_1d}/\texttt{check\_box} are
+deprecated and must not be cited as verification.
+
+\subsection*{Acknowledgments}
+This version was produced in an audited human--AI research session in
+which all prior numerical claims of the series were independently
+recomputed before any new claim was made.
+
+\begin{thebibliography}{9}
+\bibitem{Bern1994} Z.~Bern, L.~Dixon, D.~Dunbar, D.~Kosower,
+``One-loop $n$-point gauge theory amplitudes, unitarity and collinear
+limits,'' Nucl.\ Phys.\ B435 (1995) 59.
+\bibitem{Pasterski2017} S.~Pasterski, S.-H.~Shao, A.~Strominger,
+``Flat space amplitudes and conformal symmetry of the celestial
+sphere,'' Phys.\ Rev.\ D96 (2017) 065026.
+\bibitem{Raclariu2021} A.-M.~Raclariu, ``Lectures on celestial
+holography,'' arXiv:2107.02075.
+\bibitem{LamShao2018} H.~T.~Lam, S.-H.~Shao, ``Conformal basis,
+optical theorem, and the bulk point singularity,'' Phys.\ Rev.\ D98
+(2018) 025020 [arXiv:1711.06138].
+\bibitem{CelestialOptical2024} ``The celestial optical theorem,''
+arXiv:2404.18898.
+\bibitem{AHH2020} N.~Arkani-Hamed, M.~Pate, A.-M.~Raclariu,
+A.~Strominger (and related), on the analytic structure of celestial
+amplitudes in the $\beta$-plane.
+\bibitem{Chang2021} C.-M.~Chang et al., celestial dispersion
+relations, 2021.
+\end{thebibliography}
+
+\end{document}
