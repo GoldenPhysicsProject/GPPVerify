@@ -811,3 +811,15 @@ import GppVerify.QuantumGravity.AllLoopFiniteness
 -- docs/FORMALIZATION_PLAN.md for the precise boundary of each gap.
 import GppVerify.QuantumGravity.KinematicZetaBridge
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
+
+-- ── Thread QG-Blackbody, round 3: the cumulant law (New) ──────────────────────────────────
+-- From blackbody_law_qg_dtoupin_v1.tex Test T5 ("cumulants are even zeta values"). Unlocked
+-- by round 2's Weierstrass product: taking log of sinh(pi*lam)=pi*lam*prod(1+lam^2/n^2) turns
+-- the product into a sum of logs (log_prod + Summable.hasSum_iff_tendsto_nat), each log(1+x)
+-- expands via Mathlib's hasSum_pow_div_log_of_abs_lt_one, and the resulting double series in
+-- (loop index j, Taylor order k) is swapped via Summable.tsum_comm after establishing joint
+-- summability from an explicit product majorant (Summable.mul_of_nonneg). Result:
+-- GppCumulantLaw.cumulant_law: -log(P(lam)) = sum_k (-1)^k * zeta(2(k+1)) * lam^(2(k+1))/(k+1)
+-- for |lam|<1, matching the paper's log P(lam) = -sum_{k>=1}(-1)^(k+1)zeta(2k)lam^(2k)/k
+-- exactly (k zero-indexed here as k+1 >= 1). Kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.CumulantLaw
