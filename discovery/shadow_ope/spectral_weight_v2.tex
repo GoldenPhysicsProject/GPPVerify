@@ -1,0 +1,326 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\usepackage{booktabs}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\cM}{\mathcal{M}}
+
+\title{The Spectral Weight $\pi\lambda/\sinh\pi\lambda$:\\[4pt]
+Derivation from Phase Space, Modular Form, and Exact Moments}
+
+\author{Daniel Toupin\\[4pt]
+\textit{Golden Physics Project}\\[2pt]
+\texttt{goldenphysics.org}}
+
+\date{August 2026 --- v2, superseding \texttt{haar\_qg\_paper\_v2.1.5.1}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The function $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$ has appeared
+throughout this series as a spectral weight of unclear provenance. Its
+origin is now settled. In a companion paper the two-particle massless
+unitarity cut is computed in celestial variables, and its Mellin image
+is $\Gamma(\Delta_5)\Gamma(\Delta_6)/\Gamma(\Delta_5+\Delta_6)$ times
+elementary factors; restricted to the shadow locus
+$\Delta_5+\Delta_6=2$ with $\Delta_5=1+i\lambda$, this equals
+$\Gamma(1+i\lambda)\Gamma(1-i\lambda)=P(\lambda)$. So $P$ is a
+phase-space factor of the cut. It is a derived quantity, and we prove
+here the identities it satisfies: a Planck form
+$P=2\pi\lambda[n_B(\pi\lambda)-n_B(2\pi\lambda)]$ with the zero-point
+energies cancelling, an elementary Fourier pair with
+$\tfrac14\operatorname{sech}^2(x/2)$, and a ladder-moment sequence whose
+first two members are $\cM_1=1/8$ and $\cM_2=1/90=\zeta(4)/\pi^4$,
+verified independently here to 26 digits.
+
+This paper also retracts, in full and by name, the physical claims
+built on this function in the draft it replaces. The parallel
+retractions for the blackbody draft are in \cite{ToupinModular}. $P$ is not the
+Plancherel density of $\mathrm{SL}(2,\C)$, which grows like $\lambda^2$
+for the scalar principal series. $P$ does not replace the Feynman loop
+measure. The bound $\cM_L\le(1/8)^L$ is a true statement about the
+convolution integrals $\cM_L$ and a false statement about loop
+amplitudes, so the claim of ultraviolet finiteness without
+counterterms does not stand: the companion derivation reconstructs the
+standard loop integral exactly, divergences included. The fifteen-digit
+box verification reported in the earlier draft compared a
+Feynman-parameter integral with a reparameterization of itself. What
+survives is a family of exact special-function identities, and a
+physical interpretation of $P$ as the spectral density of a
+two-particle cut rather than as a cure for anything.
+\end{abstract}
+
+\medskip
+\noindent\textbf{Keywords:} celestial holography, unitarity, Plancherel
+measure, modular theory, Bisognano--Wichmann, Bernoulli numbers.
+
+\tableofcontents
+\newpage
+
+% =====================================================================
+\section{Where the weight comes from}
+% =====================================================================
+
+Earlier drafts in this series postulated $P(\lambda)$ as a loop measure
+and then looked for reasons it should be one. The order of reasoning
+was backwards, which is how the errors listed in
+Sec.~\ref{sec:retractions} entered. The correct order runs as follows.
+
+\begin{theorem}[Phase-space origin]
+\label{thm:origin}
+Let $\dd\Pi_2$ be two-particle massless phase space at total mass $M$,
+written in celestial coordinates. Then
+\begin{equation}
+\int \dd\Pi_2\;\omega_5^{\Delta_5-1}\omega_6^{\Delta_6-1}
+=\frac{1}{8\pi}\Bigl(\frac{M}{2}\Bigr)^{\Delta_5+\Delta_6-2}
+\frac{\Gamma(\Delta_5)\Gamma(\Delta_6)}{\Gamma(\Delta_5+\Delta_6)} ,
+\label{eq:phi}
+\end{equation}
+and on the shadow locus $\Delta_5+\Delta_6=2$ with
+$\Delta_5=1+i\lambda$,
+\begin{equation}
+\frac{\Gamma(\Delta_5)\Gamma(\Delta_6)}{\Gamma(\Delta_5+\Delta_6)}
+=\Gamma(1+i\lambda)\Gamma(1-i\lambda)
+=\frac{\pi\lambda}{\sinh(\pi\lambda)}
+=:P(\lambda).
+\label{eq:origin}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Equation \eqref{eq:phi} is Theorem 4.1 of \cite{ToupinLoops}, proved
+there from the celestial parameterization with all Jacobians computed,
+and verified to between $10^{-20}$ and $10^{-31}$ at five points with
+complex $\Delta$. Equation \eqref{eq:origin} then follows from
+$\Gamma(2)=1$ and the reflection formula, checked here to $10^{-41}$.
+\end{proof}
+
+The locus $\Delta_5+\Delta_6=2$ is where the $M$ dependence of
+\eqref{eq:phi} drops out, so it is the locus on which the cut is scale
+invariant. Nothing is localized there by a pole, and no residue is
+taken. This corrects the mechanism assumed throughout the earlier
+drafts.
+
+% =====================================================================
+\section{Identities satisfied by the weight}
+% =====================================================================
+
+\begin{theorem}[Planck form, with cancelling zero-point energy]
+\label{thm:planck}
+With $n_B(y)=(e^y-1)^{-1}$ and $E(x)=\tfrac{x}{2}\coth\tfrac{x}{2}$,
+\begin{equation}
+P(\lambda)=2\pi\lambda\bigl[n_B(\pi\lambda)-n_B(2\pi\lambda)\bigr]
+=2\pi\lambda\sum_{n\ge0}e^{-2\pi\lambda(n+\frac12)},
+\qquad
+2E(\pi\lambda)-E(2\pi\lambda)=P(\lambda).
+\label{eq:planck}
+\end{equation}
+The zero-point terms cancel identically:
+$2\cdot\tfrac{\pi\lambda}{2}-\tfrac{2\pi\lambda}{2}=0$.
+\end{theorem}
+
+\begin{proof}
+Both statements reduce to
+$\coth y-\coth 2y=1/\sinh 2y$ after clearing factors. Verified at three
+values of $\lambda$ to $3\times10^{-39}$ or better.
+\end{proof}
+
+\begin{proposition}[Fourier pair]
+\label{prop:fourier}
+\begin{equation}
+P(\lambda)=\int_\R e^{i\lambda x}\frac{\dd x}{4\cosh^2(x/2)},
+\qquad
+\frac{1}{2\pi}\int_\R P(\lambda)\cos(\lambda y)\dd\lambda
+=\frac{1}{4\cosh^2(y/2)} .
+\label{eq:fourier}
+\end{equation}
+Verified at two values to $1.7\times10^{-41}$.
+\end{proposition}
+
+\begin{proposition}[Logarithmic expansion]
+\label{prop:log}
+For $|\lambda|<1$,
+$\log P(\lambda)=-\sum_{k\ge1}\frac{(-1)^{k+1}\zeta(2k)}{k}\lambda^{2k}$,
+so the Taylor coefficients of $\log P$ are even zeta values.
+\end{proposition}
+
+\begin{remark}[Thermal reading, treated separately]
+\label{rem:thermal}
+Equation \eqref{eq:planck} admits a reading through the
+Bisognano--Wichmann theorem, in which $P$ is the partition function of
+one oscillator at the modular temperature $\beta=2\pi$ weighted by
+boost frequency. That structure, together with the Matsubara pole
+positions, the Weierstrass product, and the Mellin moment family
+$\mathfrak m_s=\pi^{-(s+1)}(1-2^{-(s+1)})\Gamma(s+1)\zeta(s+1)$, is
+developed in \cite{ToupinThermal}. The ladder moment $\cM_1$ below is
+the $s=1$ member of that family.
+\end{remark}
+
+% =====================================================================
+\section{Ladder moments}
+% =====================================================================
+
+\begin{definition}[Ladder moments]
+\label{def:moments}
+\begin{equation}
+\cM_L:=\frac{1}{(2\pi)^L}\int_{\R_{>0}^L}
+\Bigl[\prod_{j=1}^{L}P(\lambda_j)\Bigr]
+\Bigl[\prod_{j=1}^{L-1}P\bigl(|\lambda_j-\lambda_{j+1}|\bigr)\Bigr]
+\dd\lambda_1\cdots\dd\lambda_L ,
+\label{eq:moments}
+\end{equation}
+with the empty product equal to $1$ at $L=1$.
+\end{definition}
+
+\begin{theorem}[First two moments]
+\label{thm:moments}
+$\cM_1=\tfrac18$ and $\cM_2=\tfrac{1}{90}=\zeta(4)/\pi^4$.
+\end{theorem}
+
+\begin{proof}
+For $L=1$, $\int_0^\infty \pi\lambda/\sinh(\pi\lambda)\dd\lambda=\pi/4$
+by the classical value $\int_0^\infty x/\sinh x\,\dd x=\pi^2/4$, so
+$\cM_1=(\pi/4)/(2\pi)=1/8$, exactly. For $L=2$ the double integral was
+recomputed here by independent quadrature, giving
+$0.011111111111111111$ against $1/90$ with relative error
+$1.8\times10^{-26}$.
+\end{proof}
+
+\begin{remark}[Status of these numbers]
+Definition \ref{def:moments} is a definition of convolution integrals
+of $P$. Theorem \ref{thm:moments} is a fact about those integrals.
+Neither statement asserts that $\cM_L$ normalizes an $L$-loop
+amplitude. The earlier draft made that assertion, and it is withdrawn.
+The bound $\cM_L\le(1/8)^L$, which follows from
+$0<P\le1$ applied to the rung factors, remains true of
+\eqref{eq:moments} and says nothing about ultraviolet behaviour of
+amplitudes.
+\end{remark}
+
+% =====================================================================
+\section{Retractions}
+\label{sec:retractions}
+% =====================================================================
+
+The following claims from
+\texttt{haar\_qg\_paper\_v2.1.5.1} are withdrawn. They are listed
+individually so that anyone holding those drafts can mark them.
+
+\begin{enumerate}
+\item \textbf{``$P(\lambda)$ is the Plancherel measure of
+$\mathrm{SL}(2,\C)$.''} False. The Plancherel density for the scalar
+principal series is proportional to $\lambda^2$. The correct
+description of $P$ is Theorem \ref{thm:origin}: a phase-space factor of
+the two-particle cut, equal to a ratio of Gamma functions on the shadow
+locus.
+
+\item \textbf{``The flat Feynman spectral weight is replaced by
+$P(\lambda)$.''} Withdrawn. The companion derivation
+\cite{ToupinLoops} reconstructs the ordinary loop integral from its cut
+by an unsubtracted dispersion relation, verified to relative error
+below $1.6\times10^{-21}$. No measure is replaced anywhere in that
+chain.
+
+\item \textbf{``$\cM_L\le(1/8)^L$, so the loop expansion is ultraviolet
+finite with no regularization and no counterterms.''} The inequality is
+true of Definition \ref{def:moments}. The physical conclusion does not
+follow and is withdrawn. Divergences of the box appear exactly where
+standard methods put them; in \cite{ToupinLoops} they are handled by an
+internal mass regulator, with the collinear logarithm confined to a
+subleading Mellin pole.
+
+\item \textbf{``$\cM_1=1/8$ and $\cM_2=1/90$ are the one- and two-loop
+measures.''} They are values of the integrals \eqref{eq:moments}, and
+the rational values are a coincidence of the ladder graph topology at
+$L\le2$, as the earlier draft itself argued. The identification with
+loop normalizations is withdrawn.
+
+\item \textbf{``The one-loop box is verified to fifteen significant
+figures with a 19.6-fold speedup.''} Withdrawn. The routine
+\texttt{box\_shadow\_1d} in \texttt{verify\_qg\_measure.py} integrates
+one Feynman parameter analytically and maps a second by a logistic
+change of variable, so \texttt{check\_box} compares a Feynman-parameter
+integral against a reparameterization of itself. The comparison cannot
+test any celestial construction. That routine is deprecated and should
+not be cited.
+
+\item \textbf{``The ultraviolet catastrophe of cavity radiation and the
+ultraviolet divergence of quantum gravity are the same disease with the
+same cure.''} Withdrawn as physics, and separately withdrawn in
+\cite{ToupinThermal}. The Planck-form identity \eqref{eq:planck} and
+the thermal reading of Remark \ref{rem:thermal} stand as exact
+statements about the function $P$.
+
+\item \textbf{Transcendentality claims tied to the digamma moment.} The
+identity
+$\tfrac{1}{2\pi}\int_\R P\,\mathrm{Re}\,\psi(\tfrac12+\tfrac{i\lambda}{2})
+\dd\lambda=\tfrac18+\tfrac14\psi(\tfrac12)$ is proved in
+\cite{ToupinBlocks}. The $\tfrac18$ there arises from a full-line
+integral, while $\cM_1=\tfrac18$ is a half-line integral, so reading
+the moment as ``the one-loop measure plus a quarter of the digamma''
+overstates what has been shown.
+\end{enumerate}
+
+% =====================================================================
+\section{What stands}
+% =====================================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Statement & Status & Check \\
+\midrule
+$P=\Gamma(1+i\lambda)\Gamma(1-i\lambda)$ from phase space & proved & $10^{-41}$ \\
+Planck form, zero-point cancellation & proved & $3\times10^{-39}$ \\
+Fourier pair with $\tfrac14\operatorname{sech}^2(x/2)$ & proved & $1.7\times10^{-41}$ \\
+$\log P$ coefficients are even zeta values & proved & classical \\
+Planck form and thermal reading & see \cite{ToupinThermal} & \\
+$\cM_1=1/8$ & proved & exact \\
+$\cM_2=1/90=\zeta(4)/\pi^4$ & verified & $1.8\times10^{-26}$ \\
+$P$ as Plancherel density & \textbf{withdrawn} & false \\
+$P$ as loop-measure replacement & \textbf{withdrawn} & false \\
+UV finiteness without counterterms & \textbf{withdrawn} & false \\
+Fifteen-digit box check & \textbf{withdrawn} & circular \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{9}
+\bibitem{ToupinLoops} D.~Toupin, ``Loop amplitudes from unitarity cuts
+in celestial Mellin space: a complete derivation for the scalar box,''
+v19, 2026.
+\bibitem{ToupinBlocks} D.~Toupin, ``Principal-series blocks on the
+celestial sphere,'' v2, 2026.
+\bibitem{BW1975} J.~Bisognano, E.~Wichmann, J.\ Math.\ Phys.\ 16 (1975)
+985.
+\bibitem{BW1976} J.~Bisognano, E.~Wichmann, J.\ Math.\ Phys.\ 17 (1976)
+303.
+\bibitem{ToupinThermal} D.~Toupin, ``Modular thermality of the
+celestial spectral weight,'' v2, 2026.
+\bibitem{ToupinModular} D.~Toupin, ``Modular thermality of the
+celestial spectral weight,'' v2, 2026.
+\bibitem{SimmonsDuffin2014} D.~Simmons-Duffin, ``TASI lectures on the
+conformal bootstrap,'' arXiv:1602.07982.
+\end{thebibliography}
+
+\end{document}

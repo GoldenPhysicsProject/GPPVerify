@@ -128,6 +128,11 @@ import GppVerify
 -- Expected: Lean built-ins only.
 #print axioms GppCumulantLaw.cumulant_law
 
+-- Thread QG-Blackbody round 4 (SpectralWeightIdentities) — Planck form and the reciprocal
+-- Weierstrass product for P(lam) = pi*lam/sinh(pi*lam). Expected: Lean built-ins only, both.
+#print axioms GppSpectralWeight.planck_form
+#print axioms GppSpectralWeight.one_div_P_tendsto_tprod
+
 -- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
 -- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
 -- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see

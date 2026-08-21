@@ -676,11 +676,14 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   \texttt{gleason\_uniqueness} (Gleason 1957, not in Mathlib).
 \end{lemma}
 
-\chapter{Quantum Gravity --- Blackbody Law and All-Loop Finiteness}
+\chapter{Quantum Gravity --- Celestial Spectral Weight and All-Loop Bound}
 
-From ``On Self-Dual Measure and Finite Quantum Gravity'' (\texttt{haar\_qg\_paper\_v215.tex})
-and ``The Blackbody Law of Quantum Gravity'' (\texttt{blackbody\_law\_qg\_dtoupin\_v1.tex}).
-The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
+From ``The Spectral Weight $\pi\lambda/\sinh\pi\lambda$'' and ``Modular Thermality of the
+Celestial Spectral Weight'' (Toupin, 2026). $P(\lambda) := \pi\lambda/\sinh(\pi\lambda)$ is
+the two-particle massless phase-space weight of a celestial unitarity cut: it is the Mellin
+image $\Gamma(\Delta_5)\Gamma(\Delta_6)/\Gamma(\Delta_5+\Delta_6)$ of two-particle phase space,
+restricted to the shadow locus $\Delta_5+\Delta_6=2$, $\Delta_5=1+i\lambda$, where it equals
+$\Gamma(1+i\lambda)\Gamma(1-i\lambda)$.
 
 \begin{theorem}[Stefan--Boltzmann Family]
   \label{thm:stefan-boltzmann-family}
@@ -710,17 +713,18 @@ The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
   of $i\lambda$, with $\sin(x\cdot i) = i\sinh(x)$ turning the denominator real.
 \end{theorem}
 
-\begin{theorem}[All-Loop Finiteness]
+\begin{theorem}[Ladder Convolution Bound]
   \label{thm:all-loop-finiteness}
   \lean{GppAllLoopFiniteness.finiteness}
   \leanok
-  For the bare $L$-loop planar-ladder Plancherel measure
+  For the $L$-fold chain convolution of $P$ against itself,
   \[
     \mathcal{M}_L \;=\; \frac{1}{(2\pi)^L}\int_{\mathbb{R}_{>0}^L}
       \Bigl[\prod_{j=1}^L P(\lambda_j)\Bigr]\Bigl[\prod_{j=1}^{L-1}P(|\lambda_j-\lambda_{j+1}|)\Bigr]
       \,d\lambda_1\cdots d\lambda_L,
   \]
-  and for every loop order $L \geq 1$: $0 < \mathcal{M}_L \leq (1/8)^L$.
+  and for every $L \geq 1$: $0 < \mathcal{M}_L \leq (1/8)^L$. This is a statement about the
+  convolution integral $\mathcal{M}_L$ itself, not a claim about any physical loop amplitude.
 
   \emph{Proved clean, for every $L$ at once} (not instantiated at small $L$): the $L$-fold
   integral is encoded via a recursively-defined chain kernel realizing Fubini/Tonelli's own
@@ -777,12 +781,37 @@ The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
   majorant).
 \end{theorem}
 
+\begin{theorem}[Planck Form]
+  \label{thm:planck-form}
+  \lean{GppSpectralWeight.planck_form}
+  \leanok
+  For every real $\lambda > 0$, with $n_B(y) := 1/(e^y-1)$ the Bose occupation number,
+  \[
+    P(\lambda) \;=\; 2\pi\lambda\bigl(n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr).
+  \]
+  \emph{Proved clean}: the zero-point contributions of the two Bose terms cancel exactly,
+  leaving a genuine Planck-form identity for $P$.
+\end{theorem}
+
+\begin{theorem}[Reciprocal Weierstrass Product]
+  \label{thm:one-div-p-weierstrass}
+  \lean{GppSpectralWeight.one_div_P_tendsto_tprod}
+  \leanok
+  \uses{thm:sinh-weierstrass}
+  For every real $\lambda \neq 0$, the partial products of $1+\lambda^2/n^2$ converge to
+  $1/P(\lambda)$.
+  \emph{Proved clean}: an immediate corollary of Theorem~\ref{thm:sinh-weierstrass}.
+\end{theorem}
+
 \textbf{Honest boundary.} Not formalized from this upload: the rationality/PSLQ program
 beyond $M_1, M_2$ (already covered by the pre-existing Thread~S/Thread~E); the
 Wiener--Hopf/Parseval odd-zeta cancellation and wall-count combinatorics; Proposition
 \texttt{prop:zetabridge}(b)'s analytic continuation to $\mathrm{Re}\,s>-1$; and most of the
 blackbody capstone's remaining structural theorems (T1, T3, T6, T13, T14) beyond the
-Gamma-modulus, Stefan--Boltzmann, Weierstrass-product, and cumulant-law faces proved here.
+Gamma-modulus, Stefan--Boltzmann, Weierstrass-product, cumulant-law, Planck-form, and
+reciprocal-product faces proved here; the weight-shift ODE for $P$'s Fourier transform
+(real analysis, no digamma needed, but not yet set up); and the digamma-moment theorem and
+Matsubara residues, both scoped in \texttt{docs/FORMALIZATION\_PLAN.md}.
 Two gaps are blocking further progress and are recorded precisely in
 \texttt{docs/FORMALIZATION\_PLAN.md} rather than attempted as rushed partial versions:
 Mathlib \texttt{v4.19.0} has \emph{no digamma or polygamma function at all} (blocking the

@@ -823,3 +823,17 @@ import GppVerify.QuantumGravity.SinhWeierstrassProduct
 -- for |lam|<1, matching the paper's log P(lam) = -sum_{k>=1}(-1)^(k+1)zeta(2k)lam^(2k)/k
 -- exactly (k zero-indexed here as k+1 >= 1). Kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.CumulantLaw
+
+-- ── Thread QG-Blackbody, round 4: Planck form and the reciprocal Weierstrass product ──────
+-- From updated companion papers ("The Spectral Weight pi*lam/sinh(pi*lam)" and "Modular
+-- Thermality of the Celestial Spectral Weight"). GppSpectralWeight.planck_form: for lam>0,
+-- P(lam) = 2*pi*lam*(bose(pi*lam) - bose(2*pi*lam)), a genuine Planck-form identity with the
+-- two Bose zero-point terms cancelling exactly. GppSpectralWeight.one_div_P_tendsto_tprod:
+-- 1/P(lam) is the Weierstrass product prod(1+lam^2/n^2), an immediate corollary of round 2's
+-- Weierstrass product for sinh. Also corrected this round: P was mislabeled "the Plancherel
+-- spectral weight" and M_L a "Plancherel loop measure" in this file's earlier comments and
+-- the blueprint -- both wrong (the SL(2,C) Plancherel density for the scalar principal
+-- series grows like lam^2, not P). P is the two-particle massless phase-space weight of a
+-- celestial unitarity cut; no Lean statement or proof changed, only prose. Kernel-clean, no
+-- axiom, no sorry.
+import GppVerify.QuantumGravity.SpectralWeightIdentities
