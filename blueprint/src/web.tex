@@ -1069,16 +1069,66 @@ Full honest boundary, including the paper's own open research problems, in
   $(h,\bar h)\mapsto(1-h,1-\bar h)$ intertwine exactly under the diagonal lift.
 \end{theorem}
 
+\section{The \texorpdfstring{$d=2$}{d=2} Cut vs. the Spherical Weyl Coefficient}
+
+The naive conjecture that a single local factor $a_\infty(s)$ gives \emph{both} the physical
+kernel $C_\infty=a_\infty(s)a_\infty(1-s)$ \emph{and} the normalized Weyl/Gindikin--Karpelevich
+intertwiner $M_\infty=a_\infty(1-s)/a_\infty(s)$ is \textbf{false} --- confirmed numerically
+not proportional at the Archimedean place and not equal at finite places (2026-08-22
+resolution). The failure is informative: the physical kernel and the Weyl coefficient are
+distinct canonical objects on the same rank-one principal series. What \emph{is} true is the
+exact decomposition below.
+
+\begin{theorem}[Legendre Duplication for the Archimedean Factors]
+  \label{thm:gammaC-gammaR-duplication}
+  \lean{GppLocalShadow.GammaC_eq_GammaR_mul_GammaR_succ}
+  \leanok
+  With $\Gamma_R(s):=\pi^{-s/2}\Gamma(s/2)$ and $\Gamma_C(s):=2(2\pi)^{-s}\Gamma(s)$:
+  $\Gamma_C(s) = \Gamma_R(s)\Gamma_R(s+1)$, for every complex $s$.
+\end{theorem}
+
+\begin{theorem}[The Celestial Cut as Two Archimedean Sectors]
+  \label{thm:archkernel-gammaR-sectors}
+  \lean{GppLocalShadow.archKernel_two_eq_GammaR_sectors}
+  \leanok
+  \uses{thm:arch-kernel-reflection,thm:gammaC-gammaR-duplication}
+  $K_{\infty,2}(\Delta) = \pi^2\Gamma_C(\Delta)\Gamma_C(2-\Delta) =
+  \pi^2\cdot\Gamma_R(\Delta)\Gamma_R(\Delta+1)\cdot\Gamma_R(2-\Delta)\Gamma_R(3-\Delta)$ ---
+  the celestial $d=2$ cut decomposes exactly into two shadow-paired real Archimedean Gamma
+  sectors, $(\Gamma_R(\Delta),\Gamma_R(2-\Delta))$ and its shift
+  $(\Gamma_R(\Delta+1),\Gamma_R(3-\Delta))$.
+\end{theorem}
+
+\section{The Global Eisenstein Coefficient}
+
+\begin{theorem}[Celestial-Shadow Form of the Eisenstein Coefficient]
+  \label{thm:eisenstein-shadow-form}
+  \lean{GppEisenstein.eisensteinCoeff_eq_shadow_ratio}
+  \leanok
+  With $\Lambda$ the completed Riemann zeta function and $\varphi(\Delta):=\Lambda(\Delta-1)/\Lambda(\Delta)$:
+  $\varphi(\Delta) = \Lambda(2-\Delta)/\Lambda(\Delta)$ --- immediate from $\Lambda(1-w)=\Lambda(w)$.
+\end{theorem}
+
+\begin{theorem}[Eisenstein Reflection]
+  \label{thm:eisenstein-reflection}
+  \lean{GppEisenstein.eisensteinCoeff_reflection}
+  \leanok
+  \uses{thm:eisenstein-shadow-form}
+  $\varphi(2-\Delta)\varphi(\Delta) = 1$ wherever $\Lambda(\Delta)\neq0$ and $\Lambda(2-\Delta)\neq0$.
+  \emph{This is not evidence toward RH}: Eisenstein scattering already contains $\zeta(s)$ in
+  its functional-equation normalization without that proving anything about its zeros.
+\end{theorem}
+
 \textbf{Honest boundary.} The integral representation of $K_{\infty,d}$ is taken as a
 definition (verified numerically against direct quadrature, not derived from Mathlib's
 $[0,1]$-Beta integral). Not formalized at all: the non-Archimedean kernel $K_{q,d}$ (Mathlib
-has no $p$-adic multiplicative Haar measure infrastructure), the local factorization problem
-(does a local factor $a_\infty(s)$ exist with $C_\infty=a_\infty(s)a_\infty(1-s)$ and
-$M_\infty=a_\infty(1-s)/a_\infty(s)$ simultaneously, matching both the physical kernel and the
-normalized Knapp--Stein intertwiner?), the Cutkosky-vs-Rankin-Selberg local bridge, and the
-$\mathbb{R}_+$ dilation/Mellin principal-series skeleton as an actual Lean object. All four
-are the paper's own genuinely open research targets, not bookkeeping --- see the notes file
-for the precise statement of each.
+has no $p$-adic multiplicative Haar measure infrastructure), the deeper representation-
+theoretic reason the physical kernel and Weyl intertwiner are distinct (beyond the numerical
+confirmation that they are), the Cutkosky-vs-Rankin-Selberg local bridge, the
+$\mathbb{R}_+$ dilation/Mellin principal-series skeleton as an actual Lean object, and
+$|\varphi(1+i\lambda)|=1$ (needs $\Lambda$'s conjugation symmetry, not directly in Mathlib).
+All are the paper's own genuinely open research targets, not bookkeeping --- see the notes
+file for the precise statement of each.
 
 \chapter{Axiom Inventory}
 

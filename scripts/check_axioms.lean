@@ -149,6 +149,18 @@ import GppVerify
 #print axioms GppDiagonalLift.D_one_sub_eq_shadow2_D
 #print axioms GppDiagonalLift.delta_shadow2_D
 
+-- §9 resolution (2026-08-22): the physical kernel and Weyl intertwiner are distinct objects.
+-- (two_mul_pi_cpow_split is a private proof-internal helper, not auditable from here.)
+-- Expected: Lean built-ins only, all three.
+#print axioms GppLocalShadow.GammaC_eq_GammaR_mul_GammaR_succ
+#print axioms GppLocalShadow.archKernel_two_eq_GammaC_product
+#print axioms GppLocalShadow.archKernel_two_eq_GammaR_sectors
+
+-- Global Eisenstein coefficient (completedRiemannZeta functional equation). NOT an RH claim.
+-- Expected: Lean built-ins only, both.
+#print axioms GppEisenstein.eisensteinCoeff_eq_shadow_ratio
+#print axioms GppEisenstein.eisensteinCoeff_reflection
+
 -- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
 -- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
 -- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see

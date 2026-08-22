@@ -147,7 +147,55 @@ for t in [mp.mpf('0.6'), mp.mpf('2.4')]:
     print(f"  t={t}: N(s) rel err from |A(s)|^2 = {mp.nstr(rel(N, target_N), 4)}, "
           f"|S(s)| = {mp.nstr(abs(S), 10)} (target 1)")
 
+print("=== 13. Sec.9 resolution (2026-08-22): the naive common-local-factor conjecture fails ===")
+print("--- Archimedean: C_inf(Delta) = pi^2 * Gamma_C(Delta) * Gamma_C(2-Delta), now in Lean ---")
+def GammaR(s):
+    return mp.pi**(-s/2) * mp.gamma(s/2)
+def GammaC(s):
+    return 2*(2*mp.pi)**(-s) * mp.gamma(s)
+def C_inf(Delta):
+    return mp.gamma(Delta)*mp.gamma(2-Delta)
+def c_inf_weyl(s):
+    return mp.sqrt(mp.pi)*mp.gamma(s - mp.mpf(1)/2)/mp.gamma(s)
+for Delta in [mp.mpc(1,1.3), mp.mpc(0.7,0), mp.mpc(1,4.2)]:
+    lhs = C_inf(Delta)
+    rhs = mp.pi**2 * GammaC(Delta) * GammaC(2-Delta)
+    print(f"  Delta={Delta}: rel err = {mp.nstr(rel(lhs,rhs),4)}")
+print("--- two-sector decomposition: C_inf(Delta) = pi^2*GammaR(D)*GammaR(D+1)*GammaR(2-D)*GammaR(3-D), now in Lean ---")
+for Delta in [mp.mpc(1,1.3), mp.mpc(1,4.2)]:
+    lhs = C_inf(Delta)
+    rhs = mp.pi**2 * GammaR(Delta)*GammaR(Delta+1)*GammaR(2-Delta)*GammaR(3-Delta)
+    print(f"  Delta={Delta}: rel err = {mp.nstr(rel(lhs,rhs),4)}")
+print("--- distinctness: c_inf_weyl(s) (Weyl coeff) vs C_inf(Delta) (physical kernel) are NOT proportional ---")
+for s in [mp.mpc(0.5,1.1), mp.mpc(0.5,2.3)]:
+    Delta = 2*s
+    weyl, cut = c_inf_weyl(s), C_inf(Delta)
+    print(f"  s={s}: |c_inf_weyl(s)|={mp.nstr(abs(weyl),8)}  |C_inf(Delta)|={mp.nstr(abs(cut),8)}  "
+          f"ratio={mp.nstr(abs(weyl)/abs(cut),8)} (varies -> distinct objects, not forced equal)")
+print("--- finite places: Gindikin-Karpelevich (ratio) vs derived positive kernel (product) are NOT equal ---")
+def GK(q, z):
+    return (1 - z/q) / (1 - z)
+def K_q1(q, s):
+    return (1 - mp.mpf(1)/q) / ((1-q**(-s))*(1-q**(-(1-s))))
+for q, s in [(2, mp.mpf('0.5')), (3, mp.mpf('0.7')), (5, mp.mpf('0.3'))]:
+    z = q**(-s)
+    gk, kq = GK(q, z**2), K_q1(q, s)
+    print(f"  q={q}, s={s}: GK={mp.nstr(gk,8)}  K_q1={mp.nstr(kq,8)}  equal={rel(gk,kq)<mp.mpf('1e-10')} (correctly NOT equal)")
+print("--- global: phi(Delta)=Lambda(Delta-1)/Lambda(Delta)=Lambda(2-Delta)/Lambda(Delta), now in Lean via completedRiemannZeta ---")
+def Lambda(s):
+    return mp.pi**(-s/2)*mp.gamma(s/2)*mp.zeta(s)
+def phi(Delta):
+    return Lambda(Delta-1)/Lambda(Delta)
+for lam in [mp.mpf('1.7'), mp.mpf('3.3')]:
+    Delta = 1+1j*lam
+    print(f"  lam={lam}: phi(2-D)*phi(D)={mp.nstr(phi(2-Delta)*phi(Delta),10)} (target 1, now in Lean), "
+          f"|phi(1+i*lam)|={mp.nstr(abs(phi(Delta)),10)} (target 1, numerical only -- needs Lambda's "
+          f"conjugation symmetry, not directly in Mathlib -- NOT evidence toward RH)")
+
 print("\nDone. See local_shadow_kernel_notes.md for which of the above are formalized in Lean")
-print("(items 2, 3 -> LocalShadowKernel.lean; item 6 -> DiagonalConformalLift.lean) and which")
-print("are numerical-only research targets (items 1, 4, 5, 7-12 -- none of these are Lean")
-print("claims, and 11/12 in particular are NOT evidence for anything about RH).")
+print("(items 2, 3 -> LocalShadowKernel.lean; item 6 -> DiagonalConformalLift.lean; item 13's")
+print("Archimedean decomposition -> LocalShadowKernel.lean, global reflection ->")
+print("GlobalEisensteinCoefficient.lean) and which are numerical-only research targets (items")
+print("1, 4, 5, 7-12, and item 13's finite-place distinctness + unit-modulus check -- none of")
+print("these are Lean claims, and 11/12/13's global piece in particular are NOT evidence for")
+print("anything about RH).")
