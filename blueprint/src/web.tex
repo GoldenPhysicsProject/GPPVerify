@@ -1196,6 +1196,64 @@ Matrix identities use plain integer matrices, not Mathlib's
 \texttt{SpecialLinearGroup}/\texttt{ModularGroup} (which targets the upper-half-plane
 action, not the real-line Möbius fixed points needed here).
 
+\chapter{Local Shadow Kernels and the Finite-Prime Weil Kernel}
+
+From a research-front directive proposing the route: celestial Cutkosky positivity
+$\to$ local shadow kernels $\to$ finite-prime Weil kernel $\to$ Casimir compression
+$\to$ global Weil positivity $\to$ RH. The final logical step (finite Weil paired-form
+positivity on all nontrivial zeros $\iff$ RH) is already proved unconditionally in the
+Cesàro Regularization and the Weil Positivity Criterion chapter
+(\texttt{GppWeilCriterion.rh\_iff\_weil\_pairedForm\_nonneg}) --- but that criterion is
+an \textbf{abstract} pairing over finite subsets of the actual (unknown) zero set, not
+the classical Weil explicit-formula prime-sum quadratic form this chapter's kernels feed
+into. Bridging the two needs the classical explicit formula itself (a separate,
+substantial, not-in-Mathlib undertaking) and is \textbf{not attempted here}.
+
+\begin{theorem}[Positivity of the Finite-Place Shadow Kernel]
+  \label{thm:kp-pos}
+  \lean{GppCutkoskyWeil.Kp_pos}
+  \leanok
+  For every real $p>1$ and every real $t$: the finite-place shadow kernel
+  $K_p(t):=(1-p^{-1})/(1-2p^{-1/2}\cos(t\log p)+p^{-1})$ is strictly positive. This is
+  the value of the classical Poisson kernel on the circle (radius $r=p^{-1/2}$), whose
+  Fourier-coefficient sequence $(r^{|n|})_n$ is termwise nonnegative.
+\end{theorem}
+
+\begin{theorem}[Nonnegativity of the Casimir-Weighted Archimedean Kernel]
+  \label{thm:h-nonneg}
+  \lean{GppCutkoskyWeil.H_nonneg}
+  \leanok
+  With $C(t):=t/(4\sinh(2\pi t))$ the already-derived celestial cut kernel and
+  $H(t):=(t^2+1/4)\,C(t)$ the Casimir-weighted Archimedean kernel: $H(t)\geq0$ for every
+  real $t$. Proof: $t$ and $\sinh(2\pi t)$ always share sign, so their ratio is
+  nonnegative (the $t=0$ case is Lean's total-division junk value $0/0=0$, itself
+  $\geq0$).
+\end{theorem}
+
+\textbf{Central research finding (numerical only, \texttt{discovery/cutkosky\_weil/}).}
+The directive's own closing question was: what projection turns $K_p$ into $K_p-1$
+while preserving positivity globally? Direct answer, at the single-prime level:
+\textbf{none exists}. $K_p$'s Fourier-coefficient sequence is termwise nonnegative, so
+by Bochner/Herglotz every truncated Toeplitz matrix built from it is positive definite
+--- confirmed directly for $p=2,3,5$ (truncation $N=6$: all eigenvalues strictly
+positive). The same matrices for $K_p-1$ (zeroing only the vacuum coefficient $n=0$) are
+strictly \textbf{indefinite} in every case tested (a negative eigenvalue appears for
+every $p$). This does not rule out global positivity of the assembled sum
+$Q_{\mathrm{GPP}}=Q_\infty+\sum_p Q_p$ (individually-indefinite local terms routinely sum
+to a globally positive form, exactly as in the classical Weil explicit formula) --- it
+rules out the naive prime-by-prime mechanism the directive's question was testing.
+
+\textbf{Honest boundary.} Not formalized in Lean this round (numerical-verification-only):
+the full Poisson-series expansion of $K_p$ as a \texttt{HasSum}; the exact Fourier pair
+$H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
+numerically to $\sim10^{-51}$ relative error); the pole-cancellation/removable-singularity
+claim at $t=\pm i/2$ (confirmed via a shrinking-perturbation sequence). The
+representation-theoretic Casimir operator itself (the $t^2+1/4$ eigenvalue is used only
+as a number, not derived from an operator --- Mathlib has no $SL(2,\mathbb{R})$
+principal-series development) and the $Q_{\mathrm{GPP}}$ construction / positivity
+factorization program are not attempted. No axiom, no sorry, no RH claim, no global
+positivity claim, no Connes--Consani machinery imported.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn

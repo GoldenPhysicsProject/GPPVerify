@@ -186,3 +186,10 @@ import GppVerify
 -- this reduces the opaque hypothesis to.
 #print axioms GppDispersion.lorentzian_jump
 #print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole
+
+-- Local shadow kernels / finite-prime Weil kernel (2026-08-22). No RH claim, no global
+-- positivity claim -- see CutkoskyWeilBridge.lean's module doc and discovery/cutkosky_weil/
+-- for the central (negative) Toeplitz-indefiniteness finding. Expected: Lean built-ins
+-- only, both.
+#print axioms GppCutkoskyWeil.Kp_pos
+#print axioms GppCutkoskyWeil.H_nonneg
