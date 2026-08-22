@@ -990,14 +990,14 @@ values below immediate corollaries.
 
 \begin{theorem}[Digamma at 1]
   \label{thm:digamma-one}
-  \lean{GppDigamma.digamma\_one}
+  \lean{GppDigamma.digamma_one}
   \leanok
   $\psi(1) = -\gamma$, the Euler--Mascheroni constant.
 \end{theorem}
 
 \begin{theorem}[Digamma at 1/2]
   \label{thm:digamma-one-half}
-  \lean{GppDigamma.digamma\_one\_half}
+  \lean{GppDigamma.digamma_one_half}
   \leanok
   \uses{thm:digamma-one}
   $\psi(1/2) = -\gamma - 2\log 2$, via Legendre's duplication formula (already differentiated
@@ -1006,14 +1006,14 @@ values below immediate corollaries.
 
 \begin{theorem}[Digamma at positive integers]
   \label{thm:digamma-nat}
-  \lean{GppDigamma.digamma\_nat\_add\_one}
+  \lean{GppDigamma.digamma_nat_add_one}
   \leanok
   $\psi(n+1) = -\gamma + H_n$ (the $n$-th harmonic number), for every $n\in\mathbb{N}$.
 \end{theorem}
 
 \begin{theorem}[Digamma functional equation]
   \label{thm:digamma-add-one}
-  \lean{GppDigamma.digamma\_add\_one}
+  \lean{GppDigamma.digamma_add_one}
   \leanok
   $\psi(x+1) = \psi(x) + 1/x$, for $x$ avoiding the poles of $\Gamma$.
 \end{theorem}
@@ -1036,7 +1036,7 @@ Full honest boundary, including the paper's own open research problems, in
 
 \begin{theorem}[Archimedean Shadow Reflection]
   \label{thm:arch-kernel-reflection}
-  \lean{GppLocalShadow.archKernel\_reflection}
+  \lean{GppLocalShadow.archKernel_reflection}
   \leanok
   For the Archimedean shadow kernel $K_{\infty,d}(a) := \Gamma(a)\Gamma(d-a)/\Gamma(d)$:
   $K_{\infty,d}(a) = K_{\infty,d}(d-a)$.
@@ -1044,7 +1044,7 @@ Full honest boundary, including the paper's own open research problems, in
 
 \begin{theorem}[Principal-Series Positivity]
   \label{thm:arch-kernel-positivity}
-  \lean{GppLocalShadow.archKernel\_principal\_series}
+  \lean{GppLocalShadow.archKernel_principal_series}
   \leanok
   \uses{thm:arch-kernel-reflection}
   On the principal series $a=d/2+it$: $K_{\infty,d}(a) = |\Gamma(d/2+it)|^2/\Gamma(d)$,
@@ -1054,7 +1054,7 @@ Full honest boundary, including the paper's own open research problems, in
 
 \begin{theorem}[Diagonal Conformal Lift]
   \label{thm:diagonal-lift}
-  \lean{GppDiagonalLift.delta\_D}
+  \lean{GppDiagonalLift.delta_D}
   \leanok
   The diagonal lift $D(s):=(s,s)$ of a scalar 1D weight has $\Delta(D(s))=2s$ and spin
   $J(D(s))=0$.
@@ -1062,7 +1062,7 @@ Full honest boundary, including the paper's own open research problems, in
 
 \begin{theorem}[Shadow Compatibility]
   \label{thm:shadow-compatibility}
-  \lean{GppDiagonalLift.D\_one\_sub\_eq\_shadow2\_D}
+  \lean{GppDiagonalLift.D_one_sub_eq_shadow2_D}
   \leanok
   \uses{thm:diagonal-lift}
   $D(1-s) = \mathrm{Shadow}_2(D(s))$: the 1D shadow $s\mapsto1-s$ and the 2D celestial shadow
