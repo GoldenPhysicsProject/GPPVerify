@@ -898,3 +898,27 @@ import GppVerify.QuantumGravity.GlobalEisensteinCoefficient
 -- see the file's own doc comment for the precise semantic boundary. All 14 theorems
 -- kernel-clean, no axiom, no sorry.
 import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
+
+-- ── Local shadow kernels and the finite-prime Weil kernel (2026-08-22) ─────────────────────
+-- From a research-front directive: celestial Cutkosky positivity -> local shadow kernels ->
+-- finite-prime Weil kernel -> Casimir compression -> global Weil positivity -> RH. The final
+-- logical step (finite Weil paired-form positivity on all nontrivial zeros <-> RH) is already
+-- proved unconditionally in WeilPositivityCriterion.lean (rh_iff_weil_pairedForm_nonneg) --
+-- an ABSTRACT pairing over finite subsets of the actual (unknown) zero set, NOT the classical
+-- Weil explicit-formula prime-sum quadratic form built here; bridging the two needs the
+-- classical explicit formula itself (substantial, separate, not attempted). This file proves
+-- only the exact local identities: Kp_pos (the finite-place shadow kernel K_p(t) is a Poisson-
+-- kernel value, hence positive, for every prime p>1) and H_nonneg (the Casimir-weighted
+-- Archimedean kernel H(t)=(t^2+1/4)*C(t), C the already-derived celestial cut, is nonnegative
+-- for every real t, since t and sinh(2*pi*t) always share sign). Central research finding
+-- (numerical, discovery/cutkosky_weil/): direct answer to "what projection turns K_p into
+-- K_p-1 while preserving positivity globally" -- at the single-prime level, NONE. Truncated
+-- Toeplitz matrices built from K_p's Fourier coefficients (r^|n|, r=p^-1/2) are strictly
+-- positive definite (Bochner/Herglotz, as expected of a Poisson kernel) for p=2,3,5; the
+-- same matrices for K_p-1 (removing only the n=0 coefficient) are strictly INDEFINITE in
+-- every case tested. This does not rule out global positivity of the assembled sum
+-- Q_GPP=Q_infinity+Sum_p Q_p (individually-indefinite local terms can still sum to a globally
+-- positive form, as in the classical Weil explicit formula) -- it rules out the naive
+-- prime-by-prime mechanism. No RH claim, no global positivity claim, no Connes-Consani import.
+-- All theorems kernel-clean, no axiom, no sorry.
+import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
