@@ -133,6 +133,22 @@ import GppVerify
 #print axioms GppSpectralWeight.planck_form
 #print axioms GppSpectralWeight.one_div_P_tendsto_tprod
 
+-- Digamma via Mathlib's Gamma calculus (task #9). Expected: Lean built-ins only, all five.
+#print axioms GppDigamma.digamma_one
+#print axioms GppDigamma.digamma_one_half
+#print axioms GppDigamma.digamma_nat_add_one
+#print axioms GppDigamma.digamma_add_one
+
+-- Local-field shadow kernels (new research front). Expected: Lean built-ins only, all five.
+#print axioms GppLocalShadow.archKernel_reflection
+#print axioms GppLocalShadow.archKernel_shadow_eq_conj
+#print axioms GppLocalShadow.archKernel_principal_series
+#print axioms GppLocalShadow.archKernel_principal_series_pos
+#print axioms GppDiagonalLift.delta_D
+#print axioms GppDiagonalLift.J_D
+#print axioms GppDiagonalLift.D_one_sub_eq_shadow2_D
+#print axioms GppDiagonalLift.delta_shadow2_D
+
 -- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
 -- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
 -- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see

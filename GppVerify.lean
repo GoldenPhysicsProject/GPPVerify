@@ -837,3 +837,29 @@ import GppVerify.QuantumGravity.CumulantLaw
 -- celestial unitarity cut; no Lean statement or proof changed, only prose. Kernel-clean, no
 -- axiom, no sorry.
 import GppVerify.QuantumGravity.SpectralWeightIdentities
+
+-- ── Digamma via Mathlib's Gamma calculus (task #9) ─────────────────────────────────────────
+-- Earlier rounds' grep for the NAME digamma/polygamma in Mathlib v4.19.0 (zero hits) was the
+-- wrong question: Mathlib.NumberTheory.Harmonic.GammaDeriv already computes deriv Real.Gamma
+-- in closed form at 1 and 1/2 (Bohr-Mollerup convexity, Legendre duplication formula).
+-- GppDigamma.digamma := deriv Gamma / Gamma makes psi(1)=-gamma, psi(1/2)=-gamma-2log2, the
+-- values at all positive integers, and the functional equation psi(x+1)=psi(x)+1/x immediate
+-- corollaries. Real-argument only -- the complex digamma along Re(s)=1/2 that
+-- kinematic_block_v1.tex's First Moment Theorem needs is a further, separate extension, not
+-- attempted here. Kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.Digamma
+
+-- ── Local-field shadow kernels (new research front, 2026-08-20) ────────────────────────────
+-- From "Local-field shadow kernels, celestial unitarity, and the adelic principal series"
+-- (Toupin, 2026). Two unconditional structural facts about the Archimedean shadow kernel
+-- K_{infty,d}(a)=Gamma(a)Gamma(d-a)/Gamma(d) that do not depend on any claim about RH, the
+-- celestial/automorphic bridge, or the paper's open research program: shadow reflection
+-- K(a)=K(d-a), and positivity on the principal series a=d/2+it (Hermitian conjugation via
+-- Complex.Gamma_conj). Plus the diagonal conformal lift D(s)=(s,s), Delta(D(s))=2s, and its
+-- exact compatibility with the 1D/2D shadow involutions. See
+-- discovery/local_field_shadow/local_shadow_kernel_notes.md for the full honest boundary --
+-- the non-Archimedean kernel, the Knapp-Stein local factorization problem, the Eisenstein
+-- scattering coefficient, and the Cutkosky/Rankin-Selberg bridge are NOT formalized: genuine
+-- open research targets, not bookkeeping. Both files kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.LocalShadowKernel
+import GppVerify.QuantumGravity.DiagonalConformalLift
