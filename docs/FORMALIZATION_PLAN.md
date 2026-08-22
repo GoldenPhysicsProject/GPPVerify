@@ -1206,6 +1206,50 @@ formalization (§4) are not — tracked as tasks #12–14.
 
 ---
 
+## §9 resolution: the naive common-local-factor conjecture fails, informatively (2026-08-22)
+
+**Status: DONE, `GppLocalShadow.{GammaC_eq_GammaR_mul_GammaR_succ,
+archKernel_two_eq_GammaC_product, archKernel_two_eq_GammaR_sectors}` and
+`GppEisenstein.{eisensteinCoeff_eq_shadow_ratio, eisensteinCoeff_reflection}`, five theorems,
+kernel-clean, no axiom, no sorry.** Task #12's local factorization question — does a single
+`a_∞(s)` give both the physical kernel and the Weyl intertwiner — answered **no** at the
+level checked, and the failure is the informative structural fact: they are distinct
+canonical objects on the same rank-one principal series. Full account, including the
+Archimedean/finite-place/global breakdown and the honest remaining boundary (the *deeper*
+representation-theoretic question of why, and whether some other factorization could still
+relate them), in `discovery/local_field_shadow/local_shadow_kernel_notes.md`'s "§9
+resolution" section — not duplicated here.
+
+New Lean content:
+* `GammaR`/`GammaC` (real/complex Archimedean Gamma factors) and `archWeylCoeff` (the
+  spherical Weyl/Gindikin–Karpelevich coefficient, recorded for contrast only) added to
+  `LocalShadowKernel.lean`.
+* `GammaC_eq_GammaR_mul_GammaR_succ`: Legendre duplication `Γ_C(s)=Γ_R(s)Γ_R(s+1)`, derived
+  from Mathlib's `Complex.Gamma_mul_Gamma_add_half`. The proof needed care around two
+  `(2:ℂ)` vs `((2:ℝ):ℂ)` numeral-cast mismatches — `Complex.mul_cpow_ofReal_nonneg` only
+  fires on bases syntactically cast from `ℝ`, so a small private helper
+  (`two_mul_pi_cpow_split`) isolates the cast-and-split step once rather than fighting the
+  mismatch inline at each use site.
+* `archKernel_two_eq_GammaC_product` / `_GammaR_sectors`: the celestial `d=2` cut
+  `K_{∞,2}(Δ) = π²Γ_C(Δ)Γ_C(2-Δ) = π²·Γ_R(Δ)Γ_R(Δ+1)·Γ_R(2-Δ)Γ_R(3-Δ)` — two shadow-paired
+  real Archimedean Gamma sectors.
+* New file `GlobalEisensteinCoefficient.lean`: `eisensteinCoeff Δ := Λ(Δ-1)/Λ(Δ)` (`Λ` =
+  Mathlib's `completedRiemannZeta`) rewrites exactly as `Λ(2-Δ)/Λ(Δ)` and satisfies
+  `φ(2-Δ)φ(Δ)=1`, both immediate from Mathlib's own `completedRiemannZeta_one_sub`
+  functional equation (`Λ(1-w)=Λ(w)` for every `w`, unconditional — a genuinely useful piece
+  of pre-existing Mathlib infrastructure found by checking before assuming it was missing,
+  the same lesson as the digamma find two rounds ago). **Not an RH claim** — Eisenstein
+  scattering containing `ζ(s)` in its functional equation proves nothing about its zeros;
+  `|φ(1+iλ)|=1` is verified numerically only, since it needs `Λ`'s conjugation symmetry,
+  which Mathlib does not state directly for `completedRiemannZeta`.
+
+Also independently verified numerically (not Lean claims): `c_∞`/`archKernel` are not
+proportional at the Archimedean place; the Gindikin–Karpelevich coefficient and the derived
+finite-place kernel are not equal. Task #12 marked resolved at this level; a follow-up task
+for the deeper representation-theoretic question would need to be scoped fresh if pursued.
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*

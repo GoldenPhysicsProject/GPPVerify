@@ -863,3 +863,25 @@ import GppVerify.QuantumGravity.Digamma
 -- open research targets, not bookkeeping. Both files kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.LocalShadowKernel
 import GppVerify.QuantumGravity.DiagonalConformalLift
+
+-- ── §9 resolution (2026-08-22): the naive common-local-factor conjecture fails, informatively ──
+-- The physical positive kernel and the standard Weyl/Gindikin-Karpelevich intertwiner are
+-- distinct canonical objects on the same rank-one principal series, not a single factor
+-- a_v(s) split two ways. GammaR/GammaC/archWeylCoeff added to LocalShadowKernel.lean:
+-- GammaC_eq_GammaR_mul_GammaR_succ (Legendre duplication for the Archimedean factors),
+-- archKernel_two_eq_GammaC_product and archKernel_two_eq_GammaR_sectors (the celestial d=2
+-- cut decomposes exactly into two shadow-paired real Archimedean Gamma sectors
+-- (Gamma_R(Delta),Gamma_R(2-Delta)) and (Gamma_R(Delta+1),Gamma_R(3-Delta))). archWeylCoeff is
+-- recorded for contrast only -- no identity relating it to archKernel is claimed or proved.
+-- GlobalEisensteinCoefficient.lean: the global Eisenstein coefficient phi(Delta)=Lambda(Delta-1)/
+-- Lambda(Delta) rewrites exactly as Lambda(2-Delta)/Lambda(Delta) (the celestial shadow
+-- arguments) via Mathlib's own completedRiemannZeta functional equation, with reflection
+-- phi(2-Delta)*phi(Delta)=1. NOT evidence toward RH -- Eisenstein scattering already contains
+-- zeta(s) without proving anything about its zeros. Finite-place distinction (Gindikin-
+-- Karpelevich ratio vs the derived positive kernel) and unit-modulus-on-critical-line are
+-- documented/verified numerically only in discovery/local_field_shadow/ -- the former has no
+-- Mathlib p-adic Haar infrastructure to formalize against, the latter needs Lambda's
+-- conjugation symmetry (not directly in Mathlib). Cutkosky<->Rankin-Selberg/unitary-
+-- intertwiner identification remains explicitly OPEN (task #13) -- no axiom added for it.
+-- All new theorems kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.GlobalEisensteinCoefficient

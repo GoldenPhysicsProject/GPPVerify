@@ -24,9 +24,59 @@ the diagonal conformal lift) are formalized in Lean
 3. **`GppDiagonalLift.delta_D` / `J_D` / `D_one_sub_eq_shadow2_D` / `delta_shadow2_D`**: the
    diagonal lift `D(s) = (s,s)` has `Δ = 2s`, `J = 0`, and intertwines the 1D shadow `s↦1-s`
    with the 2D celestial shadow `(h,ħ)↦(1-h,1-ħ)` exactly.
+4. **`GppLocalShadow.GammaC_eq_GammaR_mul_GammaR_succ`**: Legendre's duplication formula for
+   the Archimedean factors, `Γ_C(s) = Γ_R(s)Γ_R(s+1)` (`Γ_R(s)=π^{-s/2}Γ(s/2)`,
+   `Γ_C(s)=2(2π)^{-s}Γ(s)`), for every complex `s`.
+5. **`GppLocalShadow.archKernel_two_eq_GammaC_product` / `_GammaR_sectors`**: the celestial
+   `d=2` cut decomposes exactly as `K_{∞,2}(Δ) = π²Γ_C(Δ)Γ_C(2-Δ) =
+   π²·Γ_R(Δ)Γ_R(Δ+1)·Γ_R(2-Δ)Γ_R(3-Δ)` — two shadow-paired real Archimedean Gamma sectors.
+   (§9 resolution, 2026-08-22 — see below.)
+6. **`GppEisenstein.eisensteinCoeff_eq_shadow_ratio` / `_reflection`**: the global Eisenstein
+   coefficient `φ(Δ) := Λ(Δ-1)/Λ(Δ)` (`Λ` Mathlib's `completedRiemannZeta`) rewrites exactly
+   as `Λ(2-Δ)/Λ(Δ)` and satisfies `φ(2-Δ)φ(Δ) = 1`, both immediate from Mathlib's own
+   completed-zeta functional equation `completedRiemannZeta (1-w) = completedRiemannZeta w`.
 
-Both files are kernel-clean: no `sorry`, no custom axiom (`scripts/check_axioms.lean`
-confirms Lean built-ins only on all eight theorems).
+All three files are kernel-clean: no `sorry`, no custom axiom (`scripts/check_axioms.lean`
+confirms Lean built-ins only on all thirteen theorems).
+
+## §9 resolution (2026-08-22): the naive common-local-factor conjecture fails, informatively
+
+The original §9 asked whether a single local analytic factor `a_∞(s)` gives *both* the
+physical/celestial positive kernel `C_∞(s) = a_∞(s)a_∞(1-s)` *and* the normalized
+Weyl/Gindikin–Karpelevich intertwiner `M_∞(s) = a_∞(1-s)/a_∞(s)`. **It does not, and the
+failure is itself the informative structural fact**: the two are distinct canonical objects
+attached to the same rank-one principal series, not two views of one factor.
+
+- **Archimedean.** The spherical Weyl coefficient is `c_∞(s) = √π·Γ(s-1/2)/Γ(s) =
+  Γ_R(2s-1)/Γ_R(2s)` (`GppLocalShadow.archWeylCoeff`, recorded for contrast — no identity
+  relating it to `archKernel` is claimed or provable, and none is proved). The celestial cut
+  is `C_∞(Δ) = Γ(Δ)Γ(2-Δ) = π²Γ_C(Δ)Γ_C(2-Δ)`, `Δ=2s` — proved in Lean, see above.
+  Independently verified numerically that `c_∞` and `C_∞` are **not proportional** (the ratio
+  `|c_∞(s)|/|C_∞(2s)|` varies by orders of magnitude across sample points — a concrete,
+  falsifiable confirmation, not just an assertion).
+- **Finite places.** The same distinction holds: the Gindikin–Karpelevich spherical
+  coefficient is ratio-like, `(1-q^{-1}z)/(1-z)` (`z²` in a common `PGL2` root convention),
+  while the derived positive kernel is the product-like `K_{q,1}(s) = (1-q^{-1})ζ_q(s)ζ_q(1-s)`
+  (§5, already in this file). These are **not** forced equal — verified numerically they
+  genuinely differ (`local_shadow_kernel_verify.py`, item 13). Not formalized in Lean (same
+  p-adic-Haar-measure gap as the rest of the non-Archimedean material, §"non-Archimedean
+  kernel" below).
+- **Global.** The Eisenstein coefficient `φ(s) = Λ(2s-1)/Λ(2s)` rewrites under `Δ=2s` as
+  `φ(Δ) = Λ(2-Δ)/Λ(Δ)` — the exact celestial-shadow form — proved in Lean
+  (`GlobalEisensteinCoefficient.lean`) directly from Mathlib's `completedRiemannZeta`
+  functional equation, with `φ(2-Δ) = φ(Δ)⁻¹` also proved. `|φ(1+iλ)|=1` where regular is
+  verified numerically only (needs `Λ`'s conjugation symmetry — `Λ(s̄)=\overline{Λ(s)}` — which
+  Mathlib does not state directly for `completedRiemannZeta`; a real but separate gap, not
+  chased this round). **This is a genuine automorphic Weyl/shadow structure containing
+  completed zeta factors — it is explicitly NOT evidence toward RH.** Eisenstein scattering
+  already contains `ζ(s)` in its functional-equation normalization without that proving
+  anything about its zeros.
+
+The task-12 factorization *question* (does `a_∞`/`a_p` exist matching *both* objects
+simultaneously) is now answered **no** at the level checked; the deeper representation-
+theoretic reason (why these are genuinely different intertwining-operator-theoretic objects
+on the same principal series, not an accident of normalization) remains open and is not
+claimed to be resolved by numerical distinctness alone.
 
 **Not formalized, deliberately**: the integral representation `K_{∞,d}(a) =
 ∫₀^∞ x^(a-1)/(1+x)^d dx` is taken as a *definition* (the closed Beta/Gamma form), not
@@ -95,13 +145,15 @@ here rather than forced through with an axiom or a rushed partial version.
    calculation"): does there exist a local analytic factor `a_∞(s)` with
    `C_∞(s) = a_∞(s)a_∞(1-s)` (the physical/celestial positive kernel) and
    `M_∞(s) = a_∞(1-s)/a_∞(s)` (the correctly-normalized real/complex Archimedean
-   Knapp-Stein/Weyl intertwiner)? And does the analogous `a_p(s)` at an unramified `p`-adic
-   place produce the standard local Euler factor *naturally*, with no fitting? **Not
-   attempted.** This needs (a) the exact normalization convention for `M_∞(s)` in a fixed
-   spectral convention — a literature/derivation task in its own right (Knapp-Stein
-   intertwining operators for the real/complex principal series), and (b) solving the
-   resulting functional equation for `a_∞`, which may or may not have a solution in
-   elementary terms. No progress made beyond stating the question precisely.
+   Knapp-Stein/Weyl intertwiner) *simultaneously*? **Answered no, at the level checked** (see
+   "§9 resolution" above) — `c_∞` and `C_∞` are confirmed numerically not proportional at the
+   Archimedean place, and the Gindikin–Karpelevich coefficient and the derived kernel are
+   confirmed not equal at finite places. What remains genuinely open is the *deeper*
+   question: the representation-theoretic reason these are different intertwining-operator
+   objects on the same principal series (rather than an accident of the particular
+   normalizations checked), and whether some *other*, less naive local factorization
+   (not the literal `a_∞(s)a_∞(1-s)` / `a_∞(1-s)/a_∞(s)` pairing) could still relate them.
+   No progress made on that deeper question beyond ruling out the naive version.
 2. **§10, Cutkosky vs. Rankin-Selberg**: does an explicit local intertwiner exist between the
    celestial principal-series completeness/Cutkosky pairing and a local Rankin-Selberg
    bilinear form (starting at GL(1) or spherical PGL(2), where every normalization is
