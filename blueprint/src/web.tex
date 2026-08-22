@@ -960,18 +960,125 @@ criterion itself, and the digamma piece of the Archimedean Laplace transform) ar
   For $r>1/2$: $\int_0^\infty(e^{-rx}-e^{-x})e^{x/2}\,dx = 1/(r-1/2)-2$. Together with
   Lemma~\ref{lem:archimedean-laplace-aux-one}, these are the two purely elementary pieces of
   the paper's Archimedean Laplace transform $A_\infty(r)$; the remaining digamma piece is
-  \textbf{not} formalized here (digamma is confirmed entirely absent from Mathlib at this
-  pin) and $A_\infty$ itself is not assembled in this file.
+  \textbf{not} formalized here. (Mathlib now supports a real digamma function
+  $\psi=\Gamma'/\Gamma$ via \texttt{GppDigamma.digamma} --- see the QG-Blackbody chapter ---
+  but the specific Gauss integral representation of $\psi$ at general $r$ this lemma would
+  need is a further step not yet established, distinct from the special values and functional
+  equation already proved.) $A_\infty$ itself is not assembled in this file.
 \end{lemma}
 
 \section{Honest Boundary}
 
 Not claimed in this chapter: Bernstein's theorem / the Hausdorff--Widder characterization of
 completely monotone functions as Laplace transforms of positive measures (needed for the
-heat-trace criterion itself, still absent from Mathlib at the pin), the digamma function and
-its integral representation (needed to assemble the full Archimedean Laplace transform
-$A_\infty$), and the heat-trace criterion RH $\iff \mathcal{K}$ completely monotone, as a
-single theorem. Nothing in this chapter proves or assumes RH.
+heat-trace criterion itself, still absent from Mathlib at the pin), the digamma integral
+representation at general $r$ (needed to assemble the full Archimedean Laplace transform
+$A_\infty$ --- see the QG-Blackbody chapter for what is now available), and the heat-trace
+criterion RH $\iff \mathcal{K}$ completely monotone, as a single theorem. Nothing in this
+chapter proves or assumes RH.
+
+\chapter{The Digamma Function}
+
+Earlier chapters (Thread HT, QG-Blackbody's kinematic-block gap) recorded ``Mathlib has no
+digamma/polygamma function'' as a blocking gap, from a \texttt{grep} for the \emph{name}
+\texttt{digamma}/\texttt{polygamma} in \texttt{.lake/packages/mathlib/} (zero hits at pinned
+\texttt{v4.19.0}). That was the wrong question: Mathlib's
+\texttt{NumberTheory.Harmonic.GammaDeriv} already computes \texttt{deriv Real.Gamma} in
+closed form at $1$ and $1/2$ (Bohr--Mollerup convexity; Legendre's duplication formula) and
+at every positive integer. \texttt{GppDigamma.digamma := deriv Gamma / Gamma} makes the
+values below immediate corollaries.
+
+\begin{theorem}[Digamma at 1]
+  \label{thm:digamma-one}
+  \lean{GppDigamma.digamma\_one}
+  \leanok
+  $\psi(1) = -\gamma$, the Euler--Mascheroni constant.
+\end{theorem}
+
+\begin{theorem}[Digamma at 1/2]
+  \label{thm:digamma-one-half}
+  \lean{GppDigamma.digamma\_one\_half}
+  \leanok
+  \uses{thm:digamma-one}
+  $\psi(1/2) = -\gamma - 2\log 2$, via Legendre's duplication formula (already differentiated
+  in Mathlib).
+\end{theorem}
+
+\begin{theorem}[Digamma at positive integers]
+  \label{thm:digamma-nat}
+  \lean{GppDigamma.digamma\_nat\_add\_one}
+  \leanok
+  $\psi(n+1) = -\gamma + H_n$ (the $n$-th harmonic number), for every $n\in\mathbb{N}$.
+\end{theorem}
+
+\begin{theorem}[Digamma functional equation]
+  \label{thm:digamma-add-one}
+  \lean{GppDigamma.digamma\_add\_one}
+  \leanok
+  $\psi(x+1) = \psi(x) + 1/x$, for $x$ avoiding the poles of $\Gamma$.
+\end{theorem}
+
+\textbf{Honest boundary.} This is the \emph{real}-argument digamma function only.
+\texttt{kinematic\_block\_v1.tex}'s First Moment Theorem needs $\mathrm{Re}\,
+\psi(1/2+i\lambda/2)$, the \emph{complex} digamma along a vertical line --- a further,
+separate extension, not attempted here. The Gauss integral representation of $\psi$ at
+general real $r$ (needed by Thread HT's Archimedean Laplace transform) is likewise not yet
+established.
+
+\chapter{Local-Field Shadow Kernels}
+
+From Daniel Toupin's ``Local-field shadow kernels, celestial unitarity, and the adelic
+principal series'' (2026) --- a new research front investigating whether celestial Cutkosky
+unitarity, 1D Mellin/shadow harmonic analysis, and adelic PGL(2) harmonic analysis share a
+common rank-one local-to-global structure. \textbf{Not an RH proof; not evidence toward RH.}
+Full honest boundary, including the paper's own open research problems, in
+\texttt{discovery/local\_field\_shadow/local\_shadow\_kernel\_notes.md}.
+
+\begin{theorem}[Archimedean Shadow Reflection]
+  \label{thm:arch-kernel-reflection}
+  \lean{GppLocalShadow.archKernel\_reflection}
+  \leanok
+  For the Archimedean shadow kernel $K_{\infty,d}(a) := \Gamma(a)\Gamma(d-a)/\Gamma(d)$:
+  $K_{\infty,d}(a) = K_{\infty,d}(d-a)$.
+\end{theorem}
+
+\begin{theorem}[Principal-Series Positivity]
+  \label{thm:arch-kernel-positivity}
+  \lean{GppLocalShadow.archKernel\_principal\_series}
+  \leanok
+  \uses{thm:arch-kernel-reflection}
+  On the principal series $a=d/2+it$: $K_{\infty,d}(a) = |\Gamma(d/2+it)|^2/\Gamma(d)$,
+  positive whenever $d>0$. Shadow reflection becomes Hermitian conjugation exactly on this
+  line, via $d-a=\overline{a}$.
+\end{theorem}
+
+\begin{theorem}[Diagonal Conformal Lift]
+  \label{thm:diagonal-lift}
+  \lean{GppDiagonalLift.delta\_D}
+  \leanok
+  The diagonal lift $D(s):=(s,s)$ of a scalar 1D weight has $\Delta(D(s))=2s$ and spin
+  $J(D(s))=0$.
+\end{theorem}
+
+\begin{theorem}[Shadow Compatibility]
+  \label{thm:shadow-compatibility}
+  \lean{GppDiagonalLift.D\_one\_sub\_eq\_shadow2\_D}
+  \leanok
+  \uses{thm:diagonal-lift}
+  $D(1-s) = \mathrm{Shadow}_2(D(s))$: the 1D shadow $s\mapsto1-s$ and the 2D celestial shadow
+  $(h,\bar h)\mapsto(1-h,1-\bar h)$ intertwine exactly under the diagonal lift.
+\end{theorem}
+
+\textbf{Honest boundary.} The integral representation of $K_{\infty,d}$ is taken as a
+definition (verified numerically against direct quadrature, not derived from Mathlib's
+$[0,1]$-Beta integral). Not formalized at all: the non-Archimedean kernel $K_{q,d}$ (Mathlib
+has no $p$-adic multiplicative Haar measure infrastructure), the local factorization problem
+(does a local factor $a_\infty(s)$ exist with $C_\infty=a_\infty(s)a_\infty(1-s)$ and
+$M_\infty=a_\infty(1-s)/a_\infty(s)$ simultaneously, matching both the physical kernel and the
+normalized Knapp--Stein intertwiner?), the Cutkosky-vs-Rankin-Selberg local bridge, and the
+$\mathbb{R}_+$ dilation/Mellin principal-series skeleton as an actual Lean object. All four
+are the paper's own genuinely open research targets, not bookkeeping --- see the notes file
+for the precise statement of each.
 
 \chapter{Axiom Inventory}
 

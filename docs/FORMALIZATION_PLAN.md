@@ -1164,6 +1164,48 @@ changed — only doc comments and the blueprint's prose.
 
 ---
 
+## Digamma via Mathlib's `Gamma` calculus (task #9, closed)
+
+**Status: DONE, `GppVerify/QuantumGravity/Digamma.lean`, kernel-clean, no axiom, no sorry.**
+Earlier rounds' `grep` for the *name* `digamma`/`polygamma` in `.lake/packages/mathlib/`
+(zero hits at pinned `v4.19.0`) was the wrong question — Mathlib's
+`NumberTheory.Harmonic.GammaDeriv` already computes `deriv Real.Gamma` in closed form at `1`
+(`Real.hasDerivAt_Gamma_one`, via the Bohr–Mollerup convexity argument) and at `1/2`
+(`Real.hasDerivAt_Gamma_one_half`, via Legendre's duplication formula
+`Real.Gamma_mul_Gamma_add_half`), and at every positive integer (`Real.hasDerivAt_Gamma_nat`).
+`GppDigamma.digamma := deriv Gamma / Gamma` makes `ψ(1)=-γ`, `ψ(1/2)=-γ-2log2`,
+`ψ(n+1)=-γ+harmonic n`, and the functional equation `ψ(x+1)=ψ(x)+1/x` immediate corollaries
+— the last one needed `Filter.EventuallyEq.deriv_eq` on a neighborhood avoiding `x=0` rather
+than a global `funext`, since `Gamma(s+1)=s·Gamma(s)` is literally false at `s=0` under
+Mathlib's junk-value convention (`Gamma 1 = 1 ≠ 0 = 0·Gamma 0`) — the same care
+`GammaDeriv.lean`'s own `hder_rec` takes for the analogous step.
+
+**Real-argument only.** `kinematic_block_v1.tex`'s First Moment Theorem needs
+`Re ψ(1/2+iλ/2)`, the *complex* digamma along a vertical line — a further, separate
+extension, not attempted this round. Whether it is similarly close at hand (Mathlib's
+`Complex.Gamma` differentiability is unconditional off the poles, but no closed-form complex
+derivative values like `GammaDeriv.lean`'s exist yet) is worth a dedicated scoping pass next.
+
+---
+
+## New research front (2026-08-20): local-field shadow kernels
+
+**Status: `GppVerify/QuantumGravity/{LocalShadowKernel,DiagonalConformalLift}.lean`, four +
+four theorems, kernel-clean, no axiom, no sorry.** From Daniel's own "Local-field shadow
+kernels, celestial unitarity, and the adelic principal series" — investigating whether
+celestial Cutkosky unitarity, 1D Mellin/shadow harmonic analysis, and adelic PGL(2) harmonic
+analysis share a common rank-one local-to-global structure. Full write-up, including the
+genuinely open research problems (local factorization, Cutkosky-vs-Rankin-Selberg,
+non-Archimedean-kernel-in-Lean gap), in
+`discovery/local_field_shadow/local_shadow_kernel_notes.md` — do not duplicate that boundary
+here; the summary is: shadow reflection and principal-series positivity for the Archimedean
+kernel `K_{∞,d}(a)=Γ(a)Γ(d-a)/Γ(d)`, and the diagonal conformal lift `D(s)=(s,s)`,`Δ=2s`,
+are proved unconditionally; the non-Archimedean kernel, the local factorization problem
+(§9), the Rankin-Selberg bridge (§10), and the `ℝ₊`-as-principal-series-skeleton Lean
+formalization (§4) are not — tracked as tasks #12–14.
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
