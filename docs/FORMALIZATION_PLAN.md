@@ -1250,6 +1250,44 @@ for the deeper representation-theoretic question would need to be scoped fresh i
 
 ---
 
+## The golden ratio as the minimal hyperbolic sector of `PSL₂(ℤ)` (2026-08-22)
+
+**Status: DONE, `GppVerify/NumberTheory/GoldenRatioHyperbolicSector.lean`, fourteen
+theorems, kernel-clean, no axiom, no sorry.** From a research-front update: `F = T∘J`
+(unit translation after inversion), `F(x)=1+1/x`, has unique positive fixed point `φ`.
+Projectively, `M=!![1,1;1,0]`, `A:=M²=!![2,1;1,1]` is the minimal-trace hyperbolic element
+of `SL₂(ℤ)` — integrality forces `|tr|≥3` once `|tr|>2` (hyperbolicity), and `A` attains it.
+Discriminant `5`, eigenvalues (as characteristic-polynomial roots) `φ^{±2}`, Möbius fixed
+points `φ` and `-φ⁻¹`. Independently, the finite-place shadow kernel `K_{q,1}(s)`
+(`discovery/local_field_shadow/`, §5 — used here only via its closed-form real-function
+definition, not the underlying `p`-adic integral) evaluated at `q=5` (the *independently*
+selected discriminant — `φ` never enters the kernel's definition or the choice of `q`) and
+`s=1/2` equals exactly `φ²`. `golden_convergence` connects the two routes.
+
+Reuses Mathlib's `Data.Real.GoldenRatio` throughout (`goldenRatio`, `gold_sq`,
+`gold_ne_zero`, `goldConj_neg`, `gold_add_goldConj`, `gold_mul_goldConj`, `inv_gold`,
+`one_lt_gold`) rather than redefining any of it. Matrix identities use plain
+`Matrix (Fin 2) (Fin 2) ℤ` with `Matrix.det_fin_two_of`/`trace_fin_two_of`/`mul_fin_two`,
+not Mathlib's `SpecialLinearGroup`/`ModularGroup` machinery (that machinery targets the
+action on the upper half-plane `ℍ`; this package needs the real-line Möbius fixed points
+and elementary `2×2` determinant/trace facts instead, which are simpler used directly).
+
+**Missing-interface note, precisely as requested**: the "characteristic polynomial" facts
+(`A_charpoly_root_goldSq`/`_goldInvSq`) are stated as direct roots of `X²-(tr A)X+(det A)`,
+not connected to Mathlib's `Matrix.charpoly`/`Module.End.HasEigenvalue` API — no
+`charpoly_fin_two`-style closed form for `2×2` matrices was found in the pinned Mathlib
+(`v4.19.0`); building that bridge is real, separate work, not attempted.
+
+**Semantic boundary, deliberately not formalized**: that this "minimal modular hyperbolic
+sector" is the *physical* fundamental sector of anything in the surrounding research
+program — open and physical, not mathematical, no theorem asserts it. Nor that inversion
+*alone* forces `φ` — the actual claim needs primitive translation too.
+
+Independent numerical cross-check: `discovery/local_field_shadow/golden_hyperbolic_verify.py`
+(supplementary to the Lean proofs, not a substitute).
+
+---
+
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*

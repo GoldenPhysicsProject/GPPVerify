@@ -885,3 +885,16 @@ import GppVerify.QuantumGravity.DiagonalConformalLift
 -- intertwiner identification remains explicitly OPEN (task #13) -- no axiom added for it.
 -- All new theorems kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.GlobalEisensteinCoefficient
+
+-- ── The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22) ──────────────
+-- From a research-front update: F = T∘J (unit translation after inversion), F(x)=1+1/x, has
+-- unique positive fixed point phi. Represented projectively, M=!![1,1;1,0], A:=M^2=!![2,1;1,1]
+-- is the MINIMAL-TRACE hyperbolic element of SL2(Z) (integrality forces |tr|>=3 once |tr|>2;
+-- A attains it). Discriminant 5, eigenvalues phi^{+-2}, Mobius fixed points phi and -phi^-1.
+-- Independently, the already-scoped finite-place shadow kernel K_{q,1}(s) evaluated at the
+-- INDEPENDENTLY-selected discriminant q=5 and principal-series center s=1/2 equals exactly
+-- phi^2 -- golden_convergence connects the two routes. Reuses Mathlib's Data.Real.GoldenRatio
+-- throughout rather than redefining. Physical-sector identification explicitly NOT claimed --
+-- see the file's own doc comment for the precise semantic boundary. All 14 theorems
+-- kernel-clean, no axiom, no sorry.
+import GppVerify.NumberTheory.GoldenRatioHyperbolicSector

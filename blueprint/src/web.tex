@@ -1130,6 +1130,72 @@ $|\varphi(1+i\lambda)|=1$ (needs $\Lambda$'s conjugation symmetry, not directly 
 All are the paper's own genuinely open research targets, not bookkeeping --- see the notes
 file for the precise statement of each.
 
+\chapter{The Golden Ratio as the Minimal Hyperbolic Sector of \texorpdfstring{$PSL_2(\mathbb{Z})$}{PSL2(Z)}}
+
+Inversion $J:x\mapsto x^{-1}$ composed with primitive unit translation $T:x\mapsto x+1$ gives
+$F=T\circ J$, $F(x)=1+1/x$, whose unique positive fixed point is the golden ratio $\varphi$.
+Represented projectively by $M=\begin{pmatrix}1&1\\1&0\end{pmatrix}$, the square
+$A:=M^2=\begin{pmatrix}2&1\\1&1\end{pmatrix}$ is the \textbf{minimal-trace hyperbolic element}
+of $SL_2(\mathbb{Z})$. \textbf{Not claimed}: that this sector is the physical fundamental
+sector of anything else in this project, or that inversion alone (without translation)
+forces $\varphi$.
+
+\begin{theorem}[Fixed-Point Characterization of the Golden Ratio]
+  \label{thm:golden-fixed-point}
+  \lean{GppGoldenHyperbolic.fixedPoint_iff_gold}
+  \leanok
+  For $x>0$: $x=1+1/x \iff x=\varphi$.
+\end{theorem}
+
+\begin{theorem}[The Minimal-Trace Hyperbolic Bound]
+  \label{thm:hyperbolic-trace-bound}
+  \lean{GppGoldenHyperbolic.hyperbolic_trace_ge_three}
+  \leanok
+  For any integer $n$ with $|n|>2$: $|n|\geq3$. Applied to $A$ (trace $3$, determinant $1$):
+  $A$ attains the minimal possible trace of a hyperbolic element of $SL_2(\mathbb{Z})$.
+\end{theorem}
+
+\begin{theorem}[Characteristic-Polynomial Roots and Discriminant]
+  \label{thm:golden-charpoly}
+  \lean{GppGoldenHyperbolic.A_charpoly_root_goldSq}
+  \leanok
+  \uses{thm:hyperbolic-trace-bound}
+  $\varphi^2$ and $\varphi^{-2}$ are the roots of $X^2-(\operatorname{tr}A)X+(\det A)$;
+  the discriminant $(\operatorname{tr}A)^2-4\det A = 5$.
+\end{theorem}
+
+\begin{theorem}[Möbius Fixed Points]
+  \label{thm:golden-mobius}
+  \lean{GppGoldenHyperbolic.A_mobius_fixedPoints}
+  \leanok
+  For $x\neq-1$: $\dfrac{2x+1}{x+1}=x \iff x=\varphi \text{ or } x=-\varphi^{-1}$.
+\end{theorem}
+
+\begin{theorem}[Finite-Place Kernel at the Selected Discriminant]
+  \label{thm:golden-kernel}
+  \lean{GppGoldenHyperbolic.finitePlaceKernel_five_half}
+  \leanok
+  With $K_{q,1}(s):=(1-q^{-1})/[(1-q^{-s})(1-q^{-(1-s)})]$ (no occurrence of $\varphi$ in
+  this definition): $K_{5,1}(1/2)=\varphi^2$.
+\end{theorem}
+
+\begin{theorem}[Convergence]
+  \label{thm:golden-convergence}
+  \lean{GppGoldenHyperbolic.golden_convergence}
+  \leanok
+  \uses{thm:golden-charpoly,thm:golden-kernel}
+  The expanding eigenvalue of the minimal-trace hyperbolic element and the finite-place
+  shadow kernel at the independently-selected discriminant, evaluated at the
+  principal-series center, are the same real number: $\varphi^2$.
+\end{theorem}
+
+\textbf{Honest boundary.} The characteristic-polynomial statements are direct roots of
+$X^2-(\operatorname{tr}A)X+\det A$, not connected to Mathlib's \texttt{Matrix.charpoly} /
+eigenvalue API (no closed form for $2\times2$ matrices was found in the pinned Mathlib).
+Matrix identities use plain integer matrices, not Mathlib's
+\texttt{SpecialLinearGroup}/\texttt{ModularGroup} (which targets the upper-half-plane
+action, not the real-line Möbius fixed points needed here).
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
