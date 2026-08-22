@@ -161,6 +161,24 @@ import GppVerify
 #print axioms GppEisenstein.eisensteinCoeff_eq_shadow_ratio
 #print axioms GppEisenstein.eisensteinCoeff_reflection
 
+-- The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22). Physical-sector
+-- identification is NOT claimed anywhere here -- these are pure arithmetic/matrix theorems.
+-- Expected: Lean built-ins only, all eleven.
+#print axioms GppGoldenHyperbolic.fixedPoint_iff_gold
+#print axioms GppGoldenHyperbolic.M_sq_eq_A
+#print axioms GppGoldenHyperbolic.det_M
+#print axioms GppGoldenHyperbolic.det_A
+#print axioms GppGoldenHyperbolic.trace_A
+#print axioms GppGoldenHyperbolic.hyperbolic_trace_ge_three
+#print axioms GppGoldenHyperbolic.A_trace_attains_min
+#print axioms GppGoldenHyperbolic.A_charpoly_root_goldSq
+#print axioms GppGoldenHyperbolic.A_charpoly_root_goldInvSq
+#print axioms GppGoldenHyperbolic.discrA_eq_five
+#print axioms GppGoldenHyperbolic.A_mobius_fixedPoints
+#print axioms GppGoldenHyperbolic.finitePlaceKernel_half
+#print axioms GppGoldenHyperbolic.finitePlaceKernel_five_half
+#print axioms GppGoldenHyperbolic.golden_convergence
+
 -- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
 -- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
 -- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see
