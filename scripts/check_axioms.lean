@@ -187,9 +187,16 @@ import GppVerify
 #print axioms GppDispersion.lorentzian_jump
 #print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole
 
--- Local shadow kernels / finite-prime Weil kernel (2026-08-22). No RH claim, no global
+-- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23). No RH claim, no global
 -- positivity claim -- see CutkoskyWeilBridge.lean's module doc and discovery/cutkosky_weil/
--- for the central (negative) Toeplitz-indefiniteness finding. Expected: Lean built-ins
--- only, both.
+-- for the corrected central finding (K_p-1 IS a positive kernel; the earlier Toeplitz-
+-- indefiniteness claim tested the wrong notion). KrN0_gram_nonneg is the layered-development
+-- milestone: finite-truncation Gram-matrix positivity, unconditional. Expected: Lean
+-- built-ins only, all.
 #print axioms GppCutkoskyWeil.Kp_pos
 #print axioms GppCutkoskyWeil.H_nonneg
+#print axioms GppCutkoskyWeil.gram_square_freq
+#print axioms GppCutkoskyWeil.gram_square_freqSum
+#print axioms GppCutkoskyWeil.gram_square_freqSum_nonneg
+#print axioms GppCutkoskyWeil.KrN0_gram_nonneg
+#print axioms GppCutkoskyWeil.Kp_eq_KrClosed

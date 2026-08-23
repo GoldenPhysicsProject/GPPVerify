@@ -899,26 +899,31 @@ import GppVerify.QuantumGravity.GlobalEisensteinCoefficient
 -- kernel-clean, no axiom, no sorry.
 import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 
--- ── Local shadow kernels and the finite-prime Weil kernel (2026-08-22) ─────────────────────
+-- ── Local shadow kernels and the finite-prime Weil kernel (2026-08-22/23) ──────────────────
 -- From a research-front directive: celestial Cutkosky positivity -> local shadow kernels ->
 -- finite-prime Weil kernel -> Casimir compression -> global Weil positivity -> RH. The final
 -- logical step (finite Weil paired-form positivity on all nontrivial zeros <-> RH) is already
 -- proved unconditionally in WeilPositivityCriterion.lean (rh_iff_weil_pairedForm_nonneg) --
 -- an ABSTRACT pairing over finite subsets of the actual (unknown) zero set, NOT the classical
 -- Weil explicit-formula prime-sum quadratic form built here; bridging the two needs the
--- classical explicit formula itself (substantial, separate, not attempted). This file proves
--- only the exact local identities: Kp_pos (the finite-place shadow kernel K_p(t) is a Poisson-
--- kernel value, hence positive, for every prime p>1) and H_nonneg (the Casimir-weighted
--- Archimedean kernel H(t)=(t^2+1/4)*C(t), C the already-derived celestial cut, is nonnegative
--- for every real t, since t and sinh(2*pi*t) always share sign). Central research finding
--- (numerical, discovery/cutkosky_weil/): direct answer to "what projection turns K_p into
--- K_p-1 while preserving positivity globally" -- at the single-prime level, NONE. Truncated
--- Toeplitz matrices built from K_p's Fourier coefficients (r^|n|, r=p^-1/2) are strictly
--- positive definite (Bochner/Herglotz, as expected of a Poisson kernel) for p=2,3,5; the
--- same matrices for K_p-1 (removing only the n=0 coefficient) are strictly INDEFINITE in
--- every case tested. This does not rule out global positivity of the assembled sum
--- Q_GPP=Q_infinity+Sum_p Q_p (individually-indefinite local terms can still sum to a globally
--- positive form, as in the classical Weil explicit formula) -- it rules out the naive
--- prime-by-prime mechanism. No RH claim, no global positivity claim, no Connes-Consani import.
--- All theorems kernel-clean, no axiom, no sorry.
+-- classical explicit formula itself (substantial, separate, not attempted). Kp_pos (the
+-- finite-place shadow kernel K_p(t) is a Poisson-kernel value, hence positive, for every
+-- prime p>1) and H_nonneg (the Casimir-weighted Archimedean kernel H(t)=(t^2+1/4)*C(t), C the
+-- already-derived celestial cut, is nonnegative for every real t) proved unconditionally.
+-- CORRECTED central research finding (self-correction of an earlier-merged error, see the
+-- file's module doc and discovery/cutkosky_weil/notes.md): the first pass tested the WRONG
+-- positivity notion (a Toeplitz matrix of Fourier COEFFICIENTS, indices=frequencies -- found
+-- indefinite) instead of the actual kernel-positivity question (a Gram matrix of POINT
+-- EVALUATIONS (K_p-1)(theta_j-theta_k) -- found positive semidefinite, as Bochner/Herglotz
+-- predicts, since convolution by K_p-1 is diagonal with nonneg eigenvalues). Proved rigorously
+-- via a layered finite Fourier/Gram-square development (gram_square_freq -> gram_square_freqSum
+-- -> gram_square_freqSum_nonneg -> KrN0/KrN0_gram_nonneg), each layer independently fast
+-- (<4s) after an earlier monolithic HasSum-based attempt repeatedly hit elaboration timeouts
+-- even at 4M heartbeats (bisected and diagnosed as a proof-engineering issue, not mathematical
+-- -- see the module doc's "Proof-engineering note"). KrN0_gram_nonneg is the milestone: for
+-- every truncation N, Sum_jk c_j-bar*c_k*K^0_{r,N}(theta_j-theta_k) >= 0, unconditionally.
+-- Deferred, not attempted: the two-sided HasSum over all of Z, the N->infinity limit passage,
+-- the spectral vacuum-projection operator identity C_{K_p-1}=P_0*C_Kp*P_0, and the Q_GPP/
+-- classical-Weil-quadratic-form bridge. No RH claim, no global positivity claim, no
+-- Connes-Consani import. All theorems kernel-clean, no axiom, no sorry.
 import GppVerify.RiemannHypothesis.CutkoskyWeilBridge

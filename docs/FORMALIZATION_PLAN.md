@@ -1286,10 +1286,12 @@ program — open and physical, not mathematical, no theorem asserts it. Nor that
 Independent numerical cross-check: `discovery/local_field_shadow/golden_hyperbolic_verify.py`
 (supplementary to the Lean proofs, not a substitute).
 
-## Thread Cutkosky-Weil — local shadow kernels and the finite-prime Weil kernel (2026-08-22)
+## Thread Cutkosky-Weil — local shadow kernels and the finite-prime Weil kernel (2026-08-22/23)
 
-**Status: local identities DONE, `GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean`,
-two theorems (`Kp_pos`, `H_nonneg`), kernel-clean, no axiom, no sorry. The larger
+**Status: local identities and a layered finite Fourier/Gram-square development DONE,
+`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` — `Kp_pos`, `H_nonneg`,
+`Kp_eq_KrClosed`, `gram_square_freq`, `gram_square_freqSum`, `gram_square_freqSum_nonneg`,
+`KrN0_gram_nonneg` (7 theorems), all kernel-clean, no axiom, no sorry. The larger
 directive's construction (`Q_GPP`, positivity factorization) is NOT attempted.**
 
 From a research-front directive proposing the route `celestial Cutkosky positivity →
@@ -1311,30 +1313,55 @@ one-line consequence of it being a Poisson-kernel value. `H t := (t²+1/4)·cutK
 `t/(4 sinh(2πt))`) is nonnegative for every real `t` (`H_nonneg`) — `t` and
 `sinh(2πt)` always share sign.
 
-**Central research finding (numerical only, `discovery/cutkosky_weil/`)** — the direct
-answer to the directive's own closing question, "what projection turns `K_p` into
-`K_p−1` while preserving positivity globally": **at the single-prime level, none
-exists.** `K_p`'s Fourier-coefficient sequence (`r^{|n|}`, `r=p^{-1/2}`) is termwise
-nonnegative, so by Bochner/Herglotz every truncated Toeplitz matrix built from it is
-positive definite — confirmed directly (`mpmath.eig`, truncation `N=6`, `p=2,3,5`: all
-eigenvalues strictly positive). The same matrices for `K_p−1` (zeroing only the `n=0`
-coefficient) are strictly **indefinite** in every case tested (a negative eigenvalue
-appears for every `p`). The vacuum subtraction necessarily destroys Toeplitz positivity
-prime-by-prime. This does **not** rule out global positivity of the assembled sum
-`Q_GPP = Q_∞ + Σ_p Q_p` (individually-indefinite local terms routinely sum to a globally
-positive form — exactly the situation in the classical Weil explicit formula) — it rules
-out the naive local mechanism the directive's central question was testing. If global
-positivity holds at all, it is a genuinely collective, cross-prime-and-Archimedean
-phenomenon, not visible or provable one local factor at a time.
+**Self-correction, then the corrected central finding.** A first round's numerical
+"central finding" claimed no positivity-preserving projection from `K_p` to `K_p−1`
+exists — that claim was **wrong**, caught by review after it had already merged to
+`main`. It tested a Toeplitz matrix of Fourier *coefficients* (indices = frequencies),
+not the actual kernel-positivity Gram matrix (indices = point evaluations); those are
+different objects. **Corrected finding: `K_p − 1` IS a positive kernel, prime-by-prime,
+unconditionally** — convolution by `K_p` is diagonal in the Fourier basis with
+eigenvalues `r^{|n|}≥0`; the vacuum subtraction merely zeroes the `n=0` eigenvalue,
+which cannot make the rest negative. This is now proved rigorously in Lean at every
+finite truncation via a **layered finite Fourier/Gram-square development**:
+`gram_square_freq` (fixed-frequency Gram identity, generalizing
+`ConvolutionSquarePositive.lean`'s `gram_square_nonneg` to complex amplitudes) →
+`gram_square_freqSum` (finite weighted sum over frequencies) →
+`gram_square_freqSum_nonneg` (nonnegativity corollary) → `KrN0`/`KrN0_gram_nonneg` (the
+truncated kernel `K⁰_{r,N}=Σ_{0<|n|≤N}r^{|n|}e^{inθ}` and the milestone theorem
+`Σᵢⱼc̄ᵢcⱼK⁰_{r,N}(xᵢ-xⱼ)≥0`). Each layer builds independently in under 4 seconds.
 
-**Deferred to numerical-verification-only this round** (all confirmed in
-`discovery/cutkosky_weil/cutkosky_weil_verify.py`, none formalized in Lean): the full
-Poisson-series `HasSum`/`tsum` expansion of `K_p` (standard, not novel); the exact
-Fourier pair `H(t) ↔ G(x)=3/(512π)sech⁴(x/4)` under the convention
-`G(x)=(1/2π)∫H(t)e^{itx}dt` (confirmed to ~1e-51 relative error; needs Mathlib
-Fourier-transform-of-sech⁴ machinery not confirmed to exist); the pole-cancellation/
-removable-singularity claim at `t=±i/2` (confirmed via a shrinking-perturbation sequence
-converging cleanly, no formal residue calculus).
+**Proof-engineering lesson (worth repeating for future threads)**: a first attempt at
+the corrected result proved the untruncated two-sided `HasSum` over all of `ℤ` and built
+`PositiveType(K_r-1)` on top of it as one monolithic theorem — both repeatedly hit
+`(deterministic) timeout at whnf` even at 4,000,000 heartbeats (20× default). Bisected by
+extracting sub-`have`s into standalone scratch files tested with `lake env lean` at
+*default* heartbeats (seconds, not minutes, per test) rather than waiting out repeated
+multi-minute full-file builds. Root causes: (1) `HasSum.of_nat_of_neg_add_one` elaborates
+in under 20s with a minimal local context but times out inlined into a context also
+carrying `r, hr0, hr1, θ` — extracted as its own minimal-context lemma; (2) the full
+Gram-square argument, run once over an infinite series with `ring_nf`/`nlinarith` on
+deeply nested `Complex.re`/`Complex.im` terms, accumulates unbounded elaboration cost
+regardless of heartbeat budget. Fixed architecturally (the four small layers above), not
+by raising `maxHeartbeats` further. **If a theorem takes more than ~1 minute to
+elaborate, treat that as a proof-engineering bug and bisect — don't just raise the
+heartbeat limit.**
+
+This does **not** rule out — nor does it establish — global positivity of the assembled
+sum `Q_GPP = Q_∞ + Σ_p Q_p`; single-prime kernel positivity was never going to answer
+that on its own (the classical Weil explicit formula's local prime terms are
+individually sign-indefinite in their usual normalization even though local `K_p`
+positivity holds).
+
+**Deferred, not attempted this round**: the two-sided `HasSum` over all of `ℤ` for the
+untruncated `K_p`/`K_p-1` and the `N→∞` limit passage from `KrN0` to `K_p-1` by
+continuity; the exact Fourier pair `H(t) ↔ G(x)=3/(512π)sech⁴(x/4)` under the convention
+`G(x)=(1/2π)∫H(t)e^{itx}dt` (confirmed numerically to ~1e-51 relative error; needs
+Mathlib Fourier-transform-of-sech⁴ machinery not confirmed to exist); the
+pole-cancellation/removable-singularity claim at `t=±i/2` (confirmed numerically via a
+shrinking-perturbation sequence, no formal residue calculus); the full
+infinite-dimensional Hilbert-space operator identity `P_0 C_K P_0 = C_{K-1} =
+(AP_0)^*(AP_0)` (Mathlib has no ready `L²(circle)` convolution-operator framework — the
+finite Gram-square theorem is the rigorous content standing in for it).
 
 **Item 3 (Casimir operator's representation-theoretic origin) — not attempted**: the
 precise missing interface is Mathlib's total absence of `SL(2,ℝ)` principal-series
@@ -1343,13 +1370,13 @@ the known eigenvalue *number*, not derived from an actual operator. Building tha
 operator is separate, substantial representation-theory work.
 
 **Items 4–6 (`Q_GPP` construction, comparison to the classical Weil form, positivity
-factorization) — not attempted beyond the single-prime diagnostic above.** No object
-was identified with any other by matching Fourier multipliers, per the directive's own
-explicit warning.
+factorization) — not attempted beyond the finite-truncation kernel-positivity result
+above.** No object was identified with any other by matching Fourier multipliers, per
+the directive's own explicit warning.
 
 **Item 9 — no Connes–Consani/Selberg/Mayer/Tate/Knapp–Stein machinery imported**
-anywhere in this thread; the Toeplitz computation is original to this session, derived
-purely from the GPP local-shadow-kernel route already in the tree.
+anywhere in this thread; the Gram-square development is original to this session,
+derived purely from the GPP local-shadow-kernel route already in the tree.
 
 **Explicit non-claims**: no RH claim; no claim of global Weil positivity; no claim that
 `K_p−1` is positive, locally or globally (the opposite was shown); no import of any
