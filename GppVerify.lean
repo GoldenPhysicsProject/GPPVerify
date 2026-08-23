@@ -991,3 +991,11 @@ import GppVerify.ThreadWeilSemibound.LocalizedGroundOrder
 -- each file's own module doc for the honest boundary.
 import GppVerify.ThreadWeilParity.GroundContinuation
 import GppVerify.ThreadWeilParity.CrossResolventGroundOrdering
+
+-- ── Thread Weil-Parity, strict interlacing IVT core (New, 2026-08-23) ──
+-- formalization_queue item 9cc1e2f8, the item CLAUDE.md/FORMALIZATION_PLAN.md
+-- had already flagged as the natural next target (needs real IVT/monotonicity,
+-- not just block-matrix algebra). Abstract core only -- see the file's own
+-- module doc for the honest boundary (does not yet connect to the concrete
+-- f = sum c_j/(alpha_j - z) construction).
+import GppVerify.ThreadWeilParity.StrictParityInterlacing
