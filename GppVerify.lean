@@ -817,6 +817,17 @@ import GppVerify.QuantumGravity.AllLoopFiniteness
 import GppVerify.QuantumGravity.KinematicZetaBridge
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
 
+-- ── Thread Loops-from-Cuts, Planck form (New) ──
+-- Daniel has designated `Loops_from_Cuts_in_Celestial_Holography.tex`,
+-- `Principal_Series_Kinematic_Blocks.tex`, `Spectral_Weight_from_Principal_Series.tex`, and
+-- `Modular_Thermality_of_the_Celestial_Spectral_Weight.tex` as the canonical replacements for
+-- the earlier haar_qg/kinematic_block/blackbody paper series (the "loop", "measure", "block",
+-- and "blackbody" papers). Formalizes the Planck-form theorem stated identically in the last
+-- two of these: P(lambda) = 2*pi*lambda*(n_B(pi*lambda) - n_B(2*pi*lambda)), the Bose-
+-- difference representation of the Plancherel weight. Pure elementary hyperbolic-function
+-- algebra, no Mathlib gaps.
+import GppVerify.QuantumGravity.PlanckForm
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry

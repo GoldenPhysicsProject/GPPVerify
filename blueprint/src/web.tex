@@ -815,6 +815,50 @@ polygamma function at all} (blocking the First Moment Theorem, \texttt{thm:momen
 kinematic-block/conical-function program: conical reduction, shadow=Legendre-degree
 symmetry, the Mehler--Fock pair, the Temperedness Theorem).
 
+\begin{theorem}[Planck Form of the Plancherel Weight]
+  \label{thm:planck-form}
+  \lean{GppPlanckForm.planck_form_bose_difference}
+  \leanok
+  For every real $\lambda \neq 0$, with $n_B(y) := (e^y-1)^{-1}$ the Bose--Einstein
+  occupation number,
+  \[
+    P(\lambda) \;=\; 2\pi\lambda\,\bigl[n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr].
+  \]
+  \emph{Proved clean}: from \texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_
+  Weight.tex} and \texttt{Spectral\_Weight\_from\_Principal\_Series.tex} (identical
+  statement in both) --- the papers Daniel has designated as the canonical replacements
+  for the earlier haar-QG/kinematic-block/blackbody series. Pure hyperbolic algebra:
+  $n_B(y) - n_B(2y) = 1/(2\sinh y)$ from $e^{2y}-1=(e^y-1)(e^y+1)$, no Mathlib gap. The
+  paper's two other equivalent forms (the oscillator-sum series and the
+  $E(x)=(x/2)\coth(x/2)$ zero-point-cancellation form) are not separately formalized:
+  Mathlib has no \texttt{coth} function, and the oscillator sum is definitionally the
+  same geometric series already inside \texttt{Real.sinh}'s own definition.
+\end{theorem}
+
+\textbf{Canonical-source update (2026-08-23).} Daniel has designated four new papers ---
+\texttt{Loops\_from\_Cuts\_in\_Celestial\_Holography.tex},
+\texttt{Principal\_Series\_Kinematic\_Blocks.tex},
+\texttt{Spectral\_Weight\_from\_Principal\_Series.tex}, and
+\texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex} --- as replacing the
+earlier haar\_qg/kinematic\_block/blackbody series for the ``loop'', ``measure'', ``block'',
+and ``blackbody'' roles respectively. The new loop paper's central correction: loop
+integrands arise from an ordinary two-particle \emph{unitarity cut} on the celestial sphere
+(antipodal pairing, Mellin image $\Gamma(\Delta_5)\Gamma(\Delta_6)/\Gamma(\Delta_5+\Delta_6)$,
+dispersion reconstruction), \textbf{not} from a ``residue at the shadow pole'' $\Delta_5+
+\Delta_6=2$ --- the new paper explicitly retracts that framing, identifying $\Delta_5+
+\Delta_6=2$ instead as the locus of scale invariance of the cut, with no residue taken
+anywhere. None of that unitarity-cut/dispersion machinery (Theorems \texttt{thm:measure},
+\texttt{thm:mellincut}, \texttt{thm:boxcut}, \texttt{thm:poles}, \texttt{thm:disp},
+\texttt{thm:celdisp} of the new loop paper) is formalized yet --- it needs new phase-space/
+Jacobian infrastructure this repo does not currently have. The new kinematic-block paper adds
+one genuinely new closed result on top of the pre-existing content (still blocked by the
+missing-digamma/Legendre gaps above): \texttt{thm:ode}/\texttt{thm:resolved} prove, rather
+than merely numerically observe, that the digamma first moment and the ladder moment
+$\mathcal M_1$ are the \emph{same} quantity (both equal $\hat p(0)/2$ for the Fourier
+partner $\hat p$ of $P$) via a first-order ODE for $\hat p$ --- still gated on the same
+missing digamma function. \texttt{thm:planck-form} above is the one piece from this new
+series formalized so far with no blocker.
+
 \chapter{General Relativity --- Rigidity}
 
 \begin{theorem}[Einstein Uniqueness from Shadow Symmetry]

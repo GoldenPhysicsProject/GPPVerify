@@ -992,6 +992,55 @@ from scratch.
 
 ---
 
+## Thread QG-Blackbody, round 3 — canonical-source replacement + Planck form (2026-08-23)
+
+**Daniel's standing instruction**: `Loops_from_Cuts_in_Celestial_Holography.tex`,
+`Principal_Series_Kinematic_Blocks.tex`, `Spectral_Weight_from_Principal_Series.tex`, and
+`Modular_Thermality_of_the_Celestial_Spectral_Weight.tex` are the canonical replacements for
+the earlier haar_qg/kinematic_block/blackbody paper series ("the loop, the measure, the
+block, and the blackbody paper"). Future sessions should treat these four as the source of
+truth for this thread, not the superseded `haar_qg_paper_v2151.tex`/`kinematic_block_v11.tex`/
+`blackbody_law_qg_dtoupin_v1.tex` versions previously cited above.
+
+**The load-bearing correction**: the new loop paper explicitly retracts the old "residue at
+the shadow pole `Δ₅+Δ₆=2`" framing (`haar_qg_paper_v2151.tex`'s `thm:shadow-disc`, a
+Sokhotski-Plemelj-discontinuity argument) in favor of an ordinary two-particle unitarity cut:
+`Δ₅+Δ₆=2` is the locus of exact *scale invariance* of the cut's Mellin image (where the
+`M`-dependence `(M/2)^{Δ₅+Δ₆-2}` drops out), not a pole, and nothing is residued anywhere.
+`GppVerify/CelestialHolography/ShadowDiscontinuity.lean` (all `True := trivial` stubs, never
+asserted the retracted claim as proved) needs no code change but its provenance note should
+be read against this correction, not the old framing, if anyone returns to it.
+
+**Landed**: `QuantumGravity/PlanckForm.lean` — `planck_form_bose_difference`: `P(λ) =
+2πλ·[n_B(πλ) − n_B(2πλ)]` for `λ ≠ 0`, the Planck-form theorem stated identically in the two
+new spectral-weight papers. Pure hyperbolic algebra (`n_B(y) − n_B(2y) = 1/(2sinh y)` from
+`e^{2y}-1=(e^y-1)(e^y+1)`), no Mathlib gap, no axiom, no sorry. Full rebuild re-verified: 0
+sorry, 13 axioms unchanged.
+
+**Not attempted, scoped**: the new loop paper's own genuinely new content — the unitarity-cut
+phase-space derivation (`thm:measure`: antipodal pairing, `dΠ₂ = d²z/[8π²(1+|z|²)²]`),
+its Mellin image (`thm:mellincut`: the `Γ(Δ₅)Γ(Δ₆)/Γ(Δ₅+Δ₆)` Beta-function computation with
+explicit `M`-dependence), the box cut and its Mellin double pole (`thm:boxcut`, `thm:poles`),
+and the dispersion-relation reconstruction (`thm:disp`, `thm:celdisp`, the `8π²/sin(πσ)`
+Mellin kernel) — none of this exists in the repo yet. It needs new phase-space/Jacobian
+infrastructure (an explicit `δ⁴` momentum-conservation solve, a spherical-coordinates
+Jacobian) this repo has never built, distinct from the already-solved Euler-Beta-integral
+machinery `KinematicZetaBridge.lean`/`StefanBoltzmannFamily.lean` use. A well-scoped next
+target for whoever picks this up, roughly in order of tractability: (1) `thm:mellincut`'s
+Beta-function computation itself, taking the antipodal-pairing kinematics
+(`ω₅=M/2(1+|z₅|²)`, etc.) as given rather than re-deriving the Jacobian; (2) the dispersion
+kernel identity `∫₀^∞ S^{σ-1}/(s'+S) dS = s'^{σ-1}π/sin(πσ)` underlying `thm:celdisp` (a
+Mellin-transform-of-a-simple-pole fact that may already have a Mathlib anchor, worth checking
+before assuming it needs deriving from scratch); the full antipodal-pairing Jacobian
+computation (`thm:measure`) is the hardest and most novel piece and is not scoped further
+here. Also not attempted: the new kinematic-block paper's `thm:ode`/`thm:resolved` (proving,
+rather than merely observing, that the digamma first moment and `𝓜₁` are the same quantity
+via a first-order ODE for `P`'s Fourier partner `p̂`) — still gated on the same missing-digamma
+gap named above, since the ODE's own statement is digamma-free but its point (closing the
+"coincidence") is not.
+
+---
+
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)
 
 **Task**: Daniel handed off `ONON5213.tex` (43,669 lines, ~682 theorem-like environments —
