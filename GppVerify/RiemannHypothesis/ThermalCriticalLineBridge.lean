@@ -3,6 +3,7 @@ import GppVerify.QuantumGravity.GammaModulusIdentity
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.RiemannHypothesis.PrimeOccupationBridge
 import GppVerify.RiemannHypothesis.PrimeGasPartition
+import GppVerify.RiemannHypothesis.CompletedZetaReality
 
 /-!
 # Thermal critical-line bridge
@@ -17,7 +18,9 @@ without asserting the physical interpretation as a theorem.
 4. Each local prime response has the same geometric occupation denominator as a repeated-mode
    occupation law, and the infinite product of local prime partition factors is exactly zeta
    on `Re s > 1`.
-5. Any response that is reflection-odd and conjugation-covariant has zero real part on the
+5. The completed zeta function is real on the critical line because functional-equation
+   reflection and complex conjugation coincide there.
+6. Any response that is reflection-odd and conjugation-covariant has zero real part on the
    equilibrium locus. This is the precise algebraic form of the anti-Hermitian / zero-flux
    response condition suggested by the thermodynamic analogy.
 -/
@@ -52,6 +55,11 @@ theorem planck_weight_third_moment :
       ∫ lam in Ioi (0 : ℝ), lam ^ ((3 : ℝ) - 1) * GppStefanBoltzmann.P lam = 1 / 16 :=
   GppStefanBoltzmann.m_three_eq
 
+/-- The completed partition amplitude is real on the equilibrium contour. -/
+theorem completed_partition_im_zero {s : ℂ} (hs : s.re = 1 / 2) :
+    (completedRiemannZeta s).im = 0 :=
+  GppCompletedZetaReality.completedRiemannZeta_im_eq_zero_of_re_half hs
+
 /-- **Equilibrium response condition.** If a complex response is odd under the functional-equation
 reflection and covariant under complex conjugation, then its real part vanishes on the critical
 line. In physics language this is the algebraic anti-Hermitian / zero-dissipative-flux condition. -/
@@ -77,4 +85,5 @@ end GppThermalCriticalLine
 #print axioms GppThermalCriticalLine.principalSeries_gamma_modulus_eq_planck_weight
 #print axioms GppThermalCriticalLine.planck_weight_first_moment
 #print axioms GppThermalCriticalLine.planck_weight_third_moment
+#print axioms GppThermalCriticalLine.completed_partition_im_zero
 #print axioms GppThermalCriticalLine.equilibrium_response_re_zero
