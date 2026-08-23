@@ -5,33 +5,84 @@ import Mathlib.Tactic
 # Abstract finite CAR/Koszul operator layer
 
 This file isolates the exact algebraic hypotheses needed for the multi-channel Hodge--Dirac
-identity.  Rather than baking in one concrete Jordan--Wigner representation, we work with
-a finite family of creation/annihilation matrices satisfying the canonical
-anticommutation relations.  The concrete one-channel matrices are already proved in
-`PrimeFermionDirac.lean`; `GPPDiscovery2/cayley_fock_multichannel.py` checks the standard
-Jordan--Wigner finite realization numerically for several channel counts.
+identity. Rather than baking in one concrete Jordan--Wigner representation, we work with
+finite matrix families satisfying the canonical anticommutation relations.
 
-The operator-level theorem itself will be promoted here in small Lean layers.  This file
-starts with the reusable scalar cancellation identity that is independent of matrix size
-and is the exact coefficient-level reason off-diagonal CAR terms cancel in `D^2`.
+The concrete one-channel matrices are already proved in `PrimeFermionDirac.lean`;
+`GPPDiscovery2/cayley_fock_multichannel.py` checks the standard Jordan--Wigner finite
+realization numerically for several channel counts.
+
+The proof is being built in small kernel-checkable layers. The central cancellation is
+that a weighted double sum of pairwise anticommuting creation operators vanishes after
+symmetrizing `(i,j)` with `(j,i)`.
 -/
 
 namespace GppCayleyFockOperator
 
 open Complex
+open scoped BigOperators
 
-/-- Pairing a coefficient with its conjugate produces twice its real norm-square.  This is
-one scalar ingredient in collecting the diagonal CAR terms of a finite Dirac square. -/
+/-- Pairing a coefficient with its conjugate produces twice its real norm-square. -/
 theorem coeff_conj_pair (z : ℂ) :
     star z * z + z * star z = 2 * (Complex.normSq z : ℂ) := by
   rw [Complex.conj_mul, Complex.mul_conj]
   norm_num
 
-/-- The antisymmetric coefficient combination vanishes.  This is the scalar companion to
-the off-diagonal CAR cancellation between channel `(i,j)` and `(j,i)`. -/
+/-- The antisymmetric coefficient combination vanishes. -/
 theorem coeff_swap_cancel (z w : ℂ) :
     z * w - w * z = 0 := by
   ring
+
+/-- The weighted ordered-pair sum appearing after expanding a finite supercharge square. -/
+noncomputable def pairSum {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ) : Matrix κ κ ℂ :=
+  ∑ i, ∑ j, (z i * z j) • (c i * c j)
+
+/-- Swapping the two dummy indices leaves the weighted pair sum unchanged except for
+swapping the operator order. -/
+theorem pairSum_swap {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ) :
+    pairSum c z = ∑ i, ∑ j, (z i * z j) • (c j * c i) := by
+  unfold pairSum
+  rw [Finset.sum_comm]
+  apply Finset.sum_congr rfl
+  intro i hi
+  apply Finset.sum_congr rfl
+  intro j hj
+  rw [mul_comm (z j) (z i)]
+
+/-- Pairwise CAR in the creation sector makes the weighted pair sum equal to its negative. -/
+theorem pairSum_eq_neg {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ)
+    (hcar : ∀ i j, c i * c j + c j * c i = 0) :
+    pairSum c z = - pairSum c z := by
+  rw [pairSum_swap]
+  unfold pairSum
+  rw [← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro i hi
+  rw [← Finset.sum_neg_distrib]
+  apply Finset.sum_congr rfl
+  intro j hj
+  have hij : c j * c i = -(c i * c j) := by
+    have h := hcar i j
+    exact eq_neg_of_add_eq_zero_left h
+  rw [hij]
+  simp
+
+/-- **Finite creation-sector cancellation.** A weighted sum of pairwise-anticommuting
+creation operators has zero quadratic pair sum. This is the coefficient-expanded core of
+`Q²=0`. -/
+theorem pairSum_eq_zero {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ)
+    (hcar : ∀ i j, c i * c j + c j * c i = 0) :
+    pairSum c z = 0 := by
+  have hneg := pairSum_eq_neg c z hcar
+  have htwo : pairSum c z + pairSum c z = 0 := by
+    rw [hneg]
+    simp
+  have hscaled := congrArg (fun M : Matrix κ κ ℂ => (1 / 2 : ℂ) • M) htwo
+  simpa [smul_add] using hscaled
 
 /-- The dimension carried by an `n`-channel CAR representation is the same binary doubling
 number appearing in the Cayley--Dickson bridge. -/
@@ -43,4 +94,5 @@ end GppCayleyFockOperator
 
 #print axioms GppCayleyFockOperator.coeff_conj_pair
 #print axioms GppCayleyFockOperator.coeff_swap_cancel
+#print axioms GppCayleyFockOperator.pairSum_eq_zero
 #print axioms GppCayleyFockOperator.operator_state_dimension
