@@ -1326,17 +1326,66 @@ algebra (already proved, unchanged, at finite truncation) --- exactly as specifi
 rather than reviving the timed-out monolithic construction. 16 theorems total in
 \texttt{CutkoskyWeilBridge.lean} now, all kernel-clean.
 
+\begin{theorem}[Operator-Level Vacuum-Compression Identity]
+  \label{thm:vacuum-compression-operator-identity}
+  \lean{GppCutkoskyWeil.vacuum_compression_operator_identity}
+  \leanok
+  On $\mathrm{Ell2Z}:=\ell^2(\mathbb{Z},\mathbb{C})$, the natural Fourier-coefficient
+  model (Parseval-dual to the circle: convolution by a kernel becomes diagonal
+  multiplication by its Fourier coefficients), let $C_{K_r}$, $P_0$, $C_{K_r-1}$ be the
+  bounded diagonal \texttt{ContinuousLinearMap}s with Fourier symbols $r^{|n|}$; $0$ at
+  $n=0$ and $1$ elsewhere (the vacuum-deleting projection); and $0$ at $n=0$, $r^{|n|}$
+  elsewhere, respectively. Then $C_{K_r-1}=P_0\,C_{K_r}\,P_0$ as genuine bounded-operator
+  composition (\lean{GppCutkoskyWeil.mulOpLin_comp}), for every $0\le r<1$.
+\end{theorem}
+
+\begin{theorem}[Positivity of the Compressed Operator]
+  \label{thm:vacuum-compressed-operator-positive}
+  \lean{GppCutkoskyWeil.vacuum_compressed_operator_positive}
+  \leanok
+  $\langle x,C_{K_r-1}x\rangle\ge0$ for every $x\in\mathrm{Ell2Z}$ and every $0\le r<1$,
+  as a direct corollary of the general fact that a bounded diagonal operator with
+  nonnegative-real-part Fourier symbol is positive semidefinite
+  (\lean{GppCutkoskyWeil.mulOpCLM_inner_re_nonneg}), applied to $C_{K_r-1}$'s already-known
+  eigenvalue signs ($0$ at $n=0$, $r^{|n|}\ge0$ elsewhere).
+\end{theorem}
+
+\textbf{Fourth pass, following review}: both items the third pass had deferred are now
+proved. The route for the $N\to\infty$ passage separates convergence (built from the
+geometric tail bound via \texttt{Summable.of\_nat\_of\_neg}) from the Gram-square
+algebra (already proved, unchanged, at finite truncation) --- exactly as specified,
+rather than reviving the timed-out monolithic construction. 16 theorems total in
+\texttt{CutkoskyWeilBridge.lean} at that point, all kernel-clean.
+
+\textbf{Fifth pass, following a further review directive.} Item 1 of a six-item program
+(the actual operator statement, not the finite Fourier identity again) is now DONE in
+full: Theorems~\ref{thm:vacuum-compression-operator-identity} and
+\ref{thm:vacuum-compressed-operator-positive} above, 8 new theorems, kernel-clean.
+Checking \texttt{GppWeilCriterion.rh\_iff\_weil\_pairedForm\_nonneg}'s actual statement
+found that theorem's \texttt{pairedForm} is a zero-indexed reflection pairing over the
+(unknown) zero set itself --- it carries no prime, Mellin, or Haar-measure content for a
+``finite-prime Weil kernel in this normalization'' to mean, a mismatch this file's own
+module doc had already flagged. The genuine classical target,
+\texttt{GppHaarPositivityWeil.weil\_criterion} ($D_k=\sum_\rho\hat\Omega(\rho)+\text{local
+terms}$), remains a full \texttt{True}-stub, honestly blocked on Tate's thesis and idèle
+class groups (neither in Mathlib). But the classical \emph{elementary} (non-adelic)
+explicit formula's finite-prime local term has a clean checked closed form: with
+$\zeta_p(s):=(1-p^{-s})^{-1}$ the local Euler factor, $W_p(t)=2\operatorname{Re}(-\zeta_p'/
+\zeta_p(1/2+it))$ exactly --- checked by hand, not yet formalized, the honest next Lean
+target. 24 theorems total in \texttt{CutkoskyWeilBridge.lean} now, all kernel-clean.
+
 \textbf{Honest boundary (updated).} Still not formalized in Lean: the exact Fourier
 pair $H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
 numerically to $\sim10^{-51}$ relative error); the pole-cancellation/removable-singularity
 claim at $t=\pm i/2$ (a different, complex-analytic singularity from the real-axis one at
-$t=0$ just closed --- confirmed via a shrinking-perturbation sequence). The
+$t=0$ closed in the fourth pass --- confirmed via a shrinking-perturbation sequence); the
 representation-theoretic Casimir operator itself (the $t^2+1/4$ eigenvalue is used only
 as a number, not derived from an operator --- Mathlib has no $SL(2,\mathbb{R})$
-principal-series development), the full infinite-dimensional Hilbert-space operator
-identity $P_0C_KP_0=C_{K-1}=(AP_0)^*(AP_0)$ on a precisely-defined space, the
-Mellin/Fourier/adelic bridge to the classical Weil kernel, and the $Q_{\mathrm{GPP}}$
-construction / positivity factorization program are not attempted. No axiom, no sorry,
+principal-series development); the elementary identity $W_p(t)=2\operatorname{Re}(-\zeta_p'/
+\zeta_p(1/2+it))$ (checked by hand, fifth pass); the classical explicit formula itself
+(contour integration of $\zeta'/\zeta$, the argument principle) and the adelic
+Tate's-thesis route, both large separate undertakings; and the $Q_{\mathrm{GPP}}$
+construction / global positivity factorization program. No axiom, no sorry,
 no RH claim, no global positivity claim, no Connes--Consani machinery imported.
 
 \chapter{Axiom Inventory}

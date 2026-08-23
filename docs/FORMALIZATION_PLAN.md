@@ -1288,14 +1288,17 @@ Independent numerical cross-check: `discovery/local_field_shadow/golden_hyperbol
 
 ## Thread Cutkosky-Weil — local shadow kernels and the finite-prime Weil kernel (2026-08-22/23)
 
-**Status (fourth pass): local identities, the layered finite Fourier/Gram-square
-development, the removable singularity, AND the full `N→∞` analytic passage all DONE,
-`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` — 16 theorems, all kernel-clean, no
+**Status (fifth pass): local identities, the layered finite Fourier/Gram-square
+development, the removable singularity, the full `N→∞` analytic passage, AND the
+operator-level vacuum-compression identity all DONE,
+`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` — 24 theorems, all kernel-clean, no
 axiom, no sorry, culminating in the genuine, untruncated
-`GppHaarPositivityWeil.PositiveType (K_r - 1)` (`KrClosed_minus_one_positiveType`),
-unconditional. The larger directive's construction (the spectral vacuum-projection
-operator identity, the Mellin/adelic bridge to the classical Weil kernel, `Q_GPP`,
-positivity factorization) is NOT attempted.**
+`GppHaarPositivityWeil.PositiveType (K_r - 1)` (`KrClosed_minus_one_positiveType`) AND the
+actual bounded-operator identity `C_{K_r-1} = P_0 * C_{K_r} * P_0` on `ℓ²(ℤ,ℂ)`
+(`vacuum_compression_operator_identity`) with its positivity corollary
+(`vacuum_compressed_operator_positive`), both unconditional. The Mellin/adelic bridge to
+the classical Weil kernel, `Q_GPP`, and global positivity factorization are NOT
+attempted — see the fifth-pass paragraphs below for the precise, re-scoped target.**
 
 From a research-front directive proposing the route `celestial Cutkosky positivity →
 local shadow kernels → finite-prime Weil kernel → Casimir compression → global Weil
@@ -1379,21 +1382,57 @@ the genuine, untruncated `GppHaarPositivityWeil.PositiveType (K_r - 1)`, uncondi
 machinery not confirmed to exist); the pole-cancellation/removable-singularity claim at
 `t=±i/2` (a different, complex-analytic singularity from the real-axis one at `t=0` just
 closed — confirmed numerically via a shrinking-perturbation sequence, no formal residue
-calculus); the full infinite-dimensional Hilbert-space operator identity `P_0 C_K P_0 =
-C_{K-1} = (AP_0)^*(AP_0)` (Mathlib has no ready `L²(circle)` convolution-operator
-framework — the finite Gram-square theorem plus the `N→∞` passage is the rigorous
-content standing in for it).
+calculus).
+
+**Fifth pass (same session, following a further review directive) — the operator identity
+closed; the finite-prime Weil-kernel target precisely re-identified.** The directive named
+a six-item program prioritizing item 1 (the actual operator statement, not the finite
+Fourier identity again) and item 4 (the Mellin/adelic bridge). Item 1 is now DONE in full:
+`Ell2Z := ℓ²(ℤ,ℂ)`, the natural Fourier-coefficient model (Parseval-dual to the circle, so
+convolution-by-kernel becomes diagonal multiplication by Fourier coefficients — no need to
+build the circle convolution operator itself). `mulOpCLM w hw : Ell2Z →L[ℂ] Ell2Z` is the
+bounded diagonal `ContinuousLinearMap` for any weight bounded by `1` (built via
+`LinearMap.mkContinuous` from an explicit norm bound). `C_{K_r} := mulOpCLM(KrWeight r)`,
+`P_0 := mulOpCLM P0Weight` (the vacuum-deleting projection), `C_{K_r-1} :=
+mulOpCLM(KrMinusOneWeight r)`. **`vacuum_compression_operator_identity`**:
+`C_{K_r-1} = P_0 * C_{K_r} * P_0` as genuine `ContinuousLinearMap` composition, via
+composition-multiplies-symbols (`mulOpLin_comp`) reducing to the one-line pointwise fact
+`P_0(n)·K_r(n)·P_0(n)=(K_r-1)(n)`. **`vacuum_compressed_operator_positive`**: positivity of
+the compressed operator, derived as a genuine corollary of a *general* lemma
+(`mulOpCLM_inner_re_nonneg`: any bounded diagonal operator with `Re(w(n))≥0` everywhere is
+positive semidefinite) applied to `K_r-1`'s already-known eigenvalue signs — no new
+analytic content, exactly "as a corollary" as directed. 8 new theorems, kernel-clean, no
+axiom, no sorry.
+
+Checking `GppWeilCriterion.rh_iff_weil_pairedForm_nonneg`'s actual statement against the
+directive's framing ("in the normalization used by" that theorem) found this file's own
+prior module doc had already flagged the mismatch: `pairedForm` is a **zero-indexed**
+reflection pairing over the (unknown) zero set itself, paired by `ι(ρ)=1-ρ̄` — it carries
+no prime, Mellin, or Haar-measure content whatsoever for a "finite-prime Weil kernel in
+this normalization" to mean. The genuine classical target is
+`GppHaarPositivityWeil.weil_criterion` (`D_k=Σ_ρΩ̂(ρ)+local terms`), a full `True`-stub
+honestly blocked on Tate's thesis + idèle class groups — neither in Mathlib, a large,
+well-known, multi-year gap, not proof-engineering-fixable. But the classical *elementary*
+(non-adelic) explicit formula's finite-prime local term has a clean checked closed form:
+with `ζ_p(s):=(1-p^{-s})^{-1}` the local Euler factor, `Wp(p,t) =
+2·Re(-ζ_p'/ζ_p(1/2+it))` exactly — derived by hand from `-ζ_p'/ζ_p(s)=log(p)Σ_{k≥1}p^{-ks}`
+(standard log-derivative of the Euler factor) plus the already-proved
+`Kp_eq_KrClosed`/`tsum_KrClosed_summand_eq`. Checked, not yet Lean-formalized — the honest
+next Lean target for items 2–3, no new Mathlib gap. Item 6 (global assembly against
+`rh_iff_weil_pairedForm_nonneg`) does not apply as stated, for the same reason: that
+theorem's hypothesis carries no prime-side data to assemble. The genuine assembly question
+belongs to `weil_criterion`, and even granting the `Wp` identity for its local terms, still
+needs the *global* explicit formula (contour integration of `ζ'/ζ`, the argument
+principle) to exist in Lean first — not currently in the tree, a separate substantial
+classical-analytic-number-theory undertaking (smaller than the adelic route, still large),
+scoped honestly, not attempted. Full account: `discovery/cutkosky_weil/notes.md`, "Fifth
+pass" section.
 
 **Item 3 (Casimir operator's representation-theoretic origin) — not attempted**: the
 precise missing interface is Mathlib's total absence of `SL(2,ℝ)` principal-series
 representations or a Casimir/Laplace–Beltrami operator; `t²+1/4` is used here purely as
 the known eigenvalue *number*, not derived from an actual operator. Building that
 operator is separate, substantial representation-theory work.
-
-**Items 4–6 (`Q_GPP` construction, comparison to the classical Weil form, positivity
-factorization) — not attempted beyond the finite-truncation kernel-positivity result
-above.** No object was identified with any other by matching Fourier multipliers, per
-the directive's own explicit warning.
 
 **Item 9 — no Connes–Consani/Selberg/Mayer/Tate/Knapp–Stein machinery imported**
 anywhere in this thread; the Gram-square development is original to this session,

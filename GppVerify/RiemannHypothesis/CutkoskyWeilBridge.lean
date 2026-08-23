@@ -1,6 +1,9 @@
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.SpecialFunctions.Pow.NNReal
 import Mathlib.Analysis.SpecificLimits.Normed
+import Mathlib.Analysis.Normed.Lp.lpSpace
+import Mathlib.Analysis.InnerProductSpace.l2Space
 import GppVerify.RiemannHypothesis.HaarPositivityWeil
 
 /-!
@@ -78,6 +81,7 @@ silently dropped.
 namespace GppCutkoskyWeil
 
 open Real
+open scoped InnerProductSpace ENNReal
 
 /-- The finite-place shadow kernel `K_p(t) = (1-p⁻¹)/|1-p^{-1/2-it}|²`, in its real
     closed form `(1-p⁻¹)/(1 - 2p^{-1/2}\cos(t\log p) + p^{-1})` (the modulus-squared
@@ -556,5 +560,254 @@ theorem KrClosed_minus_one_positiveType {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) 
   convert this using 3
   push_cast
   ring
+
+/-! ## Fifth pass: the operator-level vacuum-compression identity
+
+Per a further review directive, item 1 of the near-term program: formalize the actual
+*operator* statement `C_{K_r-1} = P_0 C_{K_r} P_0` — not merely the finite Fourier identity
+already proved above — on a precisely-defined Hilbert space, with positivity of the
+compressed operator as a corollary of its Fourier eigenvalues.
+
+**The space**: `Ell2Z := ℓ²(ℤ,ℂ)` (Mathlib's `lp (fun _:ℤ=>ℂ) 2`), the natural Fourier model —
+under the circle/ℤ Fourier duality, convolution on `L²(𝕋)` by a kernel is unitarily
+equivalent to multiplication on `ℓ²(ℤ)` by that kernel's Fourier coefficients (Parseval), so
+working directly on `ℓ²(ℤ)` with diagonal multiplication operators is the same operator
+content as convolution on the circle, without needing to build the circle convolution
+operator itself (Bochner kernel integrals) in Lean.
+
+**The operators**: `mulOpCLM w hw : Ell2Z →L[ℂ] Ell2Z` is the bounded (operator norm `≤ 1`)
+diagonal multiplication operator for a weight `w : ℤ → ℂ` with `‖w n‖ ≤ 1`. `C_{K_r} :=
+mulOpCLM (KrWeight r)` (symbol `r^{|n|}`), `P_0 := mulOpCLM P0Weight` (symbol `0` at `n=0`,
+`1` elsewhere — the orthogonal projection deleting the constant/vacuum Fourier mode), and
+`C_{K_r-1} := mulOpCLM (KrMinusOneWeight r)` (symbol `0` at `n=0`, `r^{|n|}` elsewhere,
+matching the two-sided Fourier series of `K_r-1` established in `tsum_KrClosed_summand_eq`
+above).
+
+**The identity**: `vacuum_compression_operator_identity` proves
+`C_{K_r-1} = P_0 * C_{K_r} * P_0` as genuine `ContinuousLinearMap` composition (not a finite
+Gram matrix identity), via `mulOpLin_comp` (composition of diagonal operators multiplies
+symbols) reducing to the pointwise algebraic fact `P_0(n) K_r(n) P_0(n) = (K_r-1)(n)` for
+every `n ∈ ℤ` (`P0Weight_mul_KrWeight_mul_P0Weight_eq`) — `0=1-1` at `n=0`,
+`1·r^{|n|}·1=r^{|n|}` at `n≠0`.
+
+**Positivity as a corollary**: `mulOpCLM_inner_re_nonneg` is the general fact that any
+bounded diagonal operator with `Re(w(n)) ≥ 0` for every `n` is positive semidefinite
+(`⟪x,Tx⟫.re ≥ 0`), proved directly from the eigenvalue signs via `⟪x,Tx⟫ = Σ_n w(n)|x(n)|²`
+(imaginary part of `w` plays no role, since the cross term vanishes against the manifestly
+real `|x(n)|²`). `vacuum_compressed_operator_positive` specializes this to `C_{K_r-1}`,
+whose eigenvalues (`0` and `r^{|n|} ≥ 0`) are already known — no new analytic content beyond
+the general lemma, exactly the "as a corollary" the review asked for.
+
+**Honest boundary, still deferred**: this closes item 1 (the operator identity) but not
+items 2–4 of the wider program. See the module doc above (`GppVerify.lean`'s import comment,
+and `docs/FORMALIZATION_PLAN.md`) for the precise finding on why "the finite-prime Weil
+kernel in the normalization used by `rh_iff_weil_pairedForm_nonneg`" does not exist as
+stated — that theorem's `pairedForm` is a zero-indexed reflection pairing with no prime or
+Mellin content, a fact already flagged in this file's own module doc above (`Connecting the
+two is itself a substantial, separate undertaking`) — and for the precise elementary
+identity `W_p(t) = 2·Re(-ζ_p'/ζ_p(1/2+it))` (checked by hand, not yet formalized) that
+correctly identifies `W_p` with the local Euler-factor logarithmic derivative on the
+critical line, the honest next Lean target for items 2–3. -/
+
+/-- The Hilbert space `ℓ²(ℤ,ℂ)`: the natural Fourier-coefficient model dual to the circle,
+    on which `K_r`-convolution becomes diagonal multiplication by `r^{|n|}`. -/
+noncomputable abbrev Ell2Z := lp (fun _ : ℤ => ℂ) 2
+
+theorem memℓp_mul_bounded {w : ℤ → ℂ} (hw : ∀ n, ‖w n‖ ≤ 1) {x : ℤ → ℂ}
+    (hx : Memℓp x 2) : Memℓp (fun n => w n * x n) 2 := by
+  rw [memℓp_gen_iff (show (0:ℝ) < (2:ℝ≥0∞).toReal by norm_num)] at hx ⊢
+  have hx' : Summable (fun n : ℤ => ‖x n‖ ^ (2:ℕ)) := by
+    have := hx
+    simp only [show (2:ℝ≥0∞).toReal = ((2:ℕ):ℝ) by norm_num, Real.rpow_natCast] at this
+    exact this
+  have hcomp : Summable (fun n : ℤ => ‖w n‖ ^ (2:ℕ) * ‖x n‖ ^ (2:ℕ)) := by
+    apply Summable.of_nonneg_of_le (fun n => by positivity) (fun n => ?_) hx'
+    have : ‖w n‖ ^ (2:ℕ) ≤ 1 := by
+      have h1 : 0 ≤ ‖w n‖ := norm_nonneg _
+      calc ‖w n‖ ^ (2:ℕ) ≤ 1 ^ (2:ℕ) := by
+            apply pow_le_pow_left₀ h1 (hw n)
+        _ = 1 := one_pow 2
+    nlinarith [sq_nonneg (‖x n‖), norm_nonneg (x n)]
+  have heq : (fun n : ℤ => ‖w n * x n‖ ^ ((2:ℝ≥0∞).toReal)) =
+      (fun n : ℤ => ‖w n‖ ^ (2:ℕ) * ‖x n‖ ^ (2:ℕ)) := by
+    funext n
+    rw [show (2:ℝ≥0∞).toReal = ((2:ℕ):ℝ) by norm_num, Real.rpow_natCast, norm_mul, mul_pow]
+  rw [heq]
+  exact hcomp
+
+/-- The bounded pointwise-multiplication ("diagonal") linear map on `Ell2Z`, for a weight
+    bounded in norm by `1`. -/
+noncomputable def mulOpLin (w : ℤ → ℂ) (hw : ∀ n, ‖w n‖ ≤ 1) : Ell2Z →ₗ[ℂ] Ell2Z where
+  toFun x := ⟨fun n => w n * (x : ℤ → ℂ) n, memℓp_mul_bounded hw x.2⟩
+  map_add' x y := by
+    ext n
+    show w n * ((x : ℤ → ℂ) n + (y : ℤ → ℂ) n) = w n * (x : ℤ → ℂ) n + w n * (y : ℤ → ℂ) n
+    ring
+  map_smul' c x := by
+    ext n
+    show w n * (c * (x : ℤ → ℂ) n) = c * (w n * (x : ℤ → ℂ) n)
+    ring
+
+theorem mulOpLin_apply (w : ℤ → ℂ) (hw : ∀ n, ‖w n‖ ≤ 1) (x : Ell2Z) (n : ℤ) :
+    (mulOpLin w hw x : ℤ → ℂ) n = w n * (x : ℤ → ℂ) n := rfl
+
+/-- Composition of two bounded diagonal multiplication operators is the diagonal operator
+    for the pointwise-multiplied weight. -/
+theorem mulOpLin_comp (w₁ w₂ : ℤ → ℂ) (hw₁ : ∀ n, ‖w₁ n‖ ≤ 1) (hw₂ : ∀ n, ‖w₂ n‖ ≤ 1)
+    (hw₁₂ : ∀ n, ‖w₁ n * w₂ n‖ ≤ 1) :
+    (mulOpLin w₁ hw₁).comp (mulOpLin w₂ hw₂) = mulOpLin (fun n => w₁ n * w₂ n) hw₁₂ := by
+  apply LinearMap.ext
+  intro x
+  ext n
+  show w₁ n * (w₂ n * (x : ℤ → ℂ) n) = w₁ n * w₂ n * (x : ℤ → ℂ) n
+  ring
+
+/-- The bounded diagonal multiplication operator is norm-nonincreasing:
+    `‖mulOpLin w hw x‖ ≤ ‖x‖`. -/
+theorem mulOpLin_norm_le (w : ℤ → ℂ) (hw : ∀ n, ‖w n‖ ≤ 1) (x : Ell2Z) :
+    ‖mulOpLin w hw x‖ ≤ ‖x‖ := by
+  have hp2 : (0:ℝ) < (2:ℝ≥0∞).toReal := by norm_num
+  have hsq := lp.norm_rpow_eq_tsum hp2 (mulOpLin w hw x)
+  have hsq' := lp.norm_rpow_eq_tsum hp2 x
+  have hle : (‖mulOpLin w hw x‖ : ℝ) ^ ((2:ℝ≥0∞).toReal) ≤ ‖x‖ ^ ((2:ℝ≥0∞).toReal) := by
+    rw [hsq, hsq']
+    apply (lp.hasSum_norm hp2 (mulOpLin w hw x)).summable.tsum_le_tsum _
+      (lp.hasSum_norm hp2 x).summable
+    intro n
+    have hbound : ‖w n‖ ≤ 1 := hw n
+    have heval : (mulOpLin w hw x : ℤ → ℂ) n = w n * (x : ℤ → ℂ) n := rfl
+    rw [heval, norm_mul]
+    have h2 : (2:ℝ≥0∞).toReal = ((2:ℕ):ℝ) := by norm_num
+    rw [h2, Real.rpow_natCast, Real.rpow_natCast, mul_pow]
+    have hxn : 0 ≤ ‖(x : ℤ → ℂ) n‖ := norm_nonneg _
+    nlinarith [sq_nonneg (‖(x : ℤ → ℂ) n‖), pow_le_pow_left₀ (norm_nonneg (w n)) hbound 2]
+  have hnn1 : (0:ℝ) ≤ ‖mulOpLin w hw x‖ := norm_nonneg _
+  have hnn2 : (0:ℝ) ≤ ‖x‖ := norm_nonneg _
+  exact (Real.rpow_le_rpow_iff hnn1 hnn2 hp2).mp hle
+
+/-- The genuine bounded operator (`ContinuousLinearMap`) version of `mulOpLin`, with operator
+    norm `≤ 1`. -/
+noncomputable def mulOpCLM (w : ℤ → ℂ) (hw : ∀ n, ‖w n‖ ≤ 1) : Ell2Z →L[ℂ] Ell2Z :=
+  (mulOpLin w hw).mkContinuous 1 (fun x => by
+    rw [one_mul]; exact mulOpLin_norm_le w hw x)
+
+theorem mulOpCLM_apply (w : ℤ → ℂ) (hw : ∀ n, ‖w n‖ ≤ 1) (x : Ell2Z) :
+    mulOpCLM w hw x = mulOpLin w hw x := rfl
+
+/-- The Fourier symbol of the Poisson-kernel convolution operator: `r^{|n|}`. -/
+def KrWeight (r : ℝ) (n : ℤ) : ℂ := (r : ℂ) ^ n.natAbs
+
+/-- The Fourier symbol of the vacuum-deleting projection: `0` at `n=0`, `1` elsewhere. -/
+def P0Weight (n : ℤ) : ℂ := if n = 0 then 0 else 1
+
+/-- The Fourier symbol of the vacuum-subtracted kernel: `0` at `n=0`, `r^{|n|}` elsewhere. -/
+def KrMinusOneWeight (r : ℝ) (n : ℤ) : ℂ := if n = 0 then 0 else (r : ℂ) ^ n.natAbs
+
+theorem KrWeight_bound {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (n : ℤ) : ‖KrWeight r n‖ ≤ 1 := by
+  unfold KrWeight
+  rw [Complex.norm_pow, Complex.norm_real, Real.norm_of_nonneg hr0]
+  exact pow_le_one₀ hr0 hr1.le
+
+theorem P0Weight_bound (n : ℤ) : ‖P0Weight n‖ ≤ 1 := by
+  unfold P0Weight; split_ifs <;> norm_num
+
+theorem KrMinusOneWeight_bound {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (n : ℤ) :
+    ‖KrMinusOneWeight r n‖ ≤ 1 := by
+  unfold KrMinusOneWeight; split_ifs
+  · norm_num
+  · exact KrWeight_bound hr0 hr1 n
+
+theorem P0_mul_bound (n : ℤ) : ‖P0Weight n * P0Weight n‖ ≤ 1 := by
+  rw [norm_mul]; nlinarith [P0Weight_bound n, norm_nonneg (P0Weight n)]
+
+theorem P0_Kr_bound {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (n : ℤ) :
+    ‖P0Weight n * KrWeight r n‖ ≤ 1 := by
+  rw [norm_mul]; nlinarith [P0Weight_bound n, KrWeight_bound hr0 hr1 n, norm_nonneg (P0Weight n),
+    norm_nonneg (KrWeight r n)]
+
+theorem P0_Kr_P0_bound {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (n : ℤ) :
+    ‖P0Weight n * KrWeight r n * P0Weight n‖ ≤ 1 := by
+  rw [norm_mul]
+  nlinarith [P0_Kr_bound hr0 hr1 n, P0Weight_bound n, norm_nonneg (P0Weight n * KrWeight r n),
+    norm_nonneg (P0Weight n)]
+
+/-- **Positivity of the compressed operator, as a corollary of the Fourier eigenvalues.**
+    If a bounded diagonal weight `w` has nonnegative real part everywhere, the associated
+    operator is positive semidefinite: `⟪x, mulOpCLM w hw x⟫.re ≥ 0` for every `x`
+    (the imaginary part of `w` plays no role, since the cross term vanishes against the
+    manifestly-real `‖x n‖²`). -/
+theorem mulOpCLM_inner_re_nonneg (w : ℤ → ℂ) (hw : ∀ n, ‖w n‖ ≤ 1)
+    (hnn : ∀ n, 0 ≤ (w n).re) (x : Ell2Z) :
+    0 ≤ (⟪x, mulOpCLM w hw x⟫_ℂ).re := by
+  have hsum := lp.hasSum_inner (𝕜 := ℂ) x (mulOpCLM w hw x)
+  have hsumRe := Complex.reCLM.hasSum hsum
+  have hnonneg : ∀ n : ℤ, 0 ≤ Complex.reCLM ⟪(x : ℤ → ℂ) n, (mulOpCLM w hw x : ℤ → ℂ) n⟫_ℂ := by
+    intro n
+    rw [Complex.reCLM_apply]
+    have heval : (mulOpCLM w hw x : ℤ → ℂ) n = w n * (x : ℤ → ℂ) n := rfl
+    rw [heval, RCLike.inner_apply' (𝕜 := ℂ)]
+    have hrw : (starRingEnd ℂ) ((x : ℤ → ℂ) n) * (w n * (x : ℤ → ℂ) n)
+        = w n * (Complex.normSq ((x : ℤ → ℂ) n) : ℂ) := by
+      rw [← mul_assoc, mul_comm (starRingEnd ℂ ((x : ℤ → ℂ) n)) (w n), mul_assoc,
+        ← Complex.normSq_eq_conj_mul_self]
+    rw [hrw, Complex.mul_re, Complex.ofReal_re, Complex.ofReal_im, mul_zero, sub_zero]
+    exact mul_nonneg (hnn n) (Complex.normSq_nonneg _)
+  rw [← Complex.reCLM_apply]
+  apply ge_of_tendsto hsumRe
+  filter_upwards with s
+  exact Finset.sum_nonneg (fun n _ => hnonneg n)
+
+/-- **The pointwise Fourier-symbol identity**: `P_0(n) K_r(n) P_0(n) = (K_r-1)(n)` for every
+    `n`, the algebraic core of the operator compression. -/
+theorem P0Weight_mul_KrWeight_mul_P0Weight_eq (r : ℝ) (n : ℤ) :
+    P0Weight n * KrWeight r n * P0Weight n = KrMinusOneWeight r n := by
+  unfold P0Weight KrWeight KrMinusOneWeight
+  by_cases h : n = 0 <;> simp [h]
+
+/-- **The operator-level vacuum-compression identity**: on the Fourier model `Ell2Z = ℓ²(ℤ,ℂ)`,
+    convolution by `K_r - 1` equals the vacuum-deleting projection `P_0` sandwiching
+    convolution by `K_r`, as genuine bounded operators (`ContinuousLinearMap`s) on `Ell2Z` —
+    not merely the finite Fourier identity. -/
+theorem vacuum_compression_operator_identity {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) :
+    (mulOpCLM P0Weight P0Weight_bound).comp
+      ((mulOpCLM (KrWeight r) (KrWeight_bound hr0 hr1)).comp
+        (mulOpCLM P0Weight P0Weight_bound))
+      = mulOpCLM (KrMinusOneWeight r) (KrMinusOneWeight_bound hr0 hr1) := by
+  apply ContinuousLinearMap.coe_injective
+  show (mulOpLin P0Weight P0Weight_bound).comp
+      ((mulOpLin (KrWeight r) (KrWeight_bound hr0 hr1)).comp
+        (mulOpLin P0Weight P0Weight_bound))
+    = mulOpLin (KrMinusOneWeight r) (KrMinusOneWeight_bound hr0 hr1)
+  have hinner : (mulOpLin (KrWeight r) (KrWeight_bound hr0 hr1)).comp
+      (mulOpLin P0Weight P0Weight_bound)
+      = mulOpLin (fun n => KrWeight r n * P0Weight n)
+          (fun n => by dsimp only; rw [mul_comm]; exact P0_Kr_bound hr0 hr1 n) :=
+    mulOpLin_comp (KrWeight r) P0Weight (KrWeight_bound hr0 hr1) P0Weight_bound _
+  rw [hinner]
+  rw [mulOpLin_comp P0Weight (fun n => KrWeight r n * P0Weight n) P0Weight_bound _
+        (fun n => by dsimp only; rw [← mul_assoc]; exact P0_Kr_P0_bound hr0 hr1 n)]
+  congr 1
+  funext n
+  rw [← mul_assoc]
+  exact P0Weight_mul_KrWeight_mul_P0Weight_eq r n
+
+/-- `KrMinusOneWeight r n` has nonnegative real part for every `n` and `0 ≤ r < 1`: `0` at
+    `n=0`, `r^{|n|} ≥ 0` elsewhere. -/
+theorem KrMinusOneWeight_re_nonneg {r : ℝ} (hr0 : 0 ≤ r) (n : ℤ) :
+    0 ≤ (KrMinusOneWeight r n).re := by
+  unfold KrMinusOneWeight
+  split_ifs with h
+  · simp
+  · rw [← Complex.ofReal_pow, Complex.ofReal_re]
+    positivity
+
+/-- **Positivity of the compressed operator `C_{K_r-1} = P_0 C_{K_r} P_0`, as a direct
+    corollary of its Fourier eigenvalues** (`0` at `n=0`, `r^{|n|} ≥ 0` at `n≠0`) via
+    `mulOpCLM_inner_re_nonneg` — the operator-level analogue of the finite-truncation
+    positivity `KrN0_gram_nonneg` proved for the circle-kernel picture. -/
+theorem vacuum_compressed_operator_positive {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (x : Ell2Z) :
+    0 ≤ (⟪x, mulOpCLM (KrMinusOneWeight r) (KrMinusOneWeight_bound hr0 hr1) x⟫_ℂ).re :=
+  mulOpCLM_inner_re_nonneg (KrMinusOneWeight r) (KrMinusOneWeight_bound hr0 hr1)
+    (KrMinusOneWeight_re_nonneg hr0) x
 
 end GppCutkoskyWeil
