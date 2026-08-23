@@ -999,3 +999,10 @@ import GppVerify.ThreadWeilParity.CrossResolventGroundOrdering
 -- module doc for the honest boundary (does not yet connect to the concrete
 -- f = sum c_j/(alpha_j - z) construction).
 import GppVerify.ThreadWeilParity.StrictParityInterlacing
+
+-- ── Thread Weil-Parity, cross-heat positivity (New, 2026-08-23) ──
+-- formalization_queue item 68566b83: the Laplace-transform positivity core
+-- (integral of an everywhere-positive integrable function over [0,infty) is
+-- strictly positive). Does not define the matrix exponential or resolvent,
+-- or prove the Laplace-resolvent identity itself; see the file's module doc.
+import GppVerify.ThreadWeilParity.CrossHeatPositivity
