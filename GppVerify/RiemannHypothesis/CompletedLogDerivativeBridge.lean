@@ -72,7 +72,7 @@ theorem finiteWp_eq_two_mul_re_finitePrimeLogDerivative
               rw [Finset.mul_sum]
     _ = 2 * (∑ i, GppCutkoskyWeil.minusLogDerivZetaP
             (p i) (1 / 2 + t * Complex.I)).re := by
-              rw [map_sum]
+              simp
 
 end GppCompletedLogDerivative
 
