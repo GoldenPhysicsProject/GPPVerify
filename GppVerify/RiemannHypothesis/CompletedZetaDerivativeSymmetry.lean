@@ -28,13 +28,13 @@ open Complex
 lemma one_sub_ne_zero {s : ℂ} (hs1 : s ≠ 1) : 1 - s ≠ 0 := by
   intro h
   apply hs1
-  linarith
+  exact (sub_eq_zero.mp h).symm
 
 /-- The reflected point `1-s` avoids the pole at `1` whenever `s != 0`. -/
 lemma one_sub_ne_one {s : ℂ} (hs0 : s ≠ 0) : 1 - s ≠ 1 := by
   intro h
   apply hs0
-  linarith
+  exact sub_eq_self.mp h
 
 /-- **Differentiated completed functional equation.** Away from the poles,
 `Lambda'(s) = -Lambda'(1-s)`. -/
@@ -60,7 +60,7 @@ theorem completedRiemannZeta_deriv_reflection {s : ℂ} (hs0 : s ≠ 0) (hs1 : s
 theorem completedRiemannZeta_deriv_one_sub {s : ℂ} (hs0 : s ≠ 0) (hs1 : s ≠ 1) :
     deriv completedRiemannZeta (1 - s) = -deriv completedRiemannZeta s := by
   have h := completedRiemannZeta_deriv_reflection hs0 hs1
-  linarith
+  simpa using (congrArg Neg.neg h).symm
 
 end GppCompletedZetaDerivative
 
