@@ -1036,3 +1036,45 @@ its own persistent scale mismatch against `box_exact(s,t)` (documented in
 checking `L(Delta5)`'s own Mellin-scale factorization directly, the way this
 entry just did for GPR's box factor, rather than another K1 ansatz. Not
 attempted here; flagged precisely as the next well-scoped step.
+
+## Follow-up: does this project's own six-point residue share GPR's scaling
+structure? Not the shift-operator analogy directly (doesn't transfer), but a
+cleaner elementary check — same scaling DEGREE as box_exact, confirmed
+
+Direct continuation of the sharper question the previous entry raised. First
+checked whether GPR's specific shift-operator mechanism (extra regulator eps
+multiplying an already-Mellin-transformed scale variable) transfers to this
+project's `L(Delta5)` at all: it does not, structurally — `Delta5` is this
+construction's *primary* Mellin variable (not a small extra regulator riding
+on top of a second transform), and legs 1-4's Mandelstam invariants `s,t`
+are ordinary fixed momentum-space data, never Mellin-transformed here at all
+(`celestial_kinematics.py`'s own stated convention). So there is no second
+transform for GPR's mechanism to act through — that specific analogy is a
+dead end, cleanly ruled out by inspection rather than left unchecked.
+
+A different, more elementary comparison from the same family (the one
+`direct_mellin_scale_covariance.py` used to pin down `box_exact`'s own
+homogeneity degree) is directly testable, though:
+`residue_scaling_degree.py` rescales all four external momenta
+`p1..p4 -> lambda*p1,...,lambda*p4` (equivalently `s,t -> lambda^2*s,
+lambda^2*t` at fixed cross-ratio `r`) and tracks `Sewn_residue = 1/(A*C*s)`
+(`residue_at_coincidence.py`'s finished result) against `box_exact(s,t)`.
+Result, checked at four values of `lambda` spanning almost an order of
+magnitude: both `Sewn_residue*lambda^4` and `box_exact*lambda^4` are
+lambda-independent — `box_exact` (computed entirely in mpmath) confirms this
+to `~1e-31`; `Sewn_residue` (built through `celestial_kinematics.py`'s
+float64 `make_kinematics`) matches to the float64 noise floor (`~1e-17`
+relative), not a genuine discrepancy.
+
+**Honest conclusion**: `Sewn_residue` and `box_exact` are homogeneous of the
+exact same degree (−4 in the momentum-rescaling parameter, i.e. −2 in each
+Mandelstam invariant) under overall momentum rescaling. This rules out "wrong
+overall scaling dimension" as an explanation for the persistent mismatch
+documented elsewhere in this thread, and explains *precisely* why
+`kinematic_block_scaling.py` found that bolting on a further `(s+t)^-2`
+factor made agreement worse rather than better: the degree was already
+correct, so any extra scale-dependent multiplier necessarily overshoots.
+Whatever the real discrepancy is, it is now definitively localized to the
+cross-ratio-dependent functional form at fixed scale (the `r`-dependence),
+not to power counting — narrowing, not solving, the open problem, but ruling
+out a specific, previously-untested failure mode cleanly.
