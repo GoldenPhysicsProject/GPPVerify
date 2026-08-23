@@ -969,3 +969,70 @@ re-expressed as some kind of shadow-pair-sewing statement after all, rather
 than assuming from the start that it must be) — a genuinely different
 question from anything tried so far, and worth a dedicated attempt before
 inventing another K1 ansatz.
+
+## Follow-up: reproduced GPR's actual operator construction directly (eq
+3.4-3.16) — definitively closes off "can it be re-expressed as shadow-pair-
+sewing?", and points at a sharper question about this project's own residue
+
+Direct continuation of the previous entry's own flagged next step: "try
+reproducing Gonzalez-Puhm-Rojas's own operator construction directly (eq
+3.7-3.9) and see whether it can be re-expressed as a shadow-pair-sewing
+statement after all." Re-extracted the paper's full text (pypdf, not
+paraphrase) and transcribed eqs. (3.4)-(3.16) directly —
+`gpr_operator_reproduction.py` records the exact transcription plus two
+checks.
+
+**What GPR's recipe actually is, confirmed by direct transcription**: the
+one-loop factor `M_eps^(1)` (3.7) *is* the ordinary momentum-space scalar box
+integral (3.8), a strictly 4-point object evaluated by standard QFT methods
+into hypergeometric functions (3.9), then factorized (3.10) as
+`(mu^2/-t)^eps * F1(r,eps)`. The tree-level celestial amplitude's Mellin
+transform is over a *single* overall energy scale `w=-t` at fixed cross-ratio
+`r` (their eq 2.16). Multiplying that Mellin integrand by the loop's extra
+`w^eps` factor is — purely algebraically — the same as evaluating the same
+Mellin transform at the shifted argument `lambda + 2i*eps`, giving eq (3.13),
+`I(lambda+2i*eps) = e^{2i*eps d/dlambda} I(lambda)`. Verified this is exactly
+the generic elementary Mellin-shift identity (multiply-by-a-power-law ⟺
+shift-the-dual-variable), on a generic test function unrelated to the box
+integral (`g(w)=exp(-w)`, closed form `Gamma(i*lambda/2-eps)`), at two
+different complex `lambda` (a purely-imaginary case giving a real-argument
+Gamma check, and a genuinely oscillatory case with nonzero real part) —
+agreement to `0.0` (full `mp.dps=40` precision, both directly and against
+the closed form). The remaining piece, the `P-hat` operator (3.16), is a
+*separate*, previously-known device (Puhm et al.'s per-leg weight-shift
+operators) needed only to promote the single-scale shift (3.13) to a fully
+Lorentz-covariant all-four-legs statement — not new content either.
+
+**Structural audit, by direct inspection of (3.4)-(3.16), not assumption**:
+zero occurrences of a 5th/6th leg, zero occurrences of a shadow transform,
+zero occurrences of a discontinuity or dispersion relation, anywhere in
+GPR's actual derivation. `M_eps^(1)` is 4-point start to finish — the *same*
+four legs as `A_tree`, never six.
+
+**Honest, now-definitive conclusion**: GPR's operator construction **cannot**
+be re-expressed as a shadow-pair-sewing statement, not because the
+re-expression is merely difficult, but because there is no six-point (or any
+higher-point) object anywhere in their derivation to re-express — their
+"loop from tree" statement is entirely a 4-point-to-4-point relation, built
+from an independently-known momentum-space loop integral factorized into a
+cross-ratio piece and an elementary Mellin-shift-inducing overall-scale
+power. This fully closes the specific research question left open at the
+end of the previous entry, in the negative, with the mechanism now pinned
+down precisely rather than left as "no established precedent found."
+
+**A sharper question this raises, not yet attempted**: GPR's mechanism shows
+that *when* a loop factor factorizes as (scale)^eps × (cross-ratio function),
+Mellin-transforming the scale variable alone produces nothing more exotic
+than a pure shift operator — no six-point structure is needed or possible
+for that to happen. This project's own shadow-pair-sewing residue
+construction (`residue_at_coincidence.py`'s `L(Delta5)`, built from a genuine
+six-point object) is a fundamentally different kind of thing: it does not
+factorize this way, and does depend on the extra legs' conformal weights in
+a way GPR's 4-point-only setup never has to address. The open question this
+now sharpens to: is there *any* analogous elementary transform-identity
+lurking in the genuinely six-point residue construction that would explain
+its own persistent scale mismatch against `box_exact(s,t)` (documented in
+`kinematic_block_scaling.py` and `shadow_even_legendre_attempt.py`) — i.e.
+checking `L(Delta5)`'s own Mellin-scale factorization directly, the way this
+entry just did for GPR's box factor, rather than another K1 ansatz. Not
+attempted here; flagged precisely as the next well-scoped step.
