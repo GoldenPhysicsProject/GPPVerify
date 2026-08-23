@@ -70,6 +70,32 @@ theorem completed_sq_of_clifford_orthogonal {κ : Type} [Fintype κ]
   rw [add_sq_of_anticommute D A hanti, hD, hA]
   exact (add_smul E μ (1 : Matrix κ κ ℂ)).symm
 
+/-- If a completed zero occurs in the scalar-square model, the prime--Archimedean cross
+term is not arbitrary: it is forced to cancel the sum of both diagonal energies exactly.
+This is the algebraic target for any proposed Archimedean coupling. -/
+theorem cross_term_forced_of_completed_zero {κ : Type} [Fintype κ]
+    (D A : Matrix κ κ ℂ) (E μ : ℂ)
+    (hD : D * D = E • (1 : Matrix κ κ ℂ))
+    (hA : A * A = μ • (1 : Matrix κ κ ℂ))
+    (hzero : (D + A) * (D + A) = 0) :
+    D * A + A * D = -(E + μ) • (1 : Matrix κ κ ℂ) := by
+  have hsum :
+      E • (1 : Matrix κ κ ℂ) + (D * A + A * D) + μ • (1 : Matrix κ κ ℂ) = 0 := by
+    calc
+      E • (1 : Matrix κ κ ℂ) + (D * A + A * D) + μ • (1 : Matrix κ κ ℂ) =
+          D * D + (D * A + A * D) + A * A := by rw [hD, hA]
+      _ = (D + A) * (D + A) := by noncomm_ring
+      _ = 0 := hzero
+  have hreordered :
+      (E • (1 : Matrix κ κ ℂ) + μ • (1 : Matrix κ κ ℂ)) +
+          (D * A + A * D) = 0 := by
+    simpa [add_assoc, add_left_comm, add_comm] using hsum
+  have hcross :
+      D * A + A * D =
+        -(E • (1 : Matrix κ κ ℂ) + μ • (1 : Matrix κ κ ℂ)) :=
+    eq_neg_of_add_eq_zero_left hreordered
+  simpa [add_smul] using hcross
+
 /-- If the scalar energies are real and the finite-prime contribution is strictly positive
 while the independent completion contribution is nonnegative, their total scalar energy
 cannot vanish. -/
@@ -98,4 +124,5 @@ end GppFinitePrimeCompletion
 #print axioms GppFinitePrimeCompletion.finitePrimeDirac_sq
 #print axioms GppFinitePrimeCompletion.add_sq_of_anticommute
 #print axioms GppFinitePrimeCompletion.completed_sq_of_clifford_orthogonal
+#print axioms GppFinitePrimeCompletion.cross_term_forced_of_completed_zero
 #print axioms GppFinitePrimeCompletion.completed_square_nonzero_of_positive_orthogonal
