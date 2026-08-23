@@ -11,7 +11,7 @@ next object is therefore the logarithmic derivative, where multiplicative local 
 become additive and the prime and Archimedean sectors can meet before a global limit is
 taken.
 
-This file establishes two exact finite-level ingredients.
+This file establishes exact finite-level ingredients.
 
 * The real Archimedean factor
 
@@ -21,8 +21,11 @@ This file establishes two exact finite-level ingredients.
 
     `g_infinity(q) = -log(pi)/2 + digamma(q/2)/2`.
 
-* On the critical line, a finite sum of genuine Euler-factor logarithmic derivatives has
-  real part exactly one half of the corresponding finite sum of the `Wp` kernels.
+* A finite product of genuine local Euler factors has logarithmic derivative equal to the
+  negative sum of the genuine local quantities `minusLogDerivZetaP = -zeta_p'/zeta_p`.
+
+* On the critical line, the real part of that finite additive prime logarithmic derivative
+  is exactly one half of the corresponding finite sum of the `Wp` kernels.
 
 Thus the same additive completed-log-derivative language simultaneously contains the
 Gamma/digamma term and the prime-power term.  No infinite Euler product, analytic
@@ -91,6 +94,54 @@ noncomputable def finitePrimeLogDerivative {ι : Type} [Fintype ι]
     (p : ι → ℝ) (s : ℂ) : ℂ :=
   ∑ i, GppCutkoskyWeil.minusLogDerivZetaP (p i) s
 
+/-- The corresponding finite product of genuine local Euler factors. -/
+noncomputable def finiteEulerFactorProduct {ι : Type} [Fintype ι]
+    (p : ι → ℝ) (s : ℂ) : ℂ :=
+  ∏ i, GppCutkoskyWeil.zetaP (p i) s
+
+/-- **Finite Euler product derivative.**  Wherever every local denominator is nonzero,
+the derivative of the actual finite Euler product is `-(sum_p -zeta_p'/zeta_p)` times the
+product.  This is the finite product-to-additive-logarithmic-derivative passage itself. -/
+theorem hasDerivAt_finiteEulerFactorProduct
+    {ι : Type} [Fintype ι] (p : ι → ℝ) (s : ℂ)
+    (hden : ∀ i, 1 - Complex.exp (-s * Complex.log (p i)) ≠ 0) :
+    HasDerivAt (finiteEulerFactorProduct p)
+      (-(finitePrimeLogDerivative p s) * finiteEulerFactorProduct p s) s := by
+  classical
+  have haux : ∀ S : Finset ι,
+      HasDerivAt (fun z : ℂ => ∏ i ∈ S, GppCutkoskyWeil.zetaP (p i) z)
+        (-(∑ i ∈ S, GppCutkoskyWeil.minusLogDerivZetaP (p i) s) *
+          (∏ i ∈ S, GppCutkoskyWeil.zetaP (p i) s)) s := by
+    intro S
+    induction S using Finset.induction_on with
+    | empty => simp
+    | @insert a S ha ih =>
+        have haDeriv := GppCutkoskyWeil.hasDerivAt_zetaP (p a) s (hden a)
+        have hmul := haDeriv.mul ih
+        simpa [Finset.prod_insert, Finset.sum_insert, ha] using hmul
+  simpa [finiteEulerFactorProduct, finitePrimeLogDerivative] using haux Finset.univ
+
+/-- The finite Euler product itself is nonzero whenever all local denominators are nonzero. -/
+theorem finiteEulerFactorProduct_ne_zero
+    {ι : Type} [Fintype ι] (p : ι → ℝ) (s : ℂ)
+    (hden : ∀ i, 1 - Complex.exp (-s * Complex.log (p i)) ≠ 0) :
+    finiteEulerFactorProduct p s ≠ 0 := by
+  classical
+  unfold finiteEulerFactorProduct
+  exact Finset.prod_ne_zero_iff.mpr fun i hi =>
+    GppCutkoskyWeil.zetaP_ne_zero (p i) s (hden i)
+
+/-- **Finite Euler logarithmic derivative.**  Division by the nonzero finite product gives
+exactly the negative additive prime logarithmic derivative. -/
+theorem finiteEulerFactorProduct_logDeriv
+    {ι : Type} [Fintype ι] (p : ι → ℝ) (s : ℂ)
+    (hden : ∀ i, 1 - Complex.exp (-s * Complex.log (p i)) ≠ 0) :
+    deriv (finiteEulerFactorProduct p) s / finiteEulerFactorProduct p s =
+      -finitePrimeLogDerivative p s := by
+  have hderiv := (hasDerivAt_finiteEulerFactorProduct p s hden).deriv
+  rw [hderiv]
+  field_simp [finiteEulerFactorProduct_ne_zero p s hden]
+
 /-- Finite sum of the real `Wp` kernels attached to the same local factors. -/
 noncomputable def finiteWp {ι : Type} [Fintype ι]
     (p : ι → ℝ) (t : ℝ) : ℝ :=
@@ -124,4 +175,6 @@ end GppCompletedLogDerivative
 #print axioms GppCompletedLogDerivative.realArchFactor_ne_zero
 #print axioms GppCompletedLogDerivative.hasDerivAt_realArchFactor
 #print axioms GppCompletedLogDerivative.realArchFactor_logDeriv
+#print axioms GppCompletedLogDerivative.hasDerivAt_finiteEulerFactorProduct
+#print axioms GppCompletedLogDerivative.finiteEulerFactorProduct_logDeriv
 #print axioms GppCompletedLogDerivative.finiteWp_eq_two_mul_re_finitePrimeLogDerivative
