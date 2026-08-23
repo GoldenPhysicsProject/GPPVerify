@@ -2,6 +2,7 @@ import GppVerify.NumberTheory.ZetaProperties
 import GppVerify.QuantumGravity.GammaModulusIdentity
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.RiemannHypothesis.PrimeOccupationBridge
+import GppVerify.RiemannHypothesis.PrimeGasPartition
 
 /-!
 # Thermal critical-line bridge
@@ -14,7 +15,8 @@ without asserting the physical interpretation as a theorem.
    `P(λ) = π λ / sinh(π λ)`.
 3. Mellin moments of that same `P` obey the generalized Stefan–Boltzmann Gamma-zeta law.
 4. Each local prime response has the same geometric occupation denominator as a repeated-mode
-   occupation law (formalized in `PrimeOccupationBridge`).
+   occupation law, and the infinite product of local prime partition factors is exactly zeta
+   on `Re s > 1`.
 5. Any response that is reflection-odd and conjugation-covariant has zero real part on the
    equilibrium locus. This is the precise algebraic form of the anti-Hermitian / zero-flux
    response condition suggested by the thermodynamic analogy.
