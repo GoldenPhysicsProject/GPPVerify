@@ -62,7 +62,33 @@ theorem completedRiemannZeta_deriv_one_sub {s : ℂ} (hs0 : s ≠ 0) (hs1 : s �
   have h := completedRiemannZeta_deriv_reflection hs0 hs1
   simpa using (congrArg Neg.neg h).symm
 
+/-- **Reflected logarithmic derivative.** Wherever the completed zeta factor is nonzero,
+its logarithmic derivative is odd under `s ↦ 1-s`. -/
+theorem completedRiemannZeta_logDeriv_reflection {s : ℂ}
+    (hs0 : s ≠ 0) (hs1 : s ≠ 1) (hΛ : completedRiemannZeta s ≠ 0) :
+    deriv completedRiemannZeta s / completedRiemannZeta s =
+      -(deriv completedRiemannZeta (1 - s) / completedRiemannZeta (1 - s)) := by
+  have hval : completedRiemannZeta (1 - s) = completedRiemannZeta s :=
+    completedRiemannZeta_one_sub s
+  rw [completedRiemannZeta_deriv_reflection hs0 hs1, hval]
+  ring
+
+/-- **Central stationary point.** Reflection symmetry forces the derivative of the
+completed zeta function to vanish at the fixed point `s = 1/2`. -/
+theorem completedRiemannZeta_deriv_one_half :
+    deriv completedRiemannZeta (1 / 2 : ℂ) = 0 := by
+  have h0 : (1 / 2 : ℂ) ≠ 0 := by norm_num
+  have h1 : (1 / 2 : ℂ) ≠ 1 := by norm_num
+  have h := completedRiemannZeta_deriv_reflection h0 h1
+  have hreflect : (1 : ℂ) - (1 / 2 : ℂ) = 1 / 2 := by ring
+  rw [hreflect] at h
+  have htwo : (2 : ℂ) * deriv completedRiemannZeta (1 / 2 : ℂ) = 0 := by
+    linear_combination h
+  exact (mul_eq_zero.mp htwo).resolve_left (by norm_num)
+
 end GppCompletedZetaDerivative
 
 #print axioms GppCompletedZetaDerivative.completedRiemannZeta_deriv_reflection
 #print axioms GppCompletedZetaDerivative.completedRiemannZeta_deriv_one_sub
+#print axioms GppCompletedZetaDerivative.completedRiemannZeta_logDeriv_reflection
+#print axioms GppCompletedZetaDerivative.completedRiemannZeta_deriv_one_half
