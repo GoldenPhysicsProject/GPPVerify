@@ -1442,6 +1442,67 @@ derived purely from the GPP local-shadow-kernel route already in the tree.
 `K_p−1` is positive, locally or globally (the opposite was shown); no import of any
 external RH program's machinery as a black box.
 
+## Thread Cutkosky-Weil, sixth pass (2026-08-23) — the Euler-factor identity and the
+## decisive sign question
+
+Attacking the bridge from the already-proved `Wp`/`Kp-1` local kernel positivity
+(`CutkoskyWeilBridge.lean`, fifth pass) to the classical Weil explicit formula's
+finite-prime term, per a relayed research directive, rather than continuing to circle
+the abstract `rh_iff_weil_pairedForm_nonneg` criterion.
+
+**Layer 1-2 landed in Lean** (`GppVerify/RiemannHypothesis/EulerFactorLogDeriv.lean`,
+new file, imported into `GppVerify.lean`): `zetaP p s := (1-exp(-s log p))⁻¹`, the local
+Euler factor as a genuine function of `s : ℂ`. `hasDerivAt_zetaP` proves the closed form
+`minusLogDerivZetaP p s := log(p)·p^{-s}/(1-p^{-s})` genuinely **is** `-ζ_p'(s)/ζ_p(s)`,
+from an actual `HasDerivAt` chain-rule computation (through `Complex.exp`, then
+`HasDerivAt.inv`) — not asserted from the geometric-series shortcut. Full project
+rebuild green: 3300/3301, sorry-gate clean, 13/13 axioms unchanged.
+
+**Honest boundary, this pass**: the final connection back to `Wp` — `Wp p t =
+2·Re(minusLogDerivZetaP p (1/2+it))` — is checked by hand and numerically to 40 digits
+(four primes × three `t` values, `verify_euler_factor_logderiv.py`) but not yet
+formalized: the `Complex.cpow` exponent-splitting algebra
+(`p^{-(1/2+it)}=p^{-1/2}·p^{-it}`) needs more care than this pass affords without
+iterative compiler feedback on this large a file. Named precisely, not forced through.
+
+**The decisive question, answered by direct computation, not assumption.** Does the
+already-proved positive-type property of `Wp`'s kernel help establish the sign the Weil
+explicit formula's prime term actually needs? Rather than trust a half-remembered
+normalization, verified Weil's explicit formula itself against 60 real nontrivial zeta
+zeros (`mpmath.zetazero`) with a concrete even Gaussian test function
+`h(r)=exp(-0.6 r²)`:
+```
+sum_rho h(gamma) = h(i/2)+h(-i/2) - g(0)log(pi) + (1/2pi) int h(r) Re[psi(1/4+ir/2)] dr
+                    - 2 sum_{n>=2} (Lambda(n)/sqrt(n)) g(log n)
+```
+Both sides agree to `~1e-10`, pinning the sign exactly: the prime sum enters with an
+overall **minus** sign. Its summand is exactly `-2·sum_p sum_m log(p)·p^{-m/2}·g(m log p)`
+— literally minus a quantity built from the same Poisson-kernel structure `Wp` already
+proved positive-type (`verify_weil_explicit_formula_sign.py`).
+
+**Finding (negative, recorded honestly): local `Wp`/`Kp-1` positivity does NOT make the
+prime sum's contribution to the Weil quadratic form `Q(f)` nonnegative — it makes that
+contribution nonpositive.** This does not contradict anything already proved (`Kp_pos`,
+`H_nonneg`, and the positive-type kernel theorems all still hold exactly as proved); it
+identifies precisely which direction that positivity pushes once correctly signed into
+the classical formula. Any actual RH-equivalent positivity of `Q(f)` must come from the
+Archimedean (digamma) term dominating this genuinely negative prime pull for every
+admissible test function, not from same-signed local pieces stacking up — a sharper,
+sign-explicit version of the "no local prime-term positivity in the usual normalization"
+caution already on record in `CutkoskyWeilBridge.lean`'s own module doc.
+
+**A new asset**: Daniel supplied 100,000 high-precision nontrivial zeta zeros (Odlyzko
+format); the missing first zero was prepended by hand
+(`γ₁=14.134725141734693790457251983562470270784257115699...`). Ran `zeta_screw.py`'s
+Stage 3 ("Gram identity from the zeros") with this real file for the first time, ranges
+`±1,±2,±3`: relative residual `13-16%`, not the "small residual" clean-confirmation case
+the script's own docstring anticipates — recorded honestly as a real, moderate-but-not-
+tiny result, not yet diagnosed further (more zeros/higher truncation cutoff untested), a
+loose end for a future pass, not claimed as confirmation or refutation either way.
+
+Full detail: `discovery/cutkosky_weil/notes.md` (sixth-pass section),
+`verify_euler_factor_logderiv.py`, `verify_weil_explicit_formula_sign.py`.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

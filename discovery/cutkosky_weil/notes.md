@@ -387,3 +387,85 @@ structure — it is not imported from, or motivated by, their scaling-trace cons
 python3 cutkosky_weil_verify.py
 ```
 No network access required; pure `mpmath` (dps=50), runs in well under a minute.
+
+## Sixth pass (2026-08-23) — the Euler-factor identity, and the decisive sign question
+
+Prompted by a relayed research directive to attack the bridge from the already-proved
+`Wp`/`Kp-1` positivity to the classical Weil explicit formula's finite-prime term head-on,
+rather than continuing to circle the abstract `rh_iff_weil_pairedForm_nonneg` criterion.
+
+### Layer 1-2: the local Euler-factor log-derivative identity
+
+`Wp p t := log(p)*(Kp p t - 1)` (already defined, `CutkoskyWeilBridge.lean`) equals
+`2*Re(-zeta_p'/zeta_p(1/2+it))` exactly, where `zeta_p(s) = (1-p^{-s})^{-1}` is the local
+Euler factor. Checked two independent ways:
+
+1. **By hand**: `-zeta_p'(s)/zeta_p(s) = log(p)*p^{-s}/(1-p^{-s})` (standard log-derivative
+   of a geometric-series Euler factor). At `s=1/2+it`, `p^{-s}=r*e^{-i*theta}` with
+   `r=p^{-1/2}`, `theta=t*log(p)`. Using `Re(f(theta))=Re(f(-theta))` for real `r` (complex
+   conjugate symmetry), `2*Re(-zeta_p'/zeta_p(1/2+it)) = 2*log(p)*Re[r*e^{i*theta}/(1-r*e^{i*theta})]`,
+   which is exactly `Wp p t` via the standard Poisson-kernel expansion `Kp-1 = 2*Re[r*e^{i*theta}/(1-r*e^{i*theta})]`.
+2. **Numerically**, to 40 digits, four primes (2,3,5,7) and three `t` values each, via
+   direct `mpmath` numerical differentiation of `zeta_p` (`verify_euler_factor_logderiv.py`)
+   — zero discrepancy at 40 dps.
+
+**Formalized in Lean** (`GppVerify/RiemannHypothesis/EulerFactorLogDeriv.lean`, new file):
+`zetaP p s` as a genuine function of `s` via `Complex.exp`; `hasDerivAt_zetaP` proves
+`minusLogDerivZetaP` really is `-zeta_p'/zeta_p` from an actual `HasDerivAt` chain-rule
+computation (through `Complex.exp`, then `HasDerivAt.inv`) — not asserted from the
+geometric-series formula. **Honest boundary**: the final connection to `Wp` (the
+`Complex.cpow` exponent-splitting algebra `p^{-(1/2+it)}=p^{-1/2}*p^{-it}`) is checked by
+hand and numerically above but not yet formalized in this pass — recorded precisely as
+the next step, not forced through.
+
+### The decisive question: does local positivity survive into the Weil quadratic form?
+
+The directive's central ask: does the already-proved positive-type property of `Wp`'s
+kernel help establish the sign the classical Weil explicit formula's prime term actually
+needs? Answered by direct computation, not assumption.
+
+**Step 1 — pin the exact sign convention.** Rather than trust a half-remembered
+normalization, verified Weil's explicit formula itself against 60 real nontrivial zeta
+zeros (`mpmath.zetazero`) with a concrete even Gaussian test function
+`h(r)=exp(-0.6 r^2)`:
+
+```
+sum_rho h(gamma) = h(i/2)+h(-i/2) - g(0)log(pi) + (1/2pi) int h(r) Re[psi(1/4+ir/2)] dr
+                    - 2 sum_{n>=2} (Lambda(n)/sqrt(n)) g(log n)
+```
+
+with `g(u)=(1/2pi) int h(r) e^{-iru} dr`. Both sides agree to `~1e-10` (both consistent
+with the truncated zero-sum being essentially `0` for this narrow `h`, confirming the
+minus sign in front of the prime term is exactly right, not a half-remembered guess).
+Script: `verify_weil_explicit_formula_sign.py`.
+
+**Step 2 — the finding.** The prime-sum term is exactly
+`-2*sum_p sum_m log(p)*p^{-m/2}*g(m*log p)` — literally minus a quantity built from
+the same `Wp`/Poisson-kernel structure already proved positive-type. **Local `Wp`/`Kp-1`
+positivity therefore does NOT transfer to make the prime sum's contribution to the Weil
+quadratic form `Q(f)` nonnegative — it transfers to show that contribution is
+nonPOSITIVE.** Recorded honestly as a real, checked, negative finding, not glossed over:
+this reframes rather than closes the target. Any actual RH-equivalent positivity of
+`Q(f)` has to come from the Archimedean (digamma) term dominating/cancelling this
+genuinely negative prime pull for every admissible test function — consistent with (and
+now a sharper, sign-explicit version of) the "no local prime-term positivity in the usual
+normalization" caution already on record in `CutkoskyWeilBridge.lean`'s own module doc.
+This is not a contradiction of anything already proved — `Kp_pos`, `H_nonneg`, and the
+`Wp`/`Kp-1` positive-type kernel theorems all still hold exactly as proved; what's new is
+knowing precisely which direction that positivity pushes once correctly signed into the
+classical explicit formula.
+
+### A genuinely new asset: a full 100k-zero high-precision zero file
+
+Daniel supplied 100,000 high-precision nontrivial zeta zeros (Odlyzko format, index +
+value); the first zero was missing (list started at #2) and has been prepended by hand
+(`gamma_1 = 14.134725141734693790457251983562470270784257115699...`, the standard
+50-digit value). Ran `zeta_screw.py`'s Stage 3 ("Gram identity from the zeros") with this
+real file for the first time, at ranges `+-1, +-2, +-3`: relative residual
+`||K - C*Gram|| / ||K||` came back at **13-16%**, not the "small residual" the script's
+own docstring anticipates as the clean-confirmation case. Recorded honestly, not
+smoothed over: this is a real, moderate-but-not-tiny residual, not yet diagnosed further
+this pass (candidates not yet checked: whether more zeros/higher cutoff `n0` in the
+truncated `K(0)` sum are needed for the Gram side to converge at this range, or a genuine
+normalization mismatch between the two constructions) — an open loose end for a future
+pass, not claimed as either a confirmation or a refutation.

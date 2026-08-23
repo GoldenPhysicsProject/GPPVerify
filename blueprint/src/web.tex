@@ -1374,6 +1374,54 @@ $\zeta_p(s):=(1-p^{-s})^{-1}$ the local Euler factor, $W_p(t)=2\operatorname{Re}
 \zeta_p(1/2+it))$ exactly --- checked by hand, not yet formalized, the honest next Lean
 target. 24 theorems total in \texttt{CutkoskyWeilBridge.lean} now, all kernel-clean.
 
+\textbf{Sixth pass (2026-08-23).} Attacking the bridge from the already-proved local
+kernel positivity to the classical Weil explicit formula's finite-prime term directly.
+
+\begin{theorem}[The Local Euler Factor's Genuine Logarithmic Derivative]
+  \label{thm:hasderivat-zetap}
+  \lean{GppCutkoskyWeil.hasDerivAt_zetaP}
+  \leanok
+  With $\zeta_p(s):=(1-\exp(-s\log p))^{-1}$ the local Euler factor as a genuine function
+  of $s\in\mathbb{C}$ (via \texttt{Complex.exp}, in \texttt{EulerFactorLogDeriv.lean}),
+  $\zeta_p$ has derivative $-\bigl(\text{minusLogDerivZetaP}\,p\,s\bigr)\cdot\zeta_p(s)$ at
+  every $s$ with $1-p^{-s}\ne0$, where $\text{minusLogDerivZetaP}\,p\,s:=\log(p)\cdot
+  p^{-s}/(1-p^{-s})$ --- i.e. this closed form genuinely \emph{is} $-\zeta_p'/\zeta_p$,
+  from an actual \texttt{HasDerivAt} chain-rule computation through \texttt{Complex.exp}
+  and \texttt{HasDerivAt.inv}, not asserted from the geometric-series shortcut.
+\end{theorem}
+
+\textbf{Honest boundary, this pass.} The connection back to $W_p$ --- $W_p(p,t) =
+2\operatorname{Re}(\text{minusLogDerivZetaP}\,p\,(1/2+it))$ --- is checked by hand and
+numerically to 40 digits (four primes, three $t$ values each) but not yet formalized:
+the \texttt{Complex.cpow} exponent-splitting algebra ($p^{-(1/2+it)}=p^{-1/2}\cdot p^{-it}$)
+needs more care than this pass affords without iterative feedback on this large a file.
+
+\textbf{The decisive question, answered.} Does the already-proved positive-type property
+of $W_p$'s kernel help establish the sign the classical Weil explicit formula's prime
+term actually needs? Verified by direct computation against real nontrivial zeta zeros
+(\texttt{mpmath.zetazero}, not from a half-remembered convention): with an even Gaussian
+test function $h(r)=e^{-ar^2}$ and $g(u)=\tfrac1{2\pi}\int h(r)e^{-iru}\,dr$, Weil's
+explicit formula
+\[
+\textstyle\sum_\rho h(\gamma) = h(i/2)+h(-i/2) - g(0)\log\pi
++ \tfrac1{2\pi}\int h(r)\operatorname{Re}\psi(\tfrac14+\tfrac{ir}2)\,dr
+- 2\sum_{n\ge2}\tfrac{\Lambda(n)}{\sqrt n}g(\log n)
+\]
+balances to $\sim10^{-10}$ against 60 real zeros, pinning the sign convention exactly:
+the prime sum enters with an overall \emph{minus} sign. Its summand is exactly
+$-2\sum_p\sum_m\log(p)p^{-m/2}g(m\log p)$ --- literally minus a quantity built from the
+same Poisson-kernel structure $W_p$ already proved positive-type. \textbf{Local
+$W_p$/$K_p-1$ positivity therefore does not make the prime sum's contribution to the
+Weil quadratic form $Q(f)$ nonnegative --- it makes that contribution nonpositive.} A
+real, checked, negative finding, recorded rather than glossed over: any actual
+RH-equivalent positivity of $Q(f)$ must come from the Archimedean term dominating this
+genuinely negative prime pull, not from same-signed local pieces stacking up. This does
+not contradict anything already proved (\texttt{Kp\_pos}, \texttt{H\_nonneg}, and the
+positive-type kernel theorems all still hold exactly); it identifies precisely which
+direction that positivity pushes once correctly signed into the classical formula. See
+\texttt{discovery/cutkosky\_weil/notes.md} and
+\texttt{verify\_weil\_explicit\_formula\_sign.py} for the full derivation and script.
+
 \textbf{Honest boundary (updated).} Still not formalized in Lean: the exact Fourier
 pair $H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
 numerically to $\sim10^{-51}$ relative error); the pole-cancellation/removable-singularity
@@ -1381,11 +1429,14 @@ claim at $t=\pm i/2$ (a different, complex-analytic singularity from the real-ax
 $t=0$ closed in the fourth pass --- confirmed via a shrinking-perturbation sequence); the
 representation-theoretic Casimir operator itself (the $t^2+1/4$ eigenvalue is used only
 as a number, not derived from an operator --- Mathlib has no $SL(2,\mathbb{R})$
-principal-series development); the elementary identity $W_p(t)=2\operatorname{Re}(-\zeta_p'/
-\zeta_p(1/2+it))$ (checked by hand, fifth pass); the classical explicit formula itself
-(contour integration of $\zeta'/\zeta$, the argument principle) and the adelic
-Tate's-thesis route, both large separate undertakings; and the $Q_{\mathrm{GPP}}$
-construction / global positivity factorization program. No axiom, no sorry,
+principal-series development); the $W_p\leftrightarrow-\zeta_p'/\zeta_p$ connection
+(Theorem~\ref{thm:hasderivat-zetap} proves the log-derivative is genuine; the final
+\texttt{cpow}-splitting link to $W_p$ is checked by hand only); the classical explicit
+formula itself (contour integration of $\zeta'/\zeta$, the argument principle) and the
+adelic Tate's-thesis route, both large separate undertakings; and the $Q_{\mathrm{GPP}}$
+construction / global positivity factorization program --- now known, per the decisive-
+question finding above, to need the Archimedean term to dominate a genuinely negative
+prime contribution, not to assemble from same-signed pieces. No axiom, no sorry,
 no RH claim, no global positivity claim, no Connes--Consani machinery imported.
 
 \chapter{Axiom Inventory}

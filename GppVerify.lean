@@ -967,3 +967,10 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- hypothesis carries no prime-side data to assemble in the first place -- see
 -- docs/FORMALIZATION_PLAN.md and discovery/cutkosky_weil/notes.md for the full account.
 import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
+
+-- ── Euler-Factor Log-Derivative (New, 2026-08-23, sixth Cutkosky-Weil pass) ──
+-- zeta_p's genuine log-derivative -zeta_p'/zeta_p, from an actual HasDerivAt
+-- computation. Connection to Wp checked by hand + numerically (40 digits);
+-- not yet formalized (Complex.cpow exponent-splitting), see the file's own
+-- "Honest boundary" section and discovery/cutkosky_weil/notes.md.
+import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
