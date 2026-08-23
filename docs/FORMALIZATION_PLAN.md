@@ -1661,6 +1661,38 @@ item's own text).
 Full project rebuild: 3303/3304 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
 `7c1d92c` on `weil-semibound-thread`.
 
+## Thread Weil-Parity, strict interlacing IVT core (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/StrictParityInterlacing.lean`**, item `9cc1e2f8`
+("Positive residues imply strict parity interlacing") — the item already flagged above as
+the natural next target since it needs genuine monotonicity/IVT reasoning. Formalizes the
+fully general core: `existsUnique_zero_of_strictMonoOn_of_tendsto` — a function continuous
+and strictly increasing on an open interval `(a,b)`, tending to `-∞` approaching `a` from
+the right and `+∞` approaching `b` from the left, has exactly one zero in `(a,b)`. Proved
+via `IsPreconnected.intermediate_value_Iii` (existence, using the two boundary `Tendsto`
+facts as the "boundary values" `-∞`/`+∞`) plus `StrictMonoOn.injOn` (uniqueness). Needed
+`nhdsWithin_Ioo_eq_nhdsGT`/`_eq_nhdsLT` to convert the interval-restricted neighborhood
+filters to plain one-sided filters, and `left_nhdsWithin_Ioo_neBot`/
+`right_nhdsWithin_Ioo_neBot` for the required `NeBot` instances.
+
+**Honest boundary**: does not construct `f(z) = Σ_j c_j/(α_j - z)` from the matrix data at
+all, and does not verify this specific `f` satisfies the three hypotheses on each interval
+`(α_k, α_{k+1})` — the per-term `Finset`-sum monotonicity and limit bookkeeping (one pole
+term dominating near each endpoint, the rest bounded) is the remaining connecting step,
+left for a future pass rather than rushed through.
+
+**Left `ready`**: `d1aec733` (positive commuting metric ⟺ residue positivity — noted this
+pass as carrying a subtlety: the two formulas given for `g_j` in the forward/converse
+directions use a plain square vs. a modulus-square of `u_j^*e0`, meaning `g_j` real is not
+immediate from the setup as literally stated and needs care, not a quick win), `68566b83`
+(cross-heat positivity ⟹ resolvent positivity — assessed feasible via a Laplace-transform
+positivity argument, `∫₀^∞ e^{tz}k(t)dt > 0` from `k(t)>0` everywhere on `[0,∞)`, likely
+needing a Mathlib integral-positivity-from-a.e.-positivity lemma not yet looked up),
+`4d97d8eb` (Pick kernel barycentric interpolant).
+
+Full project rebuild: 3304/3305 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`eaa93ed` on `weil-semibound-thread`, landed on `main`.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

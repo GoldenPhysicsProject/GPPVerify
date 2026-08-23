@@ -1575,10 +1575,32 @@ characteristic polynomials, or their eigenvalues, and neither connects the abstr
 `\texttt{A\_det}`/`\texttt{B\_det}`/`\texttt{f}` to actual \texttt{Matrix.det} of a
 Hermitian matrix pencil --- that identification (``$z$ is an eigenvalue of Hermitian $M$
 iff $\det(M-zI)=0$'') is standard and left as the connecting step for whichever future
-file applies these lemmas to the real parity blocks. The remaining four Weil-Parity items
-(\texttt{9cc1e2f8}, \texttt{d1aec733}, \texttt{68566b83}, \texttt{4d97d8eb}) look similarly
-tractable on a re-read and were left \texttt{ready} for a future pass rather than rushed
-through in the same sitting.
+file applies these lemmas to the real parity blocks.
+
+\begin{theorem}[Strict Interlacing IVT Core]
+  \label{thm:weilparity-strict-interlacing-ivt}
+  \lean{GppWeilParity.existsUnique_zero_of_strictMonoOn_of_tendsto}
+  \leanok
+  Item \texttt{9cc1e2f8}, flagged since the sixth-pass write-up as the natural next target
+  because it needs genuine monotonicity/IVT reasoning, not just block-matrix algebra. If
+  $g$ is continuous and strictly increasing on an open interval $(a,b)$, tends to $-\infty$
+  approaching $a$ from the right, and to $+\infty$ approaching $b$ from the left, then $g$
+  has \emph{exactly one} zero in $(a,b)$ --- via
+  \texttt{IsPreconnected.intermediate\_value\_Iii} for existence and
+  \texttt{StrictMonoOn.injOn} for uniqueness. This is the fully general core behind ``the
+  secular equation $f(z)=0$ has exactly one root in each gap
+  $(\alpha_j,\alpha_{j+1})$,'' stripped of the specific rational-function structure.
+\end{theorem}
+
+\textbf{Honest boundary.} Does not construct $f(z)=\sum_j c_j/(\alpha_j-z)$ from the
+matrix data at all, and does not verify this specific $f$ satisfies the three hypotheses
+on each interval $(\alpha_k,\alpha_{k+1})$ --- the per-term \texttt{Finset}-sum
+monotonicity and limit bookkeeping (one pole term dominating, the rest bounded near the
+endpoints) is the remaining connecting step for a future pass.
+
+The remaining three Weil-Parity items (\texttt{d1aec733}, \texttt{68566b83},
+\texttt{4d97d8eb}) look similarly tractable on a re-read and were left \texttt{ready} for a
+future pass rather than rushed through in the same sitting.
 
 \chapter{Axiom Inventory}
 
