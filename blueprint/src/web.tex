@@ -1598,9 +1598,60 @@ on each interval $(\alpha_k,\alpha_{k+1})$ --- the per-term \texttt{Finset}-sum
 monotonicity and limit bookkeeping (one pole term dominating, the rest bounded near the
 endpoints) is the remaining connecting step for a future pass.
 
-The remaining three Weil-Parity items (\texttt{d1aec733}, \texttt{68566b83},
-\texttt{4d97d8eb}) look similarly tractable on a re-read and were left \texttt{ready} for a
-future pass rather than rushed through in the same sitting.
+Two of the remaining three were also closed the same session:
+
+\begin{theorem}[Cross-Heat Positivity, Laplace-Transform Core]
+  \label{thm:weilparity-cross-heat}
+  \lean{GppWeilParity.laplace_integral_pos_of_pos_on_Ici}
+  \leanok
+  Item \texttt{68566b83}. An integral over $[0,\infty)$ of an everywhere-positive
+  integrable integrand is strictly positive --- via
+  \texttt{MeasureTheory.setIntegral\_pos\_iff\_support\_of\_nonneg\_ae}, reduced to the
+  integrand's support meeting $[0,\infty)$ in a set of positive (here infinite) Lebesgue
+  measure. Once $k(t)=\operatorname{Re}(\eta^*e^{-tA}e_0)$ and the integral is identified
+  with $\operatorname{Re}(\eta^*(A-zI)^{-1}e_0)$ (the item's separate Laplace-resolvent
+  identity, not attempted), this is exactly ``cross-heat positivity forces cross-resolvent
+  positivity.''
+\end{theorem}
+
+\begin{theorem}[Removable-Singularity Limit]
+  \label{thm:weilparity-removable-singularity}
+  \lean{GppWeilParity.tendsto\_div\_zero\_of\_tendsto\_nhds\_of\_tendsto\_norm\_atTop}
+  \leanok
+  Item \texttt{4d97d8eb}. A numerator with a finite limit divided by a denominator whose
+  norm blows up tends to zero --- the reusable fact behind ``$q^*(x_i)=q_i$'' for the
+  barycentric Pick interpolant $q^*(z)=B(z)/A(z)$, since $B(z)-q_iA(z)$ stays finite at
+  $x_i$ (the $k=i$ pole term cancels identically, $q_i-q_i=0$) while $\|A(z)\|\to\infty$
+  there.
+\end{theorem}
+
+\textbf{Honest boundary, both}: neither defines the matrix exponential/resolvent or the
+Pick matrix $R$/barycentric functions $A,B,q^*$ themselves; the derivative-matching claim
+$q^{*\prime}(x_i)=d_i$ and the $q^*(\infty)$ limit remain untouched. Only \texttt{d1aec733}
+(positive commuting metric $\Leftrightarrow$ residue positivity) is left \texttt{ready} ---
+noted this pass as carrying a real subtlety (the forward/converse formulas for $g_j$ use a
+plain square vs.\ a modulus-square of $u_j^*e_0$, so $g_j$ real is not immediate and needs
+care).
+
+\textbf{A second self-correction, same session.} Re-checking the Suzuki-Herglotz thread's
+items directly (rather than repeating the same by-thread-name mistake corrected above)
+found one more quick win:
+
+\begin{theorem}[Suzuki Reflection Symmetry, Algebraic Core]
+  \label{thm:suzuki-reflection-symmetry}
+  \lean{GppWeilParity.suzuki\_mHat\_odd}
+  \leanok
+  Item \texttt{dcebf59f}. With $A(z):=(z-i)I(z)$, $B(z):=(z+i)I(-z)$ for an
+  \emph{arbitrary} function $I:\mathbb{C}\to\mathbb{C}$, $A(-z)=-B(z)$ and $B(-z)=-A(z)$
+  follow purely algebraically from the definitions (no properties of $I$, the operator
+  $T$, or the reflection $R$ needed), hence $W_0:=A+B$ is odd, $W_\pi:=A-B$ is even, and
+  $\hat m(z):=-i\,W_0(z)/W_\pi(z)$ is odd. Costs nothing: the item's own formulas already
+  reduce this layer entirely to algebra once expressed through the same $I$.
+\end{theorem}
+
+\textbf{Honest boundary.} Does not define $T$, $R$, $v_+=T^{-1}e^x$, $v_-=T^{-1}e^{-x}$, or
+$I(z)=\int v_+(x)e^{izx}dx$, and does not touch the item's final Herglotz/Livsic
+representation claim --- confirmed blocked above.
 
 \chapter{Axiom Inventory}
 

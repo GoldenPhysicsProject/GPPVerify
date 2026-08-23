@@ -1693,6 +1693,60 @@ needing a Mathlib integral-positivity-from-a.e.-positivity lemma not yet looked 
 Full project rebuild: 3304/3305 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
 `eaa93ed` on `weil-semibound-thread`, landed on `main`.
 
+## Thread Weil-Parity, two more items + a second self-correction (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossHeatPositivity.lean`**, item `68566b83`
+("Cross-heat positivity implies resolvent positivity"). An integral over `[0,∞)` of an
+everywhere-positive integrable integrand is strictly positive
+(`laplace_integral_pos_of_pos_on_Ici`), via
+`MeasureTheory.setIntegral_pos_iff_support_of_nonneg_ae` reduced to the integrand's
+support meeting `[0,∞)` in a set of positive (here infinite) Lebesgue measure
+(`Real.volume_Ici`).
+
+**PROVED: `GppVerify/ThreadWeilParity/RemovableSingularityLimit.lean`**, item `4d97d8eb`
+("Singular Pick kernel..."). A numerator with a finite limit divided by a denominator
+whose norm blows up tends to zero
+(`tendsto_div_zero_of_tendsto_nhds_of_tendsto_norm_atTop`, via `tendsto_inv_atTop_zero` +
+`norm_inv` + `tendsto_zero_iff_norm_tendsto_zero`) — the reusable fact behind
+`qStar(x_i)=q_i` for the barycentric Pick interpolant, since `B(z)-q_i·A(z)` stays finite
+at `x_i` (the `k=i` pole term cancels identically) while `‖A(z)‖→∞` there.
+
+**Honest boundary, both**: neither defines the matrix exponential/resolvent or the Pick
+matrix `R`/barycentric functions `A,B,qStar` themselves; the derivative-matching claim
+`qStar'(x_i)=d_i` and the `qStar(∞)` limit remain untouched.
+
+**Left `ready`**: only `d1aec733` now (positive commuting metric ⟺ residue positivity —
+still carries the `g_j` reality subtlety noted last pass).
+
+**A second self-correction, same session.** Applied the same "read the body, don't judge
+by thread name" discipline to Suzuki-Herglotz and caught another instance of the same
+mistake: assumed the whole thread was Herglotz-blocked without checking. Wrong again.
+
+**PROVED: `GppVerify/ThreadWeilParity/SuzukiReflectionSymmetry.lean`**, item `dcebf59f`
+("Suzuki reflection symmetry canonically fixes the 0/π Weyl pair"). With
+`A(z):=(z-i)I(z)`, `B(z):=(z+i)I(-z)` for an *arbitrary* `I : ℂ → ℂ`, `A(-z)=-B(z)` and
+`B(-z)=-A(z)` follow purely algebraically (no properties of `I`, the operator `T`, or the
+reflection `R` needed at all), hence `W₀:=A+B` odd, `Wπ:=A-B` even, and
+`mHat(z):=-i·W₀(z)/Wπ(z)` odd — the item's own formulas already reduce this layer to
+algebra once expressed through the same `I`. Costs essentially nothing.
+
+**Honest boundary**: does not define `T`, `R`, `v₊=T⁻¹eˣ`, `v₋=T⁻¹e⁻ˣ`, or
+`I(z)=∫v₊(x)e^{izx}dx`, and does not touch the item's final Herglotz/Livsic representation
+claim (confirmed blocked in the Weil-Semiboundedness pass).
+
+**Not re-scanned this pass** (for a future session): the remaining Suzuki-Herglotz items
+(`391ba9b7`, `1c684543`, `2e8ff61e`) and the Prime-Schatten/Scattering/Fock threads were
+read once already and mostly assessed genuinely blocked by the missing Herglotz/Schatten
+infrastructure — but `1c684543` ("Shifted logarithmic-derivative transfer preserves the xi
+zero divisor") is a plain complex-analysis order-of-vanishing statement, not Herglotz-
+dependent at all, and looks tractable via Mathlib's analytic-function zero-order API; worth
+attempting next given the pattern of this pass (checking bodies keeps finding items
+wrongly written off by thread name).
+
+Full project rebuild: 3307/3308 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`b6cb996` (68566b83), `dd0d00d` (4d97d8eb), `5cad862` (dcebf59f) on `weil-semibound-thread`,
+all landed on `main`.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
