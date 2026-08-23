@@ -1039,6 +1039,24 @@ via a first-order ODE for `P`'s Fourier partner `p̂`) — still gated on the sa
 gap named above, since the ODE's own statement is digamma-free but its point (closing the
 "coincidence") is not.
 
+**Landed same session**: `QuantumGravity/MatsubaraPoles.lean` — `tendsto_residue_at_matsubara`:
+`Modular_Thermality`'s Matsubara-pole item (iv), `lim_{ε→0} ε·Pc(in+ε) = i(-1)ⁿn` for every
+integer `n`, where `Pc(z) := πz/sinh(πz)` is the complex-analytic continuation of `P`. `Res`
+is not a named Mathlib operator at this pinned commit (no residue-calculus API), so the
+residue is formalized directly as the punctured-neighborhood limit the paper's own script
+approximates numerically (`ε = 10⁻²⁰`) — a genuine `Tendsto` statement, not a numeric check.
+Proof: `sinh(π(in+ε)) = (-1)ⁿsinh(πε)` (`Complex.sinh_add` plus `sinh(πin)=0`,
+`cosh(πin)=(-1)ⁿ`, the latter cast down from the standard real `cos(nπ)=(-1)ⁿ` identity via
+`Complex.ofReal_cos`), and `Pc(ε) → 1` as `ε→0`, proved via `Complex.hasDerivAt_sinh` (chain
+rule through the `π`-rescaling) and `hasDerivAt_iff_tendsto_slope` rather than assumed. One
+recurring Lean friction point worth flagging for next time: composing `HasDerivAt` values via
+`.comp`/`.const_mul` and stating the *simplified* target type up front (e.g. `π` instead of
+`π * 1`, or a plain lambda instead of a point-free partial application) reliably fails to
+unify even though the two forms are equal by `ring`/`mul_one` — state the composed `have` at
+its raw, unsimplified type first, then `simpa` down to the clean form in a second step, rather
+than fighting the unifier on the first attempt. Full rebuild re-verified: 0 sorry, 13 axioms
+unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)

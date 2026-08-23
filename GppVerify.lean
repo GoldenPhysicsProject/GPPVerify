@@ -828,6 +828,14 @@ import GppVerify.QuantumGravity.SinhWeierstrassProduct
 -- algebra, no Mathlib gaps.
 import GppVerify.QuantumGravity.PlanckForm
 
+-- ── Thread Loops-from-Cuts, Matsubara pole residues (New) ──
+-- Modular_Thermality_of_the_Celestial_Spectral_Weight.tex, Proposition "Equivalent
+-- descriptions" item (iv): the complex continuation of P(lambda) has simple poles at
+-- lambda=in, n a nonzero integer, with residue i*(-1)^n*n. Formalized as the operational
+-- limit lim_{eps->0} eps*P(in+eps) (Res is not a named Mathlib operator; no general
+-- residue-calculus API exists at this pinned commit), matching the paper's own script.
+import GppVerify.QuantumGravity.MatsubaraPoles
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry

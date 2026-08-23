@@ -856,8 +856,30 @@ missing-digamma/Legendre gaps above): \texttt{thm:ode}/\texttt{thm:resolved} pro
 than merely numerically observe, that the digamma first moment and the ladder moment
 $\mathcal M_1$ are the \emph{same} quantity (both equal $\hat p(0)/2$ for the Fourier
 partner $\hat p$ of $P$) via a first-order ODE for $\hat p$ --- still gated on the same
-missing digamma function. \texttt{thm:planck-form} above is the one piece from this new
-series formalized so far with no blocker.
+missing digamma function.
+
+\begin{theorem}[Matsubara Pole Residues]
+  \label{thm:matsubara-poles}
+  \lean{GppMatsubara.tendsto_residue_at_matsubara}
+  \leanok
+  For every integer $n$, the complex-analytic continuation
+  $P_{\mathbb C}(z) := \pi z/\sinh(\pi z)$ of the Plancherel weight has, at $z = in$,
+  \[
+    \lim_{\varepsilon\to0}\ \varepsilon\cdot P_{\mathbb C}(in+\varepsilon)
+    \;=\; i\,(-1)^n\,n .
+  \]
+  \emph{Proved clean}: \texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex},
+  Proposition "Equivalent descriptions" item (iv). \texttt{Res} is not invoked as a named
+  Mathlib operator (no general residue-calculus API exists at the pinned commit); the
+  residue is instead the literal punctured-neighborhood limit the paper's own script
+  evaluates numerically, formalized here as a genuine \texttt{Tendsto} statement. Proof:
+  $\sinh(\pi(in+\varepsilon)) = (-1)^n\sinh(\pi\varepsilon)$ (addition formula plus
+  $\sinh(\pi in)=0$, $\cosh(\pi in)=(-1)^n$), and $P_{\mathbb C}(\varepsilon)\to1$ as
+  $\varepsilon\to0$ from \texttt{Complex.hasDerivAt\_sinh} via the chain rule.
+\end{theorem}
+
+\texttt{thm:planck-form} and \texttt{thm:matsubara-poles} above are, so far, the two pieces
+from this new canonical series formalized with no Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 
