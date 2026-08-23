@@ -1013,3 +1013,10 @@ import GppVerify.ThreadWeilParity.CrossHeatPositivity
 -- "qStar(x_i)=q_i" for the barycentric Pick interpolant. Does not construct
 -- the Pick matrix or A/B/qStar themselves; see the file's module doc.
 import GppVerify.ThreadWeilParity.RemovableSingularityLimit
+
+-- ── Suzuki-Herglotz thread, reflection-symmetry algebra (New, 2026-08-23) ──
+-- formalization_queue item dcebf59f. Re-checking this thread's items directly
+-- (not just its Herglotz-suggestive name) found this one is pure algebra once
+-- A, B are expressed through the same abstract function I -- costs nothing,
+-- needs no operator/reflection/integral machinery at all.
+import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
