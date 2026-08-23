@@ -38,7 +38,7 @@ theorem occupation_recursion {z : ℂ} (hz : 1 - z ≠ 0) :
 theorem minusLogDerivZetaP_eq_log_mul_occupation (p : ℝ) (s : ℂ) :
     GppCutkoskyWeil.minusLogDerivZetaP p s =
       Complex.log p * occupation (Complex.exp (-s * Complex.log p)) := by
-  rfl
+  unfold occupation GppCutkoskyWeil.minusLogDerivZetaP
 
 /-- **Bose-Einstein form of the local prime response.**  Whenever the occupation denominator
 is nonzero, the local Euler negative logarithmic derivative is exactly
@@ -54,7 +54,6 @@ theorem minusLogDerivZetaP_eq_bose (p : ℝ) (s : ℂ)
     rw [show -s * Complex.log p = -(s * Complex.log p) by ring, Complex.exp_neg]
   rw [hneg]
   field_simp [hE, hden]
-  ring
 
 end GppPrimeOccupation
 
