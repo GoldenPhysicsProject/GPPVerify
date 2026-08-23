@@ -5,6 +5,7 @@ import GppVerify.RiemannHypothesis.PrimeOccupationBridge
 import GppVerify.RiemannHypothesis.PrimeGasPartition
 import GppVerify.RiemannHypothesis.CompletedZetaReality
 import GppVerify.RiemannHypothesis.NumberEntropy
+import GppVerify.RiemannHypothesis.ScaleMassDiagnostic
 
 /-!
 # Thermal critical-line bridge
