@@ -210,3 +210,12 @@ import GppVerify
 #print axioms GppCutkoskyWeil.tendsto_KrN0
 #print axioms GppCutkoskyWeil.KrClosed_minus_one_tendsto_positive
 #print axioms GppCutkoskyWeil.KrClosed_minus_one_positiveType
+-- Fifth pass: operator-level vacuum-compression identity on ℓ²(ℤ,ℂ)
+#print axioms GppCutkoskyWeil.memℓp_mul_bounded
+#print axioms GppCutkoskyWeil.mulOpLin_comp
+#print axioms GppCutkoskyWeil.mulOpLin_norm_le
+#print axioms GppCutkoskyWeil.mulOpCLM_inner_re_nonneg
+#print axioms GppCutkoskyWeil.P0Weight_mul_KrWeight_mul_P0Weight_eq
+#print axioms GppCutkoskyWeil.vacuum_compression_operator_identity
+#print axioms GppCutkoskyWeil.KrMinusOneWeight_re_nonneg
+#print axioms GppCutkoskyWeil.vacuum_compressed_operator_positive

@@ -933,8 +933,37 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- tendsto_KrN0 (KrN0 -> K_r-1 as N->infinity) + KrClosed_minus_one_positiveType (positivity
 -- passes to the limit via ge_of_tendsto) = the genuine, untruncated
 -- GppHaarPositivityWeil.PositiveType (K_r - 1), unconditional. 16 theorems total in this file,
--- all kernel-clean (Lean built-ins only), no axiom, no sorry. Deferred, not attempted: the
--- spectral vacuum-projection operator identity C_{K_p-1}=P_0*C_Kp*P_0 on a precisely-defined
--- Hilbert space, and the Mellin/Fourier/adelic bridge to the classical Weil kernel. No RH
--- claim, no global positivity claim, no Connes-Consani import.
+-- all kernel-clean (Lean built-ins only), no axiom, no sorry.
+-- FIFTH PASS (same session, following a further review directive): item 1 of the wider
+-- program -- the ACTUAL operator statement, not the finite Fourier identity again. Built
+-- Ell2Z := lp(fun _:Z=>C) 2 (the natural Fourier-coefficient model, unitarily dual to the
+-- circle: convolution by a kernel <-> diagonal multiplication by its Fourier coefficients).
+-- mulOpCLM w hw : Ell2Z ->L[C] Ell2Z is the bounded diagonal operator for a weight bounded by
+-- 1; C_Kr := mulOpCLM(KrWeight r) (symbol r^|n|), P_0 := mulOpCLM P0Weight (symbol 0 at n=0,
+-- 1 elsewhere -- projection deleting the vacuum mode), C_{Kr-1} := mulOpCLM(KrMinusOneWeight r).
+-- vacuum_compression_operator_identity proves C_{Kr-1} = P_0 * C_Kr * P_0 as genuine bounded
+-- ContinuousLinearMap composition (not a finite Gram identity), via composition-multiplies-
+-- symbols (mulOpLin_comp) reducing to the pointwise fact P_0(n)*Kr(n)*P_0(n)=(Kr-1)(n) for
+-- every n. vacuum_compressed_operator_positive derives positivity of the compressed operator
+-- as a direct corollary of a general fact (mulOpCLM_inner_re_nonneg: nonneg-real-part diagonal
+-- weight => positive semidefinite operator) applied to Kr-1's already-known eigenvalue signs
+-- (0 at n=0, r^|n|>=0 elsewhere) -- no new analytic content, exactly "as a corollary" per the
+-- directive. 8 new theorems, kernel-clean, no axiom, no sorry. This CLOSES item 1.
+-- Also newly established (checked by hand, precise, not yet in Lean): the finite-prime Weil
+-- kernel target named by the directive ("in the normalization used by rh_iff_weil_pairedForm_
+-- nonneg") does not exist as literally stated -- that theorem's pairedForm is a zero-indexed
+-- reflection pairing (Yakaboylu/Bombieri-Lagarias style) with NO prime, Mellin, or Haar-measure
+-- content to match against; already flagged in this file's own module doc (see above) before
+-- this pass began. The correct classical target is instead HaarPositivityWeil.lean's
+-- weil_criterion (D_k = Sum_rho Omega-hat(rho) + local terms), which remains a full True-stub,
+-- honestly blocked on Tate's thesis + idele class groups (neither in Mathlib) for its ADELIC
+-- form. But the classical ELEMENTARY (non-adelic) explicit formula's finite-prime local term
+-- has a clean, checked closed form: with zeta_p(s):=(1-p^{-s})^{-1} the local Euler factor,
+-- Wp(p,t) = 2*Re(-zeta_p'/zeta_p(1/2+it)) exactly, via -zeta_p'/zeta_p(s) = log(p)*Sum_{k>=1}
+-- p^{-ks} (standard log-derivative of the Euler factor) and Kp_eq_KrClosed +
+-- tsum_KrClosed_summand_eq already proved above. This is the honest next Lean target for
+-- items 2-3 of the directive; items 4 (Mellin/adelic bridge) and 6 (global assembly against
+-- rh_iff_weil_pairedForm_nonneg specifically) do not apply as stated, since that theorem's
+-- hypothesis carries no prime-side data to assemble in the first place -- see
+-- docs/FORMALIZATION_PLAN.md and discovery/cutkosky_weil/notes.md for the full account.
 import GppVerify.RiemannHypothesis.CutkoskyWeilBridge

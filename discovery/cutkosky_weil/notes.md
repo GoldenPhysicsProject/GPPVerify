@@ -141,6 +141,105 @@ this pass); the spectral vacuum-projection operator identity `C_{K_p-1}=P_0 C_{K
 on a precisely-defined Hilbert space and the Mellin/Fourier/adelic bridge to the classical
 Weil kernel are the next targets, not attempted this round.
 
+## Fifth pass: the operator-level vacuum-compression identity — closed; the finite-prime
+## Weil-kernel target precisely identified and re-scoped
+
+A further review directive named a six-item program, prioritizing item 1 (the operator
+identity, "not merely the finite Fourier identity again") and item 4 (the Mellin/adelic
+bridge, "the one I care about most"). This pass closes item 1 completely and produces a
+precise, checked (but not yet Lean-formalized) mathematical finding for items 2–3 — while
+also correcting a mismatch in how items 4 and 6 were framed.
+
+**Item 1 — the operator identity, closed.** Built the actual bounded-operator statement on
+`Ell2Z := ℓ²(ℤ,ℂ)` (Mathlib's `lp (fun _:ℤ=>ℂ) 2`), the natural Fourier-coefficient model: by
+Parseval, convolution by a kernel on `L²(𝕋)` is unitarily equivalent to diagonal
+multiplication by its Fourier coefficients on `ℓ²(ℤ)`, so working directly on `ℓ²(ℤ)` gives
+the genuine operator content without needing to build the circle convolution operator
+(Bochner kernel integrals) in Lean at all.
+- `mulOpCLM w hw : Ell2Z →L[ℂ] Ell2Z` — the bounded (operator norm `≤1`) diagonal
+  multiplication `ContinuousLinearMap` for any weight `w:ℤ→ℂ` with `‖w n‖≤1`, built via
+  `LinearMap.mkContinuous` from an explicit norm bound (`mulOpLin_norm_le`, proved by
+  comparing `∑'‖w(n)x(n)‖²` to `∑'‖x(n)‖²` termwise then taking square roots via
+  `Real.rpow_le_rpow_iff`).
+- `C_{K_r} := mulOpCLM (KrWeight r)` (symbol `r^{|n|}`), `P_0 := mulOpCLM P0Weight` (symbol
+  `0` at `n=0`, `1` elsewhere — the vacuum-deleting projection), `C_{K_r-1} := mulOpCLM
+  (KrMinusOneWeight r)` (symbol `0` at `n=0`, `r^{|n|}` elsewhere, matching the two-sided
+  Fourier series of `K_r-1` from `tsum_KrClosed_summand_eq`, fourth pass).
+- **`vacuum_compression_operator_identity`**: `C_{K_r-1} = P_0 * C_{K_r} * P_0` as literal
+  `ContinuousLinearMap` composition — proved via `mulOpLin_comp` (composing two diagonal
+  operators multiplies their symbols pointwise) applied twice, reducing to the one-line
+  algebraic fact `P_0(n)·K_r(n)·P_0(n) = (K_r-1)(n)` for every `n∈ℤ`
+  (`P0Weight_mul_KrWeight_mul_P0Weight_eq`: `0=1-1` at `n=0`, `1·r^{|n|}·1=r^{|n|}`
+  elsewhere).
+- **`vacuum_compressed_operator_positive`**: positivity of the compressed operator, derived
+  as a genuine corollary — `mulOpCLM_inner_re_nonneg` is proved once, generally, for *any*
+  bounded diagonal operator with `Re(w(n))≥0` for every `n` (`⟪x,Tx⟫ = Σ_n w(n)|x(n)|²`,
+  real part `≥0` termwise; the imaginary part of `w` plays no role since it multiplies the
+  manifestly-real `|x(n)|²`), then specialized to `K_r-1`'s already-known eigenvalue signs.
+  No new analytic content beyond the general lemma — exactly "as a corollary of the
+  Fourier eigenvalues" as directed.
+- 8 new theorems, all kernel-clean (`propext`/`Classical.choice`/`Quot.sound` only), no
+  `sorry`, no new axiom. `lake build GppVerify` green.
+
+**Items 2–4/6 — the target re-identified.** Checking the actual statement of
+`GppWeilCriterion.rh_iff_weil_pairedForm_nonneg` (`WeilPositivityCriterion.lean`) against
+the directive's framing found a mismatch, one this file's own module doc had already
+flagged before this pass began (`Connecting the two is itself a substantial, separate
+undertaking`): `pairedForm ι S c := Σ_{ρ∈S} conj(c(ι ρ))·c(ρ)` is a **zero-indexed**
+reflection pairing over finite subsets of the *unknown zero set itself*, paired by the
+involution `ι(ρ)=1-ρ̄`. It carries **no prime index, no Mellin convention, no Haar
+normalization, no ε, no ζ — nothing for a "finite-prime Weil kernel in this theorem's
+normalization" to mean.** This is the Yakaboylu/Bombieri-Lagarias reformulation
+(arXiv:2408.15135): its content is a self-contained "positivity of a simple reflection
+pairing forces fixed points" linear-algebra fact, proved unconditionally already, and it
+does **not** go through the classical prime-indexed explicit formula at all.
+
+The object that genuinely deserves the name "finite-prime Weil kernel, classical
+normalization" is `GppHaarPositivityWeil.weil_criterion` (`HaarPositivityWeil.lean`):
+`D_k = Σ_ρ Ω̂(ρ) + local terms` in Weil's own adelic language. That theorem is a full
+`True := trivial` stub, honestly documented as blocked on Tate's thesis (adelic zeta
+integrals) and idèle class groups — **neither exists in Mathlib**, a large, well-known,
+multi-year-scale gap, not a proof-engineering issue this session's bisection discipline can
+route around.
+
+**But the classical, *elementary* (non-adelic) explicit formula does not need that
+machinery**, and checking it by hand against `Wp` turned up a clean, exact identity. Let
+`ζ_p(s) := (1-p^{-s})^{-1}` be the local Euler factor. Its logarithmic derivative is the
+standard prime-power Dirichlet series:
+```
+-ζ_p'/ζ_p(s) = log(p) · Σ_{k≥1} p^{-ks}         (Re s > 0)
+```
+At `s = 1/2+it`: `p^{-ks} = r^k e^{-ikθ}` with `r=p^{-1/2}`, `θ=t log p` (exactly `Kp`'s own
+substitution, `Kp_eq_KrClosed`). So
+```
+Re(-ζ_p'/ζ_p(1/2+it)) = log(p) · Σ_{k≥1} r^k cos(kθ).
+```
+Meanwhile `Kp p t - 1 = KrClosed r θ - 1 = Σ'_{n≠0} r^{|n|}e^{inθ}` (already proved,
+`tsum_KrClosed_summand_eq`, fourth pass) `= 2 Σ_{k≥1} r^k cos(kθ)` (pairing `n=±k`). So:
+```
+Wp(p,t) = log(p)·(Kp(p,t)-1) = 2·Re(-ζ_p'/ζ_p(1/2+it))    exactly, for all real p>1, t.
+```
+Checked by hand from Mathlib-available building blocks only (geometric series, `Complex.log`
+identities) — no adelic content, no Tate's thesis. This **is** a correct, precise
+identification of `Wp` as (twice the real part of) the local Euler-factor logarithmic
+derivative on the critical line, and it is the honest next Lean target for items 2–3: not
+yet formalized (isolated here as a checked-by-hand identity rather than smuggled in as a
+theorem), but concretely in reach with the same geometric-series machinery already proved
+for `tsum_KrClosed_summand_eq` — no new Mathlib gap.
+
+**Item 6 (global assembly against `rh_iff_weil_pairedForm_nonneg`) does not apply as
+stated**, for the same reason as items 2–4: that theorem's positivity *hypothesis* carries
+no prime-side data to assemble in the first place — it is already proved unconditionally
+equivalent to RH without needing any local/prime input. The genuine "does local positivity
+assemble into a global positive quadratic form" question belongs to `weil_criterion`
+(`D_k = Σ_ρ Ω̂(ρ) + local terms`), which — even granting the elementary `Wp` identity above
+for the local terms — still needs the *global* explicit formula (contour integration of
+`ζ'/ζ` around the critical strip, picking up the zero-sum via the argument principle) to
+exist in Lean at all before an assembly question can even be posed. That is not currently
+in the tree and is a separate, large, classical-analytic-number-theory undertaking in its
+own right (distinct from, and smaller than, the adelic Tate's-thesis route, but still
+substantial) — scoped honestly here, not attempted.
+
 ## What's proved in Lean (`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean`)
 
 - `Kp (p t : ℝ) : ℝ` — the finite-place shadow kernel in real closed form,
@@ -177,17 +276,29 @@ Weil kernel are the next targets, not attempted this round.
   axiom.
 - **The removable singularity** (fourth pass): `tendsto_cutKernel_zero`, `cutKernelExt`,
   `cutKernelExt_zero` (`=1/(8π)`), `Hext`, `Hext_zero` (`=1/(32π)`), `Hext_nonneg`.
+- **The operator-level vacuum-compression identity** (fifth pass — see that section above
+  for the full account): `Ell2Z := ℓ²(ℤ,ℂ)`, `mulOpLin`/`mulOpCLM` (the bounded diagonal
+  multiplication operator, `LinearMap` and `ContinuousLinearMap` forms), `mulOpLin_comp`
+  (composition multiplies symbols), `mulOpLin_norm_le`, `KrWeight`/`P0Weight`/
+  `KrMinusOneWeight` (the three Fourier symbols) with their norm bounds,
+  `mulOpCLM_inner_re_nonneg` (the general positivity-from-eigenvalue-signs lemma),
+  `P0Weight_mul_KrWeight_mul_P0Weight_eq`, **`vacuum_compression_operator_identity`**
+  (`C_{K_r-1} = P_0 * C_{K_r} * P_0` as genuine bounded-operator composition), and
+  **`vacuum_compressed_operator_positive`** (positivity of the compressed operator, as a
+  corollary). Unconditional, no axiom.
 
 **Not formalized in Lean this round**: the exact Fourier pair
 `H(t) ↔ G(x) = 3/(512π)sech⁴(x/4)` under the convention `G(x) = (1/2π)∫H(t)e^{itx}dt`
 (confirmed numerically to ~1e-51 relative error); the removable-singularity/pole-
 cancellation claim at `t=±i/2` (confirmed numerically via a shrinking-perturbation
 sequence — a different, complex-analytic removable singularity from the real-axis one at
-`t=0` just closed above); the full infinite-dimensional Hilbert-space operator packaging
-`P_0 C_K P_0 = C_{K-1} = (AP_0)^*(AP_0)` (Mathlib has no ready `L²(circle)`
-convolution-operator framework — the finite Gram-square theorem plus the `N→∞` passage
-above is the rigorous content that operator identity is standing in for, and is what's
-actually proved).
+`t=0` closed in the fourth pass); the elementary identity `Wp(p,t) =
+2·Re(-ζ_p'/ζ_p(1/2+it))` (checked by hand, fifth pass — see that section for the full
+derivation; the honest next Lean target for items 2–3 of the operator/Weil-bridge
+program); the classical explicit formula itself (contour integration of `ζ'/ζ`, the
+argument principle) and the adelic Tate's-thesis route (`weil_criterion`), both large,
+separate, unattempted undertakings — see the fifth-pass section above for the precise
+scoping of why neither is a proof-engineering-fixable gap.
 
 ## Proof engineering: why the first Lean attempt failed, and the fix
 
