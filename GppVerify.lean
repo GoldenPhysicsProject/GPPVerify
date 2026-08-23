@@ -982,3 +982,12 @@ import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
 -- Abstract only -- does not define Q_W, the Weil quadratic form, or C_c^infty
 -- test spaces. See the file's own module doc for the honest boundary.
 import GppVerify.ThreadWeilSemibound.LocalizedGroundOrder
+
+-- ── Thread Weil-Parity, further items (New, 2026-08-23) ──
+-- formalization_queue items 0182d9cf (no-crossing continuation, pure
+-- topology/IVT) and 5e10a4f0 (cross-resolvent positivity below the even
+-- ground forces the odd ground above it, pure algebra). Abstract cores
+-- only -- neither defines Hermitian matrices or their eigenvalues; see
+-- each file's own module doc for the honest boundary.
+import GppVerify.ThreadWeilParity.GroundContinuation
+import GppVerify.ThreadWeilParity.CrossResolventGroundOrdering
