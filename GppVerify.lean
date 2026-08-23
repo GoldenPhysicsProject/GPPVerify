@@ -1001,3 +1001,4 @@ import GppVerify.RiemannHypothesis.PrimeGreenAmplitude
 -- The exterior two-state factor satisfies CAR; its odd self-adjoint
 -- Dirac square is |1-p^{-s}|² I and has no critical-line local zero.
 import GppVerify.RiemannHypothesis.PrimeFermionDirac
+import GppVerify.RiemannHypothesis.PrimeDoubletDirac

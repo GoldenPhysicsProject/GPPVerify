@@ -1644,6 +1644,14 @@ rigorous two-prime graph decomposition, not a proof of twin-prime infinitude and
 asserted `SU(2)` representation.  Conjecturally the doublet sector is infinite but
 density-zero among primes.
 
+**`RiemannHypothesis/PrimeDoubletDirac.lean`.** The graph decomposition now has exact
+operator blocks.  The isolated block is zero.  The twin block is the exchange matrix
+`[[0,1],[1,0]]`, proved equal to the unit-holonomy rank-one Hodge--Dirac operator `D(1)`.
+Lean proves its `+1` symmetric state, `-1` antisymmetric state, failure of positive
+semidefiniteness, identity square, and positive-semidefinite squared block.  Thus the
+doublet clue supports a first-order Dirac/sign-pairing structure; positivity can occur at
+the squared/Hodge level, not for the raw twin adjacency.
+
 **Next:** finite multi-prime Koszul/CAR infrastructure with the actual commuting Euler
 holonomies, followed by the completed Archimedean boundary/no-ghost obstruction.  The
 twin-edge graph is a candidate interaction layer inside that construction; it must earn

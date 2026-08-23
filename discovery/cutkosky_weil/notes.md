@@ -595,6 +595,14 @@ What the theorem does provide is an exact candidate **two-body correlation graph
 does not modify the one-body Euler factor; a useful physical role would have to arise from
 an additional interaction or boundary Schur complement on twin edges.
 
+`PrimeDoubletDirac.lean` now proves the operator-level content of this observation.  The
+singlet block is the `1 × 1` zero adjacency.  Each doublet block is
+`[[0,1],[1,0]]`, exactly the unit-holonomy local Hodge--Dirac operator `D(1)`.  Its
+symmetric and antisymmetric states have eigenvalues `+1` and `-1`; consequently the raw
+gap-two adjacency is not positive semidefinite, whereas its square is the identity and is
+positive semidefinite.  The useful analogy is therefore Dirac/Laplacian, not pointwise
+positivity and not an unexplained projection that discards the negative state.
+
 **Next honest boundary:** extend the one-generator CAR construction to finite prime
 families with the actual commuting holonomies/shift operators, prove finite Koszul
 contractibility and Hodge positivity, and then identify what global Archimedean boundary

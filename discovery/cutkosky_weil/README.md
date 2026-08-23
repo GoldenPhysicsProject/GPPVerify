@@ -31,6 +31,9 @@ where explicitly noted as formalized in Lean.**
 - `NumberTheory/TwinPrimeDoublets.lean` records a separate two-prime correlation fact:
   above `5`, the gap-2 prime graph consists only of singlets and disjoint doublets, while
   `3-5-7` is the unique overlapping triplet.
+- `RiemannHypothesis/PrimeDoubletDirac.lean` turns that decomposition into exact operator
+  blocks: a singlet has zero adjacency, a doublet has the Pauli-exchange block `D(1)` with
+  eigenvalues `+1,-1`, and its squared block is positive semidefinite.
 
 **This is a new research front, not an RH proof, and not evidence toward RH.** See
 `notes.md`'s "Explicit non-claims" section for the full list of things this work does
