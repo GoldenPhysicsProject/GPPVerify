@@ -1006,3 +1006,10 @@ import GppVerify.ThreadWeilParity.StrictParityInterlacing
 -- strictly positive). Does not define the matrix exponential or resolvent,
 -- or prove the Laplace-resolvent identity itself; see the file's module doc.
 import GppVerify.ThreadWeilParity.CrossHeatPositivity
+
+-- ── Thread Weil-Parity, removable-singularity limit core (New, 2026-08-23) ──
+-- formalization_queue item 4d97d8eb: a bounded numerator over a denominator
+-- whose norm blows up tends to zero -- the reusable real-analysis fact behind
+-- "qStar(x_i)=q_i" for the barycentric Pick interpolant. Does not construct
+-- the Pick matrix or A/B/qStar themselves; see the file's module doc.
+import GppVerify.ThreadWeilParity.RemovableSingularityLimit
