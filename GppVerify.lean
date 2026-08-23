@@ -920,10 +920,21 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- -> gram_square_freqSum_nonneg -> KrN0/KrN0_gram_nonneg), each layer independently fast
 -- (<4s) after an earlier monolithic HasSum-based attempt repeatedly hit elaboration timeouts
 -- even at 4M heartbeats (bisected and diagnosed as a proof-engineering issue, not mathematical
--- -- see the module doc's "Proof-engineering note"). KrN0_gram_nonneg is the milestone: for
--- every truncation N, Sum_jk c_j-bar*c_k*K^0_{r,N}(theta_j-theta_k) >= 0, unconditionally.
--- Deferred, not attempted: the two-sided HasSum over all of Z, the N->infinity limit passage,
--- the spectral vacuum-projection operator identity C_{K_p-1}=P_0*C_Kp*P_0, and the Q_GPP/
--- classical-Weil-quadratic-form bridge. No RH claim, no global positivity claim, no
--- Connes-Consani import. All theorems kernel-clean, no axiom, no sorry.
+-- -- see the module doc's "Proof-engineering note"). KrN0_gram_nonneg is the finite-truncation
+-- milestone: for every truncation N, Sum_jk c_j-bar*c_k*K^0_{r,N}(theta_j-theta_k) >= 0.
+-- FOURTH PASS (same session, following review): completed both items the third pass had
+-- deferred. (1) Removable singularity: tendsto_cutKernel_zero proves the genuine limit
+-- C(0)=1/(8*pi) (from sinh's derivative at 0, not asserted); Hext/Hext_zero/Hext_nonneg give
+-- the continuous extension with H(0)=1/(32*pi) replacing Lean's junk 0/0=0. (2) The N->infinity
+-- passage: tendsto_Icc_atTop (cofinality of Icc(-N,N) in Finset.atTop) + summable_KrClosed_summand
+-- (Summable via geometric-tail comparison, Summable.of_nat_of_neg -- much cheaper than tracking
+-- HasSum values through Int.rec, which is what timed out before) + tsum_KrClosed_summand_eq
+-- (identifies the tsum's value as K_r(theta)-1, via the two one-sided geometric series) +
+-- tendsto_KrN0 (KrN0 -> K_r-1 as N->infinity) + KrClosed_minus_one_positiveType (positivity
+-- passes to the limit via ge_of_tendsto) = the genuine, untruncated
+-- GppHaarPositivityWeil.PositiveType (K_r - 1), unconditional. 16 theorems total in this file,
+-- all kernel-clean (Lean built-ins only), no axiom, no sorry. Deferred, not attempted: the
+-- spectral vacuum-projection operator identity C_{K_p-1}=P_0*C_Kp*P_0 on a precisely-defined
+-- Hilbert space, and the Mellin/Fourier/adelic bridge to the classical Weil kernel. No RH
+-- claim, no global positivity claim, no Connes-Consani import.
 import GppVerify.RiemannHypothesis.CutkoskyWeilBridge

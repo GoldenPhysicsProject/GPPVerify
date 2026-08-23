@@ -187,12 +187,13 @@ import GppVerify
 #print axioms GppDispersion.lorentzian_jump
 #print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole
 
--- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23). No RH claim, no global
--- positivity claim -- see CutkoskyWeilBridge.lean's module doc and discovery/cutkosky_weil/
--- for the corrected central finding (K_p-1 IS a positive kernel; the earlier Toeplitz-
--- indefiniteness claim tested the wrong notion). KrN0_gram_nonneg is the layered-development
--- milestone: finite-truncation Gram-matrix positivity, unconditional. Expected: Lean
--- built-ins only, all.
+-- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23, fourth pass). No RH claim,
+-- no global positivity claim -- see CutkoskyWeilBridge.lean's module doc and
+-- discovery/cutkosky_weil/notes.md for the corrected central finding (K_p-1 IS a positive
+-- kernel; the earlier Toeplitz-indefiniteness claim tested the wrong notion) and the
+-- completed analytic passage (removable singularity C(0)=1/(8*pi); the N->infinity limit
+-- from the finite-truncation milestone KrN0_gram_nonneg to genuine, untruncated
+-- PositiveType(K_r-1)). Expected: Lean built-ins only, all.
 #print axioms GppCutkoskyWeil.Kp_pos
 #print axioms GppCutkoskyWeil.H_nonneg
 #print axioms GppCutkoskyWeil.gram_square_freq
@@ -200,3 +201,12 @@ import GppVerify
 #print axioms GppCutkoskyWeil.gram_square_freqSum_nonneg
 #print axioms GppCutkoskyWeil.KrN0_gram_nonneg
 #print axioms GppCutkoskyWeil.Kp_eq_KrClosed
+#print axioms GppCutkoskyWeil.tendsto_cutKernel_zero
+#print axioms GppCutkoskyWeil.Hext_zero
+#print axioms GppCutkoskyWeil.Hext_nonneg
+#print axioms GppCutkoskyWeil.tendsto_Icc_atTop
+#print axioms GppCutkoskyWeil.summable_KrClosed_summand
+#print axioms GppCutkoskyWeil.tsum_KrClosed_summand_eq
+#print axioms GppCutkoskyWeil.tendsto_KrN0
+#print axioms GppCutkoskyWeil.KrClosed_minus_one_tendsto_positive
+#print axioms GppCutkoskyWeil.KrClosed_minus_one_positiveType

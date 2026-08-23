@@ -96,6 +96,51 @@ overall honest boundary: the bridge to global Weil positivity remains open, and 
 Cutkosky-completeness-relation analogy above is a structural observation, not a proof
 that it propagates to the assembled prime sum.
 
+## Fourth pass: removable singularity and the full `N → ∞` passage, completed
+
+Two items left open by the third pass are now done — the removable singularity of the
+Archimedean cut kernel at `t=0`, and the passage from the finite-truncation milestone
+`KrN0_gram_nonneg` to genuine, untruncated positive-type positivity of `K_r - 1`. Both were
+built as small, independently-tested layers (per the third pass's own lesson), and both
+compile in well under a minute total.
+
+**Removable singularity.** `cutKernel t = t/(4 sinh(2πt))` gives Lean's junk value `0/0=0`
+at `t=0`. The genuine limit, proved from `sinh`'s derivative at `0` (`HasDerivAt Real.sinh
+(Real.cosh 0) 0`, i.e. slope `1`) rather than merely asserted: `tendsto_cutKernel_zero :
+cutKernel → 1/(8π)` as `t→0` (`t≠0`). `cutKernelExt := Function.update cutKernel 0 (1/(8π))`
+is the continuous extension (`continuousAt_update_same` turns the punctured-neighborhood
+limit directly into continuity at the point); `Hext t := (t²+1/4)·cutKernelExt t` inherits
+`Hext 0 = 1/(32π)` (exactly matching the numerically-observed value from the earlier
+pass) and `Hext_nonneg` (nonnegativity everywhere, now with the genuine value at `0`,
+not the coincidental `0≤0` from the junk value).
+
+**The `N → ∞` passage**, following the review's explicit route — separate convergence from
+algebra, build `Summable` via the geometric tail bound, then pass positivity to the limit
+by continuity — rather than reviving the third pass's monolithic `HasSum`/`Int.rec`
+construction that had timed out:
+1. `tendsto_Icc_atTop`: the symmetric intervals `Icc(-N,N)` are cofinal in `Finset.atTop`
+   on `Finset ℤ` (the intervals exhaust `ℤ`).
+2. `summable_rpow_natAbs`/`summable_KrClosed_summand`: `Summable` (existence only) of the
+   vacuum-subtracted two-sided series, via `Summable.of_nat_of_neg` (comparison to the
+   geometric series `Σr^n`) — much cheaper than tracking `HasSum` *values* through
+   `Int.rec`/`HasSum.of_nat_of_neg_add_one`, which is what caused the third pass's timeout.
+3. `tsum_KrClosed_summand_eq`: the tsum's *value* is identified as `K_r(θ)-1`, via the two
+   one-sided geometric series (`Summable.tsum_of_nat_of_neg`) and the same closed-form
+   algebra already used for `Kp_pos`/`KrClosed`.
+4. `tendsto_KrN0`: `KrN0 r N θ → K_r(θ)-1` as `N→∞`, by composing the `HasSum`'s own
+   `Tendsto` (along `Finset.atTop`) with the cofinality from step 1.
+5. `KrClosed_minus_one_tendsto_positive`/`KrClosed_minus_one_positiveType`: positivity of
+   the finite Gram sum at every truncation `N` (`KrN0_gram_nonneg`) passes to the
+   `N→∞` limit via `ge_of_tendsto` (a real-valued sequence eventually `≥0` has a `≥0`
+   limit), landing `GppHaarPositivityWeil.PositiveType (fun θ => KrClosed r θ - 1)`
+   unconditionally — the genuine, untruncated analytic statement.
+
+**Still open**: the exact Fourier pair `H(t)↔G(x)=3/(512π)sech⁴(x/4)` and the `t=±i/2`
+pole-cancellation claim remain numerical-only (see "Not formalized" below — unchanged by
+this pass); the spectral vacuum-projection operator identity `C_{K_p-1}=P_0 C_{K_p} P_0`
+on a precisely-defined Hilbert space and the Mellin/Fourier/adelic bridge to the classical
+Weil kernel are the next targets, not attempted this round.
+
 ## What's proved in Lean (`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean`)
 
 - `Kp (p t : ℝ) : ℝ` — the finite-place shadow kernel in real closed form,
@@ -124,18 +169,25 @@ that it propagates to the assembled prime sum.
   - **`KrN0_gram_nonneg`** (the milestone): `Σᵢⱼ c̄ᵢcⱼ K⁰_{r,N}(xᵢ-xⱼ) ≥ 0` for every
     truncation `N`, every finite point configuration, every `0≤r`. Unconditional, no axiom.
   All four layers build independently in under 4 seconds each.
+- **The `N → ∞` passage** (fourth pass — see that section above for the full account):
+  `tendsto_Icc_atTop`, `summable_rpow_natAbs`, `summable_KrClosed_summand`,
+  `tsum_ite_zero_eq_tsum_sub`, `tsum_KrClosed_summand_eq`, `tendsto_KrN0`,
+  `KrClosed_minus_one_tendsto_positive`, and **`KrClosed_minus_one_positiveType`** — the
+  genuine, untruncated `GppHaarPositivityWeil.PositiveType (K_r - 1)`, unconditional, no
+  axiom.
+- **The removable singularity** (fourth pass): `tendsto_cutKernel_zero`, `cutKernelExt`,
+  `cutKernelExt_zero` (`=1/(8π)`), `Hext`, `Hext_zero` (`=1/(32π)`), `Hext_nonneg`.
 
-**Not formalized in Lean this round**: the two-sided `HasSum` over all of `ℤ` (i.e. the
-untruncated `K_r(θ) = Σ_{n∈ℤ} r^{|n|}e^{inθ}` and `K_r-1`'s series) and the `N→∞` limit
-passage from `KrN0` to `K_p-1` by continuity; the exact Fourier pair
+**Not formalized in Lean this round**: the exact Fourier pair
 `H(t) ↔ G(x) = 3/(512π)sech⁴(x/4)` under the convention `G(x) = (1/2π)∫H(t)e^{itx}dt`
 (confirmed numerically to ~1e-51 relative error); the removable-singularity/pole-
 cancellation claim at `t=±i/2` (confirmed numerically via a shrinking-perturbation
-sequence); the full infinite-dimensional Hilbert-space operator packaging
-`P_0 C_K P_0 = C_{K-1} = (AP_0)^*(AP_0)` stated in the section above (Mathlib has no ready
-`L²(circle)` convolution-operator framework — the finite Gram-square theorem is the
-rigorous content that operator identity is standing in for, and is what's actually
-proved).
+sequence — a different, complex-analytic removable singularity from the real-axis one at
+`t=0` just closed above); the full infinite-dimensional Hilbert-space operator packaging
+`P_0 C_K P_0 = C_{K-1} = (AP_0)^*(AP_0)` (Mathlib has no ready `L²(circle)`
+convolution-operator framework — the finite Gram-square theorem plus the `N→∞` passage
+above is the rigorous content that operator identity is standing in for, and is what's
+actually proved).
 
 ## Proof engineering: why the first Lean attempt failed, and the fix
 
