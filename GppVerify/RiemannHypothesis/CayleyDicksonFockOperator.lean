@@ -12,9 +12,9 @@ The concrete one-channel matrices are already proved in `PrimeFermionDirac.lean`
 `GPPDiscovery2/cayley_fock_multichannel.py` checks the standard Jordan--Wigner finite
 realization numerically for several channel counts.
 
-The proof is being built in small kernel-checkable layers. The central cancellation is
-that a weighted double sum of pairwise anticommuting creation operators vanishes after
-symmetrizing `(i,j)` with `(j,i)`.
+The proof is built in small kernel-checkable layers. The first structural theorem is finite
+Koszul nilpotence: if the creation family anticommutes, then the weighted supercharge
+`Q = Σ_i z_i c_i` satisfies `Q²=0`.
 -/
 
 namespace GppCayleyFockOperator
@@ -71,8 +71,7 @@ theorem pairSum_eq_neg {ι κ : Type} [Fintype ι] [Fintype κ]
   simp
 
 /-- **Finite creation-sector cancellation.** A weighted sum of pairwise-anticommuting
-creation operators has zero quadratic pair sum. This is the coefficient-expanded core of
-`Q²=0`. -/
+creation operators has zero quadratic pair sum. -/
 theorem pairSum_eq_zero {ι κ : Type} [Fintype ι] [Fintype κ]
     (c : ι → Matrix κ κ ℂ) (z : ι → ℂ)
     (hcar : ∀ i j, c i * c j + c j * c i = 0) :
@@ -83,6 +82,33 @@ theorem pairSum_eq_zero {ι κ : Type} [Fintype ι] [Fintype κ]
     simp
   have hscaled := congrArg (fun M : Matrix κ κ ℂ => (1 / 2 : ℂ) • M) htwo
   simpa [smul_add] using hscaled
+
+/-- Finite Koszul supercharge. -/
+noncomputable def supercharge {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ) : Matrix κ κ ℂ :=
+  ∑ i, z i • c i
+
+/-- Expanding the supercharge square gives exactly the weighted pair sum. -/
+theorem supercharge_sq_eq_pairSum {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ) :
+    supercharge c z * supercharge c z = pairSum c z := by
+  unfold supercharge pairSum
+  rw [Finset.sum_mul]
+  apply Finset.sum_congr rfl
+  intro i hi
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro j hj
+  simp [smul_mul, mul_smul, smul_smul, mul_comm]
+
+/-- **Finite Koszul nilpotence.** For any finite pairwise-anticommuting creation family,
+`Q = Σ_i z_i c_i` satisfies `Q²=0`. -/
+theorem supercharge_sq_zero {ι κ : Type} [Fintype ι] [Fintype κ]
+    (c : ι → Matrix κ κ ℂ) (z : ι → ℂ)
+    (hcar : ∀ i j, c i * c j + c j * c i = 0) :
+    supercharge c z * supercharge c z = 0 := by
+  rw [supercharge_sq_eq_pairSum]
+  exact pairSum_eq_zero c z hcar
 
 /-- The dimension carried by an `n`-channel CAR representation is the same binary doubling
 number appearing in the Cayley--Dickson bridge. -/
@@ -95,4 +121,5 @@ end GppCayleyFockOperator
 #print axioms GppCayleyFockOperator.coeff_conj_pair
 #print axioms GppCayleyFockOperator.coeff_swap_cancel
 #print axioms GppCayleyFockOperator.pairSum_eq_zero
+#print axioms GppCayleyFockOperator.supercharge_sq_zero
 #print axioms GppCayleyFockOperator.operator_state_dimension
