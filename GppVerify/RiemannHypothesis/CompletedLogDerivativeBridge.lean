@@ -3,33 +3,24 @@ import GppVerify.RiemannHypothesis.GammaPlancherelDefect
 import Mathlib.Tactic
 
 /-!
-# Completed logarithmic-derivative bridge
+# Completed logarithmic-derivative bridge: certified additive core
 
-The finite local obstruction shows that neither finitely many Euler holonomies nor an
-independent positive Archimedean channel can create a critical-strip zero.  The natural
-next object is therefore the logarithmic derivative, where multiplicative local factors
-become additive and the prime and Archimedean sectors can meet before a global limit is
-taken.
+The earlier version of this file attempted to formalize several finite-product derivative
+identities at once. Once this module was correctly wired into the root build, Lean exposed
+proof-engineering failures in those candidate proofs. They are removed here rather than
+hidden behind `sorry`.
 
-This file establishes exact finite-level ingredients.
+The surviving core is the part actually needed for the global program:
 
-* The real Archimedean factor
+* the positive-real Archimedean factor is nonzero;
+* the finite prime response is the sum of the genuine local quantities
+  `-zeta_p'/zeta_p`;
+* on the critical line the finite `Wp` response is exactly twice the real part of that
+  additive prime response.
 
-    `A(q) = exp (-(q/2) log pi) * Gamma(q/2)`
-
-  has logarithmic derivative equal to the already-defined
-
-    `g_infinity(q) = -log(pi)/2 + digamma(q/2)/2`.
-
-* A finite product of genuine local Euler factors has logarithmic derivative equal to the
-  negative sum of the genuine local quantities `minusLogDerivZetaP = -zeta_p'/zeta_p`.
-
-* On the critical line, the real part of that finite additive prime logarithmic derivative
-  is exactly one half of the corresponding finite sum of the `Wp` kernels.
-
-Thus the same additive completed-log-derivative language simultaneously contains the
-Gamma/digamma term and the prime-power term.  No infinite Euler product, analytic
-continuation, global explicit formula, or RH claim is asserted here.
+The global prime logarithmic derivative is handled separately and more strongly by
+`GlobalVonMangoldtBridge.lean`, using Mathlib's genuine von Mangoldt theorem for the
+Riemann zeta function on `Re s > 1`.
 -/
 
 namespace GppCompletedLogDerivative
@@ -37,7 +28,7 @@ namespace GppCompletedLogDerivative
 open Complex Real
 open scoped BigOperators
 
-/-- The positive-real Archimedean local factor `pi^(-q/2) Gamma(q/2)`, written with `exp`. -/
+/-- Positive-real Archimedean factor `pi^(-q/2) Gamma(q/2)`, written with `exp`. -/
 noncomputable def realArchFactor (q : ℝ) : ℝ :=
   Real.exp (-(q / 2) * Real.log Real.pi) * Real.Gamma (q / 2)
 
@@ -50,131 +41,40 @@ theorem realArchFactor_ne_zero {q : ℝ} (hq : 0 < q) : realArchFactor q ≠ 0 :
   have hm0 : 0 ≤ (m : ℝ) := Nat.cast_nonneg m
   linarith
 
-/-- **Actual derivative of the Archimedean factor.**  On `q > 0`, differentiating
-`pi^(-q/2) Gamma(q/2)` gives `g_infinity(q)` times the factor itself. -/
-theorem hasDerivAt_realArchFactor {q : ℝ} (hq : 0 < q) :
-    HasDerivAt realArchFactor
-      (GppGammaPlancherel.archimedeanG q * realArchFactor q) q := by
-  have hq2 : 0 < q / 2 := by linarith
-  have hpoles : ∀ m : ℕ, q / 2 ≠ -(m : ℝ) := by
-    intro m hm
-    have hm0 : 0 ≤ (m : ℝ) := Nat.cast_nonneg m
-    linarith
-  have hinner : HasDerivAt (fun x : ℝ => -(x / 2) * Real.log Real.pi)
-      (-(1 / 2 : ℝ) * Real.log Real.pi) q := by
-    convert ((hasDerivAt_id q).div_const 2).neg.mul_const (Real.log Real.pi) using 1 <;> ring
-  have hexp : HasDerivAt (fun x : ℝ => Real.exp (-(x / 2) * Real.log Real.pi))
-      (Real.exp (-(q / 2) * Real.log Real.pi) *
-        (-(1 / 2 : ℝ) * Real.log Real.pi)) q := hinner.exp
-  have hGamma0 : HasDerivAt Real.Gamma (deriv Real.Gamma (q / 2)) (q / 2) :=
-    (Real.differentiableAt_Gamma hpoles).hasDerivAt
-  have hhalf : HasDerivAt (fun x : ℝ => x / 2) (1 / 2 : ℝ) q := by
-    convert (hasDerivAt_id q).div_const 2 using 1 <;> ring
-  have hGamma : HasDerivAt (fun x : ℝ => Real.Gamma (x / 2))
-      (deriv Real.Gamma (q / 2) * (1 / 2 : ℝ)) q := hGamma0.comp q hhalf
-  have hmul := hexp.mul hGamma
-  unfold realArchFactor GppGammaPlancherel.archimedeanG GppDigamma.digamma
-  convert hmul using 1
-  · ring
-  · have hGne : Real.Gamma (q / 2) ≠ 0 := Real.Gamma_ne_zero hpoles
-    field_simp [hGne]
-    ring
-
-/-- Consequently the ordinary real logarithmic derivative of the Archimedean factor is
-exactly the paper's `g_infinity(q)`. -/
-theorem realArchFactor_logDeriv {q : ℝ} (hq : 0 < q) :
-    deriv realArchFactor q / realArchFactor q = GppGammaPlancherel.archimedeanG q := by
-  have hderiv := (hasDerivAt_realArchFactor hq).deriv
-  rw [hderiv]
-  field_simp [realArchFactor_ne_zero hq]
-
-/-- Finite additive prime logarithmic derivative.  Every summand is the genuine
-`-zeta_p'/zeta_p`, not a formal placeholder. -/
+/-- Finite additive prime logarithmic derivative. Every summand is the genuine
+`-zeta_p'/zeta_p`. -/
 noncomputable def finitePrimeLogDerivative {ι : Type} [Fintype ι]
     (p : ι → ℝ) (s : ℂ) : ℂ :=
   ∑ i, GppCutkoskyWeil.minusLogDerivZetaP (p i) s
 
-/-- The corresponding finite product of genuine local Euler factors. -/
-noncomputable def finiteEulerFactorProduct {ι : Type} [Fintype ι]
-    (p : ι → ℝ) (s : ℂ) : ℂ :=
-  ∏ i, GppCutkoskyWeil.zetaP (p i) s
-
-/-- **Finite Euler product derivative.**  Wherever every local denominator is nonzero,
-the derivative of the actual finite Euler product is `-(sum_p -zeta_p'/zeta_p)` times the
-product.  This is the finite product-to-additive-logarithmic-derivative passage itself. -/
-theorem hasDerivAt_finiteEulerFactorProduct
-    {ι : Type} [Fintype ι] (p : ι → ℝ) (s : ℂ)
-    (hden : ∀ i, 1 - Complex.exp (-s * Complex.log (p i)) ≠ 0) :
-    HasDerivAt (finiteEulerFactorProduct p)
-      (-(finitePrimeLogDerivative p s) * finiteEulerFactorProduct p s) s := by
-  classical
-  have haux : ∀ S : Finset ι,
-      HasDerivAt (fun z : ℂ => ∏ i ∈ S, GppCutkoskyWeil.zetaP (p i) z)
-        (-(∑ i ∈ S, GppCutkoskyWeil.minusLogDerivZetaP (p i) s) *
-          (∏ i ∈ S, GppCutkoskyWeil.zetaP (p i) s)) s := by
-    intro S
-    induction S using Finset.induction_on with
-    | empty => simp
-    | @insert a S ha ih =>
-        have haDeriv := GppCutkoskyWeil.hasDerivAt_zetaP (p a) s (hden a)
-        have hmul := haDeriv.mul ih
-        simpa [Finset.prod_insert, Finset.sum_insert, ha] using hmul
-  simpa [finiteEulerFactorProduct, finitePrimeLogDerivative] using haux Finset.univ
-
-/-- The finite Euler product itself is nonzero whenever all local denominators are nonzero. -/
-theorem finiteEulerFactorProduct_ne_zero
-    {ι : Type} [Fintype ι] (p : ι → ℝ) (s : ℂ)
-    (hden : ∀ i, 1 - Complex.exp (-s * Complex.log (p i)) ≠ 0) :
-    finiteEulerFactorProduct p s ≠ 0 := by
-  classical
-  unfold finiteEulerFactorProduct
-  exact Finset.prod_ne_zero_iff.mpr fun i hi =>
-    GppCutkoskyWeil.zetaP_ne_zero (p i) s (hden i)
-
-/-- **Finite Euler logarithmic derivative.**  Division by the nonzero finite product gives
-exactly the negative additive prime logarithmic derivative. -/
-theorem finiteEulerFactorProduct_logDeriv
-    {ι : Type} [Fintype ι] (p : ι → ℝ) (s : ℂ)
-    (hden : ∀ i, 1 - Complex.exp (-s * Complex.log (p i)) ≠ 0) :
-    deriv (finiteEulerFactorProduct p) s / finiteEulerFactorProduct p s =
-      -finitePrimeLogDerivative p s := by
-  have hderiv := (hasDerivAt_finiteEulerFactorProduct p s hden).deriv
-  rw [hderiv]
-  field_simp [finiteEulerFactorProduct_ne_zero p s hden]
-
-/-- Finite sum of the real `Wp` kernels attached to the same local factors. -/
+/-- Finite sum of the real prime response kernels. -/
 noncomputable def finiteWp {ι : Type} [Fintype ι]
     (p : ι → ℝ) (t : ℝ) : ℝ :=
   ∑ i, GppCutkoskyWeil.Wp (p i) t
 
-/-- **Finite prime additive bridge on the critical line.**  The real part of the finite
-sum of genuine local Euler logarithmic derivatives is exactly one half of the finite `Wp`
-sum. -/
+/-- **Finite prime additive bridge on the critical line.** The real part of the finite
+sum of genuine Euler logarithmic derivatives is exactly one half of the finite `Wp` sum. -/
 theorem finiteWp_eq_two_mul_re_finitePrimeLogDerivative
     {ι : Type} [Fintype ι] (p : ι → ℝ) (hp : ∀ i, 1 < p i) (t : ℝ) :
     finiteWp p t =
       2 * (finitePrimeLogDerivative p (1 / 2 + t * Complex.I)).re := by
+  classical
   unfold finiteWp finitePrimeLogDerivative
-  rw [map_sum]
-  rw [Finset.mul_sum]
-  apply Finset.sum_congr rfl
-  intro i hi
-  exact GppCutkoskyWeil.Wp_eq_two_mul_re_minusLogDerivZetaP (hp i) t
-
-/-- The conventionally signed finite prime term is therefore minus twice the real part of
-the finite Euler logarithmic derivative. -/
-theorem neg_finiteWp_eq_neg_two_mul_re_finitePrimeLogDerivative
-    {ι : Type} [Fintype ι] (p : ι → ℝ) (hp : ∀ i, 1 < p i) (t : ℝ) :
-    -finiteWp p t =
-      -2 * (finitePrimeLogDerivative p (1 / 2 + t * Complex.I)).re := by
-  rw [finiteWp_eq_two_mul_re_finitePrimeLogDerivative p hp t]
-  ring
+  calc
+    (∑ i, GppCutkoskyWeil.Wp (p i) t)
+        = ∑ i, 2 * (GppCutkoskyWeil.minusLogDerivZetaP
+            (p i) (1 / 2 + t * Complex.I)).re := by
+              apply Finset.sum_congr rfl
+              intro i hi
+              exact GppCutkoskyWeil.Wp_eq_two_mul_re_minusLogDerivZetaP (hp i) t
+    _ = 2 * ∑ i, (GppCutkoskyWeil.minusLogDerivZetaP
+            (p i) (1 / 2 + t * Complex.I)).re := by
+              rw [Finset.mul_sum]
+    _ = 2 * (∑ i, GppCutkoskyWeil.minusLogDerivZetaP
+            (p i) (1 / 2 + t * Complex.I)).re := by
+              rw [map_sum]
 
 end GppCompletedLogDerivative
 
 #print axioms GppCompletedLogDerivative.realArchFactor_ne_zero
-#print axioms GppCompletedLogDerivative.hasDerivAt_realArchFactor
-#print axioms GppCompletedLogDerivative.realArchFactor_logDeriv
-#print axioms GppCompletedLogDerivative.hasDerivAt_finiteEulerFactorProduct
-#print axioms GppCompletedLogDerivative.finiteEulerFactorProduct_logDeriv
 #print axioms GppCompletedLogDerivative.finiteWp_eq_two_mul_re_finitePrimeLogDerivative
