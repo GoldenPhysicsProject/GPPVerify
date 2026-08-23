@@ -251,6 +251,11 @@ import GppVerify.NumberTheory.PerfectNumbersE8
 -- bernoulli'_four, is +1/120. A fully clean, no-gap correction.
 import GppVerify.NumberTheory.ZetaNegativeIntegers
 
+-- ── Twin-prime singlets and doublets (Codex) ──────────────────
+-- The prime gap-2 graph consists of isolated singlets and disjoint
+-- doublets above 5; 3-5-7 is the unique overlapping triplet.
+import GppVerify.NumberTheory.TwinPrimeDoublets
+
 -- ── Character Orthogonality (New) ────────────────────────────────
 -- Genuine harmonic-analysis infrastructure (not sourced from a specific
 -- paper): for a left-invariant measure on a group and a nontrivial
@@ -985,3 +990,14 @@ import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
 -- computation. No RH or global Weil-positivity claim; see the file's own honest
 -- boundary and discovery/cutkosky_weil/notes.md.
 import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
+
+-- ── Exact finite prime Green amplitude (Codex) ────────────────
+-- The Wp prime-power coefficients/locations are exactly the positive
+-- boundary atoms propagated by the massive 1D Green kernel; finite
+-- cutoff resolvent and doubled-sector polarization identities.
+import GppVerify.RiemannHypothesis.PrimeGreenAmplitude
+
+-- ── One-prime fermionic Hodge--Dirac system (Codex) ──────────
+-- The exterior two-state factor satisfies CAR; its odd self-adjoint
+-- Dirac square is |1-p^{-s}|² I and has no critical-line local zero.
+import GppVerify.RiemannHypothesis.PrimeFermionDirac

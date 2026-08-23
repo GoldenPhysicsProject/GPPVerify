@@ -219,13 +219,12 @@ Meanwhile `Kp p t - 1 = KrClosed r θ - 1 = Σ'_{n≠0} r^{|n|}e^{inθ}` (alread
 ```
 Wp(p,t) = log(p)·(Kp(p,t)-1) = 2·Re(-ζ_p'/ζ_p(1/2+it))    exactly, for all real p>1, t.
 ```
-Checked by hand from Mathlib-available building blocks only (geometric series, `Complex.log`
-identities) — no adelic content, no Tate's thesis. This **is** a correct, precise
-identification of `Wp` as (twice the real part of) the local Euler-factor logarithmic
-derivative on the critical line, and it is the honest next Lean target for items 2–3: not
-yet formalized (isolated here as a checked-by-hand identity rather than smuggled in as a
-theorem), but concretely in reach with the same geometric-series machinery already proved
-for `tsum_KrClosed_summand_eq` — no new Mathlib gap.
+The fifth pass checked this from Mathlib-available building blocks only (geometric series,
+`Complex.log` identities) — no adelic content, no Tate's thesis.  The seventh pass then
+formalized the identity as `Wp_eq_two_mul_re_minusLogDerivZetaP`; the eighth pass formalized
+its complete prime-power Fourier expansion.  This **is** a correct, precise identification
+of `Wp` as twice the real part of the local Euler-factor logarithmic derivative on the
+critical line.
 
 **Item 6 (global assembly against `rh_iff_weil_pairedForm_nonneg`) does not apply as
 stated**, for the same reason as items 2–4: that theorem's positivity *hypothesis* carries
@@ -240,7 +239,7 @@ in the tree and is a separate, large, classical-analytic-number-theory undertaki
 own right (distinct from, and smaller than, the adelic Tate's-thesis route, but still
 substantial) — scoped honestly here, not attempted.
 
-## What's proved in Lean (`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean`)
+## What's proved in Lean (`CutkoskyWeilBridge.lean` and `EulerFactorLogDeriv.lean`)
 
 - `Kp (p t : ℝ) : ℝ` — the finite-place shadow kernel in real closed form,
   `(1−p⁻¹)/(1 − 2p^{−1/2}cos(t log p) + p⁻¹)`.
@@ -286,16 +285,25 @@ substantial) — scoped honestly here, not attempted.
   (`C_{K_r-1} = P_0 * C_{K_r} * P_0` as genuine bounded-operator composition), and
   **`vacuum_compressed_operator_positive`** (positivity of the compressed operator, as a
   corollary). Unconditional, no axiom.
+- **The genuine Euler-factor logarithmic derivative**:
+  `hasDerivAt_zetaP` and `Wp_eq_two_mul_re_minusLogDerivZetaP` prove, rather than posit,
+  `Wp(p,t)=2 Re(-ζ'_p/ζ_p(1/2+it))`.
+- **The exact prime-power expansion and sign distinction** (eighth pass):
+  `primePowerCoeff`, `primePowerFrequency`, `WpFourierTerm`,
+  `summable_WpFourierTerm`, and `tsum_WpFourierTerm_eq` give the absolutely summable
+  two-sided expansion with coefficients `log(p)p^{-|n|/2}` and the vacuum mode omitted.
+  `Wp_zero_pos`, `Wp_antiphase_neg`, and `weilPrimeMultiplier_sign_changes` prove that
+  the scalar multiplier `-Wp` takes both signs even though the convolution eigenvalues
+  of `Kp-1` are nonnegative.
 
-**Not formalized in Lean this round**: the exact Fourier pair
+**Not formalized in Lean**: the exact Fourier pair
 `H(t) ↔ G(x) = 3/(512π)sech⁴(x/4)` under the convention `G(x) = (1/2π)∫H(t)e^{itx}dt`
 (confirmed numerically to ~1e-51 relative error); the removable-singularity/pole-
 cancellation claim at `t=±i/2` (confirmed numerically via a shrinking-perturbation
 sequence — a different, complex-analytic removable singularity from the real-axis one at
-`t=0` closed in the fourth pass); the elementary identity `Wp(p,t) =
-2·Re(-ζ_p'/ζ_p(1/2+it))` (checked by hand, fifth pass — see that section for the full
-derivation; the honest next Lean target for items 2–3 of the operator/Weil-bridge
-program); the classical explicit formula itself (contour integration of `ζ'/ζ`, the
+`t=0` closed in the fourth pass); the exact test-function-transform theorem identifying
+the prime-power series with the finite-prime term for the full Weil class; the classical
+explicit formula itself (contour integration of `ζ'/ζ`, the
 argument principle) and the adelic Tate's-thesis route (`weil_criterion`), both large,
 separate, unattempted undertakings — see the fifth-pass section above for the precise
 scoping of why neither is a proof-engineering-fixable gap.
@@ -439,21 +447,18 @@ with the truncated zero-sum being essentially `0` for this narrow `h`, confirmin
 minus sign in front of the prime term is exactly right, not a half-remembered guess).
 Script: `verify_weil_explicit_formula_sign.py`.
 
-**Step 2 — the finding.** The prime-sum term is exactly
+**Step 2 — the first inference, corrected in the eighth pass below.** The prime-sum term is
+exactly
 `-2*sum_p sum_m log(p)*p^{-m/2}*g(m*log p)` — literally minus a quantity built from
-the same `Wp`/Poisson-kernel structure already proved positive-type. **Local `Wp`/`Kp-1`
-positivity therefore does NOT transfer to make the prime sum's contribution to the Weil
-quadratic form `Q(f)` nonnegative — it transfers to show that contribution is
-nonPOSITIVE.** Recorded honestly as a real, checked, negative finding, not glossed over:
-this reframes rather than closes the target. Any actual RH-equivalent positivity of
-`Q(f)` has to come from the Archimedean (digamma) term dominating/cancelling this
-genuinely negative prime pull for every admissible test function — consistent with (and
-now a sharper, sign-explicit version of) the "no local prime-term positivity in the usual
-normalization" caution already on record in `CutkoskyWeilBridge.lean`'s own module doc.
-This is not a contradiction of anything already proved — `Kp_pos`, `H_nonneg`, and the
-`Wp`/`Kp-1` positive-type kernel theorems all still hold exactly as proved; what's new is
-knowing precisely which direction that positivity pushes once correctly signed into the
-classical explicit formula.
+the same `Wp`/Poisson-kernel structure already proved positive-type.  The Gaussian check
+proves that this term is negative for that Gaussian.  This pass originally inferred that
+it was therefore nonpositive for every Weil square.  That inference was too strong: it
+conflated positivity of **convolution by** `Kp-1` (Fourier coefficients nonnegative) with
+the sign of **multiplication by** `-Wp` after the test-function transform.  Those are
+different operators.  The eighth pass proves in Lean that `-Wp` takes both signs, so the
+overall minus sign alone does not determine the sign for every admissible test.  The
+numerical sign check and the Gaussian result remain valid; only the universal conclusion
+is withdrawn.
 
 ### A genuinely new asset: a full 100k-zero high-precision zero file
 
@@ -497,8 +502,101 @@ Pythagorean identity.
 Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
 `4bc283e` on branch `cutkosky-weil-euler-factor` (pushed).
 
-**Still open, unchanged by this pass**: the decisive-question sign finding above (local
-`Wp` positivity does not survive with the needed sign into the classical Weil quadratic
-form); the classical explicit formula itself (contour integration / argument principle);
-whether the Archimedean term can be shown to dominate the negative prime pull; the 100k-zero
-Stage-3 13-16% Gram residual (not yet diagnosed further).
+**Still open after this pass**: the exact test-function transform into the classical Weil
+form; the classical explicit formula itself (contour integration / argument principle);
+the global prime--Archimedean/no-ghost mechanism; and the 100k-zero Stage-3 13-16% Gram
+residual (not yet diagnosed further).
+
+## Eighth pass (2026-08-23) — prime powers, sign correction, and the spinorial target
+
+The next local layer is now formalized in `EulerFactorLogDeriv.lean`.
+
+1. `primePowerCoeff p n = log(p) p^{-|n|/2}` and `primePowerFrequency p n = n log p`.
+2. `WpFourierTerm` deletes the vacuum mode `n=0` and records every nonzero two-sided mode.
+3. `summable_WpFourierTerm` proves absolute summability, and
+   `tsum_WpFourierTerm_eq` proves the exact identity
+   `Wp(p,t)=Σ_{n≠0} log(p)p^{-|n|/2}exp(i n t log p)`.
+4. `Wp_zero_pos` and `Wp_antiphase_neg` give exact opposite-sign witnesses.
+5. With `weilPrimeMultiplier := -Wp`, `weilPrimeMultiplier_sign_changes` proves that the
+   conventionally signed scalar local multiplier is sign-indefinite.
+
+This corrects the sixth-pass universal-sign inference.  Positive-type convolution by
+`Kp-1` remains exactly proved: its Fourier eigenvalues are nonnegative.  The explicit-formula
+test pairing instead sees `-Wp` through a transform, and pointwise multiplication by that
+function is not sign-definite.  A Gaussian samples one sign; it does not settle all Weil
+squares.
+
+### Why the fermion/spinor intuition is substantive—but not yet the theorem
+
+The latest arithmetic principal-series manuscript contains a genuine finite
+Möbius--Koszul construction, not merely a metaphor.  On an exterior algebra of prime
+generators, creation and contraction obey the fermionic anticommutation relations; the
+Koszul differential `d_z` squares to zero; and `D_z=d_z+d_z†` is a self-adjoint Hodge--Dirac
+operator with `D_z²≥0`.  The finite complex is contractible.  Thus `Wp` is best interpreted
+as a scalar shadow/supertrace channel produced by a spinor-like graded prime complex, not
+as a spinor-valued field itself.
+
+The plausible global positivity mechanism is correspondingly a **physical-sector
+projection**: the full graded supertrace may change sign, while a completed Hodge/OS
+quotient is positive if its physical cohomology is concentrated in even degree.  This is
+the exact mathematical analogue of selecting one time orientation (our branch sees matter;
+the reflected branch sees its own matter).  It is also the missing no-ghost theorem, not
+something established by the local identities.  The next bridge must construct or test
+that global boundary projection without inserting RH or the unknown bad-zero divisor.
+
+## Ninth pass (2026-08-23) — Green propagation, local CAR/Dirac, and twin sectors
+
+Three further exact layers now separate the one-prime, graded, and correlated-prime
+structures.
+
+### The one-prime modes are the massive boundary atoms
+
+`PrimeGreenAmplitude.lean` proves that the positive-frequency data already extracted from
+`Wp` are exactly
+
+`weight(p,m)=log(p)p^{-m/2}`, `location(p,m)=m log p`.
+
+For the massive Green kernel `R_r(0,x)=exp(-r|x|)/(2r)`, the theorem
+`finitePrimeGreenAmplitude_eq` gives, at every finite cutoff,
+
+`Σ weight(p,m)R_r(0,location(p,m))
+ = (1/(2r))Σ log(p)p^{-m(1/2+r)}`.
+
+Both finite forms are nonnegative for `r>0`.  The same file proves the exact polarization
+identity `⟪a,b⟫=(‖a+b‖²-‖a-b‖²)/4`, rigorously isolating the cross amplitude retained by
+symmetric/antisymmetric doubled boundary states.  No completed real-place distribution is
+inserted.
+
+### “Spinor-like” is now a local theorem
+
+`PrimeFermionDirac.lean` formalizes the exterior algebra on one prime generator as a
+two-state fermionic Fock factor.  Creation and contraction square to zero and satisfy CAR;
+the supercharge `d=z·create` is nilpotent; and `D(z)=d+d†` is self-adjoint, odd under the
+grading, and satisfies `D(z)²=normSq(z)I`.
+
+For the Euler holonomy `z=1-exp(-s log p)`, `zetaP p s=z⁻¹` exactly.  Lean also proves that
+this holonomy cannot vanish at `s=1/2+it` for `p>1`, hence its local Dirac energy is
+strictly positive.  This sharpens the physical interpretation: isolated prime channels
+are acyclic/no-zero local systems; any zeta zero must be a collective mode created by the
+global prime--Archimedean boundary coupling.  The scalar `Wp` remains an observable or
+supertrace shadow of this graded factor, not a spinor-valued kernel.
+
+### Twin primes are a distinct two-prime channel
+
+`NumberTheory/TwinPrimeDoublets.lean` proves the exact graph-theoretic core of the proposed
+singlet/doublet split.  If `p`, `p-2`, and `p+2` are prime, then `p=5`; consequently every
+prime above `5` is either a gap-2 singlet or belongs to exactly one one-sided twin doublet.
+The only overlapping doublets form the exceptional triplet `3-5-7`.  This is elementary
+modulo `3`, but now kernel-checked in Lean.
+
+The counting statement is deliberately not promoted: infinitude of twin primes remains
+open, and Hardy--Littlewood predicts that doublet members have density zero among primes.
+What the theorem does provide is an exact candidate **two-body correlation graph**.  It
+does not modify the one-body Euler factor; a useful physical role would have to arise from
+an additional interaction or boundary Schur complement on twin edges.
+
+**Next honest boundary:** extend the one-generator CAR construction to finite prime
+families with the actual commuting holonomies/shift operators, prove finite Koszul
+contractibility and Hodge positivity, and then identify what global Archimedean boundary
+condition can obstruct that contraction without encoding unknown zeros.  Twin-edge
+couplings can be tested inside that finite system, but no `SU(2)` identification is assumed.

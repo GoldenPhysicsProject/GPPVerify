@@ -1487,9 +1487,11 @@ anywhere in this thread; the Gram-square development is original to this session
 derived purely from the GPP local-shadow-kernel route already in the tree.
 
 **Explicit non-claims**: no RH claim and no claim of global Weil positivity. Local
-positive-type positivity of `K_p−1` *is* proved; what fails is the hoped-for same-sign
-passage into the standard explicit formula, whose finite-prime contribution carries the
-opposite overall sign. No external RH program's machinery is imported as a black box.
+positive-type positivity of `K_p−1` *is* proved; it does not transfer automatically to the
+standard explicit formula, whose finite-prime contribution carries the opposite overall
+sign and uses a different test-function pairing.  The sign of that pairing is not fixed by
+the overall minus sign alone. No external RH program's machinery is imported as a black
+box.
 
 ## Thread Cutkosky-Weil, sixth pass (2026-08-23) — the Euler-factor identity and the
 ## decisive sign question
@@ -1529,16 +1531,12 @@ overall **minus** sign. Its summand is exactly `-2·sum_p sum_m log(p)·p^{-m/2}
 — literally minus a quantity built from the same Poisson-kernel structure `Wp` already
 proved positive-type (`verify_weil_explicit_formula_sign.py`).
 
-**Finding (negative, recorded honestly): local `Wp`/`Kp-1` positivity does NOT make the
-prime sum's contribution to the Weil quadratic form `Q(f)` nonnegative — it makes that
-contribution nonpositive.** This does not contradict anything already proved (`Kp_pos`,
-`H_nonneg`, and the positive-type kernel theorems all still hold exactly as proved); it
-identifies precisely which direction that positivity pushes once correctly signed into
-the classical formula. Any actual RH-equivalent positivity of `Q(f)` must come from the
-Archimedean (digamma) term dominating this genuinely negative prime pull for every
-admissible test function, not from same-signed local pieces stacking up — a sharper,
-sign-explicit version of the "no local prime-term positivity in the usual normalization"
-caution already on record in `CutkoskyWeilBridge.lean`'s own module doc.
+**Finding, later corrected in the eighth pass below:** the Gaussian calculation proves a
+negative prime contribution for that test and pins the overall sign, but this pass first
+inferred universal nonpositivity.  That was too strong: positive-type **convolution** by
+`Kp-1` is not the same operator as **multiplication** by `-Wp` after the test-function
+transform.  The eighth pass proves that the scalar multiplier changes sign.  The numerical
+identity and Gaussian result remain valid; the universal-sign inference is withdrawn.
 
 **A new asset**: Daniel supplied 100,000 high-precision nontrivial zeta zeros (Odlyzko
 format); the missing first zero was prepended by hand
@@ -1581,10 +1579,75 @@ Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged.
 the sign obstruction concerns how `Wp` enters the classical explicit formula, which this
 pass does not address; it only proves what `Wp` genuinely *equals*.
 
-**Next honest boundary**: the classical explicit formula itself (contour integration of
-`ζ'/ζ`, the argument principle) remains unformalized, as does whether the Archimedean
-(digamma) term can be shown to dominate the now-signed-negative prime pull — the two
-concrete open targets flagged in the sixth pass, unchanged by this pass.
+**Next honest boundary**: the exact test-function-transform theorem and the classical
+explicit formula itself (contour integration of `ζ'/ζ`, the argument principle) remain
+unformalized, as does the global prime--Archimedean/no-ghost projection.
+
+## Thread Cutkosky-Weil, eighth pass (2026-08-23) — prime powers and the exact local
+## sign obstruction
+
+`EulerFactorLogDeriv.lean` now contains the complete two-sided prime-power expansion.
+`primePowerCoeff p n = log(p)p^{-|n|/2}`, `primePowerFrequency p n=n log p`, and
+`WpFourierTerm` omits the vacuum mode. `summable_WpFourierTerm` proves absolute
+summability and `tsum_WpFourierTerm_eq` proves
+`Wp(p,t)=Σ_{n≠0}log(p)p^{-|n|/2}exp(i n t log p)` exactly.
+
+The decisive correction is also formalized. `Wp_zero_pos` proves `Wp(p,0)>0`, while
+`Wp_antiphase_neg` proves `Wp(p,π/log p)<0`. With the named signed scalar term
+`weilPrimeMultiplier := -Wp`, `weilPrimeMultiplier_sign_changes` proves that it takes
+both signs for every real `p>1`. Therefore:
+
+- the convolution operator from `Kp-1` remains positive because its Fourier eigenvalues
+  are nonnegative;
+- the scalar explicit-formula multiplier is sign-indefinite;
+- the sixth-pass Gaussian result sampled one sign and cannot establish universal
+  nonpositivity for every Weil square.
+
+The latest arithmetic manuscript supplies a substantive fermionic/spinorial candidate for
+the missing global mechanism: a finite exterior-algebra prime space with CAR creation and
+contraction operators, a Koszul differential `d_z²=0`, and a positive Hodge--Dirac square
+`(d_z+d_z†)²≥0`. The scalar `Wp` is therefore plausibly a local supertrace/shadow of that
+graded complex, not itself a spinor field. The global positivity target is a completed
+physical-sector/no-ghost theorem (even-degree Hodge/OS cohomology), analogous to selecting
+one time orientation; it remains unproved and must not be assumed.
+
+## Thread Cutkosky-Weil, ninth pass (2026-08-23) — exact boundary propagation and local
+## fermionic Dirac structure
+
+Two new Lean modules close the next physics-to-arithmetic interfaces.
+
+**`RiemannHypothesis/PrimeGreenAmplitude.lean`.** The `Wp` positive-frequency coefficient
+and frequency are proved identical to the arithmetic boundary weight
+`log(p)p^{-m/2}` and location `m log p`.  For every finite family,
+`finitePrimeGreenAmplitude_eq` proves the exact massive Green identity
+
+`Σ log(p)p^{-m/2} exp(-r m log p)/(2r)
+ = (1/(2r))Σ log(p)p^{-m(1/2+r)}`.
+
+Both finite amplitudes are nonnegative for `r>0`.  The abstract doubled-sector
+polarization identity `⟪a,b⟫=(‖a+b‖²-‖a-b‖²)/4` is also proved, justifying the even/odd
+boundary cross-term mechanism without constructing or assuming the completed boundary.
+
+**`RiemannHypothesis/PrimeFermionDirac.lean`.** The exterior algebra on one prime generator
+is implemented as a two-state matrix system. Creation/contraction satisfy CAR; the local
+supercharge squares to zero; the Hodge--Dirac operator is self-adjoint, anticommutes with
+fermion parity, and obeys `D(z)²=normSq(z)I`.  With the exact Euler holonomy
+`z=1-exp(-s log p)`, its inverse is `zetaP`.  `eulerHolonomy_critical_ne_zero` and
+`primeDiracEnergy_critical_pos` prove that every isolated local prime system has strictly
+positive energy on the critical line.  Therefore the local spinorial description is now
+a theorem, while physical zeros remain necessarily collective/global.
+
+**Twin-prime correlation layer.** `NumberTheory/TwinPrimeDoublets.lean` proves that if
+`p-2,p,p+2` are prime then `p=5`; above `5`, every prime is exactly a gap-2 singlet or a
+member of one one-sided doublet. `3-5-7` is the unique overlapping triplet.  This is a
+rigorous two-prime graph decomposition, not a proof of twin-prime infinitude and not an
+asserted `SU(2)` representation.  Conjecturally the doublet sector is infinite but
+density-zero among primes.
+
+**Next:** finite multi-prime Koszul/CAR infrastructure with the actual commuting Euler
+holonomies, followed by the completed Archimedean boundary/no-ghost obstruction.  The
+twin-edge graph is a candidate interaction layer inside that construction; it must earn
+any physical representation-theoretic interpretation through an explicit operator.
 
 ---
 
