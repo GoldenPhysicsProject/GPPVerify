@@ -774,6 +774,34 @@ encodes a lower-point loop *integrand*, extractable by a double shadow discontin
   discharge `ShadowPairSewing.sewing_identity` — the Sokhotski-Plemelj discontinuity
   construction itself, the λ-integral closed form, and everything about the box remain
   exploratory Python in `discovery/`, per that directory's own convention.
+- **Follow-up (2026-08-23, discovery-sandbox only, no new Lean).** Two more negative/
+  narrowing results, continuing directly from the prior session's literature check
+  (`discovery/shadow_ope/direct_mellin_scale_covariance.py`) which found no established
+  celestial-holography precedent for "shadow discontinuity of a tree gives a loop
+  integrand" and flagged reproducing Gonzalez-Puhm-Rojas's actual operator construction
+  (arXiv:2009.07290, eq 3.4–3.16) as the well-scoped next step. `discovery/shadow_ope/
+  gpr_operator_reproduction.py` transcribes those equations directly from the paper (not
+  from memory) and shows their "loop as operator on tree" statement is strictly 4-point
+  start to finish — no 5th/6th leg, shadow transform, or discontinuity appears anywhere
+  in it; their shift operator `e^{2iε∂λ}` is just the elementary Mellin-shift identity
+  (multiplying the Mellin integrand by a further scale power ⟺ shifting the dual
+  variable), verified numerically on a generic test function unrelated to the box
+  integral. **Definitively closes off** "can GPR's construction be re-expressed as a
+  shadow-pair-sewing statement" — there is no six-point object in it to re-express.
+  Separately, `discovery/shadow_ope/residue_scaling_degree.py` checks whether this
+  project's own `Sewn_residue = 1/(A·C·s)` (`residue_at_coincidence.py`) at least shares
+  `box_exact(s,t)`'s scaling *degree* under an overall momentum rescaling (GPR's actual
+  shift-operator mechanism doesn't transfer here — `Δ5` is this construction's primary
+  Mellin variable, not an extra regulator riding a second transform, so that specific
+  analogy is a dead end too, ruled out by inspection). It does: both objects are
+  homogeneous of degree −4 in the rescaling parameter, confirmed numerically. Rules out
+  "wrong overall scaling dimension" as the source of the persistent mismatch against
+  `box_exact` documented elsewhere in this thread, and explains why
+  `kinematic_block_scaling.py`'s extra `(s+t)⁻²` factor made things worse — the degree
+  was already right. Narrows, does not solve, the open problem: whatever the mismatch
+  is, it now lives entirely in the cross-ratio-dependent functional form. Neither result
+  touches or discharges `ShadowPairSewing.sewing_identity`. See `discovery/README.md`
+  for full details.
 
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
