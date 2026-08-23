@@ -63,9 +63,19 @@ theorem criticalLine_completed_zero_iff_zeta_zero (t : ℝ) :
   apply completedRiemannZeta_eq_zero_iff_zeta_eq_zero
   norm_num
 
+/-- **Convergence-domain obstruction.** No point on the critical line lies in the
+half-plane `Re s > 1` where the von Mangoldt Dirichlet series representation of
+`-ζ'/ζ` is justified by absolute convergence. Thus reaching the critical line from the
+prime-power series necessarily requires analytic continuation / explicit-formula transport
+(or an equivalent global spectral continuation), not direct use of the convergent series. -/
+theorem criticalLine_not_in_vonMangoldt_convergence_halfplane (t : ℝ) :
+    ¬ 1 < (((1 / 2 : ℂ) + Complex.I * t).re) := by
+  norm_num
+
 end GppGlobalCompleted
 
 #print axioms GppGlobalCompleted.completedRiemannZeta_eq_GammaR_mul_zeta
 #print axioms GppGlobalCompleted.completedRiemannZeta_eq_zero_iff_zeta_eq_zero
 #print axioms GppGlobalCompleted.criticalStrip_completed_zero_iff_zeta_zero
 #print axioms GppGlobalCompleted.criticalLine_completed_zero_iff_zeta_zero
+#print axioms GppGlobalCompleted.criticalLine_not_in_vonMangoldt_convergence_halfplane
