@@ -1,6 +1,7 @@
 import Mathlib.MeasureTheory.Group.Integral
 import GppVerify.RiemannHypothesis.CompletedZetaDerivativeSymmetry
 import GppVerify.RiemannHypothesis.GlobalVonMangoldtBridge
+import GppVerify.RiemannHypothesis.ThermalCriticalLineBridge
 
 /-!
 # Character orthogonality on groups with a left-invariant measure
