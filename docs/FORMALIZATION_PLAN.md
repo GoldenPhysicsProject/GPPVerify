@@ -1503,6 +1503,40 @@ loose end for a future pass, not claimed as confirmation or refutation either wa
 Full detail: `discovery/cutkosky_weil/notes.md` (sixth-pass section),
 `verify_euler_factor_logderiv.py`, `verify_weil_explicit_formula_sign.py`.
 
+## Thread Cutkosky-Weil, seventh pass (2026-08-23) — the `Wp` boundary, closed
+
+Closes the honest boundary named above: `Wp p t = 2·Re(minusLogDerivZetaP p (1/2+it))` is
+now a genuine Lean theorem (`Wp_eq_two_mul_re_minusLogDerivZetaP`,
+`EulerFactorLogDeriv.lean`), not just checked by hand and numerically. Proved by direct
+real/imaginary-part computation (`Complex.exp_re`/`exp_im`, `Complex.div_re`,
+`Complex.normSq_apply`) rather than the originally-attempted `Complex.cpow`
+exponent-splitting route, closing with a standalone Poisson-kernel lemma
+`KrClosed_sub_one_eq_two_mul_re`: for real `r, θ` with `0 ≤ r < 1`,
+`KrClosed r θ - 1 = 2·Re[r·e^{iθ}/(1-r·e^{iθ})]`.
+
+**A genuine correction made mid-proof, not glossed over**: the first draft of
+`KrClosed_sub_one_eq_two_mul_re` was stated for *all* real `r, θ`, unconditionally — this
+is actually **false**. At `r=1, θ=0` the denominator `1-r·e^{iθ}` vanishes; Lean's total
+division sends `KrClosed 1 0 - 1` to `-1` (since `(1-1²)/0 = 0/0 = 0` by convention) but the
+right-hand side to `0` (since `1/0=0` there too, but the algebra path differs), so the
+"theorem" as originally stated would have been unprovable — caught by working the r=1,θ=0
+case by hand before trying to push the proof through `nlinarith`, not by the compiler
+rejecting a false universal claim (Lean has no way to know a stated theorem is false until
+you fail to prove it). Fixed by adding `0 ≤ r < 1` hypotheses, which cost nothing since the
+only application is `r = p^{-1/2} < 1` for `p > 1`.
+
+Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`4bc283e` on `cutkosky-weil-euler-factor`, branched from `origin/main`.
+
+**Explicit non-claim**: this does not touch the decisive-question finding (sixth pass) —
+the sign obstruction concerns how `Wp` enters the classical explicit formula, which this
+pass does not address; it only proves what `Wp` genuinely *equals*.
+
+**Next honest boundary**: the classical explicit formula itself (contour integration of
+`ζ'/ζ`, the argument principle) remains unformalized, as does whether the Archimedean
+(digamma) term can be shown to dominate the now-signed-negative prime pull — the two
+concrete open targets flagged in the sixth pass, unchanged by this pass.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

@@ -469,3 +469,36 @@ this pass (candidates not yet checked: whether more zeros/higher cutoff `n0` in 
 truncated `K(0)` sum are needed for the Gram side to converge at this range, or a genuine
 normalization mismatch between the two constructions) — an open loose end for a future
 pass, not claimed as either a confirmation or a refutation.
+
+## Seventh pass (2026-08-23) — `Wp` boundary closed in Lean
+
+Formalized the connection flagged above as the honest next boundary:
+`Wp p t = 2*Re(minusLogDerivZetaP p (1/2+it))`, i.e. `Wp(p,t) = 2*Re(-zeta_p'/zeta_p(1/2+it))`,
+is now a genuine Lean theorem (`Wp_eq_two_mul_re_minusLogDerivZetaP` in
+`EulerFactorLogDeriv.lean`), not just checked by hand and to 40 digits numerically.
+
+Proved via direct real/imaginary-part computation (`Complex.exp_re`/`exp_im`,
+`Complex.div_re`, `Complex.normSq_apply`) rather than the originally-attempted `cpow`
+exponent-splitting route, which kept hitting wrong Mathlib lemma names/signatures on the
+first few passes (`Complex.exp_mul_I`'s actual argument order, `Complex.log_ofReal_re`'s
+actual signature, no `Complex.ofReal_mul_re` under that name, `starRingEnd`/conjugate
+rewrite ordering) — all resolved by grepping the pinned Mathlib source directly rather than
+guessing from memory, per standing discipline.
+
+**A real bug caught mid-proof, not glossed over**: the standalone Poisson-kernel lemma
+(`KrClosed_sub_one_eq_two_mul_re`) was first attempted as a universal claim for all real
+`r, θ`. It is actually false at `r=1, θ=0`: the denominator `1-r*e^{iθ}` vanishes there, and
+Lean's total-division convention sends the two sides of the claimed identity to different
+junk values (LHS -1, RHS 0), so the unconditional statement is unprovable. Added `0 ≤ r < 1`
+hypotheses — costs nothing, since the only application is `r = p^{-1/2} < 1` for `p > 1` —
+and the proof then goes through cleanly via `nlinarith`/`linear_combination` on top of the
+Pythagorean identity.
+
+Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`4bc283e` on branch `cutkosky-weil-euler-factor` (pushed).
+
+**Still open, unchanged by this pass**: the decisive-question sign finding above (local
+`Wp` positivity does not survive with the needed sign into the classical Weil quadratic
+form); the classical explicit formula itself (contour integration / argument principle);
+whether the Archimedean term can be shown to dominate the negative prime pull; the 100k-zero
+Stage-3 13-16% Gram residual (not yet diagnosed further).
