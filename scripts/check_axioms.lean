@@ -219,3 +219,12 @@ import GppVerify
 #print axioms GppCutkoskyWeil.vacuum_compression_operator_identity
 #print axioms GppCutkoskyWeil.KrMinusOneWeight_re_nonneg
 #print axioms GppCutkoskyWeil.vacuum_compressed_operator_positive
+-- Suzuki-Herglotz, item 1c684543: shifted logarithmic-derivative transfer preserves the
+-- xi zero divisor. Expected: Lean built-ins only, all.
+#print axioms GppWeilParity.hasDerivAt_shiftedTransferF
+#print axioms GppWeilParity.deriv_shiftedTransferF_sub_smul_eq
+#print axioms GppWeilParity.shiftedTransferWitness_at_root_ne_zero
+#print axioms GppWeilParity.shiftedTransfer_quotient_eq_of_ne
+#print axioms GppWeilParity.continuousAt_shiftedTransferWitness
+#print axioms GppWeilParity.tendsto_shiftedTransfer_quotient_div
+#print axioms GppWeilParity.tendsto_shiftedTransfer_quotient_zero

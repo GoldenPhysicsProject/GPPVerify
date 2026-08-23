@@ -1667,6 +1667,36 @@ Made precise:
   agree only when $w$ is real (witnessed concretely: $w=i$ gives $w^2=-1\ne1=|i|^2$).
 \end{theorem}
 
+\textbf{Suzuki-Herglotz, item \texttt{1c684543}: the shifted logarithmic-derivative
+transfer, new session.} Flagged tractable at the end of the previous pass (plain
+complex-analysis order-of-vanishing, not Herglotz-dependent).
+
+\begin{theorem}[Shifted Logarithmic-Derivative Transfer]
+  \label{thm:shifted-log-deriv-transfer}
+  \lean{GppWeilParity.tendsto_shiftedTransfer_quotient_div}
+  \leanok
+  Item \texttt{1c684543}. For holomorphic $F$ and scalar $\lambda$, put
+  $D_\lambda(s)=F'(s)-\lambda F(s)$, $R_\lambda(s)=F(s)/D_\lambda(s)$. Writing a zero
+  $\rho$ of $F$ of multiplicity $m=k+1\ge1$ as $F(z)=(z-\rho)^{k+1}g(z)$ ($g$ analytic,
+  $g(\rho)\ne0$): $D_\lambda(z)=(z-\rho)^k w(z)$ with
+  $w(z):=(k+1)g(z)+(z-\rho)(g'(z)-\lambda g(z))$
+  (\lean{GppWeilParity.deriv_shiftedTransferF_sub_smul_eq}), and $w(\rho)=(k+1)g(\rho)\ne0$
+  (\lean{GppWeilParity.shiftedTransferWitness_at_root_ne_zero}). Hence
+  $R_\lambda(z)/(z-\rho)\to1/(k+1)$ as $z\to\rho$ ($z\ne\rho$) --- the item's own stated
+  asymptotic $R_\lambda(s)=(s-\rho)/m+O((s-\rho)^2)$, i.e.\ a genuine \emph{simple} zero at
+  $\rho$ for every finite $\lambda$; and $R_\lambda(z)\to0$ as $z\to\rho$
+  (\lean{GppWeilParity.tendsto_shiftedTransfer_quotient_zero}), the "zeros of $R_\lambda$
+  are (among) the zeros of $F$" half of the item's conclusion.
+\end{theorem}
+
+\textbf{Honest boundary.} Does not instantiate $F=\xi$ (Mathlib's
+\texttt{completedRiemannZeta}) --- a direct application once $\xi$'s zeros are known
+simple with the right local model, not attempted this pass. Does not prove the
+\emph{global} "exactly the zeros of $F$, no others" claim (needs $D_\lambda$ controlled
+away from $F$'s zeros too, a separate global argument); what's proved is the precise
+\emph{local} fact at each individual zero, the item's own named content ("the exact
+divisor fact").
+
 Not a claim the underlying mathematics is wrong in its intended (presumably
 real-symmetric) setting --- only that the queue item's abstract phrasing is
 underspecified at exactly this point, worth flagging back to the research source rather
