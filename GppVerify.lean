@@ -1020,3 +1020,10 @@ import GppVerify.ThreadWeilParity.RemovableSingularityLimit
 -- A, B are expressed through the same abstract function I -- costs nothing,
 -- needs no operator/reflection/integral machinery at all.
 import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
+
+-- ── Thread Weil-Parity, sharpening the d1aec733 open item (New, 2026-08-23) ──
+-- Turns an earlier vague "carries a subtlety" note into a checked finding:
+-- c_j = g_j * w^2 (plain square), not g_j * |w|^2, given the item's own
+-- forward-direction definitions -- confirms the forward/converse formulas
+-- only agree when w = u_j^*e0 is real, an unstated extra hypothesis.
+import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
