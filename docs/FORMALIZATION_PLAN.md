@@ -1767,6 +1767,44 @@ unattempted.
 Full project rebuild: 3308/3309 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
 `07894e0` on `weil-semibound-thread`, landed on `main`.
 
+## Suzuki-Herglotz: the shifted logarithmic-derivative transfer, item `1c684543` (new session)
+
+**PROVED: `GppVerify/ThreadWeilParity/ShiftedLogDerivativeTransfer.lean`**, item `1c684543`
+("Shifted logarithmic-derivative transfer preserves the xi zero divisor") — flagged
+tractable at the end of the previous pass (plain complex-analysis order-of-vanishing, not
+Herglotz-dependent, unlike most of this thread).
+
+The item's setup: for holomorphic `F` and scalar `λ`, `D_λ(s)=F'(s)-λF(s)`,
+`R_λ(s)=F(s)/D_λ(s)`; if `ρ` is a zero of `F` of multiplicity `m≥1`, `R_λ` extends
+holomorphically across `ρ` with a simple zero there. Writing `m=k+1` (`k:ℕ`) to sidestep
+natural-number subtraction entirely, and `F z := (z-ρ)^(k+1)·g z` for `g` analytic and
+nonzero at `ρ`:
+
+- `deriv_shiftedTransferF_sub_smul_eq`: the item's own displayed factorization
+  `D_λ(z) = (z-ρ)^k·w(z)`, `w(z):=(k+1)·g(z)+(z-ρ)·(g'(z)-λg(z))`, from an actual
+  `HasDerivAt` product/power-rule computation (`hasDerivAt_shiftedTransferF`), not
+  asserted.
+- `shiftedTransferWitness_at_root_ne_zero`: `w(ρ)=(k+1)·g(ρ)≠0`.
+- `tendsto_shiftedTransfer_quotient_div`: the item's stated asymptotic
+  `R_λ(s)=(s-ρ)/(k+1)+O((s-ρ)²)`, formalized exactly as `R_λ(z)/(z-ρ)→1/(k+1)` as `z→ρ`
+  (`z≠ρ`) — the removable singularity extends to a genuine simple zero (nonzero linear
+  coefficient), for every finite `λ`.
+- `tendsto_shiftedTransfer_quotient_zero`: `R_λ(z)→0` as `z→ρ` — the "zeros of `R_λ` are
+  (among) the zeros of `F`" half of the item's conclusion, a direct corollary.
+
+7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
+kernel-clean, no axiom, no sorry.
+
+**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
+that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
+right local model, not attempted this pass. Does not prove the *global* "exactly the
+zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
+separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
+is the precise *local* fact at each individual zero, which is the item's own named
+content ("the exact divisor fact").
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

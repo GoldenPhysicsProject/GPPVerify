@@ -1027,3 +1027,21 @@ import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
 -- forward-direction definitions -- confirms the forward/converse formulas
 -- only agree when w = u_j^*e0 is real, an unstated extra hypothesis.
 import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
+
+-- ── Suzuki-Herglotz thread, item 1c684543 (New, 2026-08-23) ──────────────────────────
+-- "Shifted logarithmic-derivative transfer preserves the xi zero divisor" -- flagged in
+-- FORMALIZATION_PLAN.md as tractable (plain complex-analysis order-of-vanishing, not
+-- Herglotz-dependent). Writing the order as m=k+1 to avoid Nat subtraction: for
+-- F z := (z-rho)^(k+1) * g z with g analytic and g rho != 0, deriv F z - lam * F z =
+-- (z-rho)^k * w z with w z := (k+1)*g z + (z-rho)*(deriv g z - lam*g z)
+-- (deriv_shiftedTransferF_sub_smul_eq, from an actual HasDerivAt computation), and
+-- w rho = (k+1)*g rho != 0, so the quotient R_lam := F/D_lam satisfies R_lam(z)/(z-rho) ->
+-- 1/(k+1) as z->rho (tendsto_shiftedTransfer_quotient_div) -- the item's own stated
+-- asymptotic R_lam(s)=(s-rho)/m+O((s-rho)^2), i.e. a genuine SIMPLE zero at rho for every
+-- finite lambda -- and R_lam(z) -> 0 as z->rho (tendsto_shiftedTransfer_quotient_zero),
+-- the "zeros of R_lam are (among) the zeros of F" half of the item's conclusion. 8
+-- theorems, kernel-clean, no axiom, no sorry. Does NOT instantiate F=xi (a direct
+-- application once xi's zeros are known simple with the right local model, not attempted)
+-- and does NOT prove the global "exactly the zeros of F, no others" claim (needs D_lam
+-- controlled away from F's zeros too, a separate global argument).
+import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
