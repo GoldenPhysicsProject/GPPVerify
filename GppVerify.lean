@@ -968,9 +968,17 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- docs/FORMALIZATION_PLAN.md and discovery/cutkosky_weil/notes.md for the full account.
 import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
 
--- ── Euler-Factor Log-Derivative (New, 2026-08-23, sixth Cutkosky-Weil pass) ──
+-- ── Euler-Factor Log-Derivative (New, 2026-08-23, sixth+seventh Cutkosky-Weil passes) ──
 -- zeta_p's genuine log-derivative -zeta_p'/zeta_p, from an actual HasDerivAt
--- computation. Connection to Wp checked by hand + numerically (40 digits);
--- not yet formalized (Complex.cpow exponent-splitting), see the file's own
--- "Honest boundary" section and discovery/cutkosky_weil/notes.md.
+-- computation, PLUS (seventh pass) the closed connection to Wp itself:
+-- Wp p t = 2*Re(minusLogDerivZetaP p (1/2+it)), genuinely proved, not just
+-- checked numerically. See discovery/cutkosky_weil/notes.md.
 import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
+
+-- ── Thread Weil-Semiboundedness (New, 2026-08-23) ──
+-- formalization_queue item 1b12010b: pure order-theoretic skeleton for
+-- Suzuki's localized Weil ground energy lambda_a (nesting -> antitone;
+-- global bound <-> bounded-below range; antitone+unbounded -> tendsto atBot).
+-- Abstract only -- does not define Q_W, the Weil quadratic form, or C_c^infty
+-- test spaces. See the file's own module doc for the honest boundary.
+import GppVerify.ThreadWeilSemibound.LocalizedGroundOrder
