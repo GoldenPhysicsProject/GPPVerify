@@ -1747,6 +1747,26 @@ Full project rebuild: 3307/3308 clean, sorry-gate clean, 13/13 axioms unchanged.
 `b6cb996` (68566b83), `dd0d00d` (4d97d8eb), `5cad862` (dcebf59f) on `weil-semibound-thread`,
 all landed on `main`.
 
+## Sharpening the last open Weil-Parity item (2026-08-23, same session)
+
+`GppVerify/ThreadWeilParity/CommutingMetricResidueGap.lean` turns the earlier "carries a
+subtlety" note on item `d1aec733` into a checked finding rather than a hunch. The item's
+forward direction defines `c_j := (η^*u_j)(u_j^*e0)`, `g_j := (η^*u_j)/(u_j^*e0)`; unwinding
+these gives `c_j = g_j · w²` (plain complex square, `w := u_j^*e0`) unconditionally
+(`cj_eq_gj_mul_sq`) — but the item's own converse direction states the *same* quantity as
+`c_j = ⟨u_j,Gu_j⟩·|w|²` (a **modulus** square). These formulas agree only when `w` is real
+(confirmed with a concrete witness: `w=i` gives `w²=-1 ≠ 1=|i|²`).
+
+**Not a refutation of the underlying mathematics** in its intended (presumably
+real-symmetric) setting — the abstract queue phrasing is underspecified at exactly this
+point (an implicit reality assumption on `u_j^*e0` that the text never states), worth
+flagging back to the research source. `d1aec733`'s `formalization_queue` status set to
+`correction` rather than left `ready`, to distinguish it from items that are simply
+unattempted.
+
+Full project rebuild: 3308/3309 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`07894e0` on `weil-semibound-thread`, landed on `main`.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

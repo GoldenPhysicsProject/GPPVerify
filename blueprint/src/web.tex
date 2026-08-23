@@ -1653,6 +1653,25 @@ found one more quick win:
 $I(z)=\int v_+(x)e^{izx}dx$, and does not touch the item's final Herglotz/Livsic
 representation claim --- confirmed blocked above.
 
+\textbf{Sharpening the last open Weil-Parity item.} \texttt{d1aec733} ("Positive commuting
+metric equivalent to residue positivity") had been flagged only as "carrying a subtlety."
+Made precise:
+
+\begin{theorem}[The $c_j = g_j w^2$ Identity]
+  \label{thm:weilparity-cj-gj-mismatch}
+  \lean{GppWeilParity.cj\_eq\_gj\_mul\_sq}
+  \leanok
+  With $c:=vw$, $g:=v/w$ (the item's own $c_j$, $g_j$ formulas for $v=\eta^*u_j$,
+  $w=u_j^*e_0$), $c=g w^2$ unconditionally --- a \emph{plain} complex square, not the
+  modulus square $|w|^2$ the item's converse direction uses for the same quantity. The two
+  agree only when $w$ is real (witnessed concretely: $w=i$ gives $w^2=-1\ne1=|i|^2$).
+\end{theorem}
+
+Not a claim the underlying mathematics is wrong in its intended (presumably
+real-symmetric) setting --- only that the queue item's abstract phrasing is
+underspecified at exactly this point, worth flagging back to the research source rather
+than silently patched over or forced through.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
