@@ -34,8 +34,9 @@ theorem riemannZeta_ne_zero_right_half_plane {s : ℂ} (hs : 1 < s.re) :
 /-- Equivalent sign convention. -/
 theorem neg_zeta_logDeriv_eq_vonMangoldtLSeries {s : ℂ} (hs : 1 < s.re) :
     -(deriv riemannZeta s / riemannZeta s) = L vonMangoldtComplex s := by
-  symm
-  exact vonMangoldtLSeries_eq_neg_zeta_logDeriv hs
+  have h := vonMangoldtLSeries_eq_neg_zeta_logDeriv hs
+  rw [neg_div] at h
+  exact h.symm
 
 end GppGlobalVonMangoldt
 
