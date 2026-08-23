@@ -1288,11 +1288,14 @@ Independent numerical cross-check: `discovery/local_field_shadow/golden_hyperbol
 
 ## Thread Cutkosky-Weil — local shadow kernels and the finite-prime Weil kernel (2026-08-22/23)
 
-**Status: local identities and a layered finite Fourier/Gram-square development DONE,
-`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` — `Kp_pos`, `H_nonneg`,
-`Kp_eq_KrClosed`, `gram_square_freq`, `gram_square_freqSum`, `gram_square_freqSum_nonneg`,
-`KrN0_gram_nonneg` (7 theorems), all kernel-clean, no axiom, no sorry. The larger
-directive's construction (`Q_GPP`, positivity factorization) is NOT attempted.**
+**Status (fourth pass): local identities, the layered finite Fourier/Gram-square
+development, the removable singularity, AND the full `N→∞` analytic passage all DONE,
+`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` — 16 theorems, all kernel-clean, no
+axiom, no sorry, culminating in the genuine, untruncated
+`GppHaarPositivityWeil.PositiveType (K_r - 1)` (`KrClosed_minus_one_positiveType`),
+unconditional. The larger directive's construction (the spectral vacuum-projection
+operator identity, the Mellin/adelic bridge to the classical Weil kernel, `Q_GPP`,
+positivity factorization) is NOT attempted.**
 
 From a research-front directive proposing the route `celestial Cutkosky positivity →
 local shadow kernels → finite-prime Weil kernel → Casimir compression → global Weil
@@ -1352,16 +1355,34 @@ that on its own (the classical Weil explicit formula's local prime terms are
 individually sign-indefinite in their usual normalization even though local `K_p`
 positivity holds).
 
-**Deferred, not attempted this round**: the two-sided `HasSum` over all of `ℤ` for the
-untruncated `K_p`/`K_p-1` and the `N→∞` limit passage from `KrN0` to `K_p-1` by
-continuity; the exact Fourier pair `H(t) ↔ G(x)=3/(512π)sech⁴(x/4)` under the convention
-`G(x)=(1/2π)∫H(t)e^{itx}dt` (confirmed numerically to ~1e-51 relative error; needs
-Mathlib Fourier-transform-of-sech⁴ machinery not confirmed to exist); the
-pole-cancellation/removable-singularity claim at `t=±i/2` (confirmed numerically via a
-shrinking-perturbation sequence, no formal residue calculus); the full
-infinite-dimensional Hilbert-space operator identity `P_0 C_K P_0 = C_{K-1} =
-(AP_0)^*(AP_0)` (Mathlib has no ready `L²(circle)` convolution-operator framework — the
-finite Gram-square theorem is the rigorous content standing in for it).
+**Fourth pass (same session, following review) — both items above landed.** (1) The
+removable singularity: `tendsto_cutKernel_zero` proves `cutKernel → 1/(8π)` as `t→0`
+(`t≠0`), from `Real.sinh`'s derivative at `0` (`HasDerivAt Real.sinh (Real.cosh 0) 0`),
+not asserted; `cutKernelExt := Function.update cutKernel 0 (1/(8π))` is the continuous
+extension (`continuousAt_update_same` turns the punctured-neighborhood limit directly
+into continuity); `Hext`/`Hext_zero`/`Hext_nonneg` give `H(0)=1/(32π)` and nonnegativity
+everywhere, replacing the earlier `0/0=0` junk value. (2) The `N→∞` passage, via the
+route review specified — separate convergence from algebra rather than reviving the
+timed-out monolithic construction: `tendsto_Icc_atTop` (symmetric intervals are cofinal
+in `Finset.atTop`) + `summable_KrClosed_summand` (`Summable`, existence only, via
+`Summable.of_nat_of_neg` compared against the geometric tail — far cheaper than tracking
+`HasSum` *values* through `Int.rec`) + `tsum_KrClosed_summand_eq` (the tsum's value
+identified as `K_r(θ)-1`, via the two one-sided geometric series and
+`Summable.tsum_of_nat_of_neg`) + `tendsto_KrN0` (`KrN0 → K_r(θ)-1`) +
+`KrClosed_minus_one_positiveType` (positivity passes to the limit via `ge_of_tendsto`) =
+the genuine, untruncated `GppHaarPositivityWeil.PositiveType (K_r - 1)`, unconditional.
+16 theorems total in the file now, all kernel-clean.
+
+**Still deferred, not attempted**: the exact Fourier pair
+`H(t) ↔ G(x)=3/(512π)sech⁴(x/4)` under the convention `G(x)=(1/2π)∫H(t)e^{itx}dt`
+(confirmed numerically to ~1e-51 relative error; needs Mathlib Fourier-transform-of-sech⁴
+machinery not confirmed to exist); the pole-cancellation/removable-singularity claim at
+`t=±i/2` (a different, complex-analytic singularity from the real-axis one at `t=0` just
+closed — confirmed numerically via a shrinking-perturbation sequence, no formal residue
+calculus); the full infinite-dimensional Hilbert-space operator identity `P_0 C_K P_0 =
+C_{K-1} = (AP_0)^*(AP_0)` (Mathlib has no ready `L²(circle)` convolution-operator
+framework — the finite Gram-square theorem plus the `N→∞` passage is the rigorous
+content standing in for it).
 
 **Item 3 (Casimir operator's representation-theoretic origin) — not attempted**: the
 precise missing interface is Mathlib's total absence of `SL(2,ℝ)` principal-series

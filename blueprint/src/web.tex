@@ -1290,18 +1290,54 @@ standalone) after bisecting via isolated scratch-file tests. See
 \texttt{docs/FORMALIZATION\_PLAN.md} and \texttt{discovery/cutkosky\_weil/notes.md} for
 the full diagnosis.
 
-\textbf{Honest boundary.} Not formalized in Lean this round: the two-sided
-\texttt{HasSum} over all of $\mathbb{Z}$ for the untruncated $K_p$/$K_p-1$, and the
-$N\to\infty$ limit passage from $K^0_{r,N}$ to $K_p-1$ by continuity; the exact Fourier
+\begin{theorem}[Removable Singularity of the Archimedean Cut Kernel]
+  \label{thm:hext-nonneg}
+  \lean{GppCutkoskyWeil.Hext_nonneg}
+  \leanok
+  With \texttt{cutKernelExt} the continuous extension of \texttt{cutKernel} replacing
+  Lean's junk value $0/0=0$ at $t=0$ by the genuine limit $C(0)=1/(8\pi)$ (proved from
+  \texttt{Real.sinh}'s derivative at $0$, \lean{GppCutkoskyWeil.tendsto_cutKernel_zero},
+  not asserted), and $H_{\mathrm{ext}}(t):=(t^2+1/4)\,C_{\mathrm{ext}}(t)$: $H_{\mathrm{ext}}(0)
+  =1/(32\pi)$ (\lean{GppCutkoskyWeil.Hext_zero}) and $H_{\mathrm{ext}}(t)\geq0$ for every
+  real $t$.
+\end{theorem}
+
+\begin{theorem}[Untruncated Vacuum-Subtracted Kernel Positivity]
+  \label{thm:krclosed-minus-one-positivetype}
+  \lean{GppCutkoskyWeil.KrClosed_minus_one_positiveType}
+  \leanok
+  For every $0\le r<1$: $K_r-1$ is positive-type in the sense of
+  \texttt{GppHaarPositivityWeil.PositiveType} --- for every finite point configuration
+  and weights, $\sum_{j,k}\bar c_jc_k(K_r-1)(x_j-x_k)\geq0$ --- for the genuine,
+  untruncated kernel, not merely at finite truncation. Obtained from
+  Theorem~\ref{thm:krn0-gram-nonneg} by passing to the limit $N\to\infty$: the two-sided
+  Fourier series $K_r(\theta)-1=\sum_{n\ne0}r^{|n|}e^{in\theta}$ is established as a
+  genuine \texttt{HasSum} (\lean{GppCutkoskyWeil.tsum_KrClosed_summand_eq}) via
+  \texttt{Summable} built from the geometric tail bound (not by tracking \texttt{HasSum}
+  values through \texttt{Int.rec}, which is what had timed out); $K^0_{r,N}\to K_r-1$
+  follows (\lean{GppCutkoskyWeil.tendsto_KrN0}); and positivity passes to the limit via
+  \texttt{ge\_of\_tendsto}.
+\end{theorem}
+
+\textbf{Fourth pass, following review}: both items the third pass had deferred are now
+proved. The route for the $N\to\infty$ passage separates convergence (built from the
+geometric tail bound via \texttt{Summable.of\_nat\_of\_neg}) from the Gram-square
+algebra (already proved, unchanged, at finite truncation) --- exactly as specified,
+rather than reviving the timed-out monolithic construction. 16 theorems total in
+\texttt{CutkoskyWeilBridge.lean} now, all kernel-clean.
+
+\textbf{Honest boundary (updated).} Still not formalized in Lean: the exact Fourier
 pair $H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
 numerically to $\sim10^{-51}$ relative error); the pole-cancellation/removable-singularity
-claim at $t=\pm i/2$ (confirmed via a shrinking-perturbation sequence). The
+claim at $t=\pm i/2$ (a different, complex-analytic singularity from the real-axis one at
+$t=0$ just closed --- confirmed via a shrinking-perturbation sequence). The
 representation-theoretic Casimir operator itself (the $t^2+1/4$ eigenvalue is used only
 as a number, not derived from an operator --- Mathlib has no $SL(2,\mathbb{R})$
 principal-series development), the full infinite-dimensional Hilbert-space operator
-identity $P_0C_KP_0=C_{K-1}=(AP_0)^*(AP_0)$, and the $Q_{\mathrm{GPP}}$ construction /
-positivity factorization program are not attempted. No axiom, no sorry, no RH claim, no
-global positivity claim, no Connes--Consani machinery imported.
+identity $P_0C_KP_0=C_{K-1}=(AP_0)^*(AP_0)$ on a precisely-defined space, the
+Mellin/Fourier/adelic bridge to the classical Weil kernel, and the $Q_{\mathrm{GPP}}$
+construction / positivity factorization program are not attempted. No axiom, no sorry,
+no RH claim, no global positivity claim, no Connes--Consani machinery imported.
 
 \chapter{Axiom Inventory}
 
