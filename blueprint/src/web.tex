@@ -1539,6 +1539,47 @@ Schatten-class operator theory) would be a substantial standalone Mathlib-contri
 undertaking in its own right, worth flagging to Daniel as a strategic fork rather than
 attempting piecemeal.
 
+\textbf{Correction, same pass.} The initial scan above assumed the entire Weil-Parity
+thread was blocked by the same missing Herglotz/Pick machinery, by pattern-matching on the
+thread name rather than reading each item's body. That was wrong. Reading the six
+Weil-Parity queue items directly found that most are \emph{pure finite-dimensional linear
+algebra or topology} --- several explicitly say so in their own text (``pure linear
+algebra and should be sorry-free,'' ``pure finite-dimensional topology''). Two were
+formalized this pass once correctly assessed:
+
+\begin{theorem}[No-Crossing Continuation]
+  \label{thm:weilparity-ground-continuation}
+  \lean{GppWeilParity.lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected}
+  \leanok
+  Item \texttt{0182d9cf}. If continuous functions on a preconnected set never cross and one
+  starts strictly below the other at some point, it stays strictly below everywhere ---
+  via \texttt{IsPreconnected.intermediate\_value₂}: a crossing point would otherwise be
+  forced between the two points.
+\end{theorem}
+
+\begin{theorem}[Cross-Resolvent Ground Ordering]
+  \label{thm:weilparity-cross-resolvent-ordering}
+  \lean{GppWeilParity.Bdet_pos_at_lamMinA_of_continuousAt}
+  \leanok
+  Item \texttt{5e10a4f0}. If a determinant-ratio identity $B_{\det}(z)=f(z)\,A_{\det}(z)$
+  holds with both factors positive for $z<\lambda_{\min}(A)$, then $B_{\det}(z)>0$ there ---
+  algebraically immediate once stated correctly, and (once $B_{\det}$ is identified with
+  $z\mapsto\det(B-zI)$) exactly ``$B$ has no eigenvalue below $\lambda_{\min}(A)$.'' A
+  boundary/continuity refinement strengthens this to $B_{\det}(\lambda_{\min}(A))>0$ too,
+  given continuity and a no-common-eigenvalue hypothesis at $\lambda_{\min}(A)$ itself ---
+  the item's full ``$\lambda_{\min}(A)<\lambda_{\min}(B)$'' claim.
+\end{theorem}
+
+\textbf{Honest boundary, both.} Neither file defines Hermitian matrices, their
+characteristic polynomials, or their eigenvalues, and neither connects the abstract
+`\texttt{A\_det}`/`\texttt{B\_det}`/`\texttt{f}` to actual \texttt{Matrix.det} of a
+Hermitian matrix pencil --- that identification (``$z$ is an eigenvalue of Hermitian $M$
+iff $\det(M-zI)=0$'') is standard and left as the connecting step for whichever future
+file applies these lemmas to the real parity blocks. The remaining four Weil-Parity items
+(\texttt{9cc1e2f8}, \texttt{d1aec733}, \texttt{68566b83}, \texttt{4d97d8eb}) look similarly
+tractable on a re-read and were left \texttt{ready} for a future pass rather than rushed
+through in the same sitting.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn

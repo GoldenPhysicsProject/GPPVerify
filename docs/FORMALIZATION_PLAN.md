@@ -1609,6 +1609,58 @@ Mathlib grows the machinery?) rather than chipping at it piecemeal without a pla
 
 Full detail: `blueprint/src/web.tex` (new "Thread Weil-Semiboundedness" chapter).
 
+## Thread Weil-Parity, further items (2026-08-23) — correcting an over-broad assessment
+
+**Self-correction, same session.** The Weil-Semiboundedness scan above initially assumed
+the whole Weil-Parity thread was blocked by the same missing Herglotz/Pick machinery, by
+pattern-matching on the thread name rather than reading each queue item's body. That was
+wrong, caught by actually reading the six Weil-Parity items directly (per the standing
+"don't be so skeptical, test everything, don't assume ever" rule) rather than trusting the
+first impression. Most of them are **pure finite-dimensional linear algebra or topology**
+— several say so explicitly in their own text (`5e10a4f0`: "This is pure linear algebra and
+should be sorry-free"; `0182d9cf`: "This is pure finite-dimensional topology"). Two
+formalized this pass:
+
+**PROVED: `GppVerify/ThreadWeilParity/GroundContinuation.lean`**, item `0182d9cf`
+("Continuation of even ground from small support under no parity crossing"). Continuous
+functions on a preconnected set that never cross, with one strictly below the other at one
+point, stay strictly ordered everywhere —
+`lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected`, via
+`IsPreconnected.intermediate_value₂` (a crossing point would otherwise be forced between
+the two points by IVT). Plus an `Icc`-interval specialization matching the item's own
+"connected interval" phrasing directly.
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossResolventGroundOrdering.lean`**, item
+`5e10a4f0` ("Cross-resolvent positivity below even ground implies parity ground
+ordering"). The determinant-ratio identity `B_det z = f z * A_det z` with both factors
+positive for `z < lamMinA` forces `B_det z > 0` there (`Bdet_pos_of_ratio_pos` —
+algebraically immediate once correctly stated) — once `B_det` is identified with
+`z ↦ det(B - zI)`, exactly "no eigenvalue of `B` below `lambda_min(A)`". A further
+boundary/continuity refinement (`Bdet_pos_at_lamMinA_of_continuousAt`, via
+`ge_of_tendsto` on `𝓝[<] lamMinA`) strengthens this to `B_det lamMinA > 0` too, given
+continuity and a no-common-eigenvalue hypothesis at `lamMinA` itself — the item's full
+`lambda_min(A) < lambda_min(B)` claim.
+
+**Honest boundary, both**: neither file defines Hermitian matrices, their characteristic
+polynomials, or eigenvalues, and neither connects the abstract `A_det`/`B_det`/`f` to
+actual `Matrix.det` of a real Hermitian matrix pencil — that identification ("`z` is an
+eigenvalue of Hermitian `M` iff `det(M-zI)=0`") is standard and left for whichever future
+file applies these lemmas to the real parity blocks `A`, `B`.
+
+**Left `ready`, not attempted this pass** (look similarly tractable on this re-read; a
+future pass should attempt them the same way rather than assume difficulty from the thread
+name): `9cc1e2f8` (positive residues ⟹ strict parity interlacing — the item CLAUDE.md had
+already flagged as the natural next target, needing a real IVT/monotonicity argument on a
+sum of simple poles, not just block-matrix algebra), `d1aec733` (positive commuting metric
+⟺ residue positivity), `68566b83` (cross-heat positivity ⟹ resolvent positivity, with an
+explicit finite-spectral-sum fallback if the matrix-exponential/Laplace route is hard),
+`4d97d8eb` (Pick kernel barycentric interpolant — mostly pure rational-function algebra,
+with only its final Nevanlinna-Pick bridge needing to stay an explicit hypothesis per the
+item's own text).
+
+Full project rebuild: 3303/3304 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`7c1d92c` on `weil-semibound-thread`.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
