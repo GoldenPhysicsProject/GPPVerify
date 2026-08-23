@@ -228,3 +228,8 @@ import GppVerify
 #print axioms GppCutkoskyWeil.vacuum_compression_operator_identity
 #print axioms GppCutkoskyWeil.KrMinusOneWeight_re_nonneg
 #print axioms GppCutkoskyWeil.vacuum_compressed_operator_positive
+
+-- Sixth/seventh passes: genuine local Euler factor and the closed Wp identity.
+-- Expected: Lean built-ins only, both.
+#print axioms GppCutkoskyWeil.hasDerivAt_zetaP
+#print axioms GppCutkoskyWeil.Wp_eq_two_mul_re_minusLogDerivZetaP

@@ -1003,7 +1003,7 @@ claim of reproducing Anthropic's result, is made or implied by anything in this 
 
 ## The third category: `True := trivial` stubs — documented but untracked
 
-Beyond `sorry` (zero) and `axiom` (16 declarations), the tree carries **~131
+Beyond `sorry` (zero) and `axiom` (13 declarations), the tree carries **134
 `theorem foo : True := trivial` stubs across 25 files**. The README documents this
 convention explicitly and it is the *right* call — parking an open result as a vacuous
 statement with a doc comment naming the upstream gap is strictly more honest than an `axiom`
@@ -1486,9 +1486,105 @@ operator is separate, substantial representation-theory work.
 anywhere in this thread; the Gram-square development is original to this session,
 derived purely from the GPP local-shadow-kernel route already in the tree.
 
-**Explicit non-claims**: no RH claim; no claim of global Weil positivity; no claim that
-`K_p−1` is positive, locally or globally (the opposite was shown); no import of any
-external RH program's machinery as a black box.
+**Explicit non-claims**: no RH claim and no claim of global Weil positivity. Local
+positive-type positivity of `K_p−1` *is* proved; what fails is the hoped-for same-sign
+passage into the standard explicit formula, whose finite-prime contribution carries the
+opposite overall sign. No external RH program's machinery is imported as a black box.
+
+## Thread Cutkosky-Weil, sixth pass (2026-08-23) — the Euler-factor identity and the
+## decisive sign question
+
+Attacking the bridge from the already-proved `Wp`/`Kp-1` local kernel positivity
+(`CutkoskyWeilBridge.lean`, fifth pass) to the classical Weil explicit formula's
+finite-prime term, per a relayed research directive, rather than continuing to circle
+the abstract `rh_iff_weil_pairedForm_nonneg` criterion.
+
+**Layer 1-2 landed in Lean** (`GppVerify/RiemannHypothesis/EulerFactorLogDeriv.lean`,
+new file, imported into `GppVerify.lean`): `zetaP p s := (1-exp(-s log p))⁻¹`, the local
+Euler factor as a genuine function of `s : ℂ`. `hasDerivAt_zetaP` proves the closed form
+`minusLogDerivZetaP p s := log(p)·p^{-s}/(1-p^{-s})` genuinely **is** `-ζ_p'(s)/ζ_p(s)`,
+from an actual `HasDerivAt` chain-rule computation (through `Complex.exp`, then
+`HasDerivAt.inv`) — not asserted from the geometric-series shortcut. Full project
+rebuild green: 3300/3301, sorry-gate clean, 13/13 axioms unchanged.
+
+**Honest boundary, this pass**: the final connection back to `Wp` — `Wp p t =
+2·Re(minusLogDerivZetaP p (1/2+it))` — is checked by hand and numerically to 40 digits
+(four primes × three `t` values, `verify_euler_factor_logderiv.py`) but not yet
+formalized: the `Complex.cpow` exponent-splitting algebra
+(`p^{-(1/2+it)}=p^{-1/2}·p^{-it}`) needs more care than this pass affords without
+iterative compiler feedback on this large a file. Named precisely, not forced through.
+
+**The decisive question, answered by direct computation, not assumption.** Does the
+already-proved positive-type property of `Wp`'s kernel help establish the sign the Weil
+explicit formula's prime term actually needs? Rather than trust a half-remembered
+normalization, verified Weil's explicit formula itself against 60 real nontrivial zeta
+zeros (`mpmath.zetazero`) with a concrete even Gaussian test function
+`h(r)=exp(-0.6 r²)`:
+```
+sum_rho h(gamma) = h(i/2)+h(-i/2) - g(0)log(pi) + (1/2pi) int h(r) Re[psi(1/4+ir/2)] dr
+                    - 2 sum_{n>=2} (Lambda(n)/sqrt(n)) g(log n)
+```
+Both sides agree to `~1e-10`, pinning the sign exactly: the prime sum enters with an
+overall **minus** sign. Its summand is exactly `-2·sum_p sum_m log(p)·p^{-m/2}·g(m log p)`
+— literally minus a quantity built from the same Poisson-kernel structure `Wp` already
+proved positive-type (`verify_weil_explicit_formula_sign.py`).
+
+**Finding (negative, recorded honestly): local `Wp`/`Kp-1` positivity does NOT make the
+prime sum's contribution to the Weil quadratic form `Q(f)` nonnegative — it makes that
+contribution nonpositive.** This does not contradict anything already proved (`Kp_pos`,
+`H_nonneg`, and the positive-type kernel theorems all still hold exactly as proved); it
+identifies precisely which direction that positivity pushes once correctly signed into
+the classical formula. Any actual RH-equivalent positivity of `Q(f)` must come from the
+Archimedean (digamma) term dominating this genuinely negative prime pull for every
+admissible test function, not from same-signed local pieces stacking up — a sharper,
+sign-explicit version of the "no local prime-term positivity in the usual normalization"
+caution already on record in `CutkoskyWeilBridge.lean`'s own module doc.
+
+**A new asset**: Daniel supplied 100,000 high-precision nontrivial zeta zeros (Odlyzko
+format); the missing first zero was prepended by hand
+(`γ₁=14.134725141734693790457251983562470270784257115699...`). Ran `zeta_screw.py`'s
+Stage 3 ("Gram identity from the zeros") with this real file for the first time, ranges
+`±1,±2,±3`: relative residual `13-16%`, not the "small residual" clean-confirmation case
+the script's own docstring anticipates — recorded honestly as a real, moderate-but-not-
+tiny result, not yet diagnosed further (more zeros/higher truncation cutoff untested), a
+loose end for a future pass, not claimed as confirmation or refutation either way.
+
+Full detail: `discovery/cutkosky_weil/notes.md` (sixth-pass section),
+`verify_euler_factor_logderiv.py`, `verify_weil_explicit_formula_sign.py`.
+
+## Thread Cutkosky-Weil, seventh pass (2026-08-23) — the `Wp` boundary, closed
+
+Closes the honest boundary named above: `Wp p t = 2·Re(minusLogDerivZetaP p (1/2+it))` is
+now a genuine Lean theorem (`Wp_eq_two_mul_re_minusLogDerivZetaP`,
+`EulerFactorLogDeriv.lean`), not just checked by hand and numerically. Proved by direct
+real/imaginary-part computation (`Complex.exp_re`/`exp_im`, `Complex.div_re`,
+`Complex.normSq_apply`) rather than the originally-attempted `Complex.cpow`
+exponent-splitting route, closing with a standalone Poisson-kernel lemma
+`KrClosed_sub_one_eq_two_mul_re`: for real `r, θ` with `0 ≤ r < 1`,
+`KrClosed r θ - 1 = 2·Re[r·e^{iθ}/(1-r·e^{iθ})]`.
+
+**A genuine correction made mid-proof, not glossed over**: the first draft of
+`KrClosed_sub_one_eq_two_mul_re` was stated for *all* real `r, θ`, unconditionally — this
+is actually **false**. At `r=1, θ=0` the denominator `1-r·e^{iθ}` vanishes; Lean's total
+division sends `KrClosed 1 0 - 1` to `-1` (since `(1-1²)/0 = 0/0 = 0` by convention) but the
+right-hand side to `0` (since `1/0=0` there too, but the algebra path differs), so the
+"theorem" as originally stated would have been unprovable — caught by working the r=1,θ=0
+case by hand before trying to push the proof through `nlinarith`, not by the compiler
+rejecting a false universal claim (Lean has no way to know a stated theorem is false until
+you fail to prove it). Fixed by adding `0 ≤ r < 1` hypotheses, which cost nothing since the
+only application is `r = p^{-1/2} < 1` for `p > 1`.
+
+Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`4bc283e` on `cutkosky-weil-euler-factor`, branched from `origin/main`.
+
+**Explicit non-claim**: this does not touch the decisive-question finding (sixth pass) —
+the sign obstruction concerns how `Wp` enters the classical explicit formula, which this
+pass does not address; it only proves what `Wp` genuinely *equals*.
+
+**Next honest boundary**: the classical explicit formula itself (contour integration of
+`ζ'/ζ`, the argument principle) remains unformalized, as does whether the Archimedean
+(digamma) term can be shown to dominate the now-signed-negative prime pull — the two
+concrete open targets flagged in the sixth pass, unchanged by this pass.
 
 ---
 

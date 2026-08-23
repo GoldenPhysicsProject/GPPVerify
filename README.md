@@ -61,13 +61,13 @@ itself.
 
 Sorry and axiom counts alone overstate how much is proved, because the `True := trivial`
 convention is invisible to both. **Any status claim about this repo should quote all three
-numbers.** As of 2026-08-14, `grep`-verified against the tree:
+numbers.** As of 2026-08-23, `grep`-verified against the tree:
 
 | Category | Count | Meaning |
 |---|---|---|
 | `sorry` | **0** | Enforced discipline. Never commit one. |
-| `axiom` | **16** | Mostly named physics parameters (`omega_DM`, `c_2D`, `kappa_0`) and explicitly-open physics inputs (`link6_from_physics`, `boyle_turok_2021`). One analytic axiom remains: `exp_growth_not_tempered`. |
-| `theorem _ : True := trivial` | **~131** in 25 files | Open results parked honestly, each with a doc comment naming the upstream gap. **Not a proof of anything.** |
+| `axiom` | **13** | Mostly named physics parameters (`omega_DM`, `c_2D`, `kappa_0`) and explicitly-open physics inputs (`link6_from_physics`, `boyle_turok_2021`). One analytic axiom remains: `exp_growth_not_tempered`. |
+| `theorem _ : True := trivial` | **134** in 25 files | Open results parked honestly, each with a doc comment naming the upstream gap. **Not a proof of anything.** |
 
 Densest stub files: `RiemannHypothesis/HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`,
 `NumberTheory/ShadowEulerIdentity` (12 each), `CelestialHolography/TwistorGoogly` (11),
