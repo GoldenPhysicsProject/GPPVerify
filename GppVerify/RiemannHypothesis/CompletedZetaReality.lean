@@ -19,6 +19,7 @@ balance analogy used in the thermal bridge.
 namespace GppCompletedZetaReality
 
 open Complex
+open scoped Real ComplexConjugate
 
 private lemma conj_two_eq : conj (2 : ℂ) = 2 := by
   have h : (2 : ℂ) = ((2 : ℝ) : ℂ) := by norm_cast
