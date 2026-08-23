@@ -849,6 +849,16 @@ import GppVerify.QuantumGravity.SpectralWeightIdentities
 -- attempted here. Kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.Digamma
 
+-- ── Positive Gamma--Plancherel defect (v34, Theorem 62.1) ────────────────────────────────
+-- Exact identity between the real-place density and the existing celestial weight
+-- P(lam)=pi*lam/sinh(pi*lam); pointwise and integrated finite-Gram positivity; automatic
+-- positivity for compact truncations.  On the infinite lattice a=2m, b=2n, q>0, the
+-- digamma recurrence plus a finite geometric sum proves the FULL equality between the
+-- four-term Gamma defect, the (0,infinity) integral, and a positive finite resolvent sum,
+-- including strict scalar positivity and finite Gram positivity.  The arbitrary-real
+-- digamma integral representation remains open and is not claimed.  No RH implication.
+import GppVerify.RiemannHypothesis.GammaPlancherelDefect
+
 -- ── Local-field shadow kernels (new research front, 2026-08-20) ────────────────────────────
 -- From "Local-field shadow kernels, celestial unitarity, and the adelic principal series"
 -- (Toupin, 2026). Two unconditional structural facts about the Archimedean shadow kernel

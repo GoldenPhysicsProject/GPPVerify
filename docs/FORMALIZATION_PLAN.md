@@ -574,6 +574,54 @@ Conclusion was read in full: it ends "No proof of global trace conservation or p
 supplied here. Therefore no proof of RH is claimed" — consistent, word for word in spirit,
 with everything already found in this repo's corpus-error audits.
 
+## Thread GP — the positive Gamma--Plancherel defect
+
+**Status: PARTIAL, WITH AN EXACT INFINITE SUBFAMILY —
+`RiemannHypothesis/GammaPlancherelDefect.lean`, kernel-clean, no new axiom, no sorry.**
+
+Source: `arithmetic_principal_series_RH_program-34.tex`, Theorem 62.1.  For `q,a,b>0`
+the paper defines the four-term real-place logarithmic-derivative defect
+
+`D_q(a,b)=g_infinity(q+a)+g_infinity(q+b)-g_infinity(q)-g_infinity(q+a+b)`
+
+and identifies it with
+
+`integral_0^infinity e^{-qx}/(1-e^{-2x})(1-e^{-ax})(1-e^{-bx}) dx`.
+
+The new module proves the following unconditional layer:
+
+- `density_eq_spectralWeight`: the exact pointwise identity
+  `e^{-qx}/(1-e^{-2x}) = e^{-(q-1)x} P(x/pi)/(2x)` for `x>0`, where
+  `P(lam)=pi*lam/sinh(pi*lam)` is the repo's existing celestial cut weight.  Thus the
+  paper's Gamma defect and the QG spectral-weight thread meet at one formal object.
+- `pointwise_gram_nonneg`: after multiplying by the two real features
+  `1-e^{-ax}`, the kernel at each `x>0` is rank one, so every complex finite Gram form is
+  nonnegative.  `integral_gram_nonneg` proves that integration preserves this positivity
+  under explicit pairwise integrability; `truncatedDefectKernel_gram_nonneg` discharges
+  those hypotheses automatically on every compact interval `[eps,R]`, `eps>0`.
+- A stronger exact slice avoids the missing general digamma integral representation.
+  For `q>0`, `a=2m`, `b=2n` with `m,n:Nat`, `digamma_add_nat` iterates the already proved
+  `GppDigamma.digamma_add_one`; the denominator cancels by a finite geometric sum.  This
+  yields, in Lean,
+
+  `D_q(2m,2n) = integral_0^infinity defectIntegrand q (2m) (2n)`
+
+  `             = sum_{k<n} (1/(q+2k)-1/(q+2m+2k))`.
+
+  The finite exponential decomposition proves full integrability before evaluation by
+  `GppHeatTrace.resolvent_laplace`.  The final resolvent difference is nonnegative and is
+  strictly positive for `m,n>0`.  `gammaDefect_even_gram_nonneg` proves the actual
+  four-term Gamma defect is positive semidefinite on every finite collection of
+  even-natural shifts — not merely the integral kernel under a hypothesis.
+
+**Precise open boundary.**  For arbitrary positive real `a,b`, identifying the integral
+with `D_q(a,b)` still needs the general real digamma difference/integral representation.
+Mathlib has differentiability of `Real.Gamma`, and the repo defines `GppDigamma`, but the
+required integral representation is not upstream at this pin.  No arbitrary-real equality,
+global trace conservation, RH criterion, or RH consequence is claimed here.  The lattice
+result is an exact infinite subfamily of Theorem 62.1 and a clean base for the general
+analytic bridge.
+
 ## Thread Weil-Parity — the exact semilocal Weil form / prime–Archimedean Gram matrix
 
 **Status: one closed-form calculus fact proved (`archimedean_diagonal_tail`). Everything

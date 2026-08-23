@@ -139,6 +139,15 @@ import GppVerify
 #print axioms GppDigamma.digamma_nat_add_one
 #print axioms GppDigamma.digamma_add_one
 
+-- Positive Gamma--Plancherel defect (v34, Theorem 62.1). Expected: Lean built-ins only.
+-- The arbitrary-real digamma integral representation is deliberately not asserted;
+-- gammaDefect_even_eq_kernel is the exact q>0, a=2m, b=2n infinite subfamily.
+#print axioms GppGammaPlancherel.density_eq_spectralWeight
+#print axioms GppGammaPlancherel.gammaDefect_even_eq_kernel
+#print axioms GppGammaPlancherel.gammaDefect_even_pos
+#print axioms GppGammaPlancherel.truncatedDefectKernel_gram_nonneg
+#print axioms GppGammaPlancherel.gammaDefect_even_gram_nonneg
+
 -- Local-field shadow kernels (new research front). Expected: Lean built-ins only, all five.
 #print axioms GppLocalShadow.archKernel_reflection
 #print axioms GppLocalShadow.archKernel_shadow_eq_conj
