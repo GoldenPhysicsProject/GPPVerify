@@ -39,6 +39,7 @@ theorem minusLogDerivZetaP_eq_log_mul_occupation (p : ℝ) (s : ℂ) :
     GppCutkoskyWeil.minusLogDerivZetaP p s =
       Complex.log p * occupation (Complex.exp (-s * Complex.log p)) := by
   unfold occupation GppCutkoskyWeil.minusLogDerivZetaP
+  ring
 
 /-- **Bose-Einstein form of the local prime response.**  Whenever the occupation denominator
 is nonzero, the local Euler negative logarithmic derivative is exactly
