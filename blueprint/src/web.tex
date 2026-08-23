@@ -1230,29 +1230,78 @@ substantial, not-in-Mathlib undertaking) and is \textbf{not attempted here}.
   $\geq0$).
 \end{theorem}
 
-\textbf{Central research finding (numerical only, \texttt{discovery/cutkosky\_weil/}).}
-The directive's own closing question was: what projection turns $K_p$ into $K_p-1$
-while preserving positivity globally? Direct answer, at the single-prime level:
-\textbf{none exists}. $K_p$'s Fourier-coefficient sequence is termwise nonnegative, so
-by Bochner/Herglotz every truncated Toeplitz matrix built from it is positive definite
---- confirmed directly for $p=2,3,5$ (truncation $N=6$: all eigenvalues strictly
-positive). The same matrices for $K_p-1$ (zeroing only the vacuum coefficient $n=0$) are
-strictly \textbf{indefinite} in every case tested (a negative eigenvalue appears for
-every $p$). This does not rule out global positivity of the assembled sum
-$Q_{\mathrm{GPP}}=Q_\infty+\sum_p Q_p$ (individually-indefinite local terms routinely sum
-to a globally positive form, exactly as in the classical Weil explicit formula) --- it
-rules out the naive prime-by-prime mechanism the directive's question was testing.
+\textbf{Self-correction.} An earlier pass of this chapter claimed, as its central
+finding, that no positivity-preserving projection from $K_p$ to $K_p-1$ exists at the
+single-prime level, based on a Toeplitz matrix of Fourier \emph{coefficients} (indices
+= frequencies) found indefinite. That claim was \textbf{wrong}: it tested the wrong
+object. The question that matters is whether the Gram matrix
+$M_{jk}=(K_p-1)(\theta_j-\theta_k)$, built from point \emph{evaluations} at arbitrary
+finite angle configurations, is positive semidefinite --- and it is, trivially:
+convolution by $K_p$ is diagonal in the Fourier basis with eigenvalues $r^{|n|}\geq0$;
+the vacuum subtraction only zeroes the $n=0$ eigenvalue, which cannot make the rest
+negative.
 
-\textbf{Honest boundary.} Not formalized in Lean this round (numerical-verification-only):
-the full Poisson-series expansion of $K_p$ as a \texttt{HasSum}; the exact Fourier pair
-$H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
+\begin{theorem}[Fixed-Frequency Gram Identity]
+  \label{thm:gram-square-freq}
+  \lean{GppCutkoskyWeil.gram_square_freq}
+  \leanok
+  For any finite point configuration $x:\mathrm{Fin}\,N\to\mathbb{R}$, weights
+  $c:\mathrm{Fin}\,N\to\mathbb{C}$, and frequency $n\in\mathbb{Z}$:
+  $\sum_{j,k}\bar c_jc_ke^{in(x_j-x_k)}=\bigl|\sum_jc_je^{-inx_j}\bigr|^2$. Pure finite
+  algebra, generalizing the pre-existing \texttt{gram\_square\_nonneg}
+  (Convolution Squares chapter) to complex amplitudes.
+\end{theorem}
+
+\begin{theorem}[Finite Weighted Frequency Sum]
+  \label{thm:gram-square-freqsum}
+  \lean{GppCutkoskyWeil.gram_square_freqSum}
+  \leanok
+  For a finite set of frequencies $F\subset\mathbb{Z}$ and real weights
+  $a:\mathbb{Z}\to\mathbb{R}$: $\sum_{j,k}\bar c_jc_k\sum_{n\in F}a_ne^{in(x_j-x_k)}
+  =\sum_{n\in F}a_n\bigl|\sum_jc_je^{-inx_j}\bigr|^2$, derived from
+  Theorem~\ref{thm:gram-square-freq} by pure finite-sum reordering.
+\end{theorem}
+
+\begin{theorem}[Truncated Finite-Place Kernel Positivity]
+  \label{thm:krn0-gram-nonneg}
+  \lean{GppCutkoskyWeil.KrN0_gram_nonneg}
+  \leanok
+  With $K^0_{r,N}(\theta):=\sum_{0<|n|\le N}r^{|n|}e^{in\theta}$ the truncated,
+  vacuum-excluded finite-place kernel: $\sum_{j,k}\bar c_jc_kK^0_{r,N}(x_j-x_k)\geq0$
+  for every truncation $N$, every finite point configuration, and every $0\le r$.
+  Follows from Theorem~\ref{thm:gram-square-freqsum} plus \texttt{Finset.sum\_nonneg},
+  via the intermediate corollary \texttt{gram\_square\_freqSum\_nonneg}.
+\end{theorem}
+
+\textbf{Corrected central finding.} $K_p-1$ IS a positive kernel, prime-by-prime,
+unconditionally, at every finite truncation (Theorem~\ref{thm:krn0-gram-nonneg}). This
+reverses the earlier (wrong) claim. It does \textbf{not} by itself establish global
+positivity of the assembled sum $Q_{\mathrm{GPP}}=Q_\infty+\sum_p Q_p$ --- single-prime
+kernel positivity was never going to answer that on its own (the classical Weil explicit
+formula's local prime terms are individually sign-indefinite in their usual
+normalization even though local $K_p$ positivity holds).
+
+\textbf{Proof-engineering note.} A first attempt at the corrected result proved the
+untruncated two-sided \texttt{HasSum} over all of $\mathbb{Z}$ and built
+\texttt{PositiveType}$(K_r-1)$ on top of it as one monolithic theorem; both repeatedly
+hit elaboration timeouts even at 20$\times$ the default heartbeat budget. Restructured
+into the small, independently-fast layers above (each builds in under 4 seconds
+standalone) after bisecting via isolated scratch-file tests. See
+\texttt{docs/FORMALIZATION\_PLAN.md} and \texttt{discovery/cutkosky\_weil/notes.md} for
+the full diagnosis.
+
+\textbf{Honest boundary.} Not formalized in Lean this round: the two-sided
+\texttt{HasSum} over all of $\mathbb{Z}$ for the untruncated $K_p$/$K_p-1$, and the
+$N\to\infty$ limit passage from $K^0_{r,N}$ to $K_p-1$ by continuity; the exact Fourier
+pair $H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
 numerically to $\sim10^{-51}$ relative error); the pole-cancellation/removable-singularity
 claim at $t=\pm i/2$ (confirmed via a shrinking-perturbation sequence). The
 representation-theoretic Casimir operator itself (the $t^2+1/4$ eigenvalue is used only
 as a number, not derived from an operator --- Mathlib has no $SL(2,\mathbb{R})$
-principal-series development) and the $Q_{\mathrm{GPP}}$ construction / positivity
-factorization program are not attempted. No axiom, no sorry, no RH claim, no global
-positivity claim, no Connes--Consani machinery imported.
+principal-series development), the full infinite-dimensional Hilbert-space operator
+identity $P_0C_KP_0=C_{K-1}=(AP_0)^*(AP_0)$, and the $Q_{\mathrm{GPP}}$ construction /
+positivity factorization program are not attempted. No axiom, no sorry, no RH claim, no
+global positivity claim, no Connes--Consani machinery imported.
 
 \chapter{Axiom Inventory}
 

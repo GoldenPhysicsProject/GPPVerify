@@ -7,16 +7,23 @@ compression → global Weil positivity → RH" — same convention as
 where explicitly noted as formalized in Lean.**
 
 - `notes.md` — the full write-up: the central research question (what projection turns
-  `K_p` into `K_p−1` while preserving positivity) and its rigorously-computed answer,
-  what's proved in Lean, what's numerical-only, and the honest boundary. Read this first.
+  `K_p` into `K_p−1` while preserving positivity), a **self-correction** of this round's
+  first-pass answer (read that section first), the corrected rigorous answer, what's
+  proved in Lean, what's numerical-only, and the honest boundary.
 - `cutkosky_weil_verify.py` — independent numerical verification of every identity
-  discussed, rerun fresh in this container.
+  discussed, rerun fresh in this container, including the corrected central experiment.
 - Lean formalization lives in
   `GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` (`Kp`, `Wp`, `cutKernel`, `H`,
-  `Kp_pos`, `H_nonneg`).
+  `Kp_pos`, `H_nonneg`, `KrClosed`, and the layered finite Fourier/Gram-square development
+  `gram_square_freq` → `gram_square_freqSum` → `gram_square_freqSum_nonneg` →
+  `KrN0`/`KrN0_gram_nonneg`). `notes.md`'s "Proof engineering" section explains why the
+  layering — each piece under 4s to elaborate standalone — replaced an earlier monolithic
+  attempt that hit elaboration timeouts even at 20× the default heartbeat budget.
 
 **This is a new research front, not an RH proof, and not evidence toward RH.** See
 `notes.md`'s "Explicit non-claims" section for the full list of things this work does
-*not* establish. The central finding of this round is a *negative* result: no
-positivity-preserving projection from `K_p` to `K_p − 1` exists at the single-prime
-level (Toeplitz/Bochner indefiniteness, confirmed for p=2,3,5).
+*not* establish. The corrected central finding: `K_p − 1` **is** positive-definite as a
+kernel, prime-by-prime — trivially, since convolution by `K_p` is diagonal in the
+Fourier basis with nonnegative eigenvalues, and the vacuum subtraction only zeroes the
+`n=0` eigenvalue. This does not by itself bridge to global Weil positivity (still open —
+see `notes.md`).
