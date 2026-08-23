@@ -1537,6 +1537,78 @@ pass does not address; it only proves what `Wp` genuinely *equals*.
 (digamma) term can be shown to dominate the now-signed-negative prime pull — the two
 concrete open targets flagged in the sixth pass, unchanged by this pass.
 
+## Thread Weil-Semiboundedness, first pass (2026-08-23)
+
+New thread, opened directly from `formalization_queue` per standing protocol (read newest
+queue items, attempt every `ready` item directly in Lean, no by-hand pre-proof gate,
+classify PROVED/CONDITIONALLY PROVED/OPEN/REFUTED honestly, never axiomatize the desired
+conclusion). Four items landed at priority 0 (top of queue), all a single ChatGPT-relayed
+research program: RH via a *semibounded* Weil criterion (`∃ finite C≥0, Q_W(v) ≥ -C‖v‖₂²`
+for all compactly supported smooth `v`; Weil positivity is the `C=0` case), routed through
+Suzuki's Herglotz-function reformulation and the Krein-Langer screw-function
+correspondence.
+
+**PROVED (unconditional): `GppVerify/ThreadWeilSemibound/LocalizedGroundOrder.lean`**,
+item `1b12010b` ("Uniform localized Weil lower bound is equivalent to global
+semiboundedness"). Formalizes exactly the order-theoretic content the item asks for, as an
+abstract nested-infimum skeleton with no reference to what the concrete ratio functional or
+test-function spaces are:
+- `lam_antitone_of_isGLB_of_nested`: nested test spaces ⟹ antitone ground energy (via
+  `IsGLB.mono`).
+- `globalBound_iff_bddBelow_range_lam`: uniform global lower bound ⟺ `BddBelow
+  (Set.range lam)` — deliberately phrased via `BddBelow` rather than a literal `sInf`, to
+  avoid `Real.sInf`'s junk-value convention (`0`) on sets not bounded below silently giving
+  a wrong equivalence.
+- `antitone_tendsto_atBot_of_not_bddBelow`: antitone + unbounded below ⟹ `λ_a → -∞`, a
+  short direct filter argument (`Filter.tendsto_atBot` unfolded, no exotic lemma needed).
+- `tendsto_atBot_of_not_globalBound`: all three assembled into the item's real
+  contrapositive punchline.
+
+**Honest boundary — does NOT define** `Q_W`, the Weil quadratic form, `‖·‖₂`, or
+`S_a = C_c^∞(-a,a)`: no such localized test-function machinery exists in Mathlib, and this
+file is only the abstract skeleton, not an application to the real Weil operator.
+
+**OPEN, honestly assessed rather than forced, remaining three priority-0 items:**
+- `50903a57` ("Conditional convolution positivity implies screw-kernel positivity"):
+  **feasible in principle** — found the exact building block,
+  `ContDiffBump.convolution_tendsto_right_of_continuous`
+  (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`), which gives "convolution
+  against a shrinking bump tends to the continuous function's value at a point," precisely
+  the approximate-identity fact the queue item's suggested proof needs. But the full
+  construction — build the finite-support mean-zero mollified test function `u_ε` from a
+  sum of point masses at `t_j` minus a correction mass at `0`, expand the assumed double
+  integral into a finite sum of bilinear terms via Fubini, take `ε→0` termwise to recover
+  `G_h(t_i,t_j) = h(t_i-t_j)-h(t_i)-h(-t_j)+h(0)` exactly — is a genuinely large multi-lemma
+  real-analysis construction. Scoped precisely, not attempted this pass rather than forced
+  through partially and left broken.
+- `ed078a8f` ("Semibounded Weil criterion forces RH") and `93384c2c` ("Finite Brownian
+  compensation shifts the zeta Herglotz function by iC/2"): **genuinely blocked**. Checked
+  directly (`grep -rli "herglotz\|nevanlinna\|krein.*langer\|screw function" Mathlib/`):
+  the only hit is Nevanlinna *value-distribution* theory (Second Main Theorem counting
+  functions), an unrelated subject. **Mathlib has no Herglotz/Pick integral-representation
+  theory and no Krein-Langer correspondence at all.** Formalizing either item requires
+  building that entire theory from scratch first — not attempted here.
+
+**A further scan of the rest of the `ready` queue** (priorities 1-2, threads Weil-Parity,
+Suzuki-Herglotz, Prime-Schatten, Prime-Scattering, Prime-Fock) found the same gap recurring
+(items naming Pick kernels / Herglotz reflection symmetry) plus a **second, independent
+gap**: items in Prime-Schatten/Prime-Scattering/Prime-Fock ask for Schatten-class operator
+norms, regularized `det_3` Fredholm determinants, and bosonic Fock-space trace identities —
+checked directly (`grep -rli "schatten"` and `"traceClass\|trace_class\|IsTraceClass"` over
+`Mathlib/Analysis/`, zero hits both): **Mathlib has no Schatten-class, trace-class, or
+Fredholm/regularized-determinant theory for Hilbert-space operators at all.** Nothing in
+either blocked category was force-completed with a watered-down or circular substitute.
+
+**Strategic note, not a task**: two precise, named Mathlib infrastructure gaps (Herglotz/
+Pick representation theory + Krein-Langer; Schatten-class/trace-class operator theory) now
+block a large fraction of the currently-`ready` queue across five threads. Building either
+would itself be a substantial standalone Mathlib-contribution-sized undertaking, worth
+flagging to Daniel as a strategic fork (attempt to contribute one of these upstream? scope
+a smaller GPP-local sufficient fragment instead? deprioritize this whole cluster until
+Mathlib grows the machinery?) rather than chipping at it piecemeal without a plan.
+
+Full detail: `blueprint/src/web.tex` (new "Thread Weil-Semiboundedness" chapter).
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

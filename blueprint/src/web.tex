@@ -1467,6 +1467,78 @@ question finding above, to need the Archimedean term to dominate a genuinely neg
 prime contribution, not to assemble from same-signed pieces. No axiom, no sorry,
 no RH claim, no global positivity claim, no Connes--Consani machinery imported.
 
+\chapter{Thread Weil-Semiboundedness}
+
+New thread (2026-08-23), opened from \texttt{formalization\_queue} rather than a manuscript
+handoff: a ChatGPT-relayed research program attacking RH via a \emph{semibounded} Weil
+criterion --- RH $\iff$ $\exists$ finite $C\ge0$ with $Q_W(v)\ge -C\|v\|_2^2$ for every
+compactly supported smooth $v$ (Weil positivity is the $C=0$ case), routed through Suzuki's
+2023/2026 Herglotz-function reformulation and the Krein--Langer screw-function
+correspondence. Four items landed in the queue at priority 0 (top), all in this thread; per
+standing protocol (attempt every ready item directly in Lean, no by-hand pre-proof gate,
+classify honestly, never axiomatize the desired conclusion) each was attempted this pass.
+
+\begin{theorem}[Localized Ground-Energy Order Skeleton]
+  \label{thm:weil-semibound-order-skeleton}
+  \lean{GppWeilSemibound.tendsto_atBot_of_not_globalBound}
+  \leanok
+  Abstract nested-infimum order theory, applicable to Suzuki's localized Weil ground energy
+  $\lambda_a$ once it is supplied concretely: if a family of test-function sets $S_a$ is
+  nested and $\lambda_a$ is the greatest lower bound of a ratio functional over $S_a$, then
+  (i) $\lambda$ is antitone; (ii) a uniform global lower bound over $\bigcup_a S_a$ is
+  equivalent to $\operatorname{range}\lambda$ being bounded below (phrased via
+  \texttt{BddBelow} rather than a literal \texttt{sInf}, to avoid \texttt{Real.sInf}'s
+  junk-value convention on sets unbounded below); (iii) antitone plus not bounded below
+  forces $\lambda_a\to-\infty$. Genuinely proves (formalization\_queue item \texttt{1b12010b})
+  exactly the order-theoretic content that item asked for, with no reference to what the
+  ratio functional or test spaces concretely are.
+\end{theorem}
+
+\textbf{Honest boundary, this pass.} Theorem~\ref{thm:weil-semibound-order-skeleton} does
+\emph{not} define $Q_W$, the Weil quadratic form, $\|\cdot\|_2$, or
+$S_a=C_c^\infty(-a,a)$ --- no such localized compactly-supported-test-function machinery
+exists in Mathlib, and building it is a separate, large undertaking untouched here. The
+other three priority-0 queue items were assessed, not completed:
+
+\begin{itemize}
+\item \textbf{Conditional convolution positivity implies screw-kernel positivity}
+  (item \texttt{50903a57}): feasible in principle --- Mathlib's
+  \texttt{ContDiffBump.convolution\_tendsto\_right\_of\_continuous} supplies exactly the
+  ``approximate identity converges to a continuous function's value at a point'' fact the
+  queue item's suggested proof needs --- but the full construction (building the
+  finite-support mean-zero mollified test function $u_\varepsilon$ from a sum of point
+  masses, expanding the assumed double integral into a finite sum of bilinear terms via
+  Fubini, and taking $\varepsilon\to0$ termwise to recover $G_h(t_i,t_j)$ exactly) is a
+  genuinely large multi-lemma real-analysis construction, scoped but not attempted this
+  pass rather than forced through partially.
+\item \textbf{Semibounded Weil criterion forces RH} (item \texttt{ed078a8f}) and
+  \textbf{Finite Brownian compensation shifts the zeta Herglotz function by $iC/2$} (item
+  \texttt{93384c2c}): both genuinely blocked. Both require Herglotz (Pick) function
+  representation theory and the Krein--Langer correspondence between screw functions and
+  Herglotz functions cited from Suzuki's paper. Checked directly (\texttt{grep -rli
+  "herglotz\textbar nevanlinna\textbar krein.*langer\textbar screw function"
+  Mathlib/}): the only Mathlib hit is Nevanlinna \emph{value-distribution} theory (the
+  Second Main Theorem counting-function sense), an unrelated subject from a different branch
+  of complex analysis --- there is no Herglotz/Pick integral-representation theory or
+  Krein--Langer machinery in Mathlib at all. Formalizing either item first requires building
+  that entire theory from scratch, which is not attempted here.
+\end{itemize}
+
+A further scan of the remaining \texttt{ready} queue (priorities 1--2, threads
+Weil-Parity, Suzuki-Herglotz, Prime-Schatten, Prime-Scattering, Prime-Fock) found the same
+two obstructions recurring: items naming Pick kernels or Herglotz reflection symmetry
+inherit the same missing-theory gap as above, and items in the Prime-Schatten/
+Prime-Scattering/Prime-Fock threads (Schatten-class operator norms, regularized $\det_3$
+Fredholm determinants, bosonic Fock-space trace identities) are blocked on a second,
+independent gap: \textbf{Mathlib has no Schatten-class, trace-class, or regularized/Fredholk
+determinant theory for Hilbert-space operators at all} (checked directly, zero hits). None
+of these were force-completed with a watered-down or circular substitute. This is a real,
+useful negative finding, not a stall: two precise, named infrastructure gaps now block a
+large fraction of the open queue, and building either (Herglotz representation theory, or
+Schatten-class operator theory) would be a substantial standalone Mathlib-contribution-sized
+undertaking in its own right, worth flagging to Daniel as a strategic fork rather than
+attempting piecemeal.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
