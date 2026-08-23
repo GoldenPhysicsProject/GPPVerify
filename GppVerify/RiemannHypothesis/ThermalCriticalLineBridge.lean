@@ -4,6 +4,7 @@ import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.RiemannHypothesis.PrimeOccupationBridge
 import GppVerify.RiemannHypothesis.PrimeGasPartition
 import GppVerify.RiemannHypothesis.CompletedZetaReality
+import GppVerify.RiemannHypothesis.NumberEntropy
 
 /-!
 # Thermal critical-line bridge
