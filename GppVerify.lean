@@ -856,6 +856,14 @@ import GppVerify.QuantumGravity.SinhLogSeries
 -- this, per the file's own scoped honest boundary.
 import GppVerify.QuantumGravity.CumulantLaw
 
+-- ── Thread Loops-from-Cuts, cumulant law single-index closed form (New) ──
+-- Completes CumulantLaw.lean's own scoped remaining step: regroups the double-indexed
+-- HasSum by k alone (swapping index roles via Equiv.prodComm and a fresh per-k-row
+-- shifted-p-series computation) to land the paper's literal single-index statement,
+-- log(sinh(pi*lambda)/(pi*lambda)) = sum_{k>=0} (-1)^k*zeta(2k+2)*lambda^(2k+2)/(k+1) --
+-- the "cumulants are even zeta values" face of the spectral weight, fully closed.
+import GppVerify.QuantumGravity.CumulantLawClosedForm
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry

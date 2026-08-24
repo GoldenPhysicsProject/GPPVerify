@@ -921,9 +921,31 @@ missing digamma function.
   contains the same content, and the regrouping is left as a reindexing exercise.
 \end{theorem}
 
-\texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, \texttt{thm:sinh-log-series}, and
-\texttt{thm:cumulant-law} above are, so far, the four pieces from this new canonical series
-formalized with no Mathlib blocker.
+\begin{theorem}[The Cumulant Law, Single-Index Closed Form]
+  \label{thm:cumulant-closed-form}
+  \lean{GppCumulantLawClosedForm.hasSum_cumulant_closed_form}
+  \leanok
+  \uses{thm:cumulant-law}
+  For every real $\lambda$ with $0 < \lambda < 1$, writing
+  $\zeta_{\mathbb R}(p) := \sum'_{n\ge0} 1/(n+1)^p$ for the literal Dirichlet-series
+  definition (no separate identification with Mathlib's \texttt{riemannZeta} needed),
+  \[
+    \log\!\Bigl(\frac{\sinh(\pi\lambda)}{\pi\lambda}\Bigr)
+    \;=\; \sum_{k=0}^{\infty} (-1)^k\,\zeta_{\mathbb R}(2k+2)\,\lambda^{2k+2}\big/(k+1),
+  \]
+  the paper's own "cumulants are even zeta values" statement (index-shifted by one from the
+  paper's $m\ge1$ convention: $k=m-1$).
+  \emph{Proved clean}: regroups \texttt{thm:cumulant-law}'s double-indexed \texttt{HasSum}
+  by swapping index roles (\texttt{Equiv.prodComm}) and combining with a fresh per-$k$-row
+  computation --- $\sum'_n(\lambda^2/(n{+}1)^2)^{k+1}=\lambda^{2k+2}\zeta_{\mathbb R}(2k+2)$,
+  an ordinary shifted $p$-series with $p=2k{+}2\ge2$ --- via \texttt{HasSum.prod\_fiberwise}
+  in place of \texttt{CumulantLaw.hasSum\_row}'s per-$n$-row computation. This closes the
+  cumulant-law sub-thread completely: no further step remains open in it.
+\end{theorem}
+
+\texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, \texttt{thm:sinh-log-series},
+\texttt{thm:cumulant-law}, and \texttt{thm:cumulant-closed-form} above are, so far, the
+five pieces from this new canonical series formalized with no Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 

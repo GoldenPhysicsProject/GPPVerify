@@ -1102,6 +1102,20 @@ double sum by `k` alone (a `tsum_prod'`/reindexing exercise, not new mathematica
 to recover the paper's literal single-index closed form
 `Σ_k(-1)^{k+1}ζ(2k)λ^{2k}/k`. Full rebuild re-verified: 0 sorry, 13 axioms unchanged.
 
+**Also landed same session, closing this sub-thread completely**:
+`QuantumGravity/CumulantLawClosedForm.lean` — `hasSum_cumulant_closed_form`: the single-index
+regrouping flagged above. `zetaR p := ∑'_{n≥0} 1/(n+1)^p` is the literal Dirichlet-series
+definition (deliberately not identified with Mathlib's `riemannZeta` — no content is gained
+by doing so, only an extra identification step). For `0<λ<1`,
+`log(sinh(πλ)/(πλ)) = Σ_{k≥0} (-1)^k·ζ(2k+2)·λ^{2k+2}/(k+1)` — the paper's own statement
+with `k=m-1` for its `m≥1` convention. Obtained by swapping `CumulantLaw`'s already-summable
+double family via `Equiv.prodComm` and combining with a fresh per-`k`-row computation
+(`Σ'_n(λ²/(n+1)²)^{k+1}=λ^{2k+2}ζ(2k+2)`, an ordinary shifted `p`-series, `p=2k+2≥2`) via
+`HasSum.prod_fiberwise` — the mirror image of `CumulantLaw.hasSum_row`'s per-`n`-row
+computation, reusing `summable_double`'s absolute-summability work rather than re-deriving
+it. **This closes the cumulant-law sub-thread with nothing left open in it.** Full rebuild
+re-verified: 0 sorry, 13 axioms unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)
