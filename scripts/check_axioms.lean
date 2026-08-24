@@ -123,3 +123,122 @@ import GppVerify
 -- Expected: Lean built-ins only, on both.
 #print axioms GppKinematicBlock.zeta_bridge_kappa
 #print axioms GppSinhWeierstrass.tendsto_prod_one_add_sq_div
+
+-- Thread QG-Blackbody round 3 (CumulantLaw) — from blackbody_law_qg_dtoupin_v1.tex T5.
+-- Expected: Lean built-ins only.
+#print axioms GppCumulantLaw.cumulant_law
+
+-- Thread QG-Blackbody round 4 (SpectralWeightIdentities) — Planck form and the reciprocal
+-- Weierstrass product for P(lam) = pi*lam/sinh(pi*lam). Expected: Lean built-ins only, both.
+#print axioms GppSpectralWeight.planck_form
+#print axioms GppSpectralWeight.one_div_P_tendsto_tprod
+
+-- Digamma via Mathlib's Gamma calculus (task #9). Expected: Lean built-ins only, all five.
+#print axioms GppDigamma.digamma_one
+#print axioms GppDigamma.digamma_one_half
+#print axioms GppDigamma.digamma_nat_add_one
+#print axioms GppDigamma.digamma_add_one
+
+-- Positive Gamma--Plancherel defect (v34, Theorem 62.1). Expected: Lean built-ins only.
+-- The arbitrary-real digamma integral representation is deliberately not asserted;
+-- gammaDefect_even_eq_kernel is the exact q>0, a=2m, b=2n infinite subfamily.
+#print axioms GppGammaPlancherel.density_eq_spectralWeight
+#print axioms GppGammaPlancherel.gammaDefect_even_eq_kernel
+#print axioms GppGammaPlancherel.gammaDefect_even_pos
+#print axioms GppGammaPlancherel.truncatedDefectKernel_gram_nonneg
+#print axioms GppGammaPlancherel.gammaDefect_even_gram_nonneg
+
+-- Local-field shadow kernels (new research front). Expected: Lean built-ins only, all five.
+#print axioms GppLocalShadow.archKernel_reflection
+#print axioms GppLocalShadow.archKernel_shadow_eq_conj
+#print axioms GppLocalShadow.archKernel_principal_series
+#print axioms GppLocalShadow.archKernel_principal_series_pos
+#print axioms GppDiagonalLift.delta_D
+#print axioms GppDiagonalLift.J_D
+#print axioms GppDiagonalLift.D_one_sub_eq_shadow2_D
+#print axioms GppDiagonalLift.delta_shadow2_D
+
+-- §9 resolution (2026-08-22): the physical kernel and Weyl intertwiner are distinct objects.
+-- (two_mul_pi_cpow_split is a private proof-internal helper, not auditable from here.)
+-- Expected: Lean built-ins only, all three.
+#print axioms GppLocalShadow.GammaC_eq_GammaR_mul_GammaR_succ
+#print axioms GppLocalShadow.archKernel_two_eq_GammaC_product
+#print axioms GppLocalShadow.archKernel_two_eq_GammaR_sectors
+
+-- Global Eisenstein coefficient (completedRiemannZeta functional equation). NOT an RH claim.
+-- Expected: Lean built-ins only, both.
+#print axioms GppEisenstein.eisensteinCoeff_eq_shadow_ratio
+#print axioms GppEisenstein.eisensteinCoeff_reflection
+
+-- The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22). Physical-sector
+-- identification is NOT claimed anywhere here -- these are pure arithmetic/matrix theorems.
+-- Expected: Lean built-ins only, all eleven.
+#print axioms GppGoldenHyperbolic.fixedPoint_iff_gold
+#print axioms GppGoldenHyperbolic.M_sq_eq_A
+#print axioms GppGoldenHyperbolic.det_M
+#print axioms GppGoldenHyperbolic.det_A
+#print axioms GppGoldenHyperbolic.trace_A
+#print axioms GppGoldenHyperbolic.hyperbolic_trace_ge_three
+#print axioms GppGoldenHyperbolic.A_trace_attains_min
+#print axioms GppGoldenHyperbolic.A_charpoly_root_goldSq
+#print axioms GppGoldenHyperbolic.A_charpoly_root_goldInvSq
+#print axioms GppGoldenHyperbolic.discrA_eq_five
+#print axioms GppGoldenHyperbolic.A_mobius_fixedPoints
+#print axioms GppGoldenHyperbolic.finitePlaceKernel_half
+#print axioms GppGoldenHyperbolic.finitePlaceKernel_five_half
+#print axioms GppGoldenHyperbolic.golden_convergence
+
+-- Dispersion reconstruction (GppDispersion) — the general, physics-convention-
+-- independent Sokhotski-Plemelj mechanism underlying ShadowPairSewing.sewing_identity.
+-- Expected: Lean built-ins only, on both. Does NOT discharge sewing_identity: see
+-- DispersionReconstruction.lean's module doc for the three named hypotheses (H1-H3)
+-- this reduces the opaque hypothesis to.
+#print axioms GppDispersion.lorentzian_jump
+#print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole
+
+-- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23, fourth pass). No RH claim,
+-- no global positivity claim -- see CutkoskyWeilBridge.lean's module doc and
+-- discovery/cutkosky_weil/notes.md for the corrected central finding (K_p-1 IS a positive
+-- kernel; the earlier Toeplitz-indefiniteness claim tested the wrong notion) and the
+-- completed analytic passage (removable singularity C(0)=1/(8*pi); the N->infinity limit
+-- from the finite-truncation milestone KrN0_gram_nonneg to genuine, untruncated
+-- PositiveType(K_r-1)). Expected: Lean built-ins only, all.
+#print axioms GppCutkoskyWeil.Kp_pos
+#print axioms GppCutkoskyWeil.H_nonneg
+#print axioms GppCutkoskyWeil.gram_square_freq
+#print axioms GppCutkoskyWeil.gram_square_freqSum
+#print axioms GppCutkoskyWeil.gram_square_freqSum_nonneg
+#print axioms GppCutkoskyWeil.KrN0_gram_nonneg
+#print axioms GppCutkoskyWeil.Kp_eq_KrClosed
+#print axioms GppCutkoskyWeil.tendsto_cutKernel_zero
+#print axioms GppCutkoskyWeil.Hext_zero
+#print axioms GppCutkoskyWeil.Hext_nonneg
+#print axioms GppCutkoskyWeil.tendsto_Icc_atTop
+#print axioms GppCutkoskyWeil.summable_KrClosed_summand
+#print axioms GppCutkoskyWeil.tsum_KrClosed_summand_eq
+#print axioms GppCutkoskyWeil.tendsto_KrN0
+#print axioms GppCutkoskyWeil.KrClosed_minus_one_tendsto_positive
+#print axioms GppCutkoskyWeil.KrClosed_minus_one_positiveType
+-- Fifth pass: operator-level vacuum-compression identity on ℓ²(ℤ,ℂ)
+#print axioms GppCutkoskyWeil.memℓp_mul_bounded
+#print axioms GppCutkoskyWeil.mulOpLin_comp
+#print axioms GppCutkoskyWeil.mulOpLin_norm_le
+#print axioms GppCutkoskyWeil.mulOpCLM_inner_re_nonneg
+#print axioms GppCutkoskyWeil.P0Weight_mul_KrWeight_mul_P0Weight_eq
+#print axioms GppCutkoskyWeil.vacuum_compression_operator_identity
+#print axioms GppCutkoskyWeil.KrMinusOneWeight_re_nonneg
+#print axioms GppCutkoskyWeil.vacuum_compressed_operator_positive
+-- Sixth/seventh passes: genuine local Euler factor and the closed Wp identity.
+-- Expected: Lean built-ins only, both.
+#print axioms GppCutkoskyWeil.hasDerivAt_zetaP
+#print axioms GppCutkoskyWeil.Wp_eq_two_mul_re_minusLogDerivZetaP
+
+-- Suzuki-Herglotz, item 1c684543: shifted logarithmic-derivative transfer preserves the
+-- xi zero divisor. Expected: Lean built-ins only, all.
+#print axioms GppWeilParity.hasDerivAt_shiftedTransferF
+#print axioms GppWeilParity.deriv_shiftedTransferF_sub_smul_eq
+#print axioms GppWeilParity.shiftedTransferWitness_at_root_ne_zero
+#print axioms GppWeilParity.shiftedTransfer_quotient_eq_of_ne
+#print axioms GppWeilParity.continuousAt_shiftedTransferWitness
+#print axioms GppWeilParity.tendsto_shiftedTransfer_quotient_div
+#print axioms GppWeilParity.tendsto_shiftedTransfer_quotient_zero

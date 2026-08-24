@@ -1078,3 +1078,177 @@ Whatever the real discrepancy is, it is now definitively localized to the
 cross-ratio-dependent functional form at fixed scale (the `r`-dependence),
 not to power counting — narrowing, not solving, the open problem, but ruling
 out a specific, previously-untested failure mode cleanly.
+
+---
+
+## New track (2026-08-20): Cutkosky unitarity cuts in celestial Mellin space
+## — supersedes the shadow-pole mechanism above; the OPE/sewing investigation
+## above is retained as the record of why this route was needed
+
+**Provenance note.** The material below (`celestial_cut_step1.py`,
+`box_cut_step2a.py`, `mellin_cut_step2c.py`, `REDO_NOTES_LOOPS_FROM_TREES.md`,
+`loops_from_cuts_celestial_v19.tex`) is Daniel Toupin's own research, carried
+out directly and recorded to the Supabase `lean_results` ledger
+(`5b46467c-12a4-48c8-8bc4-060ea97b28fa`, 2026-08-20), with the request that a
+Claude Code session commit it here and reconcile it against this file's own
+status line, which (correctly, for the investigation it describes) still read
+"not converged." There is no contradiction between the two: this is a
+different, later derivation route for the same underlying question, not a
+continuation of the OPE/completeness-relation sewing attempts above. The
+OPE/sewing track (`shadow_sewing.py` through `kinematic_block_attempt.py`,
+all sections above this one) stays exactly as written — it is the reason this
+route exists, not something this route corrects in place.
+
+**What changed, in one sentence.** Instead of trying to extract a loop
+integrand from six-point tree data via a shadow-pair pole/OPE sewing (the
+route above, whose central obstruction — the coincident-pole pathology at
+`Δ6=1`, resolved only partially by tying legs 5,6 — was never fully
+resolved into a box-matching result), this route Mellin-transforms the
+one unconditionally true loops-from-trees statement in QFT — the Cutkosky
+unitarity relation — directly, computing every Jacobian from first
+principles rather than asserting a completeness-relation normalization.
+
+### What I independently reran and checked myself, this session
+
+I do not take the ledger's precision claims on faith. I reran three of the
+four scripts named in the ledger record verbatim (installing `mpmath`/`sympy`
+fresh in this container) before committing anything:
+
+- **`celestial_cut_step1.py`** (the two-particle massless phase space in
+  celestial coordinates, its antipodal solution, and the Mellin image
+  `Φ(Δ5,Δ6;M) = (1/8π)(M/2)^(Δ5+Δ6-2) Γ(Δ5)Γ(Δ6)/Γ(Δ5+Δ6)`): reran clean
+  (one cosmetic Python format-string bug fixed, `mpf` doesn't support `:.3e`
+  directly — no computational content changed). Reproduced the claimed
+  `1.26e-31`, `1.53e-30`, `1.97e-31` relative errors at the three tested
+  `(Δ5,Δ6,M)` points, and the `Γ(1+iλ)Γ(1-iλ)=πλ/sinh(πλ)` identity on the
+  shadow locus — the latter matches `GppGammaModulus.gamma_one_add_mul_gamma_one_sub`
+  in `GppVerify/QuantumGravity/GammaModulusIdentity.lean`, proved unconditionally
+  in Lean earlier this same session, independently of this discovery track.
+- **`box_cut_step2a.py`** (the regulated scalar-box `s`-channel Cutkosky cut,
+  three independent ways: CM angular integral, celestial `z5`-plane integral,
+  exact closed Feynman-parameter form): reran clean, no changes needed.
+  Reproduced all four claimed kinematic-point agreements
+  (`4.75e-26`, `1.27e-24`, `1.08e-23`, `5.74e-26` between the CM and exact
+  forms), the `q(z)·q(w)=2|z-w|²` structural identity, and the collinear-log
+  ratio → 1 as `μ²→0`.
+- **`mellin_cut_step2c.py`** (Mellin image of the cut at fixed angle, the
+  universal double pole at `σ=2` and the collinear-log simple pole): reran
+  clean. Reproduced the double/simple-pole coefficients to the claimed
+  precision, and the `s0`-independence check to `1.25e-21`. **One point
+  flagged, not glossed over**: the in-strip continuation check at `σ=1.9`
+  (closest of the five tested points to the pole at `σ=2`) shows a relative
+  disagreement of `~0.0099` between the direct quadrature and the
+  truncated-tail continuation — three to twenty orders of magnitude worse
+  than every other point checked (`1e-13` to `1e-26`). This is very likely a
+  numerical artifact of the fixed truncation radius `s0=50` used in
+  `M_cont` losing accuracy as the pole is approached, exactly the kind of
+  behavior the script's own header warns about ("naive numerical limits fail
+  because at `σ=2-ε` the Mellin mass sits at `s~exp(1/ε)`") — but I have not
+  independently re-derived a tighter bound, so it stays flagged as an
+  open loose end rather than silently rounded off.
+
+**`dispersion_step3a.py` was not supplied to me and I have not run or
+independently verified it.** This is the script for the paper's Link 4 —
+the dispersive reconstruction of the full box from its cut, `Im J = 8π²C`
+anchored on the bubble, and the celestial-Mellin dispersion kernel
+`M_J(σ) = (8π²/sin(πσ))·M_C(σ)` — arguably the single most load-bearing
+claim in the chain (it is the step that actually reconstructs a loop
+amplitude, rather than just characterizing a cut). Its numbers as recorded
+in the ledger (`0`–`1.6×10⁻²¹` at four Euclidean points; `1e-11` real /
+`3e-7` complex `σ`) are recorded here as **claimed, not independently
+verified**, and the script itself is not in this repository. If a copy is
+supplied, rerunning it before treating L4 as settled is the natural next
+step, ahead of Step 3b.
+
+### Paper-status verdicts on the historical drafts (as recorded to Supabase; not independently re-audited line by line here beyond what's stated above)
+
+- **`shadow_discontinuity` v14 / v14(2) / v15_corrected**: withdrawn — the
+  residue-at-shadow-pole mechanism and the old box benchmarks
+  (`check_box`/`box_shadow_1d`, confirmed in this repo's own history to be a
+  Feynman integral compared against a reparameterization of itself) do not
+  hold up.
+- **`v18_tree_to_loop`**: partial survival. The methodological separation of
+  extraction/sewing/evaluation, and the topology-selection claim (choosing a
+  factorization channel of higher-point tree data fixes a loop topology),
+  are endorsed and reinterpreted concretely via the cut-channel choice in
+  `box_cut_step2a.py`. The specific mechanism (a `1/(Δ5+Δ6-2+i0)` pole
+  in the six-point tree; `P(λ)` as the primitive sewing measure) is replaced
+  by the derived Cutkosky chain. The `(4+2L)`-point-tree-to-`L`-loop pattern
+  remains an open conjecture for `L≥2` either way — nothing here or in
+  `TreeLoopSewing.lean` closes that beyond `pairSewing_cycleRank`'s pure
+  graph combinatorics.
+- **`haar_qg_paper_v2.1.5.1`**: withdrawn as physics. `P(λ)=πλ/sinh(πλ)` is
+  **not** the `SL(2,ℂ)` Plancherel density (that density is `∝λ²`, not this
+  function) and does not replace the Feynman loop measure; the claims
+  `𝓜_L≤(1/8)^L` as "UV finiteness with no counterterms" and `M₁=1/8`,
+  `M₂=1/90` as *physical loop normalizations* do not survive this
+  reinterpretation — this dispersive reconstruction reproduces the standard
+  loop integral exactly, divergences and all. **What does survive**: the
+  Lean theorems already proved this session in
+  `GppVerify/QuantumGravity/{StefanBoltzmannFamily,GammaModulusIdentity,
+  AllLoopFiniteness,KinematicZetaBridge,SinhWeierstrassProduct}.lean` are
+  correct, unconditional mathematical facts about the function `P(λ)` and
+  the recursively-defined chain-kernel bound `𝓜_L≤(1/8)^L` *as a pure
+  positivity/convergence statement about that specific recursive
+  construction* — those Lean proofs are not touched or retracted by this
+  paper-status verdict. What is withdrawn is a *physics interpretation*
+  (that this bound is "UV-finiteness of the true loop expansion" or that
+  `P(λ)` is the `SL(2,ℂ)` Plancherel measure), not the Lean theorems'
+  mathematical content, which stands on its own as proved about the objects
+  as Lean-defined.
+- **`kinematic_block_v1.1`**: mathematical content survives — the conical
+  reduction of the chiral block to `Q_{h-1}`, the shadow involution as the
+  Legendre degree symmetry `ν↦-ν-1`, and the Mehler–Fock structure remain
+  correct classical special-function mathematics, re-anchored as the toolkit
+  needed for the celestial-native partial-wave decomposition of the cut
+  (Step 3b).
+- **`blackbody_law_qg`**: the Bisognano–Wichmann (`β=2π`) identity for
+  `P(λ)` survives as a correct identity about that function; its framing as
+  a cure for quantum-gravity UV divergences is withdrawn with the parent
+  claim.
+
+### Honest status of this track, right now
+
+PROVED (independently rerun by me, this session): the celestial two-particle
+phase-space dictionary (L1) and its Mellin image (L2); the regulated
+scalar-box Cutkosky cut in closed form (L3, first half); the Mellin pole
+structure of that cut (L3, second half), with one flagged near-pole
+precision loss not yet resolved. **NOT independently verified by me**: the
+dispersion reconstruction of the loop from its cut (L4) — script not
+supplied. **NOT attempted**: Step 3b (writing the cut as a celestial
+tree×tree principal-series completeness integral with the actual literature
+normalization) — deliberately not started before this synchronization was
+committed and reported. **NOT claimed, by this track or any part of this
+repository**: a general all-topology/all-loop theorem, or any connection
+whatsoever to the Riemann Hypothesis or the Yang–Mills mass gap.
+
+---
+
+## Update (2026-08-20, later same day): dispersion reconstruction verified, three companion papers added
+
+`dispersion_step3a.py` — the piece flagged above as not yet supplied — has
+now been independently rerun: the loop reconstructed from its cut via an
+unsubtracted dispersion relation matches the direct Feynman-parameter
+integral at four Euclidean kinematic points (relative error `0` to
+`1.6e-21`), and the celestial (Mellin-space) dispersion relation
+`M_J(σ) = (8π²/sin πσ)·M_C(σ)` checks to `1.4e-11` (real `σ`) and `2.9e-7`
+(complex `σ`).
+
+Three companion papers are also added: `principal_series_blocks_v2.tex`
+(the conical reduction of the chiral block to the Legendre function
+`Q_{h-1}`, the shadow involution as the Legendre degree symmetry, and the
+first moment of `P` against the digamma function in closed form),
+`spectral_weight_v2.tex` and `modular_thermality_v2.tex` (the Planck form,
+Fourier pair, Weierstrass product, Matsubara pole structure, and moment
+family of `P(λ) = πλ/sinh(πλ)`, the two-particle phase-space weight of the
+celestial cut). Every numerical claim in `verify_blocks_v2.py` and
+`verify_ode_resolution.py` was independently rerun and reproduces to
+`1e-21`–`1e-41` relative error. `GppVerify/QuantumGravity/
+SpectralWeightIdentities.lean` formalizes the Planck-form identity and the
+reciprocal-product identity for `P` from this material; the digamma-moment
+theorem and the weight-shift ODE for `P`'s Fourier transform remain open,
+scoped in `docs/FORMALIZATION_PLAN.md`.
+
+Corrections to earlier drafts in this series, and the full record of what
+changed and why, are logged in Supabase `lean_results` rather than kept
+here.

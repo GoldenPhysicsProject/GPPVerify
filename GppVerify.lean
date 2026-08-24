@@ -60,6 +60,14 @@ import GppVerify.CelestialHolography.ShadowDiscontinuity
 -- shadow_disc_mellin_density stubs above, which are untouched. No axiom, no sorry.
 import GppVerify.CelestialHolography.TreeLoopSewing
 
+-- Dispersion reconstruction: proves the general (physics-convention-independent)
+-- Sokhotski-Plemelj mechanism -- the exact finite-eps Lorentzian jump identity and
+-- pointwise off-pole vanishing of the regulated kernel -- that TreeLoopSewing's
+-- ShadowPairSewing.sewing_identity would need specialized to the actual six-point
+-- celestial tree (three named hypotheses H1-H3, none proved here) to be DERIVED
+-- rather than assumed. Does not discharge sewing_identity or any GppShadowDisc stub.
+import GppVerify.CelestialHolography.DispersionReconstruction
+
 -- ── RH Spectral Infrastructure ───────────────────────────────
 -- Adèlic L² regularization on K¹ (lem:adelic-l2-regularization)
 import GppVerify.RiemannHypothesis.AdelicL2
@@ -255,6 +263,11 @@ import GppVerify.NumberTheory.PerfectNumbersE8
 -- value, via Mathlib's riemannZeta_neg_nat_eq_bernoulli' and
 -- bernoulli'_four, is +1/120. A fully clean, no-gap correction.
 import GppVerify.NumberTheory.ZetaNegativeIntegers
+
+-- ── Twin-prime singlets and doublets (Codex) ──────────────────
+-- The prime gap-2 graph consists of isolated singlets and disjoint
+-- doublets above 5; 3-5-7 is the unique overlapping triplet.
+import GppVerify.NumberTheory.TwinPrimeDoublets
 
 -- ── Character Orthogonality (New) ────────────────────────────────
 -- Genuine harmonic-analysis infrastructure (not sourced from a specific
@@ -843,26 +856,12 @@ import GppVerify.QuantumGravity.MatsubaraPoles
 -- a numerical truncation), from continuity of log at the (proved positive) Weierstrass-
 -- product limit. The second half -- expanding each log(1+x) into its own power series and
 -- swapping the resulting double sum to land on the paper's zeta(2k) closed form -- is not
--- attempted here, per the file's own scoped honest boundary.
+-- attempted here, per the file's own scoped honest boundary. NOTE: the completion of this
+-- chain (the cumulant law itself and its single-index closed form) landed independently on
+-- main via a different, more direct route -- see the CumulantLaw import below rather than a
+-- separate CumulantLawClosedForm.lean, which this branch's own version of turned out to be
+-- fully redundant with main's GppCumulantLaw.cumulant_law and was dropped at merge time.
 import GppVerify.QuantumGravity.SinhLogSeries
-
--- ── Thread Loops-from-Cuts, the cumulant law (New) ──
--- Completes the chain SinhLogSeries.lean scoped as its own next step: expands each row's
--- log(1+lambda^2/(n+1)^2) via Mathlib's own alternating log series and combines the double
--- family, absolute summability proved via a uniform geometric bound (since lambda^2/(n+1)^2
--- <= lambda^2 < 1 for every n), into a single HasSum over all (n,k) pairs equal to
--- log(sinh(pi*lambda)/(pi*lambda)) = -log(P lambda). The final single-index regrouping into
--- the paper's literal sum-over-k-of-zeta(2k) closed form is left as bookkeeping on top of
--- this, per the file's own scoped honest boundary.
-import GppVerify.QuantumGravity.CumulantLaw
-
--- ── Thread Loops-from-Cuts, cumulant law single-index closed form (New) ──
--- Completes CumulantLaw.lean's own scoped remaining step: regroups the double-indexed
--- HasSum by k alone (swapping index roles via Equiv.prodComm and a fresh per-k-row
--- shifted-p-series computation) to land the paper's literal single-index statement,
--- log(sinh(pi*lambda)/(pi*lambda)) = sum_{k>=0} (-1)^k*zeta(2k+2)*lambda^(2k+2)/(k+1) --
--- the "cumulants are even zeta values" face of the spectral weight, fully closed.
-import GppVerify.QuantumGravity.CumulantLawClosedForm
 
 -- ── Thread Loops-from-Cuts, weight-shift relations (New) ──
 -- Principal_Series_Kinematic_Blocks.tex, Theorem "Weight-shift relations and the resulting
@@ -934,3 +933,264 @@ import GppVerify.CelestialHolography.DispersionKernelMellin
 -- over sech^2's double poles at x=i*pi*(2k+1)). Parked as a True-stub per this repo's own
 -- documented convention, naming the precise gap -- not an axiom, not a sorry.
 import GppVerify.QuantumGravity.LogisticFourierPair
+
+-- ── Thread QG-Blackbody, round 3: the cumulant law (New) ──────────────────────────────────
+-- From blackbody_law_qg_dtoupin_v1.tex Test T5 ("cumulants are even zeta values"). Unlocked
+-- by round 2's Weierstrass product: taking log of sinh(pi*lam)=pi*lam*prod(1+lam^2/n^2) turns
+-- the product into a sum of logs (log_prod + Summable.hasSum_iff_tendsto_nat), each log(1+x)
+-- expands via Mathlib's hasSum_pow_div_log_of_abs_lt_one, and the resulting double series in
+-- (loop index j, Taylor order k) is swapped via Summable.tsum_comm after establishing joint
+-- summability from an explicit product majorant (Summable.mul_of_nonneg). Result:
+-- GppCumulantLaw.cumulant_law: -log(P(lam)) = sum_k (-1)^k * zeta(2(k+1)) * lam^(2(k+1))/(k+1)
+-- for |lam|<1, matching the paper's log P(lam) = -sum_{k>=1}(-1)^(k+1)zeta(2k)lam^(2k)/k
+-- exactly (k zero-indexed here as k+1 >= 1). Kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.CumulantLaw
+
+-- ── Thread QG-Blackbody, round 4: Planck form and the reciprocal Weierstrass product ──────
+-- From updated companion papers ("The Spectral Weight pi*lam/sinh(pi*lam)" and "Modular
+-- Thermality of the Celestial Spectral Weight"). GppSpectralWeight.planck_form: for lam>0,
+-- P(lam) = 2*pi*lam*(bose(pi*lam) - bose(2*pi*lam)), a genuine Planck-form identity with the
+-- two Bose zero-point terms cancelling exactly. GppSpectralWeight.one_div_P_tendsto_tprod:
+-- 1/P(lam) is the Weierstrass product prod(1+lam^2/n^2), an immediate corollary of round 2's
+-- Weierstrass product for sinh. Also corrected this round: P was mislabeled "the Plancherel
+-- spectral weight" and M_L a "Plancherel loop measure" in this file's earlier comments and
+-- the blueprint -- both wrong (the SL(2,C) Plancherel density for the scalar principal
+-- series grows like lam^2, not P). P is the two-particle massless phase-space weight of a
+-- celestial unitarity cut; no Lean statement or proof changed, only prose. Kernel-clean, no
+-- axiom, no sorry.
+import GppVerify.QuantumGravity.SpectralWeightIdentities
+
+-- ── Digamma via Mathlib's Gamma calculus (task #9) ─────────────────────────────────────────
+-- Earlier rounds' grep for the NAME digamma/polygamma in Mathlib v4.19.0 (zero hits) was the
+-- wrong question: Mathlib.NumberTheory.Harmonic.GammaDeriv already computes deriv Real.Gamma
+-- in closed form at 1 and 1/2 (Bohr-Mollerup convexity, Legendre duplication formula).
+-- GppDigamma.digamma := deriv Gamma / Gamma makes psi(1)=-gamma, psi(1/2)=-gamma-2log2, the
+-- values at all positive integers, and the functional equation psi(x+1)=psi(x)+1/x immediate
+-- corollaries. Real-argument only -- the complex digamma along Re(s)=1/2 that
+-- kinematic_block_v1.tex's First Moment Theorem needs is a further, separate extension, not
+-- attempted here. Kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.Digamma
+
+-- ── Positive Gamma--Plancherel defect (v34, Theorem 62.1) ────────────────────────────────
+-- Exact identity between the real-place density and the existing celestial weight
+-- P(lam)=pi*lam/sinh(pi*lam); pointwise and integrated finite-Gram positivity; automatic
+-- positivity for compact truncations.  On the infinite lattice a=2m, b=2n, q>0, the
+-- digamma recurrence plus a finite geometric sum proves the FULL equality between the
+-- four-term Gamma defect, the (0,infinity) integral, and a positive finite resolvent sum,
+-- including strict scalar positivity and finite Gram positivity.  The arbitrary-real
+-- digamma integral representation remains open and is not claimed.  No RH implication.
+import GppVerify.RiemannHypothesis.GammaPlancherelDefect
+
+-- ── Local-field shadow kernels (new research front, 2026-08-20) ────────────────────────────
+-- From "Local-field shadow kernels, celestial unitarity, and the adelic principal series"
+-- (Toupin, 2026). Two unconditional structural facts about the Archimedean shadow kernel
+-- K_{infty,d}(a)=Gamma(a)Gamma(d-a)/Gamma(d) that do not depend on any claim about RH, the
+-- celestial/automorphic bridge, or the paper's open research program: shadow reflection
+-- K(a)=K(d-a), and positivity on the principal series a=d/2+it (Hermitian conjugation via
+-- Complex.Gamma_conj). Plus the diagonal conformal lift D(s)=(s,s), Delta(D(s))=2s, and its
+-- exact compatibility with the 1D/2D shadow involutions. See
+-- discovery/local_field_shadow/local_shadow_kernel_notes.md for the full honest boundary --
+-- the non-Archimedean kernel, the Knapp-Stein local factorization problem, the Eisenstein
+-- scattering coefficient, and the Cutkosky/Rankin-Selberg bridge are NOT formalized: genuine
+-- open research targets, not bookkeeping. Both files kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.LocalShadowKernel
+import GppVerify.QuantumGravity.DiagonalConformalLift
+
+-- ── §9 resolution (2026-08-22): the naive common-local-factor conjecture fails, informatively ──
+-- The physical positive kernel and the standard Weyl/Gindikin-Karpelevich intertwiner are
+-- distinct canonical objects on the same rank-one principal series, not a single factor
+-- a_v(s) split two ways. GammaR/GammaC/archWeylCoeff added to LocalShadowKernel.lean:
+-- GammaC_eq_GammaR_mul_GammaR_succ (Legendre duplication for the Archimedean factors),
+-- archKernel_two_eq_GammaC_product and archKernel_two_eq_GammaR_sectors (the celestial d=2
+-- cut decomposes exactly into two shadow-paired real Archimedean Gamma sectors
+-- (Gamma_R(Delta),Gamma_R(2-Delta)) and (Gamma_R(Delta+1),Gamma_R(3-Delta))). archWeylCoeff is
+-- recorded for contrast only -- no identity relating it to archKernel is claimed or proved.
+-- GlobalEisensteinCoefficient.lean: the global Eisenstein coefficient phi(Delta)=Lambda(Delta-1)/
+-- Lambda(Delta) rewrites exactly as Lambda(2-Delta)/Lambda(Delta) (the celestial shadow
+-- arguments) via Mathlib's own completedRiemannZeta functional equation, with reflection
+-- phi(2-Delta)*phi(Delta)=1. NOT evidence toward RH -- Eisenstein scattering already contains
+-- zeta(s) without proving anything about its zeros. Finite-place distinction (Gindikin-
+-- Karpelevich ratio vs the derived positive kernel) and unit-modulus-on-critical-line are
+-- documented/verified numerically only in discovery/local_field_shadow/ -- the former has no
+-- Mathlib p-adic Haar infrastructure to formalize against, the latter needs Lambda's
+-- conjugation symmetry (not directly in Mathlib). Cutkosky<->Rankin-Selberg/unitary-
+-- intertwiner identification remains explicitly OPEN (task #13) -- no axiom added for it.
+-- All new theorems kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.GlobalEisensteinCoefficient
+
+-- ── The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22) ──────────────
+-- From a research-front update: F = T∘J (unit translation after inversion), F(x)=1+1/x, has
+-- unique positive fixed point phi. Represented projectively, M=!![1,1;1,0], A:=M^2=!![2,1;1,1]
+-- is the MINIMAL-TRACE hyperbolic element of SL2(Z) (integrality forces |tr|>=3 once |tr|>2;
+-- A attains it). Discriminant 5, eigenvalues phi^{+-2}, Mobius fixed points phi and -phi^-1.
+-- Independently, the already-scoped finite-place shadow kernel K_{q,1}(s) evaluated at the
+-- INDEPENDENTLY-selected discriminant q=5 and principal-series center s=1/2 equals exactly
+-- phi^2 -- golden_convergence connects the two routes. Reuses Mathlib's Data.Real.GoldenRatio
+-- throughout rather than redefining. Physical-sector identification explicitly NOT claimed --
+-- see the file's own doc comment for the precise semantic boundary. All 14 theorems
+-- kernel-clean, no axiom, no sorry.
+import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
+
+-- ── Local shadow kernels and the finite-prime Weil kernel (2026-08-22/23) ──────────────────
+-- From a research-front directive: celestial Cutkosky positivity -> local shadow kernels ->
+-- finite-prime Weil kernel -> Casimir compression -> global Weil positivity -> RH. The final
+-- logical step (finite Weil paired-form positivity on all nontrivial zeros <-> RH) is already
+-- proved unconditionally in WeilPositivityCriterion.lean (rh_iff_weil_pairedForm_nonneg) --
+-- an ABSTRACT pairing over finite subsets of the actual (unknown) zero set, NOT the classical
+-- Weil explicit-formula prime-sum quadratic form built here; bridging the two needs the
+-- classical explicit formula itself (substantial, separate, not attempted). Kp_pos (the
+-- finite-place shadow kernel K_p(t) is a Poisson-kernel value, hence positive, for every
+-- prime p>1) and H_nonneg (the Casimir-weighted Archimedean kernel H(t)=(t^2+1/4)*C(t), C the
+-- already-derived celestial cut, is nonnegative for every real t) proved unconditionally.
+-- CORRECTED central research finding (self-correction of an earlier-merged error, see the
+-- file's module doc and discovery/cutkosky_weil/notes.md): the first pass tested the WRONG
+-- positivity notion (a Toeplitz matrix of Fourier COEFFICIENTS, indices=frequencies -- found
+-- indefinite) instead of the actual kernel-positivity question (a Gram matrix of POINT
+-- EVALUATIONS (K_p-1)(theta_j-theta_k) -- found positive semidefinite, as Bochner/Herglotz
+-- predicts, since convolution by K_p-1 is diagonal with nonneg eigenvalues). Proved rigorously
+-- via a layered finite Fourier/Gram-square development (gram_square_freq -> gram_square_freqSum
+-- -> gram_square_freqSum_nonneg -> KrN0/KrN0_gram_nonneg), each layer independently fast
+-- (<4s) after an earlier monolithic HasSum-based attempt repeatedly hit elaboration timeouts
+-- even at 4M heartbeats (bisected and diagnosed as a proof-engineering issue, not mathematical
+-- -- see the module doc's "Proof-engineering note"). KrN0_gram_nonneg is the finite-truncation
+-- milestone: for every truncation N, Sum_jk c_j-bar*c_k*K^0_{r,N}(theta_j-theta_k) >= 0.
+-- FOURTH PASS (same session, following review): completed both items the third pass had
+-- deferred. (1) Removable singularity: tendsto_cutKernel_zero proves the genuine limit
+-- C(0)=1/(8*pi) (from sinh's derivative at 0, not asserted); Hext/Hext_zero/Hext_nonneg give
+-- the continuous extension with H(0)=1/(32*pi) replacing Lean's junk 0/0=0. (2) The N->infinity
+-- passage: tendsto_Icc_atTop (cofinality of Icc(-N,N) in Finset.atTop) + summable_KrClosed_summand
+-- (Summable via geometric-tail comparison, Summable.of_nat_of_neg -- much cheaper than tracking
+-- HasSum values through Int.rec, which is what timed out before) + tsum_KrClosed_summand_eq
+-- (identifies the tsum's value as K_r(theta)-1, via the two one-sided geometric series) +
+-- tendsto_KrN0 (KrN0 -> K_r-1 as N->infinity) + KrClosed_minus_one_positiveType (positivity
+-- passes to the limit via ge_of_tendsto) = the genuine, untruncated
+-- GppHaarPositivityWeil.PositiveType (K_r - 1), unconditional. 16 theorems total in this file,
+-- all kernel-clean (Lean built-ins only), no axiom, no sorry.
+-- FIFTH PASS (same session, following a further review directive): item 1 of the wider
+-- program -- the ACTUAL operator statement, not the finite Fourier identity again. Built
+-- Ell2Z := lp(fun _:Z=>C) 2 (the natural Fourier-coefficient model, unitarily dual to the
+-- circle: convolution by a kernel <-> diagonal multiplication by its Fourier coefficients).
+-- mulOpCLM w hw : Ell2Z ->L[C] Ell2Z is the bounded diagonal operator for a weight bounded by
+-- 1; C_Kr := mulOpCLM(KrWeight r) (symbol r^|n|), P_0 := mulOpCLM P0Weight (symbol 0 at n=0,
+-- 1 elsewhere -- projection deleting the vacuum mode), C_{Kr-1} := mulOpCLM(KrMinusOneWeight r).
+-- vacuum_compression_operator_identity proves C_{Kr-1} = P_0 * C_Kr * P_0 as genuine bounded
+-- ContinuousLinearMap composition (not a finite Gram identity), via composition-multiplies-
+-- symbols (mulOpLin_comp) reducing to the pointwise fact P_0(n)*Kr(n)*P_0(n)=(Kr-1)(n) for
+-- every n. vacuum_compressed_operator_positive derives positivity of the compressed operator
+-- as a direct corollary of a general fact (mulOpCLM_inner_re_nonneg: nonneg-real-part diagonal
+-- weight => positive semidefinite operator) applied to Kr-1's already-known eigenvalue signs
+-- (0 at n=0, r^|n|>=0 elsewhere) -- no new analytic content, exactly "as a corollary" per the
+-- directive. 8 new theorems, kernel-clean, no axiom, no sorry. This CLOSES item 1.
+-- Also newly established (checked by hand, precise, not yet in Lean): the finite-prime Weil
+-- kernel target named by the directive ("in the normalization used by rh_iff_weil_pairedForm_
+-- nonneg") does not exist as literally stated -- that theorem's pairedForm is a zero-indexed
+-- reflection pairing (Yakaboylu/Bombieri-Lagarias style) with NO prime, Mellin, or Haar-measure
+-- content to match against; already flagged in this file's own module doc (see above) before
+-- this pass began. The correct classical target is instead HaarPositivityWeil.lean's
+-- weil_criterion (D_k = Sum_rho Omega-hat(rho) + local terms), which remains a full True-stub,
+-- honestly blocked on Tate's thesis + idele class groups (neither in Mathlib) for its ADELIC
+-- form. But the classical ELEMENTARY (non-adelic) explicit formula's finite-prime local term
+-- has a clean, checked closed form: with zeta_p(s):=(1-p^{-s})^{-1} the local Euler factor,
+-- Wp(p,t) = 2*Re(-zeta_p'/zeta_p(1/2+it)) exactly, via -zeta_p'/zeta_p(s) = log(p)*Sum_{k>=1}
+-- p^{-ks} (standard log-derivative of the Euler factor) and Kp_eq_KrClosed +
+-- tsum_KrClosed_summand_eq already proved above. This is the honest next Lean target for
+-- items 2-3 of the directive; items 4 (Mellin/adelic bridge) and 6 (global assembly against
+-- rh_iff_weil_pairedForm_nonneg specifically) do not apply as stated, since that theorem's
+-- hypothesis carries no prime-side data to assemble in the first place -- see
+-- docs/FORMALIZATION_PLAN.md and discovery/cutkosky_weil/notes.md for the full account.
+import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
+
+-- ── Euler-Factor Log-Derivative (New, 2026-08-23, sixth+seventh Cutkosky-Weil passes) ──
+-- zeta_p's genuine log-derivative -zeta_p'/zeta_p, from an actual HasDerivAt
+-- computation, PLUS (seventh pass) the closed connection to Wp itself:
+-- Wp p t = 2*Re(minusLogDerivZetaP p (1/2+it)), genuinely proved, not just
+-- checked numerically. See discovery/cutkosky_weil/notes.md.
+import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
+
+-- ── Codex local prime Green and fermionic Hodge--Dirac modules ──
+-- Exact prime-power Green propagation, the exterior two-state CAR factor,
+-- and the singlet/doublet Dirac blocks. These remain independent of the
+-- imported Weil-Semiboundedness and Suzuki-Herglotz modules below.
+import GppVerify.RiemannHypothesis.PrimeGreenAmplitude
+import GppVerify.RiemannHypothesis.PrimeFermionDirac
+import GppVerify.RiemannHypothesis.PrimeDoubletDirac
+
+-- ── Thread Weil-Semiboundedness (New, 2026-08-23) ──
+-- formalization_queue item 1b12010b: pure order-theoretic skeleton for
+-- Suzuki's localized Weil ground energy lambda_a (nesting -> antitone;
+-- global bound <-> bounded-below range; antitone+unbounded -> tendsto atBot).
+-- Abstract only -- does not define Q_W, the Weil quadratic form, or C_c^infty
+-- test spaces. See the file's own module doc for the honest boundary.
+import GppVerify.ThreadWeilSemibound.LocalizedGroundOrder
+
+-- ── Thread Weil-Parity, further items (New, 2026-08-23) ──
+-- formalization_queue items 0182d9cf (no-crossing continuation, pure
+-- topology/IVT) and 5e10a4f0 (cross-resolvent positivity below the even
+-- ground forces the odd ground above it, pure algebra). Abstract cores
+-- only -- neither defines Hermitian matrices or their eigenvalues; see
+-- each file's own module doc for the honest boundary.
+import GppVerify.ThreadWeilParity.GroundContinuation
+import GppVerify.ThreadWeilParity.CrossResolventGroundOrdering
+
+-- ── Thread Weil-Parity, strict interlacing IVT core (New, 2026-08-23) ──
+-- formalization_queue item 9cc1e2f8, the item CLAUDE.md/FORMALIZATION_PLAN.md
+-- had already flagged as the natural next target (needs real IVT/monotonicity,
+-- not just block-matrix algebra). Abstract core only -- see the file's own
+-- module doc for the honest boundary (does not yet connect to the concrete
+-- f = sum c_j/(alpha_j - z) construction).
+import GppVerify.ThreadWeilParity.StrictParityInterlacing
+
+-- ── Thread Weil-Parity, cross-heat positivity (New, 2026-08-23) ──
+-- formalization_queue item 68566b83: the Laplace-transform positivity core
+-- (integral of an everywhere-positive integrable function over [0,infty) is
+-- strictly positive). Does not define the matrix exponential or resolvent,
+-- or prove the Laplace-resolvent identity itself; see the file's module doc.
+import GppVerify.ThreadWeilParity.CrossHeatPositivity
+
+-- ── Thread Weil-Parity, removable-singularity limit core (New, 2026-08-23) ──
+-- formalization_queue item 4d97d8eb: a bounded numerator over a denominator
+-- whose norm blows up tends to zero -- the reusable real-analysis fact behind
+-- "qStar(x_i)=q_i" for the barycentric Pick interpolant. Does not construct
+-- the Pick matrix or A/B/qStar themselves; see the file's module doc.
+import GppVerify.ThreadWeilParity.RemovableSingularityLimit
+
+-- ── Suzuki-Herglotz thread, reflection-symmetry algebra (New, 2026-08-23) ──
+-- formalization_queue item dcebf59f. Re-checking this thread's items directly
+-- (not just its Herglotz-suggestive name) found this one is pure algebra once
+-- A, B are expressed through the same abstract function I -- costs nothing,
+-- needs no operator/reflection/integral machinery at all.
+import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
+
+-- ── Thread Weil-Parity, sharpening the d1aec733 open item (New, 2026-08-23) ──
+-- Turns an earlier vague "carries a subtlety" note into a checked finding:
+-- c_j = g_j * w^2 (plain square), not g_j * |w|^2, given the item's own
+-- forward-direction definitions -- confirms the forward/converse formulas
+-- only agree when w = u_j^*e0 is real, an unstated extra hypothesis.
+import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
+
+-- ── Suzuki-Herglotz thread, item 1c684543 (New, 2026-08-23) ──────────────────────────
+-- "Shifted logarithmic-derivative transfer preserves the xi zero divisor" -- flagged in
+-- FORMALIZATION_PLAN.md as tractable (plain complex-analysis order-of-vanishing, not
+-- Herglotz-dependent). Writing the order as m=k+1 to avoid Nat subtraction: for
+-- F z := (z-rho)^(k+1) * g z with g analytic and g rho != 0, deriv F z - lam * F z =
+-- (z-rho)^k * w z with w z := (k+1)*g z + (z-rho)*(deriv g z - lam*g z)
+-- (deriv_shiftedTransferF_sub_smul_eq, from an actual HasDerivAt computation), and
+-- w rho = (k+1)*g rho != 0, so the quotient R_lam := F/D_lam satisfies R_lam(z)/(z-rho) ->
+-- 1/(k+1) as z->rho (tendsto_shiftedTransfer_quotient_div) -- the item's own stated
+-- asymptotic R_lam(s)=(s-rho)/m+O((s-rho)^2), i.e. a genuine SIMPLE zero at rho for every
+-- finite lambda -- and R_lam(z) -> 0 as z->rho (tendsto_shiftedTransfer_quotient_zero),
+-- the "zeros of R_lam are (among) the zeros of F" half of the item's conclusion. 8
+-- theorems, kernel-clean, no axiom, no sorry. Does NOT instantiate F=xi (a direct
+-- application once xi's zeros are known simple with the right local model, not attempted)
+-- and does NOT prove the global "exactly the zeros of F, no others" claim (needs D_lam
+-- controlled away from F's zeros too, a separate global argument).
+import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
+
+-- ── Codex: Global von Mangoldt / completed-factorization chain (merge fixup) ──
+-- GlobalCompletedFactorization.lean and LogDerivativeProduct.lean were genuinely
+-- orphaned in the codex/lean-workbench import list (not reachable from any import
+-- root anywhere in the tree, confirmed by full-repo grep) -- added directly here so
+-- `lake build GppVerify` actually type-checks them, matching every other file's
+-- convention of being reachable from this root.
+import GppVerify.RiemannHypothesis.GlobalCompletedFactorization
+import GppVerify.RiemannHypothesis.LogDerivativeProduct

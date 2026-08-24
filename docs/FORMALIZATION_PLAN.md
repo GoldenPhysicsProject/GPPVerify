@@ -574,6 +574,54 @@ Conclusion was read in full: it ends "No proof of global trace conservation or p
 supplied here. Therefore no proof of RH is claimed" — consistent, word for word in spirit,
 with everything already found in this repo's corpus-error audits.
 
+## Thread GP — the positive Gamma--Plancherel defect
+
+**Status: PARTIAL, WITH AN EXACT INFINITE SUBFAMILY —
+`RiemannHypothesis/GammaPlancherelDefect.lean`, kernel-clean, no new axiom, no sorry.**
+
+Source: `arithmetic_principal_series_RH_program-34.tex`, Theorem 62.1.  For `q,a,b>0`
+the paper defines the four-term real-place logarithmic-derivative defect
+
+`D_q(a,b)=g_infinity(q+a)+g_infinity(q+b)-g_infinity(q)-g_infinity(q+a+b)`
+
+and identifies it with
+
+`integral_0^infinity e^{-qx}/(1-e^{-2x})(1-e^{-ax})(1-e^{-bx}) dx`.
+
+The new module proves the following unconditional layer:
+
+- `density_eq_spectralWeight`: the exact pointwise identity
+  `e^{-qx}/(1-e^{-2x}) = e^{-(q-1)x} P(x/pi)/(2x)` for `x>0`, where
+  `P(lam)=pi*lam/sinh(pi*lam)` is the repo's existing celestial cut weight.  Thus the
+  paper's Gamma defect and the QG spectral-weight thread meet at one formal object.
+- `pointwise_gram_nonneg`: after multiplying by the two real features
+  `1-e^{-ax}`, the kernel at each `x>0` is rank one, so every complex finite Gram form is
+  nonnegative.  `integral_gram_nonneg` proves that integration preserves this positivity
+  under explicit pairwise integrability; `truncatedDefectKernel_gram_nonneg` discharges
+  those hypotheses automatically on every compact interval `[eps,R]`, `eps>0`.
+- A stronger exact slice avoids the missing general digamma integral representation.
+  For `q>0`, `a=2m`, `b=2n` with `m,n:Nat`, `digamma_add_nat` iterates the already proved
+  `GppDigamma.digamma_add_one`; the denominator cancels by a finite geometric sum.  This
+  yields, in Lean,
+
+  `D_q(2m,2n) = integral_0^infinity defectIntegrand q (2m) (2n)`
+
+  `             = sum_{k<n} (1/(q+2k)-1/(q+2m+2k))`.
+
+  The finite exponential decomposition proves full integrability before evaluation by
+  `GppHeatTrace.resolvent_laplace`.  The final resolvent difference is nonnegative and is
+  strictly positive for `m,n>0`.  `gammaDefect_even_gram_nonneg` proves the actual
+  four-term Gamma defect is positive semidefinite on every finite collection of
+  even-natural shifts — not merely the integral kernel under a hypothesis.
+
+**Precise open boundary.**  For arbitrary positive real `a,b`, identifying the integral
+with `D_q(a,b)` still needs the general real digamma difference/integral representation.
+Mathlib has differentiability of `Real.Gamma`, and the repo defines `GppDigamma`, but the
+required integral representation is not upstream at this pin.  No arbitrary-real equality,
+global trace conservation, RH criterion, or RH consequence is claimed here.  The lattice
+result is an exact infinite subfamily of Theorem 62.1 and a clean base for the general
+analytic bridge.
+
 ## Thread Weil-Parity — the exact semilocal Weil form / prime–Archimedean Gram matrix
 
 **Status: one closed-form calculus fact proved (`archimedean_diagonal_tail`). Everything
@@ -803,6 +851,169 @@ encodes a lower-point loop *integrand*, extractable by a double shadow discontin
   touches or discharges `ShadowPairSewing.sewing_identity`. See `discovery/README.md`
   for full details.
 
+### Follow-up, 2026-08-17: dispersion reconstruction attacks `sewing_identity` directly
+
+**Status: the general Sokhotski–Plemelj mechanism is now proved unconditionally; the
+celestial specialization to the actual six-point tree is still open, but the gap is now
+three named analytic hypotheses instead of one opaque one.**
+
+Triggered by a fresh handoff bundling four connected papers (shadow-discontinuity/tree-
+to-loop, Haar/QG measure `haar_qg_paper_v215.tex`, kinematic-block, blackbody) and an
+explicit instruction to attack `ShadowPairSewing.sewing_identity` head-on rather than
+narrate around it. Read all four papers and re-audited `TreeLoopSewing.lean`,
+`ShadowDiscontinuity.lean`, `MellinKinematics.lean`, and the three QG-Blackbody files
+directly against `main` (commit `0a53705`) before starting — everything matched the
+existing docs exactly, no drift found. Also checked `public.formalization_queue` (27
+rows, all Weil-Parity/Suzuki-Herglotz/Prime-* threads — nothing on celestial holography)
+and `public.research_notes`/`lean_results` for anything newer or contradicting on this
+thread — found none; `eb6d17f0…` (the original Tree-Loop-Sewing landing) is the latest
+record and matches the repo state exactly.
+
+**New file: `GppVerify/CelestialHolography/DispersionReconstruction.lean`.** The paper's
+own Step 6 (`haar_qg_paper_v215.tex`, Theorem `thm:shadow-disc`) invokes cut-
+constructibility to go from "the shadow discontinuity is the unitarity cut" to "the loop
+integrand is reconstructed," without deriving the actual mechanism — precisely the gap
+the task singled out: a discontinuity naturally gives on-shell support like `δ⁺(q²)`,
+while the loop integrand needs `1/(q²+i0)`. This file proves the general, physics-
+convention-independent complex-analysis fact that supplies that mechanism (the algebraic
+core of Sokhotski–Plemelj), **unconditional, two theorems, both kernel-clean** (`#print
+axioms` shows Lean built-ins only):
+
+- `lorentzian_jump`: the exact finite-`ε` identity
+  `1/((x-z₀)+iε) - 1/((x-z₀)-iε) = -2iε/((x-z₀)²+ε²)` — no limiting procedure, no
+  distributions, pure algebra (`div_sub_div` + a `linear_combination` against
+  `Complex.I_sq` for the denominator product).
+- `lorentzian_kernel_tendsto_zero_off_pole`: the regulated kernel vanishes pointwise away
+  from the pole as `ε→0⁺` (via `Continuous.div` + evaluating at `ε=0`).
+
+**Numerically checked first** (`verify_dispersion.py`, mpmath, 40 dps): (1) the exact
+Lorentzian jump identity at several `(z₀,ε,x)`, machine-zero residual; (2) the classical
+`ε→0` dispersion-integral reconstruction of a toy simple-pole propagator `F(z)=R/(z-z₀)`
+from its own regulated discontinuity, confirming the reconstruction error shrinks with
+`ε` as expected — this is the general mechanism, explicitly *not* a celestial
+calculation, and explicitly *not* a reparametrized Feynman integral (the `box_shadow_1d`
+mistake the task warned against).
+
+**What this does and does not do to `sewing_identity`.** It reduces the opaque hypothesis
+to three named, checkable analytic properties of the actual six-point celestial tree,
+stated in the module doc and mirrored in the blueprint
+(`sec:dispersion-reconstruction`): **(H1) meromorphy** of the pair-sewn spectral object
+in `ℓ²` with only a simple pole at `ℓ²=0`; **(H2) decay** at infinity sufficient to close
+the dispersion contour; **(H3) residue match** — the shadow-pair-OPE discontinuity (the
+existing Steps 1–5) has residue exactly `-2πi·T₆(ℓ,p₁,…,p₄,-ℓ)` at `ℓ²=0`. **None of
+H1–H3 is established for the actual `(z,z̄)`-dependent celestial amplitude this session**
+— that remains the open boundary every paper in this program already names. This file
+does **not** discharge `sewing_identity`, does not touch any `GppShadowDisc` stub, and
+does not prove the mass-normalization half of Sokhotski–Plemelj
+(`∫ε/((x-z₀)²+ε²)dx = π`, reducible to Mathlib's `integral_univ_inv_one_add_sq` by an
+affine substitution) — named honestly as a gap since the needed translation-invariance-
+of-Lebesgue-measure lemma wasn't chased down this pass, not forced with a `sorry`.
+
+**Graph-layer strengthening (item A/B/C of the handoff's Lean tasks): scoped, not
+attempted.** Searched Mathlib's `SimpleGraph.Acyclic` for the anchor needed to upgrade
+`cubicTreeVertices`/`cubicTreeInternalEdges` from definitions to theorems about an actual
+graph: found `SimpleGraph.IsTree.card_edgeFinset : G.edgeFinset.card + 1 =
+Fintype.card V` (general tree edge-count formula, `Combinatorics/SimpleGraph/
+Acyclic.lean:152`) as the correct starting anchor for "one sewing raises cycle rank by
+one" (add an edge between two non-adjacent tree vertices via `T ⊔ SimpleGraph.fromEdgeSet
+{s(a,b)}`, show it stays connected and gains exactly one edge). Did not attempt the
+proof itself this pass — the harder, un-anchored part is the cubic/trivalent-vertex
+leaf-count combinatorics (`n` leaves ⟹ `n-2` trivalent vertices), which needs a
+handshake-lemma-style degree-sum argument with no direct Mathlib anchor found yet, and
+attempting a rushed partial `SimpleGraph` proof under time pressure risked exactly the
+"no half-finished implementations" failure mode. Left as a concretely scoped next step
+(anchor lemma named) rather than a guess.
+
+**Structural finding, same pass (paper-level, NOT yet Lean, NOT a Lean gap): the naive
+per-diagram energy Mellin transform of the comb ordering does not exhibit the claimed
+joint shadow pole.** Attacking "the shadow pole must be derived, not assumed" directly
+for the exact comb tree used throughout this thread (vertices A–B–C–D; legs `(5,1)` at
+`A`, `2` at `B`, `3` at `C`, `(4,6)` at `D` — the ordering `openSixPointChainDenominator`
+formalizes, chosen because *closing* legs 5,6 gives the box). Checked symbolically
+(`check_comb_factorization.py`, sympy, not committed — same convention as the other
+companion scripts) which propagator denominators depend on which of `ω5, ω6`: using
+overall momentum conservation to rewrite the third denominator as `(k5+p1+p2+p3)² =
+-(p4+k6)² = 2p4·k6`, the three denominators are `D1 ∝ ω5`, `D2` linear in `ω5` (at fixed
+`ω1,ω2`), `D3 ∝ ω6` (at fixed `ω4`) — **`D1,D2` never depend on `ω6` and `D3` never
+depends on `ω5`, confirmed symbolically.** Consequently
+`∫dω5 dω6 ω5^{Δ5-1}ω6^{Δ6-1}/(D1D2D3)` factorizes exactly into a product of two
+*independent* 1D Mellin transforms, one in `Δ5` alone, one in `Δ6` alone — each a bare
+power-law integral over `(0,∞)`, whose standard regularization is a delta function
+fixing that single leg's own dimension (`Mellin[1](λ)=2πδ(λ)`, i.e. `D3` alone forces
+`Δ6=1`), **not a joint pole at `Δ5+Δ6=2`.** This rules out, for this specific ordering,
+the naive reading of the task's warning to "derive the shadow pole, don't assume it": a
+bare energy-space Mellin transform of one color-ordered Feynman term is structurally the
+wrong place to look, because legs 5 and 6 share no propagator in this ordering (that's
+also exactly *why* sewing them supplies the missing box edge rather than duplicating an
+existing one). The shadow-pair singularity `Δ5+Δ6=2` must instead come from the
+`(z,z̄)`-plane OPE/conformal-partial-wave decomposition of the full correlator in the
+56-exchange channel (the standard machinery `kinematic_block_v1.tex` already builds —
+conical/Legendre reduction of the chiral block, the shadow-is-degree-symmetry theorem,
+Mehler–Fock density) applied to this specific tree, not a property of one ordering's
+energy integral — sharpening H1–H3 above by ruling out one candidate route to them.
+**Not yet attempted:** the actual OPE-channel/conformal-partial-wave computation for
+this tree. This finding is recorded, with the same classification, in Supabase
+`research_notes` (kind `structural_no_go`) for cross-session continuity.
+
+#### Follow-up, 2026-08-17 (same day, later): the OPE-channel/completeness-relation
+computation, attempted from scratch — genuinely singular where the reconstruction
+needs to happen, not a dead end
+
+The honest boundary already on record for `ShadowPairSewing.sewing_identity` is
+that its shadow-pair pole (`⟨O_Δ5 O_Δ6⟩ ∝ 1/(Δ5+Δ6-2)`) is a named hypothesis,
+not something derived here from an actual two-point function or OPE computation.
+This follow-up attempts that derivation genuinely, from
+scratch, in `celestial_kinematics.py` + `shadow_sewing.py` (mpmath + sympy,
+scratch-only, not committed — same convention as this thread's other companion
+scripts). Method, with nothing inserted by hand at any step:
+
+- Verified the standard celestial null-vector dot-product identity
+  `q_i·q_j = +2(z_i-z_j)(z̄_i-z̄_j)` (mostly-minus metric) by direct symbolic
+  expansion — not assumed from the literature, and caught a sign/factor-of-2 error
+  in the first attempt before trusting it further.
+- Built explicit, generic, asymmetric massless 4-momenta `p1,p2,p3,p4` for the
+  6-point comb tree's fixed external legs (legs 1–4; only legs 5,6, the pair being
+  sewn, are celestial/Mellin-transformed).
+- **Step A**: Mellin-transformed leg 5 only: `L(Δ5,z5,z̄5) := ∫dω5 ω5^{Δ5-1}/(D1·D2)`.
+  `D1,D2` are respectively a pure power and a linear function of `ω5`, so this is
+  the classical Beta-function Mellin transform
+  `∫w^{Δ-1}/(Bw+s)dw = πs^{Δ-1}/(B^Δ sin(πΔ))`. Verified this closed form against
+  direct numerical quadrature at generic complex `Δ5` to machine precision
+  (**after** catching and fixing a real bug: a finite quadrature cutoff at
+  `w=2000` gave up to 8.7% spurious error from the integrand's slowly-decaying
+  tail — using mpmath's genuine improper-integral limit fixed it to `~1e-11`–`1e-17`
+  relative error; recorded as a lesson, not glossed over).
+- **Step B**: Mellin-transformed leg 6 only: `R(Δ6,z6,z̄6) := ∫dω6 ω6^{Δ6-1}/D3`,
+  `D3` a pure power of `ω6` — the Mellin transform of a bare power law, a genuine
+  distribution (`Mellin[1](λ)=2πδ(λ)`), confirmed numerically by showing the
+  regulated integral is bounded/oscillatory for `λ6≠0` but log-diverges as the
+  cutoff is removed exactly at `λ6=0`.
+- **Step C, the actual finding**: the physically correct sewing operation is the
+  `SL(2,ℂ)` Plancherel completeness relation already used correctly in the
+  existing `thm:shadow-disc` Step 5 (not a "search for a pole in `(Δ5,Δ6)`-space",
+  which the prior finding above already ruled out): `Sewn = ∫dλ/2π P(λ) ∫d²z
+  L(1+iλ,z) R(1-iλ,z)`. `R`'s delta-function support sits **exactly** at `λ=0`
+  (forcing `Δ5=Δ6=1` on the shadow locus). Checked directly whether `L` is regular
+  there: **it has a genuine simple pole at `Δ5=1`** (`|L(1+ε)|` grows as `1/ε` —
+  confirmed numerically, `0.95, 9.6, 96, 962` for `ε=0.1,0.01,0.001,0.0001`, the
+  correct `1/ε` scaling). **The naive real-`λ` completeness-relation sewing is
+  therefore ill-defined as literally written for this tree ordering** — a
+  zero-width delta function multiplying a simple pole is not a number.
+
+**This is not a dead end — it is the first honest computational identification of
+exactly where the missing analytic step must act.** A delta-function/pole collision
+at precisely the point the reconstruction needs to be finite is the textbook
+signature that the naive real-locus construction needs replacing by genuine
+analytic continuation off that locus (deforming `Δ5,Δ6` into the complex plane,
+extracting a residue/discontinuity there, then continuing back) — i.e. exactly the
+Sokhotski–Plemelj/dispersion mechanism `DispersionReconstruction.lean` already
+formalizes in the abstract, now with a concrete, verified target to apply it to.
+**Not yet attempted**: the actual regularized extraction (deform off the real
+locus, extract a finite residue/discontinuity, do the `z,z̄` integral, and check
+whether what remains is recognizable as two-particle-cut/box data) — a substantial
+further calculation, honestly scoped as the next step rather than rushed. No box
+integrand has been reconstructed; none is claimed.
+
 ## Thread S — the signature/inertia route (August 2026 Anthropic result)
 
 **Status: STEP 0/2 DONE, STEP 1 FOUNDATION ONLY — far from S1, nowhere near S2-S4.**
@@ -855,7 +1066,7 @@ claim of reproducing Anthropic's result, is made or implied by anything in this 
 
 ## The third category: `True := trivial` stubs — documented but untracked
 
-Beyond `sorry` (zero) and `axiom` (16 declarations), the tree carries **~131
+Beyond `sorry` (zero) and `axiom` (13 declarations), the tree carries **134
 `theorem foo : True := trivial` stubs across 25 files**. The README documents this
 convention explicitly and it is the *right* call — parking an open result as a vacuous
 statement with a doc comment naming the upstream gap is strictly more honest than an `axiom`
@@ -955,12 +1166,45 @@ below).
   full stated type — the error moves to exactly the step that's actually wrong instead of
   three steps later.
 
-**What this unlocks, not yet attempted:** `tendsto_prod_one_add_sq_div` is exactly the
-ingredient the capstone's **T5 (cumulant law)** needs — `log P(λ) = -Σ(-1)^{k+1}ζ(2k)λ^{2k}/k`
-follows from taking `log` of the Weierstrass product and expanding `log(1+x)` termwise, then
-swapping the sum over `n` and the sum over `k` (a genuine double-series interchange requiring
-an absolute-convergence estimate, not yet attempted — real work, but no longer blocked on a
-missing special function).
+**What this unlocked**: `tendsto_prod_one_add_sq_div` was exactly the ingredient the
+capstone's **T5 (cumulant law)** needed — `log P(λ) = -Σ(-1)^{k+1}ζ(2k)λ^{2k}/k`. See the
+next round below: this is now DONE.
+
+## Thread QG-Blackbody, round 3 — the cumulant law (T5)
+
+**Status: DONE, `GppVerify/QuantumGravity/CumulantLaw.lean`, kernel-clean, no axiom, no
+sorry.** `GppCumulantLaw.cumulant_law`: for `|λ| < 1`,
+`-log(P(λ)) = Σ_{k≥0} (-1)^k·ζ(2(k+1))·λ^{2(k+1)}/(k+1)` (`k` zero-indexed, so `k+1` ranges
+over the paper's `k≥1`) — exactly T5 of `verify_blackbody_capstone.py`
+("cumulants are even zeta values"), `log P(λ) = -Σ_{k≥1}(-1)^{k+1}ζ(2k)λ^{2k}/k`.
+
+Proof shape, following the plan above exactly:
+
+* Take `log` of the Weierstrass product (`SinhWeierstrassProduct.tendsto_prod_one_add_sq_div`)
+  via `Real.log_prod` on each finite partial product plus continuity of `log` at the positive
+  limit `sinh(πλ)/(πλ)`, converting the `Tendsto` of partial products into
+  `HasSum (fun j => log(1+λ²/(j+1)²)) (log(sinh(πλ)/(πλ)))` — summability of the log-series
+  itself established via `log(1+x) ≤ x` compared against the shifted Basel series
+  `Σ1/(j+1)²` (`summable_nat_add_iff` shifting Mathlib's `hasSum_zeta_two`).
+* Expand each `log(1+λ²/(j+1)²)` via Mathlib's `hasSum_pow_div_log_of_abs_lt_one` (the
+  standard `log(1-x)` Taylor series, applied at `x = -λ²/(j+1)²`), giving, for each `j`, a
+  `HasSum` in the Taylor index `k`.
+* Establish joint summability of the resulting `(j,k)`-indexed double array via an explicit
+  product majorant `(1/(j+1)²)·(λ²)^{k+1}` (`Summable.mul_of_nonneg` on the two marginal
+  geometric/Basel series), then upgrade from absolute to unconditional summability
+  (`Summable.of_abs`).
+* Swap the double sum (`Summable.tsum_comm`), and factor the inner `j`-sum's constants out
+  via `tsum_mul_left` to land on the stated closed form.
+
+Two genuine debugging lessons recorded for future double-series work in this repo:
+(1) a `heartbeat` timeout appeared in the joint-summability lemma's calc chain and needed
+`set_option maxHeartbeats 1000000 in` — a legitimate fix here (the chain is a real, if
+slow, sequence of `positivity`/`div_le_div_of_nonneg_left` calls, not a genuine infinite
+loop); (2) `rw [div_pow, ← pow_mul]` with no explicit arguments silently rewrote the wrong
+one of two available `(a^m)^n` matches, leaving a residual `x^(2k)` vs `(x²)^k` mismatch that
+`ring`/`ring_nf` cannot bridge on its own (they don't apply `pow_mul` for symbolic exponents)
+— fixed by giving `pow_mul` its arguments explicitly (`← pow_mul lam 2 (k+1)`) to pin down
+exactly which occurrence gets rewritten.
 
 ### Two genuine Mathlib gaps, scoped and named so a future session doesn't re-discover them
 
@@ -1115,6 +1359,17 @@ double family via `Equiv.prodComm` and combining with a fresh per-`k`-row comput
 computation, reusing `summable_double`'s absolute-summability work rather than re-deriving
 it. **This closes the cumulant-law sub-thread with nothing left open in it.** Full rebuild
 re-verified: 0 sorry, 13 axioms unchanged.
+
+**Superseded at merge time (2026-08-24)**: `CumulantLawClosedForm.lean` above turned out to
+be fully redundant with a different, independently-landed derivation of the exact same
+single-index closed form — `GppCumulantLaw.cumulant_law` in the canonical
+`QuantumGravity/CumulantLaw.lean` (from "Thread QG-Blackbody, round 3" below, landed on
+`main` while this thread was developing in parallel on its own branch). Both proved the
+identical mathematical statement via different routes; `CumulantLawClosedForm.lean` was
+dropped rather than kept as a duplicate. `CumulantLaw.lean` itself was also superseded at
+the same merge — this thread's own two-file version (`hasSum_row`/`summable_double`/
+`hasSum_log_double`) was replaced wholesale by main's single-file version, which is now the
+sole surviving file at that path.
 
 **Also landed same session**: `QuantumGravity/WeightShiftRelations.lean` — the digamma-free
 first half of `Principal_Series_Kinematic_Blocks.tex`'s "Weight-shift relations and the
@@ -1271,6 +1526,1028 @@ statements), the CKM/PMNS mixing-angle and fermion-mass-hierarchy sections (Spin
 geometry — likely overlaps `KoideRelation.lean`/`WeylCasimir.lean`, not individually
 re-checked), and the numerical-verification Python appendices (not Lean targets as such, but
 worth spot-checking against `discovery/` for anything already independently verified there).
+
+---
+
+## Thread QG-Blackbody, round 4 — Planck form and the reciprocal Weierstrass product
+
+**Status: DONE, `GppVerify/QuantumGravity/SpectralWeightIdentities.lean`, kernel-clean, no
+axiom, no sorry.** From updated companion papers ("The Spectral Weight π λ / sinh π λ" and
+"Modular Thermality of the Celestial Spectral Weight"), with `verify_blocks_v2.py` and
+`verify_ode_resolution.py` independently rerun (every claim reproduces to `1e-21`–`1e-41`
+relative error) and `dispersion_step3a.py` — the loop-from-cut dispersion reconstruction —
+independently verified for the first time this round (`0` to `1.6e-21` direct-vs-dispersion,
+`1.4e-11`/`2.9e-7` for the Mellin-space dispersion relation).
+
+* **`planck_form`**: for `λ > 0`, `P(λ) = 2πλ·(bose(πλ) - bose(2πλ))` where
+  `bose(y) = 1/(exp y - 1)` — a genuine Planck-form identity for the spectral weight, proved
+  by clearing denominators through `Real.sinh_eq` and the exponential of a sum.
+* **`one_div_P_tendsto_tprod`**: `1/P(λ)` is the Weierstrass product `∏ₙ(1+λ²/n²)` as a
+  `Tendsto` statement, an immediate corollary of `SinhWeierstrassProduct.
+  tendsto_prod_one_add_sq_div` for `λ ≠ 0`.
+
+Also corrected this round: `AllLoopFiniteness.lean` and the blueprint's QG-Blackbody chapter
+described `P(λ)` as "the Plancherel spectral weight" and `𝓜_L` as a "Plancherel loop
+measure" — both wrong (the `SL(2,ℂ)` Plancherel density for the scalar principal series
+grows like `λ²`, not `P`). Retitled to describe `P` as what it is: the two-particle
+massless phase-space weight of a celestial unitarity cut. No Lean statement or proof
+changed — only doc comments and the blueprint's prose.
+
+### Not yet formalized, scoped for a future round
+
+* **The weight-shift ODE for `P`'s Fourier transform** (`P(λ∓i) = (1±iλ)/(∓iλ)·P(λ)`, and
+  `(1/2)sinh(x)·p̂'(x) = p̂(x) - p̂(0)` for `p̂(x) = (1/4)sech²(x/2)`): pure real analysis, no
+  digamma needed, but requires setting up the Fourier transform of `P` as an integral and
+  differentiating under it — a real but bounded piece of work, not attempted this round.
+* **The digamma-moment theorem** (`thm:moment`, First Moment Theorem) and the deviation
+  moments `A_k` built on it: still blocked on digamma per round 3's gap #1 above — the new
+  papers' closed-form proof of `thm:moment` is elementary once `ψ` exists, but `ψ` itself
+  is not yet built.
+* **Matsubara residues** (`Res_{λ=in} P(λ) = i(-1)^n n`): needs `P` continued to `ℂ` and
+  Mathlib's residue-calculus machinery; not attempted this round.
+
+---
+
+## Digamma via Mathlib's `Gamma` calculus (task #9, closed)
+
+**Status: DONE, `GppVerify/QuantumGravity/Digamma.lean`, kernel-clean, no axiom, no sorry.**
+Earlier rounds' `grep` for the *name* `digamma`/`polygamma` in `.lake/packages/mathlib/`
+(zero hits at pinned `v4.19.0`) was the wrong question — Mathlib's
+`NumberTheory.Harmonic.GammaDeriv` already computes `deriv Real.Gamma` in closed form at `1`
+(`Real.hasDerivAt_Gamma_one`, via the Bohr–Mollerup convexity argument) and at `1/2`
+(`Real.hasDerivAt_Gamma_one_half`, via Legendre's duplication formula
+`Real.Gamma_mul_Gamma_add_half`), and at every positive integer (`Real.hasDerivAt_Gamma_nat`).
+`GppDigamma.digamma := deriv Gamma / Gamma` makes `ψ(1)=-γ`, `ψ(1/2)=-γ-2log2`,
+`ψ(n+1)=-γ+harmonic n`, and the functional equation `ψ(x+1)=ψ(x)+1/x` immediate corollaries
+— the last one needed `Filter.EventuallyEq.deriv_eq` on a neighborhood avoiding `x=0` rather
+than a global `funext`, since `Gamma(s+1)=s·Gamma(s)` is literally false at `s=0` under
+Mathlib's junk-value convention (`Gamma 1 = 1 ≠ 0 = 0·Gamma 0`) — the same care
+`GammaDeriv.lean`'s own `hder_rec` takes for the analogous step.
+
+**Real-argument only.** `kinematic_block_v1.tex`'s First Moment Theorem needs
+`Re ψ(1/2+iλ/2)`, the *complex* digamma along a vertical line — a further, separate
+extension, not attempted this round. Whether it is similarly close at hand (Mathlib's
+`Complex.Gamma` differentiability is unconditional off the poles, but no closed-form complex
+derivative values like `GammaDeriv.lean`'s exist yet) is worth a dedicated scoping pass next.
+
+---
+
+## New research front (2026-08-20): local-field shadow kernels
+
+**Status: `GppVerify/QuantumGravity/{LocalShadowKernel,DiagonalConformalLift}.lean`, four +
+four theorems, kernel-clean, no axiom, no sorry.** From Daniel's own "Local-field shadow
+kernels, celestial unitarity, and the adelic principal series" — investigating whether
+celestial Cutkosky unitarity, 1D Mellin/shadow harmonic analysis, and adelic PGL(2) harmonic
+analysis share a common rank-one local-to-global structure. Full write-up, including the
+genuinely open research problems (local factorization, Cutkosky-vs-Rankin-Selberg,
+non-Archimedean-kernel-in-Lean gap), in
+`discovery/local_field_shadow/local_shadow_kernel_notes.md` — do not duplicate that boundary
+here; the summary is: shadow reflection and principal-series positivity for the Archimedean
+kernel `K_{∞,d}(a)=Γ(a)Γ(d-a)/Γ(d)`, and the diagonal conformal lift `D(s)=(s,s)`,`Δ=2s`,
+are proved unconditionally; the non-Archimedean kernel, the local factorization problem
+(§9), the Rankin-Selberg bridge (§10), and the `ℝ₊`-as-principal-series-skeleton Lean
+formalization (§4) are not — tracked as tasks #12–14.
+
+---
+
+## §9 resolution: the naive common-local-factor conjecture fails, informatively (2026-08-22)
+
+**Status: DONE, `GppLocalShadow.{GammaC_eq_GammaR_mul_GammaR_succ,
+archKernel_two_eq_GammaC_product, archKernel_two_eq_GammaR_sectors}` and
+`GppEisenstein.{eisensteinCoeff_eq_shadow_ratio, eisensteinCoeff_reflection}`, five theorems,
+kernel-clean, no axiom, no sorry.** Task #12's local factorization question — does a single
+`a_∞(s)` give both the physical kernel and the Weyl intertwiner — answered **no** at the
+level checked, and the failure is the informative structural fact: they are distinct
+canonical objects on the same rank-one principal series. Full account, including the
+Archimedean/finite-place/global breakdown and the honest remaining boundary (the *deeper*
+representation-theoretic question of why, and whether some other factorization could still
+relate them), in `discovery/local_field_shadow/local_shadow_kernel_notes.md`'s "§9
+resolution" section — not duplicated here.
+
+New Lean content:
+* `GammaR`/`GammaC` (real/complex Archimedean Gamma factors) and `archWeylCoeff` (the
+  spherical Weyl/Gindikin–Karpelevich coefficient, recorded for contrast only) added to
+  `LocalShadowKernel.lean`.
+* `GammaC_eq_GammaR_mul_GammaR_succ`: Legendre duplication `Γ_C(s)=Γ_R(s)Γ_R(s+1)`, derived
+  from Mathlib's `Complex.Gamma_mul_Gamma_add_half`. The proof needed care around two
+  `(2:ℂ)` vs `((2:ℝ):ℂ)` numeral-cast mismatches — `Complex.mul_cpow_ofReal_nonneg` only
+  fires on bases syntactically cast from `ℝ`, so a small private helper
+  (`two_mul_pi_cpow_split`) isolates the cast-and-split step once rather than fighting the
+  mismatch inline at each use site.
+* `archKernel_two_eq_GammaC_product` / `_GammaR_sectors`: the celestial `d=2` cut
+  `K_{∞,2}(Δ) = π²Γ_C(Δ)Γ_C(2-Δ) = π²·Γ_R(Δ)Γ_R(Δ+1)·Γ_R(2-Δ)Γ_R(3-Δ)` — two shadow-paired
+  real Archimedean Gamma sectors.
+* New file `GlobalEisensteinCoefficient.lean`: `eisensteinCoeff Δ := Λ(Δ-1)/Λ(Δ)` (`Λ` =
+  Mathlib's `completedRiemannZeta`) rewrites exactly as `Λ(2-Δ)/Λ(Δ)` and satisfies
+  `φ(2-Δ)φ(Δ)=1`, both immediate from Mathlib's own `completedRiemannZeta_one_sub`
+  functional equation (`Λ(1-w)=Λ(w)` for every `w`, unconditional — a genuinely useful piece
+  of pre-existing Mathlib infrastructure found by checking before assuming it was missing,
+  the same lesson as the digamma find two rounds ago). **Not an RH claim** — Eisenstein
+  scattering containing `ζ(s)` in its functional equation proves nothing about its zeros;
+  `|φ(1+iλ)|=1` is verified numerically only, since it needs `Λ`'s conjugation symmetry,
+  which Mathlib does not state directly for `completedRiemannZeta`.
+
+Also independently verified numerically (not Lean claims): `c_∞`/`archKernel` are not
+proportional at the Archimedean place; the Gindikin–Karpelevich coefficient and the derived
+finite-place kernel are not equal. Task #12 marked resolved at this level; a follow-up task
+for the deeper representation-theoretic question would need to be scoped fresh if pursued.
+
+---
+
+## The golden ratio as the minimal hyperbolic sector of `PSL₂(ℤ)` (2026-08-22)
+
+**Status: DONE, `GppVerify/NumberTheory/GoldenRatioHyperbolicSector.lean`, fourteen
+theorems, kernel-clean, no axiom, no sorry.** From a research-front update: `F = T∘J`
+(unit translation after inversion), `F(x)=1+1/x`, has unique positive fixed point `φ`.
+Projectively, `M=!![1,1;1,0]`, `A:=M²=!![2,1;1,1]` is the minimal-trace hyperbolic element
+of `SL₂(ℤ)` — integrality forces `|tr|≥3` once `|tr|>2` (hyperbolicity), and `A` attains it.
+Discriminant `5`, eigenvalues (as characteristic-polynomial roots) `φ^{±2}`, Möbius fixed
+points `φ` and `-φ⁻¹`. Independently, the finite-place shadow kernel `K_{q,1}(s)`
+(`discovery/local_field_shadow/`, §5 — used here only via its closed-form real-function
+definition, not the underlying `p`-adic integral) evaluated at `q=5` (the *independently*
+selected discriminant — `φ` never enters the kernel's definition or the choice of `q`) and
+`s=1/2` equals exactly `φ²`. `golden_convergence` connects the two routes.
+
+Reuses Mathlib's `Data.Real.GoldenRatio` throughout (`goldenRatio`, `gold_sq`,
+`gold_ne_zero`, `goldConj_neg`, `gold_add_goldConj`, `gold_mul_goldConj`, `inv_gold`,
+`one_lt_gold`) rather than redefining any of it. Matrix identities use plain
+`Matrix (Fin 2) (Fin 2) ℤ` with `Matrix.det_fin_two_of`/`trace_fin_two_of`/`mul_fin_two`,
+not Mathlib's `SpecialLinearGroup`/`ModularGroup` machinery (that machinery targets the
+action on the upper half-plane `ℍ`; this package needs the real-line Möbius fixed points
+and elementary `2×2` determinant/trace facts instead, which are simpler used directly).
+
+**Missing-interface note, precisely as requested**: the "characteristic polynomial" facts
+(`A_charpoly_root_goldSq`/`_goldInvSq`) are stated as direct roots of `X²-(tr A)X+(det A)`,
+not connected to Mathlib's `Matrix.charpoly`/`Module.End.HasEigenvalue` API — no
+`charpoly_fin_two`-style closed form for `2×2` matrices was found in the pinned Mathlib
+(`v4.19.0`); building that bridge is real, separate work, not attempted.
+
+**Semantic boundary, deliberately not formalized**: that this "minimal modular hyperbolic
+sector" is the *physical* fundamental sector of anything in the surrounding research
+program — open and physical, not mathematical, no theorem asserts it. Nor that inversion
+*alone* forces `φ` — the actual claim needs primitive translation too.
+
+Independent numerical cross-check: `discovery/local_field_shadow/golden_hyperbolic_verify.py`
+(supplementary to the Lean proofs, not a substitute).
+
+## Thread Cutkosky-Weil — local shadow kernels and the finite-prime Weil kernel (2026-08-22/23)
+
+**Status (fifth pass): local identities, the layered finite Fourier/Gram-square
+development, the removable singularity, the full `N→∞` analytic passage, AND the
+operator-level vacuum-compression identity all DONE,
+`GppVerify/RiemannHypothesis/CutkoskyWeilBridge.lean` — 24 theorems, all kernel-clean, no
+axiom, no sorry, culminating in the genuine, untruncated
+`GppHaarPositivityWeil.PositiveType (K_r - 1)` (`KrClosed_minus_one_positiveType`) AND the
+actual bounded-operator identity `C_{K_r-1} = P_0 * C_{K_r} * P_0` on `ℓ²(ℤ,ℂ)`
+(`vacuum_compression_operator_identity`) with its positivity corollary
+(`vacuum_compressed_operator_positive`), both unconditional. The Mellin/adelic bridge to
+the classical Weil kernel, `Q_GPP`, and global positivity factorization are NOT
+attempted — see the fifth-pass paragraphs below for the precise, re-scoped target.**
+
+From a research-front directive proposing the route `celestial Cutkosky positivity →
+local shadow kernels → finite-prime Weil kernel → Casimir compression → global Weil
+positivity → RH`, with the explicit instruction not to import Connes–Consani's
+scaling-trace machinery and to attack the "missing analytic bridge" instead. The final
+logical step (finite Weil paired-form positivity on all nontrivial zeros ⟺ RH) is
+already proved unconditionally in `WeilPositivityCriterion.lean`
+(`rh_iff_weil_pairedForm_nonneg`) — but that criterion is an *abstract* pairing over
+finite subsets of the actual (unknown) zero set, not the classical Weil explicit-formula
+prime-sum quadratic form the directive describes; bridging the two needs the classical
+explicit formula itself (a separate, substantial, not-in-Mathlib undertaking), named
+here as an honest boundary rather than forced.
+
+**What's proved**: `Kp p t` (the finite-place shadow kernel, real closed form
+`(1-p⁻¹)/(1-2p^{-1/2}cos(t log p)+p⁻¹)`) is positive for every `p>1` (`Kp_pos`) — a
+one-line consequence of it being a Poisson-kernel value. `H t := (t²+1/4)·cutKernel t`
+(the Casimir-weighted Archimedean kernel, `cutKernel` the already-derived celestial cut
+`t/(4 sinh(2πt))`) is nonnegative for every real `t` (`H_nonneg`) — `t` and
+`sinh(2πt)` always share sign.
+
+**Self-correction, then the corrected central finding.** A first round's numerical
+"central finding" claimed no positivity-preserving projection from `K_p` to `K_p−1`
+exists — that claim was **wrong**, caught by review after it had already merged to
+`main`. It tested a Toeplitz matrix of Fourier *coefficients* (indices = frequencies),
+not the actual kernel-positivity Gram matrix (indices = point evaluations); those are
+different objects. **Corrected finding: `K_p − 1` IS a positive kernel, prime-by-prime,
+unconditionally** — convolution by `K_p` is diagonal in the Fourier basis with
+eigenvalues `r^{|n|}≥0`; the vacuum subtraction merely zeroes the `n=0` eigenvalue,
+which cannot make the rest negative. This is now proved rigorously in Lean at every
+finite truncation via a **layered finite Fourier/Gram-square development**:
+`gram_square_freq` (fixed-frequency Gram identity, generalizing
+`ConvolutionSquarePositive.lean`'s `gram_square_nonneg` to complex amplitudes) →
+`gram_square_freqSum` (finite weighted sum over frequencies) →
+`gram_square_freqSum_nonneg` (nonnegativity corollary) → `KrN0`/`KrN0_gram_nonneg` (the
+truncated kernel `K⁰_{r,N}=Σ_{0<|n|≤N}r^{|n|}e^{inθ}` and the milestone theorem
+`Σᵢⱼc̄ᵢcⱼK⁰_{r,N}(xᵢ-xⱼ)≥0`). Each layer builds independently in under 4 seconds.
+
+**Proof-engineering lesson (worth repeating for future threads)**: a first attempt at
+the corrected result proved the untruncated two-sided `HasSum` over all of `ℤ` and built
+`PositiveType(K_r-1)` on top of it as one monolithic theorem — both repeatedly hit
+`(deterministic) timeout at whnf` even at 4,000,000 heartbeats (20× default). Bisected by
+extracting sub-`have`s into standalone scratch files tested with `lake env lean` at
+*default* heartbeats (seconds, not minutes, per test) rather than waiting out repeated
+multi-minute full-file builds. Root causes: (1) `HasSum.of_nat_of_neg_add_one` elaborates
+in under 20s with a minimal local context but times out inlined into a context also
+carrying `r, hr0, hr1, θ` — extracted as its own minimal-context lemma; (2) the full
+Gram-square argument, run once over an infinite series with `ring_nf`/`nlinarith` on
+deeply nested `Complex.re`/`Complex.im` terms, accumulates unbounded elaboration cost
+regardless of heartbeat budget. Fixed architecturally (the four small layers above), not
+by raising `maxHeartbeats` further. **If a theorem takes more than ~1 minute to
+elaborate, treat that as a proof-engineering bug and bisect — don't just raise the
+heartbeat limit.**
+
+This does **not** rule out — nor does it establish — global positivity of the assembled
+sum `Q_GPP = Q_∞ + Σ_p Q_p`; single-prime kernel positivity was never going to answer
+that on its own (the classical Weil explicit formula's local prime terms are
+individually sign-indefinite in their usual normalization even though local `K_p`
+positivity holds).
+
+**Fourth pass (same session, following review) — both items above landed.** (1) The
+removable singularity: `tendsto_cutKernel_zero` proves `cutKernel → 1/(8π)` as `t→0`
+(`t≠0`), from `Real.sinh`'s derivative at `0` (`HasDerivAt Real.sinh (Real.cosh 0) 0`),
+not asserted; `cutKernelExt := Function.update cutKernel 0 (1/(8π))` is the continuous
+extension (`continuousAt_update_same` turns the punctured-neighborhood limit directly
+into continuity); `Hext`/`Hext_zero`/`Hext_nonneg` give `H(0)=1/(32π)` and nonnegativity
+everywhere, replacing the earlier `0/0=0` junk value. (2) The `N→∞` passage, via the
+route review specified — separate convergence from algebra rather than reviving the
+timed-out monolithic construction: `tendsto_Icc_atTop` (symmetric intervals are cofinal
+in `Finset.atTop`) + `summable_KrClosed_summand` (`Summable`, existence only, via
+`Summable.of_nat_of_neg` compared against the geometric tail — far cheaper than tracking
+`HasSum` *values* through `Int.rec`) + `tsum_KrClosed_summand_eq` (the tsum's value
+identified as `K_r(θ)-1`, via the two one-sided geometric series and
+`Summable.tsum_of_nat_of_neg`) + `tendsto_KrN0` (`KrN0 → K_r(θ)-1`) +
+`KrClosed_minus_one_positiveType` (positivity passes to the limit via `ge_of_tendsto`) =
+the genuine, untruncated `GppHaarPositivityWeil.PositiveType (K_r - 1)`, unconditional.
+16 theorems total in the file now, all kernel-clean.
+
+**Still deferred, not attempted**: the exact Fourier pair
+`H(t) ↔ G(x)=3/(512π)sech⁴(x/4)` under the convention `G(x)=(1/2π)∫H(t)e^{itx}dt`
+(confirmed numerically to ~1e-51 relative error; needs Mathlib Fourier-transform-of-sech⁴
+machinery not confirmed to exist); the pole-cancellation/removable-singularity claim at
+`t=±i/2` (a different, complex-analytic singularity from the real-axis one at `t=0` just
+closed — confirmed numerically via a shrinking-perturbation sequence, no formal residue
+calculus).
+
+**Fifth pass (same session, following a further review directive) — the operator identity
+closed; the finite-prime Weil-kernel target precisely re-identified.** The directive named
+a six-item program prioritizing item 1 (the actual operator statement, not the finite
+Fourier identity again) and item 4 (the Mellin/adelic bridge). Item 1 is now DONE in full:
+`Ell2Z := ℓ²(ℤ,ℂ)`, the natural Fourier-coefficient model (Parseval-dual to the circle, so
+convolution-by-kernel becomes diagonal multiplication by Fourier coefficients — no need to
+build the circle convolution operator itself). `mulOpCLM w hw : Ell2Z →L[ℂ] Ell2Z` is the
+bounded diagonal `ContinuousLinearMap` for any weight bounded by `1` (built via
+`LinearMap.mkContinuous` from an explicit norm bound). `C_{K_r} := mulOpCLM(KrWeight r)`,
+`P_0 := mulOpCLM P0Weight` (the vacuum-deleting projection), `C_{K_r-1} :=
+mulOpCLM(KrMinusOneWeight r)`. **`vacuum_compression_operator_identity`**:
+`C_{K_r-1} = P_0 * C_{K_r} * P_0` as genuine `ContinuousLinearMap` composition, via
+composition-multiplies-symbols (`mulOpLin_comp`) reducing to the one-line pointwise fact
+`P_0(n)·K_r(n)·P_0(n)=(K_r-1)(n)`. **`vacuum_compressed_operator_positive`**: positivity of
+the compressed operator, derived as a genuine corollary of a *general* lemma
+(`mulOpCLM_inner_re_nonneg`: any bounded diagonal operator with `Re(w(n))≥0` everywhere is
+positive semidefinite) applied to `K_r-1`'s already-known eigenvalue signs — no new
+analytic content, exactly "as a corollary" as directed. 8 new theorems, kernel-clean, no
+axiom, no sorry.
+
+Checking `GppWeilCriterion.rh_iff_weil_pairedForm_nonneg`'s actual statement against the
+directive's framing ("in the normalization used by" that theorem) found this file's own
+prior module doc had already flagged the mismatch: `pairedForm` is a **zero-indexed**
+reflection pairing over the (unknown) zero set itself, paired by `ι(ρ)=1-ρ̄` — it carries
+no prime, Mellin, or Haar-measure content whatsoever for a "finite-prime Weil kernel in
+this normalization" to mean. The genuine classical target is
+`GppHaarPositivityWeil.weil_criterion` (`D_k=Σ_ρΩ̂(ρ)+local terms`), a full `True`-stub
+honestly blocked on Tate's thesis + idèle class groups — neither in Mathlib, a large,
+well-known, multi-year gap, not proof-engineering-fixable. But the classical *elementary*
+(non-adelic) explicit formula's finite-prime local term has a clean checked closed form:
+with `ζ_p(s):=(1-p^{-s})^{-1}` the local Euler factor, `Wp(p,t) =
+2·Re(-ζ_p'/ζ_p(1/2+it))` exactly — derived by hand from `-ζ_p'/ζ_p(s)=log(p)Σ_{k≥1}p^{-ks}`
+(standard log-derivative of the Euler factor) plus the already-proved
+`Kp_eq_KrClosed`/`tsum_KrClosed_summand_eq`. Checked, not yet Lean-formalized — the honest
+next Lean target for items 2–3, no new Mathlib gap. Item 6 (global assembly against
+`rh_iff_weil_pairedForm_nonneg`) does not apply as stated, for the same reason: that
+theorem's hypothesis carries no prime-side data to assemble. The genuine assembly question
+belongs to `weil_criterion`, and even granting the `Wp` identity for its local terms, still
+needs the *global* explicit formula (contour integration of `ζ'/ζ`, the argument
+principle) to exist in Lean first — not currently in the tree, a separate substantial
+classical-analytic-number-theory undertaking (smaller than the adelic route, still large),
+scoped honestly, not attempted. Full account: `discovery/cutkosky_weil/notes.md`, "Fifth
+pass" section.
+
+**Item 3 (Casimir operator's representation-theoretic origin) — not attempted**: the
+precise missing interface is Mathlib's total absence of `SL(2,ℝ)` principal-series
+representations or a Casimir/Laplace–Beltrami operator; `t²+1/4` is used here purely as
+the known eigenvalue *number*, not derived from an actual operator. Building that
+operator is separate, substantial representation-theory work.
+
+**Item 9 — no Connes–Consani/Selberg/Mayer/Tate/Knapp–Stein machinery imported**
+anywhere in this thread; the Gram-square development is original to this session,
+derived purely from the GPP local-shadow-kernel route already in the tree.
+
+**Explicit non-claims**: no RH claim and no claim of global Weil positivity. Local
+positive-type positivity of `K_p−1` *is* proved; it does not transfer automatically to the
+standard explicit formula, whose finite-prime contribution carries the opposite overall
+sign and uses a different test-function pairing.  The sign of that pairing is not fixed by
+the overall minus sign alone. No external RH program's machinery is imported as a black
+box.
+
+## Thread Cutkosky-Weil, sixth pass (2026-08-23) — the Euler-factor identity and the
+## decisive sign question
+
+Attacking the bridge from the already-proved `Wp`/`Kp-1` local kernel positivity
+(`CutkoskyWeilBridge.lean`, fifth pass) to the classical Weil explicit formula's
+finite-prime term, per a relayed research directive, rather than continuing to circle
+the abstract `rh_iff_weil_pairedForm_nonneg` criterion.
+
+**Layer 1-2 landed in Lean** (`GppVerify/RiemannHypothesis/EulerFactorLogDeriv.lean`,
+new file, imported into `GppVerify.lean`): `zetaP p s := (1-exp(-s log p))⁻¹`, the local
+Euler factor as a genuine function of `s : ℂ`. `hasDerivAt_zetaP` proves the closed form
+`minusLogDerivZetaP p s := log(p)·p^{-s}/(1-p^{-s})` genuinely **is** `-ζ_p'(s)/ζ_p(s)`,
+from an actual `HasDerivAt` chain-rule computation (through `Complex.exp`, then
+`HasDerivAt.inv`) — not asserted from the geometric-series shortcut. Full project
+rebuild green: 3300/3301, sorry-gate clean, 13/13 axioms unchanged.
+
+**Honest boundary, this pass**: the final connection back to `Wp` — `Wp p t =
+2·Re(minusLogDerivZetaP p (1/2+it))` — is checked by hand and numerically to 40 digits
+(four primes × three `t` values, `verify_euler_factor_logderiv.py`) but not yet
+formalized: the `Complex.cpow` exponent-splitting algebra
+(`p^{-(1/2+it)}=p^{-1/2}·p^{-it}`) needs more care than this pass affords without
+iterative compiler feedback on this large a file. Named precisely, not forced through.
+
+**The decisive question, answered by direct computation, not assumption.** Does the
+already-proved positive-type property of `Wp`'s kernel help establish the sign the Weil
+explicit formula's prime term actually needs? Rather than trust a half-remembered
+normalization, verified Weil's explicit formula itself against 60 real nontrivial zeta
+zeros (`mpmath.zetazero`) with a concrete even Gaussian test function
+`h(r)=exp(-0.6 r²)`:
+```
+sum_rho h(gamma) = h(i/2)+h(-i/2) - g(0)log(pi) + (1/2pi) int h(r) Re[psi(1/4+ir/2)] dr
+                    - 2 sum_{n>=2} (Lambda(n)/sqrt(n)) g(log n)
+```
+Both sides agree to `~1e-10`, pinning the sign exactly: the prime sum enters with an
+overall **minus** sign. Its summand is exactly `-2·sum_p sum_m log(p)·p^{-m/2}·g(m log p)`
+— literally minus a quantity built from the same Poisson-kernel structure `Wp` already
+proved positive-type (`verify_weil_explicit_formula_sign.py`).
+
+**Finding, later corrected in the eighth pass below:** the Gaussian calculation proves a
+negative prime contribution for that test and pins the overall sign, but this pass first
+inferred universal nonpositivity.  That was too strong: positive-type **convolution** by
+`Kp-1` is not the same operator as **multiplication** by `-Wp` after the test-function
+transform.  The eighth pass proves that the scalar multiplier changes sign.  The numerical
+identity and Gaussian result remain valid; the universal-sign inference is withdrawn.
+
+**A new asset**: Daniel supplied 100,000 high-precision nontrivial zeta zeros (Odlyzko
+format); the missing first zero was prepended by hand
+(`γ₁=14.134725141734693790457251983562470270784257115699...`). Ran `zeta_screw.py`'s
+Stage 3 ("Gram identity from the zeros") with this real file for the first time, ranges
+`±1,±2,±3`: relative residual `13-16%`, not the "small residual" clean-confirmation case
+the script's own docstring anticipates — recorded honestly as a real, moderate-but-not-
+tiny result, not yet diagnosed further (more zeros/higher truncation cutoff untested), a
+loose end for a future pass, not claimed as confirmation or refutation either way.
+
+Full detail: `discovery/cutkosky_weil/notes.md` (sixth-pass section),
+`verify_euler_factor_logderiv.py`, `verify_weil_explicit_formula_sign.py`.
+
+## Thread Cutkosky-Weil, seventh pass (2026-08-23) — the `Wp` boundary, closed
+
+Closes the honest boundary named above: `Wp p t = 2·Re(minusLogDerivZetaP p (1/2+it))` is
+now a genuine Lean theorem (`Wp_eq_two_mul_re_minusLogDerivZetaP`,
+`EulerFactorLogDeriv.lean`), not just checked by hand and numerically. Proved by direct
+real/imaginary-part computation (`Complex.exp_re`/`exp_im`, `Complex.div_re`,
+`Complex.normSq_apply`) rather than the originally-attempted `Complex.cpow`
+exponent-splitting route, closing with a standalone Poisson-kernel lemma
+`KrClosed_sub_one_eq_two_mul_re`: for real `r, θ` with `0 ≤ r < 1`,
+`KrClosed r θ - 1 = 2·Re[r·e^{iθ}/(1-r·e^{iθ})]`.
+
+**A genuine correction made mid-proof, not glossed over**: the first draft of
+`KrClosed_sub_one_eq_two_mul_re` was stated for *all* real `r, θ`, unconditionally — this
+is actually **false**. At `r=1, θ=0` the denominator `1-r·e^{iθ}` vanishes; Lean's total
+division sends `KrClosed 1 0 - 1` to `-1` (since `(1-1²)/0 = 0/0 = 0` by convention) but the
+right-hand side to `0` (since `1/0=0` there too, but the algebra path differs), so the
+"theorem" as originally stated would have been unprovable — caught by working the r=1,θ=0
+case by hand before trying to push the proof through `nlinarith`, not by the compiler
+rejecting a false universal claim (Lean has no way to know a stated theorem is false until
+you fail to prove it). Fixed by adding `0 ≤ r < 1` hypotheses, which cost nothing since the
+only application is `r = p^{-1/2} < 1` for `p > 1`.
+
+Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`4bc283e` on `cutkosky-weil-euler-factor`, branched from `origin/main`.
+
+**Explicit non-claim**: this does not touch the decisive-question finding (sixth pass) —
+the sign obstruction concerns how `Wp` enters the classical explicit formula, which this
+pass does not address; it only proves what `Wp` genuinely *equals*.
+
+**Next honest boundary**: the exact test-function-transform theorem and the classical
+explicit formula itself (contour integration of `ζ'/ζ`, the argument principle) remain
+unformalized, as does the global prime--Archimedean/no-ghost projection.
+
+## Thread Cutkosky-Weil, eighth pass (2026-08-23) — prime powers and the exact local
+## sign obstruction
+
+`EulerFactorLogDeriv.lean` now contains the complete two-sided prime-power expansion.
+`primePowerCoeff p n = log(p)p^{-|n|/2}`, `primePowerFrequency p n=n log p`, and
+`WpFourierTerm` omits the vacuum mode. `summable_WpFourierTerm` proves absolute
+summability and `tsum_WpFourierTerm_eq` proves
+`Wp(p,t)=Σ_{n≠0}log(p)p^{-|n|/2}exp(i n t log p)` exactly.
+
+The decisive correction is also formalized. `Wp_zero_pos` proves `Wp(p,0)>0`, while
+`Wp_antiphase_neg` proves `Wp(p,π/log p)<0`. With the named signed scalar term
+`weilPrimeMultiplier := -Wp`, `weilPrimeMultiplier_sign_changes` proves that it takes
+both signs for every real `p>1`. Therefore:
+
+- the convolution operator from `Kp-1` remains positive because its Fourier eigenvalues
+  are nonnegative;
+- the scalar explicit-formula multiplier is sign-indefinite;
+- the sixth-pass Gaussian result sampled one sign and cannot establish universal
+  nonpositivity for every Weil square.
+
+The latest arithmetic manuscript supplies a substantive fermionic/spinorial candidate for
+the missing global mechanism: a finite exterior-algebra prime space with CAR creation and
+contraction operators, a Koszul differential `d_z²=0`, and a positive Hodge--Dirac square
+`(d_z+d_z†)²≥0`. The scalar `Wp` is therefore plausibly a local supertrace/shadow of that
+graded complex, not itself a spinor field. The global positivity target is a completed
+physical-sector/no-ghost theorem (even-degree Hodge/OS cohomology), analogous to selecting
+one time orientation; it remains unproved and must not be assumed.
+
+## Thread Cutkosky-Weil, ninth pass (2026-08-23) — exact boundary propagation and local
+## fermionic Dirac structure
+
+Two new Lean modules close the next physics-to-arithmetic interfaces.
+
+**`RiemannHypothesis/PrimeGreenAmplitude.lean`.** The `Wp` positive-frequency coefficient
+and frequency are proved identical to the arithmetic boundary weight
+`log(p)p^{-m/2}` and location `m log p`.  For every finite family,
+`finitePrimeGreenAmplitude_eq` proves the exact massive Green identity
+
+`Σ log(p)p^{-m/2} exp(-r m log p)/(2r)
+ = (1/(2r))Σ log(p)p^{-m(1/2+r)}`.
+
+Both finite amplitudes are nonnegative for `r>0`.  The abstract doubled-sector
+polarization identity `⟪a,b⟫=(‖a+b‖²-‖a-b‖²)/4` is also proved, justifying the even/odd
+boundary cross-term mechanism without constructing or assuming the completed boundary.
+
+**`RiemannHypothesis/PrimeFermionDirac.lean`.** The exterior algebra on one prime generator
+is implemented as a two-state matrix system. Creation/contraction satisfy CAR; the local
+supercharge squares to zero; the Hodge--Dirac operator is self-adjoint, anticommutes with
+fermion parity, and obeys `D(z)²=normSq(z)I`.  With the exact Euler holonomy
+`z=1-exp(-s log p)`, its inverse is `zetaP`.  `eulerHolonomy_critical_ne_zero` and
+`primeDiracEnergy_critical_pos` prove that every isolated local prime system has strictly
+positive energy on the critical line.  Therefore the local spinorial description is now
+a theorem, while physical zeros remain necessarily collective/global.
+
+**Twin-prime correlation layer.** `NumberTheory/TwinPrimeDoublets.lean` proves that if
+`p-2,p,p+2` are prime then `p=5`; above `5`, every prime is exactly a gap-2 singlet or a
+member of one one-sided doublet. `3-5-7` is the unique overlapping triplet.  This is a
+rigorous two-prime graph decomposition, not a proof of twin-prime infinitude and not an
+asserted `SU(2)` representation.  Conjecturally the doublet sector is infinite but
+density-zero among primes.
+
+**`RiemannHypothesis/PrimeDoubletDirac.lean`.** The graph decomposition now has exact
+operator blocks.  The isolated block is zero.  The twin block is the exchange matrix
+`[[0,1],[1,0]]`, proved equal to the unit-holonomy rank-one Hodge--Dirac operator `D(1)`.
+Lean proves its `+1` symmetric state, `-1` antisymmetric state, failure of positive
+semidefiniteness, identity square, and positive-semidefinite squared block.  Thus the
+doublet clue supports a first-order Dirac/sign-pairing structure; positivity can occur at
+the squared/Hodge level, not for the raw twin adjacency.
+
+**Next:** finite multi-prime Koszul/CAR infrastructure with the actual commuting Euler
+holonomies, followed by the completed Archimedean boundary/no-ghost obstruction.  The
+twin-edge graph is a candidate interaction layer inside that construction; it must earn
+any physical representation-theoretic interpretation through an explicit operator.
+
+## Thread Weil-Semiboundedness, first pass (2026-08-23)
+
+New thread, opened directly from `formalization_queue` per standing protocol (read newest
+queue items, attempt every `ready` item directly in Lean, no by-hand pre-proof gate,
+classify PROVED/CONDITIONALLY PROVED/OPEN/REFUTED honestly, never axiomatize the desired
+conclusion). Four items landed at priority 0 (top of queue), all a single ChatGPT-relayed
+research program: RH via a *semibounded* Weil criterion (`∃ finite C≥0, Q_W(v) ≥ -C‖v‖₂²`
+for all compactly supported smooth `v`; Weil positivity is the `C=0` case), routed through
+Suzuki's Herglotz-function reformulation and the Krein-Langer screw-function
+correspondence.
+
+**PROVED (unconditional): `GppVerify/ThreadWeilSemibound/LocalizedGroundOrder.lean`**,
+item `1b12010b` ("Uniform localized Weil lower bound is equivalent to global
+semiboundedness"). Formalizes exactly the order-theoretic content the item asks for, as an
+abstract nested-infimum skeleton with no reference to what the concrete ratio functional or
+test-function spaces are:
+- `lam_antitone_of_isGLB_of_nested`: nested test spaces ⟹ antitone ground energy (via
+  `IsGLB.mono`).
+- `globalBound_iff_bddBelow_range_lam`: uniform global lower bound ⟺ `BddBelow
+  (Set.range lam)` — deliberately phrased via `BddBelow` rather than a literal `sInf`, to
+  avoid `Real.sInf`'s junk-value convention (`0`) on sets not bounded below silently giving
+  a wrong equivalence.
+- `antitone_tendsto_atBot_of_not_bddBelow`: antitone + unbounded below ⟹ `λ_a → -∞`, a
+  short direct filter argument (`Filter.tendsto_atBot` unfolded, no exotic lemma needed).
+- `tendsto_atBot_of_not_globalBound`: all three assembled into the item's real
+  contrapositive punchline.
+
+**Honest boundary — does NOT define** `Q_W`, the Weil quadratic form, `‖·‖₂`, or
+`S_a = C_c^∞(-a,a)`: no such localized test-function machinery exists in Mathlib, and this
+file is only the abstract skeleton, not an application to the real Weil operator.
+
+**OPEN, honestly assessed rather than forced, remaining three priority-0 items:**
+- `50903a57` ("Conditional convolution positivity implies screw-kernel positivity"):
+  **feasible in principle** — found the exact building block,
+  `ContDiffBump.convolution_tendsto_right_of_continuous`
+  (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`), which gives "convolution
+  against a shrinking bump tends to the continuous function's value at a point," precisely
+  the approximate-identity fact the queue item's suggested proof needs. But the full
+  construction — build the finite-support mean-zero mollified test function `u_ε` from a
+  sum of point masses at `t_j` minus a correction mass at `0`, expand the assumed double
+  integral into a finite sum of bilinear terms via Fubini, take `ε→0` termwise to recover
+  `G_h(t_i,t_j) = h(t_i-t_j)-h(t_i)-h(-t_j)+h(0)` exactly — is a genuinely large multi-lemma
+  real-analysis construction. Scoped precisely, not attempted this pass rather than forced
+  through partially and left broken.
+- `ed078a8f` ("Semibounded Weil criterion forces RH") and `93384c2c` ("Finite Brownian
+  compensation shifts the zeta Herglotz function by iC/2"): **genuinely blocked**. Checked
+  directly (`grep -rli "herglotz\|nevanlinna\|krein.*langer\|screw function" Mathlib/`):
+  the only hit is Nevanlinna *value-distribution* theory (Second Main Theorem counting
+  functions), an unrelated subject. **Mathlib has no Herglotz/Pick integral-representation
+  theory and no Krein-Langer correspondence at all.** Formalizing either item requires
+  building that entire theory from scratch first — not attempted here.
+
+**A further scan of the rest of the `ready` queue** (priorities 1-2, threads Weil-Parity,
+Suzuki-Herglotz, Prime-Schatten, Prime-Scattering, Prime-Fock) found the same gap recurring
+(items naming Pick kernels / Herglotz reflection symmetry) plus a **second, independent
+gap**: items in Prime-Schatten/Prime-Scattering/Prime-Fock ask for Schatten-class operator
+norms, regularized `det_3` Fredholm determinants, and bosonic Fock-space trace identities —
+checked directly (`grep -rli "schatten"` and `"traceClass\|trace_class\|IsTraceClass"` over
+`Mathlib/Analysis/`, zero hits both): **Mathlib has no Schatten-class, trace-class, or
+Fredholm/regularized-determinant theory for Hilbert-space operators at all.** Nothing in
+either blocked category was force-completed with a watered-down or circular substitute.
+
+**Strategic note, not a task**: two precise, named Mathlib infrastructure gaps (Herglotz/
+Pick representation theory + Krein-Langer; Schatten-class/trace-class operator theory) now
+block a large fraction of the currently-`ready` queue across five threads. Building either
+would itself be a substantial standalone Mathlib-contribution-sized undertaking, worth
+flagging to Daniel as a strategic fork (attempt to contribute one of these upstream? scope
+a smaller GPP-local sufficient fragment instead? deprioritize this whole cluster until
+Mathlib grows the machinery?) rather than chipping at it piecemeal without a plan.
+
+Full detail: `blueprint/src/web.tex` (new "Thread Weil-Semiboundedness" chapter).
+
+## Thread Weil-Parity, further items (2026-08-23) — correcting an over-broad assessment
+
+**Self-correction, same session.** The Weil-Semiboundedness scan above initially assumed
+the whole Weil-Parity thread was blocked by the same missing Herglotz/Pick machinery, by
+pattern-matching on the thread name rather than reading each queue item's body. That was
+wrong, caught by actually reading the six Weil-Parity items directly (per the standing
+"don't be so skeptical, test everything, don't assume ever" rule) rather than trusting the
+first impression. Most of them are **pure finite-dimensional linear algebra or topology**
+— several say so explicitly in their own text (`5e10a4f0`: "This is pure linear algebra and
+should be sorry-free"; `0182d9cf`: "This is pure finite-dimensional topology"). Two
+formalized this pass:
+
+**PROVED: `GppVerify/ThreadWeilParity/GroundContinuation.lean`**, item `0182d9cf`
+("Continuation of even ground from small support under no parity crossing"). Continuous
+functions on a preconnected set that never cross, with one strictly below the other at one
+point, stay strictly ordered everywhere —
+`lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected`, via
+`IsPreconnected.intermediate_value₂` (a crossing point would otherwise be forced between
+the two points by IVT). Plus an `Icc`-interval specialization matching the item's own
+"connected interval" phrasing directly.
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossResolventGroundOrdering.lean`**, item
+`5e10a4f0` ("Cross-resolvent positivity below even ground implies parity ground
+ordering"). The determinant-ratio identity `B_det z = f z * A_det z` with both factors
+positive for `z < lamMinA` forces `B_det z > 0` there (`Bdet_pos_of_ratio_pos` —
+algebraically immediate once correctly stated) — once `B_det` is identified with
+`z ↦ det(B - zI)`, exactly "no eigenvalue of `B` below `lambda_min(A)`". A further
+boundary/continuity refinement (`Bdet_pos_at_lamMinA_of_continuousAt`, via
+`ge_of_tendsto` on `𝓝[<] lamMinA`) strengthens this to `B_det lamMinA > 0` too, given
+continuity and a no-common-eigenvalue hypothesis at `lamMinA` itself — the item's full
+`lambda_min(A) < lambda_min(B)` claim.
+
+**Honest boundary, both**: neither file defines Hermitian matrices, their characteristic
+polynomials, or eigenvalues, and neither connects the abstract `A_det`/`B_det`/`f` to
+actual `Matrix.det` of a real Hermitian matrix pencil — that identification ("`z` is an
+eigenvalue of Hermitian `M` iff `det(M-zI)=0`") is standard and left for whichever future
+file applies these lemmas to the real parity blocks `A`, `B`.
+
+**Left `ready`, not attempted this pass** (look similarly tractable on this re-read; a
+future pass should attempt them the same way rather than assume difficulty from the thread
+name): `9cc1e2f8` (positive residues ⟹ strict parity interlacing — the item CLAUDE.md had
+already flagged as the natural next target, needing a real IVT/monotonicity argument on a
+sum of simple poles, not just block-matrix algebra), `d1aec733` (positive commuting metric
+⟺ residue positivity), `68566b83` (cross-heat positivity ⟹ resolvent positivity, with an
+explicit finite-spectral-sum fallback if the matrix-exponential/Laplace route is hard),
+`4d97d8eb` (Pick kernel barycentric interpolant — mostly pure rational-function algebra,
+with only its final Nevanlinna-Pick bridge needing to stay an explicit hypothesis per the
+item's own text).
+
+Full project rebuild: 3303/3304 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`7c1d92c` on `weil-semibound-thread`.
+
+## Thread Weil-Parity, strict interlacing IVT core (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/StrictParityInterlacing.lean`**, item `9cc1e2f8`
+("Positive residues imply strict parity interlacing") — the item already flagged above as
+the natural next target since it needs genuine monotonicity/IVT reasoning. Formalizes the
+fully general core: `existsUnique_zero_of_strictMonoOn_of_tendsto` — a function continuous
+and strictly increasing on an open interval `(a,b)`, tending to `-∞` approaching `a` from
+the right and `+∞` approaching `b` from the left, has exactly one zero in `(a,b)`. Proved
+via `IsPreconnected.intermediate_value_Iii` (existence, using the two boundary `Tendsto`
+facts as the "boundary values" `-∞`/`+∞`) plus `StrictMonoOn.injOn` (uniqueness). Needed
+`nhdsWithin_Ioo_eq_nhdsGT`/`_eq_nhdsLT` to convert the interval-restricted neighborhood
+filters to plain one-sided filters, and `left_nhdsWithin_Ioo_neBot`/
+`right_nhdsWithin_Ioo_neBot` for the required `NeBot` instances.
+
+**Honest boundary**: does not construct `f(z) = Σ_j c_j/(α_j - z)` from the matrix data at
+all, and does not verify this specific `f` satisfies the three hypotheses on each interval
+`(α_k, α_{k+1})` — the per-term `Finset`-sum monotonicity and limit bookkeeping (one pole
+term dominating near each endpoint, the rest bounded) is the remaining connecting step,
+left for a future pass rather than rushed through.
+
+**Left `ready`**: `d1aec733` (positive commuting metric ⟺ residue positivity — noted this
+pass as carrying a subtlety: the two formulas given for `g_j` in the forward/converse
+directions use a plain square vs. a modulus-square of `u_j^*e0`, meaning `g_j` real is not
+immediate from the setup as literally stated and needs care, not a quick win), `68566b83`
+(cross-heat positivity ⟹ resolvent positivity — assessed feasible via a Laplace-transform
+positivity argument, `∫₀^∞ e^{tz}k(t)dt > 0` from `k(t)>0` everywhere on `[0,∞)`, likely
+needing a Mathlib integral-positivity-from-a.e.-positivity lemma not yet looked up),
+`4d97d8eb` (Pick kernel barycentric interpolant).
+
+Full project rebuild: 3304/3305 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`eaa93ed` on `weil-semibound-thread`, landed on `main`.
+
+## Thread Weil-Parity, two more items + a second self-correction (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossHeatPositivity.lean`**, item `68566b83`
+("Cross-heat positivity implies resolvent positivity"). An integral over `[0,∞)` of an
+everywhere-positive integrable integrand is strictly positive
+(`laplace_integral_pos_of_pos_on_Ici`), via
+`MeasureTheory.setIntegral_pos_iff_support_of_nonneg_ae` reduced to the integrand's
+support meeting `[0,∞)` in a set of positive (here infinite) Lebesgue measure
+(`Real.volume_Ici`).
+
+**PROVED: `GppVerify/ThreadWeilParity/RemovableSingularityLimit.lean`**, item `4d97d8eb`
+("Singular Pick kernel..."). A numerator with a finite limit divided by a denominator
+whose norm blows up tends to zero
+(`tendsto_div_zero_of_tendsto_nhds_of_tendsto_norm_atTop`, via `tendsto_inv_atTop_zero` +
+`norm_inv` + `tendsto_zero_iff_norm_tendsto_zero`) — the reusable fact behind
+`qStar(x_i)=q_i` for the barycentric Pick interpolant, since `B(z)-q_i·A(z)` stays finite
+at `x_i` (the `k=i` pole term cancels identically) while `‖A(z)‖→∞` there.
+
+**Honest boundary, both**: neither defines the matrix exponential/resolvent or the Pick
+matrix `R`/barycentric functions `A,B,qStar` themselves; the derivative-matching claim
+`qStar'(x_i)=d_i` and the `qStar(∞)` limit remain untouched.
+
+**Left `ready`**: only `d1aec733` now (positive commuting metric ⟺ residue positivity —
+still carries the `g_j` reality subtlety noted last pass).
+
+**A second self-correction, same session.** Applied the same "read the body, don't judge
+by thread name" discipline to Suzuki-Herglotz and caught another instance of the same
+mistake: assumed the whole thread was Herglotz-blocked without checking. Wrong again.
+
+**PROVED: `GppVerify/ThreadWeilParity/SuzukiReflectionSymmetry.lean`**, item `dcebf59f`
+("Suzuki reflection symmetry canonically fixes the 0/π Weyl pair"). With
+`A(z):=(z-i)I(z)`, `B(z):=(z+i)I(-z)` for an *arbitrary* `I : ℂ → ℂ`, `A(-z)=-B(z)` and
+`B(-z)=-A(z)` follow purely algebraically (no properties of `I`, the operator `T`, or the
+reflection `R` needed at all), hence `W₀:=A+B` odd, `Wπ:=A-B` even, and
+`mHat(z):=-i·W₀(z)/Wπ(z)` odd — the item's own formulas already reduce this layer to
+algebra once expressed through the same `I`. Costs essentially nothing.
+
+**Honest boundary**: does not define `T`, `R`, `v₊=T⁻¹eˣ`, `v₋=T⁻¹e⁻ˣ`, or
+`I(z)=∫v₊(x)e^{izx}dx`, and does not touch the item's final Herglotz/Livsic representation
+claim (confirmed blocked in the Weil-Semiboundedness pass).
+
+**Not re-scanned this pass** (for a future session): the remaining Suzuki-Herglotz items
+(`391ba9b7`, `1c684543`, `2e8ff61e`) and the Prime-Schatten/Scattering/Fock threads were
+read once already and mostly assessed genuinely blocked by the missing Herglotz/Schatten
+infrastructure — but `1c684543` ("Shifted logarithmic-derivative transfer preserves the xi
+zero divisor") is a plain complex-analysis order-of-vanishing statement, not Herglotz-
+dependent at all, and looks tractable via Mathlib's analytic-function zero-order API; worth
+attempting next given the pattern of this pass (checking bodies keeps finding items
+wrongly written off by thread name).
+
+Full project rebuild: 3307/3308 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`b6cb996` (68566b83), `dd0d00d` (4d97d8eb), `5cad862` (dcebf59f) on `weil-semibound-thread`,
+all landed on `main`.
+
+## Sharpening the last open Weil-Parity item (2026-08-23, same session)
+
+`GppVerify/ThreadWeilParity/CommutingMetricResidueGap.lean` turns the earlier "carries a
+subtlety" note on item `d1aec733` into a checked finding rather than a hunch. The item's
+forward direction defines `c_j := (η^*u_j)(u_j^*e0)`, `g_j := (η^*u_j)/(u_j^*e0)`; unwinding
+these gives `c_j = g_j · w²` (plain complex square, `w := u_j^*e0`) unconditionally
+(`cj_eq_gj_mul_sq`) — but the item's own converse direction states the *same* quantity as
+`c_j = ⟨u_j,Gu_j⟩·|w|²` (a **modulus** square). These formulas agree only when `w` is real
+(confirmed with a concrete witness: `w=i` gives `w²=-1 ≠ 1=|i|²`).
+
+**Not a refutation of the underlying mathematics** in its intended (presumably
+real-symmetric) setting — the abstract queue phrasing is underspecified at exactly this
+point (an implicit reality assumption on `u_j^*e0` that the text never states), worth
+flagging back to the research source. `d1aec733`'s `formalization_queue` status set to
+`correction` rather than left `ready`, to distinguish it from items that are simply
+unattempted.
+
+Full project rebuild: 3308/3309 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`07894e0` on `weil-semibound-thread`, landed on `main`.
+
+## Suzuki-Herglotz: the shifted logarithmic-derivative transfer, item `1c684543` (new session)
+
+**PROVED: `GppVerify/ThreadWeilParity/ShiftedLogDerivativeTransfer.lean`**, item `1c684543`
+("Shifted logarithmic-derivative transfer preserves the xi zero divisor") — flagged
+tractable at the end of the previous pass (plain complex-analysis order-of-vanishing, not
+Herglotz-dependent, unlike most of this thread).
+
+The item's setup: for holomorphic `F` and scalar `λ`, `D_λ(s)=F'(s)-λF(s)`,
+`R_λ(s)=F(s)/D_λ(s)`; if `ρ` is a zero of `F` of multiplicity `m≥1`, `R_λ` extends
+holomorphically across `ρ` with a simple zero there. Writing `m=k+1` (`k:ℕ`) to sidestep
+natural-number subtraction entirely, and `F z := (z-ρ)^(k+1)·g z` for `g` analytic and
+nonzero at `ρ`:
+
+- `deriv_shiftedTransferF_sub_smul_eq`: the item's own displayed factorization
+  `D_λ(z) = (z-ρ)^k·w(z)`, `w(z):=(k+1)·g(z)+(z-ρ)·(g'(z)-λg(z))`, from an actual
+  `HasDerivAt` product/power-rule computation (`hasDerivAt_shiftedTransferF`), not
+  asserted.
+- `shiftedTransferWitness_at_root_ne_zero`: `w(ρ)=(k+1)·g(ρ)≠0`.
+- `tendsto_shiftedTransfer_quotient_div`: the item's stated asymptotic
+  `R_λ(s)=(s-ρ)/(k+1)+O((s-ρ)²)`, formalized exactly as `R_λ(z)/(z-ρ)→1/(k+1)` as `z→ρ`
+  (`z≠ρ`) — the removable singularity extends to a genuine simple zero (nonzero linear
+  coefficient), for every finite `λ`.
+- `tendsto_shiftedTransfer_quotient_zero`: `R_λ(z)→0` as `z→ρ` — the "zeros of `R_λ` are
+  (among) the zeros of `F`" half of the item's conclusion, a direct corollary.
+
+7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
+kernel-clean, no axiom, no sorry.
+
+**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
+that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
+right local model, not attempted this pass. Does not prove the *global* "exactly the
+zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
+separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
+is the precise *local* fact at each individual zero, which is the item's own named
+content ("the exact divisor fact").
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
+## Thread Weil-Semiboundedness, first pass (2026-08-23)
+
+New thread, opened directly from `formalization_queue` per standing protocol (read newest
+queue items, attempt every `ready` item directly in Lean, no by-hand pre-proof gate,
+classify PROVED/CONDITIONALLY PROVED/OPEN/REFUTED honestly, never axiomatize the desired
+conclusion). Four items landed at priority 0 (top of queue), all a single ChatGPT-relayed
+research program: RH via a *semibounded* Weil criterion (`∃ finite C≥0, Q_W(v) ≥ -C‖v‖₂²`
+for all compactly supported smooth `v`; Weil positivity is the `C=0` case), routed through
+Suzuki's Herglotz-function reformulation and the Krein-Langer screw-function
+correspondence.
+
+**PROVED (unconditional): `GppVerify/ThreadWeilSemibound/LocalizedGroundOrder.lean`**,
+item `1b12010b` ("Uniform localized Weil lower bound is equivalent to global
+semiboundedness"). Formalizes exactly the order-theoretic content the item asks for, as an
+abstract nested-infimum skeleton with no reference to what the concrete ratio functional or
+test-function spaces are:
+- `lam_antitone_of_isGLB_of_nested`: nested test spaces ⟹ antitone ground energy (via
+  `IsGLB.mono`).
+- `globalBound_iff_bddBelow_range_lam`: uniform global lower bound ⟺ `BddBelow
+  (Set.range lam)` — deliberately phrased via `BddBelow` rather than a literal `sInf`, to
+  avoid `Real.sInf`'s junk-value convention (`0`) on sets not bounded below silently giving
+  a wrong equivalence.
+- `antitone_tendsto_atBot_of_not_bddBelow`: antitone + unbounded below ⟹ `λ_a → -∞`, a
+  short direct filter argument (`Filter.tendsto_atBot` unfolded, no exotic lemma needed).
+- `tendsto_atBot_of_not_globalBound`: all three assembled into the item's real
+  contrapositive punchline.
+
+**Honest boundary — does NOT define** `Q_W`, the Weil quadratic form, `‖·‖₂`, or
+`S_a = C_c^∞(-a,a)`: no such localized test-function machinery exists in Mathlib, and this
+file is only the abstract skeleton, not an application to the real Weil operator.
+
+**OPEN, honestly assessed rather than forced, remaining three priority-0 items:**
+- `50903a57` ("Conditional convolution positivity implies screw-kernel positivity"):
+  **feasible in principle** — found the exact building block,
+  `ContDiffBump.convolution_tendsto_right_of_continuous`
+  (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`), which gives "convolution
+  against a shrinking bump tends to the continuous function's value at a point," precisely
+  the approximate-identity fact the queue item's suggested proof needs. But the full
+  construction — build the finite-support mean-zero mollified test function `u_ε` from a
+  sum of point masses at `t_j` minus a correction mass at `0`, expand the assumed double
+  integral into a finite sum of bilinear terms via Fubini, take `ε→0` termwise to recover
+  `G_h(t_i,t_j) = h(t_i-t_j)-h(t_i)-h(-t_j)+h(0)` exactly — is a genuinely large multi-lemma
+  real-analysis construction. Scoped precisely, not attempted this pass rather than forced
+  through partially and left broken.
+- `ed078a8f` ("Semibounded Weil criterion forces RH") and `93384c2c` ("Finite Brownian
+  compensation shifts the zeta Herglotz function by iC/2"): **genuinely blocked**. Checked
+  directly (`grep -rli "herglotz\|nevanlinna\|krein.*langer\|screw function" Mathlib/`):
+  the only hit is Nevanlinna *value-distribution* theory (Second Main Theorem counting
+  functions), an unrelated subject. **Mathlib has no Herglotz/Pick integral-representation
+  theory and no Krein-Langer correspondence at all.** Formalizing either item requires
+  building that entire theory from scratch first — not attempted here.
+
+**A further scan of the rest of the `ready` queue** (priorities 1-2, threads Weil-Parity,
+Suzuki-Herglotz, Prime-Schatten, Prime-Scattering, Prime-Fock) found the same gap recurring
+(items naming Pick kernels / Herglotz reflection symmetry) plus a **second, independent
+gap**: items in Prime-Schatten/Prime-Scattering/Prime-Fock ask for Schatten-class operator
+norms, regularized `det_3` Fredholm determinants, and bosonic Fock-space trace identities —
+checked directly (`grep -rli "schatten"` and `"traceClass\|trace_class\|IsTraceClass"` over
+`Mathlib/Analysis/`, zero hits both): **Mathlib has no Schatten-class, trace-class, or
+Fredholm/regularized-determinant theory for Hilbert-space operators at all.** Nothing in
+either blocked category was force-completed with a watered-down or circular substitute.
+
+**Strategic note, not a task**: two precise, named Mathlib infrastructure gaps (Herglotz/
+Pick representation theory + Krein-Langer; Schatten-class/trace-class operator theory) now
+block a large fraction of the currently-`ready` queue across five threads. Building either
+would itself be a substantial standalone Mathlib-contribution-sized undertaking, worth
+flagging to Daniel as a strategic fork (attempt to contribute one of these upstream? scope
+a smaller GPP-local sufficient fragment instead? deprioritize this whole cluster until
+Mathlib grows the machinery?) rather than chipping at it piecemeal without a plan.
+
+Full detail: `blueprint/src/web.tex` (new "Thread Weil-Semiboundedness" chapter).
+
+## Thread Weil-Parity, further items (2026-08-23) — correcting an over-broad assessment
+
+**Self-correction, same session.** The Weil-Semiboundedness scan above initially assumed
+the whole Weil-Parity thread was blocked by the same missing Herglotz/Pick machinery, by
+pattern-matching on the thread name rather than reading each queue item's body. That was
+wrong, caught by actually reading the six Weil-Parity items directly (per the standing
+"don't be so skeptical, test everything, don't assume ever" rule) rather than trusting the
+first impression. Most of them are **pure finite-dimensional linear algebra or topology**
+— several say so explicitly in their own text (`5e10a4f0`: "This is pure linear algebra and
+should be sorry-free"; `0182d9cf`: "This is pure finite-dimensional topology"). Two
+formalized this pass:
+
+**PROVED: `GppVerify/ThreadWeilParity/GroundContinuation.lean`**, item `0182d9cf`
+("Continuation of even ground from small support under no parity crossing"). Continuous
+functions on a preconnected set that never cross, with one strictly below the other at one
+point, stay strictly ordered everywhere —
+`lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected`, via
+`IsPreconnected.intermediate_value₂` (a crossing point would otherwise be forced between
+the two points by IVT). Plus an `Icc`-interval specialization matching the item's own
+"connected interval" phrasing directly.
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossResolventGroundOrdering.lean`**, item
+`5e10a4f0` ("Cross-resolvent positivity below even ground implies parity ground
+ordering"). The determinant-ratio identity `B_det z = f z * A_det z` with both factors
+positive for `z < lamMinA` forces `B_det z > 0` there (`Bdet_pos_of_ratio_pos` —
+algebraically immediate once correctly stated) — once `B_det` is identified with
+`z ↦ det(B - zI)`, exactly "no eigenvalue of `B` below `lambda_min(A)`". A further
+boundary/continuity refinement (`Bdet_pos_at_lamMinA_of_continuousAt`, via
+`ge_of_tendsto` on `𝓝[<] lamMinA`) strengthens this to `B_det lamMinA > 0` too, given
+continuity and a no-common-eigenvalue hypothesis at `lamMinA` itself — the item's full
+`lambda_min(A) < lambda_min(B)` claim.
+
+**Honest boundary, both**: neither file defines Hermitian matrices, their characteristic
+polynomials, or eigenvalues, and neither connects the abstract `A_det`/`B_det`/`f` to
+actual `Matrix.det` of a real Hermitian matrix pencil — that identification ("`z` is an
+eigenvalue of Hermitian `M` iff `det(M-zI)=0`") is standard and left for whichever future
+file applies these lemmas to the real parity blocks `A`, `B`.
+
+**Left `ready`, not attempted this pass** (look similarly tractable on this re-read; a
+future pass should attempt them the same way rather than assume difficulty from the thread
+name): `9cc1e2f8` (positive residues ⟹ strict parity interlacing — the item CLAUDE.md had
+already flagged as the natural next target, needing a real IVT/monotonicity argument on a
+sum of simple poles, not just block-matrix algebra), `d1aec733` (positive commuting metric
+⟺ residue positivity), `68566b83` (cross-heat positivity ⟹ resolvent positivity, with an
+explicit finite-spectral-sum fallback if the matrix-exponential/Laplace route is hard),
+`4d97d8eb` (Pick kernel barycentric interpolant — mostly pure rational-function algebra,
+with only its final Nevanlinna-Pick bridge needing to stay an explicit hypothesis per the
+item's own text).
+
+Full project rebuild: 3303/3304 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`7c1d92c` on `weil-semibound-thread`.
+
+## Thread Weil-Parity, strict interlacing IVT core (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/StrictParityInterlacing.lean`**, item `9cc1e2f8`
+("Positive residues imply strict parity interlacing") — the item already flagged above as
+the natural next target since it needs genuine monotonicity/IVT reasoning. Formalizes the
+fully general core: `existsUnique_zero_of_strictMonoOn_of_tendsto` — a function continuous
+and strictly increasing on an open interval `(a,b)`, tending to `-∞` approaching `a` from
+the right and `+∞` approaching `b` from the left, has exactly one zero in `(a,b)`. Proved
+via `IsPreconnected.intermediate_value_Iii` (existence, using the two boundary `Tendsto`
+facts as the "boundary values" `-∞`/`+∞`) plus `StrictMonoOn.injOn` (uniqueness). Needed
+`nhdsWithin_Ioo_eq_nhdsGT`/`_eq_nhdsLT` to convert the interval-restricted neighborhood
+filters to plain one-sided filters, and `left_nhdsWithin_Ioo_neBot`/
+`right_nhdsWithin_Ioo_neBot` for the required `NeBot` instances.
+
+**Honest boundary**: does not construct `f(z) = Σ_j c_j/(α_j - z)` from the matrix data at
+all, and does not verify this specific `f` satisfies the three hypotheses on each interval
+`(α_k, α_{k+1})` — the per-term `Finset`-sum monotonicity and limit bookkeeping (one pole
+term dominating near each endpoint, the rest bounded) is the remaining connecting step,
+left for a future pass rather than rushed through.
+
+**Left `ready`**: `d1aec733` (positive commuting metric ⟺ residue positivity — noted this
+pass as carrying a subtlety: the two formulas given for `g_j` in the forward/converse
+directions use a plain square vs. a modulus-square of `u_j^*e0`, meaning `g_j` real is not
+immediate from the setup as literally stated and needs care, not a quick win), `68566b83`
+(cross-heat positivity ⟹ resolvent positivity — assessed feasible via a Laplace-transform
+positivity argument, `∫₀^∞ e^{tz}k(t)dt > 0` from `k(t)>0` everywhere on `[0,∞)`, likely
+needing a Mathlib integral-positivity-from-a.e.-positivity lemma not yet looked up),
+`4d97d8eb` (Pick kernel barycentric interpolant).
+
+Full project rebuild: 3304/3305 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`eaa93ed` on `weil-semibound-thread`, landed on `main`.
+
+## Thread Weil-Parity, two more items + a second self-correction (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossHeatPositivity.lean`**, item `68566b83`
+("Cross-heat positivity implies resolvent positivity"). An integral over `[0,∞)` of an
+everywhere-positive integrable integrand is strictly positive
+(`laplace_integral_pos_of_pos_on_Ici`), via
+`MeasureTheory.setIntegral_pos_iff_support_of_nonneg_ae` reduced to the integrand's
+support meeting `[0,∞)` in a set of positive (here infinite) Lebesgue measure
+(`Real.volume_Ici`).
+
+**PROVED: `GppVerify/ThreadWeilParity/RemovableSingularityLimit.lean`**, item `4d97d8eb`
+("Singular Pick kernel..."). A numerator with a finite limit divided by a denominator
+whose norm blows up tends to zero
+(`tendsto_div_zero_of_tendsto_nhds_of_tendsto_norm_atTop`, via `tendsto_inv_atTop_zero` +
+`norm_inv` + `tendsto_zero_iff_norm_tendsto_zero`) — the reusable fact behind
+`qStar(x_i)=q_i` for the barycentric Pick interpolant, since `B(z)-q_i·A(z)` stays finite
+at `x_i` (the `k=i` pole term cancels identically) while `‖A(z)‖→∞` there.
+
+**Honest boundary, both**: neither defines the matrix exponential/resolvent or the Pick
+matrix `R`/barycentric functions `A,B,qStar` themselves; the derivative-matching claim
+`qStar'(x_i)=d_i` and the `qStar(∞)` limit remain untouched.
+
+**Left `ready`**: only `d1aec733` now (positive commuting metric ⟺ residue positivity —
+still carries the `g_j` reality subtlety noted last pass).
+
+**A second self-correction, same session.** Applied the same "read the body, don't judge
+by thread name" discipline to Suzuki-Herglotz and caught another instance of the same
+mistake: assumed the whole thread was Herglotz-blocked without checking. Wrong again.
+
+**PROVED: `GppVerify/ThreadWeilParity/SuzukiReflectionSymmetry.lean`**, item `dcebf59f`
+("Suzuki reflection symmetry canonically fixes the 0/π Weyl pair"). With
+`A(z):=(z-i)I(z)`, `B(z):=(z+i)I(-z)` for an *arbitrary* `I : ℂ → ℂ`, `A(-z)=-B(z)` and
+`B(-z)=-A(z)` follow purely algebraically (no properties of `I`, the operator `T`, or the
+reflection `R` needed at all), hence `W₀:=A+B` odd, `Wπ:=A-B` even, and
+`mHat(z):=-i·W₀(z)/Wπ(z)` odd — the item's own formulas already reduce this layer to
+algebra once expressed through the same `I`. Costs essentially nothing.
+
+**Honest boundary**: does not define `T`, `R`, `v₊=T⁻¹eˣ`, `v₋=T⁻¹e⁻ˣ`, or
+`I(z)=∫v₊(x)e^{izx}dx`, and does not touch the item's final Herglotz/Livsic representation
+claim (confirmed blocked in the Weil-Semiboundedness pass).
+
+**Not re-scanned this pass** (for a future session): the remaining Suzuki-Herglotz items
+(`391ba9b7`, `1c684543`, `2e8ff61e`) and the Prime-Schatten/Scattering/Fock threads were
+read once already and mostly assessed genuinely blocked by the missing Herglotz/Schatten
+infrastructure — but `1c684543` ("Shifted logarithmic-derivative transfer preserves the xi
+zero divisor") is a plain complex-analysis order-of-vanishing statement, not Herglotz-
+dependent at all, and looks tractable via Mathlib's analytic-function zero-order API; worth
+attempting next given the pattern of this pass (checking bodies keeps finding items
+wrongly written off by thread name).
+
+Full project rebuild: 3307/3308 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`b6cb996` (68566b83), `dd0d00d` (4d97d8eb), `5cad862` (dcebf59f) on `weil-semibound-thread`,
+all landed on `main`.
+
+## Sharpening the last open Weil-Parity item (2026-08-23, same session)
+
+`GppVerify/ThreadWeilParity/CommutingMetricResidueGap.lean` turns the earlier "carries a
+subtlety" note on item `d1aec733` into a checked finding rather than a hunch. The item's
+forward direction defines `c_j := (η^*u_j)(u_j^*e0)`, `g_j := (η^*u_j)/(u_j^*e0)`; unwinding
+these gives `c_j = g_j · w²` (plain complex square, `w := u_j^*e0`) unconditionally
+(`cj_eq_gj_mul_sq`) — but the item's own converse direction states the *same* quantity as
+`c_j = ⟨u_j,Gu_j⟩·|w|²` (a **modulus** square). These formulas agree only when `w` is real
+(confirmed with a concrete witness: `w=i` gives `w²=-1 ≠ 1=|i|²`).
+
+**Not a refutation of the underlying mathematics** in its intended (presumably
+real-symmetric) setting — the abstract queue phrasing is underspecified at exactly this
+point (an implicit reality assumption on `u_j^*e0` that the text never states), worth
+flagging back to the research source. `d1aec733`'s `formalization_queue` status set to
+`correction` rather than left `ready`, to distinguish it from items that are simply
+unattempted.
+
+Full project rebuild: 3308/3309 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`07894e0` on `weil-semibound-thread`, landed on `main`.
+
+## Suzuki-Herglotz: the shifted logarithmic-derivative transfer, item `1c684543` (new session)
+
+**PROVED: `GppVerify/ThreadWeilParity/ShiftedLogDerivativeTransfer.lean`**, item `1c684543`
+("Shifted logarithmic-derivative transfer preserves the xi zero divisor") — flagged
+tractable at the end of the previous pass (plain complex-analysis order-of-vanishing, not
+Herglotz-dependent, unlike most of this thread).
+
+The item's setup: for holomorphic `F` and scalar `λ`, `D_λ(s)=F'(s)-λF(s)`,
+`R_λ(s)=F(s)/D_λ(s)`; if `ρ` is a zero of `F` of multiplicity `m≥1`, `R_λ` extends
+holomorphically across `ρ` with a simple zero there. Writing `m=k+1` (`k:ℕ`) to sidestep
+natural-number subtraction entirely, and `F z := (z-ρ)^(k+1)·g z` for `g` analytic and
+nonzero at `ρ`:
+
+- `deriv_shiftedTransferF_sub_smul_eq`: the item's own displayed factorization
+  `D_λ(z) = (z-ρ)^k·w(z)`, `w(z):=(k+1)·g(z)+(z-ρ)·(g'(z)-λg(z))`, from an actual
+  `HasDerivAt` product/power-rule computation (`hasDerivAt_shiftedTransferF`), not
+  asserted.
+- `shiftedTransferWitness_at_root_ne_zero`: `w(ρ)=(k+1)·g(ρ)≠0`.
+- `tendsto_shiftedTransfer_quotient_div`: the item's stated asymptotic
+  `R_λ(s)=(s-ρ)/(k+1)+O((s-ρ)²)`, formalized exactly as `R_λ(z)/(z-ρ)→1/(k+1)` as `z→ρ`
+  (`z≠ρ`) — the removable singularity extends to a genuine simple zero (nonzero linear
+  coefficient), for every finite `λ`.
+- `tendsto_shiftedTransfer_quotient_zero`: `R_λ(z)→0` as `z→ρ` — the "zeros of `R_λ` are
+  (among) the zeros of `F`" half of the item's conclusion, a direct corollary.
+
+7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
+kernel-clean, no axiom, no sorry.
+
+**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
+that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
+right local model, not attempted this pass. Does not prove the *global* "exactly the
+zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
+separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
+is the precise *local* fact at each individual zero, which is the item's own named
+content ("the exact divisor fact").
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
 ---
 

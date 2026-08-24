@@ -477,6 +477,67 @@ a residue sum over $\mathrm{sech}^2$'s double poles at $x=i\pi(2k{+}1)$). Parked
 \texttt{QuantumGravity/LogisticFourierPair.lean}, per this repository's own documented
 convention for honestly recording an open gap --- not an axiom, not a \texttt{sorry}.
 
+\section{Dispersion Reconstruction: the Mechanism Behind \texorpdfstring{\texttt{sewing\_identity}}{sewing\_identity}}
+\label{sec:dispersion-reconstruction}
+
+From a fresh session (2026-08-17) attacking Definition~\ref{def:shadow-pair-sewing}'s
+open hypothesis head-on. \texttt{DispersionReconstruction.lean} proves the general,
+physics-convention-independent complex-analysis mechanism --- the algebraic core of the
+Sokhotski--Plemelj formula --- by which a discontinuity across a real pole determines the
+meromorphic function having that pole. This is \emph{not} a celestial calculation: it is
+the classical dispersion-relation fact
+$F(z) = \tfrac{1}{2\pi i}\int_\R [\mathrm{Disc}\,F(x)]/(x-z)\,dx$ that Theorem
+\ref{thm:shadow-discontinuity}'s own Step~6 invokes (via cut-constructibility) without
+deriving.
+
+\begin{theorem}[Exact Finite-\texorpdfstring{$\varepsilon$}{eps} Lorentzian Jump]
+  \label{thm:lorentzian-jump}
+  \lean{GppDispersion.lorentzian_jump}
+  \leanok
+  For real $z_0,\varepsilon,x$ with $\varepsilon\neq0$,
+  $\dfrac{1}{(x-z_0)+i\varepsilon} - \dfrac{1}{(x-z_0)-i\varepsilon}
+    = \dfrac{-2i\varepsilon}{(x-z_0)^2+\varepsilon^2}$, exactly, with no limiting
+  procedure --- the finite-$\varepsilon$ content of ``the jump of a regulated simple pole
+  is a Lorentzian kernel.''
+\end{theorem}
+
+\begin{theorem}[Pointwise Vanishing Off the Pole]
+  \label{thm:lorentzian-vanish}
+  \lean{GppDispersion.lorentzian_kernel_tendsto_zero_off_pole}
+  \leanok
+  \uses{thm:lorentzian-jump}
+  Away from $x=z_0$, the Lorentzian kernel $\varepsilon/((x-z_0)^2+\varepsilon^2)$ tends to
+  $0$ as $\varepsilon\to0^+$ --- the rigorous, non-distributional half of ``the regulated
+  jump concentrates at the pole.'' The complementary mass statement
+  $\int_\R \varepsilon/((x-z_0)^2+\varepsilon^2)\,dx = \pi$ for every $\varepsilon>0$ (a
+  standard Cauchy/Poisson-kernel fact, reducible to Mathlib's
+  \texttt{integral\_univ\_inv\_one\_add\_sq} by the affine substitution
+  $x=z_0+\varepsilon u$) is numerically certified in \texttt{verify\_dispersion.py} but
+  \emph{not} additionally formalized this session --- the substitution needs a
+  translation-invariance-of-Lebesgue-measure lemma not chased down; named honestly as a
+  gap rather than forced.
+\end{theorem}
+
+\emph{What this does and does not establish about \texttt{sewing\_identity}.} These two
+theorems make precise which three analytic facts about the actual six-point celestial
+tree would let \texttt{sewing\_identity} be \emph{derived} rather than assumed, via the
+classical dispersion relation (valid for $F$ meromorphic off the real axis with a single
+real simple pole and suitable decay --- Titchmarsh, \emph{Theory of Functions}, Ch.~5):
+\textbf{(H1) Meromorphy} --- after the $\ell$-space completeness/inverse-Mellin integral
+of $\mathrm{dDisc}_{\rm sh}^{(56)}\widetilde T_6$, the result is meromorphic in $\ell^2$
+with its only singularity a simple pole at $\ell^2=0$; \textbf{(H2) Decay} --- that
+function vanishes at infinity fast enough for the dispersion contour to close;
+\textbf{(H3) Residue match} --- the discontinuity computed via the shadow-pair OPE (the
+existing Steps~1--5 of Theorem~\ref{thm:shadow-discontinuity}) has, at $\ell^2=0$, exactly
+the residue $-2\pi i\cdot T_6(\ell,p_1,\dots,p_4,-\ell)$ required. \textbf{None of
+(H1)--(H3) is established here} for the actual $(z,\bar z)$-dependent celestial six-point
+amplitude --- that is exactly the open boundary every paper in this program already
+names. What is new is that the \emph{mechanism} (Sokhotski--Plemelj) is now a proved fact
+in this tree instead of an implicit citation, and the remaining gap is three named,
+checkable analytic properties of $G_6^{\rm tree}$ instead of one opaque hypothesis. This
+section does not discharge \texttt{sewing\_identity} or touch any \texttt{GppShadowDisc}
+stub.
+
 \chapter{\texorpdfstring{Ad\`elic $L^2$}{Adelic L2} Regularization}
 
 \begin{lemma}[Ad\`elic $L^2$ Regularization]
@@ -798,11 +859,14 @@ standing rule against cataloguing manuscript errors in the public tree.
   \texttt{gleason\_uniqueness} (Gleason 1957, not in Mathlib).
 \end{lemma}
 
-\chapter{Quantum Gravity --- Blackbody Law and All-Loop Finiteness}
+\chapter{Quantum Gravity --- Celestial Spectral Weight and All-Loop Bound}
 
-From ``On Self-Dual Measure and Finite Quantum Gravity'' (\texttt{haar\_qg\_paper\_v215.tex})
-and ``The Blackbody Law of Quantum Gravity'' (\texttt{blackbody\_law\_qg\_dtoupin\_v1.tex}).
-The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
+From ``The Spectral Weight $\pi\lambda/\sinh\pi\lambda$'' and ``Modular Thermality of the
+Celestial Spectral Weight'' (Toupin, 2026). $P(\lambda) := \pi\lambda/\sinh(\pi\lambda)$ is
+the two-particle massless phase-space weight of a celestial unitarity cut: it is the Mellin
+image $\Gamma(\Delta_5)\Gamma(\Delta_6)/\Gamma(\Delta_5+\Delta_6)$ of two-particle phase space,
+restricted to the shadow locus $\Delta_5+\Delta_6=2$, $\Delta_5=1+i\lambda$, where it equals
+$\Gamma(1+i\lambda)\Gamma(1-i\lambda)$.
 
 \begin{theorem}[Stefan--Boltzmann Family]
   \label{thm:stefan-boltzmann-family}
@@ -832,17 +896,18 @@ The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
   of $i\lambda$, with $\sin(x\cdot i) = i\sinh(x)$ turning the denominator real.
 \end{theorem}
 
-\begin{theorem}[All-Loop Finiteness]
+\begin{theorem}[Ladder Convolution Bound]
   \label{thm:all-loop-finiteness}
   \lean{GppAllLoopFiniteness.finiteness}
   \leanok
-  For the bare $L$-loop planar-ladder Plancherel measure
+  For the $L$-fold chain convolution of $P$ against itself,
   \[
     \mathcal{M}_L \;=\; \frac{1}{(2\pi)^L}\int_{\mathbb{R}_{>0}^L}
       \Bigl[\prod_{j=1}^L P(\lambda_j)\Bigr]\Bigl[\prod_{j=1}^{L-1}P(|\lambda_j-\lambda_{j+1}|)\Bigr]
       \,d\lambda_1\cdots d\lambda_L,
   \]
-  and for every loop order $L \geq 1$: $0 < \mathcal{M}_L \leq (1/8)^L$.
+  and for every $L \geq 1$: $0 < \mathcal{M}_L \leq (1/8)^L$. This is a statement about the
+  convolution integral $\mathcal{M}_L$ itself, not a claim about any physical loop amplitude.
 
   \emph{Proved clean, for every $L$ at once} (not instantiated at small $L$): the $L$-fold
   integral is encoded via a recursively-defined chain kernel realizing Fubini/Tonelli's own
@@ -882,18 +947,61 @@ The Plancherel spectral weight is $P(\lambda) = \pi\lambda/\sinh(\pi\lambda)$.
   substitution $z=i\lambda$.
 \end{theorem}
 
+\begin{theorem}[The Cumulant Law]
+  \label{thm:cumulant-law}
+  \lean{GppCumulantLaw.cumulant_law}
+  \leanok
+  \uses{thm:sinh-weierstrass}
+  For every real $\lambda$ with $|\lambda|<1$,
+  \[
+    -\log P(\lambda) \;=\; \sum_{k=0}^{\infty} (-1)^k\,\zeta(2(k+1))\,\frac{\lambda^{2(k+1)}}{k+1},
+  \]
+  equivalently $\log P(\lambda) = -\sum_{k\ge1}(-1)^{k+1}\zeta(2k)\lambda^{2k}/k$.
+  \emph{Proved clean}: \texttt{blackbody\_law\_qg\_dtoupin\_v1.tex}, Test T5 ("cumulants are
+  even zeta values"). Derived by taking $\log$ of the Weierstrass product
+  (Theorem~\ref{thm:sinh-weierstrass}), expanding each factor's $\log(1+x)$ as its Taylor
+  series, and swapping the resulting double sum (joint summability from an explicit product
+  majorant).
+\end{theorem}
+
+\begin{theorem}[Planck Form]
+  \label{thm:planck-form}
+  \lean{GppSpectralWeight.planck_form}
+  \leanok
+  For every real $\lambda > 0$, with $n_B(y) := 1/(e^y-1)$ the Bose occupation number,
+  \[
+    P(\lambda) \;=\; 2\pi\lambda\bigl(n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr).
+  \]
+  \emph{Proved clean}: the zero-point contributions of the two Bose terms cancel exactly,
+  leaving a genuine Planck-form identity for $P$.
+\end{theorem}
+
+\begin{theorem}[Reciprocal Weierstrass Product]
+  \label{thm:one-div-p-weierstrass}
+  \lean{GppSpectralWeight.one_div_P_tendsto_tprod}
+  \leanok
+  \uses{thm:sinh-weierstrass}
+  For every real $\lambda \neq 0$, the partial products of $1+\lambda^2/n^2$ converge to
+  $1/P(\lambda)$.
+  \emph{Proved clean}: an immediate corollary of Theorem~\ref{thm:sinh-weierstrass}.
+\end{theorem}
+
 \textbf{Honest boundary.} Not formalized from this upload: the rationality/PSLQ program
 beyond $M_1, M_2$ (already covered by the pre-existing Thread~S/Thread~E); the
 Wiener--Hopf/Parseval odd-zeta cancellation and wall-count combinatorics; Proposition
 \texttt{prop:zetabridge}(b)'s analytic continuation to $\mathrm{Re}\,s>-1$; and most of the
-blackbody capstone's remaining structural theorems beyond the Gamma-modulus,
-Stefan--Boltzmann, and Weierstrass-product faces proved here. Two gaps are blocking further
-progress and are recorded precisely in \texttt{docs/FORMALIZATION\_PLAN.md} rather than
-attempted as rushed partial versions: Mathlib \texttt{v4.19.0} has \emph{no digamma or
-polygamma function at all} (blocking the First Moment Theorem, \texttt{thm:moment}), and
-\emph{no Legendre or conical special functions} (blocking the entire
-kinematic-block/conical-function program: conical reduction, shadow=Legendre-degree
-symmetry, the Mehler--Fock pair, the Temperedness Theorem).
+blackbody capstone's remaining structural theorems (T1, T3, T6, T13, T14) beyond the
+Gamma-modulus, Stefan--Boltzmann, Weierstrass-product, cumulant-law, Planck-form, and
+reciprocal-product faces proved here; the weight-shift ODE for $P$'s Fourier transform
+(real analysis, no digamma needed, but not yet set up); and the digamma-moment theorem and
+Matsubara residues, both scoped in \texttt{docs/FORMALIZATION\_PLAN.md}.
+Two gaps are blocking further progress and are recorded precisely in
+\texttt{docs/FORMALIZATION\_PLAN.md} rather than attempted as rushed partial versions:
+Mathlib \texttt{v4.19.0} has \emph{no digamma or polygamma function at all} (blocking the
+First Moment Theorem, \texttt{thm:moment}), and \emph{no Legendre or conical special
+functions} (blocking the entire kinematic-block/conical-function program: conical
+reduction, shadow=Legendre-degree symmetry, the Mehler--Fock pair, the Temperedness
+Theorem).
 
 \begin{theorem}[Planck Form of the Plancherel Weight]
   \label{thm:planck-form}
@@ -1188,18 +1296,747 @@ criterion itself, and the digamma piece of the Archimedean Laplace transform) ar
   For $r>1/2$: $\int_0^\infty(e^{-rx}-e^{-x})e^{x/2}\,dx = 1/(r-1/2)-2$. Together with
   Lemma~\ref{lem:archimedean-laplace-aux-one}, these are the two purely elementary pieces of
   the paper's Archimedean Laplace transform $A_\infty(r)$; the remaining digamma piece is
-  \textbf{not} formalized here (digamma is confirmed entirely absent from Mathlib at this
-  pin) and $A_\infty$ itself is not assembled in this file.
+  \textbf{not} formalized here. (Mathlib now supports a real digamma function
+  $\psi=\Gamma'/\Gamma$ via \texttt{GppDigamma.digamma} --- see the QG-Blackbody chapter ---
+  but the specific Gauss integral representation of $\psi$ at general $r$ this lemma would
+  need is a further step not yet established, distinct from the special values and functional
+  equation already proved.) $A_\infty$ itself is not assembled in this file.
 \end{lemma}
 
 \section{Honest Boundary}
 
 Not claimed in this chapter: Bernstein's theorem / the Hausdorff--Widder characterization of
 completely monotone functions as Laplace transforms of positive measures (needed for the
-heat-trace criterion itself, still absent from Mathlib at the pin), the digamma function and
-its integral representation (needed to assemble the full Archimedean Laplace transform
-$A_\infty$), and the heat-trace criterion RH $\iff \mathcal{K}$ completely monotone, as a
-single theorem. Nothing in this chapter proves or assumes RH.
+heat-trace criterion itself, still absent from Mathlib at the pin), the digamma integral
+representation at general $r$ (needed to assemble the full Archimedean Laplace transform
+$A_\infty$ --- see the QG-Blackbody chapter for what is now available), and the heat-trace
+criterion RH $\iff \mathcal{K}$ completely monotone, as a single theorem. Nothing in this
+chapter proves or assumes RH.
+
+\chapter{The Digamma Function}
+
+Earlier chapters (Thread HT, QG-Blackbody's kinematic-block gap) recorded ``Mathlib has no
+digamma/polygamma function'' as a blocking gap, from a \texttt{grep} for the \emph{name}
+\texttt{digamma}/\texttt{polygamma} in \texttt{.lake/packages/mathlib/} (zero hits at pinned
+\texttt{v4.19.0}). That was the wrong question: Mathlib's
+\texttt{NumberTheory.Harmonic.GammaDeriv} already computes \texttt{deriv Real.Gamma} in
+closed form at $1$ and $1/2$ (Bohr--Mollerup convexity; Legendre's duplication formula) and
+at every positive integer. \texttt{GppDigamma.digamma := deriv Gamma / Gamma} makes the
+values below immediate corollaries.
+
+\begin{theorem}[Digamma at 1]
+  \label{thm:digamma-one}
+  \lean{GppDigamma.digamma_one}
+  \leanok
+  $\psi(1) = -\gamma$, the Euler--Mascheroni constant.
+\end{theorem}
+
+\begin{theorem}[Digamma at 1/2]
+  \label{thm:digamma-one-half}
+  \lean{GppDigamma.digamma_one_half}
+  \leanok
+  \uses{thm:digamma-one}
+  $\psi(1/2) = -\gamma - 2\log 2$, via Legendre's duplication formula (already differentiated
+  in Mathlib).
+\end{theorem}
+
+\begin{theorem}[Digamma at positive integers]
+  \label{thm:digamma-nat}
+  \lean{GppDigamma.digamma_nat_add_one}
+  \leanok
+  $\psi(n+1) = -\gamma + H_n$ (the $n$-th harmonic number), for every $n\in\mathbb{N}$.
+\end{theorem}
+
+\begin{theorem}[Digamma functional equation]
+  \label{thm:digamma-add-one}
+  \lean{GppDigamma.digamma_add_one}
+  \leanok
+  $\psi(x+1) = \psi(x) + 1/x$, for $x$ avoiding the poles of $\Gamma$.
+\end{theorem}
+
+\textbf{Honest boundary.} This is the \emph{real}-argument digamma function only.
+\texttt{kinematic\_block\_v1.tex}'s First Moment Theorem needs $\mathrm{Re}\,
+\psi(1/2+i\lambda/2)$, the \emph{complex} digamma along a vertical line --- a further,
+separate extension, not attempted here. The Gauss integral representation of $\psi$ at
+general real $r$ (needed by Thread HT's Archimedean Laplace transform) is likewise not yet
+established.
+
+\chapter{Local-Field Shadow Kernels}
+
+From Daniel Toupin's ``Local-field shadow kernels, celestial unitarity, and the adelic
+principal series'' (2026) --- a new research front investigating whether celestial Cutkosky
+unitarity, 1D Mellin/shadow harmonic analysis, and adelic PGL(2) harmonic analysis share a
+common rank-one local-to-global structure. \textbf{Not an RH proof; not evidence toward RH.}
+Full honest boundary, including the paper's own open research problems, in
+\texttt{discovery/local\_field\_shadow/local\_shadow\_kernel\_notes.md}.
+
+\begin{theorem}[Archimedean Shadow Reflection]
+  \label{thm:arch-kernel-reflection}
+  \lean{GppLocalShadow.archKernel_reflection}
+  \leanok
+  For the Archimedean shadow kernel $K_{\infty,d}(a) := \Gamma(a)\Gamma(d-a)/\Gamma(d)$:
+  $K_{\infty,d}(a) = K_{\infty,d}(d-a)$.
+\end{theorem}
+
+\begin{theorem}[Principal-Series Positivity]
+  \label{thm:arch-kernel-positivity}
+  \lean{GppLocalShadow.archKernel_principal_series}
+  \leanok
+  \uses{thm:arch-kernel-reflection}
+  On the principal series $a=d/2+it$: $K_{\infty,d}(a) = |\Gamma(d/2+it)|^2/\Gamma(d)$,
+  positive whenever $d>0$. Shadow reflection becomes Hermitian conjugation exactly on this
+  line, via $d-a=\overline{a}$.
+\end{theorem}
+
+\begin{theorem}[Diagonal Conformal Lift]
+  \label{thm:diagonal-lift}
+  \lean{GppDiagonalLift.delta_D}
+  \leanok
+  The diagonal lift $D(s):=(s,s)$ of a scalar 1D weight has $\Delta(D(s))=2s$ and spin
+  $J(D(s))=0$.
+\end{theorem}
+
+\begin{theorem}[Shadow Compatibility]
+  \label{thm:shadow-compatibility}
+  \lean{GppDiagonalLift.D_one_sub_eq_shadow2_D}
+  \leanok
+  \uses{thm:diagonal-lift}
+  $D(1-s) = \mathrm{Shadow}_2(D(s))$: the 1D shadow $s\mapsto1-s$ and the 2D celestial shadow
+  $(h,\bar h)\mapsto(1-h,1-\bar h)$ intertwine exactly under the diagonal lift.
+\end{theorem}
+
+\section{The \texorpdfstring{$d=2$}{d=2} Cut vs. the Spherical Weyl Coefficient}
+
+The naive conjecture that a single local factor $a_\infty(s)$ gives \emph{both} the physical
+kernel $C_\infty=a_\infty(s)a_\infty(1-s)$ \emph{and} the normalized Weyl/Gindikin--Karpelevich
+intertwiner $M_\infty=a_\infty(1-s)/a_\infty(s)$ is \textbf{false} --- confirmed numerically
+not proportional at the Archimedean place and not equal at finite places (2026-08-22
+resolution). The failure is informative: the physical kernel and the Weyl coefficient are
+distinct canonical objects on the same rank-one principal series. What \emph{is} true is the
+exact decomposition below.
+
+\begin{theorem}[Legendre Duplication for the Archimedean Factors]
+  \label{thm:gammaC-gammaR-duplication}
+  \lean{GppLocalShadow.GammaC_eq_GammaR_mul_GammaR_succ}
+  \leanok
+  With $\Gamma_R(s):=\pi^{-s/2}\Gamma(s/2)$ and $\Gamma_C(s):=2(2\pi)^{-s}\Gamma(s)$:
+  $\Gamma_C(s) = \Gamma_R(s)\Gamma_R(s+1)$, for every complex $s$.
+\end{theorem}
+
+\begin{theorem}[The Celestial Cut as Two Archimedean Sectors]
+  \label{thm:archkernel-gammaR-sectors}
+  \lean{GppLocalShadow.archKernel_two_eq_GammaR_sectors}
+  \leanok
+  \uses{thm:arch-kernel-reflection,thm:gammaC-gammaR-duplication}
+  $K_{\infty,2}(\Delta) = \pi^2\Gamma_C(\Delta)\Gamma_C(2-\Delta) =
+  \pi^2\cdot\Gamma_R(\Delta)\Gamma_R(\Delta+1)\cdot\Gamma_R(2-\Delta)\Gamma_R(3-\Delta)$ ---
+  the celestial $d=2$ cut decomposes exactly into two shadow-paired real Archimedean Gamma
+  sectors, $(\Gamma_R(\Delta),\Gamma_R(2-\Delta))$ and its shift
+  $(\Gamma_R(\Delta+1),\Gamma_R(3-\Delta))$.
+\end{theorem}
+
+\section{The Global Eisenstein Coefficient}
+
+\begin{theorem}[Celestial-Shadow Form of the Eisenstein Coefficient]
+  \label{thm:eisenstein-shadow-form}
+  \lean{GppEisenstein.eisensteinCoeff_eq_shadow_ratio}
+  \leanok
+  With $\Lambda$ the completed Riemann zeta function and $\varphi(\Delta):=\Lambda(\Delta-1)/\Lambda(\Delta)$:
+  $\varphi(\Delta) = \Lambda(2-\Delta)/\Lambda(\Delta)$ --- immediate from $\Lambda(1-w)=\Lambda(w)$.
+\end{theorem}
+
+\begin{theorem}[Eisenstein Reflection]
+  \label{thm:eisenstein-reflection}
+  \lean{GppEisenstein.eisensteinCoeff_reflection}
+  \leanok
+  \uses{thm:eisenstein-shadow-form}
+  $\varphi(2-\Delta)\varphi(\Delta) = 1$ wherever $\Lambda(\Delta)\neq0$ and $\Lambda(2-\Delta)\neq0$.
+  \emph{This is not evidence toward RH}: Eisenstein scattering already contains $\zeta(s)$ in
+  its functional-equation normalization without that proving anything about its zeros.
+\end{theorem}
+
+\textbf{Honest boundary.} The integral representation of $K_{\infty,d}$ is taken as a
+definition (verified numerically against direct quadrature, not derived from Mathlib's
+$[0,1]$-Beta integral). Not formalized at all: the non-Archimedean kernel $K_{q,d}$ (Mathlib
+has no $p$-adic multiplicative Haar measure infrastructure), the deeper representation-
+theoretic reason the physical kernel and Weyl intertwiner are distinct (beyond the numerical
+confirmation that they are), the Cutkosky-vs-Rankin-Selberg local bridge, the
+$\mathbb{R}_+$ dilation/Mellin principal-series skeleton as an actual Lean object, and
+$|\varphi(1+i\lambda)|=1$ (needs $\Lambda$'s conjugation symmetry, not directly in Mathlib).
+All are the paper's own genuinely open research targets, not bookkeeping --- see the notes
+file for the precise statement of each.
+
+\chapter{The Golden Ratio as the Minimal Hyperbolic Sector of \texorpdfstring{$PSL_2(\mathbb{Z})$}{PSL2(Z)}}
+
+Inversion $J:x\mapsto x^{-1}$ composed with primitive unit translation $T:x\mapsto x+1$ gives
+$F=T\circ J$, $F(x)=1+1/x$, whose unique positive fixed point is the golden ratio $\varphi$.
+Represented projectively by $M=\begin{pmatrix}1&1\\1&0\end{pmatrix}$, the square
+$A:=M^2=\begin{pmatrix}2&1\\1&1\end{pmatrix}$ is the \textbf{minimal-trace hyperbolic element}
+of $SL_2(\mathbb{Z})$. \textbf{Not claimed}: that this sector is the physical fundamental
+sector of anything else in this project, or that inversion alone (without translation)
+forces $\varphi$.
+
+\begin{theorem}[Fixed-Point Characterization of the Golden Ratio]
+  \label{thm:golden-fixed-point}
+  \lean{GppGoldenHyperbolic.fixedPoint_iff_gold}
+  \leanok
+  For $x>0$: $x=1+1/x \iff x=\varphi$.
+\end{theorem}
+
+\begin{theorem}[The Minimal-Trace Hyperbolic Bound]
+  \label{thm:hyperbolic-trace-bound}
+  \lean{GppGoldenHyperbolic.hyperbolic_trace_ge_three}
+  \leanok
+  For any integer $n$ with $|n|>2$: $|n|\geq3$. Applied to $A$ (trace $3$, determinant $1$):
+  $A$ attains the minimal possible trace of a hyperbolic element of $SL_2(\mathbb{Z})$.
+\end{theorem}
+
+\begin{theorem}[Characteristic-Polynomial Roots and Discriminant]
+  \label{thm:golden-charpoly}
+  \lean{GppGoldenHyperbolic.A_charpoly_root_goldSq}
+  \leanok
+  \uses{thm:hyperbolic-trace-bound}
+  $\varphi^2$ and $\varphi^{-2}$ are the roots of $X^2-(\operatorname{tr}A)X+(\det A)$;
+  the discriminant $(\operatorname{tr}A)^2-4\det A = 5$.
+\end{theorem}
+
+\begin{theorem}[Möbius Fixed Points]
+  \label{thm:golden-mobius}
+  \lean{GppGoldenHyperbolic.A_mobius_fixedPoints}
+  \leanok
+  For $x\neq-1$: $\dfrac{2x+1}{x+1}=x \iff x=\varphi \text{ or } x=-\varphi^{-1}$.
+\end{theorem}
+
+\begin{theorem}[Finite-Place Kernel at the Selected Discriminant]
+  \label{thm:golden-kernel}
+  \lean{GppGoldenHyperbolic.finitePlaceKernel_five_half}
+  \leanok
+  With $K_{q,1}(s):=(1-q^{-1})/[(1-q^{-s})(1-q^{-(1-s)})]$ (no occurrence of $\varphi$ in
+  this definition): $K_{5,1}(1/2)=\varphi^2$.
+\end{theorem}
+
+\begin{theorem}[Convergence]
+  \label{thm:golden-convergence}
+  \lean{GppGoldenHyperbolic.golden_convergence}
+  \leanok
+  \uses{thm:golden-charpoly,thm:golden-kernel}
+  The expanding eigenvalue of the minimal-trace hyperbolic element and the finite-place
+  shadow kernel at the independently-selected discriminant, evaluated at the
+  principal-series center, are the same real number: $\varphi^2$.
+\end{theorem}
+
+\textbf{Honest boundary.} The characteristic-polynomial statements are direct roots of
+$X^2-(\operatorname{tr}A)X+\det A$, not connected to Mathlib's \texttt{Matrix.charpoly} /
+eigenvalue API (no closed form for $2\times2$ matrices was found in the pinned Mathlib).
+Matrix identities use plain integer matrices, not Mathlib's
+\texttt{SpecialLinearGroup}/\texttt{ModularGroup} (which targets the upper-half-plane
+action, not the real-line Möbius fixed points needed here).
+
+\chapter{Local Shadow Kernels and the Finite-Prime Weil Kernel}
+
+From a research-front directive proposing the route: celestial Cutkosky positivity
+$\to$ local shadow kernels $\to$ finite-prime Weil kernel $\to$ Casimir compression
+$\to$ global Weil positivity $\to$ RH. The final logical step (finite Weil paired-form
+positivity on all nontrivial zeros $\iff$ RH) is already proved unconditionally in the
+Cesàro Regularization and the Weil Positivity Criterion chapter
+(\texttt{GppWeilCriterion.rh\_iff\_weil\_pairedForm\_nonneg}) --- but that criterion is
+an \textbf{abstract} pairing over finite subsets of the actual (unknown) zero set, not
+the classical Weil explicit-formula prime-sum quadratic form this chapter's kernels feed
+into. Bridging the two needs the classical explicit formula itself (a separate,
+substantial, not-in-Mathlib undertaking) and is \textbf{not attempted here}.
+
+\begin{theorem}[Positivity of the Finite-Place Shadow Kernel]
+  \label{thm:kp-pos}
+  \lean{GppCutkoskyWeil.Kp_pos}
+  \leanok
+  For every real $p>1$ and every real $t$: the finite-place shadow kernel
+  $K_p(t):=(1-p^{-1})/(1-2p^{-1/2}\cos(t\log p)+p^{-1})$ is strictly positive. This is
+  the value of the classical Poisson kernel on the circle (radius $r=p^{-1/2}$), whose
+  Fourier-coefficient sequence $(r^{|n|})_n$ is termwise nonnegative.
+\end{theorem}
+
+\begin{theorem}[Nonnegativity of the Casimir-Weighted Archimedean Kernel]
+  \label{thm:h-nonneg}
+  \lean{GppCutkoskyWeil.H_nonneg}
+  \leanok
+  With $C(t):=t/(4\sinh(2\pi t))$ the already-derived celestial cut kernel and
+  $H(t):=(t^2+1/4)\,C(t)$ the Casimir-weighted Archimedean kernel: $H(t)\geq0$ for every
+  real $t$. Proof: $t$ and $\sinh(2\pi t)$ always share sign, so their ratio is
+  nonnegative (the $t=0$ case is Lean's total-division junk value $0/0=0$, itself
+  $\geq0$).
+\end{theorem}
+
+\textbf{Self-correction.} An earlier pass of this chapter claimed, as its central
+finding, that no positivity-preserving projection from $K_p$ to $K_p-1$ exists at the
+single-prime level, based on a Toeplitz matrix of Fourier \emph{coefficients} (indices
+= frequencies) found indefinite. That claim was \textbf{wrong}: it tested the wrong
+object. The question that matters is whether the Gram matrix
+$M_{jk}=(K_p-1)(\theta_j-\theta_k)$, built from point \emph{evaluations} at arbitrary
+finite angle configurations, is positive semidefinite --- and it is, trivially:
+convolution by $K_p$ is diagonal in the Fourier basis with eigenvalues $r^{|n|}\geq0$;
+the vacuum subtraction only zeroes the $n=0$ eigenvalue, which cannot make the rest
+negative.
+
+\begin{theorem}[Fixed-Frequency Gram Identity]
+  \label{thm:gram-square-freq}
+  \lean{GppCutkoskyWeil.gram_square_freq}
+  \leanok
+  For any finite point configuration $x:\mathrm{Fin}\,N\to\mathbb{R}$, weights
+  $c:\mathrm{Fin}\,N\to\mathbb{C}$, and frequency $n\in\mathbb{Z}$:
+  $\sum_{j,k}\bar c_jc_ke^{in(x_j-x_k)}=\bigl|\sum_jc_je^{-inx_j}\bigr|^2$. Pure finite
+  algebra, generalizing the pre-existing \texttt{gram\_square\_nonneg}
+  (Convolution Squares chapter) to complex amplitudes.
+\end{theorem}
+
+\begin{theorem}[Finite Weighted Frequency Sum]
+  \label{thm:gram-square-freqsum}
+  \lean{GppCutkoskyWeil.gram_square_freqSum}
+  \leanok
+  For a finite set of frequencies $F\subset\mathbb{Z}$ and real weights
+  $a:\mathbb{Z}\to\mathbb{R}$: $\sum_{j,k}\bar c_jc_k\sum_{n\in F}a_ne^{in(x_j-x_k)}
+  =\sum_{n\in F}a_n\bigl|\sum_jc_je^{-inx_j}\bigr|^2$, derived from
+  Theorem~\ref{thm:gram-square-freq} by pure finite-sum reordering.
+\end{theorem}
+
+\begin{theorem}[Truncated Finite-Place Kernel Positivity]
+  \label{thm:krn0-gram-nonneg}
+  \lean{GppCutkoskyWeil.KrN0_gram_nonneg}
+  \leanok
+  With $K^0_{r,N}(\theta):=\sum_{0<|n|\le N}r^{|n|}e^{in\theta}$ the truncated,
+  vacuum-excluded finite-place kernel: $\sum_{j,k}\bar c_jc_kK^0_{r,N}(x_j-x_k)\geq0$
+  for every truncation $N$, every finite point configuration, and every $0\le r$.
+  Follows from Theorem~\ref{thm:gram-square-freqsum} plus \texttt{Finset.sum\_nonneg},
+  via the intermediate corollary \texttt{gram\_square\_freqSum\_nonneg}.
+\end{theorem}
+
+\textbf{Corrected central finding.} $K_p-1$ IS a positive kernel, prime-by-prime,
+unconditionally, at every finite truncation (Theorem~\ref{thm:krn0-gram-nonneg}). This
+reverses the earlier (wrong) claim. It does \textbf{not} by itself establish global
+positivity of the assembled sum $Q_{\mathrm{GPP}}=Q_\infty+\sum_p Q_p$ --- single-prime
+kernel positivity was never going to answer that on its own (the classical Weil explicit
+formula's local prime terms are individually sign-indefinite in their usual
+normalization even though local $K_p$ positivity holds).
+
+\textbf{Proof-engineering note.} A first attempt at the corrected result proved the
+untruncated two-sided \texttt{HasSum} over all of $\mathbb{Z}$ and built
+\texttt{PositiveType}$(K_r-1)$ on top of it as one monolithic theorem; both repeatedly
+hit elaboration timeouts even at 20$\times$ the default heartbeat budget. Restructured
+into the small, independently-fast layers above (each builds in under 4 seconds
+standalone) after bisecting via isolated scratch-file tests. See
+\texttt{docs/FORMALIZATION\_PLAN.md} and \texttt{discovery/cutkosky\_weil/notes.md} for
+the full diagnosis.
+
+\begin{theorem}[Removable Singularity of the Archimedean Cut Kernel]
+  \label{thm:hext-nonneg}
+  \lean{GppCutkoskyWeil.Hext_nonneg}
+  \leanok
+  With \texttt{cutKernelExt} the continuous extension of \texttt{cutKernel} replacing
+  Lean's junk value $0/0=0$ at $t=0$ by the genuine limit $C(0)=1/(8\pi)$ (proved from
+  \texttt{Real.sinh}'s derivative at $0$, \lean{GppCutkoskyWeil.tendsto_cutKernel_zero},
+  not asserted), and $H_{\mathrm{ext}}(t):=(t^2+1/4)\,C_{\mathrm{ext}}(t)$: $H_{\mathrm{ext}}(0)
+  =1/(32\pi)$ (\lean{GppCutkoskyWeil.Hext_zero}) and $H_{\mathrm{ext}}(t)\geq0$ for every
+  real $t$.
+\end{theorem}
+
+\begin{theorem}[Untruncated Vacuum-Subtracted Kernel Positivity]
+  \label{thm:krclosed-minus-one-positivetype}
+  \lean{GppCutkoskyWeil.KrClosed_minus_one_positiveType}
+  \leanok
+  For every $0\le r<1$: $K_r-1$ is positive-type in the sense of
+  \texttt{GppHaarPositivityWeil.PositiveType} --- for every finite point configuration
+  and weights, $\sum_{j,k}\bar c_jc_k(K_r-1)(x_j-x_k)\geq0$ --- for the genuine,
+  untruncated kernel, not merely at finite truncation. Obtained from
+  Theorem~\ref{thm:krn0-gram-nonneg} by passing to the limit $N\to\infty$: the two-sided
+  Fourier series $K_r(\theta)-1=\sum_{n\ne0}r^{|n|}e^{in\theta}$ is established as a
+  genuine \texttt{HasSum} (\lean{GppCutkoskyWeil.tsum_KrClosed_summand_eq}) via
+  \texttt{Summable} built from the geometric tail bound (not by tracking \texttt{HasSum}
+  values through \texttt{Int.rec}, which is what had timed out); $K^0_{r,N}\to K_r-1$
+  follows (\lean{GppCutkoskyWeil.tendsto_KrN0}); and positivity passes to the limit via
+  \texttt{ge\_of\_tendsto}.
+\end{theorem}
+
+\textbf{Fourth pass, following review}: both items the third pass had deferred are now
+proved. The route for the $N\to\infty$ passage separates convergence (built from the
+geometric tail bound via \texttt{Summable.of\_nat\_of\_neg}) from the Gram-square
+algebra (already proved, unchanged, at finite truncation) --- exactly as specified,
+rather than reviving the timed-out monolithic construction. 16 theorems total in
+\texttt{CutkoskyWeilBridge.lean} now, all kernel-clean.
+
+\begin{theorem}[Operator-Level Vacuum-Compression Identity]
+  \label{thm:vacuum-compression-operator-identity}
+  \lean{GppCutkoskyWeil.vacuum_compression_operator_identity}
+  \leanok
+  On $\mathrm{Ell2Z}:=\ell^2(\mathbb{Z},\mathbb{C})$, the natural Fourier-coefficient
+  model (Parseval-dual to the circle: convolution by a kernel becomes diagonal
+  multiplication by its Fourier coefficients), let $C_{K_r}$, $P_0$, $C_{K_r-1}$ be the
+  bounded diagonal \texttt{ContinuousLinearMap}s with Fourier symbols $r^{|n|}$; $0$ at
+  $n=0$ and $1$ elsewhere (the vacuum-deleting projection); and $0$ at $n=0$, $r^{|n|}$
+  elsewhere, respectively. Then $C_{K_r-1}=P_0\,C_{K_r}\,P_0$ as genuine bounded-operator
+  composition (\lean{GppCutkoskyWeil.mulOpLin_comp}), for every $0\le r<1$.
+\end{theorem}
+
+\begin{theorem}[Positivity of the Compressed Operator]
+  \label{thm:vacuum-compressed-operator-positive}
+  \lean{GppCutkoskyWeil.vacuum_compressed_operator_positive}
+  \leanok
+  $\langle x,C_{K_r-1}x\rangle\ge0$ for every $x\in\mathrm{Ell2Z}$ and every $0\le r<1$,
+  as a direct corollary of the general fact that a bounded diagonal operator with
+  nonnegative-real-part Fourier symbol is positive semidefinite
+  (\lean{GppCutkoskyWeil.mulOpCLM_inner_re_nonneg}), applied to $C_{K_r-1}$'s already-known
+  eigenvalue signs ($0$ at $n=0$, $r^{|n|}\ge0$ elsewhere).
+\end{theorem}
+
+\textbf{Fourth pass, following review}: both items the third pass had deferred are now
+proved. The route for the $N\to\infty$ passage separates convergence (built from the
+geometric tail bound via \texttt{Summable.of\_nat\_of\_neg}) from the Gram-square
+algebra (already proved, unchanged, at finite truncation) --- exactly as specified,
+rather than reviving the timed-out monolithic construction. 16 theorems total in
+\texttt{CutkoskyWeilBridge.lean} at that point, all kernel-clean.
+
+\textbf{Fifth pass, following a further review directive.} Item 1 of a six-item program
+(the actual operator statement, not the finite Fourier identity again) is now DONE in
+full: Theorems~\ref{thm:vacuum-compression-operator-identity} and
+\ref{thm:vacuum-compressed-operator-positive} above, 8 new theorems, kernel-clean.
+Checking \texttt{GppWeilCriterion.rh\_iff\_weil\_pairedForm\_nonneg}'s actual statement
+found that theorem's \texttt{pairedForm} is a zero-indexed reflection pairing over the
+(unknown) zero set itself --- it carries no prime, Mellin, or Haar-measure content for a
+``finite-prime Weil kernel in this normalization'' to mean, a mismatch this file's own
+module doc had already flagged. The genuine classical target,
+\texttt{GppHaarPositivityWeil.weil\_criterion} ($D_k=\sum_\rho\hat\Omega(\rho)+\text{local
+terms}$), remains a full \texttt{True}-stub, honestly blocked on Tate's thesis and idèle
+class groups (neither in Mathlib). But the classical \emph{elementary} (non-adelic)
+explicit formula's finite-prime local term has a clean checked closed form: with
+$\zeta_p(s):=(1-p^{-s})^{-1}$ the local Euler factor, $W_p(t)=2\operatorname{Re}(-\zeta_p'/
+\zeta_p(1/2+it))$ exactly --- checked by hand, not yet formalized, the honest next Lean
+target. 24 theorems total in \texttt{CutkoskyWeilBridge.lean} now, all kernel-clean.
+
+\textbf{Sixth pass (2026-08-23).} Attacking the bridge from the already-proved local
+kernel positivity to the classical Weil explicit formula's finite-prime term directly.
+
+\begin{theorem}[The Local Euler Factor's Genuine Logarithmic Derivative]
+  \label{thm:hasderivat-zetap}
+  \lean{GppCutkoskyWeil.hasDerivAt_zetaP}
+  \leanok
+  With $\zeta_p(s):=(1-\exp(-s\log p))^{-1}$ the local Euler factor as a genuine function
+  of $s\in\mathbb{C}$ (via \texttt{Complex.exp}, in \texttt{EulerFactorLogDeriv.lean}),
+  $\zeta_p$ has derivative $-\bigl(\text{minusLogDerivZetaP}\,p\,s\bigr)\cdot\zeta_p(s)$ at
+  every $s$ with $1-p^{-s}\ne0$, where $\text{minusLogDerivZetaP}\,p\,s:=\log(p)\cdot
+  p^{-s}/(1-p^{-s})$ --- i.e. this closed form genuinely \emph{is} $-\zeta_p'/\zeta_p$,
+  from an actual \texttt{HasDerivAt} chain-rule computation through \texttt{Complex.exp}
+  and \texttt{HasDerivAt.inv}, not asserted from the geometric-series shortcut.
+\end{theorem}
+
+\textbf{Honest boundary, this pass.} The connection back to $W_p$ --- $W_p(p,t) =
+2\operatorname{Re}(\text{minusLogDerivZetaP}\,p\,(1/2+it))$ --- is checked by hand and
+numerically to 40 digits (four primes, three $t$ values each) but not yet formalized:
+the \texttt{Complex.cpow} exponent-splitting algebra ($p^{-(1/2+it)}=p^{-1/2}\cdot p^{-it}$)
+needs more care than this pass affords without iterative feedback on this large a file.
+
+\textbf{Seventh pass (2026-08-23).} The boundary above is now closed.
+
+\begin{theorem}[$W_p$ Equals Twice the Real Part of the Euler Factor's Log-Derivative]
+  \label{thm:wp-eq-two-mul-re-minuslogderivzetap}
+  \lean{GppCutkoskyWeil.Wp_eq_two_mul_re_minusLogDerivZetaP}
+  \leanok
+  For every prime-like real $p>1$ and real $t$, $W_p(p,t) =
+  2\operatorname{Re}(\text{minusLogDerivZetaP}\,p\,(1/2+it))$ exactly --- i.e.
+  $W_p(p,t)=2\operatorname{Re}(-\zeta_p'/\zeta_p(1/2+it))$, genuinely proved rather than
+  checked numerically. The proof computes both sides' real and imaginary parts directly
+  (\texttt{Complex.exp\_re}/\texttt{exp\_im}, \texttt{Complex.div\_re},
+  \texttt{Complex.normSq\_apply}) rather than manipulating \texttt{cpow} splittings, closing
+  with the classical Poisson-kernel identity
+  \texttt{KrClosed\_sub\_one\_eq\_two\_mul\_re}: for real $r,\theta$ with $0\le r<1$,
+  $K_r(\theta)-1 = 2\operatorname{Re}[re^{i\theta}/(1-re^{i\theta})]$. The $r<1$ hypothesis is
+  genuinely needed, not merely convenient: at $r=1,\theta=0$ the denominator $1-re^{i\theta}$
+  vanishes and Lean's total division sends the two sides to different junk values, so the
+  identity is false without it --- this matches exactly the one case that ever arises
+  ($r=p^{-1/2}<1$ for $p>1$).
+\end{theorem}
+
+Together with Theorem~\ref{thm:hasderivat-zetap}, the full chain
+$W_p(p,t) = 2\operatorname{Re}(-\zeta_p'/\zeta_p(1/2+it))$ is now proved end to end in Lean:
+the derivative computation is genuine complex analysis, and the connection to $W_p$ is
+genuine real/imaginary-part algebra, not an asserted numerical coincidence. This does not
+touch the decisive-question finding below --- the sign obstruction is unaffected by this
+formalization, since it concerns how $W_p$ enters the classical explicit formula, not
+whether $W_p$ equals this log-derivative expression.
+
+\textbf{The decisive question, answered.} Does the already-proved positive-type property
+of $W_p$'s kernel help establish the sign the classical Weil explicit formula's prime
+term actually needs? Verified by direct computation against real nontrivial zeta zeros
+(\texttt{mpmath.zetazero}, not from a half-remembered convention): with an even Gaussian
+test function $h(r)=e^{-ar^2}$ and $g(u)=\tfrac1{2\pi}\int h(r)e^{-iru}\,dr$, Weil's
+explicit formula
+\[
+\textstyle\sum_\rho h(\gamma) = h(i/2)+h(-i/2) - g(0)\log\pi
++ \tfrac1{2\pi}\int h(r)\operatorname{Re}\psi(\tfrac14+\tfrac{ir}2)\,dr
+- 2\sum_{n\ge2}\tfrac{\Lambda(n)}{\sqrt n}g(\log n)
+\]
+balances to $\sim10^{-10}$ against 60 real zeros, pinning the sign convention exactly:
+the prime sum enters with an overall \emph{minus} sign. Its summand is exactly
+$-2\sum_p\sum_m\log(p)p^{-m/2}g(m\log p)$ --- literally minus a quantity built from the
+same Poisson-kernel structure $W_p$ already proved positive-type. \textbf{Local
+$W_p$/$K_p-1$ positivity therefore does not make the prime sum's contribution to the
+Weil quadratic form $Q(f)$ nonnegative --- it makes that contribution nonpositive.} A
+real, checked, negative finding, recorded rather than glossed over: any actual
+RH-equivalent positivity of $Q(f)$ must come from the Archimedean term dominating this
+genuinely negative prime pull, not from same-signed local pieces stacking up. This does
+not contradict anything already proved (\texttt{Kp\_pos}, \texttt{H\_nonneg}, and the
+positive-type kernel theorems all still hold exactly); it identifies precisely which
+direction that positivity pushes once correctly signed into the classical formula. See
+\texttt{discovery/cutkosky\_weil/notes.md} and
+\texttt{verify\_weil\_explicit\_formula\_sign.py} for the full derivation and script.
+
+\textbf{Honest boundary (updated).} Still not formalized in Lean: the exact Fourier
+pair $H(t)\leftrightarrow G(x)=\tfrac{3}{512\pi}\operatorname{sech}^4(x/4)$ (confirmed
+numerically to $\sim10^{-51}$ relative error); the pole-cancellation/removable-singularity
+claim at $t=\pm i/2$ (a different, complex-analytic singularity from the real-axis one at
+$t=0$ closed in the fourth pass --- confirmed via a shrinking-perturbation sequence); the
+representation-theoretic Casimir operator itself (the $t^2+1/4$ eigenvalue is used only
+as a number, not derived from an operator --- Mathlib has no $SL(2,\mathbb{R})$
+principal-series development); the $W_p\leftrightarrow-\zeta_p'/\zeta_p$ connection is now
+CLOSED (Theorem~\ref{thm:wp-eq-two-mul-re-minuslogderivzetap}, seventh pass); the classical explicit
+formula itself (contour integration of $\zeta'/\zeta$, the argument principle) and the
+adelic Tate's-thesis route, both large separate undertakings; and the $Q_{\mathrm{GPP}}$
+construction / global positivity factorization program --- now known, per the decisive-
+question finding above, to need the Archimedean term to dominate a genuinely negative
+prime contribution, not to assemble from same-signed pieces. No axiom, no sorry,
+no RH claim, no global positivity claim, no Connes--Consani machinery imported.
+
+\chapter{Thread Weil-Semiboundedness}
+
+New thread (2026-08-23), opened from \texttt{formalization\_queue} rather than a manuscript
+handoff: a ChatGPT-relayed research program attacking RH via a \emph{semibounded} Weil
+criterion --- RH $\iff$ $\exists$ finite $C\ge0$ with $Q_W(v)\ge -C\|v\|_2^2$ for every
+compactly supported smooth $v$ (Weil positivity is the $C=0$ case), routed through Suzuki's
+2023/2026 Herglotz-function reformulation and the Krein--Langer screw-function
+correspondence. Four items landed in the queue at priority 0 (top), all in this thread; per
+standing protocol (attempt every ready item directly in Lean, no by-hand pre-proof gate,
+classify honestly, never axiomatize the desired conclusion) each was attempted this pass.
+
+\begin{theorem}[Localized Ground-Energy Order Skeleton]
+  \label{thm:weil-semibound-order-skeleton}
+  \lean{GppWeilSemibound.tendsto_atBot_of_not_globalBound}
+  \leanok
+  Abstract nested-infimum order theory, applicable to Suzuki's localized Weil ground energy
+  $\lambda_a$ once it is supplied concretely: if a family of test-function sets $S_a$ is
+  nested and $\lambda_a$ is the greatest lower bound of a ratio functional over $S_a$, then
+  (i) $\lambda$ is antitone; (ii) a uniform global lower bound over $\bigcup_a S_a$ is
+  equivalent to $\operatorname{range}\lambda$ being bounded below (phrased via
+  \texttt{BddBelow} rather than a literal \texttt{sInf}, to avoid \texttt{Real.sInf}'s
+  junk-value convention on sets unbounded below); (iii) antitone plus not bounded below
+  forces $\lambda_a\to-\infty$. Genuinely proves (formalization\_queue item \texttt{1b12010b})
+  exactly the order-theoretic content that item asked for, with no reference to what the
+  ratio functional or test spaces concretely are.
+\end{theorem}
+
+\textbf{Honest boundary, this pass.} Theorem~\ref{thm:weil-semibound-order-skeleton} does
+\emph{not} define $Q_W$, the Weil quadratic form, $\|\cdot\|_2$, or
+$S_a=C_c^\infty(-a,a)$ --- no such localized compactly-supported-test-function machinery
+exists in Mathlib, and building it is a separate, large undertaking untouched here. The
+other three priority-0 queue items were assessed, not completed:
+
+\begin{itemize}
+\item \textbf{Conditional convolution positivity implies screw-kernel positivity}
+  (item \texttt{50903a57}): feasible in principle --- Mathlib's
+  \texttt{ContDiffBump.convolution\_tendsto\_right\_of\_continuous} supplies exactly the
+  ``approximate identity converges to a continuous function's value at a point'' fact the
+  queue item's suggested proof needs --- but the full construction (building the
+  finite-support mean-zero mollified test function $u_\varepsilon$ from a sum of point
+  masses, expanding the assumed double integral into a finite sum of bilinear terms via
+  Fubini, and taking $\varepsilon\to0$ termwise to recover $G_h(t_i,t_j)$ exactly) is a
+  genuinely large multi-lemma real-analysis construction, scoped but not attempted this
+  pass rather than forced through partially.
+\item \textbf{Semibounded Weil criterion forces RH} (item \texttt{ed078a8f}) and
+  \textbf{Finite Brownian compensation shifts the zeta Herglotz function by $iC/2$} (item
+  \texttt{93384c2c}): both genuinely blocked. Both require Herglotz (Pick) function
+  representation theory and the Krein--Langer correspondence between screw functions and
+  Herglotz functions cited from Suzuki's paper. Checked directly (\texttt{grep -rli
+  "herglotz\textbar nevanlinna\textbar krein.*langer\textbar screw function"
+  Mathlib/}): the only Mathlib hit is Nevanlinna \emph{value-distribution} theory (the
+  Second Main Theorem counting-function sense), an unrelated subject from a different branch
+  of complex analysis --- there is no Herglotz/Pick integral-representation theory or
+  Krein--Langer machinery in Mathlib at all. Formalizing either item first requires building
+  that entire theory from scratch, which is not attempted here.
+\end{itemize}
+
+A further scan of the remaining \texttt{ready} queue (priorities 1--2, threads
+Weil-Parity, Suzuki-Herglotz, Prime-Schatten, Prime-Scattering, Prime-Fock) found the same
+two obstructions recurring: items naming Pick kernels or Herglotz reflection symmetry
+inherit the same missing-theory gap as above, and items in the Prime-Schatten/
+Prime-Scattering/Prime-Fock threads (Schatten-class operator norms, regularized $\det_3$
+Fredholm determinants, bosonic Fock-space trace identities) are blocked on a second,
+independent gap: \textbf{Mathlib has no Schatten-class, trace-class, or regularized/Fredholk
+determinant theory for Hilbert-space operators at all} (checked directly, zero hits). None
+of these were force-completed with a watered-down or circular substitute. This is a real,
+useful negative finding, not a stall: two precise, named infrastructure gaps now block a
+large fraction of the open queue, and building either (Herglotz representation theory, or
+Schatten-class operator theory) would be a substantial standalone Mathlib-contribution-sized
+undertaking in its own right, worth flagging to Daniel as a strategic fork rather than
+attempting piecemeal.
+
+\textbf{Correction, same pass.} The initial scan above assumed the entire Weil-Parity
+thread was blocked by the same missing Herglotz/Pick machinery, by pattern-matching on the
+thread name rather than reading each item's body. That was wrong. Reading the six
+Weil-Parity queue items directly found that most are \emph{pure finite-dimensional linear
+algebra or topology} --- several explicitly say so in their own text (``pure linear
+algebra and should be sorry-free,'' ``pure finite-dimensional topology''). Two were
+formalized this pass once correctly assessed:
+
+\begin{theorem}[No-Crossing Continuation]
+  \label{thm:weilparity-ground-continuation}
+  \lean{GppWeilParity.lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected}
+  \leanok
+  Item \texttt{0182d9cf}. If continuous functions on a preconnected set never cross and one
+  starts strictly below the other at some point, it stays strictly below everywhere ---
+  via \texttt{IsPreconnected.intermediate\_value₂}: a crossing point would otherwise be
+  forced between the two points.
+\end{theorem}
+
+\begin{theorem}[Cross-Resolvent Ground Ordering]
+  \label{thm:weilparity-cross-resolvent-ordering}
+  \lean{GppWeilParity.Bdet_pos_at_lamMinA_of_continuousAt}
+  \leanok
+  Item \texttt{5e10a4f0}. If a determinant-ratio identity $B_{\det}(z)=f(z)\,A_{\det}(z)$
+  holds with both factors positive for $z<\lambda_{\min}(A)$, then $B_{\det}(z)>0$ there ---
+  algebraically immediate once stated correctly, and (once $B_{\det}$ is identified with
+  $z\mapsto\det(B-zI)$) exactly ``$B$ has no eigenvalue below $\lambda_{\min}(A)$.'' A
+  boundary/continuity refinement strengthens this to $B_{\det}(\lambda_{\min}(A))>0$ too,
+  given continuity and a no-common-eigenvalue hypothesis at $\lambda_{\min}(A)$ itself ---
+  the item's full ``$\lambda_{\min}(A)<\lambda_{\min}(B)$'' claim.
+\end{theorem}
+
+\textbf{Honest boundary, both.} Neither file defines Hermitian matrices, their
+characteristic polynomials, or their eigenvalues, and neither connects the abstract
+`\texttt{A\_det}`/`\texttt{B\_det}`/`\texttt{f}` to actual \texttt{Matrix.det} of a
+Hermitian matrix pencil --- that identification (``$z$ is an eigenvalue of Hermitian $M$
+iff $\det(M-zI)=0$'') is standard and left as the connecting step for whichever future
+file applies these lemmas to the real parity blocks.
+
+\begin{theorem}[Strict Interlacing IVT Core]
+  \label{thm:weilparity-strict-interlacing-ivt}
+  \lean{GppWeilParity.existsUnique_zero_of_strictMonoOn_of_tendsto}
+  \leanok
+  Item \texttt{9cc1e2f8}, flagged since the sixth-pass write-up as the natural next target
+  because it needs genuine monotonicity/IVT reasoning, not just block-matrix algebra. If
+  $g$ is continuous and strictly increasing on an open interval $(a,b)$, tends to $-\infty$
+  approaching $a$ from the right, and to $+\infty$ approaching $b$ from the left, then $g$
+  has \emph{exactly one} zero in $(a,b)$ --- via
+  \texttt{IsPreconnected.intermediate\_value\_Iii} for existence and
+  \texttt{StrictMonoOn.injOn} for uniqueness. This is the fully general core behind ``the
+  secular equation $f(z)=0$ has exactly one root in each gap
+  $(\alpha_j,\alpha_{j+1})$,'' stripped of the specific rational-function structure.
+\end{theorem}
+
+\textbf{Honest boundary.} Does not construct $f(z)=\sum_j c_j/(\alpha_j-z)$ from the
+matrix data at all, and does not verify this specific $f$ satisfies the three hypotheses
+on each interval $(\alpha_k,\alpha_{k+1})$ --- the per-term \texttt{Finset}-sum
+monotonicity and limit bookkeeping (one pole term dominating, the rest bounded near the
+endpoints) is the remaining connecting step for a future pass.
+
+Two of the remaining three were also closed the same session:
+
+\begin{theorem}[Cross-Heat Positivity, Laplace-Transform Core]
+  \label{thm:weilparity-cross-heat}
+  \lean{GppWeilParity.laplace_integral_pos_of_pos_on_Ici}
+  \leanok
+  Item \texttt{68566b83}. An integral over $[0,\infty)$ of an everywhere-positive
+  integrable integrand is strictly positive --- via
+  \texttt{MeasureTheory.setIntegral\_pos\_iff\_support\_of\_nonneg\_ae}, reduced to the
+  integrand's support meeting $[0,\infty)$ in a set of positive (here infinite) Lebesgue
+  measure. Once $k(t)=\operatorname{Re}(\eta^*e^{-tA}e_0)$ and the integral is identified
+  with $\operatorname{Re}(\eta^*(A-zI)^{-1}e_0)$ (the item's separate Laplace-resolvent
+  identity, not attempted), this is exactly ``cross-heat positivity forces cross-resolvent
+  positivity.''
+\end{theorem}
+
+\begin{theorem}[Removable-Singularity Limit]
+  \label{thm:weilparity-removable-singularity}
+  \lean{GppWeilParity.tendsto_div_zero_of_tendsto_nhds_of_tendsto_norm_atTop}
+  \leanok
+  Item \texttt{4d97d8eb}. A numerator with a finite limit divided by a denominator whose
+  norm blows up tends to zero --- the reusable fact behind ``$q^*(x_i)=q_i$'' for the
+  barycentric Pick interpolant $q^*(z)=B(z)/A(z)$, since $B(z)-q_iA(z)$ stays finite at
+  $x_i$ (the $k=i$ pole term cancels identically, $q_i-q_i=0$) while $\|A(z)\|\to\infty$
+  there.
+\end{theorem}
+
+\textbf{Honest boundary, both}: neither defines the matrix exponential/resolvent or the
+Pick matrix $R$/barycentric functions $A,B,q^*$ themselves; the derivative-matching claim
+$q^{*\prime}(x_i)=d_i$ and the $q^*(\infty)$ limit remain untouched. Only \texttt{d1aec733}
+(positive commuting metric $\Leftrightarrow$ residue positivity) is left \texttt{ready} ---
+noted this pass as carrying a real subtlety (the forward/converse formulas for $g_j$ use a
+plain square vs.\ a modulus-square of $u_j^*e_0$, so $g_j$ real is not immediate and needs
+care).
+
+\textbf{A second self-correction, same session.} Re-checking the Suzuki-Herglotz thread's
+items directly (rather than repeating the same by-thread-name mistake corrected above)
+found one more quick win:
+
+\begin{theorem}[Suzuki Reflection Symmetry, Algebraic Core]
+  \label{thm:suzuki-reflection-symmetry}
+  \lean{GppWeilParity.suzuki_mHat_odd}
+  \leanok
+  Item \texttt{dcebf59f}. With $A(z):=(z-i)I(z)$, $B(z):=(z+i)I(-z)$ for an
+  \emph{arbitrary} function $I:\mathbb{C}\to\mathbb{C}$, $A(-z)=-B(z)$ and $B(-z)=-A(z)$
+  follow purely algebraically from the definitions (no properties of $I$, the operator
+  $T$, or the reflection $R$ needed), hence $W_0:=A+B$ is odd, $W_\pi:=A-B$ is even, and
+  $\hat m(z):=-i\,W_0(z)/W_\pi(z)$ is odd. Costs nothing: the item's own formulas already
+  reduce this layer entirely to algebra once expressed through the same $I$.
+\end{theorem}
+
+\textbf{Honest boundary.} Does not define $T$, $R$, $v_+=T^{-1}e^x$, $v_-=T^{-1}e^{-x}$, or
+$I(z)=\int v_+(x)e^{izx}dx$, and does not touch the item's final Herglotz/Livsic
+representation claim --- confirmed blocked above.
+
+\textbf{Sharpening the last open Weil-Parity item.} \texttt{d1aec733} ("Positive commuting
+metric equivalent to residue positivity") had been flagged only as "carrying a subtlety."
+Made precise:
+
+\begin{theorem}[The $c_j = g_j w^2$ Identity]
+  \label{thm:weilparity-cj-gj-mismatch}
+  \lean{GppWeilParity.cj_eq_gj_mul_sq}
+  \leanok
+  With $c:=vw$, $g:=v/w$ (the item's own $c_j$, $g_j$ formulas for $v=\eta^*u_j$,
+  $w=u_j^*e_0$), $c=g w^2$ unconditionally --- a \emph{plain} complex square, not the
+  modulus square $|w|^2$ the item's converse direction uses for the same quantity. The two
+  agree only when $w$ is real (witnessed concretely: $w=i$ gives $w^2=-1\ne1=|i|^2$).
+\end{theorem}
+
+\textbf{Suzuki-Herglotz, item \texttt{1c684543}: the shifted logarithmic-derivative
+transfer, new session.} Flagged tractable at the end of the previous pass (plain
+complex-analysis order-of-vanishing, not Herglotz-dependent).
+
+\begin{theorem}[Shifted Logarithmic-Derivative Transfer]
+  \label{thm:shifted-log-deriv-transfer}
+  \lean{GppWeilParity.tendsto_shiftedTransfer_quotient_div}
+  \leanok
+  Item \texttt{1c684543}. For holomorphic $F$ and scalar $\lambda$, put
+  $D_\lambda(s)=F'(s)-\lambda F(s)$, $R_\lambda(s)=F(s)/D_\lambda(s)$. Writing a zero
+  $\rho$ of $F$ of multiplicity $m=k+1\ge1$ as $F(z)=(z-\rho)^{k+1}g(z)$ ($g$ analytic,
+  $g(\rho)\ne0$): $D_\lambda(z)=(z-\rho)^k w(z)$ with
+  $w(z):=(k+1)g(z)+(z-\rho)(g'(z)-\lambda g(z))$
+  (\lean{GppWeilParity.deriv_shiftedTransferF_sub_smul_eq}), and $w(\rho)=(k+1)g(\rho)\ne0$
+  (\lean{GppWeilParity.shiftedTransferWitness_at_root_ne_zero}). Hence
+  $R_\lambda(z)/(z-\rho)\to1/(k+1)$ as $z\to\rho$ ($z\ne\rho$) --- the item's own stated
+  asymptotic $R_\lambda(s)=(s-\rho)/m+O((s-\rho)^2)$, i.e.\ a genuine \emph{simple} zero at
+  $\rho$ for every finite $\lambda$; and $R_\lambda(z)\to0$ as $z\to\rho$
+  (\lean{GppWeilParity.tendsto_shiftedTransfer_quotient_zero}), the "zeros of $R_\lambda$
+  are (among) the zeros of $F$" half of the item's conclusion.
+\end{theorem}
+
+\textbf{Honest boundary.} Does not instantiate $F=\xi$ (Mathlib's
+\texttt{completedRiemannZeta}) --- a direct application once $\xi$'s zeros are known
+simple with the right local model, not attempted this pass. Does not prove the
+\emph{global} "exactly the zeros of $F$, no others" claim (needs $D_\lambda$ controlled
+away from $F$'s zeros too, a separate global argument); what's proved is the precise
+\emph{local} fact at each individual zero, the item's own named content ("the exact
+divisor fact").
+
+Not a claim the underlying mathematics is wrong in its intended (presumably
+real-symmetric) setting --- only that the queue item's abstract phrasing is
+underspecified at exactly this point, worth flagging back to the research source rather
+than silently patched over or forced through.
 
 \chapter{Axiom Inventory}
 

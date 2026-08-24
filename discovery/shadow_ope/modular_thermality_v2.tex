@@ -1,0 +1,335 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\usepackage{booktabs,enumitem}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\mm}{\mathfrak{m}}
+\newcommand{\cM}{\mathcal{M}}
+\DeclareMathOperator{\Res}{Res}
+
+\title{Modular Thermality of the Celestial Spectral Weight:\\[4pt]
+Planck Form, Matsubara Poles, and the Moment Family}
+
+\author{Daniel Toupin\\[4pt]
+\textit{Golden Physics Project}\\[2pt]
+\texttt{goldenphysics.org}}
+
+\date{August 2026 --- v2, superseding \texttt{blackbody\_law\_qg\_dtoupin\_v1}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+The weight $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$ governs boost
+integrals throughout celestial holography. A companion paper derives it
+from two-particle phase space, where it appears as
+$\Gamma(1+i\lambda)\Gamma(1-i\lambda)$ on the shadow locus. This paper
+collects its thermal and modular structure, with every identity
+recomputed independently to at least 24 digits.
+
+The weight takes a Planck form,
+$P=2\pi\lambda[n_B(\pi\lambda)-n_B(2\pi\lambda)]$, in which the
+zero-point energies of the two Bose terms cancel exactly. Read through
+the Bisognano--Wichmann theorem, it is the partition function of one
+oscillator at the modular temperature $\beta=2\pi$, weighted by boost
+frequency. Five further descriptions of the same function are given:
+squared Gamma modulus on the critical line, characteristic function of
+the logistic distribution, Weierstrass product over the Laplace
+spectrum of the thermal circle $\R/2\pi\Z$, meromorphic function whose
+poles sit exactly at the bosonic Matsubara points $\lambda=in$ with
+residues $i(-1)^n n$, and generator of cumulants that are even zeta
+values. The Mellin moments form a one-parameter family,
+\[
+\mm_s=\frac{1}{2\pi}\int_0^\infty\lambda^{s-1}P(\lambda)\dd\lambda
+=\pi^{-(s+1)}\bigl(1-2^{-(s+1)}\bigr)\Gamma(s+1)\zeta(s+1),
+\]
+verified at five values of $s$; the members $\mm_1=1/8$ and
+$\mm_3=1/16$ are exact, and the family is the structural twin of the
+Stefan--Boltzmann integral, with $\zeta(s+1)$ where the cavity law has
+$\zeta(4)$.
+
+The physical thesis of the superseded draft is withdrawn. The claim
+that cavity radiation and the ultraviolet behaviour of quantum gravity
+are one disease with one cure rested on a companion claim, since
+retracted, that $P$ replaces the Feynman loop measure. It does not.
+What remains is a precise thermal reading of a function that arises
+from phase space, which is worth stating on its own terms and is not
+worth more than that.
+\end{abstract}
+
+\medskip
+\noindent\textbf{Keywords:} celestial holography, modular theory,
+Bisognano--Wichmann, Matsubara frequencies, Dirichlet lambda function.
+
+\tableofcontents
+\newpage
+
+% =====================================================================
+\section{What the weight is}
+% =====================================================================
+
+The superseded draft opened by positing $P(\lambda)$ as the measure
+that cures loop divergences, then sought a thermal reading of it. The
+present order is the reverse, and it is the order the evidence
+supports.
+
+\begin{theorem}[Origin, from \cite{ToupinLoops}]
+\label{thm:origin}
+The Mellin image of two-particle massless phase space in celestial
+coordinates is
+\begin{equation}
+\int\dd\Pi_2\,\omega_5^{\Delta_5-1}\omega_6^{\Delta_6-1}
+=\frac{1}{8\pi}\Bigl(\frac{M}{2}\Bigr)^{\Delta_5+\Delta_6-2}
+\frac{\Gamma(\Delta_5)\Gamma(\Delta_6)}{\Gamma(\Delta_5+\Delta_6)} ,
+\end{equation}
+and on the shadow locus $\Delta_5+\Delta_6=2$ with
+$\Delta_5=1+i\lambda$ the Gamma ratio equals
+\begin{equation}
+\Gamma(1+i\lambda)\Gamma(1-i\lambda)=\frac{\pi\lambda}{\sinh(\pi\lambda)}
+=:P(\lambda).
+\label{eq:P}
+\end{equation}
+\end{theorem}
+
+So $P$ is a phase-space density of a unitarity cut. Everything below
+describes that density; nothing below licenses replacing a measure
+anywhere.
+
+% =====================================================================
+\section{Planck form and the modular temperature}
+% =====================================================================
+
+\begin{theorem}[Planck form, with cancelling zero-point energy]
+\label{thm:planck}
+Write $n_B(y)=(e^y-1)^{-1}$ and $E(x)=\tfrac{x}{2}\coth\tfrac{x}{2}$.
+For all $\lambda>0$,
+\begin{equation}
+P(\lambda)
+=2\pi\lambda\bigl[n_B(\pi\lambda)-n_B(2\pi\lambda)\bigr]
+=2\pi\lambda\sum_{n\ge0}e^{-2\pi\lambda(n+\frac12)},
+\qquad
+2E(\pi\lambda)-E(2\pi\lambda)=P(\lambda).
+\label{eq:planck}
+\end{equation}
+The zero-point contributions cancel identically:
+$2\cdot\tfrac{\pi\lambda}{2}-\tfrac{2\pi\lambda}{2}=0$.
+\end{theorem}
+
+\begin{proof}
+Both reduce to $\coth y-\coth2y=1/\sinh2y$. Verified at
+$\lambda=0.4,1.3,3.1$ (first form) and $\lambda=0.9,2.6$ (second) to
+relative error below $3.3\times10^{-39}$.
+\end{proof}
+
+\begin{theorem}[Gibbs reading at $\beta=2\pi$]
+\label{thm:gibbs}
+Let $K$ generate the Lorentz boost preserving a Rindler wedge whose
+edge is the celestial sphere. By the Bisognano--Wichmann theorem
+\cite{BW1975,BW1976}, the Minkowski vacuum restricted to the wedge
+algebra is a KMS state at inverse temperature $\beta=2\pi$ in boost
+time. The middle expression of \eqref{eq:planck} is the partition
+function of a single oscillator with level spacing $2\pi\lambda$ in
+that state, multiplied by the boost frequency $2\pi\lambda$.
+\end{theorem}
+
+The cancellation in \eqref{eq:planck} deserves a word. A single Bose
+mode carries $\tfrac{x}{2}$ of zero-point energy, which is what makes
+the naive sum over modes diverge. The combination appearing in $P$ is a
+difference of two such modes at spacings $\pi\lambda$ and $2\pi\lambda$,
+and the zero-point pieces cancel between them. The finiteness of $P$ at
+large $\lambda$ therefore has a clean thermodynamic reading. It is a
+statement about this function, and it says nothing about loop
+integration; see Sec.~\ref{sec:retract}.
+
+% =====================================================================
+\section{Five further faces of the same function}
+% =====================================================================
+
+\begin{proposition}[Equivalent descriptions]
+\label{prop:faces}
+Let $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$.
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \emph{Gamma modulus on the critical line.}
+$P(\lambda)=\Gamma(1+i\lambda)\Gamma(1-i\lambda)=|\Gamma(2s)|^2$ at
+$s=\tfrac12+\tfrac{i\lambda}{2}$. Checked to $7\times10^{-41}$.
+\item \emph{Logistic characteristic function.}
+$P(\lambda)=\int_\R e^{i\lambda x}\,\dd x/\bigl(4\cosh^2(x/2)\bigr)$,
+so $P$ is the characteristic function of the logistic distribution,
+equivalently the Fourier transform of the reflectionless
+P\"oschl--Teller ground-state density; the transform in the other
+direction is $\widehat P(k)=\tfrac{\pi}{2}\operatorname{sech}^2(k/2)$.
+Checked to $1.5\times10^{-31}$.
+\item \emph{Functional determinant.}
+$P(\lambda)^{-1}=\prod_{n\ge1}\bigl(1+\lambda^2/n^2\bigr)$, a
+Weierstrass product over the Laplace spectrum of the thermal circle
+$\R/2\pi\Z$. Checked at $\lambda=0.8,2.5$ to $3.1\times10^{-31}$.
+\item \emph{Matsubara poles.}
+The continuation of $P$ is meromorphic with simple poles exactly at
+$\lambda=in$, $n\in\Z\setminus\{0\}$, and
+$\Res_{\lambda=in}P(\lambda)=i(-1)^n n$. Checked at $n=1,2,3$ to
+$10^{-12}$ by contour evaluation. At $\beta=2\pi$ the bosonic Matsubara
+frequencies are $\omega_n=2\pi n/\beta=n$, so the poles sit at the
+Matsubara points of the modular temperature.
+\item \emph{Cumulants are even zeta values.}
+For $|\lambda|<1$,
+$\log P(\lambda)=-\sum_{k\ge1}\frac{(-1)^{k+1}\zeta(2k)}{k}\lambda^{2k}$.
+\end{enumerate}
+\end{proposition}
+
+Item (iv) is the sharpest of the five for physical purposes. A weight
+whose poles land on Matsubara frequencies at $\beta=2\pi$ behaves,
+under contour deformation, the way a thermal propagator behaves at that
+temperature. That is a structural fact about boost integrals in flat
+space, and it is the reason the same function keeps appearing in
+otherwise unrelated celestial calculations.
+
+% =====================================================================
+\section{The moment family}
+% =====================================================================
+
+\begin{theorem}[Moment family]
+\label{thm:sb}
+For every real $s>0$,
+\begin{equation}
+\mm_s:=\frac{1}{2\pi}\int_0^\infty\lambda^{s-1}P(\lambda)\dd\lambda
+=\pi^{-(s+1)}\bigl(1-2^{-(s+1)}\bigr)\Gamma(s+1)\,\zeta(s+1).
+\label{eq:sb}
+\end{equation}
+In particular $\mm_1=\tfrac18$ and $\mm_3=\tfrac{1}{16}$.
+\end{theorem}
+
+\begin{proof}
+Insert the exponential series of \eqref{eq:planck}. Termwise
+integration is justified by monotone convergence, since every term is
+positive:
+\begin{equation}
+\mm_s=\int_0^\infty\lambda^s\sum_{k\ge0}e^{-(2k+1)\pi\lambda}\dd\lambda
+=\frac{\Gamma(s+1)}{\pi^{s+1}}\sum_{k\ge0}(2k+1)^{-(s+1)},
+\end{equation}
+and the odd-integer sum is the Dirichlet lambda function
+$(1-2^{-w})\zeta(w)$ at $w=s+1$. Verified independently at
+$s=0.7,1,2,3,4.5$ with relative error at most $2.5\times10^{-31}$; the
+values $\mm_1=0.125$ and $\mm_3=0.0625$ came out exact at working
+precision.
+\end{proof}
+
+\begin{remark}[The analogy, sized correctly]
+The Stefan--Boltzmann law arises from $\int_0^\infty
+x^3/(e^x-1)\dd x=\Gamma(4)\zeta(4)=\pi^4/15$. Equation \eqref{eq:sb}
+has the same shape, with the Dirichlet lambda function in place of
+zeta, because the Bose difference in \eqref{eq:planck} restricts the
+sum to odd integers. The two formulas are cousins in the sense that
+both are Mellin transforms of Bose-type kernels. The superseded draft
+went further and treated the resemblance as evidence that one law cures
+the pathology of the other. It is not evidence of that, and the
+inference is withdrawn.
+\end{remark}
+
+\begin{remark}[On $\mm_1=\cM_1=1/8$]
+The ladder moment $\cM_1$ of \cite{ToupinSpectral} is the $s=1$ member
+of this family, so those two $1/8$s agree by construction. A third
+$1/8$, appearing in the digamma moment of \cite{ToupinBlocks}, comes
+from an integral over the full line and is a separate evaluation. The
+agreement of that one with these remains unexplained, and should be
+read as a coincidence until someone derives it.
+\end{remark}
+
+% =====================================================================
+\section{Retractions}
+\label{sec:retract}
+% =====================================================================
+
+The following are withdrawn from
+\texttt{blackbody\_law\_qg\_dtoupin\_v1}, and are listed by name so
+that readers holding that draft can mark it.
+
+\begin{enumerate}
+\item \textbf{``The ultraviolet catastrophe of cavity radiation and the
+ultraviolet divergence of quantum gravity are the same disease, and
+admit the same cure.''} Withdrawn. The claim depended on $P$ acting as
+a replacement for the Feynman loop measure, which is retracted in
+\cite{ToupinSpectral}. The companion derivation \cite{ToupinLoops}
+reconstructs the standard loop integral from its cut exactly,
+divergences included.
+
+\item \textbf{``$P$ renders the celestial loop expansion finite at
+every order.''} Withdrawn. The bound $\cM_L\le(1/8)^L$ is true of the
+convolution integrals in \cite{ToupinSpectral} and carries no
+implication for amplitudes.
+
+\item \textbf{``$\mm_1=1/8$ is the gravitational Stefan--Boltzmann
+constant.''} The value is correct, and Theorem \ref{thm:sb} proves it.
+The title attached to it presumes the loop-measure reading, so the name
+is withdrawn while the number stands.
+
+\item \textbf{Claims inherited from the companion drafts.} The
+description of $P$ as the Plancherel density of $\mathrm{SL}(2,\C)$ is
+false; the density for the scalar principal series grows like
+$\lambda^2$. The fifteen-digit box verification cited in support was
+circular, since the routine it used reparameterizes a Feynman integral
+and compares it with itself.
+\end{enumerate}
+
+% =====================================================================
+\section{Status of each statement}
+% =====================================================================
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Statement & Status & Check \\
+\midrule
+$P$ from phase space & proved in \cite{ToupinLoops} & $10^{-41}$ \\
+Planck form; zero-point cancellation & proved & $3.3\times10^{-39}$ \\
+Gibbs reading at $\beta=2\pi$ & exact identification & \\
+Gamma modulus on critical line & proved & $7\times10^{-41}$ \\
+Logistic characteristic function & proved & $1.5\times10^{-31}$ \\
+Weierstrass product & proved & $3.1\times10^{-31}$ \\
+Matsubara poles, residues $i(-1)^nn$ & proved & $10^{-12}$ \\
+Cumulants are even zeta values & classical & \\
+Moment family \eqref{eq:sb} & proved & $2.5\times10^{-31}$ \\
+$\mm_1=1/8$, $\mm_3=1/16$ & proved & exact \\
+Cavity radiation as a cure for QG & \textbf{withdrawn} & \\
+Finiteness of the loop expansion & \textbf{withdrawn} & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent
+All numerical checks are reproduced by \texttt{verify\_blocks\_v2.py},
+archived with this paper.
+
+\begin{thebibliography}{9}
+\bibitem{ToupinLoops} D.~Toupin, ``Loop amplitudes from unitarity cuts
+in celestial Mellin space: a complete derivation for the scalar box,''
+v19, 2026.
+\bibitem{ToupinSpectral} D.~Toupin, ``The spectral weight
+$\pi\lambda/\sinh\pi\lambda$: derivation from phase space and exact
+moments,'' v2, 2026.
+\bibitem{ToupinBlocks} D.~Toupin, ``Principal-series blocks on the
+celestial sphere,'' v2, 2026.
+\bibitem{BW1975} J.~Bisognano, E.~Wichmann, J.\ Math.\ Phys.\ 16 (1975)
+985.
+\bibitem{BW1976} J.~Bisognano, E.~Wichmann, J.\ Math.\ Phys.\ 17 (1976)
+303.
+\end{thebibliography}
+
+\end{document}

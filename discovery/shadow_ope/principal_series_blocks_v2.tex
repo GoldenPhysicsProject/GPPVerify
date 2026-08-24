@@ -1,0 +1,570 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\usepackage{booktabs}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\mathrm{d}}
+
+\title{Principal-Series Blocks on the Celestial Sphere:\\[4pt]
+Conical Reduction, Shadow Symmetry, and Exact Moments}
+
+\author{Daniel Toupin\\[4pt]
+\textit{Golden Physics Project}\\[2pt]
+\texttt{goldenphysics.org}}
+
+\date{August 2026 --- v2, superseding \texttt{kinematic\_block\_v1.1}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This paper collects the special-function structure of scalar
+principal-series blocks on the celestial sphere, and re-anchors it as a
+toolkit for the partial-wave decomposition of unitarity cuts. Six
+results are stated and proved, each verified to at least 25 digits.
+The chiral block $k_h(z)=z^h\,{}_2F_1(h,h;2h;z)$ reduces exactly to a
+Legendre function of the second kind, $k_h(z)=c(h)\,Q_{h-1}(2/z-1)$,
+in the off-cut branch appropriate to argument greater than one; the
+branch choice is not cosmetic, and the identity fails by roughly $50\%$
+in the on-cut convention. The shadow involution $\Delta\mapsto
+2-\Delta$ becomes the classical Legendre degree symmetry
+$\nu\mapsto-\nu-1$, whose connection formula
+$Q_{-\nu-1}-Q_\nu=i\pi\tanh(\pi\tau)P_\nu$ exhibits the shadow-odd part
+of the block as a Mehler--Fock kernel. The reduction prefactor has the
+exact modulus $|c(\lambda)|^2=(2\lambda/\pi)\coth(\pi\lambda/2)$. On
+physical kinematics the full block is bounded in $\lambda$, with
+envelope $|1-z|^{-1/2}$, since the chiral exponential rates cancel by
+conjugate oddness. We give a short closed-form proof, previously only a
+numerical observation, of the first moment
+\[
+\frac{1}{2\pi}\int_{\R} P(\lambda)\,
+\mathrm{Re}\,\psi\!\left(\tfrac12+\tfrac{i\lambda}{2}\right)\dd\lambda
+\;=\;\tfrac18+\tfrac14\,\psi(\tfrac12),
+\qquad
+P(\lambda)=\frac{\pi\lambda}{\sinh(\pi\lambda)} ,
+\]
+by Fourier inversion followed by an elementary substitution.
+Two corrections to the earlier draft are recorded. The value $1/8$ in
+that moment and the one-loop ladder moment $\mathcal M_1=1/8$ use
+different integration conventions (full line against half line), so
+their agreement is a proved coincidence of two separate evaluations,
+with no derivation linking them. And the vanishing of the Mellin bridge
+$(1-2^{-s})\Gamma(s)\zeta(s)$ at nontrivial zeros carries no
+information, since $\zeta(s)$ appears in it as a factor.
+\end{abstract}
+
+\medskip
+\noindent\textbf{Keywords:} celestial holography, conformal blocks,
+principal series, Legendre functions, Mehler--Fock transform.
+
+\tableofcontents
+\newpage
+
+% =====================================================================
+\section{Purpose and scope}
+% =====================================================================
+
+A companion paper \cite{ToupinLoops} derives the two-particle unitarity
+cut in celestial variables and shows that it is uniform on the round
+celestial sphere,
+\begin{equation}
+\dd\Pi_2=\frac{\dd^2z}{8\pi^2(1+|z|^2)^2},
+\qquad
+z_6=-\frac{1}{\bar z_5},
+\label{eq:lips}
+\end{equation}
+with the two cut legs at antipodal points. To decompose that cut into
+$\mathrm{SL}(2,\C)$ partial waves, one needs the scalar
+principal-series block as an explicit function, its behaviour under the
+shadow map, its size at large spectral parameter, and its moments
+against the weight $P(\lambda)$ that the same companion derives from
+phase space. This paper supplies those four things.
+
+The earlier draft framed this material as the ``kinematic factor'' of a
+factorization in which $P(\lambda)$ served as a replacement for the
+Feynman loop measure. That framing is withdrawn in
+\cite{ToupinSpectral}. The mathematics below is untouched by the
+withdrawal, since none of it depends on the interpretation. What
+changes is the use to which it is put.
+
+\paragraph{Conventions.}
+$h=\tfrac12(1+i\lambda)$ with $\lambda\in\R$ on the principal series;
+$\nu=h-1=-\tfrac12+i\tau$, $\tau=\lambda/2$;
+$x(z)=2/z-1$; $\psi$ is the digamma function. All numerical claims come
+from the archived script \texttt{verify\_blocks\_v2.py}.
+
+% =====================================================================
+\section{Conical reduction, with its branch}
+% =====================================================================
+
+\begin{theorem}[Conical reduction]
+\label{thm:conical}
+For $h\notin\{0,-\tfrac12,-1,\dots\}$ and $z\in(0,1)$,
+\begin{equation}
+k_h(z)\;:=\;z^h\,{}_2F_1(h,h;2h;z)
+\;=\;c(h)\,Q_{h-1}\!\left(\frac{2}{z}-1\right),
+\qquad
+c(h)=\frac{2\,\Gamma(2h)}{\Gamma(h)^2},
+\label{eq:conical}
+\end{equation}
+where $Q_\nu$ is taken in the branch analytic on $(1,\infty)$ (the
+``type 3'' or off-cut Legendre function), which is the branch selected
+by the argument $x=2/z-1>1$.
+\end{theorem}
+
+\begin{proof}
+Quadratic transformation of ${}_2F_1$ into Legendre normal form,
+followed by identification of the recessive solution at $x\to\infty$.
+Verified at four points, including complex $h$ on and off the principal
+series, to relative error below $3\times10^{-41}$.
+\end{proof}
+
+\begin{remark}[The branch is load-bearing]
+\label{rem:branch}
+Evaluated in the on-cut convention (Legendre $Q$ with cut along
+$(-\infty,1]$), \eqref{eq:conical} fails by $47\%$ at
+$h=\tfrac12+0.7i,\,z=0.3$, and by $98\%$ at $h=0.8,\,z=0.25$. The
+earlier draft did not record the convention. Any reader reproducing the
+identity in a computer algebra system whose default is the on-cut
+branch will see it fail, so we state it here.
+\end{remark}
+
+% =====================================================================
+\section{Shadow symmetry as Legendre degree symmetry}
+% =====================================================================
+
+\begin{theorem}[Shadow involution and the Mehler--Fock kernel]
+\label{thm:shadow}
+Under $\Delta\mapsto2-\Delta$, equivalently $h\mapsto1-h$ and
+$\nu\mapsto-\nu-1$, the reduction \eqref{eq:conical} maps $Q_\nu$ to
+$Q_{-\nu-1}$, and for $\nu=-\tfrac12+i\tau$, $x>1$,
+\begin{equation}
+Q_{-\nu-1}(x)-Q_\nu(x)\;=\;i\pi\tanh(\pi\tau)\,P_\nu(x).
+\label{eq:connection}
+\end{equation}
+The shadow-odd part of the block is therefore the conical function
+$P_{-1/2+i\tau}$, the kernel of the Mehler--Fock transform.
+\end{theorem}
+
+\begin{proof}
+Classical connection formula for Legendre functions of complex degree
+\cite{Erdelyi}, specialized to the conical line. Verified at
+$(\tau,x)=(0.6,3.0)$ and $(1.9,5.5)$ to relative error below
+$1.3\times10^{-41}$.
+\end{proof}
+
+This is the reason the shadow transform behaves like an involution with
+a fixed line rather than a generic reflection: on the principal series
+it is a symmetry of the underlying Legendre equation, which depends on
+$\nu$ only through $\nu(\nu+1)$.
+
+% =====================================================================
+\section{Exact prefactor and boundedness}
+% =====================================================================
+
+\begin{theorem}[Prefactor modulus]
+\label{thm:prefactor}
+For $h=\tfrac12(1+i\lambda)$, $\lambda>0$,
+\begin{equation}
+|c(\lambda)|^2
+=\frac{4\,|\Gamma(1+i\lambda)|^2}{|\Gamma(\tfrac12+\tfrac{i\lambda}{2})|^4}
+=\frac{2\lambda}{\pi}\coth\!\left(\frac{\pi\lambda}{2}\right).
+\label{eq:prefactor}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Reflection gives $|\Gamma(1+i\lambda)|^2=\pi\lambda/\sinh(\pi\lambda)$
+and $|\Gamma(\tfrac12+\tfrac{i\lambda}{2})|^2=\pi/\cosh(\pi\lambda/2)$;
+then use $\sinh(\pi\lambda)=2\sinh(\pi\lambda/2)\cosh(\pi\lambda/2)$.
+Verified to $10^{-31}$ at three values of $\lambda$.
+\end{proof}
+
+\begin{theorem}[Boundedness on physical kinematics]
+\label{thm:tempered}
+On the physical slice $z=e^{i\varphi}$, $\bar z=z^*$, with $\varphi$ in
+a compact subset of $(0,2\pi)$ avoiding $\varphi=0$, the scalar block
+$g_{1+i\lambda}(z,\bar z)=k_h(z)k_h(\bar z)$ obeys
+\begin{equation}
+\bigl|g_{1+i\lambda}(z,\bar z)\bigr|
+=|1-z|^{-1/2}\bigl(1+O(\lambda^{-1})\bigr),
+\qquad \lambda\to+\infty .
+\label{eq:tempered}
+\end{equation}
+No exponential growth survives: the rates $\pm\tfrac12\mathrm{Im}\,\zeta$
+of the two chiral factors are conjugate-odd and cancel.
+\end{theorem}
+
+\begin{proof}
+Uniform large-degree asymptotics of $Q_\nu$ at fixed argument, applied
+to each chiral factor, combined with \eqref{eq:prefactor} in the form
+$|c|^2=(2\lambda/\pi)(1+O(e^{-\pi\lambda}))$. Checked numerically at
+$\varphi=1.0$ and $\varphi=2.2$: the ratio of $|g|$ to $|1-z|^{-1/2}$
+equals $1.0059$, $0.99989$, $0.99914$ at $\lambda=4,12,30$, and
+$0.99836$, $0.99892$, $0.99899$ respectively.
+\end{proof}
+
+\begin{remark}
+The exponentially small correction $O(e^{-\pi\lambda})$ sits in the
+prefactor, not in the block. The earlier abstract described an
+``$e^{-\pi\lambda}$ envelope'' for the block itself, which the numbers
+above contradict: at fixed $z$ inside the disc, $|k_h(z)|$ approaches a
+constant near $0.72$ as $\lambda$ grows. Temperedness, in the sense
+that matters for spectral decomposition, is the boundedness statement
+\eqref{eq:tempered}.
+\end{remark}
+
+% =====================================================================
+\section{The first moment, in closed form}
+% =====================================================================
+
+Write $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$, which the companion
+paper derives as the phase-space factor
+$\Gamma(1+i\lambda)\Gamma(1-i\lambda)$ of the two-particle cut on the
+shadow locus \cite{ToupinLoops}. Its Fourier pair is elementary:
+\begin{equation}
+P(\lambda)=\int_\R e^{i\lambda x}\,\frac{\dd x}{4\cosh^2(x/2)},
+\qquad
+\frac{1}{2\pi}\int_\R P(\lambda)\cos(\lambda y)\,\dd\lambda
+=\frac{1}{4\cosh^2(y/2)} .
+\label{eq:fourier}
+\end{equation}
+
+\begin{theorem}[First moment against the digamma]
+\label{thm:moment}
+\begin{equation}
+\frac{1}{2\pi}\int_\R P(\lambda)\,
+\mathrm{Re}\,\psi\!\left(\tfrac12+\tfrac{i\lambda}{2}\right)\dd\lambda
+\;=\;\frac18+\frac14\,\psi\!\left(\tfrac12\right).
+\label{eq:moment}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Subtract the constant. By \eqref{eq:fourier},
+$\tfrac{1}{2\pi}\int_\R P=\tfrac14$, which produces the term
+$\tfrac14\psi(\tfrac12)$. For the remainder use the Gauss integral
+representation
+$\psi(s)=-\gamma+\int_0^\infty\frac{e^{-t}-e^{-st}}{1-e^{-t}}\dd t$,
+which gives
+\begin{equation}
+\mathrm{Re}\,\psi\!\left(\tfrac12+\tfrac{i\lambda}{2}\right)-\psi\!\left(\tfrac12\right)
+=\int_0^\infty \frac{e^{-t/2}\bigl[1-\cos(\lambda t/2)\bigr]}{1-e^{-t}}\,\dd t .
+\end{equation}
+Exchange the order of integration (the integrand is positive) and apply
+\eqref{eq:fourier} at $y=t/2$, together with
+$e^{-t/2}/(1-e^{-t})=1/(2\sinh(t/2))$:
+\begin{equation}
+\frac{1}{2\pi}\int_\R P\,\bigl[\mathrm{Re}\,\psi-\psi(\tfrac12)\bigr]
+=\int_0^\infty\frac{1}{2\sinh(t/2)}\cdot
+\frac{1}{4}\Bigl[1-\operatorname{sech}^2(t/4)\Bigr]\dd t .
+\end{equation}
+Substituting $u=t/4$ and using
+$1/(\sinh u\cosh u)=\operatorname{sech}^2u/\tanh u$, the integrand
+collapses to $\tanh u\,\operatorname{sech}^2u$, so the remainder equals
+\begin{equation}
+\frac14\int_0^\infty \tanh u\,\operatorname{sech}^2u\,\dd u
+=\frac14\left[\frac{\tanh^2u}{2}\right]_0^\infty=\frac18 .
+\end{equation}
+Each step was checked numerically to at least 25 digits, and the final
+value matches the direct quadrature of \eqref{eq:moment} exactly at
+working precision.
+\end{proof}
+
+\begin{remark}[The agreement of the two values of $1/8$]
+\label{rem:coincidence}
+The ladder moment of \cite{ToupinSpectral} is
+$\mathcal M_1=\tfrac{1}{2\pi}\int_0^\infty P\,\dd\lambda=\tfrac18$,
+taken over the half line, while the $\tfrac18$ in \eqref{eq:moment}
+comes from an integral over the full line. The earlier draft read the
+agreement as evidence that the one-loop measure appears inside the
+digamma moment. Section \ref{sec:resolved} shows that the two numbers
+really are the same quantity, and identifies what makes them so. The
+reason has nothing to do with loops.
+\end{remark}
+
+% =====================================================================
+\section{Why the two values agree}
+\label{sec:resolved}
+% =====================================================================
+
+Write $\hat p$ for the Fourier partner of $P$,
+\begin{equation}
+\hat p(x)=\frac{1}{2\pi}\int_\R P(\lambda)e^{-i\lambda x}\dd\lambda
+=\frac{1}{4\cosh^2(x/2)},
+\qquad \hat p(0)=\frac14,\quad \hat p(\infty)=0 .
+\label{eq:phat}
+\end{equation}
+Both quantities in question are integrals of $\hat p$ against the
+kernel $1/\sinh$, so the question is what $\hat p$ does to that kernel.
+
+\begin{theorem}[Weight-shift relations and the resulting differential equation]
+\label{thm:ode}
+Let $P(\lambda)=\Gamma(1+i\lambda)\Gamma(1-i\lambda)$. Then
+\begin{equation}
+P(\lambda\mp i)=\frac{1\pm i\lambda}{\mp i\lambda}\,P(\lambda),
+\qquad
+-i(\lambda-i)P(\lambda-i)+i(\lambda+i)P(\lambda+i)=4P(\lambda),
+\label{eq:shift}
+\end{equation}
+and $\hat p$ satisfies, for all $x$, the first-order equation
+\begin{equation}
+\tfrac12\sinh(x)\,\hat p\,'(x)=\hat p(x)-\hat p(0).
+\label{eq:ode}
+\end{equation}
+Equation \eqref{eq:ode} together with $\hat p(0)=\tfrac14$ and
+$\hat p(\infty)=0$ determines $\hat p$ uniquely.
+\end{theorem}
+
+\begin{proof}
+The first relation in \eqref{eq:shift} is the recursion
+$\Gamma(z+1)=z\Gamma(z)$ applied to each factor; the second follows by
+combining the two signs. Since $\lambda\mp i$ corresponds to
+$\Delta\mapsto\Delta\pm1$ under $\Delta=1+i\lambda$, these are the
+integer weight shifts on the principal series. For \eqref{eq:ode},
+multiplication by $e^{\pm x}$ in the variable $x$ is the shift
+$\lambda\mapsto\lambda\mp i$ on the transform side, and
+differentiation is multiplication by $-i\lambda$; so \eqref{eq:shift}
+transforms into $\tfrac12\sinh(x)\hat p\,'=\hat p-\hat p(0)$, the
+constant arising because the shifted combination is integrable while
+$\hat p(0)$ alone is not. Direct check: with
+$\hat p=\tfrac14\operatorname{sech}^2(x/2)$ one has
+$\hat p\,'=-\tfrac14\operatorname{sech}^2(x/2)\tanh(x/2)$, so the left
+side is $\tfrac14\tanh^2(x/2)$, which is $\hat p(0)-\hat p(x)$ up to
+sign. Verified at four values of $x$ to absolute error below
+$1.3\times10^{-32}$. For uniqueness, separate variables:
+$\dd\hat p/(\hat p-\tfrac14)=2\,\dd x/\sinh x$ integrates to
+$\hat p-\tfrac14=C\tanh^2(x/2)$, and $\hat p(\infty)=0$ forces
+$C=-\tfrac14$.
+\end{proof}
+
+\begin{theorem}[The two numbers are one boundary value]
+\label{thm:resolved}
+\begin{equation}
+\frac{1}{2\pi}\int_\R P(\lambda)\Bigl[\mathrm{Re}\,\psi(\tfrac12+\tfrac{i\lambda}{2})-\psi(\tfrac12)\Bigr]\dd\lambda
+=\int_0^\infty\frac{\hat p(0)-\hat p(x)}{\sinh x}\,\dd x
+=-\frac12\int_0^\infty \hat p\,'(x)\,\dd x
+=\frac{\hat p(0)}{2}
+=\mathcal M_1 .
+\label{eq:resolved}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+The first equality is the Fourier step of Theorem \ref{thm:moment},
+using
+$\mathrm{Re}\,\psi(\tfrac12+\tfrac{i\lambda}{2})-\psi(\tfrac12)
+=\int_0^\infty(1-\cos\lambda x)/\sinh x\,\dd x$.
+The second is \eqref{eq:ode} divided by $\sinh x$. The third is the
+fundamental theorem of calculus with $\hat p(\infty)=0$. The last holds
+because $\mathcal M_1=\tfrac{1}{2\pi}\int_0^\infty P\,\dd\lambda
+=\tfrac12\cdot\tfrac{1}{2\pi}\int_\R P\,\dd\lambda=\tfrac12\hat p(0)$,
+$P$ being even.
+\end{proof}
+
+So the agreement is a theorem, and the mechanism is visible: the
+integrand of the digamma moment is an exact derivative, and what
+survives is the value of $\hat p$ at the origin. That same value, halved,
+is $\mathcal M_1$. Two integrals that look unrelated are two ways of
+evaluating $\hat p(0)/2$, and the equation that makes the first one
+collapse is the weight-shift relation \eqref{eq:shift} of the principal
+series. Nothing about loop amplitudes enters, which is the sense in
+which the earlier reading was wrong: the $1/8$ is a property of the
+Gamma factors, and $\mathcal M_1$ inherits it.
+
+\begin{proposition}[The transform is a thermal window]
+\label{prop:fermi}
+$\hat p(x)=-n_F'(x)$, where $n_F(x)=(e^x+1)^{-1}$ is the Fermi--Dirac
+distribution at unit temperature in the variable $x$. Under the
+Bisognano--Wichmann reading of \cite{ToupinSpectral}, $x$ is boost
+rapidity and the temperature is $\beta=2\pi$ in boost time.
+\end{proposition}
+
+\begin{remark}[Which archimedean factor each object comes from]
+$P=\Gamma(1+i\lambda)\Gamma(1-i\lambda)$ is built from Gamma factors of
+the type attached to a complex place, while
+$\mathrm{Re}\,\psi(\tfrac12+\tfrac{i\lambda}{2})$ is the logarithmic
+derivative of $\Gamma(s/2)$ at $s=\Delta=1+i\lambda$, the type attached
+to a real place. Theorem \ref{thm:resolved} therefore pairs the two.
+We record the observation and stop there. No arithmetic consequence
+follows from it, and readers of the earlier drafts should note the
+vacuous zeta-zero check discussed in Sec.~\ref{sec:bridge} as a
+cautionary case.
+\end{remark}
+
+\subsection{Higher moments}
+
+The mechanism above extends into a recursion. Put
+$f_k(y):=\tfrac{1}{2\pi}\int_\R P(\lambda)D(\lambda)^k e^{-i\lambda y}\dd\lambda$
+with $D(\lambda)=\mathrm{Re}\,\psi(\tfrac12+\tfrac{i\lambda}{2})-\psi(\tfrac12)$,
+so $f_0=\hat p$ and $A_k:=f_k(0)=\tfrac{1}{2\pi}\int_\R P D^k\dd\lambda$.
+Define $T[f]:=\int_0^\infty[f(0)-f(y)]/\sinh y\,\dd y$. Then
+\begin{equation}
+A_{k+1}=T[f_k],
+\qquad
+T[f]=\tfrac12 f(0)-\int_0^\infty\frac{L[f](x)}{\sinh x}\dd x,
+\qquad
+L[f]:=\tfrac12\sinh(x)f'(x)-f(x)+f(0),
+\label{eq:recursion}
+\end{equation}
+and Theorem \ref{thm:ode} says exactly that $L[\hat p]=0$, which is why
+the first step closes. Equivalently $A_k=(-1)^k(\mathcal L^k\hat p)(0)$
+for the operator
+$\mathcal L f(x)=\int_0^\infty[f(x+y)+f(x-y)-2f(x)]\,\dd y/(2\sinh y)$,
+the generator of the symmetric L\'evy process with jump density
+$1/(2\sinh|y|)$, whose characteristic exponent is $D$ itself.
+For $k\ge1$ the defect $L[f_k]$ does not vanish:
+in the transform variable it involves $\mathrm{Re}\,\psi(1+i\lambda)$,
+through the shifts
+\begin{equation}
+D(\lambda-i)-D(\lambda+i)=-\frac{2i}{\lambda},
+\qquad
+D(\lambda-i)+D(\lambda+i)=2\bigl[\mathrm{Re}\,\psi(\tfrac{i\lambda}{2})-\psi(\tfrac12)\bigr],
+\label{eq:Dshift}
+\end{equation}
+both verified to 15 digits. The moments themselves are striking, and we
+report them with their proof status marked.
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+$k$ & $A_k$ & Status & Check \\
+\midrule
+0 & $1/4$ & proved & exact \\
+1 & $1/8$ & proved (Thm.~\ref{thm:resolved}) & exact \\
+2 & $1/8$ & \textbf{open} & 40 digits \\
+3 & $\tfrac12\log 2-\tfrac{3}{16}$ & \textbf{open} & 30 digits \\
+4 & $0.2315253305644009308\ldots$ & no closed form found & n/a \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{theorem}[The second moment]
+\label{thm:A2}
+$A_2=\tfrac18=A_1$.
+\end{theorem}
+
+\begin{proof}
+Substitute $\varphi=\tanh(x/2)$, under which
+$\dd x/\sinh x=\dd\varphi/\varphi$ and
+$a(x):=\hat p(0)-\hat p(x)=\tfrac14\varphi^2$. Expanding the two cosine
+factors,
+\begin{equation}
+\frac{1}{2\pi}\int_\R P(\lambda)(1-\cos\lambda x)(1-\cos\lambda y)\dd\lambda
+=a(x)+a(y)-\tfrac12 a(x+y)-\tfrac12 a(x-y),
+\end{equation}
+so with $\varphi,\psi$ the images of $x,y$ and $s=\varphi\psi$, the
+addition rule $\tanh\frac{x\pm y}{2}=(\varphi\pm\psi)/(1\pm s)$ gives
+\begin{equation}
+A_2=\frac14\int_0^1\!\!\int_0^1
+\Bigl[\varphi^2+\psi^2-\frac{(\varphi+\psi)^2}{2(1+s)^2}
+-\frac{(\varphi-\psi)^2}{2(1-s)^2}\Bigr]\frac{\dd\varphi\,\dd\psi}{\varphi\psi} .
+\end{equation}
+The bracket collapses to
+$s^2[(\varphi^2+\psi^2)(s^2-3)+4]/(1-s^2)^2$. Setting $u=\varphi^2$,
+$v=\psi^2$ turns $\varphi\psi\,\dd\varphi\,\dd\psi$ into
+$\tfrac14\dd u\,\dd v$, so
+\begin{equation}
+A_2=\frac{1}{16}\int_0^1\!\!\int_0^1
+\frac{(u+v)(uv-3)+4}{(1-uv)^2}\,\dd u\,\dd v .
+\label{eq:A2rational}
+\end{equation}
+Expand $(1-uv)^{-2}=\sum_{n\ge0}(n+1)(uv)^n$ and integrate term by
+term, using $\int_0^1\!\int_0^1 u^av^b(uv)^n=[(a{+}n{+}1)(b{+}n{+}1)]^{-1}$.
+With $m=n+1$ the summand telescopes:
+\begin{equation}
+\sum_{m\ge1}\Bigl[\frac{2m}{(m+1)(m+2)}-\frac{6}{m+1}+\frac4m\Bigr]
+=\sum_{m\ge1}\Bigl[\frac4m-\frac{8}{m+1}+\frac{4}{m+2}\Bigr]=2 ,
+\end{equation}
+the coefficients summing to zero so that the harmonic parts cancel and
+only the boundary terms $8-6$ survive. Hence $A_2=2/16=\tfrac18$.
+Quadrature of \eqref{eq:A2rational} returns $2.0$ at working precision.
+\end{proof}
+
+A second route reaches the same value and produces a tool needed below.
+Applying $T$ to $\hat p$ in closed form gives the generator image
+\begin{equation}
+f_1(x)=\frac{1-c}{8}\Bigl[2+\frac{(1+c)\log(1-c)}{c}\Bigr],
+\qquad c=\tanh^2(x/2),
+\label{eq:f1closed}
+\end{equation}
+verified against direct quadrature of $-\mathcal L\hat p$ at four points
+to relative error below $3.1\times10^{-30}$, with $f_1(0)=\tfrac18=A_1$.
+Then $A_2=T[f_1]=\tfrac{1}{16}\int_0^1[-1+2c-(1-c^2)c^{-1}\log(1-c)]\dd c/c$,
+whose integrand has the cancellation-free form
+$\tfrac52+c^{-2}[-\log(1-c)-c-\tfrac{c^2}{2}]+\log(1-c)$ and integrates
+to $\tfrac52+\tfrac12-1=2$.
+
+\subsection{Status of the remaining moments}
+
+Normalizing $4P(\lambda)\dd\lambda/2\pi$ to a probability measure, $D$
+has mean $A_1/A_0=\tfrac12$ and variance
+$A_2/A_0-(A_1/A_0)^2=\tfrac14$ by Theorem \ref{thm:A2}, so its standard
+deviation equals its mean.
+
+For $A_3$ the same machinery applies and the computation is longer. Two
+ingredients are in place. First, \eqref{eq:f1closed} reduces $A_3$ to a
+two-dimensional integral of elementary functions,
+\begin{equation}
+A_3=\int_0^\infty\!\!\int_0^\infty
+\frac{b(x)+b(y)-\tfrac12 b(x+y)-\tfrac12 b(x-y)}{\sinh x\,\sinh y}\,\dd x\,\dd y,
+\qquad b:=f_1(0)-f_1 ,
+\label{eq:A3reduction}
+\end{equation}
+which quadrature confirms against
+$\tfrac12\log2-\tfrac{3}{16}$ to eleven digits. Second, the logarithm in
+\eqref{eq:f1closed} splits under addition, since
+\begin{equation}
+1-\tanh^2\!\Bigl(\frac{x+y}{2}\Bigr)
+=\frac{(1-\varphi^2)(1-\psi^2)}{(1+\varphi\psi)^2},
+\end{equation}
+so $\log(1-c)$ is additive up to $\log(1+\varphi\psi)$; the alternating
+denominator is the natural source of the $\log 2$. We have not carried
+the evaluation through, and record $A_3$ as open.
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+$k$ & $A_k$ & Status & Check \\
+\midrule
+0 & $1/4$ & proved & exact \\
+1 & $1/8$ & proved (Thm.~\ref{thm:resolved}) & exact \\
+2 & $1/8$ & proved (Thm.~\ref{thm:A2}) & exact \\
+3 & $\tfrac12\log 2-\tfrac{3}{16}$ & open, reduced to \eqref{eq:A3reduction} & 30 digits \\
+4 & $0.2315253305644009308\ldots$ & no closed form found & n/a \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{9}
+\bibitem{ToupinLoops} D.~Toupin, ``Loop amplitudes from unitarity cuts
+in celestial Mellin space,'' v19, 2026.
+\bibitem{ToupinSpectral} D.~Toupin, ``The spectral weight
+$\pi\lambda/\sinh\pi\lambda$: derivation, modular form, and exact
+moments,'' v2, 2026.
+\bibitem{Erdelyi} A.~Erd\'elyi et al., \textit{Higher Transcendental
+Functions}, Vol.~1, McGraw--Hill, 1953.
+\bibitem{LamShao2018} H.~T.~Lam, S.-H.~Shao, Phys.\ Rev.\ D98 (2018)
+025020 [arXiv:1711.06138].
+\bibitem{Optical2024} ``The celestial optical theorem,''
+arXiv:2404.18898.
+\end{thebibliography}
+
+\end{document}
