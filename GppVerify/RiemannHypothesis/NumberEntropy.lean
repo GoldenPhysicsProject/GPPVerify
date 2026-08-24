@@ -24,6 +24,7 @@ No claim is made here that its complex analytic continuation is itself a probabi
 namespace GppNumberEntropy
 
 open Complex LSeries
+open scoped LSeries.notation
 
 /-- Integer Gibbs weight, indexed from `n = 0` so the physical integer microstate is `n+1`. -/
 noncomputable def integerGibbsWeight (β : ℝ) (n : ℕ) : ℂ :=
@@ -33,7 +34,8 @@ noncomputable def integerGibbsWeight (β : ℝ) (n : ℕ) : ℂ :=
 theorem integer_partition_sum_eq_zeta {β : ℝ} (hβ : 1 < β) :
     (∑' n : ℕ, 1 / (((n + 1 : ℕ) : ℂ) ^ (β : ℂ))) = riemannZeta (β : ℂ) := by
   have hs : 1 < ((β : ℂ).re) := by simpa using hβ
-  exact (zeta_eq_tsum_one_div_nat_add_one_cpow hs).symm
+  simpa [Nat.cast_add, Nat.cast_one] using
+    (zeta_eq_tsum_one_div_nat_add_one_cpow hs).symm
 
 /-- The integer Gibbs weights are normalized in the thermodynamic domain `β > 1`. -/
 theorem integerGibbsWeight_tsum_eq_one {β : ℝ} (hβ : 1 < β) :
