@@ -836,6 +836,16 @@ import GppVerify.QuantumGravity.PlanckForm
 -- residue-calculus API exists at this pinned commit), matching the paper's own script.
 import GppVerify.QuantumGravity.MatsubaraPoles
 
+-- ── Thread Loops-from-Cuts, log of the sinh Weierstrass product (New) ──
+-- The first half of the cumulant-law chain FORMALIZATION_PLAN.md flagged as the natural
+-- next target once SinhWeierstrassProduct.lean landed: HasSum (fun n => log(1+lambda^2/
+-- (n+1)^2)) (log(sinh(pi*lambda)/(pi*lambda))), an unconditional infinite sum of logs (not
+-- a numerical truncation), from continuity of log at the (proved positive) Weierstrass-
+-- product limit. The second half -- expanding each log(1+x) into its own power series and
+-- swapping the resulting double sum to land on the paper's zeta(2k) closed form -- is not
+-- attempted here, per the file's own scoped honest boundary.
+import GppVerify.QuantumGravity.SinhLogSeries
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry

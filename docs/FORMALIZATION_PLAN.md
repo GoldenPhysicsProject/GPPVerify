@@ -1057,6 +1057,32 @@ its raw, unsimplified type first, then `simpa` down to the clean form in a secon
 than fighting the unifier on the first attempt. Full rebuild re-verified: 0 sorry, 13 axioms
 unchanged.
 
+**Also landed same session**: `QuantumGravity/SinhLogSeries.lean` — `hasSum_log_one_add_sq_div`:
+the first half of the cumulant-law chain flagged above (`log P(λ) = -Σ(-1)^{k+1}ζ(2k)λ^{2k}/k`,
+item (v)/"cumulants are even zeta values"): for `λ≠0`, `HasSum (fun n => log(1+λ²/(n+1)²))
+(log(sinh(πλ)/(πλ)))`, a genuine unconditional infinite sum of logs (not the previously-cited
+truncated numerical check), obtained by dividing `SinhWeierstrassProduct`'s Tendsto by the
+nonzero constant `πλ`, applying `Real.log` (continuous at the limit — proved positive here via
+`Real.sinh_lt_sinh`'s strict monotonicity, not assumed), and upgrading the convergent partial
+log-sums to `HasSum` via `hasSum_iff_tendsto_nat_of_nonneg` (every term nonnegative since
+`1+λ²/(n+1)²≥1`). **Not attempted, and now the single well-scoped remaining step**: expand
+each `log(1+λ²/(n+1)²)` via `log(1+x)=Σ_k(-1)^{k+1}x^k/k` (`|x|<1`; Mathlib's exact lemma name
+for this series not yet located — check `Real.hasSum_log`/`Complex.log` series files before
+assuming it needs deriving from scratch) and swap the resulting double sum over `n` and `k`
+(needs an absolute-summability bound, e.g. `Σ_n Σ_k (λ²/(n+1)²)^k/k ≤ Σ_n Σ_k (λ²/(n+1)²)^k`
+for `|λ|<1`) to land on `Σ_k(-1)^{k+1}ζ(2k)λ^{2k}/k`. Full rebuild re-verified: 0 sorry, 13
+axioms unchanged.
+
+**Also checked, not pursued this session**: the dispersion-kernel Mellin identity
+`∫₀^∞ S^{σ-1}/(s'+S)dS = s'^{σ-1}π/sin(πσ)` underlying the new loop paper's `thm:celdisp` —
+confirmed by direct search that Mathlib has no ready-made "second Beta integral"
+`∫₀^∞x^{s-1}/(1+x)dx=Γ(s)Γ(1-s)` on `(0,∞)` (only the `[0,1]` form, `betaIntegral`, exists in
+`Mathlib.Analysis.SpecialFunctions.Gamma.Beta`); deriving it needs a substitution
+`x=t/(1-t)` mapping `(0,1)→(0,∞)` plus Mathlib's general change-of-variables machinery for
+`intervalIntegral`/improper integrals, combined with `Real.Gamma_mul_Gamma_one_sub` (the
+reflection formula, already in Mathlib) — a real, self-contained, well-scoped target for a
+future session, not attempted here for lack of the substitution lemma already being at hand.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)

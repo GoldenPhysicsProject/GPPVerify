@@ -878,8 +878,30 @@ missing digamma function.
   $\varepsilon\to0$ from \texttt{Complex.hasDerivAt\_sinh} via the chain rule.
 \end{theorem}
 
-\texttt{thm:planck-form} and \texttt{thm:matsubara-poles} above are, so far, the two pieces
-from this new canonical series formalized with no Mathlib blocker.
+\begin{theorem}[Log of the Sinh Weierstrass Product]
+  \label{thm:sinh-log-series}
+  \lean{GppSinhLogSeries.hasSum_log_one_add_sq_div}
+  \leanok
+  For every real $\lambda \neq 0$,
+  \[
+    \sum_{n=0}^{\infty} \log\!\Bigl(1+\frac{\lambda^2}{(n+1)^2}\Bigr)
+    \;=\; \log\!\Bigl(\frac{\sinh(\pi\lambda)}{\pi\lambda}\Bigr),
+  \]
+  as a genuine unconditional \texttt{HasSum}, not a numerically-truncated approximation.
+  \emph{Proved clean}: the first half of the cumulant-law chain (item (v) of the "Six
+  faces"/"Equivalent descriptions" proposition, $\log P(\lambda) = -\sum(-1)^{k+1}\zeta(2k)
+  \lambda^{2k}/k$) --- from \texttt{thm:sinh-weierstrass} above, dividing by the nonzero
+  constant $\pi\lambda$, applying \texttt{Real.log} (continuous at the limit, proved
+  positive here from \texttt{Real.sinh}'s strict monotonicity), and upgrading the resulting
+  convergent partial sums of logs to a genuine \texttt{HasSum} via nonnegativity of every
+  term. \emph{Not attempted}: expanding each $\log(1+x)$ into its own power series and
+  swapping the resulting double sum to reach the paper's closed $\zeta(2k)$ form --- the
+  genuinely new remaining work, scoped precisely in \texttt{docs/FORMALIZATION\_PLAN.md}.
+\end{theorem}
+
+\texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, and \texttt{thm:sinh-log-series}
+above are, so far, the three pieces from this new canonical series formalized with no
+Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 
