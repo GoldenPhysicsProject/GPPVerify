@@ -943,9 +943,30 @@ missing digamma function.
   cumulant-law sub-thread completely: no further step remains open in it.
 \end{theorem}
 
+\begin{theorem}[Weight-Shift Relations]
+  \label{thm:weight-shift}
+  \lean{GppWeightShift.shift_sub_I}
+  \lean{GppWeightShift.shift_add_I}
+  \leanok
+  For the Gamma-product continuation $P_{\mathbb C}(z) := \Gamma(1+iz)\Gamma(1-iz)$ and
+  every $z\ne0$ with $1\pm iz\ne0$ (automatic for real $z$),
+  \[
+    P_{\mathbb C}(z-i) = \frac{1+iz}{-iz}\,P_{\mathbb C}(z),
+    \qquad
+    P_{\mathbb C}(z+i) = \frac{1-iz}{iz}\,P_{\mathbb C}(z).
+  \]
+  \emph{Proved clean}: `Principal\_Series\_Kinematic\_Blocks.tex`, Theorem "Weight-shift
+  relations and the resulting differential equation" --- the digamma-free first half (the
+  shift relations themselves), a pure consequence of `Complex.Gamma\_add\_one`
+  (`Γ(s+1)=sΓ(s)`) applied to each Gamma factor. The theorem's second half --- the
+  resulting first-order ODE for `P`'s Fourier partner, needed for `thm:resolved`'s
+  digamma-moment identification --- remains blocked on Mathlib's missing digamma function.
+\end{theorem}
+
 \texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, \texttt{thm:sinh-log-series},
-\texttt{thm:cumulant-law}, and \texttt{thm:cumulant-closed-form} above are, so far, the
-five pieces from this new canonical series formalized with no Mathlib blocker.
+\texttt{thm:cumulant-law}, \texttt{thm:cumulant-closed-form}, and \texttt{thm:weight-shift}
+above are, so far, the six pieces from this new canonical series formalized with no
+Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 

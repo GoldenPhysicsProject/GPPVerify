@@ -864,6 +864,15 @@ import GppVerify.QuantumGravity.CumulantLaw
 -- the "cumulants are even zeta values" face of the spectral weight, fully closed.
 import GppVerify.QuantumGravity.CumulantLawClosedForm
 
+-- ── Thread Loops-from-Cuts, weight-shift relations (New) ──
+-- Principal_Series_Kinematic_Blocks.tex, Theorem "Weight-shift relations and the resulting
+-- differential equation" -- the digamma-free first half: P(z-i)=[(1+iz)/(-iz)]P(z) and
+-- P(z+i)=[(1-iz)/(iz)]P(z) for the complex-analytic Gamma-product continuation of P, pure
+-- consequences of Gamma(s+1)=s*Gamma(s) applied to each factor. The theorem's second half
+-- (the resulting first-order ODE for P's Fourier partner, needed for thm:resolved's
+-- digamma-moment identification) remains blocked on Mathlib's missing digamma function.
+import GppVerify.QuantumGravity.WeightShiftRelations
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry

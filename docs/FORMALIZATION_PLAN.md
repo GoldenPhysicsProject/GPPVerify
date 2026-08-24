@@ -1116,6 +1116,22 @@ computation, reusing `summable_double`'s absolute-summability work rather than r
 it. **This closes the cumulant-law sub-thread with nothing left open in it.** Full rebuild
 re-verified: 0 sorry, 13 axioms unchanged.
 
+**Also landed same session**: `QuantumGravity/WeightShiftRelations.lean` — the digamma-free
+first half of `Principal_Series_Kinematic_Blocks.tex`'s "Weight-shift relations and the
+resulting differential equation" theorem, previously unattempted. `Pc z := Γ(1+iz)Γ(1-iz)`
+(the Gamma-product continuation of `P`, stated directly via `Complex.Gamma` rather than
+going through `sinh`, since the proof lives entirely at the level of the Gamma recursion).
+`shift_sub_I`/`shift_add_I`: `P(z∓i) = [(1±iz)/(∓iz)]·P(z)`, for `z≠0` and `1±iz≠0`
+(vacuous for real `z`, proved as `one_add_I_mul_real_ne_zero`/`one_sub_I_mul_real_ne_zero`
+via a real-part argument). Pure `Complex.Gamma_add_one` (`Γ(s+1)=sΓ(s)`) manipulation, no
+Mathlib gap — the theorem's *own* statement is digamma-free even though its downstream use
+(closing `thm:resolved`'s "coincidence") is not, exactly as anticipated in the earlier entry
+above. One genuine algebra slip caught mid-proof and worth flagging: `1-i(z-i)` expands to
+`-iz` (no `+1`), *not* `-iz+1` as first guessed by pattern-matching against the other shift's
+`+1` term — always expand `i·(z∓i)` by hand (`iz - i² = iz+1` or `iz+i²=iz-1`) rather than
+assuming symmetry between the two shift directions. **Not attempted**: the ODE half itself
+(needs digamma). Full rebuild re-verified: 0 sorry, 13 axioms unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)
