@@ -397,6 +397,43 @@ section does not discharge, and does not claim to discharge,
 \texttt{disc\_equals\_loop\_integrand} or the other two stubs in
 Theorem~\ref{thm:shadow-discontinuity}.
 
+\section{Loops from Cuts (canonical replacement series)}
+
+Daniel has designated \texttt{Loops\_from\_Cuts\_in\_Celestial\_Holography.tex} et al.\ as
+the canonical replacement for the shadow-discontinuity framing above: loop integrands arise
+from an ordinary two-particle \emph{unitarity cut} on the celestial sphere, not a residue at
+a shadow pole. See the Quantum Gravity --- Blackbody Law chapter for the spectral-weight
+theorems already landed from this series; this section covers the loop paper's own most
+novel link, the cut geometry itself.
+
+\begin{theorem}[Antipodal Pairing --- Algebraic Core]
+  \label{thm:antipodal-pairing-core}
+  \lean{GppAntipodalPairing.antipodal_solves_conservation}
+  \lean{GppAntipodalPairing.qVec_isNull}
+  \leanok
+  For the null celestial momentum direction $q(x,y) = (1{+}x^2{+}y^2,\,2x,\,2y,\,1{-}x^2{-}y^2)$
+  (metric $(+,-,-,-)$; $\langle q(x,y),q(x,y)\rangle=0$ identically, for every $x,y$) and
+  every $(x_5,y_5)\ne(0,0)$, $M\in\R$, writing $r^2:=x_5^2+y_5^2$,
+  \[
+    z_6 = -\tfrac{z_5}{r^2},\qquad
+    \omega_5 = \tfrac{M}{2(1+r^2)},\qquad
+    \omega_6 = \tfrac{M r^2}{2(1+r^2)},
+  \]
+  the resulting momenta satisfy $\omega_5\,q(x_5,y_5) + \omega_6\,q(x_6,y_6) = (M,0,0,0)$
+  componentwise.
+  \emph{Proved clean}: `Loops\_from\_Cuts\_in\_Celestial\_Holography.tex`, Theorem
+  "Cut geometry: antipodal pairing and uniform measure" (`thm:measure`) --- the algebraic
+  core of the paper's own claimed solution, verified here by direct vector computation
+  (`field_simp`/`ring` on each of the four components after `fin_cases`), independent of and
+  prior to any measure-theoretic argument.
+  \emph{Not attempted}: uniqueness of this solution (a separate fact about the orbit
+  structure of null directions on the two-sphere), and the phase-space \emph{measure}
+  reduction itself,
+  $\dd\Pi_2 = \dd^2z/[8\pi^2(1{+}|z|^2)^2]$, $\int\dd\Pi_2=1/(8\pi)$ --- this needs genuine
+  $\delta^4$-constrained pushforward-measure and Jacobian machinery this repository has not
+  built, and is left open as the natural next step of this thread.
+\end{theorem}
+
 \chapter{\texorpdfstring{Ad\`elic $L^2$}{Adelic L2} Regularization}
 
 \begin{lemma}[Ad\`elic $L^2$ Regularization]

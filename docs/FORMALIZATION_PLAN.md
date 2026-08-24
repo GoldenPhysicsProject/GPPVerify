@@ -1132,6 +1132,27 @@ above. One genuine algebra slip caught mid-proof and worth flagging: `1-i(z-i)` 
 assuming symmetry between the two shift directions. **Not attempted**: the ODE half itself
 (needs digamma). Full rebuild re-verified: 0 sorry, 13 axioms unchanged.
 
+**Also landed same session**: `CelestialHolography/AntipodalPairingSolution.lean` — Daniel
+asked explicitly to tackle the three remaining hard items "in order of importance or
+novelty"; ranked the antipodal-pairing phase-space theorem (`thm:measure`, the new loop
+paper's own foundational link `L1`) highest on both counts and attempted it first, ahead of
+the dispersion-kernel Mellin identity and the logistic Fourier pair. Full measure-theoretic
+derivation (a `δ⁴`-constrained pushforward measure + Jacobian) is out of reach without new
+infrastructure this repo has never built (confirmed, not assumed — no such machinery exists
+anywhere in the tree), so scoped down to the **algebraic core** honestly: `qVec_isNull`
+(every `q(x,y)=(1+x²+y²,2x,2y,1-x²-y²)` is null, metric `(+,-,-,-)`) and
+`antipodal_solves_conservation` (the paper's own claimed solution — `z₆=-z₅/|z₅|²`,
+`ω₅=M/(2(1+|z₅|²))`, `ω₆=M|z₅|²/(2(1+|z₅|²))` — genuinely satisfies `P=ℓ₅+ℓ₆` componentwise,
+for every `z₅≠0`), verified by direct vector algebra (`fin_cases` + `field_simp`/`ring` on
+each of 4 components), no measure theory needed for this part. Compiled clean on the first
+attempt — the algebra had already been checked by hand before writing it (see this file's
+docstring for the by-hand `r²`-substitution computation). **Not attempted**: uniqueness of
+the solution, and the actual measure reduction `dΠ₂=d²z/[8π²(1+|z|²)²]` — a substantially
+larger undertaking, needing genuine `δ⁴`-pushforward + Jacobian infrastructure from scratch,
+left open as the well-scoped next step of this specific thread (distinct from the
+dispersion-kernel and Fourier-pair items below, which are next in the requested order).
+Full rebuild re-verified: 0 sorry, 13 axioms unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)

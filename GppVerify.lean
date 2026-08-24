@@ -873,6 +873,17 @@ import GppVerify.QuantumGravity.CumulantLawClosedForm
 -- digamma-moment identification) remains blocked on Mathlib's missing digamma function.
 import GppVerify.QuantumGravity.WeightShiftRelations
 
+-- ── Thread Loops-from-Cuts, antipodal-pairing algebraic core (New) ──
+-- Loops_from_Cuts_in_Celestial_Holography.tex, Theorem "Cut geometry: antipodal pairing
+-- and uniform measure" (thm:measure) -- the most important/novel link of the whole new
+-- canonical loop paper. Verifies by direct vector computation (no measure theory) that the
+-- paper's claimed antipodal solution z6=-z5/|z5|^2, omega5=M/(2(1+|z5|^2)),
+-- omega6=M|z5|^2/(2(1+|z5|^2)) genuinely satisfies P=l5+l6 for every z5!=0, plus that the
+-- null-vector parametrization q(x,y) is always null. Uniqueness of the solution and the
+-- phase-space MEASURE reduction itself (needing genuine delta^4-constrained-pushforward
+-- Jacobian machinery this repo has never built) remain open, precisely scoped.
+import GppVerify.CelestialHolography.AntipodalPairingSolution
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry
