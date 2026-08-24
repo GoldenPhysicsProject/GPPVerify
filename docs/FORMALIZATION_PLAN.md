@@ -1153,6 +1153,43 @@ left open as the well-scoped next step of this specific thread (distinct from th
 dispersion-kernel and Fourier-pair items below, which are next in the requested order).
 Full rebuild re-verified: 0 sorry, 13 axioms unchanged.
 
+**Also landed same session**: `CelestialHolography/DispersionKernelMellin.lean` — item 2 of
+the ordered list, the dispersion-kernel Mellin identity previously flagged (twice) as "checked,
+not pursued." Re-checked before assuming it needed deriving from scratch, as flagged — it does:
+confirmed again by direct grep of the pinned Mathlib source that no `(0,∞)` Beta integral
+exists anywhere (only `Complex.betaIntegral` on `(0,1)`), and that
+`MeasureTheory.integral_image_eq_integral_abs_deriv_smul`
+(`Mathlib.MeasureTheory.Function.Jacobian`) is the only available substitution tool for the
+`(0,1)↔(0,∞)` diffeomorphism, with no existing instantiation. Rather than build that
+substitution from scratch in one pass, landed the piece it would reduce to and that is fully
+self-contained: `beta_reflection_real`, `∫ x in (0:ℝ)..1, x^(s-1)*(1-x)^(-s) = π/sin(π s)` for
+`0<s<1`, as a genuine real `intervalIntegral` statement (not merely the existing `ℂ`-valued
+`Gamma_mul_Gamma_one_sub`, which is the reflection formula but not an integral). Proof: unfold
+`Complex.betaIntegral s (1-s)` to its defining interval integral, evaluate it via
+`Complex.Gamma_mul_Gamma_eq_betaIntegral` (`Γ(u)Γ(v)=Γ(u+v)B(u,v)`, with `u+v=1` so
+`Γ(u+v)=Γ(1)=1`, so `B(s,1-s)=Γ(s)Γ(1-s)`) combined with `Complex.Gamma_mul_Gamma_one_sub`
+(`=π/sin(πs)`), then cast the whole complex identity down to a real one via
+`Complex.ofReal_cpow` (needs `0≤x`; used uniformly on all of `x∈[0,1]` including both
+endpoints — Mathlib's `0^y` convention for `rpow`/`cpow` already agree there, so no case split
+was needed) and `intervalIntegral.integral_ofReal`. Two Lean frictions worth flagging: (1)
+`π` is `scoped notation` inside `namespace Real` (`Trigonometric/Basic.lean:125`) — a file that
+only imports `Mathlib.Analysis.SpecialFunctions.Gamma.Beta` and opens `Complex` without also
+`open Real` (or `open scoped Real`) silently auto-binds `π` as a *fresh implicit real
+variable* instead of erroring, producing baffling "pattern not found" `rw` failures against
+`Real.pi`-containing hypotheses; always `open Real` explicitly in any file using the `π`
+notation, don't assume it's ambient. (2) `Complex.ofReal_cpow hx (y)`'s conclusion is stated
+with the *whole* exponent already cast (`↑(x^y) = ↑x^↑y`), so `rw` against a goal with an
+exponent already spelled as `↑s - 1` (rather than `↑(s-1)`) won't unify — cleanest fix was to
+rewrite the realvalued side forward (`Complex.ofReal_mul`/`Complex.ofReal_cpow`) and close
+with `push_cast; ring` rather than fighting `rw [←...]` on the complex side's un-normalized
+exponent form. **Not attempted**: the `(0,1)↔(0,∞)` substitution itself (`x=t/(1+t)`) needed
+to reach the paper's actual `∫₀^∞u^(σ-1)/(1+u)du=π/sin(πσ)` — by-hand algebra confirms the
+substitution reduces exactly to this file's integrand
+(`(t/(1-t))^(σ-1)/(1+t/(1-t))·dt/(1-t)² = t^(σ-1)(1-t)^(-σ)dt` after simplification), but
+coding `MeasureTheory.integral_image_eq_integral_abs_deriv_smul` with `s=Ioo 0 1`,
+`f t=t/(1-t)` (image `Ioi 0`) is a genuinely separate, well-scoped next step, left open. Full
+rebuild re-verified: 0 sorry, 13 axioms unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)

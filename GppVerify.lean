@@ -900,3 +900,24 @@ import GppVerify.CelestialHolography.AntipodalPairingSolution
 -- transforms, no complex analysis, no Legendre functions (still absent from Mathlib
 -- v4.19.0, see the note above) -- does NOT touch or discharge ShadowPairSewing.sewing_identity.
 import GppVerify.CelestialHolography.ShadowSignOpposition
+
+-- ── Thread Loops-from-Cuts, dispersion-kernel Mellin identity, item 2/3 (New) ──
+-- Loops_from_Cuts_in_Celestial_Holography.tex's dispersion-relation reconstruction
+-- (thm:disp, thm:celdisp) rests on the Mellin kernel identity int_0^infty S^(sigma-1)/(s'+S)
+-- dS = s'^(sigma-1)*pi/sin(pi*sigma); substituting S=s'u reduces this to the base case
+-- int_0^infty u^(sigma-1)/(1+u) du = pi/sin(pi*sigma), a "second Euler Beta integral" on
+-- (0,infty) confirmed absent from Mathlib v4.19.0 by direct grep (only the (0,1) form,
+-- Complex.betaIntegral, exists). Proves the Beta-reflection integral this ultimately rests
+-- on, in real intervalIntegral form: int x in (0:R)..1, x^(s-1)*(1-x)^(-s) = pi/sin(pi*s)
+-- for 0<s<1 -- obtained by unfolding Complex.betaIntegral s (1-s), evaluating it via
+-- Complex.Gamma_mul_Gamma_eq_betaIntegral (Gamma(u)Gamma(v)=Gamma(u+v)*B(u,v), u+v=1 so
+-- Gamma(u+v)=Gamma(1)=1) combined with the reflection formula
+-- Complex.Gamma_mul_Gamma_one_sub, then casting the complex identity down to a real one via
+-- Complex.ofReal_cpow (valid uniformly on x in [0,1], both endpoints included, since
+-- Mathlib's 0^y convention for rpow/cpow already agree there) and
+-- intervalIntegral.integral_ofReal. Does NOT carry the substitution x=t/(1+t) (mapping
+-- (0,1)<->(0,infty)) needed to reach the paper's actual (0,infty) dispersion kernel -- that
+-- needs MeasureTheory.integral_image_eq_integral_abs_deriv_smul with a fresh Ioo-0-1-to-Ioi-0
+-- diffeomorphism, genuinely new infrastructure this repo has never built (algebra checked by
+-- hand, not yet coded), left open as the well-scoped next step.
+import GppVerify.CelestialHolography.DispersionKernelMellin

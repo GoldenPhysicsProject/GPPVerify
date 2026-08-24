@@ -434,6 +434,34 @@ novel link, the cut geometry itself.
   built, and is left open as the natural next step of this thread.
 \end{theorem}
 
+\begin{theorem}[Beta-Reflection Integral, Real Form]
+  \label{thm:beta-reflection-real}
+  \lean{GppDispersionKernel.beta_reflection_real}
+  \leanok
+  For $0<s<1$,
+  \[
+    \int_0^1 x^{s-1}(1-x)^{-s}\,\dd x \;=\; \frac{\pi}{\sin(\pi s)}.
+  \]
+  \emph{Proved clean}: the Beta-reflection integral underlying
+  \texttt{Loops\_from\_Cuts\_in\_Celestial\_Holography.tex}'s dispersion-relation
+  reconstruction (\texttt{thm:disp}, \texttt{thm:celdisp}), whose Mellin kernel
+  $\int_0^\infty S^{\sigma-1}/(s'{+}S)\,\dd S = s'^{\sigma-1}\pi/\sin(\pi\sigma)$ reduces, via
+  $S=s'u$, to the base case $\int_0^\infty u^{\sigma-1}/(1{+}u)\,\dd u=\pi/\sin(\pi\sigma)$ ---
+  a ``second Euler Beta integral'' on $(0,\infty)$ confirmed absent from Mathlib v4.19.0 by
+  direct grep (only the $(0,1)$ form, \texttt{Complex.betaIntegral}, exists). This theorem is
+  \texttt{Complex.betaIntegral s (1-s)} unfolded to its defining real interval integral and
+  evaluated via \texttt{Complex.Gamma\_mul\_Gamma\_eq\_betaIntegral} combined with the
+  reflection formula \texttt{Complex.Gamma\_mul\_Gamma\_one\_sub}, cast down to $\R$ via
+  \texttt{Complex.ofReal\_cpow} (valid uniformly on $x\in[0,1]$, both endpoints included) and
+  \texttt{intervalIntegral.integral\_ofReal}.
+  \emph{Not attempted}: the substitution $x=t/(1{+}t)$ mapping $(0,1)\leftrightarrow(0,\infty)$
+  needed to reach the paper's actual $(0,\infty)$ dispersion kernel --- the natural tool is
+  \texttt{MeasureTheory.integral\_image\_eq\_integral\_abs\_deriv\_smul} with a fresh
+  $\mathrm{Ioo}\,0\,1\to\mathrm{Ioi}\,0$ diffeomorphism, genuine new infrastructure this
+  repository has not built (the algebra was checked by hand, not yet coded), left open as the
+  well-scoped next step.
+\end{theorem}
+
 \chapter{\texorpdfstring{Ad\`elic $L^2$}{Adelic L2} Regularization}
 
 \begin{lemma}[Ad\`elic $L^2$ Regularization]
