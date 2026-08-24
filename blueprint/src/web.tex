@@ -360,16 +360,122 @@ unconditional, no axiom, no sorry --- and states precisely what remains open.
   this one named hypothesis.
 \end{definition}
 
+\begin{theorem}[Sewing Sign Opposition]
+  \label{thm:shadow-sign-opposition}
+  \lean{GppShadowSignOpposition.sign_opposition}
+  \leanok
+  Fix a celestial null 4-vector $q(x,y) = (1+x^2+y^2,\,2x,\,2y,\,1-x^2-y^2)$ (the real
+  Lorentzian slice $\bar z = z^*$, $z=x+iy$) and the frame legs $p_1=(-E,0,0,E)$,
+  $p_2=(-E,0,0,-E)$, $p_4=(E,-E\sin\theta,0,-E\cos\theta)$. Writing $A := 2q{\cdot}p_1$,
+  $A' := 2q{\cdot}p_2$, $B := 2q{\cdot}(p_1{+}p_2)$, $C := 2q{\cdot}p_4$: $A = -4E$
+  identically (no $z$-dependence), $A' = -4E|z|^2 \le 0$, $B = -4E(1+|z|^2) < 0$ for
+  $E>0$, and $C$ clears its $(1-\cos\theta)$ factor to an exact sum of two squares,
+  hence $C \ge 0$ for $\cos\theta < 1$ (i.e. $t \ne 0$). Consequently, for any physical
+  t-channel threshold $B''>0$ and any point with $C \ne 0$ (away from the collinear
+  point), the two tied-leg sewing coefficients $-1/(2ACB)$ and $-1/(2A'CB'')$ have a
+  nonpositive product --- they are never both nonnegative and never both nonpositive.
+  This is the exact algebraic content behind the numerical finding (checked at 39/39
+  structured and 666/666 random kinematic points, zero exceptions, in
+  \texttt{discovery/shadow\_ope/sign\_opposition\_sweep.py}) that the tied-leg
+  discontinuities $\mathrm{Sewn}_s$, $\mathrm{Sewn}_t$ always carry opposite-sign
+  imaginary parts. Pure real algebra and elementary geometry: no Mellin transforms, no
+  complex analysis, no Legendre functions.
+\end{theorem}
+
 \emph{Honest boundary.} What is proved: the graph-combinatorial topology count
 (Theorem~\ref{thm:pairsewing-cyclerank}), its one-loop specialization
-(Corollary~\ref{cor:sixpoint-oneloop}), and the denominator bookkeeping
-(Lemma~\ref{lem:box-denominator-closure}) --- all unconditional. What is \emph{not}
+(Corollary~\ref{cor:sixpoint-oneloop}), the denominator bookkeeping
+(Lemma~\ref{lem:box-denominator-closure}), and the sewing sign-opposition fact
+(Theorem~\ref{thm:shadow-sign-opposition}) --- all unconditional. What is \emph{not}
 proved, and is isolated rather than hidden: the analytic celestial-sewing identity
 (Definition~\ref{def:shadow-pair-sewing}), which requires an explicit six-point celestial
-tree amplitude computation the paper itself states has not yet been carried out. This
+tree amplitude computation the paper itself states has not yet been carried out, and the
+Sokhotski-Plemelj discontinuity construction itself (the actual $\mathrm{Sewn}_s$,
+$\mathrm{Sewn}_t$, their $\lambda$-integral closed forms, and any comparison to the box
+integral), which remains exploratory Python in \texttt{discovery/}, not formalized. This
 section does not discharge, and does not claim to discharge,
 \texttt{disc\_equals\_loop\_integrand} or the other two stubs in
 Theorem~\ref{thm:shadow-discontinuity}.
+
+\section{Loops from Cuts (canonical replacement series)}
+
+Daniel has designated \texttt{Loops\_from\_Cuts\_in\_Celestial\_Holography.tex} et al.\ as
+the canonical replacement for the shadow-discontinuity framing above: loop integrands arise
+from an ordinary two-particle \emph{unitarity cut} on the celestial sphere, not a residue at
+a shadow pole. See the Quantum Gravity --- Blackbody Law chapter for the spectral-weight
+theorems already landed from this series; this section covers the loop paper's own most
+novel link, the cut geometry itself.
+
+\begin{theorem}[Antipodal Pairing --- Algebraic Core]
+  \label{thm:antipodal-pairing-core}
+  \lean{GppAntipodalPairing.antipodal_solves_conservation}
+  \lean{GppAntipodalPairing.qVec_isNull}
+  \leanok
+  For the null celestial momentum direction $q(x,y) = (1{+}x^2{+}y^2,\,2x,\,2y,\,1{-}x^2{-}y^2)$
+  (metric $(+,-,-,-)$; $\langle q(x,y),q(x,y)\rangle=0$ identically, for every $x,y$) and
+  every $(x_5,y_5)\ne(0,0)$, $M\in\R$, writing $r^2:=x_5^2+y_5^2$,
+  \[
+    z_6 = -\tfrac{z_5}{r^2},\qquad
+    \omega_5 = \tfrac{M}{2(1+r^2)},\qquad
+    \omega_6 = \tfrac{M r^2}{2(1+r^2)},
+  \]
+  the resulting momenta satisfy $\omega_5\,q(x_5,y_5) + \omega_6\,q(x_6,y_6) = (M,0,0,0)$
+  componentwise.
+  \emph{Proved clean}: `Loops\_from\_Cuts\_in\_Celestial\_Holography.tex`, Theorem
+  "Cut geometry: antipodal pairing and uniform measure" (`thm:measure`) --- the algebraic
+  core of the paper's own claimed solution, verified here by direct vector computation
+  (`field_simp`/`ring` on each of the four components after `fin_cases`), independent of and
+  prior to any measure-theoretic argument.
+  \emph{Not attempted}: uniqueness of this solution (a separate fact about the orbit
+  structure of null directions on the two-sphere), and the phase-space \emph{measure}
+  reduction itself,
+  $\dd\Pi_2 = \dd^2z/[8\pi^2(1{+}|z|^2)^2]$, $\int\dd\Pi_2=1/(8\pi)$ --- this needs genuine
+  $\delta^4$-constrained pushforward-measure and Jacobian machinery this repository has not
+  built, and is left open as the natural next step of this thread.
+\end{theorem}
+
+\begin{theorem}[Beta-Reflection Integral, Real Form]
+  \label{thm:beta-reflection-real}
+  \lean{GppDispersionKernel.beta_reflection_real}
+  \leanok
+  For $0<s<1$,
+  \[
+    \int_0^1 x^{s-1}(1-x)^{-s}\,\dd x \;=\; \frac{\pi}{\sin(\pi s)}.
+  \]
+  \emph{Proved clean}: the Beta-reflection integral underlying
+  \texttt{Loops\_from\_Cuts\_in\_Celestial\_Holography.tex}'s dispersion-relation
+  reconstruction (\texttt{thm:disp}, \texttt{thm:celdisp}), whose Mellin kernel
+  $\int_0^\infty S^{\sigma-1}/(s'{+}S)\,\dd S = s'^{\sigma-1}\pi/\sin(\pi\sigma)$ reduces, via
+  $S=s'u$, to the base case $\int_0^\infty u^{\sigma-1}/(1{+}u)\,\dd u=\pi/\sin(\pi\sigma)$ ---
+  a ``second Euler Beta integral'' on $(0,\infty)$ confirmed absent from Mathlib v4.19.0 by
+  direct grep (only the $(0,1)$ form, \texttt{Complex.betaIntegral}, exists). This theorem is
+  \texttt{Complex.betaIntegral s (1-s)} unfolded to its defining real interval integral and
+  evaluated via \texttt{Complex.Gamma\_mul\_Gamma\_eq\_betaIntegral} combined with the
+  reflection formula \texttt{Complex.Gamma\_mul\_Gamma\_one\_sub}, cast down to $\R$ via
+  \texttt{Complex.ofReal\_cpow} (valid uniformly on $x\in[0,1]$, both endpoints included) and
+  \texttt{intervalIntegral.integral\_ofReal}.
+  \emph{Not attempted}: the substitution $x=t/(1{+}t)$ mapping $(0,1)\leftrightarrow(0,\infty)$
+  needed to reach the paper's actual $(0,\infty)$ dispersion kernel --- the natural tool is
+  \texttt{MeasureTheory.integral\_image\_eq\_integral\_abs\_deriv\_smul} with a fresh
+  $\mathrm{Ioo}\,0\,1\to\mathrm{Ioi}\,0$ diffeomorphism, genuine new infrastructure this
+  repository has not built (the algebra was checked by hand, not yet coded), left open as the
+  well-scoped next step.
+\end{theorem}
+
+\paragraph{Logistic Fourier pair (item 3 of 3, honestly parked).}
+\texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex} and
+\texttt{Spectral\_Weight\_from\_Principal\_Series.tex} also characterize $P(\lambda)$ (already
+proved in closed hyperbolic form, $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$, in
+Theorem~\ref{thm:planck-form}) as the Fourier transform of the logistic density
+$1/(4\cosh^2(x/2))$: $P(\lambda) = \int_{-\infty}^{\infty} e^{i\lambda x}/(4\cosh^2(x/2))\,\dd
+x$. Genuinely attempted and confirmed out of reach this session, not merely assumed hard:
+direct grep of the pinned Mathlib source (\texttt{v4.19.0}) shows zero occurrences of
+\texttt{sech} anywhere, no closed-form Fourier transform outside the Gaussian family, no
+Poisson-kernel $1/(1{+}x^2)$ closed form, and no residue-calculus API (the textbook proof is
+a residue sum over $\mathrm{sech}^2$'s double poles at $x=i\pi(2k{+}1)$). Parked as
+\texttt{GppLogisticFourierPair.logistic\_fourier\_pair : True := trivial} in
+\texttt{QuantumGravity/LogisticFourierPair.lean}, per this repository's own documented
+convention for honestly recording an open gap --- not an axiom, not a \texttt{sorry}.
 
 \section{Dispersion Reconstruction: the Mechanism Behind \texorpdfstring{\texttt{sewing\_identity}}{sewing\_identity}}
 \label{sec:dispersion-reconstruction}
@@ -660,6 +766,83 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   and \texttt{shadow\_unitarity\_abundance\_pos}.
 \end{theorem}
 
+\chapter{Arithmetic and Quantum-Information Miscellanea (from ONON5213.tex)}
+
+Three small, self-contained results mined from the master manuscript
+\texttt{ONON5213.tex} in the 2026-08-19 session, none previously
+formalized. Each is genuinely tied to real Mathlib infrastructure
+(\texttt{riemannZeta}, its Euler product, or elementary trigonometry) —
+none is restated bare-numeral arithmetic. Session note: this pass also
+triaged large parts of \texttt{ONON5213.tex} that were \emph{not}
+formalized, either because the underlying claim was already covered by
+an existing file (the bulk of the "Complete Arithmetic Table" and
+Standard-Model chapters — see \texttt{DecodingReality.lean},
+\texttt{WeylCasimir.lean}, \texttt{PerfectNumbersE8.lean},
+\texttt{KappaShadow3.lean}, \texttt{ThreeGenerations.lean}, etc.) or
+because the claim itself does not survive scrutiny (the "Path A" /
+"Bridge" Riemann-Hypothesis section's Gram-matrix argument rests on a
+ratio $\Lambda(1-s)/\Lambda(s)$ that the functional equation makes
+identically $1$ for \emph{every} $s$, not a quantity that varies with
+$\mathrm{Re}(s)$ as the argument requires) — the latter is recorded
+privately in Supabase \texttt{research\_notes}, per this project's
+standing rule against cataloguing manuscript errors in the public tree.
+
+\begin{theorem}[Spin-Statistics Eta/Zeta Ratio]
+  \label{thm:spin-stats-eta}
+  \lean{GppSpinStatisticsEta.eta_div_zeta_two_mul_nat}
+  \leanok
+  For every $n \geq 1$, the Dirichlet eta function
+  $\eta(s) = (1-2^{1-s})\zeta(s)$ satisfies
+  $\eta(2n)/\zeta(2n) = 1 - 2^{1-2n}$, unconditionally (requires
+  $\zeta(2n) \neq 0$, from \texttt{riemannZeta\_ne\_zero\_of\_one\_le\_re}).
+  The concrete instance $\eta(4)/\zeta(4) = 7/8$
+  (\texttt{eta\_four\_div\_zeta\_four'}) and the explicit value
+  $\eta(4) = 7\pi^4/720$ (\texttt{eta\_four\_eq}, via
+  \texttt{riemannZeta\_four}) are also proved.
+
+  \emph{Honest boundary:} the physical identification of this ratio with
+  a fermion/boson thermal-capacity ratio in $3{+}1$ dimensions is not
+  formalized — only the arithmetic value.
+\end{theorem}
+
+\begin{theorem}[Squarefree-Density Euler Product]
+  \label{thm:squarefree-density}
+  \lean{GppSquarefreeDensity.squarefree_density_partial_products_tendsto_six_div_pi_sq}
+  \leanok
+  The partial products $\prod_{p < n}(1-p^{-2})$ over primes converge to
+  $6/\pi^2 = 1/\zeta(2)$, obtained by inverting Mathlib's convergent
+  Euler product $\prod_{p<n}(1-p^{-2})^{-1} \to \zeta(2)$
+  (\texttt{riemannZeta\_eulerProduct}) term-by-term and evaluating via
+  \texttt{riemannZeta\_two}.
+
+  \emph{Honest boundary:} the physical identification
+  $\alpha/\pi^2 = (\alpha/6)\prod_p(1-p^{-2})$ with the fine-structure
+  constant is not formalized — only the underlying arithmetic identity
+  both rest on.
+\end{theorem}
+
+\begin{theorem}[CHSH Bell Violation and CKW Monogamy]
+  \label{thm:chsh-violation}
+  \lean{GppCHSHViolation.chshValue_exceeds_classical_bound}
+  \leanok
+  At the angle configuration $\theta_{ab}=0,\ \theta_{ab'}=\pi/2,\
+  \theta_{a'b}=\theta_{a'b'}=\pi/4$, the CHSH combination
+  $S = E(a,b)-E(a,b')+E(a',b)+E(a',b')$ with $E(\theta)=-\cos\theta$
+  evaluates exactly to $-1-\sqrt2$
+  (\texttt{chshValue\_eq}), so $|S| = 1+\sqrt2 > 2$, exceeding the
+  classical bound, while respecting Tsirelson's bound $|S|\le 2\sqrt2$
+  (\texttt{chshValue\_within\_tsirelson\_bound}). Separately,
+  \texttt{ckw\_forces\_zero\_concurrence} formalizes the elementary
+  consequence of the CKW monogamy inequality: given
+  $1+x^2 \le y^2 \le 1$, necessarily $x=0$.
+
+  \emph{Honest boundary:} this is standard textbook CHSH/CKW material,
+  not GPP-specific; the source's stronger claim that Haar measure on
+  $\mathrm{Gr}(2,4)$ \emph{forces} exactly the Tsirelson bound is not
+  formalized, nor is the general quantum correlation-function formalism
+  — only the source's own explicit numerical evaluation.
+\end{theorem}
+
 \chapter{Quantum Gravity --- Born Rule from Haar}
 
 \begin{lemma}[Born Rule from Haar Measure]
@@ -819,6 +1002,159 @@ First Moment Theorem, \texttt{thm:moment}), and \emph{no Legendre or conical spe
 functions} (blocking the entire kinematic-block/conical-function program: conical
 reduction, shadow=Legendre-degree symmetry, the Mehler--Fock pair, the Temperedness
 Theorem).
+
+\begin{theorem}[Planck Form of the Plancherel Weight]
+  \label{thm:planck-form}
+  \lean{GppPlanckForm.planck_form_bose_difference}
+  \leanok
+  For every real $\lambda \neq 0$, with $n_B(y) := (e^y-1)^{-1}$ the Bose--Einstein
+  occupation number,
+  \[
+    P(\lambda) \;=\; 2\pi\lambda\,\bigl[n_B(\pi\lambda) - n_B(2\pi\lambda)\bigr].
+  \]
+  \emph{Proved clean}: from \texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_
+  Weight.tex} and \texttt{Spectral\_Weight\_from\_Principal\_Series.tex} (identical
+  statement in both) --- the papers Daniel has designated as the canonical replacements
+  for the earlier haar-QG/kinematic-block/blackbody series. Pure hyperbolic algebra:
+  $n_B(y) - n_B(2y) = 1/(2\sinh y)$ from $e^{2y}-1=(e^y-1)(e^y+1)$, no Mathlib gap. The
+  paper's two other equivalent forms (the oscillator-sum series and the
+  $E(x)=(x/2)\coth(x/2)$ zero-point-cancellation form) are not separately formalized:
+  Mathlib has no \texttt{coth} function, and the oscillator sum is definitionally the
+  same geometric series already inside \texttt{Real.sinh}'s own definition.
+\end{theorem}
+
+\textbf{Canonical-source update (2026-08-23).} Daniel has designated four new papers ---
+\texttt{Loops\_from\_Cuts\_in\_Celestial\_Holography.tex},
+\texttt{Principal\_Series\_Kinematic\_Blocks.tex},
+\texttt{Spectral\_Weight\_from\_Principal\_Series.tex}, and
+\texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex} --- as replacing the
+earlier haar\_qg/kinematic\_block/blackbody series for the ``loop'', ``measure'', ``block'',
+and ``blackbody'' roles respectively. The new loop paper's central correction: loop
+integrands arise from an ordinary two-particle \emph{unitarity cut} on the celestial sphere
+(antipodal pairing, Mellin image $\Gamma(\Delta_5)\Gamma(\Delta_6)/\Gamma(\Delta_5+\Delta_6)$,
+dispersion reconstruction), \textbf{not} from a ``residue at the shadow pole'' $\Delta_5+
+\Delta_6=2$ --- the new paper explicitly retracts that framing, identifying $\Delta_5+
+\Delta_6=2$ instead as the locus of scale invariance of the cut, with no residue taken
+anywhere. None of that unitarity-cut/dispersion machinery (Theorems \texttt{thm:measure},
+\texttt{thm:mellincut}, \texttt{thm:boxcut}, \texttt{thm:poles}, \texttt{thm:disp},
+\texttt{thm:celdisp} of the new loop paper) is formalized yet --- it needs new phase-space/
+Jacobian infrastructure this repo does not currently have. The new kinematic-block paper adds
+one genuinely new closed result on top of the pre-existing content (still blocked by the
+missing-digamma/Legendre gaps above): \texttt{thm:ode}/\texttt{thm:resolved} prove, rather
+than merely numerically observe, that the digamma first moment and the ladder moment
+$\mathcal M_1$ are the \emph{same} quantity (both equal $\hat p(0)/2$ for the Fourier
+partner $\hat p$ of $P$) via a first-order ODE for $\hat p$ --- still gated on the same
+missing digamma function.
+
+\begin{theorem}[Matsubara Pole Residues]
+  \label{thm:matsubara-poles}
+  \lean{GppMatsubara.tendsto_residue_at_matsubara}
+  \leanok
+  For every integer $n$, the complex-analytic continuation
+  $P_{\mathbb C}(z) := \pi z/\sinh(\pi z)$ of the Plancherel weight has, at $z = in$,
+  \[
+    \lim_{\varepsilon\to0}\ \varepsilon\cdot P_{\mathbb C}(in+\varepsilon)
+    \;=\; i\,(-1)^n\,n .
+  \]
+  \emph{Proved clean}: \texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex},
+  Proposition "Equivalent descriptions" item (iv). \texttt{Res} is not invoked as a named
+  Mathlib operator (no general residue-calculus API exists at the pinned commit); the
+  residue is instead the literal punctured-neighborhood limit the paper's own script
+  evaluates numerically, formalized here as a genuine \texttt{Tendsto} statement. Proof:
+  $\sinh(\pi(in+\varepsilon)) = (-1)^n\sinh(\pi\varepsilon)$ (addition formula plus
+  $\sinh(\pi in)=0$, $\cosh(\pi in)=(-1)^n$), and $P_{\mathbb C}(\varepsilon)\to1$ as
+  $\varepsilon\to0$ from \texttt{Complex.hasDerivAt\_sinh} via the chain rule.
+\end{theorem}
+
+\begin{theorem}[Log of the Sinh Weierstrass Product]
+  \label{thm:sinh-log-series}
+  \lean{GppSinhLogSeries.hasSum_log_one_add_sq_div}
+  \leanok
+  For every real $\lambda \neq 0$,
+  \[
+    \sum_{n=0}^{\infty} \log\!\Bigl(1+\frac{\lambda^2}{(n+1)^2}\Bigr)
+    \;=\; \log\!\Bigl(\frac{\sinh(\pi\lambda)}{\pi\lambda}\Bigr),
+  \]
+  as a genuine unconditional \texttt{HasSum}, not a numerically-truncated approximation.
+  \emph{Proved clean}: the first half of the cumulant-law chain (item (v) of the "Six
+  faces"/"Equivalent descriptions" proposition, $\log P(\lambda) = -\sum(-1)^{k+1}\zeta(2k)
+  \lambda^{2k}/k$) --- from \texttt{thm:sinh-weierstrass} above, dividing by the nonzero
+  constant $\pi\lambda$, applying \texttt{Real.log} (continuous at the limit, proved
+  positive here from \texttt{Real.sinh}'s strict monotonicity), and upgrading the resulting
+  convergent partial sums of logs to a genuine \texttt{HasSum} via nonnegativity of every
+  term. \emph{Not attempted}: expanding each $\log(1+x)$ into its own power series and
+  swapping the resulting double sum to reach the paper's closed $\zeta(2k)$ form --- the
+  genuinely new remaining work, scoped precisely in \texttt{docs/FORMALIZATION\_PLAN.md}.
+\end{theorem}
+
+\begin{theorem}[The Cumulant Law]
+  \label{thm:cumulant-law}
+  \lean{GppCumulantLaw.hasSum_log_double}
+  \leanok
+  \uses{thm:sinh-log-series}
+  For every real $\lambda$ with $0 < \lambda < 1$, the unconditional double sum over all
+  pairs $(n,k) \in \mathbb N \times \mathbb N$ of
+  $(-1)^k\bigl(\lambda^2/(n+1)^2\bigr)^{k+1}/(k+1)$ equals
+  $\log(\sinh(\pi\lambda)/(\pi\lambda))$.
+  \emph{Proved clean}: completes \texttt{thm:sinh-log-series} by expanding each row's
+  $\log(1+\lambda^2/(n+1)^2)$ via Mathlib's own alternating log series
+  (\texttt{Real.hasSum\_pow\_div\_log\_of\_abs\_lt\_one}) and combining the resulting
+  double family into one \texttt{HasSum} via \texttt{HasSum.prod\_fiberwise}. The step this
+  requires beyond bookkeeping is absolute summability of the double family: since
+  $\lambda^2/(n+1)^2 \le \lambda^2 < 1$ *uniformly* in $n$, a single geometric-series
+  comparison bounds every row, giving overall summability by comparison with the
+  convergent $p=2$ series $\sum 1/(n+1)^2$. \emph{Not attempted}: the final regrouping of
+  the double sum by $k$ alone to recover the paper's single-index closed form
+  $\sum_k(-1)^{k+1}\zeta(2k)\lambda^{2k}/k$ --- the double-indexed statement already
+  contains the same content, and the regrouping is left as a reindexing exercise.
+\end{theorem}
+
+\begin{theorem}[The Cumulant Law, Single-Index Closed Form]
+  \label{thm:cumulant-closed-form}
+  \lean{GppCumulantLawClosedForm.hasSum_cumulant_closed_form}
+  \leanok
+  \uses{thm:cumulant-law}
+  For every real $\lambda$ with $0 < \lambda < 1$, writing
+  $\zeta_{\mathbb R}(p) := \sum'_{n\ge0} 1/(n+1)^p$ for the literal Dirichlet-series
+  definition (no separate identification with Mathlib's \texttt{riemannZeta} needed),
+  \[
+    \log\!\Bigl(\frac{\sinh(\pi\lambda)}{\pi\lambda}\Bigr)
+    \;=\; \sum_{k=0}^{\infty} (-1)^k\,\zeta_{\mathbb R}(2k+2)\,\lambda^{2k+2}\big/(k+1),
+  \]
+  the paper's own "cumulants are even zeta values" statement (index-shifted by one from the
+  paper's $m\ge1$ convention: $k=m-1$).
+  \emph{Proved clean}: regroups \texttt{thm:cumulant-law}'s double-indexed \texttt{HasSum}
+  by swapping index roles (\texttt{Equiv.prodComm}) and combining with a fresh per-$k$-row
+  computation --- $\sum'_n(\lambda^2/(n{+}1)^2)^{k+1}=\lambda^{2k+2}\zeta_{\mathbb R}(2k+2)$,
+  an ordinary shifted $p$-series with $p=2k{+}2\ge2$ --- via \texttt{HasSum.prod\_fiberwise}
+  in place of \texttt{CumulantLaw.hasSum\_row}'s per-$n$-row computation. This closes the
+  cumulant-law sub-thread completely: no further step remains open in it.
+\end{theorem}
+
+\begin{theorem}[Weight-Shift Relations]
+  \label{thm:weight-shift}
+  \lean{GppWeightShift.shift_sub_I}
+  \lean{GppWeightShift.shift_add_I}
+  \leanok
+  For the Gamma-product continuation $P_{\mathbb C}(z) := \Gamma(1+iz)\Gamma(1-iz)$ and
+  every $z\ne0$ with $1\pm iz\ne0$ (automatic for real $z$),
+  \[
+    P_{\mathbb C}(z-i) = \frac{1+iz}{-iz}\,P_{\mathbb C}(z),
+    \qquad
+    P_{\mathbb C}(z+i) = \frac{1-iz}{iz}\,P_{\mathbb C}(z).
+  \]
+  \emph{Proved clean}: `Principal\_Series\_Kinematic\_Blocks.tex`, Theorem "Weight-shift
+  relations and the resulting differential equation" --- the digamma-free first half (the
+  shift relations themselves), a pure consequence of `Complex.Gamma\_add\_one`
+  (`Γ(s+1)=sΓ(s)`) applied to each Gamma factor. The theorem's second half --- the
+  resulting first-order ODE for `P`'s Fourier partner, needed for `thm:resolved`'s
+  digamma-moment identification --- remains blocked on Mathlib's missing digamma function.
+\end{theorem}
+
+\texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, \texttt{thm:sinh-log-series},
+\texttt{thm:cumulant-law}, \texttt{thm:cumulant-closed-form}, and \texttt{thm:weight-shift}
+above are, so far, the six pieces from this new canonical series formalized with no
+Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 

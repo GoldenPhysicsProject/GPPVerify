@@ -167,11 +167,14 @@ def main():
     print("function support sits exactly at lam=0, which is EXACTLY where L")
     print("has a genuine pole (a 0-width delta multiplying a 1/0 pole is not")
     print("a number). This is not a contradiction or a dead end -- it is the")
-    print("honest computational signature of exactly the missing structure")
-    print("DispersionReconstruction.lean's mechanism targets: extracting a")
-    print("finite propagator from what is naively an on-shell-support object")
+    print("honest computational signature of the missing structure: extracting")
+    print("a finite propagator from what is naively an on-shell-support object")
     print("requires genuine analytic continuation / dispersive treatment off")
     print("the naive real locus, not literal delta-function insertion.")
+    print("[Correction 2026-08-18: this used to cite a proven mechanism in")
+    print("'DispersionReconstruction.lean' -- that file does not exist")
+    print("anywhere in this repo or its git history. False citation, caught")
+    print("by an explicit repo-wide search this session.]")
 
 
 if __name__ == "__main__":

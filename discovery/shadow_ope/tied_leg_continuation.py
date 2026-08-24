@@ -28,8 +28,14 @@ inserted to force a result:
    advanced discontinuity vanished trivially there). With zbar=conj(z), A,
    B, C become genuinely real, and D2's zero w0=-s/B lands ON the real
    omega5 axis -- a genuine physical unitarity threshold, exactly the kind
-   of place DispersionReconstruction.lean's proven lorentzian_jump
-   mechanism applies.
+   of place a Sokhotski-Plemelj discontinuity is expected to be well-defined
+   and finite. [Correction 2026-08-18: an earlier version of this docstring
+   claimed this matches a proven Lean lemma "lorentzian_jump" in
+   "DispersionReconstruction.lean" -- that file does not exist anywhere in
+   this repo or its git history, and no such lemma exists under any name.
+   False citation, caught by an explicit repo-wide search. The check below is
+   a Python-only numerical consistency check against a closed-form
+   prediction, not something verified in Lean.]
 
 RESULT: with both changes, the retarded/advanced Mellin-transformed
 discontinuity across the D2 threshold converges to a FINITE, ieps-

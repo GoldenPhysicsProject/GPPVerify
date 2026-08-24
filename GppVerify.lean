@@ -137,6 +137,14 @@ import GppVerify.CelestialHolography.HolographicChain
 -- Standard Model parameters as L-function values
 import GppVerify.NumberTheory.DecodingReality
 
+-- ── Spin-Statistics Eta (New, 2026-08-19, from ONON5213.tex) ─────
+-- η(2n)/ζ(2n) = 1 - 2^{1-2n} for all n ≥ 1, and η(4)/ζ(4) = 7/8
+import GppVerify.NumberTheory.SpinStatisticsEta
+
+-- ── Squarefree Density Euler Product (New, 2026-08-19, ONON5213.tex) ──
+-- ∏_p (1 - p⁻²) = 6/π² = 1/ζ(2), the arithmetic content of thm:squarefree
+import GppVerify.NumberTheory.SquarefreeDensityZeta
+
 -- ── Dark Energy (New) ─────────────────────────────────────────
 -- Dark energy w(a) from T-boundary conformal self-lensing
 import GppVerify.Cosmology.DarkEnergy
@@ -174,6 +182,11 @@ import GppVerify.QuantumInformation.ChoiMatrix
 -- Choi(transpose) = SWAP exactly, hence transpose map on M_2(C) is
 -- not completely positive: no_enactment fully retired for d=2.
 import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
+
+-- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, ONON5213.tex) ─
+-- S = -1-√2 at the source's optimal angles, |S|>2, and the CKW
+-- monogamy consequence 1+x²≤y²≤1 ⟹ x=0
+import GppVerify.QuantumInformation.CHSHViolation
 
 -- ── Grassmannian Jacobian, exact matrix identity (New) ────────
 -- N^2 = D*K, K^2 = D^2*1, hence N^4 = D^4*1 for the chart
@@ -816,6 +829,110 @@ import GppVerify.QuantumGravity.AllLoopFiniteness
 -- docs/FORMALIZATION_PLAN.md for the precise boundary of each gap.
 import GppVerify.QuantumGravity.KinematicZetaBridge
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
+
+-- ── Thread Loops-from-Cuts, Planck form (New) ──
+-- Daniel has designated `Loops_from_Cuts_in_Celestial_Holography.tex`,
+-- `Principal_Series_Kinematic_Blocks.tex`, `Spectral_Weight_from_Principal_Series.tex`, and
+-- `Modular_Thermality_of_the_Celestial_Spectral_Weight.tex` as the canonical replacements for
+-- the earlier haar_qg/kinematic_block/blackbody paper series (the "loop", "measure", "block",
+-- and "blackbody" papers). Formalizes the Planck-form theorem stated identically in the last
+-- two of these: P(lambda) = 2*pi*lambda*(n_B(pi*lambda) - n_B(2*pi*lambda)), the Bose-
+-- difference representation of the Plancherel weight. Pure elementary hyperbolic-function
+-- algebra, no Mathlib gaps.
+import GppVerify.QuantumGravity.PlanckForm
+
+-- ── Thread Loops-from-Cuts, Matsubara pole residues (New) ──
+-- Modular_Thermality_of_the_Celestial_Spectral_Weight.tex, Proposition "Equivalent
+-- descriptions" item (iv): the complex continuation of P(lambda) has simple poles at
+-- lambda=in, n a nonzero integer, with residue i*(-1)^n*n. Formalized as the operational
+-- limit lim_{eps->0} eps*P(in+eps) (Res is not a named Mathlib operator; no general
+-- residue-calculus API exists at this pinned commit), matching the paper's own script.
+import GppVerify.QuantumGravity.MatsubaraPoles
+
+-- ── Thread Loops-from-Cuts, log of the sinh Weierstrass product (New) ──
+-- The first half of the cumulant-law chain FORMALIZATION_PLAN.md flagged as the natural
+-- next target once SinhWeierstrassProduct.lean landed: HasSum (fun n => log(1+lambda^2/
+-- (n+1)^2)) (log(sinh(pi*lambda)/(pi*lambda))), an unconditional infinite sum of logs (not
+-- a numerical truncation), from continuity of log at the (proved positive) Weierstrass-
+-- product limit. The second half -- expanding each log(1+x) into its own power series and
+-- swapping the resulting double sum to land on the paper's zeta(2k) closed form -- is not
+-- attempted here, per the file's own scoped honest boundary. NOTE: the completion of this
+-- chain (the cumulant law itself and its single-index closed form) landed independently on
+-- main via a different, more direct route -- see the CumulantLaw import below rather than a
+-- separate CumulantLawClosedForm.lean, which this branch's own version of turned out to be
+-- fully redundant with main's GppCumulantLaw.cumulant_law and was dropped at merge time.
+import GppVerify.QuantumGravity.SinhLogSeries
+
+-- ── Thread Loops-from-Cuts, weight-shift relations (New) ──
+-- Principal_Series_Kinematic_Blocks.tex, Theorem "Weight-shift relations and the resulting
+-- differential equation" -- the digamma-free first half: P(z-i)=[(1+iz)/(-iz)]P(z) and
+-- P(z+i)=[(1-iz)/(iz)]P(z) for the complex-analytic Gamma-product continuation of P, pure
+-- consequences of Gamma(s+1)=s*Gamma(s) applied to each factor. The theorem's second half
+-- (the resulting first-order ODE for P's Fourier partner, needed for thm:resolved's
+-- digamma-moment identification) remains blocked on Mathlib's missing digamma function.
+import GppVerify.QuantumGravity.WeightShiftRelations
+
+-- ── Thread Loops-from-Cuts, antipodal-pairing algebraic core (New) ──
+-- Loops_from_Cuts_in_Celestial_Holography.tex, Theorem "Cut geometry: antipodal pairing
+-- and uniform measure" (thm:measure) -- the most important/novel link of the whole new
+-- canonical loop paper. Verifies by direct vector computation (no measure theory) that the
+-- paper's claimed antipodal solution z6=-z5/|z5|^2, omega5=M/(2(1+|z5|^2)),
+-- omega6=M|z5|^2/(2(1+|z5|^2)) genuinely satisfies P=l5+l6 for every z5!=0, plus that the
+-- null-vector parametrization q(x,y) is always null. Uniqueness of the solution and the
+-- phase-space MEASURE reduction itself (needing genuine delta^4-constrained-pushforward
+-- Jacobian machinery this repo has never built) remain open, precisely scoped.
+import GppVerify.CelestialHolography.AntipodalPairingSolution
+
+-- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
+-- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
+-- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry
+-- opposite-sign imaginary parts (39/39 structured points, 666/666 random points, zero
+-- exceptions, then explained analytically). Promotes the algebraic explanation to a real
+-- theorem: A(x,y)=2q(x,y).p1=-4E is an exact z-independent constant, A'(x,y)=2q(x,y).p2=
+-- -4E|z|^2 is manifestly <=0, C(x,y)=2q(x,y).p4 clears to an exact sum of two squares
+-- (kappa*|z-z4|^2, kappa=2E(1-cos theta)>0 for t<0), and B(x,y)=2q(x,y).(p1+p2)=
+-- -4E(1+|z|^2) is unconditionally negative -- all four proved by direct `ring`/`nlinarith`
+-- computation from the bare kinematics, not assumed. sign_opposition combines them into
+-- the exact algebraic content of Im(Sewn_s)<0<Im(Sewn_t) on the physical branch (B''>0
+-- taken as a hypothesis, since it genuinely changes sign over the sphere and is not
+-- pinned down by E,theta alone). Pure real algebra and elementary geometry -- no Mellin
+-- transforms, no complex analysis, no Legendre functions (still absent from Mathlib
+-- v4.19.0, see the note above) -- does NOT touch or discharge ShadowPairSewing.sewing_identity.
+import GppVerify.CelestialHolography.ShadowSignOpposition
+
+-- ── Thread Loops-from-Cuts, dispersion-kernel Mellin identity, item 2/3 (New) ──
+-- Loops_from_Cuts_in_Celestial_Holography.tex's dispersion-relation reconstruction
+-- (thm:disp, thm:celdisp) rests on the Mellin kernel identity int_0^infty S^(sigma-1)/(s'+S)
+-- dS = s'^(sigma-1)*pi/sin(pi*sigma); substituting S=s'u reduces this to the base case
+-- int_0^infty u^(sigma-1)/(1+u) du = pi/sin(pi*sigma), a "second Euler Beta integral" on
+-- (0,infty) confirmed absent from Mathlib v4.19.0 by direct grep (only the (0,1) form,
+-- Complex.betaIntegral, exists). Proves the Beta-reflection integral this ultimately rests
+-- on, in real intervalIntegral form: int x in (0:R)..1, x^(s-1)*(1-x)^(-s) = pi/sin(pi*s)
+-- for 0<s<1 -- obtained by unfolding Complex.betaIntegral s (1-s), evaluating it via
+-- Complex.Gamma_mul_Gamma_eq_betaIntegral (Gamma(u)Gamma(v)=Gamma(u+v)*B(u,v), u+v=1 so
+-- Gamma(u+v)=Gamma(1)=1) combined with the reflection formula
+-- Complex.Gamma_mul_Gamma_one_sub, then casting the complex identity down to a real one via
+-- Complex.ofReal_cpow (valid uniformly on x in [0,1], both endpoints included, since
+-- Mathlib's 0^y convention for rpow/cpow already agree there) and
+-- intervalIntegral.integral_ofReal. Does NOT carry the substitution x=t/(1+t) (mapping
+-- (0,1)<->(0,infty)) needed to reach the paper's actual (0,infty) dispersion kernel -- that
+-- needs MeasureTheory.integral_image_eq_integral_abs_deriv_smul with a fresh Ioo-0-1-to-Ioi-0
+-- diffeomorphism, genuinely new infrastructure this repo has never built (algebra checked by
+-- hand, not yet coded), left open as the well-scoped next step.
+import GppVerify.CelestialHolography.DispersionKernelMellin
+
+-- ── Thread Loops-from-Cuts, logistic Fourier pair, item 3/3 (New) ──
+-- Modular_Thermality_of_the_Celestial_Spectral_Weight.tex /
+-- Spectral_Weight_from_Principal_Series.tex: P(lambda) = int e^(i*lambda*x)/(4cosh^2(x/2)) dx,
+-- the Fourier-transform characterization of the already-proved closed hyperbolic form
+-- pi*lambda/sinh(pi*lambda) (PlanckForm.lean, MatsubaraPoles.lean). The third and lowest-
+-- ranked of the three items Daniel asked to be attempted "in order of importance or
+-- novelty." Genuinely attempted: re-confirmed by direct grep that Mathlib v4.19.0 has zero
+-- sech/cosh-family closed-form Fourier transforms (only the Gaussian), no Poisson-kernel
+-- 1/(1+x^2) closed form, and no residue-calculus API (the textbook proof needs a residue sum
+-- over sech^2's double poles at x=i*pi*(2k+1)). Parked as a True-stub per this repo's own
+-- documented convention, naming the precise gap -- not an axiom, not a sorry.
+import GppVerify.QuantumGravity.LogisticFourierPair
 
 -- ── Thread QG-Blackbody, round 3: the cumulant law (New) ──────────────────────────────────
 -- From blackbody_law_qg_dtoupin_v1.tex Test T5 ("cumulants are even zeta values"). Unlocked
