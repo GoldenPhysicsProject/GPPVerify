@@ -1195,4 +1195,5 @@ import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
 -- `lake build GppVerify` actually type-checks them, matching every other file's
 -- convention of being reachable from this root.
 import GppVerify.RiemannHypothesis.GlobalCompletedFactorization
+import GppVerify.RiemannHypothesis.GramPositivityBoundary
 import GppVerify.RiemannHypothesis.LogDerivativeProduct
