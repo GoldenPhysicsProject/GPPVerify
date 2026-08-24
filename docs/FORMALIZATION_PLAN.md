@@ -1083,6 +1083,25 @@ confirmed by direct search that Mathlib has no ready-made "second Beta integral"
 reflection formula, already in Mathlib) — a real, self-contained, well-scoped target for a
 future session, not attempted here for lack of the substitution lemma already being at hand.
 
+**Also landed same session**: `QuantumGravity/CumulantLaw.lean` — `hasSum_log_double`,
+completing the cumulant-law chain `SinhLogSeries.lean` scoped as its own next step. For
+`0<λ<1`, the unconditional double sum over `(n,k):ℕ×ℕ` of `(-1)^k(λ²/(n+1)²)^{k+1}/(k+1)`
+equals `log(sinh(πλ)/(πλ))`. Found Mathlib's own alternating log series
+(`Real.hasSum_pow_div_log_of_abs_lt_one`, `Mathlib.Analysis.SpecialFunctions.Log.Deriv`) —
+exactly the `log(1+x)=Σ(-1)^{k+1}x^k/k` series flagged as "not yet located" in the previous
+entry, so future sessions grepping for this: it's there, under that name, with a `-log(1-x)`
+sign convention. The one genuinely new piece: proving the double family `Summable`
+(required before `HasSum.prod_fiberwise` can combine the row-`HasSum`s with the
+row-sum-`HasSum` into a single unconditional double `HasSum` — the combination is NOT valid
+without absolute summability, since swapping summation order in a merely-conditionally-
+convergent double series can change the total). The bound used is uniform in `n` (`λ²/(n+1)²
+≤ λ² < 1` for every `n`, not just eventually), avoiding a finite/infinite split: this gives a
+single geometric-series-times-`p=2`-series comparison rather than a case analysis. **Not
+attempted, and now the single remaining step of this whole sub-thread**: regroup the proved
+double sum by `k` alone (a `tsum_prod'`/reindexing exercise, not new mathematical content)
+to recover the paper's literal single-index closed form
+`Σ_k(-1)^{k+1}ζ(2k)λ^{2k}/k`. Full rebuild re-verified: 0 sorry, 13 axioms unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)

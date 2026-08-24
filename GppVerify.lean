@@ -846,6 +846,16 @@ import GppVerify.QuantumGravity.MatsubaraPoles
 -- attempted here, per the file's own scoped honest boundary.
 import GppVerify.QuantumGravity.SinhLogSeries
 
+-- ── Thread Loops-from-Cuts, the cumulant law (New) ──
+-- Completes the chain SinhLogSeries.lean scoped as its own next step: expands each row's
+-- log(1+lambda^2/(n+1)^2) via Mathlib's own alternating log series and combines the double
+-- family, absolute summability proved via a uniform geometric bound (since lambda^2/(n+1)^2
+-- <= lambda^2 < 1 for every n), into a single HasSum over all (n,k) pairs equal to
+-- log(sinh(pi*lambda)/(pi*lambda)) = -log(P lambda). The final single-index regrouping into
+-- the paper's literal sum-over-k-of-zeta(2k) closed form is left as bookkeeping on top of
+-- this, per the file's own scoped honest boundary.
+import GppVerify.QuantumGravity.CumulantLaw
+
 -- ── Thread Tree-Loop-Sewing, discovery follow-on: sign opposition (New) ──
 -- From discovery/shadow_ope/sign_opposition_sweep.py's found-and-explained fact that the
 -- s-channel and t-channel tied-leg sewing discontinuities Sewn_s, Sewn_t always carry

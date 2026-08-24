@@ -899,9 +899,31 @@ missing digamma function.
   genuinely new remaining work, scoped precisely in \texttt{docs/FORMALIZATION\_PLAN.md}.
 \end{theorem}
 
-\texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, and \texttt{thm:sinh-log-series}
-above are, so far, the three pieces from this new canonical series formalized with no
-Mathlib blocker.
+\begin{theorem}[The Cumulant Law]
+  \label{thm:cumulant-law}
+  \lean{GppCumulantLaw.hasSum_log_double}
+  \leanok
+  \uses{thm:sinh-log-series}
+  For every real $\lambda$ with $0 < \lambda < 1$, the unconditional double sum over all
+  pairs $(n,k) \in \mathbb N \times \mathbb N$ of
+  $(-1)^k\bigl(\lambda^2/(n+1)^2\bigr)^{k+1}/(k+1)$ equals
+  $\log(\sinh(\pi\lambda)/(\pi\lambda))$.
+  \emph{Proved clean}: completes \texttt{thm:sinh-log-series} by expanding each row's
+  $\log(1+\lambda^2/(n+1)^2)$ via Mathlib's own alternating log series
+  (\texttt{Real.hasSum\_pow\_div\_log\_of\_abs\_lt\_one}) and combining the resulting
+  double family into one \texttt{HasSum} via \texttt{HasSum.prod\_fiberwise}. The step this
+  requires beyond bookkeeping is absolute summability of the double family: since
+  $\lambda^2/(n+1)^2 \le \lambda^2 < 1$ *uniformly* in $n$, a single geometric-series
+  comparison bounds every row, giving overall summability by comparison with the
+  convergent $p=2$ series $\sum 1/(n+1)^2$. \emph{Not attempted}: the final regrouping of
+  the double sum by $k$ alone to recover the paper's single-index closed form
+  $\sum_k(-1)^{k+1}\zeta(2k)\lambda^{2k}/k$ --- the double-indexed statement already
+  contains the same content, and the regrouping is left as a reindexing exercise.
+\end{theorem}
+
+\texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, \texttt{thm:sinh-log-series}, and
+\texttt{thm:cumulant-law} above are, so far, the four pieces from this new canonical series
+formalized with no Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 
