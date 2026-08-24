@@ -242,3 +242,10 @@ import GppVerify
 #print axioms GppWeilParity.continuousAt_shiftedTransferWitness
 #print axioms GppWeilParity.tendsto_shiftedTransfer_quotient_div
 #print axioms GppWeilParity.tendsto_shiftedTransfer_quotient_zero
+#print axioms GppPrimeContraction.primePower_norm_eq_one_iff
+#print axioms GppPrimeContraction.mulOpLinP_apply
+#print axioms GppPrimeContraction.mulOpLinP_comp
+#print axioms GppPrimeContraction.mulOpLinP_norm_eq
+#print axioms GppPrimeContraction.mulOpLinP_conj_comp_self
+#print axioms GppPrimeContraction.prime_contraction_unitary_of_modulus_one
+#print axioms GppPrimeContraction.prime_contraction_unitary_of_critical_line

@@ -2549,6 +2549,47 @@ content ("the exact divisor fact").
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
+## Prime-Scattering thread: the prime-contraction unitarity locus, item `be59ab82`
+
+**Status: PARTIAL — `PrimeContractionUnitarity.lean`.**
+
+The item asks for the operator theorem behind the Euler one-particle picture: on
+`ℓ²(primes)`, the positive injective diagonal contraction `A e_p = p^{-1/2} e_p`, and for
+`Δ = 2s`, `A^Δ e_p = p^{-s} e_p`; the central claim is `A^(Δ-1)` unitary iff `Δ.re = 1`
+(equivalently `s.re = 1/2`).
+
+Proved:
+- `primePower_norm_eq_one_iff` — the full eigenvalue-level `iff`, both directions: at any
+  single prime `p`, the diagonal eigenvalue `p^{-(Δ-1)/2}` has modulus `1` iff `Δ.re = 1`.
+  This is the item's own "use an eigenvalue" argument, made precise: one prime already
+  pins down `Δ.re`.
+- `Ell2Primes`/`mulOpLinP` — the diagonal-operator apparatus on `ℓ²(primes)`, duplicating
+  (not generalizing, to avoid touching already-merged content) the `Ell2Z`/`mulOpCLM`
+  pattern from `CutkoskyWeilBridge.lean`. `mulOpLinP_apply` gives the coordinate-wise
+  identity `(A^Δ x)(p) = w(p)·x(p)`, which at a single-support `x` is the item's
+  `A^Δ e_p = p^{-s} e_p` in coordinate form.
+- `prime_contraction_unitary_of_modulus_one` — genuine **operator-level** unitarity for
+  any modulus-one diagonal weight: exact norm preservation plus a two-sided inverse via
+  the conjugate weight, proved both compositions equal `LinearMap.id`.
+- `prime_contraction_unitary_of_critical_line` — combining the two: on `Δ.re = 1`, `A^(Δ-1)`
+  is unitary in the operator sense above.
+
+**Honest boundary**: the operator-level statement above is the "if" direction only. The
+converse (unitary `⟹ Δ.re = 1`) is complete at the eigenvalue level but not promoted to
+the operator itself — that needs an explicit single-support basis vector `e_p ∈
+Ell2Primes` to extract `‖w p‖ = 1` from the isometry hypothesis at one prime; a natural,
+bounded next step, not attempted this pass. Polar decomposition
+`A^Δ = A^(Re Δ)·A^(i Im Δ)` is not formalized. The trace-class-region identity
+`det(I - A^(2s)) = ∏_p(1-p^{-s}) = ζ(s)⁻¹` (Fredholm determinant as Euler product), and
+the optional Fock-space trace formula, are not attempted — Mathlib has no Schatten-class
+/ trace-class operator infrastructure at all (confirmed absent: `grep -rl "Schatten"
+.lake/packages/mathlib/Mathlib/` returns zero hits), which blocks both outright.
+`A^Δ` is only built here as a bounded operator for the specific critical-line weight; the
+general contraction case `Δ.re ≥ 0` (needed for the trace-class item, at `Δ.re > 2`) is
+not constructed.
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

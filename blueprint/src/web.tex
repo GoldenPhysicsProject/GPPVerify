@@ -2038,6 +2038,43 @@ real-symmetric) setting --- only that the queue item's abstract phrasing is
 underspecified at exactly this point, worth flagging back to the research source rather
 than silently patched over or forced through.
 
+\textbf{Prime-Scattering, item \texttt{be59ab82}: the prime-contraction unitarity
+locus.} On $\ell^2(\text{primes})$, the positive injective diagonal contraction
+$Ae_p=p^{-1/2}e_p$; for $\Delta=2s$, the Euler one-particle operator $A^\Delta e_p=p^{-s}e_p$.
+The item's central claim: $A^{\Delta-1}$ is unitary iff $\operatorname{Re}\Delta=1$
+(equivalently $\operatorname{Re}s=1/2$).
+
+\begin{theorem}[Prime-Contraction Eigenvalue Criterion]
+  \label{thm:prime-contraction-eigenvalue}
+  \lean{GppPrimeContraction.primePower_norm_eq_one_iff}
+  \leanok
+  For any prime $p$ and $\Delta\in\mathbb{C}$: $|p^{-(\Delta-1)/2}|=1$ iff
+  $\operatorname{Re}\Delta=1$ --- the full \emph{iff}, both directions, at a single
+  eigenvalue.
+\end{theorem}
+
+\begin{theorem}[Prime-Contraction Operator Unitarity]
+  \label{thm:prime-contraction-unitary}
+  \lean{GppPrimeContraction.prime_contraction_unitary_of_critical_line}
+  \leanok
+  On $\operatorname{Re}\Delta=1$, the diagonal operator for $A^{\Delta-1}$ is unitary:
+  exact $\ell^2$-norm preservation
+  (\lean{GppPrimeContraction.mulOpLinP_norm_eq}) plus a genuine two-sided inverse via the
+  conjugate weight, both compositions equal to the identity operator
+  (\lean{GppPrimeContraction.mulOpLinP_conj_comp_self}).
+\end{theorem}
+
+\textbf{Honest boundary.} The operator-level statement is the "if" direction only --- the
+genuine \emph{iff} is proved at the eigenvalue level (Theorem~\ref{thm:prime-contraction-eigenvalue});
+promoting the converse (unitary $\Rightarrow\operatorname{Re}\Delta=1$) to the operator
+itself needs an explicit single-support basis vector $e_p\in\ell^2(\text{primes})$, not
+built this pass. Polar decomposition $A^\Delta=A^{\operatorname{Re}\Delta}\cdot
+A^{i\operatorname{Im}\Delta}$ is not formalized. The trace-class-region identity
+$\det(I-A^{2s})=\prod_p(1-p^{-s})=\zeta(s)^{-1}$ and the optional Fock-space trace formula
+are not attempted --- Mathlib has no Schatten-class/trace-class operator infrastructure
+at all (confirmed absent by direct search of the pinned Mathlib source), which blocks
+both outright.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
