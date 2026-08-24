@@ -139,6 +139,15 @@ import GppVerify
 #print axioms GppDigamma.digamma_nat_add_one
 #print axioms GppDigamma.digamma_add_one
 
+-- Positive Gamma--Plancherel defect (v34, Theorem 62.1). Expected: Lean built-ins only.
+-- The arbitrary-real digamma integral representation is deliberately not asserted;
+-- gammaDefect_even_eq_kernel is the exact q>0, a=2m, b=2n infinite subfamily.
+#print axioms GppGammaPlancherel.density_eq_spectralWeight
+#print axioms GppGammaPlancherel.gammaDefect_even_eq_kernel
+#print axioms GppGammaPlancherel.gammaDefect_even_pos
+#print axioms GppGammaPlancherel.truncatedDefectKernel_gram_nonneg
+#print axioms GppGammaPlancherel.gammaDefect_even_gram_nonneg
+
 -- Local-field shadow kernels (new research front). Expected: Lean built-ins only, all five.
 #print axioms GppLocalShadow.archKernel_reflection
 #print axioms GppLocalShadow.archKernel_shadow_eq_conj
@@ -219,6 +228,11 @@ import GppVerify
 #print axioms GppCutkoskyWeil.vacuum_compression_operator_identity
 #print axioms GppCutkoskyWeil.KrMinusOneWeight_re_nonneg
 #print axioms GppCutkoskyWeil.vacuum_compressed_operator_positive
+-- Sixth/seventh passes: genuine local Euler factor and the closed Wp identity.
+-- Expected: Lean built-ins only, both.
+#print axioms GppCutkoskyWeil.hasDerivAt_zetaP
+#print axioms GppCutkoskyWeil.Wp_eq_two_mul_re_minusLogDerivZetaP
+
 -- Suzuki-Herglotz, item 1c684543: shifted logarithmic-derivative transfer preserves the
 -- xi zero divisor. Expected: Lean built-ins only, all.
 #print axioms GppWeilParity.hasDerivAt_shiftedTransferF
