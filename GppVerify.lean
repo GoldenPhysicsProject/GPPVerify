@@ -983,22 +983,88 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- docs/FORMALIZATION_PLAN.md and discovery/cutkosky_weil/notes.md for the full account.
 import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
 
--- ── Euler-Factor Log-Derivative (New, 2026-08-23, sixth/seventh Cutkosky-Weil passes) ──
+-- ── Euler-Factor Log-Derivative (New, 2026-08-23, sixth+seventh Cutkosky-Weil passes) ──
 -- zeta_p's genuine log-derivative -zeta_p'/zeta_p, from an actual HasDerivAt
--- computation. The seventh pass also proves the exact connection
--- Wp p t = 2 * Re(-zeta_p'/zeta_p)(1/2 + it), by direct real/imaginary-part
--- computation. No RH or global Weil-positivity claim; see the file's own honest
--- boundary and discovery/cutkosky_weil/notes.md.
+-- computation, PLUS (seventh pass) the closed connection to Wp itself:
+-- Wp p t = 2*Re(minusLogDerivZetaP p (1/2+it)), genuinely proved, not just
+-- checked numerically. See discovery/cutkosky_weil/notes.md.
 import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
 
--- ── Exact finite prime Green amplitude (Codex) ────────────────
--- The Wp prime-power coefficients/locations are exactly the positive
--- boundary atoms propagated by the massive 1D Green kernel; finite
--- cutoff resolvent and doubled-sector polarization identities.
+-- ── Codex local prime Green and fermionic Hodge--Dirac modules ──
+-- Exact prime-power Green propagation, the exterior two-state CAR factor,
+-- and the singlet/doublet Dirac blocks. These remain independent of the
+-- imported Weil-Semiboundedness and Suzuki-Herglotz modules below.
 import GppVerify.RiemannHypothesis.PrimeGreenAmplitude
-
--- ── One-prime fermionic Hodge--Dirac system (Codex) ──────────
--- The exterior two-state factor satisfies CAR; its odd self-adjoint
--- Dirac square is |1-p^{-s}|² I and has no critical-line local zero.
 import GppVerify.RiemannHypothesis.PrimeFermionDirac
 import GppVerify.RiemannHypothesis.PrimeDoubletDirac
+
+-- ── Thread Weil-Semiboundedness (New, 2026-08-23) ──
+-- formalization_queue item 1b12010b: pure order-theoretic skeleton for
+-- Suzuki's localized Weil ground energy lambda_a (nesting -> antitone;
+-- global bound <-> bounded-below range; antitone+unbounded -> tendsto atBot).
+-- Abstract only -- does not define Q_W, the Weil quadratic form, or C_c^infty
+-- test spaces. See the file's own module doc for the honest boundary.
+import GppVerify.ThreadWeilSemibound.LocalizedGroundOrder
+
+-- ── Thread Weil-Parity, further items (New, 2026-08-23) ──
+-- formalization_queue items 0182d9cf (no-crossing continuation, pure
+-- topology/IVT) and 5e10a4f0 (cross-resolvent positivity below the even
+-- ground forces the odd ground above it, pure algebra). Abstract cores
+-- only -- neither defines Hermitian matrices or their eigenvalues; see
+-- each file's own module doc for the honest boundary.
+import GppVerify.ThreadWeilParity.GroundContinuation
+import GppVerify.ThreadWeilParity.CrossResolventGroundOrdering
+
+-- ── Thread Weil-Parity, strict interlacing IVT core (New, 2026-08-23) ──
+-- formalization_queue item 9cc1e2f8, the item CLAUDE.md/FORMALIZATION_PLAN.md
+-- had already flagged as the natural next target (needs real IVT/monotonicity,
+-- not just block-matrix algebra). Abstract core only -- see the file's own
+-- module doc for the honest boundary (does not yet connect to the concrete
+-- f = sum c_j/(alpha_j - z) construction).
+import GppVerify.ThreadWeilParity.StrictParityInterlacing
+
+-- ── Thread Weil-Parity, cross-heat positivity (New, 2026-08-23) ──
+-- formalization_queue item 68566b83: the Laplace-transform positivity core
+-- (integral of an everywhere-positive integrable function over [0,infty) is
+-- strictly positive). Does not define the matrix exponential or resolvent,
+-- or prove the Laplace-resolvent identity itself; see the file's module doc.
+import GppVerify.ThreadWeilParity.CrossHeatPositivity
+
+-- ── Thread Weil-Parity, removable-singularity limit core (New, 2026-08-23) ──
+-- formalization_queue item 4d97d8eb: a bounded numerator over a denominator
+-- whose norm blows up tends to zero -- the reusable real-analysis fact behind
+-- "qStar(x_i)=q_i" for the barycentric Pick interpolant. Does not construct
+-- the Pick matrix or A/B/qStar themselves; see the file's module doc.
+import GppVerify.ThreadWeilParity.RemovableSingularityLimit
+
+-- ── Suzuki-Herglotz thread, reflection-symmetry algebra (New, 2026-08-23) ──
+-- formalization_queue item dcebf59f. Re-checking this thread's items directly
+-- (not just its Herglotz-suggestive name) found this one is pure algebra once
+-- A, B are expressed through the same abstract function I -- costs nothing,
+-- needs no operator/reflection/integral machinery at all.
+import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
+
+-- ── Thread Weil-Parity, sharpening the d1aec733 open item (New, 2026-08-23) ──
+-- Turns an earlier vague "carries a subtlety" note into a checked finding:
+-- c_j = g_j * w^2 (plain square), not g_j * |w|^2, given the item's own
+-- forward-direction definitions -- confirms the forward/converse formulas
+-- only agree when w = u_j^*e0 is real, an unstated extra hypothesis.
+import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
+
+-- ── Suzuki-Herglotz thread, item 1c684543 (New, 2026-08-23) ──────────────────────────
+-- "Shifted logarithmic-derivative transfer preserves the xi zero divisor" -- flagged in
+-- FORMALIZATION_PLAN.md as tractable (plain complex-analysis order-of-vanishing, not
+-- Herglotz-dependent). Writing the order as m=k+1 to avoid Nat subtraction: for
+-- F z := (z-rho)^(k+1) * g z with g analytic and g rho != 0, deriv F z - lam * F z =
+-- (z-rho)^k * w z with w z := (k+1)*g z + (z-rho)*(deriv g z - lam*g z)
+-- (deriv_shiftedTransferF_sub_smul_eq, from an actual HasDerivAt computation), and
+-- w rho = (k+1)*g rho != 0, so the quotient R_lam := F/D_lam satisfies R_lam(z)/(z-rho) ->
+-- 1/(k+1) as z->rho (tendsto_shiftedTransfer_quotient_div) -- the item's own stated
+-- asymptotic R_lam(s)=(s-rho)/m+O((s-rho)^2), i.e. a genuine SIMPLE zero at rho for every
+-- finite lambda -- and R_lam(z) -> 0 as z->rho (tendsto_shiftedTransfer_quotient_zero),
+-- the "zeros of R_lam are (among) the zeros of F" half of the item's conclusion. 8
+-- theorems, kernel-clean, no axiom, no sorry. Does NOT instantiate F=xi (a direct
+-- application once xi's zeros are known simple with the right local model, not attempted)
+-- and does NOT prove the global "exactly the zeros of F, no others" claim (needs D_lam
+-- controlled away from F's zeros too, a separate global argument).
+import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer

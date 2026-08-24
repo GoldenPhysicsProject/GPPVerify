@@ -1657,6 +1657,274 @@ holonomies, followed by the completed Archimedean boundary/no-ghost obstruction.
 twin-edge graph is a candidate interaction layer inside that construction; it must earn
 any physical representation-theoretic interpretation through an explicit operator.
 
+## Thread Weil-Semiboundedness, first pass (2026-08-23)
+
+New thread, opened directly from `formalization_queue` per standing protocol (read newest
+queue items, attempt every `ready` item directly in Lean, no by-hand pre-proof gate,
+classify PROVED/CONDITIONALLY PROVED/OPEN/REFUTED honestly, never axiomatize the desired
+conclusion). Four items landed at priority 0 (top of queue), all a single ChatGPT-relayed
+research program: RH via a *semibounded* Weil criterion (`∃ finite C≥0, Q_W(v) ≥ -C‖v‖₂²`
+for all compactly supported smooth `v`; Weil positivity is the `C=0` case), routed through
+Suzuki's Herglotz-function reformulation and the Krein-Langer screw-function
+correspondence.
+
+**PROVED (unconditional): `GppVerify/ThreadWeilSemibound/LocalizedGroundOrder.lean`**,
+item `1b12010b` ("Uniform localized Weil lower bound is equivalent to global
+semiboundedness"). Formalizes exactly the order-theoretic content the item asks for, as an
+abstract nested-infimum skeleton with no reference to what the concrete ratio functional or
+test-function spaces are:
+- `lam_antitone_of_isGLB_of_nested`: nested test spaces ⟹ antitone ground energy (via
+  `IsGLB.mono`).
+- `globalBound_iff_bddBelow_range_lam`: uniform global lower bound ⟺ `BddBelow
+  (Set.range lam)` — deliberately phrased via `BddBelow` rather than a literal `sInf`, to
+  avoid `Real.sInf`'s junk-value convention (`0`) on sets not bounded below silently giving
+  a wrong equivalence.
+- `antitone_tendsto_atBot_of_not_bddBelow`: antitone + unbounded below ⟹ `λ_a → -∞`, a
+  short direct filter argument (`Filter.tendsto_atBot` unfolded, no exotic lemma needed).
+- `tendsto_atBot_of_not_globalBound`: all three assembled into the item's real
+  contrapositive punchline.
+
+**Honest boundary — does NOT define** `Q_W`, the Weil quadratic form, `‖·‖₂`, or
+`S_a = C_c^∞(-a,a)`: no such localized test-function machinery exists in Mathlib, and this
+file is only the abstract skeleton, not an application to the real Weil operator.
+
+**OPEN, honestly assessed rather than forced, remaining three priority-0 items:**
+- `50903a57` ("Conditional convolution positivity implies screw-kernel positivity"):
+  **feasible in principle** — found the exact building block,
+  `ContDiffBump.convolution_tendsto_right_of_continuous`
+  (`Mathlib/Analysis/Calculus/BumpFunction/Convolution.lean`), which gives "convolution
+  against a shrinking bump tends to the continuous function's value at a point," precisely
+  the approximate-identity fact the queue item's suggested proof needs. But the full
+  construction — build the finite-support mean-zero mollified test function `u_ε` from a
+  sum of point masses at `t_j` minus a correction mass at `0`, expand the assumed double
+  integral into a finite sum of bilinear terms via Fubini, take `ε→0` termwise to recover
+  `G_h(t_i,t_j) = h(t_i-t_j)-h(t_i)-h(-t_j)+h(0)` exactly — is a genuinely large multi-lemma
+  real-analysis construction. Scoped precisely, not attempted this pass rather than forced
+  through partially and left broken.
+- `ed078a8f` ("Semibounded Weil criterion forces RH") and `93384c2c` ("Finite Brownian
+  compensation shifts the zeta Herglotz function by iC/2"): **genuinely blocked**. Checked
+  directly (`grep -rli "herglotz\|nevanlinna\|krein.*langer\|screw function" Mathlib/`):
+  the only hit is Nevanlinna *value-distribution* theory (Second Main Theorem counting
+  functions), an unrelated subject. **Mathlib has no Herglotz/Pick integral-representation
+  theory and no Krein-Langer correspondence at all.** Formalizing either item requires
+  building that entire theory from scratch first — not attempted here.
+
+**A further scan of the rest of the `ready` queue** (priorities 1-2, threads Weil-Parity,
+Suzuki-Herglotz, Prime-Schatten, Prime-Scattering, Prime-Fock) found the same gap recurring
+(items naming Pick kernels / Herglotz reflection symmetry) plus a **second, independent
+gap**: items in Prime-Schatten/Prime-Scattering/Prime-Fock ask for Schatten-class operator
+norms, regularized `det_3` Fredholm determinants, and bosonic Fock-space trace identities —
+checked directly (`grep -rli "schatten"` and `"traceClass\|trace_class\|IsTraceClass"` over
+`Mathlib/Analysis/`, zero hits both): **Mathlib has no Schatten-class, trace-class, or
+Fredholm/regularized-determinant theory for Hilbert-space operators at all.** Nothing in
+either blocked category was force-completed with a watered-down or circular substitute.
+
+**Strategic note, not a task**: two precise, named Mathlib infrastructure gaps (Herglotz/
+Pick representation theory + Krein-Langer; Schatten-class/trace-class operator theory) now
+block a large fraction of the currently-`ready` queue across five threads. Building either
+would itself be a substantial standalone Mathlib-contribution-sized undertaking, worth
+flagging to Daniel as a strategic fork (attempt to contribute one of these upstream? scope
+a smaller GPP-local sufficient fragment instead? deprioritize this whole cluster until
+Mathlib grows the machinery?) rather than chipping at it piecemeal without a plan.
+
+Full detail: `blueprint/src/web.tex` (new "Thread Weil-Semiboundedness" chapter).
+
+## Thread Weil-Parity, further items (2026-08-23) — correcting an over-broad assessment
+
+**Self-correction, same session.** The Weil-Semiboundedness scan above initially assumed
+the whole Weil-Parity thread was blocked by the same missing Herglotz/Pick machinery, by
+pattern-matching on the thread name rather than reading each queue item's body. That was
+wrong, caught by actually reading the six Weil-Parity items directly (per the standing
+"don't be so skeptical, test everything, don't assume ever" rule) rather than trusting the
+first impression. Most of them are **pure finite-dimensional linear algebra or topology**
+— several say so explicitly in their own text (`5e10a4f0`: "This is pure linear algebra and
+should be sorry-free"; `0182d9cf`: "This is pure finite-dimensional topology"). Two
+formalized this pass:
+
+**PROVED: `GppVerify/ThreadWeilParity/GroundContinuation.lean`**, item `0182d9cf`
+("Continuation of even ground from small support under no parity crossing"). Continuous
+functions on a preconnected set that never cross, with one strictly below the other at one
+point, stay strictly ordered everywhere —
+`lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected`, via
+`IsPreconnected.intermediate_value₂` (a crossing point would otherwise be forced between
+the two points by IVT). Plus an `Icc`-interval specialization matching the item's own
+"connected interval" phrasing directly.
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossResolventGroundOrdering.lean`**, item
+`5e10a4f0` ("Cross-resolvent positivity below even ground implies parity ground
+ordering"). The determinant-ratio identity `B_det z = f z * A_det z` with both factors
+positive for `z < lamMinA` forces `B_det z > 0` there (`Bdet_pos_of_ratio_pos` —
+algebraically immediate once correctly stated) — once `B_det` is identified with
+`z ↦ det(B - zI)`, exactly "no eigenvalue of `B` below `lambda_min(A)`". A further
+boundary/continuity refinement (`Bdet_pos_at_lamMinA_of_continuousAt`, via
+`ge_of_tendsto` on `𝓝[<] lamMinA`) strengthens this to `B_det lamMinA > 0` too, given
+continuity and a no-common-eigenvalue hypothesis at `lamMinA` itself — the item's full
+`lambda_min(A) < lambda_min(B)` claim.
+
+**Honest boundary, both**: neither file defines Hermitian matrices, their characteristic
+polynomials, or eigenvalues, and neither connects the abstract `A_det`/`B_det`/`f` to
+actual `Matrix.det` of a real Hermitian matrix pencil — that identification ("`z` is an
+eigenvalue of Hermitian `M` iff `det(M-zI)=0`") is standard and left for whichever future
+file applies these lemmas to the real parity blocks `A`, `B`.
+
+**Left `ready`, not attempted this pass** (look similarly tractable on this re-read; a
+future pass should attempt them the same way rather than assume difficulty from the thread
+name): `9cc1e2f8` (positive residues ⟹ strict parity interlacing — the item CLAUDE.md had
+already flagged as the natural next target, needing a real IVT/monotonicity argument on a
+sum of simple poles, not just block-matrix algebra), `d1aec733` (positive commuting metric
+⟺ residue positivity), `68566b83` (cross-heat positivity ⟹ resolvent positivity, with an
+explicit finite-spectral-sum fallback if the matrix-exponential/Laplace route is hard),
+`4d97d8eb` (Pick kernel barycentric interpolant — mostly pure rational-function algebra,
+with only its final Nevanlinna-Pick bridge needing to stay an explicit hypothesis per the
+item's own text).
+
+Full project rebuild: 3303/3304 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`7c1d92c` on `weil-semibound-thread`.
+
+## Thread Weil-Parity, strict interlacing IVT core (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/StrictParityInterlacing.lean`**, item `9cc1e2f8`
+("Positive residues imply strict parity interlacing") — the item already flagged above as
+the natural next target since it needs genuine monotonicity/IVT reasoning. Formalizes the
+fully general core: `existsUnique_zero_of_strictMonoOn_of_tendsto` — a function continuous
+and strictly increasing on an open interval `(a,b)`, tending to `-∞` approaching `a` from
+the right and `+∞` approaching `b` from the left, has exactly one zero in `(a,b)`. Proved
+via `IsPreconnected.intermediate_value_Iii` (existence, using the two boundary `Tendsto`
+facts as the "boundary values" `-∞`/`+∞`) plus `StrictMonoOn.injOn` (uniqueness). Needed
+`nhdsWithin_Ioo_eq_nhdsGT`/`_eq_nhdsLT` to convert the interval-restricted neighborhood
+filters to plain one-sided filters, and `left_nhdsWithin_Ioo_neBot`/
+`right_nhdsWithin_Ioo_neBot` for the required `NeBot` instances.
+
+**Honest boundary**: does not construct `f(z) = Σ_j c_j/(α_j - z)` from the matrix data at
+all, and does not verify this specific `f` satisfies the three hypotheses on each interval
+`(α_k, α_{k+1})` — the per-term `Finset`-sum monotonicity and limit bookkeeping (one pole
+term dominating near each endpoint, the rest bounded) is the remaining connecting step,
+left for a future pass rather than rushed through.
+
+**Left `ready`**: `d1aec733` (positive commuting metric ⟺ residue positivity — noted this
+pass as carrying a subtlety: the two formulas given for `g_j` in the forward/converse
+directions use a plain square vs. a modulus-square of `u_j^*e0`, meaning `g_j` real is not
+immediate from the setup as literally stated and needs care, not a quick win), `68566b83`
+(cross-heat positivity ⟹ resolvent positivity — assessed feasible via a Laplace-transform
+positivity argument, `∫₀^∞ e^{tz}k(t)dt > 0` from `k(t)>0` everywhere on `[0,∞)`, likely
+needing a Mathlib integral-positivity-from-a.e.-positivity lemma not yet looked up),
+`4d97d8eb` (Pick kernel barycentric interpolant).
+
+Full project rebuild: 3304/3305 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`eaa93ed` on `weil-semibound-thread`, landed on `main`.
+
+## Thread Weil-Parity, two more items + a second self-correction (2026-08-23, same session)
+
+**PROVED: `GppVerify/ThreadWeilParity/CrossHeatPositivity.lean`**, item `68566b83`
+("Cross-heat positivity implies resolvent positivity"). An integral over `[0,∞)` of an
+everywhere-positive integrable integrand is strictly positive
+(`laplace_integral_pos_of_pos_on_Ici`), via
+`MeasureTheory.setIntegral_pos_iff_support_of_nonneg_ae` reduced to the integrand's
+support meeting `[0,∞)` in a set of positive (here infinite) Lebesgue measure
+(`Real.volume_Ici`).
+
+**PROVED: `GppVerify/ThreadWeilParity/RemovableSingularityLimit.lean`**, item `4d97d8eb`
+("Singular Pick kernel..."). A numerator with a finite limit divided by a denominator
+whose norm blows up tends to zero
+(`tendsto_div_zero_of_tendsto_nhds_of_tendsto_norm_atTop`, via `tendsto_inv_atTop_zero` +
+`norm_inv` + `tendsto_zero_iff_norm_tendsto_zero`) — the reusable fact behind
+`qStar(x_i)=q_i` for the barycentric Pick interpolant, since `B(z)-q_i·A(z)` stays finite
+at `x_i` (the `k=i` pole term cancels identically) while `‖A(z)‖→∞` there.
+
+**Honest boundary, both**: neither defines the matrix exponential/resolvent or the Pick
+matrix `R`/barycentric functions `A,B,qStar` themselves; the derivative-matching claim
+`qStar'(x_i)=d_i` and the `qStar(∞)` limit remain untouched.
+
+**Left `ready`**: only `d1aec733` now (positive commuting metric ⟺ residue positivity —
+still carries the `g_j` reality subtlety noted last pass).
+
+**A second self-correction, same session.** Applied the same "read the body, don't judge
+by thread name" discipline to Suzuki-Herglotz and caught another instance of the same
+mistake: assumed the whole thread was Herglotz-blocked without checking. Wrong again.
+
+**PROVED: `GppVerify/ThreadWeilParity/SuzukiReflectionSymmetry.lean`**, item `dcebf59f`
+("Suzuki reflection symmetry canonically fixes the 0/π Weyl pair"). With
+`A(z):=(z-i)I(z)`, `B(z):=(z+i)I(-z)` for an *arbitrary* `I : ℂ → ℂ`, `A(-z)=-B(z)` and
+`B(-z)=-A(z)` follow purely algebraically (no properties of `I`, the operator `T`, or the
+reflection `R` needed at all), hence `W₀:=A+B` odd, `Wπ:=A-B` even, and
+`mHat(z):=-i·W₀(z)/Wπ(z)` odd — the item's own formulas already reduce this layer to
+algebra once expressed through the same `I`. Costs essentially nothing.
+
+**Honest boundary**: does not define `T`, `R`, `v₊=T⁻¹eˣ`, `v₋=T⁻¹e⁻ˣ`, or
+`I(z)=∫v₊(x)e^{izx}dx`, and does not touch the item's final Herglotz/Livsic representation
+claim (confirmed blocked in the Weil-Semiboundedness pass).
+
+**Not re-scanned this pass** (for a future session): the remaining Suzuki-Herglotz items
+(`391ba9b7`, `1c684543`, `2e8ff61e`) and the Prime-Schatten/Scattering/Fock threads were
+read once already and mostly assessed genuinely blocked by the missing Herglotz/Schatten
+infrastructure — but `1c684543` ("Shifted logarithmic-derivative transfer preserves the xi
+zero divisor") is a plain complex-analysis order-of-vanishing statement, not Herglotz-
+dependent at all, and looks tractable via Mathlib's analytic-function zero-order API; worth
+attempting next given the pattern of this pass (checking bodies keeps finding items
+wrongly written off by thread name).
+
+Full project rebuild: 3307/3308 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`b6cb996` (68566b83), `dd0d00d` (4d97d8eb), `5cad862` (dcebf59f) on `weil-semibound-thread`,
+all landed on `main`.
+
+## Sharpening the last open Weil-Parity item (2026-08-23, same session)
+
+`GppVerify/ThreadWeilParity/CommutingMetricResidueGap.lean` turns the earlier "carries a
+subtlety" note on item `d1aec733` into a checked finding rather than a hunch. The item's
+forward direction defines `c_j := (η^*u_j)(u_j^*e0)`, `g_j := (η^*u_j)/(u_j^*e0)`; unwinding
+these gives `c_j = g_j · w²` (plain complex square, `w := u_j^*e0`) unconditionally
+(`cj_eq_gj_mul_sq`) — but the item's own converse direction states the *same* quantity as
+`c_j = ⟨u_j,Gu_j⟩·|w|²` (a **modulus** square). These formulas agree only when `w` is real
+(confirmed with a concrete witness: `w=i` gives `w²=-1 ≠ 1=|i|²`).
+
+**Not a refutation of the underlying mathematics** in its intended (presumably
+real-symmetric) setting — the abstract queue phrasing is underspecified at exactly this
+point (an implicit reality assumption on `u_j^*e0` that the text never states), worth
+flagging back to the research source. `d1aec733`'s `formalization_queue` status set to
+`correction` rather than left `ready`, to distinguish it from items that are simply
+unattempted.
+
+Full project rebuild: 3308/3309 clean, sorry-gate clean, 13/13 axioms unchanged. Committed
+`07894e0` on `weil-semibound-thread`, landed on `main`.
+
+## Suzuki-Herglotz: the shifted logarithmic-derivative transfer, item `1c684543` (new session)
+
+**PROVED: `GppVerify/ThreadWeilParity/ShiftedLogDerivativeTransfer.lean`**, item `1c684543`
+("Shifted logarithmic-derivative transfer preserves the xi zero divisor") — flagged
+tractable at the end of the previous pass (plain complex-analysis order-of-vanishing, not
+Herglotz-dependent, unlike most of this thread).
+
+The item's setup: for holomorphic `F` and scalar `λ`, `D_λ(s)=F'(s)-λF(s)`,
+`R_λ(s)=F(s)/D_λ(s)`; if `ρ` is a zero of `F` of multiplicity `m≥1`, `R_λ` extends
+holomorphically across `ρ` with a simple zero there. Writing `m=k+1` (`k:ℕ`) to sidestep
+natural-number subtraction entirely, and `F z := (z-ρ)^(k+1)·g z` for `g` analytic and
+nonzero at `ρ`:
+
+- `deriv_shiftedTransferF_sub_smul_eq`: the item's own displayed factorization
+  `D_λ(z) = (z-ρ)^k·w(z)`, `w(z):=(k+1)·g(z)+(z-ρ)·(g'(z)-λg(z))`, from an actual
+  `HasDerivAt` product/power-rule computation (`hasDerivAt_shiftedTransferF`), not
+  asserted.
+- `shiftedTransferWitness_at_root_ne_zero`: `w(ρ)=(k+1)·g(ρ)≠0`.
+- `tendsto_shiftedTransfer_quotient_div`: the item's stated asymptotic
+  `R_λ(s)=(s-ρ)/(k+1)+O((s-ρ)²)`, formalized exactly as `R_λ(z)/(z-ρ)→1/(k+1)` as `z→ρ`
+  (`z≠ρ`) — the removable singularity extends to a genuine simple zero (nonzero linear
+  coefficient), for every finite `λ`.
+- `tendsto_shiftedTransfer_quotient_zero`: `R_λ(z)→0` as `z→ρ` — the "zeros of `R_λ` are
+  (among) the zeros of `F`" half of the item's conclusion, a direct corollary.
+
+7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
+kernel-clean, no axiom, no sorry.
+
+**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
+that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
+right local model, not attempted this pass. Does not prove the *global* "exactly the
+zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
+separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
+is the precise *local* fact at each individual zero, which is the item's own named
+content ("the exact divisor fact").
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
