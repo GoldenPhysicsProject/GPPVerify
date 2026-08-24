@@ -2590,6 +2590,51 @@ not constructed.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
+## Prime-Scattering thread: the S3/det3 item, `189645c2` — BLOCKED
+
+**Status: BLOCKED, not attempted.** "Critical-line prime semigroup is exactly S3 but not
+S2 and det3 captures repetitions m≥3" needs Schatten-class operator membership (`S2`/`S3`)
+and the regularized (`det_3`) Fredholm determinant. Re-confirmed absent from Mathlib via
+targeted search (`grep -rl "Schatten" .lake/packages/mathlib/Mathlib/` → zero hits;
+`grep -rln "Fredholm"` → exactly one hit, a bare `TODO` comment in
+`Analysis/Normed/Operator/Banach.lean` noting Fredholm operators don't exist yet). Same
+gap that blocked the trace-class portion of `be59ab82` — now confirmed blocking a second,
+independent queue item. Treat Schatten-class/trace-class/Fredholm-determinant operator
+theory as a standing Mathlib-gap item, alongside the already-documented Herglotz/Pick and
+Krein-Langer gaps.
+
+## Prime-Scattering thread: the characteristic-function S-matrix, item `0452a4c4`
+
+**Status: PARTIAL — `PrimeCharacteristicFunction.lean`.**
+
+On `ℓ²(primes)`, with `L e_p = (log p) e_p`, `A = exp(-L/2)`, `U_t = exp(-itL)`, the item
+defines `S(t) = (U_t - A)(I - A U_t)⁻¹`, asking for the Sz.-Nagy/Foias Blaschke
+characteristic-factor formula `S(t) e_p = ((p^{-it}-p^{-1/2})/(1-p^{-1/2-it})) e_p`, its
+unitarity, the scattering operator `R(t) = U_t* S(t)`, and a finite Euler shadow
+determinant identity.
+
+Proved:
+- `norm_sub_real_eq_norm_one_sub_mul`/`norm_blaschke_eq_one` — the Blaschke-factor modulus
+  identity from scratch (Mathlib has no Blaschke-factor infrastructure at all — confirmed
+  absent: `grep -rl "Blaschke" .lake/packages/mathlib/Mathlib/` returns zero hits): for
+  real `a` with `|a|<1` and `w` on the unit circle, the Blaschke factor `(w-a)/(1-a·w)`
+  has modulus exactly `1`.
+- `primeCharFn_norm_eq_one` — the item's own formula instantiated: for every prime `p` and
+  real `t`, `‖(p^{-it}-p^{-1/2})/(1-p^{-1/2-it})‖ = 1`.
+- `primeCharFn_diag_unitary_of_modulus_one` — combining the above with
+  `GppPrimeContraction.prime_contraction_unitary_of_modulus_one` (reused directly, no
+  duplication): the diagonal operator built from this weight is unitary in the operator
+  sense established there.
+
+**Honest boundary**: `R(t) = U_t* S(t)` and its Schatten-class membership (`R(t)-I ∈ S3`)
+are not formalized — needs `K_t ∈ S3`, blocked by the same Schatten-class gap as
+`189645c2` above. The finite Euler "shadow determinant" identity
+`det R_P(t) = ζ_P(1/2+it)/ζ_P(1/2-it)` is not attempted for the same reason. The literal
+operator constructions `U_t`, `A`, `S(t)` as `exp(-L/2)`/`exp(-itL)` are not built; only
+the item's own closed-form diagonal weight is used directly.
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

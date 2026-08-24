@@ -249,3 +249,7 @@ import GppVerify
 #print axioms GppPrimeContraction.mulOpLinP_conj_comp_self
 #print axioms GppPrimeContraction.prime_contraction_unitary_of_modulus_one
 #print axioms GppPrimeContraction.prime_contraction_unitary_of_critical_line
+#print axioms GppPrimeCharFn.norm_sub_real_eq_norm_one_sub_mul
+#print axioms GppPrimeCharFn.norm_blaschke_eq_one
+#print axioms GppPrimeCharFn.primeCharFn_norm_eq_one
+#print axioms GppPrimeCharFn.primeCharFn_diag_unitary_of_modulus_one

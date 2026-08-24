@@ -1117,6 +1117,7 @@ import GppVerify.RiemannHypothesis.PrimeGreenAmplitude
 import GppVerify.RiemannHypothesis.PrimeFermionDirac
 import GppVerify.RiemannHypothesis.PrimeDoubletDirac
 import GppVerify.RiemannHypothesis.PrimeContractionUnitarity
+import GppVerify.RiemannHypothesis.PrimeCharacteristicFunction
 
 -- ── Thread Weil-Semiboundedness (New, 2026-08-23) ──
 -- formalization_queue item 1b12010b: pure order-theoretic skeleton for
