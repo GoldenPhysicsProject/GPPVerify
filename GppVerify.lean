@@ -921,3 +921,16 @@ import GppVerify.CelestialHolography.ShadowSignOpposition
 -- diffeomorphism, genuinely new infrastructure this repo has never built (algebra checked by
 -- hand, not yet coded), left open as the well-scoped next step.
 import GppVerify.CelestialHolography.DispersionKernelMellin
+
+-- ── Thread Loops-from-Cuts, logistic Fourier pair, item 3/3 (New) ──
+-- Modular_Thermality_of_the_Celestial_Spectral_Weight.tex /
+-- Spectral_Weight_from_Principal_Series.tex: P(lambda) = int e^(i*lambda*x)/(4cosh^2(x/2)) dx,
+-- the Fourier-transform characterization of the already-proved closed hyperbolic form
+-- pi*lambda/sinh(pi*lambda) (PlanckForm.lean, MatsubaraPoles.lean). The third and lowest-
+-- ranked of the three items Daniel asked to be attempted "in order of importance or
+-- novelty." Genuinely attempted: re-confirmed by direct grep that Mathlib v4.19.0 has zero
+-- sech/cosh-family closed-form Fourier transforms (only the Gaussian), no Poisson-kernel
+-- 1/(1+x^2) closed form, and no residue-calculus API (the textbook proof needs a residue sum
+-- over sech^2's double poles at x=i*pi*(2k+1)). Parked as a True-stub per this repo's own
+-- documented convention, naming the precise gap -- not an axiom, not a sorry.
+import GppVerify.QuantumGravity.LogisticFourierPair

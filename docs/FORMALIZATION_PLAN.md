@@ -1190,6 +1190,29 @@ coding `MeasureTheory.integral_image_eq_integral_abs_deriv_smul` with `s=Ioo 0 1
 `f t=t/(1-t)` (image `Ioi 0`) is a genuinely separate, well-scoped next step, left open. Full
 rebuild re-verified: 0 sorry, 13 axioms unchanged.
 
+**Also landed same session, closing the ordered list of three**:
+`QuantumGravity/LogisticFourierPair.lean` — item 3, the logistic Fourier pair
+`P(λ)=∫e^{iλx}/(4cosh²(x/2))dx` (`Modular_Thermality_of_the_Celestial_Spectral_Weight.tex`/
+`Spectral_Weight_from_Principal_Series.tex`), ranked lowest of the three by design. Genuinely
+attempted, not just assumed hard: re-confirmed by direct grep that Mathlib v4.19.0 has zero
+`sech` occurrences anywhere, no closed-form Fourier transform outside the Gaussian family
+(`Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform`), no Poisson-kernel
+`1/(1+x²)` closed form, and — confirmed independently while formalizing `MatsubaraPoles.lean`
+earlier this session, for the same underlying reason — no residue-calculus API, which the
+textbook proof (a residue sum over `sech²(x/2)`'s double poles at `x=iπ(2k+1)`) needs. A
+real-variable route avoiding both gaps (partial-fraction `sech²(x/2)` over its poles,
+Fourier-transform term-by-term, resum — mirroring the `SinhLogSeries.lean`/`CumulantLaw.lean`
+"expand as a series, sum termwise" pattern already used in this thread) is plausible in
+principle but is a multi-file undertaking on the scale of the antipodal-pairing measure
+reduction, not a same-session item. Parked as `logistic_fourier_pair : True := trivial`, this
+repository's own documented convention for an honestly-recorded open gap — not an axiom, not
+a `sorry`. **This closes all three items of the ordered list** ("do them all in order of
+importance or novelty"): item 1 (antipodal pairing) and item 2 (Beta-reflection integral)
+landed with real unconditional content; item 3 (logistic Fourier pair) was attempted, found to
+need genuinely new Fourier-analysis/residue-calculus infrastructure beyond this session's
+reach, and parked honestly rather than forced or faked. Full rebuild re-verified: 0 sorry, 13
+axioms unchanged.
+
 ---
 
 ## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)

@@ -462,6 +462,21 @@ novel link, the cut geometry itself.
   well-scoped next step.
 \end{theorem}
 
+\paragraph{Logistic Fourier pair (item 3 of 3, honestly parked).}
+\texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex} and
+\texttt{Spectral\_Weight\_from\_Principal\_Series.tex} also characterize $P(\lambda)$ (already
+proved in closed hyperbolic form, $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$, in
+Theorem~\ref{thm:planck-form}) as the Fourier transform of the logistic density
+$1/(4\cosh^2(x/2))$: $P(\lambda) = \int_{-\infty}^{\infty} e^{i\lambda x}/(4\cosh^2(x/2))\,\dd
+x$. Genuinely attempted and confirmed out of reach this session, not merely assumed hard:
+direct grep of the pinned Mathlib source (\texttt{v4.19.0}) shows zero occurrences of
+\texttt{sech} anywhere, no closed-form Fourier transform outside the Gaussian family, no
+Poisson-kernel $1/(1{+}x^2)$ closed form, and no residue-calculus API (the textbook proof is
+a residue sum over $\mathrm{sech}^2$'s double poles at $x=i\pi(2k{+}1)$). Parked as
+\texttt{GppLogisticFourierPair.logistic\_fourier\_pair : True := trivial} in
+\texttt{QuantumGravity/LogisticFourierPair.lean}, per this repository's own documented
+convention for honestly recording an open gap --- not an axiom, not a \texttt{sorry}.
+
 \chapter{\texorpdfstring{Ad\`elic $L^2$}{Adelic L2} Regularization}
 
 \begin{lemma}[Ad\`elic $L^2$ Regularization]
