@@ -117,7 +117,7 @@ point-spectrum eigenvalue), and does not overclaim anywhere it was checked.
 | 6560 | thm | Exact finite self-adjoint prime–Archimedean core | APPARATUS | |
 | 6655 | thm | Regularized determinant | APPARATUS | |
 | 6871 | thm | Conditional compact-uniform closure | APPARATUS | |
-| **6929** | **thm** | **Positive Gamma–Plancherel defect** | **CANDIDATE, NOT YET ATTEMPTED** | `∫₀^∞ e^{−qx}/(1−e^{−2x})dx`-type digamma integral for `q,a,b>0` — looks elementary on its face but likely needs the digamma-integral representation (same blocker as 2765's third piece). Worth a dedicated look in a follow-up session; not attempted this session for the same reason as 2765's digamma piece. |
+| **6929** | **thm** | **Positive Gamma–Plancherel defect** | **PARTIAL, EXACT INFINITE SUBFAMILY** | `GppGammaPlancherel` (`RiemannHypothesis/GammaPlancherelDefect.lean`) proves the exact density identity `e^{-qx}/(1-e^{-2x}) = e^{-(q-1)x}P(x/π)/(2x)`, pointwise and integrated finite-Gram positivity, and unconditional compact-truncation positivity.  More strongly, for every `q>0` and `a=2m,b=2n` (`m,n:ℕ`), digamma recurrence + finite geometric cancellation prove the full equality of the paper's four-term Gamma defect, the `(0,∞)` integral, and `Σ_{k<n}(1/(q+2k)-1/(q+2m+2k))`; integrability, strict positivity for `m,n>0`, and Gamma-defect Gram positivity follow, kernel-clean.  The arbitrary-positive-real `a,b` equality still needs the general digamma integral representation and is not claimed. |
 | 6962 | thm | Exact Archimedean resolution of the Schoenberg defect | APPARATUS | |
 | 7037 | thm | Exact Gamma–prime–pole decomposition | APPARATUS | |
 | 7085 | thm | Ultraviolet support obstruction | NO-GO/APPARATUS | |

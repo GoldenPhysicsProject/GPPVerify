@@ -27,13 +27,13 @@ already-proved-positive-type kernel `Wp` from `CutkoskyWeilBridge.lean`.
 
 ## What this does NOT do
 
-This does not touch the actual Weil explicit formula, its sign convention, or the
-"decisive question" of whether local `K_p-1` positivity survives into the classical
-Weil quadratic form — see `discovery/cutkosky_weil/notes.md` for that (separately
-verified numerically against real nontrivial zeros: it does **not** survive naively; the
-prime sum enters the explicit formula with an overall minus sign, so `Wp`'s already-proved
-kernel positivity shows each prime pulls the Weil quadratic form *downward*, not upward —
-recorded as a genuine finding, not glossed over).
+This does not prove the global Weil explicit formula or its positivity.  The local sign
+question can, however, be settled exactly: the prime term carries an overall minus sign,
+but `K_p-1` being positive-type as a convolution kernel does **not** make multiplication by
+`-Wp` negative semidefinite.  The two operators are different.  The final section proves
+that `Wp` has the expected prime-power Fourier expansion and that the signed scalar
+multiplier `-Wp` takes both signs.  Consequently a global proof must use the test-function
+transform and the Archimedean/prime coupling; it cannot stack same-signed local operators.
 -/
 
 namespace GppCutkoskyWeil
@@ -177,5 +177,200 @@ theorem Wp_eq_two_mul_re_minusLogDerivZetaP {p : ℝ} (hp : 1 < p) (t : ℝ) :
   rw [hdeneq]
   field_simp
   linear_combination (Real.log p) * (2 * r ^ 2) * Real.sin_sq_add_cos_sq θ
+
+/-! ## Prime powers and the exact local sign obstruction
+
+The positive-type theorem in `CutkoskyWeilBridge.lean` concerns **convolution** by
+`K_p-1`: its Fourier eigenvalues are the nonnegative numbers `p^{-|n|/2}`.  The classical
+finite-prime term instead inserts the scalar function with the opposite sign into a
+test-function pairing.  Pointwise multiplication and convolution are not the same
+operator.  The layers below make the distinction explicit and machine-check it:
+
+* `WpFourierTerm` is the two-sided prime-power expansion of `Wp`;
+* every nonzero Fourier coefficient is positive;
+* nevertheless `Wp` itself is positive at phase zero and negative at the antipodal phase;
+* hence the signed multiplier `-Wp` changes sign.
+
+This is a local obstruction, not a negative result about the global Weil form.  It says
+precisely that the missing prime--Archimedean/test-transform bridge must do genuine work.
+-/
+
+/-- The vacuum-subtracted Poisson kernel at phase zero.  Only `r < 1` is needed. -/
+theorem KrClosed_sub_one_zero {r : ℝ} (hr1 : r < 1) :
+    KrClosed r 0 - 1 = 2 * r / (1 - r) := by
+  unfold KrClosed
+  rw [Real.cos_zero]
+  have hne : 1 - r ≠ 0 := by linarith
+  have hden : 1 - 2 * r * 1 + r ^ 2 = (1 - r) ^ 2 := by ring
+  rw [hden]
+  field_simp
+  ring
+
+/-- The vacuum-subtracted Poisson kernel at the antipodal phase `π`. -/
+theorem KrClosed_sub_one_pi {r : ℝ} (hr0 : 0 ≤ r) :
+    KrClosed r Real.pi - 1 = -(2 * r / (1 + r)) := by
+  unfold KrClosed
+  rw [Real.cos_pi]
+  have hne : 1 + r ≠ 0 := by linarith
+  have hden : 1 - 2 * r * (-1) + r ^ 2 = (1 + r) ^ 2 := by ring
+  rw [hden]
+  field_simp
+  ring
+
+/-- `Wp` is strictly positive at phase zero for every real `p > 1`. -/
+theorem Wp_zero_pos {p : ℝ} (hp : 1 < p) : 0 < Wp p 0 := by
+  have hp0 : 0 < p := lt_trans one_pos hp
+  let r : ℝ := p ^ (-(1 : ℝ) / 2)
+  have hr0 : 0 ≤ r := Real.rpow_nonneg hp0.le _
+  have hrpos : 0 < r := Real.rpow_pos_of_pos hp0 _
+  have hr1 : r < 1 := Real.rpow_lt_one_of_one_lt_of_neg hp (by norm_num)
+  have hlog : 0 < Real.log p := Real.log_pos hp
+  unfold Wp
+  rw [Kp_eq_KrClosed hp, show 0 * Real.log p = 0 by ring,
+    KrClosed_sub_one_zero hr1]
+  exact mul_pos hlog (div_pos (by positivity) (sub_pos.mpr hr1))
+
+/-- `Wp` is strictly negative when its phase is `π`.  This is the first exact witness that
+positive-type convolution does not imply pointwise nonnegativity. -/
+theorem Wp_antiphase_neg {p : ℝ} (hp : 1 < p) :
+    Wp p (Real.pi / Real.log p) < 0 := by
+  have hp0 : 0 < p := lt_trans one_pos hp
+  let r : ℝ := p ^ (-(1 : ℝ) / 2)
+  have hr0 : 0 ≤ r := Real.rpow_nonneg hp0.le _
+  have hrpos : 0 < r := Real.rpow_pos_of_pos hp0 _
+  have hr1 : r < 1 := Real.rpow_lt_one_of_one_lt_of_neg hp (by norm_num)
+  have hlog : 0 < Real.log p := Real.log_pos hp
+  have hphase : Real.pi / Real.log p * Real.log p = Real.pi := by
+    field_simp
+  unfold Wp
+  rw [Kp_eq_KrClosed hp, hphase, KrClosed_sub_one_pi hr0]
+  exact mul_neg_of_pos_of_neg hlog
+    (neg_neg_of_pos (div_pos (by positivity) (by positivity)))
+
+/-- The coefficient of the `n`th two-sided prime-power mode.  The zero mode is recorded by
+this coefficient function but omitted by `WpFourierTerm`, implementing vacuum subtraction. -/
+noncomputable def primePowerCoeff (p : ℝ) (n : ℤ) : ℝ :=
+  Real.log p * (p ^ (-(1 : ℝ) / 2)) ^ n.natAbs
+
+/-- The frequency of the `n`th prime-power mode. -/
+noncomputable def primePowerFrequency (p : ℝ) (n : ℤ) : ℝ :=
+  n * Real.log p
+
+/-- The vacuum-subtracted two-sided Fourier term for `Wp`. -/
+noncomputable def WpFourierTerm (p t : ℝ) (n : ℤ) : ℂ :=
+  if n = 0 then 0 else
+    (Real.log p : ℂ) *
+      (((p ^ (-(1 : ℝ) / 2) : ℝ) : ℂ) ^ n.natAbs *
+        Complex.exp (Complex.I * (n : ℂ) * ((t * Real.log p : ℝ) : ℂ)))
+
+/-- Each nonzero term is exactly its prime-power coefficient times its frequency phase. -/
+theorem WpFourierTerm_eq_coeff_frequency {p t : ℝ} {n : ℤ} (hn : n ≠ 0) :
+    WpFourierTerm p t n =
+      (primePowerCoeff p n : ℂ) *
+        Complex.exp (Complex.I * (primePowerFrequency p n * t : ℝ)) := by
+  simp only [WpFourierTerm, primePowerCoeff, primePowerFrequency,
+    if_neg hn, Complex.ofReal_mul]
+  push_cast
+  ring
+
+/-- The normalized half-power raised to `m` is the expected `p^{-m/2}`. -/
+theorem rpow_neg_half_pow {p : ℝ} (hp0 : 0 ≤ p) (m : ℕ) :
+    (p ^ (-(1 : ℝ) / 2)) ^ m = p ^ (-(m : ℝ) / 2) := by
+  rw [← Real.rpow_natCast, ← Real.rpow_mul hp0]
+  congr 1
+  ring
+
+/-- Closed form of the coefficient: `log p · p^{-|n|/2}`. -/
+theorem primePowerCoeff_eq {p : ℝ} (hp0 : 0 ≤ p) (n : ℤ) :
+    primePowerCoeff p n = Real.log p * p ^ (-(n.natAbs : ℝ) / 2) := by
+  unfold primePowerCoeff
+  rw [rpow_neg_half_pow hp0]
+
+/-- Every prime-power Fourier coefficient is strictly positive for `p > 1`. -/
+theorem primePowerCoeff_pos {p : ℝ} (hp : 1 < p) (n : ℤ) :
+    0 < primePowerCoeff p n := by
+  unfold primePowerCoeff
+  exact mul_pos (Real.log_pos hp)
+    (pow_pos (Real.rpow_pos_of_pos (lt_trans one_pos hp) _) _)
+
+/-- Absolute summability of the two-sided prime-power expansion. -/
+theorem summable_WpFourierTerm {p : ℝ} (hp : 1 < p) (t : ℝ) :
+    Summable (WpFourierTerm p t) := by
+  have hp0 : 0 < p := lt_trans one_pos hp
+  let r : ℝ := p ^ (-(1 : ℝ) / 2)
+  have hr0 : 0 ≤ r := Real.rpow_nonneg hp0.le _
+  have hr1 : r < 1 := Real.rpow_lt_one_of_one_lt_of_neg hp (by norm_num)
+  have hs := summable_KrClosed_summand hr0 hr1 (t * Real.log p)
+  have hmul := hs.mul_left (Real.log p : ℂ)
+  apply hmul.congr
+  intro n
+  by_cases hn : n = 0 <;> simp [WpFourierTerm, r, hn]
+
+/-- **Exact prime-power expansion**:
+`Wp(p,t) = Σ_{n∈ℤ\{0}} log(p) p^{-|n|/2} exp(i n t log p)`.
+The theorem is an equality of an absolutely summable complex series with the real scalar
+`Wp` embedded in `ℂ`. -/
+theorem tsum_WpFourierTerm_eq {p : ℝ} (hp : 1 < p) (t : ℝ) :
+    ∑' n : ℤ, WpFourierTerm p t n = (Wp p t : ℂ) := by
+  have hp0 : 0 < p := lt_trans one_pos hp
+  let r : ℝ := p ^ (-(1 : ℝ) / 2)
+  have hr0 : 0 ≤ r := Real.rpow_nonneg hp0.le _
+  have hr1 : r < 1 := Real.rpow_lt_one_of_one_lt_of_neg hp (by norm_num)
+  let base : ℤ → ℂ := fun n => if n = 0 then 0 else
+    (r : ℂ) ^ n.natAbs *
+      Complex.exp (Complex.I * (n : ℂ) * ((t * Real.log p : ℝ) : ℂ))
+  have hs : Summable base := by
+    exact summable_KrClosed_summand hr0 hr1 (t * Real.log p)
+  have hfun : WpFourierTerm p t = fun n => (Real.log p : ℂ) * base n := by
+    funext n
+    by_cases hn : n = 0 <;> simp [WpFourierTerm, base, r, hn]
+  rw [hfun, hs.tsum_mul_left]
+  have hsum := tsum_KrClosed_summand_eq hr0 hr1 (t * Real.log p)
+  change (∑' n : ℤ, base n) = ((KrClosed r (t * Real.log p) : ℝ) : ℂ) - 1 at hsum
+  rw [hsum]
+  unfold Wp
+  rw [Kp_eq_KrClosed hp]
+  change (Real.log p : ℂ) *
+      (↑(KrClosed (p ^ (-(1 : ℝ) / 2)) (t * Real.log p)) - 1) =
+    ↑(Real.log p * (KrClosed (p ^ (-(1 : ℝ) / 2)) (t * Real.log p) - 1))
+  push_cast
+  rfl
+
+/-- The signed scalar local term with the conventional overall minus sign.  Naming this
+function does not assert the global explicit formula; that transform remains a separate
+bridge. -/
+noncomputable def weilPrimeMultiplier (p t : ℝ) : ℝ := -Wp p t
+
+/-- The signed local multiplier is the negative real part of the genuine Euler-factor
+logarithmic derivative. -/
+theorem weilPrimeMultiplier_eq_neg_two_mul_re_minusLogDerivZetaP
+    {p : ℝ} (hp : 1 < p) (t : ℝ) :
+    weilPrimeMultiplier p t =
+      -2 * (minusLogDerivZetaP p (1 / 2 + t * Complex.I)).re := by
+  unfold weilPrimeMultiplier
+  rw [Wp_eq_two_mul_re_minusLogDerivZetaP hp]
+  ring
+
+/-- The signed multiplier is negative at phase zero. -/
+theorem weilPrimeMultiplier_zero_neg {p : ℝ} (hp : 1 < p) :
+    weilPrimeMultiplier p 0 < 0 := by
+  unfold weilPrimeMultiplier
+  exact neg_neg_of_pos (Wp_zero_pos hp)
+
+/-- The same signed multiplier is positive at the antipodal phase. -/
+theorem weilPrimeMultiplier_antiphase_pos {p : ℝ} (hp : 1 < p) :
+    0 < weilPrimeMultiplier p (Real.pi / Real.log p) := by
+  unfold weilPrimeMultiplier
+  exact neg_pos.mpr (Wp_antiphase_neg hp)
+
+/-- **Exact local obstruction**: for every `p > 1`, the signed prime multiplier takes both
+signs.  Therefore it is neither a pointwise-positive nor a pointwise-negative channel,
+despite the nonnegative Fourier coefficients of its unsigned positive-type kernel. -/
+theorem weilPrimeMultiplier_sign_changes {p : ℝ} (hp : 1 < p) :
+    ∃ tNeg tPos : ℝ,
+      weilPrimeMultiplier p tNeg < 0 ∧ 0 < weilPrimeMultiplier p tPos := by
+  exact ⟨0, Real.pi / Real.log p,
+    weilPrimeMultiplier_zero_neg hp,
+    weilPrimeMultiplier_antiphase_pos hp⟩
 
 end GppCutkoskyWeil

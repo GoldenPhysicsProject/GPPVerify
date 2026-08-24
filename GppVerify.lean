@@ -251,6 +251,11 @@ import GppVerify.NumberTheory.PerfectNumbersE8
 -- bernoulli'_four, is +1/120. A fully clean, no-gap correction.
 import GppVerify.NumberTheory.ZetaNegativeIntegers
 
+-- ── Twin-prime singlets and doublets (Codex) ──────────────────
+-- The prime gap-2 graph consists of isolated singlets and disjoint
+-- doublets above 5; 3-5-7 is the unique overlapping triplet.
+import GppVerify.NumberTheory.TwinPrimeDoublets
+
 -- ── Character Orthogonality (New) ────────────────────────────────
 -- Genuine harmonic-analysis infrastructure (not sourced from a specific
 -- paper): for a left-invariant measure on a group and a nontrivial
@@ -849,6 +854,16 @@ import GppVerify.QuantumGravity.SpectralWeightIdentities
 -- attempted here. Kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.Digamma
 
+-- ── Positive Gamma--Plancherel defect (v34, Theorem 62.1) ────────────────────────────────
+-- Exact identity between the real-place density and the existing celestial weight
+-- P(lam)=pi*lam/sinh(pi*lam); pointwise and integrated finite-Gram positivity; automatic
+-- positivity for compact truncations.  On the infinite lattice a=2m, b=2n, q>0, the
+-- digamma recurrence plus a finite geometric sum proves the FULL equality between the
+-- four-term Gamma defect, the (0,infinity) integral, and a positive finite resolvent sum,
+-- including strict scalar positivity and finite Gram positivity.  The arbitrary-real
+-- digamma integral representation remains open and is not claimed.  No RH implication.
+import GppVerify.RiemannHypothesis.GammaPlancherelDefect
+
 -- ── Local-field shadow kernels (new research front, 2026-08-20) ────────────────────────────
 -- From "Local-field shadow kernels, celestial unitarity, and the adelic principal series"
 -- (Toupin, 2026). Two unconditional structural facts about the Archimedean shadow kernel
@@ -975,6 +990,14 @@ import GppVerify.RiemannHypothesis.CutkoskyWeilBridge
 -- checked numerically. See discovery/cutkosky_weil/notes.md.
 import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
 
+-- ── Codex local prime Green and fermionic Hodge--Dirac modules ──
+-- Exact prime-power Green propagation, the exterior two-state CAR factor,
+-- and the singlet/doublet Dirac blocks. These remain independent of the
+-- imported Weil-Semiboundedness and Suzuki-Herglotz modules below.
+import GppVerify.RiemannHypothesis.PrimeGreenAmplitude
+import GppVerify.RiemannHypothesis.PrimeFermionDirac
+import GppVerify.RiemannHypothesis.PrimeDoubletDirac
+
 -- ── Thread Weil-Semiboundedness (New, 2026-08-23) ──
 -- formalization_queue item 1b12010b: pure order-theoretic skeleton for
 -- Suzuki's localized Weil ground energy lambda_a (nesting -> antitone;
@@ -1045,3 +1068,12 @@ import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
 -- and does NOT prove the global "exactly the zeros of F, no others" claim (needs D_lam
 -- controlled away from F's zeros too, a separate global argument).
 import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
+
+-- ── Codex: Global von Mangoldt / completed-factorization chain (merge fixup) ──
+-- GlobalCompletedFactorization.lean and LogDerivativeProduct.lean were genuinely
+-- orphaned in the codex/lean-workbench import list (not reachable from any import
+-- root anywhere in the tree, confirmed by full-repo grep) -- added directly here so
+-- `lake build GppVerify` actually type-checks them, matching every other file's
+-- convention of being reachable from this root.
+import GppVerify.RiemannHypothesis.GlobalCompletedFactorization
+import GppVerify.RiemannHypothesis.LogDerivativeProduct

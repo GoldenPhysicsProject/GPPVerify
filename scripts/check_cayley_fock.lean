@@ -1,0 +1,7 @@
+import GppVerify.RiemannHypothesis.CayleyDicksonFockBridge
+
+#print axioms GppCayleyFock.fockDim_eq_cayleyDicksonDim
+#print axioms GppCayleyFock.common_doubling_step
+#print axioms GppCayleyFock.finiteHodgeEnergy_nonneg
+#print axioms GppCayleyFock.finiteHodgeEnergy_eq_zero_iff
+#print axioms GppCayleyFock.finitePrimeHodgeEnergy_critical_pos
