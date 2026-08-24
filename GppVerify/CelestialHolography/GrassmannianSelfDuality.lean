@@ -54,4 +54,18 @@ theorem gr_two_four_self_dual
   have := (grassmannian_self_dual_iff K hK).mpr (by rw [hE, hk])
   exact this
 
+/-- **Gaussian binomial point count for Gr(2,4)** (ONON5213.tex, Ch. 7, `eq:point-count`):
+the number of points of `Gr(2,4)` over 𝔽_q is `\binom{4}{2}_q = 1+q+2q^2+q^3+q^4`. We record
+the algebraic identity behind this (as a statement over any field, for `q ≠ ±1` so both
+denominators are nonzero): `(q^4-1)(q^3-1) / ((q^2-1)(q-1)) = 1+q+2q^2+q^3+q^4`. -/
+theorem grassmannian_gaussian_binomial_two_four {q : ℝ} (hq1 : q ≠ 1) (hqm1 : q ≠ -1) :
+    (q ^ 4 - 1) * (q ^ 3 - 1) / ((q ^ 2 - 1) * (q - 1)) = 1 + q + 2 * q ^ 2 + q ^ 3 + q ^ 4 := by
+  have h1 : q - 1 ≠ 0 := sub_ne_zero.mpr hq1
+  have h2 : q + 1 ≠ 0 := fun h => hqm1 (by linarith)
+  have h3 : q ^ 2 - 1 ≠ 0 := by
+    have hfact : q ^ 2 - 1 = (q - 1) * (q + 1) := by ring
+    rw [hfact]; exact mul_ne_zero h1 h2
+  rw [div_eq_iff (mul_ne_zero h3 h1)]
+  ring
+
 end GppCelestialHolography
