@@ -31,8 +31,8 @@ theorem neg_logDeriv_product_of_hasDerivAt
     (hf : f s ≠ 0) (hg : g s ≠ 0) :
     -((fp * g s + f s * gp) / (f s * g s)) =
       -(fp / f s) - (gp / g s) := by
-  have h := neg_logDeriv_mul_algebra (f s) fp (g s) gp hf hg
-  simpa [sub_eq_add_neg] using h
+  field_simp
+  ring
 
 /-- The derivative of the scalar completed product itself has the usual Leibniz form. -/
 theorem hasDerivAt_completed_product

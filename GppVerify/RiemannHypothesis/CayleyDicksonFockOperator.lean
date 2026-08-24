@@ -28,8 +28,9 @@ open scoped BigOperators
 /-- Pairing a coefficient with its conjugate produces twice its real norm-square. -/
 theorem coeff_conj_pair (z : ℂ) :
     star z * z + z * star z = 2 * (Complex.normSq z : ℂ) := by
-  rw [Complex.conj_mul, Complex.mul_conj]
-  norm_num
+  simp only [RCLike.star_def]
+  rw [mul_comm (starRingEnd ℂ z) z, Complex.mul_conj]
+  ring
 
 /-- The antisymmetric coefficient combination vanishes. -/
 theorem coeff_swap_cancel (z w : ℂ) :
@@ -59,7 +60,7 @@ theorem pairSum_eq_neg {ι κ : Type} [Fintype ι] [Fintype κ]
     (c : ι → Matrix κ κ ℂ) (z : ι → ℂ)
     (hcar : ∀ i j, c i * c j + c j * c i = 0) :
     pairSum c z = - pairSum c z := by
-  rw [pairSum_swap]
+  nth_rewrite 1 [pairSum_swap]
   unfold pairSum
   rw [← Finset.sum_neg_distrib]
   apply Finset.sum_congr rfl
@@ -68,7 +69,7 @@ theorem pairSum_eq_neg {ι κ : Type} [Fintype ι] [Fintype κ]
   apply Finset.sum_congr rfl
   intro j hj
   have hij : c j * c i = -(c i * c j) := by
-    have h := hcar i j
+    have h := hcar j i
     exact eq_neg_of_add_eq_zero_left h
   rw [hij]
   simp
@@ -81,10 +82,12 @@ theorem pairSum_eq_zero {ι κ : Type} [Fintype ι] [Fintype κ]
     pairSum c z = 0 := by
   have hneg := pairSum_eq_neg c z hcar
   have htwo : pairSum c z + pairSum c z = 0 := by
-    rw [hneg]
-    simp
-  have hscaled := congrArg (fun M : Matrix κ κ ℂ => (1 / 2 : ℂ) • M) htwo
-  simpa [smul_add] using hscaled
+    nth_rewrite 1 [hneg]
+    abel
+  have h2 : (2 : ℂ) • pairSum c z = 0 := by
+    rw [two_smul]; exact htwo
+  have hscaled := congrArg (fun M : Matrix κ κ ℂ => (2 : ℂ)⁻¹ • M) h2
+  simpa [smul_smul, inv_mul_cancel₀ (two_ne_zero (α := ℂ))] using hscaled
 
 /-- Finite Koszul supercharge. -/
 noncomputable def supercharge {ι κ : Type} [Fintype ι] [Fintype κ]
@@ -102,7 +105,7 @@ theorem supercharge_sq_eq_pairSum {ι κ : Type} [Fintype ι] [Fintype κ]
   rw [Finset.mul_sum]
   apply Finset.sum_congr rfl
   intro j hj
-  simp [smul_mul, mul_smul, smul_smul, mul_comm]
+  rw [smul_mul_assoc, mul_smul_comm, smul_smul]
 
 /-- **Finite Koszul nilpotence.** For any finite pairwise-anticommuting creation family,
 `Q = Σ_i z_i c_i` satisfies `Q²=0`. -/
@@ -131,20 +134,44 @@ theorem mixed_products_eq {ι κ : Type} [Fintype ι] [Fintype κ]
         adjointSupercharge a z * supercharge c z =
       ∑ i, ∑ j, (z i * star (z j)) • (c i * a j + a j * c i) := by
   unfold supercharge adjointSupercharge
-  rw [Finset.sum_mul, Finset.sum_mul]
-  simp_rw [Finset.mul_sum]
-  rw [Finset.sum_comm]
+  have e1 : (∑ i, z i • c i) * ∑ j, star (z j) • a j =
+      ∑ i, ∑ j, (z i * star (z j)) • (c i * a j) := by
+    rw [Finset.sum_mul]
+    apply Finset.sum_congr rfl
+    intro i _
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [smul_mul_assoc, mul_smul_comm, smul_smul]
+  have e2 : (∑ i, star (z i) • a i) * ∑ j, z j • c j =
+      ∑ i, ∑ j, (z i * star (z j)) • (a j * c i) := by
+    rw [Finset.sum_mul]
+    have step : (∑ m, (star (z m) • a m) * ∑ n, z n • c n) =
+        ∑ m, ∑ n, (star (z m) * z n) • (a m * c n) := by
+      apply Finset.sum_congr rfl
+      intro m _
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro n _
+      rw [smul_mul_assoc, mul_smul_comm, smul_smul]
+    rw [step, Finset.sum_comm]
+    apply Finset.sum_congr rfl
+    intro i _
+    apply Finset.sum_congr rfl
+    intro j _
+    rw [mul_comm (star (z j)) (z i)]
+  rw [e1, e2, ← Finset.sum_add_distrib]
   apply Finset.sum_congr rfl
-  intro i hi
+  intro i _
   rw [← Finset.sum_add_distrib]
   apply Finset.sum_congr rfl
-  intro j hj
-  simp [smul_mul, mul_smul, smul_smul, add_smul, mul_comm, mul_left_comm]
+  intro j _
+  rw [smul_add]
 
 /-- Under the mixed CAR relation, the mixed product is the scalar Hodge energy times the
 identity matrix. -/
 theorem mixed_products_eq_energy {ι κ : Type} [Fintype ι] [Fintype κ]
-    [DecidableEq ι]
+    [DecidableEq ι] [DecidableEq κ]
     (c a : ι → Matrix κ κ ℂ) (z : ι → ℂ)
     (hmixed : ∀ i j, c i * a j + a j * c i = if i = j then 1 else 0) :
     supercharge c z * adjointSupercharge a z +
@@ -152,19 +179,22 @@ theorem mixed_products_eq_energy {ι κ : Type} [Fintype ι] [Fintype κ]
       ((∑ i, Complex.normSq (z i) : ℝ) : ℂ) •
         (1 : Matrix κ κ ℂ) := by
   rw [mixed_products_eq]
-  simp_rw [hmixed]
-  simp only [smul_ite, smul_zero, Finset.sum_ite_irrel, Finset.mem_univ, if_true]
+  have hterm : ∀ i, (∑ j, (z i * star (z j)) • (c i * a j + a j * c i)) =
+      (Complex.normSq (z i) : ℂ) • (1 : Matrix κ κ ℂ) := by
+    intro i
+    simp_rw [hmixed, smul_ite, smul_zero]
+    simp only [Finset.sum_ite_eq, Finset.mem_univ, if_true]
+    congr 1
+    rw [RCLike.star_def]
+    exact Complex.mul_conj (z i)
+  simp_rw [hterm]
   rw [← Finset.sum_smul]
-  congr 1
-  apply Finset.sum_congr rfl
-  intro i hi
-  rw [Complex.mul_conj]
-  rfl
+  norm_cast
 
 /-- **Finite CAR/Koszul Hodge--Dirac square.** If creation and annihilation families each
 anticommute and satisfy the mixed CAR relation, then the weighted Dirac square is exactly
 the total nonnegative Hodge energy times the identity. -/
-theorem dirac_sq_energy {ι κ : Type} [Fintype ι] [Fintype κ] [DecidableEq ι]
+theorem dirac_sq_energy {ι κ : Type} [Fintype ι] [Fintype κ] [DecidableEq ι] [DecidableEq κ]
     (c a : ι → Matrix κ κ ℂ) (z : ι → ℂ)
     (hcreate : ∀ i j, c i * c j + c j * c i = 0)
     (hannihilate : ∀ i j, a i * a j + a j * a i = 0)

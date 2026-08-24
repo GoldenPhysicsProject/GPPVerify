@@ -38,12 +38,12 @@ theorem fockDim_eq_cayleyDicksonDim (n : ℕ) :
 
 /-- Adding one fermionic channel doubles the Fock dimension. -/
 theorem fockDim_succ (n : ℕ) : fockDim (n + 1) = 2 * fockDim n := by
-  simp [fockDim, pow_succ]
+  simp [fockDim, pow_succ']
 
 /-- One Cayley--Dickson step doubles the vector-space dimension. -/
 theorem cayleyDicksonDim_succ (n : ℕ) :
     cayleyDicksonDim (n + 1) = 2 * cayleyDicksonDim n := by
-  simp [cayleyDicksonDim, GppSM.cdDim, pow_succ]
+  simp [cayleyDicksonDim, GppSM.cdDim, pow_succ']
 
 /-- Adding one channel doubles both constructions in exactly the same way. -/
 theorem common_doubling_step (n : ℕ) :

@@ -28,14 +28,14 @@ open Complex
 open scoped BigOperators
 
 /-- The finite CAR/Koszul Dirac operator specialized to Euler holonomies. -/
-noncomputable def finitePrimeDirac {n κ : Type} [Fintype n] [Fintype κ]
-    (c a : n → Matrix κ κ ℂ) (p : n → ℝ) (s : ℂ) : Matrix κ κ ℂ :=
+noncomputable def finitePrimeDirac {n : ℕ} {κ : Type} [Fintype κ]
+    (c a : Fin n → Matrix κ κ ℂ) (p : Fin n → ℝ) (s : ℂ) : Matrix κ κ ℂ :=
   GppCayleyFockOperator.dirac c a (fun i => GppPrimeFermion.eulerHolonomy (p i) s)
 
 /-- **Exact Euler specialization.** Under the finite CAR relations, the square of the
 finite-prime Dirac operator is exactly the finite Euler Hodge energy times the identity. -/
-theorem finitePrimeDirac_sq {n κ : Type} [Fintype n] [Fintype κ] [DecidableEq n]
-    (c a : n → Matrix κ κ ℂ) (p : n → ℝ) (s : ℂ)
+theorem finitePrimeDirac_sq {n : ℕ} {κ : Type} [Fintype κ] [DecidableEq κ]
+    (c a : Fin n → Matrix κ κ ℂ) (p : Fin n → ℝ) (s : ℂ)
     (hcreate : ∀ i j, c i * c j + c j * c i = 0)
     (hannihilate : ∀ i j, a i * a j + a j * a i = 0)
     (hmixed : ∀ i j, c i * a j + a j * c i = if i = j then 1 else 0) :
@@ -51,7 +51,7 @@ theorem finitePrimeDirac_sq {n κ : Type} [Fintype n] [Fintype κ] [DecidableEq 
 
 /-- Adding an extra operator `A` to a Dirac operator `D`: if their anticommutator vanishes,
 the square contains no prime--Archimedean cross term. -/
-theorem add_sq_of_anticommute {κ : Type} [Fintype κ]
+theorem add_sq_of_anticommute {κ : Type} [Fintype κ] [DecidableEq κ]
     (D A : Matrix κ κ ℂ) (hanti : D * A + A * D = 0) :
     (D + A) * (D + A) = D * D + A * A := by
   calc
@@ -61,7 +61,7 @@ theorem add_sq_of_anticommute {κ : Type} [Fintype κ]
 /-- **Positive Clifford-channel obstruction.** If `D² = E I`, `A² = μ I`, and `D`
 anticommutes with `A`, then `(D+A)² = (E+μ) I`.  Thus an independent Clifford completion
 only adds its positive scalar energy; it cannot cancel the finite-prime energy. -/
-theorem completed_sq_of_clifford_orthogonal {κ : Type} [Fintype κ]
+theorem completed_sq_of_clifford_orthogonal {κ : Type} [Fintype κ] [DecidableEq κ]
     (D A : Matrix κ κ ℂ) (E μ : ℂ)
     (hD : D * D = E • (1 : Matrix κ κ ℂ))
     (hA : A * A = μ • (1 : Matrix κ κ ℂ))
@@ -73,7 +73,7 @@ theorem completed_sq_of_clifford_orthogonal {κ : Type} [Fintype κ]
 /-- If a completed zero occurs in the scalar-square model, the prime--Archimedean cross
 term is not arbitrary: it is forced to cancel the sum of both diagonal energies exactly.
 This is the algebraic target for any proposed Archimedean coupling. -/
-theorem cross_term_forced_of_completed_zero {κ : Type} [Fintype κ]
+theorem cross_term_forced_of_completed_zero {κ : Type} [Fintype κ] [DecidableEq κ]
     (D A : Matrix κ κ ℂ) (E μ : ℂ)
     (hD : D * D = E • (1 : Matrix κ κ ℂ))
     (hA : A * A = μ • (1 : Matrix κ κ ℂ))
@@ -87,8 +87,8 @@ theorem cross_term_forced_of_completed_zero {κ : Type} [Fintype κ]
       _ = (D + A) * (D + A) := by noncomm_ring
       _ = 0 := hzero
   have hreordered :
-      (E • (1 : Matrix κ κ ℂ) + μ • (1 : Matrix κ κ ℂ)) +
-          (D * A + A * D) = 0 := by
+      (D * A + A * D) +
+          (E • (1 : Matrix κ κ ℂ) + μ • (1 : Matrix κ κ ℂ)) = 0 := by
     simpa [add_assoc, add_left_comm, add_comm] using hsum
   have hcross :
       D * A + A * D =
@@ -105,7 +105,7 @@ theorem positive_energy_sum_ne_zero {E μ : ℝ} (hE : 0 < E) (hμ : 0 ≤ μ) :
 
 /-- Consequently, in the scalar-square Clifford-orthogonal model, a strictly positive
 finite-prime energy cannot be canceled by a nonnegative Archimedean energy. -/
-theorem completed_square_nonzero_of_positive_orthogonal {κ : Type} [Fintype κ]
+theorem completed_square_nonzero_of_positive_orthogonal {κ : Type} [Fintype κ] [DecidableEq κ]
     [Nonempty κ]
     (D A : Matrix κ κ ℂ) (E μ : ℝ)
     (hE : 0 < E) (hμ : 0 ≤ μ)
