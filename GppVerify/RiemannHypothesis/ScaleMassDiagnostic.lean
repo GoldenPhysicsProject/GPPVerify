@@ -30,7 +30,6 @@ theorem norm_dilationCharacter (s : ℂ) (a : ℝ) :
   rw [Complex.norm_exp]
   congr 1
   simp [Complex.mul_re, Complex.sub_re]
-  ring
 
 /-- On the critical line, every positive dilation has unit modulus. -/
 theorem critical_line_dilation_unitary {s : ℂ} (hs : s.re = 1/2) (a : ℝ) :
@@ -45,11 +44,12 @@ theorem critical_line_of_dilation_unitary {s : ℂ} {a : ℝ}
     s.re = 1/2 := by
   rw [norm_dilationCharacter] at hunit
   have hexp : Real.log a * (s.re - 1/2) = 0 := by
-    have := Real.exp_eq_one_iff.mp hunit
-    exact this
-  have hloga : Real.log a ≠ 0 := by
-    exact (Real.log_ne_zero_of_pos_of_ne_one ha ha1)
-  exact (mul_eq_zero.mp hexp).resolve_left hloga
+    apply Real.exp_injective
+    simpa using hunit
+  have hloga : Real.log a ≠ 0 :=
+    Real.log_ne_zero_of_pos_of_ne_one ha ha1
+  have hsub : s.re - 1/2 = 0 := (mul_eq_zero.mp hexp).resolve_left hloga
+  exact sub_eq_zero.mp hsub
 
 /-- Therefore the critical line is exactly the unitary dilation locus for any fixed
 nontrivial positive scale. -/
