@@ -2075,6 +2075,43 @@ are not attempted --- Mathlib has no Schatten-class/trace-class operator infrast
 at all (confirmed absent by direct search of the pinned Mathlib source), which blocks
 both outright.
 
+\textbf{Prime-Scattering, item \texttt{189645c2}: BLOCKED.} "Critical-line prime
+semigroup is exactly S3 but not S2 and det3 captures repetitions $m\ge3$" needs
+Schatten-class membership and the regularized $\det_3$ Fredholm determinant --- the same
+gap above, confirmed a second time (a targeted search for \texttt{Fredholm} in the pinned
+Mathlib source returns exactly one hit, a bare TODO comment noting Fredholm operators do
+not exist yet).
+
+\textbf{Prime-Scattering, item \texttt{0452a4c4}: the characteristic-function S-matrix.}
+On $\ell^2(\text{primes})$, with $Le_p=(\log p)e_p$, $A=e^{-L/2}$, $U_t=e^{-itL}$, defines
+$S(t)=(U_t-A)(I-AU_t)^{-1}$, asking for the Sz.-Nagy/Foias Blaschke characteristic-factor
+formula at each prime.
+
+\begin{theorem}[Blaschke Factor on the Unit Circle]
+  \label{thm:blaschke-modulus}
+  \lean{GppPrimeCharFn.norm_blaschke_eq_one}
+  \leanok
+  For real $a$ with $|a|<1$ and $w\in\mathbb{C}$ with $|w|=1$, the Blaschke factor
+  $(w-a)/(1-aw)$ has modulus exactly $1$.
+\end{theorem}
+
+\begin{theorem}[Prime Characteristic-Function Unitarity]
+  \label{thm:prime-charfn-unitary}
+  \lean{GppPrimeCharFn.primeCharFn_diag_unitary_of_modulus_one}
+  \leanok
+  For every real $t$: $\left|\dfrac{p^{-it}-p^{-1/2}}{1-p^{-1/2-it}}\right|=1$ at every
+  prime $p$ (\lean{GppPrimeCharFn.primeCharFn_norm_eq_one}), and the diagonal operator
+  built from this weight on $\ell^2(\text{primes})$ is unitary (reusing
+  \lean{GppPrimeContraction.prime_contraction_unitary_of_modulus_one} directly).
+\end{theorem}
+
+\textbf{Honest boundary.} $R(t)=U_t^*S(t)$ and its Schatten-class membership
+($R(t)-I\in S3$) are not formalized --- blocked by the same Schatten-class gap as item
+\texttt{189645c2}. The finite Euler "shadow determinant" identity
+$\det R_P(t)=\zeta_P(1/2+it)/\zeta_P(1/2-it)$ is not attempted for the same reason. The
+literal operator constructions $U_t$, $A$, $S(t)$ as $e^{-L/2}$/$e^{-itL}$ are not built;
+only the item's own closed-form diagonal weight is used directly.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
