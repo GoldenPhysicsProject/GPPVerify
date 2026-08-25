@@ -1190,6 +1190,17 @@ import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
 -- controlled away from F's zeros too, a separate global argument).
 import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
 
+-- Suzuki-Herglotz thread, item 2e8ff61e: the kernel-integral half of "Suzuki shifted
+-- operator is an exact projected convolution with shifted xi log-derivative multiplier".
+-- suzukiKernel_integral_eq_shift_add_const: for mean-zero u on (-a,a), integrating
+-- N_a(x,y)=(x^2+y^2)/(4a)-|x-y|/2+a/6 against u equals integrating the shift kernel
+-- -|x-y|/2 against u, plus the single x-independent constant integral y^2/(4a)*u(y).
+-- Pure intervalIntegral linearity + ring, no functional analysis. Does NOT construct
+-- K_a=(-Delta_N)^{-1} or P_a as literal operators, and does NOT touch the Fourier/
+-- distributional half (hat{|x|}(z)=-2/z^2 via (|x|)''=2*delta_0) -- blocked on the
+-- standing tempered-distribution Mathlib gap.
+import GppVerify.ThreadWeilParity.SuzukiShiftedKernelReduction
+
 -- ── Codex: Global von Mangoldt / completed-factorization chain (merge fixup) ──
 -- GlobalCompletedFactorization.lean and LogDerivativeProduct.lean were genuinely
 -- orphaned in the codex/lean-workbench import list (not reachable from any import

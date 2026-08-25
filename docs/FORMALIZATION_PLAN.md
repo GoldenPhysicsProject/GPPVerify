@@ -2635,6 +2635,37 @@ the item's own closed-form diagonal weight is used directly.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
+## Suzuki-Herglotz thread: the shifted-kernel reduction, item `2e8ff61e`
+
+**Status: PARTIAL — `SuzukiShiftedKernelReduction.lean`.**
+
+Suzuki 2026 §8: on `L²₀(-a,a)`, `K_a = (-Δ_N)⁻¹` has kernel
+`N_a(x,y) = (x²+y²)/(4a) - |x-y|/2 + a/6`. The item's claim: for mean-zero `u`, `K_a u`
+equals `P_a` applied to the shift-kernel convolution `C_{-|·|/2} u`, because the `x²` and
+`a/6` terms of `N_a` vanish against `∫u = 0` and the `y²` term is an `x`-independent
+constant removed by the mean-zero projection `P_a`.
+
+Proved: `suzukiKernel_integral_eq_shift_add_const` — the pointwise integral identity
+itself, exactly: for `u` integrable on `(-a,a)` with `∫u = 0`,
+`∫ N_a(x,y)·u(y) dy = ∫ (-|x-y|/2)·u(y) dy + ∫ (y²/(4a))·u(y) dy`, i.e. the two integral
+operators differ by the single `x`-independent constant `∫ y²/(4a)·u(y) dy`. Pure
+`intervalIntegral` linearity plus `ring` on the kernel's algebraic decomposition — no
+functional-analytic machinery needed for this half.
+
+**Honest boundary**: the operator-level statement (`K_a` built as the genuine inverse
+Neumann-Laplacian, `P_a` a literal orthogonal projection) is not constructed — only the
+kernel-integral algebra above, which is the identity's real content. The item's second
+half — `(|x|)'' = 2δ₀` giving `hat{|x|}(z) = -2/z²`, hence
+`hat{k_λ}(z) = z⁻²[ξ'/ξ(1/2-iz) - λ]` — needs tempered-distribution theory (derivatives
+and Fourier transform on the dual of Schwartz space), confirmed absent from Mathlib
+(`Mathlib.Analysis.Distribution.*` has only the Schwartz test-function space and the
+Fourier transform on Schwartz functions themselves, not the dual distribution space) —
+the same tempered-distribution gap already flagged against this item. Not attempted. The
+full transfer identity `S_{a,λ} = G_a - λK_a = P_a C_{g+λ|·|/2} P_a` is therefore not
+assembled either.
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

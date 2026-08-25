@@ -2112,6 +2112,38 @@ $\det R_P(t)=\zeta_P(1/2+it)/\zeta_P(1/2-it)$ is not attempted for the same reas
 literal operator constructions $U_t$, $A$, $S(t)$ as $e^{-L/2}$/$e^{-itL}$ are not built;
 only the item's own closed-form diagonal weight is used directly.
 
+\textbf{Suzuki-Herglotz, item \texttt{2e8ff61e}: the shifted-kernel reduction.} On
+$L^2_0(-a,a)$, $K_a=(-\Delta_N)^{-1}$ has kernel $N_a(x,y)=(x^2+y^2)/(4a)-|x-y|/2+a/6$.
+The item's claim: for mean-zero $u$, $K_a u$ reduces to the shift-kernel convolution
+$C_{-|\cdot|/2}u$ up to the mean-zero projection $P_a$ --- the $x^2$ and $a/6$ terms of
+$N_a$ vanish against $\int u=0$, and the $y^2$ term is an $x$-independent constant
+removed by $P_a$.
+
+\begin{theorem}[Suzuki Shifted-Kernel Reduction]
+  \label{thm:suzuki-kernel-reduction}
+  \lean{GppWeilParity.suzukiKernel_integral_eq_shift_add_const}
+  \leanok
+  For $u$ integrable on $(-a,a)$ with $\int_{-a}^{a}u=0$:
+  \[\int_{-a}^{a}N_a(x,y)\,u(y)\,dy=\int_{-a}^{a}\left(-\tfrac{|x-y|}{2}\right)u(y)\,dy
+    +\int_{-a}^{a}\tfrac{y^2}{4a}\,u(y)\,dy,\]
+  i.e.\ the two integral operators differ by the single $x$-independent constant
+  $\int y^2/(4a)\cdot u(y)\,dy$ --- exactly the item's own claimed reduction, as a
+  pointwise integral identity. Pure \texttt{intervalIntegral} linearity plus \texttt{ring}
+  on the kernel's algebraic decomposition; no functional-analytic machinery needed for
+  this half.
+\end{theorem}
+
+\textbf{Honest boundary.} The operator-level statement ($K_a$ built as the genuine inverse
+Neumann-Laplacian, $P_a$ a literal orthogonal projection) is not constructed --- only the
+kernel-integral algebra above, the identity's real content. The item's second half ---
+$(|x|)''=2\delta_0$ giving $\widehat{|x|}(z)=-2/z^2$, hence
+$\hat{k}_\lambda(z)=z^{-2}[\xi'/\xi(1/2-iz)-\lambda]$ --- needs tempered-distribution
+theory (derivatives and Fourier transform on the dual of Schwartz space), confirmed absent
+from the pinned Mathlib source (only the Schwartz test-function space itself and the
+Fourier transform on Schwartz functions exist, not the dual distribution space). Not
+attempted; the full transfer identity $S_{a,\lambda}=G_a-\lambda K_a=P_aC_{g+\lambda|\cdot|/2}P_a$
+is therefore not assembled either.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
