@@ -253,3 +253,4 @@ import GppVerify
 #print axioms GppPrimeCharFn.norm_blaschke_eq_one
 #print axioms GppPrimeCharFn.primeCharFn_norm_eq_one
 #print axioms GppPrimeCharFn.primeCharFn_diag_unitary_of_modulus_one
+#print axioms GppWeilParity.suzukiKernel_integral_eq_shift_add_const
