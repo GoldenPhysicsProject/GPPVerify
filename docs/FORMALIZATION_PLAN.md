@@ -2666,6 +2666,49 @@ assembled either.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
+## Prime-Fisher/Hankel thread: unconditional strict positivity, ported from GPPVerify2
+
+**Status: capstone PROVED.** Ported from `GoldenPhysicsProject/GPPVerify2` (Codex's
+parallel Lean repo, `codex/lean-workbench` branch) to bring GPPVerify's proved-result
+coverage up to par with it, per Daniel's explicit direction. 25 files, all sorry-free and
+axiom-clean (13/13 unchanged) against this repo's own pinned Mathlib.
+
+The route: finite weighted polynomial Gram positivity (`PrimeHankelGram.lean`) → a
+polynomial-summability layer for the arithmetic prime-gas measure
+(`PrimeHankelPolynomialSummability.lean`, `PrimeFisherMomentSummability.lean`,
+`VonMangoldtCumulantSummability.lean`) → an unconditional **all-order strict** Hankel/Gram
+positivity theorem via a prime-power root-escape witness: the support points
+`log 2, log 4, log 8, ..., log 2^(N+1)` are injective (all von Mangoldt weight `log 2`,
+distinct positions), so no nonzero degree-`N` polynomial can vanish on all `N+1` of them —
+capstone `PrimeHankelAllOrderStrict.lean`. Alongside: a parallel zeta-Gibbs thermodynamic
+route (`ZetaGibbsFisher.lean` → `ZetaGibbsFisherStrict.lean`,
+`ZetaFisherStrictMonotonicity.lean`, `ZetaThirdCumulantStrict.lean`) proving strict
+Fisher-information/heat-capacity monotonicity and a strict third-cumulant sign, and the
+`TwoParameterFisherDeterminant.lean` two/three/four-point finite covariance-determinant
+positivity chain.
+
+**Honest boundary — not ported this pass.** `FiniteFisherVandermondeIdentity.lean` and
+its two dependents (`CountableFisherMomentLimit.lean`, `CountableFisherNonnegativity.lean`
+— the extension of this positivity to genuine countable, normalized probability measures,
+not just finite truncations) are excluded. Their central lemma
+(`orderedVandermondeEnergy_eq_momentDiscriminant`, a 5-moment discriminant identity
+across a triple `Finset.sum`) does not close under this repo's pinned Mathlib — `ring`
+leaves an unsolved goal after full sum-distribution (squared/cubed single sums need
+`Finset.sum_mul_sum`-style expansion into matching triple sums before `ring` can see a
+pure polynomial identity, and getting the resulting nested-sum binder order to match on
+both sides is the actual remaining work). Confirmed this is not a porting artifact — the
+identical proof fails to close from GPPVerify2's own current source verbatim, checked in
+isolation via `lake env lean`. Not attempted further this pass rather than forced through
+with `sorryAx`. Everything actually wired above, including the all-order strict capstone,
+is independent of this gap and builds clean.
+
+One incidental fix along the way: `PrimeHankelGram.lean` used a bare `import Mathlib`
+(the whole library), which collided with this repo's own `IsInvariant` (`CoreTheorems.lean`)
+against Mathlib's `Mathlib.Dynamics.Flow` — narrowed to `import Mathlib.Tactic`, the only
+thing the file actually needs.
+
+Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

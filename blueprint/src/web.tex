@@ -2144,6 +2144,39 @@ Fourier transform on Schwartz functions exist, not the dual distribution space).
 attempted; the full transfer identity $S_{a,\lambda}=G_a-\lambda K_a=P_aC_{g+\lambda|\cdot|/2}P_a$
 is therefore not assembled either.
 
+\textbf{Prime-Fisher/Hankel thread: unconditional strict positivity (ported from GPPVerify2).}
+25 files ported from \texttt{GoldenPhysicsProject/GPPVerify2} (Codex's parallel Lean repo)
+to bring this repo's proved-result coverage up to par with it. Route: finite weighted
+polynomial Gram positivity $\to$ a polynomial-summability layer for the arithmetic
+prime-gas measure $\to$ an unconditional \textbf{all-order strict} Hankel/Gram positivity
+theorem, via a prime-power root-escape witness.
+
+\begin{theorem}[Unconditional All-Order Strict Prime-Gas Hankel Positivity]
+  \label{thm:prime-hankel-all-order-strict}
+  \lean{GppPrimeHankelAllOrderStrict.fisher_polynomial_tsum_pos_unconditional}
+  \leanok
+  For every $N$ and every nonzero real polynomial of degree $\le N$, the weighted
+  polynomial Gram sum over the arithmetic Fisher measure on $\{\log p^k\}$ is strictly
+  positive, unconditionally --- via the prime-power witness $2,4,8,\dots,2^{N+1}$: all
+  carry von-Mangoldt weight $\log 2$ at pairwise distinct log-support points
+  $(k{+}1)\log 2$, so no nonzero degree-$N$ polynomial can vanish on all $N{+}1$ of them.
+\end{theorem}
+
+Alongside, a parallel zeta-Gibbs thermodynamic route proves strict Fisher-information/
+heat-capacity monotonicity and a strict third-cumulant sign
+(\lean{GppZetaGibbsFisherStrict.logEnergyVariance_strictAnti},
+\lean{GppZetaThirdCumulantStrict.logEnergyThirdCumulant_pos}), and a two/three/four-point
+finite covariance-determinant positivity chain
+(\lean{GppTwoParameterFisherDeterminant.four_point_covariance_det_pos_of_three}).
+
+\textbf{Honest boundary.} Not ported this pass: the extension of this positivity to
+genuine countable, normalized probability measures (not just finite truncations). Its
+central lemma --- a 5-moment discriminant identity across a triple finite sum --- does not
+close under this repo's pinned Mathlib (\texttt{ring} leaves an unsolved goal after full
+sum-distribution); confirmed this is not a porting artifact, as the identical proof fails
+to close from GPPVerify2's own current source verbatim. Not attempted further rather than
+forced through with an unverified gap.
+
 \chapter{Axiom Inventory}
 
 \noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
