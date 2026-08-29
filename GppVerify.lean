@@ -1210,3 +1210,50 @@ import GppVerify.ThreadWeilParity.SuzukiShiftedKernelReduction
 import GppVerify.RiemannHypothesis.GlobalCompletedFactorization
 import GppVerify.RiemannHypothesis.GramPositivityBoundary
 import GppVerify.RiemannHypothesis.LogDerivativeProduct
+
+-- ── Prime-Fisher/Hankel thread, ported from GPPVerify2 (2026-08-29) ──
+-- Unconditional strict Fisher/Hankel-Gram positivity for the arithmetic prime-gas
+-- measure: finite weighted polynomial Gram positivity -> polynomial-summability layers ->
+-- unconditional all-order strict positivity via a prime-power root-escape witness
+-- (2,4,8,...,2^(N+1), whose log-support points are injective, so no nonzero degree-N
+-- polynomial vanishes on all of them). Capstone: PrimeHankelAllOrderStrict.lean. Ported
+-- verbatim from GoldenPhysicsProject/GPPVerify2 (Codex's parallel Lean repo, branch
+-- codex/lean-workbench) with Daniel's explicit direction to bring GPPVerify's proved-result
+-- coverage up to par with it. GlobalVonMangoldtBridge.lean updated to Codex's superset
+-- (three additional tsum-form theorems, purely additive, nothing removed).
+--
+-- NOT ported this pass: FiniteFisherVandermondeIdentity.lean and its two dependents
+-- (CountableFisherMomentLimit.lean, CountableFisherNonnegativity.lean) -- the countable/
+-- normalized-measure extension of Fisher positivity. Its central lemma
+-- (orderedVandermondeEnergy_eq_momentDiscriminant, a 5-moment discriminant identity
+-- across a triple sum) fails to close in this pinned Mathlib (`ring` leaves an unsolved
+-- goal after full sum-distribution; confirmed reproducible from GPPVerify2's own current
+-- source verbatim, not a porting artifact) -- an honest gap, not attempted here rather
+-- than forced through with sorryAx. Everything actually wired below (including the
+-- all-order strict capstone) is independent of this and builds clean.
+import GppVerify.RiemannHypothesis.FiniteFisherMomentBridge
+import GppVerify.RiemannHypothesis.FiniteVandermondeEnergy
+import GppVerify.RiemannHypothesis.FiniteVandermondeExpansionKernel
+import GppVerify.RiemannHypothesis.FiniteMomentFactorization
+import GppVerify.RiemannHypothesis.PrimeHankelRootEscape
+import GppVerify.RiemannHypothesis.PrimeHankelFiniteGramStrict
+import GppVerify.RiemannHypothesis.PrimeHankelInfiniteLift
+import GppVerify.RiemannHypothesis.PrimeHankelFisherSpecialization
+import GppVerify.RiemannHypothesis.VonMangoldtCumulantSummability
+import GppVerify.RiemannHypothesis.PrimeFisherMomentSummability
+import GppVerify.RiemannHypothesis.PrimeHankelPolynomialSummability
+import GppVerify.RiemannHypothesis.PrimeHankelAllOrderStrict
+import GppVerify.RiemannHypothesis.TwoParameterFisherDeterminant
+import GppVerify.RiemannHypothesis.VonMangoldtCosineBridge
+import GppVerify.RiemannHypothesis.VonMangoldtCubicPositivity
+import GppVerify.RiemannHypothesis.WeightedVarianceFinite
+import GppVerify.RiemannHypothesis.WeightedVarianceInfinite
+import GppVerify.RiemannHypothesis.ZetaGibbsSummability
+import GppVerify.RiemannHypothesis.ZetaGibbsMoments
+import GppVerify.RiemannHypothesis.VonMangoldtCumulantDerivativeBridge
+import GppVerify.RiemannHypothesis.ZetaGibbsMomentBridge
+import GppVerify.RiemannHypothesis.ZetaGibbsFisher
+import GppVerify.RiemannHypothesis.ZetaThirdCumulantStrict
+import GppVerify.RiemannHypothesis.ZetaFisherStrictMonotonicity
+import GppVerify.RiemannHypothesis.ZetaGibbsFisherStrict
+import GppVerify.RiemannHypothesis.PrimeHankelGram
