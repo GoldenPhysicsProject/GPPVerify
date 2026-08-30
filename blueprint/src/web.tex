@@ -2179,63 +2179,72 @@ forced through with an unverified gap.
 
 \chapter{Axiom Inventory}
 
-\noindent\textbf{Re-audited 2026-08-15} directly against the source tree (\texttt{grep -rn
+\noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
 "\textasciicircum axiom " GppVerify/}) rather than carried forward from an earlier snapshot.
-There are exactly \textbf{13} custom axioms in the repo at commit \texttt{001aea7}. The
-sections below categorize all 13; nothing is omitted.
+There is now exactly \textbf{1} custom axiom in the repo, down from 13.
 
-\section{Physics Parameters (named constants, not claims)}
+\medskip
+\noindent\textbf{What changed.} Twelve of the thirteen were not mathematical gaps at all.
+Eleven declared \emph{physical observables} ($c_{2D}$, $c_{4D}^{\mathrm{Weyl}}$,
+$n_{\mathrm{gen}}$, $\kappa_0$, $\Omega_{DM}$, the shadow-breaking scale) or \emph{cited
+external physics results} (\texttt{link6\_from\_physics}, \texttt{boyle\_turok\_2021}); a
+twelfth (\texttt{hurwitz\_division\_algebra\_dimensions}) was consumed by no theorem at all.
+A global axiom is the wrong mechanism for a physics input: it silently propagates into the
+axiom trace of every downstream result, whether or not the reader is looking. All eleven are
+now carried as \textbf{explicit hypotheses} on the theorems that use them, so the
+conditionality is visible in each statement and the theorems audit clean; the unused one was
+retired outright, its statement kept as a hypothesis-shaped \texttt{Prop}. No mathematical
+content was weakened, added, or removed --- the deduction
+$c_{2D}=0 \Rightarrow n_{\mathrm{gen}}=3$ was always conditional on its physics inputs, and
+now says so in its own type.
 
-These declare a real-valued or natural-number physical quantity to exist and, in a few
-cases, constrain its sign or range from observation --- they assert no derivation and are
-not open mathematical or physical claims.
+\section{Physics Inputs (now hypotheses, not axioms)}
 
-\begin{enumerate}
-  \item \texttt{omega\_DM} --- observed dark matter abundance $\Omega_{DM}$ (dimensionless);
-        \texttt{omega\_DM\_observed} constrains it to $(0,1)$ (Planck 2018: $\Omega_{DM}h^2
-        \approx 0.12$). \hfill \texttt{StandardModel/DMAbundance.lean}
-  \item \texttt{shadow\_breaking\_scale} --- the shadow-symmetry breaking scale, in Planck
-        units; \texttt{shadow\_breaking\_scale\_pos} constrains it positive.
-        \hfill \texttt{StandardModel/DMAbundance.lean}
-  \item \texttt{c\_2D}, \texttt{c\_4D\_weyl} --- the 2D celestial-OPE central charge and the
-        4D graviton-self-energy Weyl anomaly coefficient. \hfill
-        \texttt{CelestialHolography/Link6.lean}
-  \item \texttt{n\_gen} --- the number of fermion generations, as a physical observable
-        (not yet derived to equal 3 inside this axiom). \hfill \texttt{Link6.lean}
-  \item \texttt{kappa\_0} --- the canonical-OPE-normalization proportionality constant;
-        \texttt{kappa\_0\_pos} constrains it positive. \hfill \texttt{Link6.lean}
-\end{enumerate}
-
-\section{Open Physics Claims}
+These name a physical observable, or a cited external physics result. None is a mathematical
+gap, and none is an axiom any more: each is a universally quantified variable or an explicit
+hypothesis on the theorems that consume it.
 
 \begin{enumerate}
+  \item $c_{2D}$, $c_{4D}^{\mathrm{Weyl}}$, $n_{\mathrm{gen}}$, $\kappa_0$ --- the 2D
+        celestial-OPE central charge, the 4D graviton-self-energy Weyl anomaly coefficient,
+        the number of fermion generations, and the canonical-OPE normalisation.
+        \hfill \texttt{CelestialHolography/Link6.lean}
   \item \texttt{link6\_from\_physics} --- $c_{2D} = \kappa_0 \cdot c_{4D}^{\mathrm{Weyl}}$
-        (\textbf{thm:link6}). The intended proof route is via four QFT inputs (Weinberg
-        soft theorem, Cachazo-Strominger celestial OPE, Capper-Duff one-loop anomaly,
-        Adler-Bardeen non-renormalization) --- these four are \emph{not} axiomatized any
-        longer: they were converted to the repo's honest \texttt{True}-stub convention (see
-        below) in \texttt{CelestialHolography/Link6.lean}, each parked as
-        \texttt{theorem foo : True := trivial} with a doc comment naming the precise
-        physics input. \texttt{link6\_from\_physics} itself remains a standalone axiom ---
-        it is \emph{not} derived from those four stubs, since a vacuous statement derives
-        nothing.
-  \item \texttt{boyle\_turok\_2021} --- $c_{4D}^{\mathrm{Weyl}}=0 \Rightarrow n_{\mathrm{gen}}=3$
-        (Boyle--Turok 2021), an uncited external analysis. \hfill \texttt{Link6.lean}
+        (\textbf{thm:link6}), now the named hypothesis \texttt{link6}. Its intended route is
+        four QFT inputs (Weinberg soft theorem, Cachazo--Strominger celestial OPE,
+        Capper--Duff one-loop anomaly, Adler--Bardeen non-renormalization), each parked in
+        the file as a \texttt{True}-stub with a doc comment naming the input; thm:link6 is
+        \emph{not} derived from those stubs, since a vacuous statement derives nothing.
+  \item \texttt{boyle\_turok\_2021} --- $c_{4D}^{\mathrm{Weyl}}=0 \Rightarrow
+        n_{\mathrm{gen}}=3$ (Boyle--Turok 2021), an uncited external analysis; now the named
+        hypothesis \texttt{boyle\_turok}. \hfill \texttt{Link6.lean}
+  \item $\Omega_{DM}$ --- observed dark matter abundance (Planck 2018:
+        $\Omega_{DM}h^2 \approx 0.12$); its $(0,1)$ range is the hypothesis
+        \texttt{omega\_observed}. \hfill \texttt{StandardModel/DMAbundance.lean}
+  \item The former \texttt{shadow\_breaking\_scale} / \texttt{shadow\_breaking\_scale\_pos}
+        axioms were deleted rather than converted: no statement anywhere consumed them.
 \end{enumerate}
 
 \section{Mathlib-Gap Axioms}
 
-Provable in principle; blocked only by content absent from Mathlib at the pinned commit
-\texttt{c44e0c8}, not by any open mathematical or physical question.
+Provable in principle; blocked only by content absent from Mathlib at the pinned commit,
+not by any open mathematical or physical question.
 
 \begin{enumerate}
-  \item \texttt{hurwitz\_division\_algebra\_dimensions} --- Hurwitz's theorem: the only
-        normed division algebras over $\mathbb{R}$ are $\mathbb{R},\mathbb{C},\mathbb{H},
-        \mathbb{O}$, of dimensions $1,2,4,8$. \hfill \texttt{StandardModel/ThreeGenerations.lean}
   \item \texttt{exp\_growth\_not\_tempered} --- $e^{au}$ ($a\neq0$) is not a tempered
-        distribution. Provable once Mathlib gains a Schwartz-shift-tendsto lemma.
+        distribution. \textbf{The one remaining custom axiom in the repository.}
         \hfill \texttt{RHSpectralMultiplicity.lean}
 \end{enumerate}
+
+\noindent\textbf{Retired here:} \texttt{hurwitz\_division\_algebra\_dimensions} (Hurwitz's
+theorem: the only normed division algebras over $\mathbb{R}$ are
+$\mathbb{R},\mathbb{C},\mathbb{H},\mathbb{O}$, dimensions $1,2,4,8$) was retired 2026-08-30.
+It was applied by zero theorems, and the finite dimension-counting content this repo actually
+uses is proved without it. Its statement survives as
+\texttt{GppSM.HurwitzDimensionHypothesis}. Note that Mathlib's \texttt{NormedDivisionRing} is
+associative, so the octonions do not inhabit it and the reachable content of that statement is
+really the Frobenius classification $\{1,2,4\}$ --- a mismatch to fix before anyone proves or
+applies it. \hfill \texttt{StandardModel/ThreeGenerations.lean}
 
 \section{Retired Axioms}
 

@@ -84,8 +84,8 @@ theorem c0_eliminates_higher_curvature : True := trivial
 
     Algebraic core: Lovelock uniqueness + shadow dimension = 2.
     Infrastructure gap: differential geometry + spinor-helicity formalism. -/
-theorem einstein_uniqueness_from_shadow
-    (hc : GppLink6.c_4D_weyl = 0) : True := trivial
+theorem einstein_uniqueness_from_shadow {c_4D_weyl : ℝ}
+    (hc : c_4D_weyl = 0) : True := trivial
 
 /-- Corollary: dark energy (cosmological constant Λ) is the only free parameter. -/
 theorem cosmological_constant_unique : True := trivial
