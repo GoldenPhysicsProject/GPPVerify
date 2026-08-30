@@ -1,0 +1,77 @@
+name: Claude Fast Lane
+
+# Targeted gate for the front currently in flight, mirroring the dedicated-lane pattern
+# GPPVerify2 uses (codex-fast.yml, codex-sech-closed.yml, ...). The full `Build` workflow
+# rebuilds ~3,400 modules and takes ~8 minutes; this builds only the modules named below
+# and returns in ~2. It is an ITERATION aid, not a replacement: `Build` (with its sorry
+# gate and axiom audit) is still the merge gate, and still has to be green.
+#
+# Edit MODULES when the active front changes -- the current front and its target files
+# live in Supabase `public.claude_fronts` (see website/GPPVERIFY.md, "Work rotation").
+
+on:
+  push:
+    branches: ["claude/**"]
+  workflow_dispatch:
+
+jobs:
+  fast:
+    name: targeted build
+    runs-on: ubuntu-latest
+
+    env:
+      # Front: axioms-physics-to-hypotheses
+      MODULES: >-
+        GppVerify.CelestialHolography.Link6
+        GppVerify.StandardModel.DMAbundance
+        GppVerify.StandardModel.ThreeGenerations
+        GppVerify.GeneralRelativity.Rigidity
+        GppVerify.RHSpectralMultiplicity
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL \
+            https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz \
+            | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Build front modules
+        run: set -o pipefail && lake build $MODULES 2>&1 | tee /tmp/fast.log
+
+      - name: Sorry gate (front modules)
+        run: |
+          if grep -F "declaration uses 'sorry'" /tmp/fast.log; then
+            echo "::error::A declaration uses 'sorry'. Standing rule: no sorry ever committed."
+            exit 1
+          fi
+          echo "No sorry in front modules."
+
+      - name: Axiom gate (front modules must not gain a custom axiom)
+        run: |
+          if grep -E "^axiom " -rn --include="*.lean" GppVerify/CelestialHolography/Link6.lean \
+               GppVerify/StandardModel/DMAbundance.lean; then
+            echo "::error::A retired-axiom file reintroduced a bare axiom."
+            exit 1
+          fi
+          echo "Retired-axiom files still axiom-free."

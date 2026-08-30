@@ -16,8 +16,15 @@
 -- This script contained exactly that bug until 2026-08-14: it audited
 -- `GppShadow.three_generations_from_c0_and_link6`, a `∀ (_ : True), True` stub in
 -- ShadowSymmetry.lean, and duly reported it axiom-free. The real theorem is
--- `GppLink6.three_generations_from_c0`, which depends on six custom axioms
--- including the OPEN `link6_from_physics`. Audit that one instead.
+-- `GppLink6.three_generations_from_c0`. Audit that one instead.
+--
+-- 2026-08-30: that theorem no longer carries custom axioms either. Its physics inputs
+-- (thm:link6 itself, Boyle-Turok, positivity of the OPE normalisation) are now explicit
+-- HYPOTHESES on the statement rather than global axioms, so it audits clean while being
+-- honestly conditional -- the conditionality is visible in its type. Same treatment for
+-- the dark-matter abundance results. This is the opposite of the stub failure mode above:
+-- there, a clean bill of health hid an empty statement; here it reflects a real deduction
+-- whose inputs are named in the signature.
 --
 -- Before adding a theorem here, check it is not a stub:
 --   grep -n "<name>" -A 3 <file>      -- look for `: True :=` or `∀ (_ : True), True`
@@ -70,10 +77,13 @@ import GppVerify
 -- Expected: Lean built-ins only.
 #print axioms GppThreadS.inertia_sum
 
--- OPEN PHYSICS INPUTS — these are EXPECTED to carry custom axioms. Listed so the
--- dependency is visible in every CI run rather than buried. `link6_from_physics`
--- is the open thm:link6; `boyle_turok_2021` is an uncited external analysis.
+-- OPEN PHYSICS INPUTS — carried as explicit hypotheses since 2026-08-30, not axioms.
+-- These now audit as Lean built-ins only; the physics inputs (thm:link6, Boyle-Turok,
+-- kappa_0 positivity, the observed abundance bounds) appear in the theorem signatures.
+#print axioms GppLink6.link6_corollary
 #print axioms GppLink6.three_generations_from_c0
+#print axioms GppDM.dm_abundance_from_shadow
+#print axioms GppDM.dm_abundance_positive
 
 -- Thread Weil-Parity — the exact Archimedean renormalization tail. Expected: Lean
 -- built-ins only. Promotes a numerical-checkpoint correction (lean_results

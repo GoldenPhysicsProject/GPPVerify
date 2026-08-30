@@ -27,7 +27,7 @@ This requires Link 6 (open problem). All dependent theorems carry
 
 | Name | Reason |
 |------|--------|
-| `hurwitz_division_algebra_dimensions` | Full Hurwitz theorem (classification of real composition algebras) not in Mathlib 4.19.0 |
+| (none) | The former `hurwitz_division_algebra_dimensions` axiom was retired 2026-08-30: it was consumed by zero theorems. The statement survives as `HurwitzDimensionHypothesis`, to be taken as a hypothesis where needed. |
 -/
 
 namespace GppSM
@@ -76,26 +76,36 @@ theorem sedenion_not_nda : (8 : ℕ) * 2 = 16 ∧ 16 ≠ 8 := by decide
 theorem three_roots_match_three_doublings : (3 : ℕ) = 3 := rfl
 
 -- ============================================================
--- §2  Hurwitz theorem (axiomatized — not in Mathlib 4.19.0)
+-- §2  Hurwitz classification — statement only, no axiom (revised 2026-08-30)
 -- ============================================================
 
-/-- Hurwitz's theorem: the only normed division algebras over ℝ are
-    ℝ, ℂ, ℍ, 𝕆, of dimensions 1, 2, 4, 8 -- produced by 0, 1, 2, 3
-    Cayley-Dickson doublings respectively, and no further doubling
-    (e.g. the sedenions, dimension 16) yields a division algebra.
-    Gap: full composition-algebra theory (Hurwitz's theorem proper,
-    requiring the classification of real composition algebras) is not
-    in Mathlib 4.19.0. The finite dimension-counting content that this
-    theorem's conclusion rests on -- the stage set, its cardinality, and
-    the fact that the next stage's dimension falls outside the NDA
-    dimension set -- is proved above without axiom
-    (`cdStages_card`, `exactly_three_doublings`, `nda_dimensions_image`,
-    `sedenion_dim_outside_nda_set`); what remains axiomatized is only the
-    algebraic fact that dimensions 1,2,4,8 are exactly realized by
-    division algebras and no other dimension is.
-    Reference: Hurwitz (1898); Baez (2002) "The Octonions" §2.2. -/
-axiom hurwitz_division_algebra_dimensions
-    (A : Type) [NormedDivisionRing A] [NormedAlgebra ℝ A] [FiniteDimensional ℝ A] :
+/-- The Hurwitz dimension statement, as a `Prop` to be *taken as a hypothesis* by anything
+    that needs it — deliberately **not** an axiom.
+
+    Content: a finite-dimensional normed division algebra over `ℝ` has `finrank`
+    in `{1, 2, 4, 8}` — the dimensions of `ℝ, ℂ, ℍ, 𝕆`, produced by 0, 1, 2, 3
+    Cayley–Dickson doublings, with no further doubling (e.g. the sedenions, dimension 16)
+    yielding a division algebra. Reference: Hurwitz (1898); Baez (2002) *The Octonions* §2.2.
+
+    **Why this is no longer an axiom.** It was carried as
+    `axiom hurwitz_division_algebra_dimensions` while being consumed by *zero* theorems in
+    this repository — a global axiom with no consumer, which cost honesty (it appeared in
+    the repo's axiom ledger) and bought nothing. The finite dimension-counting content that
+    this file's actual conclusions rest on is proved above with no axiom whatsoever:
+    `cdStages_card`, `exactly_three_doublings`, `nda_dimensions_image`,
+    `sedenion_dim_outside_nda_set`.
+
+    **On the gap itself.** Mathlib 4.19.0 has the *complex* Gelfand–Mazur theorem
+    (`NormedRing.algEquivComplexOfComplete`, `Analysis/Normed/Algebra/Spectrum.lean`) but
+    not the real classification, so this is genuinely unprovable at the pinned version.
+    Note also that Mathlib's `NormedDivisionRing` extends `DivisionRing` and is therefore
+    **associative**: the octonions do not inhabit this typeclass at all, so under this
+    exact statement the `8` case is vacuous and the reachable content is really the
+    Frobenius classification `{1, 2, 4}`. Any future attempt to prove or apply this should
+    fix that mismatch first — stating it over a genuine composition-algebra / non-associative
+    normed-algebra structure — rather than proving the statement as literally written. -/
+abbrev HurwitzDimensionHypothesis : Prop :=
+  ∀ (A : Type) [NormedDivisionRing A] [NormedAlgebra ℝ A] [FiniteDimensional ℝ A],
     Module.finrank ℝ A ∈ ({1, 2, 4, 8} : Finset ℕ)
 
 -- ============================================================
@@ -129,6 +139,6 @@ end GppSM
 #check @GppSM.nda_dimensions_image
 #check @GppSM.nda_doubling_set_card
 #check @GppSM.sedenion_dim_outside_nda_set
-#check @GppSM.hurwitz_division_algebra_dimensions
+#check @GppSM.HurwitzDimensionHypothesis
 #check @GppSM.three_generations
 #check @GppSM.anomaly_cancellation_forces_three_generations
