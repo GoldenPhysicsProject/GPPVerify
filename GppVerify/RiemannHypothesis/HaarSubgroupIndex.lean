@@ -27,8 +27,8 @@ variable {G : Type*} [Group G] [MeasurableSpace G] [MeasurableMul G]
 
 /-- A left translate of a set is the preimage of that set under (left) multiplication
     by the inverse element. -/
-@[to_additive "A left translate of a set is the preimage of that set under (left)
-    addition of the negation."]
+@[to_additive /-- A left translate of a set is the preimage of that set under (left)
+    addition of the negation. -/]
 theorem smul_eq_preimage_inv_mul (g : G) (s : Set G) :
     g • s = (fun h => g⁻¹ * h) ⁻¹' s := by
   ext x
@@ -41,14 +41,14 @@ theorem smul_eq_preimage_inv_mul (g : G) (s : Set G) :
 
 /-- Translating a set by a group element preserves its measure under a left-invariant
     measure `μ`. -/
-@[to_additive "Translating a set by a group element preserves its measure under a
-    left-invariant measure `μ`."]
+@[to_additive /-- Translating a set by a group element preserves its measure under a
+    left-invariant measure `μ`. -/]
 theorem measure_smul_set (μ : Measure G) [μ.IsMulLeftInvariant] (g : G) (s : Set G) :
     μ (g • s) = μ s := by
   rw [smul_eq_preimage_inv_mul, measure_preimage_mul]
 
 /-- A left translate of a measurable set is measurable. -/
-@[to_additive "A left translate of a measurable set is measurable."]
+@[to_additive /-- A left translate of a measurable set is measurable. -/]
 theorem measurableSet_smul {s : Set G} (hs : MeasurableSet s) (g : G) :
     MeasurableSet (g • s) := by
   rw [smul_eq_preimage_inv_mul]

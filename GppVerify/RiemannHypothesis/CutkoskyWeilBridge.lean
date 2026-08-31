@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
 import Mathlib.Analysis.SpecialFunctions.Pow.NNReal

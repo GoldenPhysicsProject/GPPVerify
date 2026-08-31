@@ -1,5 +1,5 @@
-import Mathlib.Analysis.SpecialFunctions.Integrals
-import Mathlib.Algebra.GeomSum
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+import Mathlib.Algebra.Order.Ring.GeomSum
 
 /-!
 # The alternating harmonic series: `Σ (−1)ᵏ/(k+1) = log 2`

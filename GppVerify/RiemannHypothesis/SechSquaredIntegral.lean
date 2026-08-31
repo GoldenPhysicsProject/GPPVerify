@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.MeasureTheory.Integral.IntegralEqImproper
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Analysis.SpecialFunctions.Log.Deriv

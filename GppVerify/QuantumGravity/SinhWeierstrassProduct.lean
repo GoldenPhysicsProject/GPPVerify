@@ -1,5 +1,5 @@
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.EulerSineProd
-import Mathlib.Data.Complex.Trigonometric
+import Mathlib.Analysis.Complex.Trigonometric
 
 /-!
 # The Weierstrass product for `sinh`: `sinh(πλ) = πλ ∏ₙ(1+λ²/n²)`

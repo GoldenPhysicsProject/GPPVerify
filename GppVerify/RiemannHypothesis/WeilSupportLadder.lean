@@ -1,5 +1,5 @@
 import GppVerify.RiemannHypothesis.CauchyKernelPositive
-import Mathlib.NumberTheory.VonMangoldt
+import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
 
 /-!

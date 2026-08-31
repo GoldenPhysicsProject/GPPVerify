@@ -1,3 +1,4 @@
+import Mathlib.Analysis.Matrix.PosDef
 import Mathlib.Tactic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.LinearAlgebra.Matrix.PosDef

@@ -1,5 +1,5 @@
 import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
-import Mathlib.Analysis.SpecialFunctions.Integrals
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 
 /-!
 # Yakaboylu's regularized matrix element (Lemma 4.3, eq. (49))

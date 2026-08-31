@@ -1,5 +1,5 @@
 import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
-import Mathlib.Data.Complex.Trigonometric
+import Mathlib.Analysis.Complex.Trigonometric
 
 /-!
 # The Gamma-modulus face: `Γ(1+iλ)·Γ(1-iλ) = πλ/sinh(πλ)`

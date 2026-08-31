@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.NumberTheory.Harmonic.GammaDeriv
 import Mathlib.Analysis.Calculus.Deriv.Shift
 

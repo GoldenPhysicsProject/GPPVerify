@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.MeasureTheory.Integral.Gamma
 import Mathlib.MeasureTheory.Integral.DominatedConvergence
 import Mathlib.NumberTheory.ZetaValues
