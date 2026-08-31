@@ -62,10 +62,15 @@ theorem hasDerivAt_sechSqAntideriv (x : ℝ) :
       (Real.sinh x / Real.cosh x) x :=
     (Real.hasDerivAt_cosh x).log hc
   have h := h1.sub h2
-  convert h using 1
-  rw [Real.tanh_eq_sinh_div_cosh]
-  field_simp
-  ring
+  -- 4.33: `convert` strands defeq instance-path goals here. Rewrite the derivative
+  -- value explicitly and let defeq match the function.
+  have hval : (1 * Real.tanh x + x * (1 / Real.cosh x ^ 2)) - Real.sinh x / Real.cosh x
+      = x / Real.cosh x ^ 2 := by
+    rw [Real.tanh_eq_sinh_div_cosh]
+    field_simp
+    ring
+  rw [← hval]
+  exact h
 
 /-- The closed-form rewrite of the antiderivative in terms of `E = e^{−2u}`:
     `F(u) = log 2 − 2u·E/(1+E) − log(1+E)`, valid for every `u`. This is the form whose

@@ -82,7 +82,10 @@ theorem log_two_sub_partial (n : ℕ) :
     exact continuous_finsetSum _ fun k _ => continuous_const.mul (continuous_pow k)
   have hsum_int : ∫ x in (0:ℝ)..1, (∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k) =
       ∑ k ∈ Finset.range n, (-1:ℝ)^k / (k+1) := by
-    rw [intervalIntegral.integral_finsetSum
+    -- pin `f` explicitly: otherwise the integrability argument forces `f k` to
+    -- elaborate as the point-free `(fun _ => c) * (fun a => a ^ k)`, which no longer
+    -- matches the lambda in the goal.
+    rw [intervalIntegral.integral_finsetSum (f := fun k (x : ℝ) => (-1 : ℝ) ^ k * x ^ k)
       (fun k _ => (continuous_const.mul (continuous_pow k)).intervalIntegrable 0 1)]
     apply Finset.sum_congr rfl
     intro k _
