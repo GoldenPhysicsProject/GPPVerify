@@ -93,7 +93,7 @@ theorem open_spectrum_discrete_K1 : True := trivial
 
     Algebraic core proved: `l_infty_subset_l2_compact` (1 sorry: Mathlib gap).
     Infrastructure: three axioms documenting Mathlib gaps. -/
-theorem adelic_l2_regularization :
+theorem open_adelic_l2_regularization :
     -- L²(K¹) is well-defined, decomposes spectrally, satisfies Plancherel
     True := trivial
 
@@ -105,4 +105,4 @@ end GppAdelicL2
 
 -- Summary checks
 #check @GppAdelicL2.l_infty_subset_l2_compact
-#check @GppAdelicL2.adelic_l2_regularization
+#check @GppAdelicL2.open_adelic_l2_regularization

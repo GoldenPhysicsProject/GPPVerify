@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enforce the open_-prefix convention on `True`-stubs.
+"""Enforce the open_-prefix convention on `True`-stubs, and publish an honest count.
 
 This repository parks an open result as `theorem foo : True := trivial` (or
 `∀ (_ : True), True`). That is the honest convention -- far better than a `sorry` or an
@@ -23,45 +23,152 @@ The fix is structural rather than editorial: every stub name must begin with `op
 the name itself says the result is open, and this gate makes a non-conforming stub fail
 CI. `open_yang_mills_mass_gap : True := trivial` cannot be misread.
 
-Exit 1 (failing the build) if any `True`-stub declaration lacks the prefix.
+## Why this script was rewritten (2026-08-31)
+
+The first version of this gate matched **line by line**: it remembered the most recent
+`theorem`/`lemma` line, then looked for `: True := trivial` on some later line. That
+misses a stub written like this --
+
+    theorem shadow_discontinuity :
+        -- Disc(celestial amplitude) = shadow transform jump = loop integrand
+        True := trivial
+
+-- because the line carrying `True := trivial` has no `:` in front of `True` (the colon
+is two lines up, separated by a comment). Eight stubs were invisible to the gate for
+exactly this reason, and **all eight were unprefixed**, including
+`shadow_discontinuity`, `born_rule_from_haar`, `meyer_spectral_weil` and
+`adelic_l2_regularization`. The gate reported "All True-stubs correctly prefixed" while
+the very names it exists to catch sat in the tree, and the published count was 142 when
+the real number was 150.
+
+So the gate no longer reads lines. It strips Lean comments first (both `--` and `/- -/`,
+nested), splits the source into whole declarations, and tests each declaration as a unit.
+A stub cannot hide behind a comment in the middle of its own statement.
+
+Exit 1 (failing the build) if any `True`-stub declaration lacks the prefix, or if the
+count stated in the blueprint has drifted from the real one.
 """
 
 import re
 import sys
 from pathlib import Path
 
-DECL = re.compile(r"^\s*(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_']*)")
-STUB = re.compile(r":\s*True\s*:=\s*trivial|∀\s*\(_\s*:\s*True\),\s*True")
+# A declaration starts at column 0 with one of these keywords (or an attribute that
+# precedes one). Anything indented is inside the declaration we are already in.
+DECL_START = re.compile(
+    r"^(?:@\[|theorem|lemma|def|noncomputable|instance|structure|inductive|abbrev|example|"
+    r"class|opaque|axiom)\b",
+    re.M,
+)
+NAME = re.compile(r"^(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_'!?]*)")
+
+# Applied to a whole declaration with comments already stripped and whitespace flattened.
+STUB = re.compile(
+    r":\s*True\s*:=\s*(?:by\s+)?trivial\b"
+    r"|∀\s*\(_\s*:\s*True\)\s*,\s*True\s*:="
+)
+
+# The blueprint publishes this number in prose; keep it honest automatically.
+BLUEPRINT = Path("blueprint/src/web.tex")
+BLUEPRINT_COUNT = re.compile(r"There are currently \\textbf\{(\d+)\} such stubs\.")
+
+
+def strip_comments(src: str) -> str:
+    """Remove Lean line comments and (nested) block comments, preserving newlines.
+
+    Newlines are preserved so that line numbers stay usable for error messages.
+    """
+    out: list[str] = []
+    i = 0
+    depth = 0
+    n = len(src)
+    while i < n:
+        if src.startswith("/-", i):
+            depth += 1
+            i += 2
+            continue
+        if src.startswith("-/", i) and depth:
+            depth -= 1
+            i += 2
+            continue
+        if depth:
+            out.append("\n" if src[i] == "\n" else " ")
+            i += 1
+            continue
+        if src.startswith("--", i):
+            j = src.find("\n", i)
+            if j < 0:
+                break
+            out.append(" " * (j - i))
+            i = j
+            continue
+        out.append(src[i])
+        i += 1
+    return "".join(out)
+
+
+def declarations(src: str):
+    """Yield (name, line_number, flattened_text) for each theorem/lemma declaration."""
+    starts = [m.start() for m in DECL_START.finditer(src)] + [len(src)]
+    for a, b in zip(starts, starts[1:]):
+        chunk = src[a:b]
+        m = NAME.match(chunk)
+        if not m:
+            continue
+        yield m.group(1), src.count("\n", 0, a) + 1, re.sub(r"\s+", " ", chunk).strip()
+
 
 def main() -> int:
-    root = Path(__file__).resolve().parent.parent / "GppVerify"
+    repo = Path(__file__).resolve().parent.parent
+    root = repo / "GppVerify"
     offenders: list[str] = []
     total = 0
 
     for path in sorted(root.rglob("*.lean")):
-        current: tuple[str, int] | None = None
-        for lineno, line in enumerate(path.read_text().splitlines(), start=1):
-            decl = DECL.match(line)
-            if decl:
-                current = (decl.group(1), lineno)
-            if current and STUB.search(line):
-                name, declared_at = current
-                total += 1
-                if not name.startswith("open_"):
-                    offenders.append(f"{path}:{declared_at}: {name}")
-                current = None
+        src = strip_comments(path.read_text())
+        for name, lineno, flat in declarations(src):
+            if not STUB.search(flat):
+                continue
+            total += 1
+            if not name.startswith("open_"):
+                offenders.append(f"{path.relative_to(repo)}:{lineno}: {name}")
 
     print(f"True-stubs found: {total}")
+
+    failed = False
     if offenders:
+        failed = True
         print(f"::error::{len(offenders)} stub(s) do not use the required 'open_' prefix.")
         print("A `True := trivial` stub asserts nothing but reports a clean axiom bill.")
         print("Prefix the name with 'open_' so it cannot be mistaken for a proved result:")
         for entry in offenders:
             print(f"  {entry}")
-        return 1
+    else:
+        print("All True-stubs correctly prefixed 'open_'.")
 
-    print("All True-stubs correctly prefixed 'open_'.")
-    return 0
+    # The blueprint states the stub count in prose. A hand-maintained number drifts --
+    # it already had (141 published against 150 actual) -- so check it here rather than
+    # trusting whoever edits the LaTeX next.
+    blueprint = repo / BLUEPRINT
+    if blueprint.exists():
+        m = BLUEPRINT_COUNT.search(blueprint.read_text())
+        if not m:
+            failed = True
+            print(
+                "::error::Could not find the stub count sentence in "
+                f"{BLUEPRINT}. Expected the exact phrasing "
+                r"'There are currently \textbf{N} such stubs.'"
+            )
+        elif int(m.group(1)) != total:
+            failed = True
+            print(
+                f"::error::{BLUEPRINT} states {m.group(1)} stubs; the tree has {total}. "
+                "Update the blueprint sentence so the published ledger is not a lie."
+            )
+        else:
+            print(f"Blueprint stub count agrees with the tree ({total}).")
+
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

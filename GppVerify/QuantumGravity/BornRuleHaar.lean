@@ -86,7 +86,7 @@ theorem open_gleason_uniqueness : True := trivial
 
     Proved clean: Haar normalization, Born probability bounds.
     Infrastructure gap: Gleason's theorem, projective Hilbert space structure. -/
-theorem born_rule_from_haar :
+theorem open_born_rule_from_haar :
     -- For any state ψ ∈ L²(K¹) and projection P_A, P(A|ψ) = ‖P_A ψ‖² / ‖ψ‖²
     True := trivial
 
@@ -96,4 +96,4 @@ end GppBorn
 #check @GppBorn.haar_probability
 #check @GppBorn.born_normalization
 #check @GppBorn.haar_circle_uniform
-#check @GppBorn.born_rule_from_haar
+#check @GppBorn.open_born_rule_from_haar

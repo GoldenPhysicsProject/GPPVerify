@@ -101,7 +101,7 @@ theorem open_shadow_disc_mellin_density : True := trivial
 
     Proved clean: disc_formula, shadow_involution, shadow_cut_identity.
     Infrastructure gap: celestial amplitude theory, unitarity cuts. -/
-theorem shadow_discontinuity :
+theorem open_shadow_discontinuity :
     -- Disc(celestial amplitude) = shadow transform jump = loop integrand
     True := trivial
 
@@ -111,4 +111,4 @@ end GppShadowDisc
 #check @GppShadowDisc.shadow_involution_C
 #check @GppShadowDisc.disc_equals_two_i_im
 #check @GppShadowDisc.shadow_equals_conj_on_principal_series
-#check @GppShadowDisc.shadow_discontinuity
+#check @GppShadowDisc.open_shadow_discontinuity

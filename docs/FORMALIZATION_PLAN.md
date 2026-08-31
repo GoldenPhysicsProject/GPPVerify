@@ -779,7 +779,7 @@ encodes a lower-point loop *integrand*, extractable by a double shadow discontin
   they are left untouched until an explicit six-point sewing identity is actually proved.
 - **Blueprint correction, same pass.** While adding this thread's blueprint chapter,
   re-audited the pre-existing `thm:shadow-discontinuity` entry and found it read as more
-  proved than it is: `GppShadowDisc.shadow_discontinuity` is itself a `True`-stub, and the
+  proved than it is: `GppShadowDisc.open_shadow_discontinuity` is itself a `True`-stub, and the
   blueprint's "Proved clean" bullet list actually names four *ingredient* lemmas (complex
   discontinuity formula, shadow involution, shadow-conjugate identity, simple-pole
   residue), not a proof of the boxed claim. Added an explicit correction note in the
