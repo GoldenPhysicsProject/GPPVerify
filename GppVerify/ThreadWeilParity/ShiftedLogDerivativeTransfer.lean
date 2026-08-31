@@ -72,13 +72,19 @@ theorem hasDerivAt_shiftedTransferF (g : ℂ → ℂ) (ρ z : ℂ) (k : ℕ)
     have hsub : HasDerivAt (fun w : ℂ => w - ρ) (1 - 0) z :=
       (hasDerivAt_id z).sub (hasDerivAt_const z ρ)
     have hsub' : HasDerivAt (fun w : ℂ => w - ρ) 1 z := by simpa using hsub
-    have := hsub'.pow (k + 1)
-    exact this
+    have hpow := hsub'.pow (k + 1)
+    -- Mathlib 4.33: `HasDerivAt.pow` no longer normalises `(k+1) - 1` or the trailing
+    -- `* 1`, and returns the point-free `f ^ n` form. Only arithmetic and casts are
+    -- rewritten here — nothing that could move the hypothesis onto another instance
+    -- path — and `exact` then absorbs the Pi-lifting by defeq.
+    simp only [Nat.add_sub_cancel, mul_one, Nat.cast_add, Nat.cast_one] at hpow
+    exact hpow
   have h2 : HasDerivAt g (deriv g z) z := hg.hasDerivAt
   have := h1.mul h2
-  -- simp the GOAL only; simping `this` too would rewrite it into a different
-  -- (defeq but syntactically distinct) instance path that no tactic can bridge.
-  simp only [shiftedTransferF]
+  -- `shiftedTransferF` is a plain `def`, and in 4.33 `simp only [shiftedTransferF]`
+  -- reports no progress against the point-free `(fun w => …) * g` that `HasDerivAt.mul`
+  -- now produces. The two sides are defeq, so `exact` closes it without simping either
+  -- the goal or the hypothesis.
   exact this
 
 /-- The transferred denominator's witness function:

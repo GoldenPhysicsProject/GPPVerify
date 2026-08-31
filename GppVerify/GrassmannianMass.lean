@@ -93,10 +93,27 @@ theorem transition_transition_eq_neg (a b c d : ℝ) (hD : a * d - b * c ≠ 0) 
       - (a / (a * d - b * c)) * (-d / (a * d - b * c)) ≠ 0 := by
     rw [transition_det_eq a b c d hD]
     exact one_div_ne_zero hD
+  -- Mathlib 4.33: `field_simp` leaves the determinant in whichever commuted form its
+  -- normal form produces (`-(c*b) + a*d` in one branch, `d*a - b*c` in another). It can
+  -- only clear a denominator it can see is nonzero, and `hD` is stated as `a*d - b*c`, so
+  -- two of the four branches kept an uncleared `⁻¹` and `ring` could not finish. Supply
+  -- the same fact in both commuted shapes — in the context, where `field_simp` picks them up
+  -- as side conditions (passing them as simp args instead makes it treat them as rewrite
+  -- rules and it still fails).
+  have hD1 : -(c * b) + a * d ≠ 0 := fun h => hD (by linear_combination h)
+  have hD2 : d * a - b * c ≠ 0 := fun h => hD (by linear_combination h)
   simp only [transition, Prod.mk.injEq]
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
     · rw [transition_det_eq a b c d hD] at hne ⊢
+      -- Mathlib 4.33: applied directly to `X = Y`, `field_simp` leaves two of the four
+      -- branches carrying an uncleared `(…)⁻¹` that `ring` cannot finish. Moving
+      -- everything to one side first gives it a shape it does clear, uniformly.
+      rw [← sub_eq_zero]
       field_simp
+      try ring
+      -- A second pass: the first `field_simp` leaves two of the four branches with an
+      -- uncleared `(…)⁻¹`, which it does clear when re-applied to that residual shape.
+      try field_simp
       try ring
 
 end GppGrassmannian
