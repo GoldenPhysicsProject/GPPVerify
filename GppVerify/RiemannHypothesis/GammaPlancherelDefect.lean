@@ -146,7 +146,6 @@ theorem archimedeanG_add_two_nat {q : ℝ} (hq : 0 < q) (n : ℕ) :
     have hden₁ : q / 2 + (k : ℝ) ≠ 0 := by positivity
     have hden₂ : q + 2 * (k : ℝ) ≠ 0 := by positivity
     field_simp
-    ring
   rw [mul_add, hsum]
   ring
 
@@ -224,7 +223,6 @@ theorem defectIntegrand_even_eq_expSum (q : ℝ) (m n : ℕ) {x : ℝ} (hx : 0 <
     Real.exp (-(q * x)) / (1 - z) * ((1 - z ^ m) * (1 - z ^ n)) =
         Real.exp (-(q * x)) * (1 - z ^ m) * ((1 - z ^ n) / (1 - z)) := by
           field_simp [sub_ne_zero.mpr (ne_of_gt hzlt)]
-          ring
     _ = Real.exp (-(q * x)) * (1 - z ^ m) *
         (∑ k ∈ Finset.range n, z ^ k) := by rw [hgeom]
     _ = ∑ k ∈ Finset.range n, Real.exp (-(q * x)) * z ^ k * (1 - z ^ m) := by
@@ -394,7 +392,6 @@ theorem density_eq_spectralWeight (q : ℝ) {x : ℝ} (hx : 0 < x) :
   unfold density P
   rw [hnum, one_sub_exp_neg_two_mul, hpi]
   field_simp
-  ring
 
 /-- Symmetry in the two shift parameters. -/
 theorem defectIntegrand_comm (q a b x : ℝ) :

@@ -73,7 +73,7 @@ theorem hasDerivAt_shiftedTransferF (g : ℂ → ℂ) (ρ z : ℂ) (k : ℕ)
       (hasDerivAt_id z).sub (hasDerivAt_const z ρ)
     have hsub' : HasDerivAt (fun w : ℂ => w - ρ) 1 z := by simpa using hsub
     have := hsub'.pow (k + 1)
-    simpa only [Pi.pow_def] using this
+    exact this
   have h2 : HasDerivAt g (deriv g z) z := hg.hasDerivAt
   have := h1.mul h2
   -- simp the GOAL only; simping `this` too would rewrite it into a different
