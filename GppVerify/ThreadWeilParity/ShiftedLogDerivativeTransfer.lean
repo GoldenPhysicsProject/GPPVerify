@@ -76,7 +76,10 @@ theorem hasDerivAt_shiftedTransferF (g : ℂ → ℂ) (ρ z : ℂ) (k : ℕ)
     simpa only [Pi.pow_def] using this
   have h2 : HasDerivAt g (deriv g z) z := hg.hasDerivAt
   have := h1.mul h2
-  simpa only [shiftedTransferF, Pi.mul_def] using this
+  -- simp the GOAL only; simping `this` too would rewrite it into a different
+  -- (defeq but syntactically distinct) instance path that no tactic can bridge.
+  simp only [shiftedTransferF]
+  exact this
 
 /-- The transferred denominator's witness function:
     `w(z) := (k+1)·g(z) + (z-ρ)·(g'(z) - λ·g(z))`. -/

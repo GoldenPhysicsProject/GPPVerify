@@ -332,7 +332,14 @@ theorem subInvolution_hasDerivAt {w : ℝ} (hw : 0 < w) : HasDerivAt subInvoluti
   have h1 : HasDerivAt (fun y : ℝ => y) 1 w := hasDerivAt_id w
   have h2 : HasDerivAt (fun y : ℝ => y⁻¹) (-(w ^ 2)⁻¹) w := hasDerivAt_inv hw.ne'
   have := h1.sub h2
-  convert this using 1
+  -- 4.33: `convert` descends into HasDerivAt's instance arguments and strands
+  -- `Real.instAddCommGroup = Real.normedAddCommGroup.toAddCommGroup`. Rewrite the
+  -- derivative value explicitly and match the Pi-sub form instead.
+  have hval : (1 : ℝ) - -(w ^ 2)⁻¹ = 1 + w⁻¹ ^ 2 := by
+    field_simp
+    ring
+  rw [← hval]
+  simpa only [Pi.sub_def] using this
 
 theorem subInvolution_strictMonoOn : StrictMonoOn subInvolution (Ioi (0:ℝ)) := by
   apply strictMonoOn_of_deriv_pos (convex_Ioi 0) subInvolution_continuousOn
@@ -589,8 +596,9 @@ theorem subScale_continuousOn (k : ℝ) : ContinuousOn (subScale k) (Ioi (0:ℝ)
 theorem subScale_hasDerivAt (k w : ℝ) : HasDerivAt (subScale k) (2 * k * w) w := by
   unfold subScale
   have h := (hasDerivAt_pow 2 w).const_mul k
-  convert h using 1
-  push_cast
+  have hval : k * ((2 : ℕ) * w ^ (2 - 1)) = 2 * k * w := by push_cast; ring
+  rw [← hval]
+  exact h
 
 theorem subScale_strictMonoOn {k : ℝ} (hk : 0 < k) : StrictMonoOn (subScale k) (Ioi (0:ℝ)) := by
   apply strictMonoOn_of_deriv_pos (convex_Ioi 0) (subScale_continuousOn k)

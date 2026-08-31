@@ -62,7 +62,8 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
       (fun j : ℕ => Real.log_nonneg
         (by rw [le_add_iff_nonneg_right]; positivity : (1:ℝ) ≤ 1 + lam^2/((j:ℝ)+1)^2))
       (fun j : ℕ => Real.log_le_sub_one_of_pos (hterm_pos j))
-    simpa only [div_eq_mul_inv] using summable_inv_sq_shift.mul_left (lam^2)
+    simpa only [div_eq_mul_inv, one_mul, add_sub_cancel_left] using
+      summable_inv_sq_shift.mul_left (lam^2)
   exact (hsummable.hasSum_iff_tendsto_nat).mpr hlogcont
 
 /-! ## Step B: the Taylor series of each factor's `log(1+x)` -/
