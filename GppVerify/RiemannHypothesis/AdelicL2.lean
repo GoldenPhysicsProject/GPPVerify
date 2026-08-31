@@ -4,7 +4,7 @@ import Mathlib.MeasureTheory.Measure.Haar.Basic
 /-!
 # Adèlic L² Regularization (lem:adelic-l2-regularization, cited 14×)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `lem:adelic-l2-regularization` (ONON52, second-most-cited, 14×):

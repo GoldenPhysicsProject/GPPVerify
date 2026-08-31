@@ -1,6 +1,6 @@
 # GPPVerify — Golden Physics Project Lean 4 Formalization
 
-Formal verification of the ONON framework in Lean 4 + Mathlib.
+Formal verification of the shadow framework in Lean 4 + Mathlib.
 
 **Blueprint (live proof progress):** https://lean.goldenphysics.org  
 **Paper:** Daniel Toupin, *On the Nature of Nature* (2026) — https://goldenphysics.org  
@@ -10,7 +10,7 @@ Formal verification of the ONON framework in Lean 4 + Mathlib.
 
 ## Primary target: RH Pathway 2 (Spectral / Meyer)
 
-The most self-contained proof of the Riemann Hypothesis in the ONON framework:
+The most self-contained proof of the Riemann Hypothesis in the shadow framework:
 
 ```
 Haar self-duality on A×/Q×          [HaarSelfDuality.lean — CLEAN ✓]

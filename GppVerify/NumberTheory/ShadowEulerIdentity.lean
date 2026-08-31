@@ -4,7 +4,7 @@ import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
 
 /-!
 # Shadow Euler Identity  (thm:shadow-euler)
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed

@@ -6,7 +6,7 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 /-!
 # L² Constraint Forces Re(s) = 1/2  (thm:l2-constraint)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:l2-constraint` (ONON52, cited 12×):

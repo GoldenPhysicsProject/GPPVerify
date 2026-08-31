@@ -4,7 +4,7 @@ import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
 /-!
 # Born Rule from Haar Measure (lem:born-rule-haar, cited 11×)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `lem:born-rule-haar` (ONON52, cited 11×):

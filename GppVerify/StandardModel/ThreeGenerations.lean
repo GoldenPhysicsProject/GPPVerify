@@ -5,7 +5,7 @@ import Mathlib.FieldTheory.Finiteness
 /-!
 # Three Fermion Generations from Division Algebra Tower (cor:three-generations-anomaly)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `cor:three-generations-anomaly` (ONON52, cited 12×):

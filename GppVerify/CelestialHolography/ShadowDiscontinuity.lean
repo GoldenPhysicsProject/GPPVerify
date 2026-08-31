@@ -4,7 +4,7 @@ import Mathlib.Analysis.Complex.CauchyIntegral
 /-!
 # Shadow Discontinuity = Loop Integrand (thm:shadow-discontinuity, cited 10×)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:shadow-discontinuity` (ONON52, cited 10×):

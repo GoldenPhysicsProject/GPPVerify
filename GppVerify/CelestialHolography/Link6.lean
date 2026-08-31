@@ -3,7 +3,7 @@ import GppVerify.StandardModel.ThreeGenerations
 /-!
 # thm:link6 — c_{2D} = κ₀ × c_{4D}^{Weyl}
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:link6` (ONON52, cited 10×):

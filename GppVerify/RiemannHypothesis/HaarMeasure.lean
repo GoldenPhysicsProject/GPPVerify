@@ -7,7 +7,7 @@ import GppVerify.HaarSelfDuality
 /-!
 # Haar Measure on the Adèlic Quotient A×/Q×
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## RH Pathway 2 (Spectral/Meyer) — Foundation Layer
 ## Lean 4 / Mathlib v4.19.0
 

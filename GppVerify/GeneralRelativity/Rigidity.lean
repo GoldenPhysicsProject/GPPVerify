@@ -4,7 +4,7 @@ import GppVerify.CelestialHolography.Link6
 /-!
 # Rigidity Theorem: Einstein Equations from Shadow Symmetry (thm:rigidity, cited 10×)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:rigidity` (ONON52, cited 10×):

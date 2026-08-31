@@ -7,7 +7,7 @@ import GppVerify.RiemannHypothesis.HaarMeasure
 /-!
 # Functional Equation ξ(s) = ξ(1-s) from Haar Self-Duality
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## RH Pathway 2 (Spectral/Meyer) — Functional Equation Layer
 ## Lean 4 / Mathlib v4.19.0
 

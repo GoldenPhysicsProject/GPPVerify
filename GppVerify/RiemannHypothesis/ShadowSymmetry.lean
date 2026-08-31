@@ -4,7 +4,7 @@ import GppVerify.RiemannHypothesis.FunctionalEquation
 /-!
 # Shadow Symmetry = Time Reversal (thm:shadow-cpt)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Most-cited result: 16× cross-referenced in ONON52
 ## Lean 4 / Mathlib v4.19.0
 

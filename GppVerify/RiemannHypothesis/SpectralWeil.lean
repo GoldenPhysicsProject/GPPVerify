@@ -4,7 +4,7 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 /-!
 # Spectral Weil Identity (thm:spectral-weil, cited 10×)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:spectral-weil` (ONON52, cited 10×):
