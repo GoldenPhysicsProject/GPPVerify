@@ -93,7 +93,7 @@ theorem trace_A : A.trace = 3 := by unfold A; rw [Matrix.trace_fin_two_of]; norm
     hyperbolic `SL₂(ℤ)` element (`|tr| > 2` is the hyperbolicity criterion), integrality of
     the trace forces `|tr| ≥ 3`. -/
 theorem hyperbolic_trace_ge_three {n : ℤ} (h : 2 < |n|) : 3 ≤ |n| := by
-  rcases le_or_lt 0 n with hn | hn
+  rcases le_or_gt 0 n with hn | hn
   · rw [abs_of_nonneg hn] at h ⊢; omega
   · rw [abs_of_neg hn] at h ⊢; omega
 

@@ -54,7 +54,7 @@ theorem sinh_pos_of_pos {x : ℝ} (hx : 0 < x) : 0 < Real.sinh x := by
 sign as `λ`. -/
 theorem sinh_div_pos {lam : ℝ} (hlam : lam ≠ 0) :
     0 < Real.sinh (Real.pi * lam) / (Real.pi * lam) := by
-  rcases hlam.lt_or_lt with hneg | hpos
+  rcases hlam.lt_or_gt with hneg | hpos
   · have h1 : Real.pi * lam < 0 := mul_neg_of_pos_of_neg Real.pi_pos hneg
     have h2 : Real.sinh (Real.pi * lam) < 0 := by
       have := sinh_pos_of_pos (x := -(Real.pi * lam)) (by linarith)

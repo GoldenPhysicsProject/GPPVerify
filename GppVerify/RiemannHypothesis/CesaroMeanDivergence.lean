@@ -35,7 +35,7 @@ theorem tendsto_rpow_div_const_mul_log_atTop {r k : ℝ} (hr : 0 < r) (hk : 0 < 
     Tendsto (fun x : ℝ => x ^ r / (k * Real.log x)) atTop atTop := by
   rw [Filter.tendsto_atTop]
   intro M
-  rcases le_or_lt M 0 with hM | hM
+  rcases le_or_gt M 0 with hM | hM
   · filter_upwards [eventually_gt_atTop (1 : ℝ)] with x hx
     have hlog : 0 < Real.log x := Real.log_pos hx
     have hxr : 0 < x ^ r := Real.rpow_pos_of_pos (lt_trans one_pos hx) r
@@ -66,7 +66,7 @@ theorem tendsto_cesaro_diff_div_log_atTop_pos {c : ℝ} (hc : 0 < c) :
     Tendsto (fun R : ℝ => (R ^ c - R ^ (-c)) / (c * (2 * Real.log R))) atTop atTop := by
   rw [Filter.tendsto_atTop]
   intro M
-  rcases le_or_lt M 0 with hM | hM
+  rcases le_or_gt M 0 with hM | hM
   · filter_upwards [eventually_gt_atTop (1 : ℝ)] with R hR
     have hRpos : 0 < R := lt_trans one_pos hR
     have hlog : 0 < Real.log R := Real.log_pos hR
@@ -114,7 +114,7 @@ theorem tendsto_cesaro_diff_div_log_atTop_pos {c : ℝ} (hc : 0 < c) :
     leaving the ratio unchanged). -/
 theorem tendsto_cesaro_diff_div_log_atTop {c : ℝ} (hc : c ≠ 0) :
     Tendsto (fun R : ℝ => (R ^ c - R ^ (-c)) / (c * (2 * Real.log R))) atTop atTop := by
-  rcases hc.lt_or_lt with hneg | hpos
+  rcases hc.lt_or_gt with hneg | hpos
   · have hd : 0 < -c := by linarith
     have key := tendsto_cesaro_diff_div_log_atTop_pos hd
     have heq : ∀ R : ℝ, (R ^ (-c) - R ^ (-(-c))) / ((-c) * (2 * Real.log R)) =

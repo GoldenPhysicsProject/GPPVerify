@@ -42,7 +42,7 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
   have hlogcont : Tendsto (fun n : ℕ => Real.log (∏ j ∈ range n, ((1:ℝ) + lam ^ 2 / ((j:ℝ) + 1) ^ 2)))
       atTop (𝓝 (Real.log (Real.sinh (Real.pi * lam) / (Real.pi * lam)))) := by
     have hpos : (0:ℝ) < Real.sinh (Real.pi * lam) / (Real.pi * lam) := by
-      rcases hlam.lt_or_lt with h | h
+      rcases hlam.lt_or_gt with h | h
       · have h1 : Real.pi * lam < 0 := by nlinarith [Real.pi_pos]
         have h2 : Real.sinh (Real.pi * lam) < 0 := Real.sinh_neg_iff.mpr h1
         exact div_pos_of_neg_of_neg h2 h1

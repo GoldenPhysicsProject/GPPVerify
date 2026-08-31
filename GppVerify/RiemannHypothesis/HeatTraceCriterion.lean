@@ -400,7 +400,7 @@ theorem integrableOn_auxK_integrand {c : ℝ} (hc : 0 < c) :
   have hset : (Ioi (0:ℝ)) = Ioc (0:ℝ) 1 ∪ Ioi (1:ℝ) := by
     ext x; simp only [mem_Ioi, mem_union, mem_Ioc]
     constructor
-    · intro hx; rcases le_or_lt x 1 with h | h
+    · intro hx; rcases le_or_gt x 1 with h | h
       · exact Or.inl ⟨hx, h⟩
       · exact Or.inr h
     · rintro (⟨hx, _⟩ | hx)
@@ -470,7 +470,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
   have hset : (Ioi (0:ℝ)) = Ioc (0:ℝ) 1 ∪ Ioi (1:ℝ) := by
     ext x; simp only [mem_Ioi, mem_union, mem_Ioc]
     constructor
-    · intro hx; rcases le_or_lt x 1 with h | h
+    · intro hx; rcases le_or_gt x 1 with h | h
       · exact Or.inl ⟨hx, h⟩
       · exact Or.inr h
     · rintro (⟨hx, _⟩ | hx)
