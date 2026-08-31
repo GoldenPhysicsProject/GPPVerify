@@ -28,16 +28,84 @@
 
 \chapter{Overview}
 
-This blueprint tracks the formal verification of the shadow framework
-(\emph{On the Nature of Nature}, Daniel Toupin, 2026) in Lean~4 with
-Mathlib~4.19.0.
+\section{What this project is}
 
-\textbf{Primary target:} RH Pathway~2 (Spectral/Meyer).
+This blueprint tracks the machine-checked formalization, in Lean~4 with Mathlib, of the
+\emph{shadow framework} developed by Daniel Toupin. Every statement marked
+\leanok\ below has been checked by Lean's kernel. Everything else is stated
+honestly as open.
 
-\textbf{Status of \texttt{thm:link6}:} $c_{2D} = \kappa_0 \cdot c_{4D}^{\mathrm{Weyl}}$
-has been formalized in \texttt{Link6.lean} via four physics axioms
-(Weinberg soft theorem, Cachazo-Strominger, Capper-Duff, Adler-Bardeen).
-The algebra is clean; the physics derivation is documented as axioms.
+\section{What it is trying to find out}
+
+The organising question is not a single conjecture. It is a correspondence:
+
+\begin{quote}
+\textbf{Analytic number theory and celestial holography appear to be describing the same
+object from two sides. What is that object, and how far does the dictionary go?}
+\end{quote}
+
+On the number-theory side sit the completed zeta function $\xi(s)$, its functional
+equation $s \mapsto 1-s$, the id\`ele class group $\mathbb{A}^\times/\mathbb{Q}^\times$
+with its Haar measure, and the Weil explicit formula. On the holography side sit
+celestial amplitudes, the principal series, Mellin transforms, and the shadow transform
+$\Delta \mapsto 2-\Delta$ on conformal dimensions.
+
+The shared structure is a \textbf{shadow involution}. Under the dictionary
+$\Delta = 2s$ it is the same map on both sides, and its fixed locus is exactly the
+critical line --- proved here as
+\texttt{GppFE.critical\_line\_is\_fixed\_locus}: for $s \in \mathbb{C}$,
+$\overline{s} = 1-s \iff \operatorname{Re}(s) = \tfrac12$. (The involution that matters
+is $s \mapsto 1-\overline{s}$, not $s \mapsto 1-s$; the latter fixes only the single
+point $s = \tfrac12$.)
+
+Because the involution is shared, so are its consequences. That is what makes the
+correspondence worth formalizing rather than merely asserting: each transfer either
+survives kernel-checking or fails in a specific, nameable place.
+
+\section{Goals, in order of ambition}
+
+\begin{enumerate}
+  \item \textbf{Map the dictionary precisely.} For each object on one side, identify its
+    counterpart on the other, and prove the transfer or name exactly what blocks it.
+  \item \textbf{Understand the shadow involution as a single mathematical object} rather
+    than as two coincidentally similar symmetries.
+  \item \textbf{The Riemann Hypothesis} is a major target, and RH Pathway~2
+    (Spectral/Meyer) is the route developed furthest here --- but it is one goal among
+    several, not the thesis of the project. The surrounding tower has value whether or
+    not that pathway closes.
+  \item \textbf{Physical consequences} of the same involution: CPT and time reversal,
+    complete positivity, three fermion generations, the Einstein equations as a rigidity
+    statement.
+\end{enumerate}
+
+\section{How to read this blueprint}
+
+Results carry \leanok\ when the Lean proof is complete and kernel-checked. A statement
+without it is open, and the surrounding text says what is missing.
+
+Three categories are tracked separately and never conflated:
+\begin{itemize}
+  \item \texttt{sorry} --- \textbf{zero}, and CI fails the build if any appears.
+  \item custom \texttt{axiom} --- \textbf{one} (\texttt{exp\_growth\_not\_tempered}),
+    down from thirteen. It is blocked on a genuine Mathlib gap, not on effort.
+  \item \texttt{True}-stubs --- open results deliberately parked. Every one is named
+    \texttt{open\_}\ldots, and CI rejects any that is not. A file full of stubs still
+    reports ``0 sorry, 0 axiom'', so the prefix is what keeps that honest.
+\end{itemize}
+
+\textbf{What is deliberately not claimed.} Nobody proves RH in this repository by
+accident. The value is that every reduction and constant in the surrounding tower is
+kernel-checked, with each remaining gap named precisely. Where a route was tried and
+failed, the failure is recorded rather than quietly dropped.
+
+\section{Coverage caveat}
+
+This blueprint is hand-authored; it does not regenerate itself from the Lean source.
+Substantial proved material therefore exists in the repository without appearing in the
+chapters below. An audit on 2026-08-31 found 122 of 183 modules with no blueprint
+reference at all. Chapters are being added as that backlog is worked through, starting
+with the half-flip/CPT thread below. Absence from this document is not evidence that
+something is unproved --- check the Lean source.
 
 \chapter{Haar Measure Foundation}
 
@@ -725,6 +793,132 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   Every $L^2$-admissible non-trivial zero $\rho$ of $\zeta(s)$ satisfies
   $\mathrm{Re}(\rho) = \tfrac{1}{2}$.
 \end{corollary}
+
+\chapter{The Half-Flip: CPT, Time Reversal, and Complete Positivity}
+
+The shadow involution squares to the identity on conformal dimensions. On \emph{states}
+it does not: the antiunitary time-reversal operator $T$ squares to $-1$ on a
+spin-$\tfrac12$ system. That factor of $-1$ --- the ``half-flip'' --- is what this
+chapter formalizes, together with its consequence that the operation is not a physically
+implementable channel.
+
+\section{Wigner time reversal squares to $-1$}
+
+\begin{definition}[Wigner time reversal on a qubit]
+  \label{def:wignerT}
+  \lean{GppHalfFlip.wignerT}
+  \leanok
+  $T(\psi_1,\psi_2) := (\overline{\psi_2},\, -\overline{\psi_1})$.
+\end{definition}
+
+\begin{theorem}[$T$ maps a state to an orthogonal one]
+  \label{thm:wignerT-orthogonal}
+  \lean{GppHalfFlip.wignerT_orthogonal}
+  \leanok
+  \uses{def:wignerT}
+  $T\psi$ is orthogonal to $\psi$ for every $\psi$.
+\end{theorem}
+
+\begin{theorem}[The half-flip: $T^2 = -1$]
+  \label{thm:wignerT-squared}
+  \lean{GppHalfFlip.wignerT_wignerT}
+  \leanok
+  \uses{def:wignerT}
+  $T(T\psi) = -\psi$. \emph{Proved clean.} This is the half-flip itself: applying time
+  reversal twice returns the state up to a global sign, so $T$ generates a
+  $\mathbb{Z}_4$, not a $\mathbb{Z}_2$, on spin-$\tfrac12$.
+\end{theorem}
+
+\section{Antiunitary conjugation is transposition}
+
+\begin{theorem}[Hermitian conjugation acts as transpose]
+  \label{thm:hermitian-star-transpose}
+  \lean{GppHalfFlip.hermitian_map_star_eq_transpose}
+  \leanok
+  For a Hermitian matrix, entrywise complex conjugation coincides with transposition.
+\end{theorem}
+
+\begin{theorem}[Antiunitary conjugation is unitary conjugation composed with transpose]
+  \label{thm:antiunitary-transpose}
+  \lean{GppHalfFlip.antiunitary_conj_eq_unitary_transpose}
+  \leanok
+  \uses{thm:hermitian-star-transpose}
+  This is the bridge from the physics statement (time reversal is antiunitary) to the
+  matrix statement analysed below (time reversal involves a transpose).
+\end{theorem}
+
+\section{Transposition is positive but not completely positive}
+
+The transpose preserves positive semidefiniteness, so on its own it looks like a legal
+operation on states. It is not: tensoring with an untouched auxiliary system destroys
+positivity. Formalized here without appeal to any physics input.
+
+\begin{definition}[Complete positivity, general form]
+  \label{def:completely-positive}
+  \lean{GppChoiMatrix.CompletelyPositive}
+  \leanok
+  $\Phi$ is completely positive if $\Phi \otimes \mathrm{id}_\beta$ maps positive
+  semidefinite matrices to positive semidefinite matrices for \emph{every} finite
+  auxiliary dimension $\beta$.
+\end{definition}
+
+\begin{theorem}[Choi criterion]
+  \label{thm:choi-criterion}
+  \lean{GppChoiMatrix.choiMatrix_posSemidef_of_completelyPositive}
+  \leanok
+  \uses{def:completely-positive}
+  If $\Phi$ is completely positive then its Choi matrix is positive semidefinite.
+  Proved for an \emph{arbitrary} finite-dimensional linear map, not just the transpose.
+  Its contrapositive
+  (\texttt{GppChoiMatrix.not\_completelyPositive\_of\_not\_posSemidef\_choiMatrix}) is
+  the tool used below.
+\end{theorem}
+
+\begin{theorem}[The Choi matrix of the transpose is SWAP]
+  \label{thm:choi-transpose-swap}
+  \lean{GppHalfFlipMatrix.choiMatrix_transposeMap_eq_SWAP}
+  \leanok
+  An exact finite computation: the same product of Kronecker deltas on both sides.
+\end{theorem}
+
+\begin{theorem}[SWAP is not positive semidefinite]
+  \label{thm:swap-not-psd}
+  \lean{GppHalfFlipMatrix.swap_not_posSemidef}
+  \leanok
+  The singlet $\psi$ satisfies $\mathrm{SWAP}\,\psi = -\psi$ with $\psi \neq 0$
+  (\texttt{GppHalfFlipMatrix.SWAP\_mulVec\_psi},
+  \texttt{GppHalfFlipMatrix.psi\_ne\_zero}), giving an explicit negative eigenvector.
+  Note this is the strong statement --- \emph{not} positive semidefinite in Mathlib's own
+  sense --- rather than merely ``has a negative eigenvalue''.
+\end{theorem}
+
+\begin{theorem}[Transposition is not completely positive]
+  \label{thm:transpose-not-cp}
+  \lean{GppHalfFlipMatrix.transposeMap_not_completelyPositive}
+  \leanok
+  \uses{thm:choi-criterion, thm:choi-transpose-swap, thm:swap-not-psd}
+  \emph{Proved clean}, with no \texttt{sorry} and no axiom. Chaining the three results
+  above: the Choi matrix of the transpose is SWAP, SWAP is not positive semidefinite, so
+  by the Choi criterion the transpose is not completely positive.
+
+  \textbf{Why this matters here.} By \ref{thm:antiunitary-transpose}, antiunitary time
+  reversal carries a transpose. So the half-flip is not an artefact of a phase
+  convention: the operation genuinely fails to be a channel, and the obstruction is the
+  same negative eigenvector that makes the singlet antisymmetric.
+\end{theorem}
+
+\section{Entanglement bounds (same module family)}
+
+\begin{theorem}[The CHSH value and its bounds]
+  \label{thm:chsh}
+  \lean{GppCHSHViolation.chshValue_exceeds_classical_bound}
+  \leanok
+  The constructed CHSH value equals $-1-\sqrt2$
+  (\texttt{GppCHSHViolation.chshValue\_eq}), exceeds the classical bound $2$ in modulus,
+  and respects Tsirelson's bound $2\sqrt2$
+  (\texttt{GppCHSHViolation.chshValue\_within\_tsirelson\_bound}). All three proved
+  clean.
+\end{theorem}
 
 \chapter{Standard Model --- Three Generations}
 
@@ -2151,6 +2345,1534 @@ close under this repo's pinned Mathlib (\texttt{ring} leaves an unsolved goal af
 sum-distribution); confirmed this is not a porting artifact, as the identical proof fails
 to close from GPPVerify2's own current source verbatim. Not attempted further rather than
 forced through with an unverified gap.
+
+\chapter{Formalized Content Not Yet Written Up Individually}
+
+The chapters above are hand-written narrative treatments. This chapter closes the gap
+between that narrative and the repository: every module below contains kernel-checked
+results that had no blueprint entry before 2026-08-31. Each section names the module, its
+own stated source, and its principal results, all of which carry \leanok.
+
+These entries are deliberately terse --- they record \emph{what is proved and where},
+so nothing formalized is invisible. Promoting a thread to a full narrative chapter above
+is separate work.
+
+Declarations prefixed \texttt{open\_} are omitted throughout: those are open results
+parked as stubs, not theorems.
+
+\section{Riemann Hypothesis --- Supporting Tower}
+
+\subsection{GammaPlancherelDefect}
+This file formalizes the positive-kernel core of Theorem 62.1 in Toupin's
+
+\noindent\textbf{Proved (28 declarations):}
+\begin{itemize}
+  \item \lean{GppGammaPlancherel.digamma_add_nat}\leanok\ \texttt{digamma\_add\_nat}
+  \item \lean{GppGammaPlancherel.archimedeanG_add_two_nat}\leanok\ \texttt{archimedeanG\_add\_two\_nat}
+  \item \lean{GppGammaPlancherel.gammaDefect_even_eq_sum}\leanok\ \texttt{gammaDefect\_even\_eq\_sum}
+  \item \lean{GppGammaPlancherel.defectIntegrand_even_eq_expSum}\leanok\ \texttt{defectIntegrand\_even\_eq\_expSum}
+  \item \lean{GppGammaPlancherel.exp_resolvent_integrable}\leanok\ \texttt{exp\_resolvent\_integrable}
+  \item \lean{GppGammaPlancherel.evenShiftExpSum_integrable}\leanok\ \texttt{evenShiftExpSum\_integrable}
+  \item \lean{GppGammaPlancherel.defectIntegrand_even_integrable}\leanok\ \texttt{defectIntegrand\_even\_integrable}
+  \item \lean{GppGammaPlancherel.defectKernel_even_eq_sum}\leanok\ \texttt{defectKernel\_even\_eq\_sum}
+  \item \lean{GppGammaPlancherel.gammaDefect_even_eq_kernel}\leanok\ \texttt{gammaDefect\_even\_eq\_kernel}
+  \item \lean{GppGammaPlancherel.evenShiftDefectSum_nonneg}\leanok\ \texttt{evenShiftDefectSum\_nonneg}
+  \item \emph{\ldots and 18 further results in this module.}
+\end{itemize}
+
+\subsection{PrimeFermionDirac}
+The fermion/spinor analogy can be made exact at one prime.  The exterior algebra on one
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFermion.create}\leanok\ \texttt{create}
+  \item \lean{GppPrimeFermion.annihilate}\leanok\ \texttt{annihilate}
+  \item \lean{GppPrimeFermion.grading}\leanok\ \texttt{grading}
+  \item \lean{GppPrimeFermion.grading_sq}\leanok\ \texttt{grading\_sq}
+  \item \lean{GppPrimeFermion.create_sq}\leanok\ \texttt{create\_sq}
+  \item \lean{GppPrimeFermion.annihilate_sq}\leanok\ \texttt{annihilate\_sq}
+  \item \lean{GppPrimeFermion.car}\leanok\ \texttt{car}
+  \item \lean{GppPrimeFermion.create_adjoint}\leanok\ \texttt{create\_adjoint}
+  \item \lean{GppPrimeFermion.supercharge_sq}\leanok\ \texttt{supercharge\_sq}
+  \item \lean{GppPrimeFermion.supercharge_adjoint}\leanok\ \texttt{supercharge\_adjoint}
+  \item \emph{\ldots and 9 further results in this module.}
+\end{itemize}
+
+\subsection{RHProofStructure}
+Sources:
+
+\noindent\textbf{Proved (17 declarations):}
+\begin{itemize}
+  \item \lean{GppRHProofStructure.gr24_betti}\leanok\ \texttt{gr24\_betti}
+  \item \lean{GppRHProofStructure.gr24_euler_char}\leanok\ \texttt{gr24\_euler\_char}
+  \item \lean{GppRHProofStructure.gr24_over_Fq}\leanok\ \texttt{gr24\_over\_Fq}
+  \item \lean{GppRHProofStructure.gr24_over_F1}\leanok\ \texttt{gr24\_over\_F1}
+  \item \lean{GppRHProofStructure.gr24_over_F2}\leanok\ \texttt{gr24\_over\_F2}
+  \item \lean{GppRHProofStructure.gr24_schubert_dims_sum}\leanok\ \texttt{gr24\_schubert\_dims\_sum}
+  \item \lean{GppRHProofStructure.canonical_dictionary_alpha}\leanok\ \texttt{canonical\_dictionary\_alpha}
+  \item \lean{GppRHProofStructure.dictionary_involution_compat}\leanok\ \texttt{dictionary\_involution\_compat}
+  \item \lean{GppRHProofStructure.casimir_eigenvalue}\leanok\ \texttt{casimir\_eigenvalue}
+  \item \lean{GppRHProofStructure.plucker_weight}\leanok\ \texttt{plucker\_weight}
+  \item \emph{\ldots and 7 further results in this module.}
+\end{itemize}
+
+\subsection{CayleyDicksonFockBridge}
+The finite-prime fermionic construction and the Cayley--Dickson tower share one exact
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppCayleyFock.fockDim}\leanok\ \texttt{fockDim}
+  \item \lean{GppCayleyFock.cayleyDicksonDim}\leanok\ \texttt{cayleyDicksonDim}
+  \item \lean{GppCayleyFock.fockDim_eq_cayleyDicksonDim}\leanok\ \texttt{fockDim\_eq\_cayleyDicksonDim}
+  \item \lean{GppCayleyFock.fockDim_succ}\leanok\ \texttt{fockDim\_succ}
+  \item \lean{GppCayleyFock.cayleyDicksonDim_succ}\leanok\ \texttt{cayleyDicksonDim\_succ}
+  \item \lean{GppCayleyFock.common_doubling_step}\leanok\ \texttt{common\_doubling\_step}
+  \item \lean{GppCayleyFock.first_four_common_dimensions}\leanok\ \texttt{first\_four\_common\_dimensions}
+  \item \lean{GppCayleyFock.three_channel_dimension}\leanok\ \texttt{three\_channel\_dimension}
+  \item \lean{GppCayleyFock.fourth_doubling_dimension}\leanok\ \texttt{fourth\_doubling\_dimension}
+  \item \lean{GppCayleyFock.finiteHodgeEnergy_nonneg}\leanok\ \texttt{finiteHodgeEnergy\_nonneg}
+  \item \emph{\ldots and 4 further results in this module.}
+\end{itemize}
+
+\subsection{PrimeDoubletDirac}
+The gap-two graph on the primes has an exact singlet/doublet decomposition above the
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeDoublet.singletAdjacency}\leanok\ \texttt{singletAdjacency}
+  \item \lean{GppPrimeDoublet.doubletAdjacency}\leanok\ \texttt{doubletAdjacency}
+  \item \lean{GppPrimeDoublet.symmetricState}\leanok\ \texttt{symmetricState}
+  \item \lean{GppPrimeDoublet.antisymmetricState}\leanok\ \texttt{antisymmetricState}
+  \item \lean{GppPrimeDoublet.doubletAdjacency_eq_dirac_one}\leanok\ \texttt{doubletAdjacency\_eq\_dirac\_one}
+  \item \lean{GppPrimeDoublet.doubletAdjacency_selfAdjoint}\leanok\ \texttt{doubletAdjacency\_selfAdjoint}
+  \item \lean{GppPrimeDoublet.doubletAdjacency_mulVec_symmetric}\leanok\ \texttt{doubletAdjacency\_mulVec\_symmetric}
+  \item \lean{GppPrimeDoublet.doubletAdjacency_mulVec_antisymmetric}\leanok\ \texttt{doubletAdjacency\_mulVec\_antisymmetric}
+  \item \lean{GppPrimeDoublet.antisymmetricState_ne_zero}\leanok\ \texttt{antisymmetricState\_ne\_zero}
+  \item \lean{GppPrimeDoublet.doubletAdjacency_not_posSemidef}\leanok\ \texttt{doubletAdjacency\_not\_posSemidef}
+  \item \emph{\ldots and 3 further results in this module.}
+\end{itemize}
+
+\subsection{CayleyDicksonFockOperator}
+This file isolates the exact algebraic hypotheses needed for the multi-channel Hodge--Dirac
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppCayleyFockOperator.coeff_conj_pair}\leanok\ \texttt{coeff\_conj\_pair}
+  \item \lean{GppCayleyFockOperator.coeff_swap_cancel}\leanok\ \texttt{coeff\_swap\_cancel}
+  \item \lean{GppCayleyFockOperator.pairSum_swap}\leanok\ \texttt{pairSum\_swap}
+  \item \lean{GppCayleyFockOperator.pairSum_eq_neg}\leanok\ \texttt{pairSum\_eq\_neg}
+  \item \lean{GppCayleyFockOperator.pairSum_eq_zero}\leanok\ \texttt{pairSum\_eq\_zero}
+  \item \lean{GppCayleyFockOperator.supercharge_sq_eq_pairSum}\leanok\ \texttt{supercharge\_sq\_eq\_pairSum}
+  \item \lean{GppCayleyFockOperator.supercharge_sq_zero}\leanok\ \texttt{supercharge\_sq\_zero}
+  \item \lean{GppCayleyFockOperator.mixed_products_eq}\leanok\ \texttt{mixed\_products\_eq}
+  \item \lean{GppCayleyFockOperator.mixed_products_eq_energy}\leanok\ \texttt{mixed\_products\_eq\_energy}
+  \item \lean{GppCayleyFockOperator.dirac_sq_energy}\leanok\ \texttt{dirac\_sq\_energy}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{PadicHaarTransfer}
+Step 5 of the `ℚ\_p^×`-scaling-law plan (`PadicMultiplicativeMeasure.lean`), executed: the
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicField.coeAddHom}\leanok\ \texttt{coeAddHom}
+  \item \lean{GppPadicField.range_coeAddHom}\leanok\ \texttt{range\_coeAddHom}
+  \item \lean{GppPadicField.isOpenEmbedding_coeAddHom}\leanok\ \texttt{isOpenEmbedding\_coeAddHom}
+  \item \lean{GppPadicField.comap_apply}\leanok\ \texttt{comap\_apply}
+  \item \lean{GppPadicField.isAddHaarMeasure_comap}\leanok\ \texttt{isAddHaarMeasure\_comap}
+  \item \lean{GppPadicField.isProbabilityMeasure_comap}\leanok\ \texttt{isProbabilityMeasure\_comap}
+  \item \lean{GppPadicField.isProbabilityMeasure_haarMeasure}\leanok\ \texttt{isProbabilityMeasure\_haarMeasure}
+  \item \lean{GppPadicField.comap_eq_haarMeasure}\leanok\ \texttt{comap\_eq\_haarMeasure}
+  \item \lean{GppPadicField.fieldHaarMeasure_image}\leanok\ \texttt{fieldHaarMeasure\_image}
+  \item \lean{GppPadicField.image_span_pow_eq_closedBall}\leanok\ \texttt{image\_span\_pow\_eq\_closedBall}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{QuartetPerturbation}
+Thread Q of `docs/FORMALIZATION\_PLAN.md`, from the entanglement/shadow-positivity memo
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppQuartet.sq_coords}\leanok\ \texttt{sq\_coords}
+  \item \lean{GppQuartet.quartet_contribution}\leanok\ \texttt{quartet\_contribution}
+  \item \lean{GppQuartet.pair_contribution}\leanok\ \texttt{pair\_contribution}
+  \item \lean{GppQuartet.quartet_neg_of_cos_neg}\leanok\ \texttt{quartet\_neg\_of\_cos\_neg}
+  \item \lean{GppQuartet.cos_neg_of_quartet_neg}\leanok\ \texttt{cos\_neg\_of\_quartet\_neg}
+  \item \lean{GppQuartet.quartet_amplification}\leanok\ \texttt{quartet\_amplification}
+  \item \lean{GppQuartet.positiveType_comp_addMonoidHom}\leanok\ \texttt{positiveType\_comp\_addMonoidHom}
+  \item \lean{GppQuartet.cesaro_gram_sq_nonneg}\leanok\ \texttt{cesaro\_gram\_sq\_nonneg}
+  \item \lean{GppQuartet.below}\leanok\ \texttt{below}
+  \item \lean{GppQuartet.abel_state_comp_neg_eq}\leanok\ \texttt{abel\_state\_comp\_neg\_eq}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{SechFourthIntegral}
+Thread A2 of `docs/FORMALIZATION\_PLAN.md`: the exact value of the Yakaboylu eigenstate
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppSechIntegral.one_div_cosh_sq}\leanok\ \texttt{one\_div\_cosh\_sq}
+  \item \lean{GppSechIntegral.hasDerivAt_tanh'}\leanok\ \texttt{hasDerivAt\_tanh'}
+  \item \lean{GppSechIntegral.hasDerivAt_sechFourthAntideriv}\leanok\ \texttt{hasDerivAt\_sechFourthAntideriv}
+  \item \lean{GppSechIntegral.sechFourthAntideriv_zero}\leanok\ \texttt{sechFourthAntideriv\_zero}
+  \item \lean{GppSechIntegral.one_div_cosh_sq_le}\leanok\ \texttt{one\_div\_cosh\_sq\_le}
+  \item \lean{GppSechIntegral.tendsto_sechFourthAntideriv}\leanok\ \texttt{tendsto\_sechFourthAntideriv}
+  \item \lean{GppSechIntegral.integral_id_div_cosh_fourth}\leanok\ \texttt{integral\_id\_div\_cosh\_fourth}
+  \item \lean{GppSechIntegral.hasDerivAt_tHalfAntideriv}\leanok\ \texttt{hasDerivAt\_tHalfAntideriv}
+  \item \lean{GppSechIntegral.tendsto_tHalfAntideriv}\leanok\ \texttt{tendsto\_tHalfAntideriv}
+  \item \lean{GppSechIntegral.integral_t_div_cosh_half_fourth}\leanok\ \texttt{integral\_t\_div\_cosh\_half\_fourth}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{CauchyKernelPositive}
+Thread K of `docs/FORMALIZATION\_PLAN.md`, companion to the form-domain note on Yakaboylu
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppCauchyKernel.integrableOn_exp_neg_mul_cos}\leanok\ \texttt{integrableOn\_exp\_neg\_mul\_cos}
+  \item \lean{GppCauchyKernel.hasDerivAt_dampedCosAntideriv}\leanok\ \texttt{hasDerivAt\_dampedCosAntideriv}
+  \item \lean{GppCauchyKernel.tendsto_dampedCosAntideriv}\leanok\ \texttt{tendsto\_dampedCosAntideriv}
+  \item \lean{GppCauchyKernel.integral_exp_neg_mul_cos}\leanok\ \texttt{integral\_exp\_neg\_mul\_cos}
+  \item \lean{GppCauchyKernel.cauchy_kernel_eq_integral}\leanok\ \texttt{cauchy\_kernel\_eq\_integral}
+  \item \lean{GppCauchyKernel.cauchy_kernel_positive_type}\leanok\ \texttt{cauchy\_kernel\_positive\_type}
+  \item \lean{GppCauchyKernel.matrix_element_on_line}\leanok\ \texttt{matrix\_element\_on\_line}
+  \item \lean{GppCauchyKernel.matrix_element_off_line_diag}\leanok\ \texttt{matrix\_element\_off\_line\_diag}
+  \item \lean{GppCauchyKernel.off_line_diag_neg}\leanok\ \texttt{off\_line\_diag\_neg}
+  \item \lean{GppCauchyKernel.tendsto_offline_min_eigenvalue}\leanok\ \texttt{tendsto\_offline\_min\_eigenvalue}
+\end{itemize}
+
+\subsection{PrimeGreenAmplitude}
+This is the next bridge after `EulerFactorLogDeriv.lean`.  The nonzero Fourier modes of
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeGreen.primePowerBoundaryWeight_pos}\leanok\ \texttt{primePowerBoundaryWeight\_pos}
+  \item \lean{GppPrimeGreen.primePowerBoundaryLocation_pos}\leanok\ \texttt{primePowerBoundaryLocation\_pos}
+  \item \lean{GppPrimeGreen.primePowerBoundaryWeight_eq_coeff}\leanok\ \texttt{primePowerBoundaryWeight\_eq\_coeff}
+  \item \lean{GppPrimeGreen.primePowerBoundaryLocation_eq_frequency}\leanok\ \texttt{primePowerBoundaryLocation\_eq\_frequency}
+  \item \lean{GppPrimeGreen.massiveGreenAtZero_pos}\leanok\ \texttt{massiveGreenAtZero\_pos}
+  \item \lean{GppPrimeGreen.boundaryWeight_mul_green_eq}\leanok\ \texttt{boundaryWeight\_mul\_green\_eq}
+  \item \lean{GppPrimeGreen.finitePrimeGreenAmplitude_eq}\leanok\ \texttt{finitePrimeGreenAmplitude\_eq}
+  \item \lean{GppPrimeGreen.finitePrimeGreenAmplitude_nonneg}\leanok\ \texttt{finitePrimeGreenAmplitude\_nonneg}
+  \item \lean{GppPrimeGreen.finitePrimeDirichletAmplitude_nonneg}\leanok\ \texttt{finitePrimeDirichletAmplitude\_nonneg}
+  \item \lean{GppPrimeGreen.crossTerm_eq_doubled_norm_difference}\leanok\ \texttt{crossTerm\_eq\_doubled\_norm\_difference}
+\end{itemize}
+
+\subsection{ZetaGibbsFisher}
+For real `β > 1`, logarithmic derivatives of zeta are exactly Gibbs cumulants of
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaGibbsFisher.zetaVarianceResponse_eq_ofReal_logEnergyVariance}\leanok\ \texttt{zetaVarianceResponse\_eq\_ofReal\_logEnergyVariance}
+  \item \lean{GppZetaGibbsFisher.zetaThirdCumulantResponse_eq_ofReal_logEnergyThirdCumulant}\leanok\ \texttt{zetaThirdCumulantResponse\_eq\_ofReal\_logEnergyThirdCumulant}
+  \item \lean{GppZetaGibbsFisher.logEnergyVariance_nonneg}\leanok\ \texttt{logEnergyVariance\_nonneg}
+  \item \lean{GppZetaGibbsFisher.zetaVarianceResponse_im_eq_zero}\leanok\ \texttt{zetaVarianceResponse\_im\_eq\_zero}
+  \item \lean{GppZetaGibbsFisher.zetaThirdCumulantResponse_im_eq_zero}\leanok\ \texttt{zetaThirdCumulantResponse\_im\_eq\_zero}
+  \item \lean{GppZetaGibbsFisher.zetaVarianceResponse_re_nonneg}\leanok\ \texttt{zetaVarianceResponse\_re\_nonneg}
+  \item \lean{GppZetaGibbsFisher.heatCapacity_nonneg}\leanok\ \texttt{heatCapacity\_nonneg}
+  \item \lean{GppZetaGibbsFisher.entropyBetaDerivative_nonpos}\leanok\ \texttt{entropyBetaDerivative\_nonpos}
+  \item \lean{GppZetaGibbsFisher.entropyBetaDerivative_sq_eq_heatCapacity_mul_variance}\leanok\ \texttt{entropyBetaDerivative\_sq\_eq\_heatCapacity\_mul\_variance}
+  \item \lean{GppZetaGibbsFisher.entropyBetaDerivative_sq_nonneg}\leanok\ \texttt{entropyBetaDerivative\_sq\_nonneg}
+\end{itemize}
+
+\subsection{ZetaGibbsMoments}
+On the half-plane `Re s > 1`, the Riemann zeta function is exactly the L-series
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaGibbsMoments.zetaHalfPlane}\leanok\ \texttt{zetaHalfPlane}
+  \item \lean{GppZetaGibbsMoments.isOpen_zetaHalfPlane}\leanok\ \texttt{isOpen\_zetaHalfPlane}
+  \item \lean{GppZetaGibbsMoments.riemannZeta_eq_LSeries_one}\leanok\ \texttt{riemannZeta\_eq\_LSeries\_one}
+  \item \lean{GppZetaGibbsMoments.riemannZeta_eqOn_LSeries_one}\leanok\ \texttt{riemannZeta\_eqOn\_LSeries\_one}
+  \item \lean{GppZetaGibbsMoments.iteratedDeriv_riemannZeta_eq_iteratedDeriv_LSeries_one}\leanok\ \texttt{iteratedDeriv\_riemannZeta\_eq\_iteratedDeriv\_LSeries\_one}
+  \item \lean{GppZetaGibbsMoments.iteratedDeriv_riemannZeta_eq_logMomentLSeries}\leanok\ \texttt{iteratedDeriv\_riemannZeta\_eq\_logMomentLSeries}
+  \item \lean{GppZetaGibbsMoments.deriv_riemannZeta_eq_neg_logMomentLSeries}\leanok\ \texttt{deriv\_riemannZeta\_eq\_neg\_logMomentLSeries}
+  \item \lean{GppZetaGibbsMoments.iteratedDeriv_two_riemannZeta_eq_logSqMomentLSeries}\leanok\ \texttt{iteratedDeriv\_two\_riemannZeta\_eq\_logSqMomentLSeries}
+  \item \lean{GppZetaGibbsMoments.iteratedDeriv_three_riemannZeta_eq_neg_logCubeMomentLSeries}\leanok\ \texttt{iteratedDeriv\_three\_riemannZeta\_eq\_neg\_logCubeMomentLSeries}
+  \item \lean{GppZetaGibbsMoments.iteratedDeriv_four_riemannZeta_eq_logFourthMomentLSeries}\leanok\ \texttt{iteratedDeriv\_four\_riemannZeta\_eq\_logFourthMomentLSeries}
+\end{itemize}
+
+\subsection{VonMangoldtCosineBridge}
+This file simplifies the real part of each absolutely-convergent von-Mangoldt
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppVonMangoldtCosine.natCast_neg_cpow_re}\leanok\ \texttt{natCast\_neg\_cpow\_re}
+  \item \lean{GppVonMangoldtCosine.vonMangoldt_term_re_eq_exp_cos}\leanok\ \texttt{vonMangoldt\_term\_re\_eq\_exp\_cos}
+  \item \lean{GppVonMangoldtCosine.vonMangoldt_term_zero_re}\leanok\ \texttt{vonMangoldt\_term\_zero\_re}
+  \item \lean{GppVonMangoldtCosine.neg_zeta_logDeriv_re_eq_vonMangoldt_cosine_tsum}\leanok\ \texttt{neg\_zeta\_logDeriv\_re\_eq\_vonMangoldt\_cosine\_tsum}
+  \item \lean{GppVonMangoldtCosine.cosine_frequency_positiveType}\leanok\ \texttt{cosine\_frequency\_positiveType}
+  \item \lean{GppVonMangoldtCosine.positiveType_nonneg_scalar}\leanok\ \texttt{positiveType\_nonneg\_scalar}
+  \item \lean{GppVonMangoldtCosine.vonMangoldt_mode_positiveType}\leanok\ \texttt{vonMangoldt\_mode\_positiveType}
+  \item \lean{GppVonMangoldtCosine.positiveType_finset_sum_modes}\leanok\ \texttt{positiveType\_finset\_sum\_modes}
+  \item \lean{GppVonMangoldtCosine.finite_vonMangoldt_cosine_positiveType}\leanok\ \texttt{finite\_vonMangoldt\_cosine\_positiveType}
+\end{itemize}
+
+\subsection{HaarPositivityWeil}
+Source: haar\_positivity\_weil\_wightman.tex
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppHaarPositivityWeil.PositiveType}\leanok\ \texttt{PositiveType}
+  \item \lean{GppHaarPositivityWeil.const_one_positive_type}\leanok\ \texttt{const\_one\_positive\_type}
+  \item \lean{GppHaarPositivityWeil.positive_type_at_zero}\leanok\ \texttt{positive\_type\_at\_zero}
+  \item \lean{GppHaarPositivityWeil.finiteHaarProjection_isIdempotentElem}\leanok\ \texttt{finiteHaarProjection\_isIdempotentElem}
+  \item \lean{GppHaarPositivityWeil.finiteSum_end_apply}\leanok\ \texttt{finiteSum\_end\_apply}
+  \item \lean{GppHaarPositivityWeil.finiteHaarProjection_range_eq_invariants}\leanok\ \texttt{finiteHaarProjection\_range\_eq\_invariants}
+  \item \lean{GppHaarPositivityWeil.finiteHaarProjection_isSelfAdjoint}\leanok\ \texttt{finiteHaarProjection\_isSelfAdjoint}
+  \item \lean{GppHaarPositivityWeil.haar_squares_always_positive}\leanok\ \texttt{haar\_squares\_always\_positive}
+\end{itemize}
+
+\subsection{ZetaGibbsSummability}
+For real `β > 1` the three real series needed for the Gibbs variance,
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaGibbsSummability.constant_abscissa_le_one}\leanok\ \texttt{constant\_abscissa\_le\_one}
+  \item \lean{GppZetaGibbsSummability.real_log_abscissa_le_one}\leanok\ \texttt{real\_log\_abscissa\_le\_one}
+  \item \lean{GppZetaGibbsSummability.real_log_sq_abscissa_le_one}\leanok\ \texttt{real\_log\_sq\_abscissa\_le\_one}
+  \item \lean{GppZetaGibbsSummability.summable_gibbsWeight}\leanok\ \texttt{summable\_gibbsWeight}
+  \item \lean{GppZetaGibbsSummability.summable_gibbsWeight_mul_logEnergy}\leanok\ \texttt{summable\_gibbsWeight\_mul\_logEnergy}
+  \item \lean{GppZetaGibbsSummability.summable_gibbsWeight_mul_logEnergy_sq}\leanok\ \texttt{summable\_gibbsWeight\_mul\_logEnergy\_sq}
+  \item \lean{GppZetaGibbsSummability.gibbsWeight_tsum_pos}\leanok\ \texttt{gibbsWeight\_tsum\_pos}
+  \item \lean{GppZetaGibbsSummability.gibbs_logEnergy_variance_nonneg}\leanok\ \texttt{gibbs\_logEnergy\_variance\_nonneg}
+\end{itemize}
+
+\subsection{FiniteFisherMomentBridge}
+This module isolates the scalar algebra sitting between the finite-support
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteFisherMomentBridge.fisherDet}\leanok\ \texttt{fisherDet}
+  \item \lean{GppFiniteFisherMomentBridge.fisherNumerator}\leanok\ \texttt{fisherNumerator}
+  \item \lean{GppFiniteFisherMomentBridge.momentDiscriminant}\leanok\ \texttt{momentDiscriminant}
+  \item \lean{GppFiniteFisherMomentBridge.six_fisherNumerator_eq_mass_mul_momentDiscriminant}\leanok\ \texttt{six\_fisherNumerator\_eq\_mass\_mul\_momentDiscriminant}
+  \item \lean{GppFiniteFisherMomentBridge.fisherNumerator_one_eq_fisherDet}\leanok\ \texttt{fisherNumerator\_one\_eq\_fisherDet}
+  \item \lean{GppFiniteFisherMomentBridge.momentDiscriminant_one_eq_six_fisherDet}\leanok\ \texttt{momentDiscriminant\_one\_eq\_six\_fisherDet}
+  \item \lean{GppFiniteFisherMomentBridge.six_fisherDet_eq_momentDiscriminant_one}\leanok\ \texttt{six\_fisherDet\_eq\_momentDiscriminant\_one}
+\end{itemize}
+
+\subsection{LiCriterion}
+Task \#75 (long pending): a second equivalence for RH. Li's criterion (Li 1997) states
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppRH.riemannXi_entire}\leanok\ \texttt{riemannXi\_entire}
+  \item \lean{GppRH.riemannXi_one}\leanok\ \texttt{riemannXi\_one}
+  \item \lean{GppRH.hasDerivAt_mul_sub_one_at_one}\leanok\ \texttt{hasDerivAt\_mul\_sub\_one\_at\_one}
+  \item \lean{GppRH.deriv_riemannXi_one}\leanok\ \texttt{deriv\_riemannXi\_one}
+  \item \lean{GppRH.li_lambda_one}\leanok\ \texttt{li\_lambda\_one}
+  \item \lean{GppRH.eulerMascheroniConstant_gt_log_four_pi_sub_two}\leanok\ \texttt{eulerMascheroniConstant\_gt\_log\_four\_pi\_sub\_two}
+  \item \lean{GppRH.li_lambda_one_pos}\leanok\ \texttt{li\_lambda\_one\_pos}
+\end{itemize}
+
+\subsection{PadicFullZetaIntegral}
+Continuing toward the full geometric-series zeta integral (Tate's-thesis lecture notes,
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicFullZeta.shell}\leanok\ \texttt{shell}
+  \item \lean{GppPadicFullZeta.measurableSet_shell}\leanok\ \texttt{measurableSet\_shell}
+  \item \lean{GppPadicFullZeta.mem_shell_valuation}\leanok\ \texttt{mem\_shell\_valuation}
+  \item \lean{GppPadicFullZeta.shell_pairwise_disjoint}\leanok\ \texttt{shell\_pairwise\_disjoint}
+  \item \lean{GppPadicFullZeta.univ_eq_shells}\leanok\ \texttt{univ\_eq\_shells}
+  \item \lean{GppPadicFullZeta.singleton_disjoint_shells}\leanok\ \texttt{singleton\_disjoint\_shells}
+  \item \lean{GppPadicFullZeta.measurableSet_shell_iUnion}\leanok\ \texttt{measurableSet\_shell\_iUnion}
+\end{itemize}
+
+\subsection{TruncatedTransport}
+Thread T. The memo's section 6.1 transport question is blocked at the idele-class-group
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppTransport.PositiveTypeOn}\leanok\ \texttt{PositiveTypeOn}
+  \item \lean{GppTransport.positiveTypeOn_real_iff}\leanok\ \texttt{positiveTypeOn\_real\_iff}
+  \item \lean{GppTransport.that}\leanok\ \texttt{that}
+  \item \lean{GppTransport.positiveTypeOn_comp_addMonoidHom}\leanok\ \texttt{positiveTypeOn\_comp\_addMonoidHom}
+  \item \lean{GppTransport.truncatedLogHom}\leanok\ \texttt{truncatedLogHom}
+  \item \lean{GppTransport.truncated_transport}\leanok\ \texttt{truncated\_transport}
+  \item \lean{GppTransport.logPrime_lattice_injective}\leanok\ \texttt{logPrime\_lattice\_injective}
+\end{itemize}
+
+\subsection{WeilSupportLadder}
+Thread L of `docs/FORMALIZATION\_PLAN.md`, after Connes–Consani (arXiv:2106.01715, §2.2):
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppWeilLadder.HasSupportIn}\leanok\ \texttt{HasSupportIn}
+  \item \lean{GppWeilLadder.convolution_hasSupportIn}\leanok\ \texttt{convolution\_hasSupportIn}
+  \item \lean{GppWeilLadder.primeSide_term_eq_zero}\leanok\ \texttt{primeSide\_term\_eq\_zero}
+  \item \lean{GppWeilLadder.primeSide_eq_truncation}\leanok\ \texttt{primeSide\_eq\_truncation}
+  \item \lean{GppWeilLadder.primeSide_eq_zero_of_support_lt_log_two}\leanok\ \texttt{primeSide\_eq\_zero\_of\_support\_lt\_log\_two}
+  \item \lean{GppWeilLadder.weil_nonneg_of_arch_nonneg_rung_zero}\leanok\ \texttt{weil\_nonneg\_of\_arch\_nonneg\_rung\_zero}
+  \item \lean{GppWeilLadder.integral_exp_neg_abs_mul_cos}\leanok\ \texttt{integral\_exp\_neg\_abs\_mul\_cos}
+\end{itemize}
+
+\subsection{ZetaFisherStrictMonotonicity}
+For `β > 1` the Fisher metric has the positive arithmetic expansion
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaFisherStrictMonotonicity.logMul_term_re_eq_fisherSummand}\leanok\ \texttt{logMul\_term\_re\_eq\_fisherSummand}
+  \item \lean{GppZetaFisherStrictMonotonicity.summable_fisherSummand}\leanok\ \texttt{summable\_fisherSummand}
+  \item \lean{GppZetaFisherStrictMonotonicity.fisherSummand_nonneg}\leanok\ \texttt{fisherSummand\_nonneg}
+  \item \lean{GppZetaFisherStrictMonotonicity.fisherSummand_antitone_pair}\leanok\ \texttt{fisherSummand\_antitone\_pair}
+  \item \lean{GppZetaFisherStrictMonotonicity.fisherSummand_two_strict}\leanok\ \texttt{fisherSummand\_two\_strict}
+  \item \lean{GppZetaFisherStrictMonotonicity.fisher_tsum_strictAnti}\leanok\ \texttt{fisher\_tsum\_strictAnti}
+  \item \lean{GppZetaFisherStrictMonotonicity.logMul_vonMangoldt_re_eq_fisher_tsum}\leanok\ \texttt{logMul\_vonMangoldt\_re\_eq\_fisher\_tsum}
+\end{itemize}
+
+\subsection{ZetaGibbsMomentBridge}
+For real `β > 1`, the constant-one L-series and its first four logarithmic coefficient
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaGibbsMomentBridge.natSucc_cpow_eq_ofReal_rpow}\leanok\ \texttt{natSucc\_cpow\_eq\_ofReal\_rpow}
+  \item \lean{GppZetaGibbsMomentBridge.natSucc_clog_eq_ofReal_log}\leanok\ \texttt{natSucc\_clog\_eq\_ofReal\_log}
+  \item \lean{GppZetaGibbsMomentBridge.LSeries_one_eq_ofReal_gibbsWeight_tsum}\leanok\ \texttt{LSeries\_one\_eq\_ofReal\_gibbsWeight\_tsum}
+  \item \lean{GppZetaGibbsMomentBridge.LSeries_logMul_one_eq_ofReal_firstMoment}\leanok\ \texttt{LSeries\_logMul\_one\_eq\_ofReal\_firstMoment}
+  \item \lean{GppZetaGibbsMomentBridge.LSeries_logMul_logMul_one_eq_ofReal_secondMoment}\leanok\ \texttt{LSeries\_logMul\_logMul\_one\_eq\_ofReal\_secondMoment}
+  \item \lean{GppZetaGibbsMomentBridge.LSeries_logMul_logMul_logMul_one_eq_ofReal_thirdMoment}\leanok\ \texttt{LSeries\_logMul\_logMul\_logMul\_one\_eq\_ofReal\_thirdMoment}
+  \item \lean{GppZetaGibbsMomentBridge.LSeries_logMul_four_one_eq_ofReal_fourthMoment}\leanok\ \texttt{LSeries\_logMul\_four\_one\_eq\_ofReal\_fourthMoment}
+\end{itemize}
+
+\subsection{AlternatingHarmonicLog2}
+Thread C1 of `docs/FORMALIZATION\_PLAN.md`: `η(1) = log 2` in its classical series form —
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppAlternatingHarmonic.integral_one_div_one_add}\leanok\ \texttt{integral\_one\_div\_one\_add}
+  \item \lean{GppAlternatingHarmonic.sum_neg_pow_eq}\leanok\ \texttt{sum\_neg\_pow\_eq}
+  \item \lean{GppAlternatingHarmonic.log_two_sub_partial}\leanok\ \texttt{log\_two\_sub\_partial}
+  \item \lean{GppAlternatingHarmonic.remainder_pointwise}\leanok\ \texttt{remainder\_pointwise}
+  \item \lean{GppAlternatingHarmonic.remainder_bound}\leanok\ \texttt{remainder\_bound}
+  \item \lean{GppAlternatingHarmonic.tendsto_alternating_harmonic_log_two}\leanok\ \texttt{tendsto\_alternating\_harmonic\_log\_two}
+\end{itemize}
+
+\subsection{CompletedZetaDerivativeSymmetry}
+Mathlib proves the completed functional equation
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppCompletedZetaDerivative.one_sub_ne_zero}\leanok\ \texttt{one\_sub\_ne\_zero}
+  \item \lean{GppCompletedZetaDerivative.one_sub_ne_one}\leanok\ \texttt{one\_sub\_ne\_one}
+  \item \lean{GppCompletedZetaDerivative.completedRiemannZeta_deriv_reflection}\leanok\ \texttt{completedRiemannZeta\_deriv\_reflection}
+  \item \lean{GppCompletedZetaDerivative.completedRiemannZeta_deriv_one_sub}\leanok\ \texttt{completedRiemannZeta\_deriv\_one\_sub}
+  \item \lean{GppCompletedZetaDerivative.completedRiemannZeta_logDeriv_reflection}\leanok\ \texttt{completedRiemannZeta\_logDeriv\_reflection}
+  \item \lean{GppCompletedZetaDerivative.completedRiemannZeta_deriv_one_half}\leanok\ \texttt{completedRiemannZeta\_deriv\_one\_half}
+\end{itemize}
+
+\subsection{FinitePrimeDiracCompletion}
+This file specializes the abstract finite CAR/Koszul Hodge--Dirac theorem to the actual
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppFinitePrimeCompletion.finitePrimeDirac_sq}\leanok\ \texttt{finitePrimeDirac\_sq}
+  \item \lean{GppFinitePrimeCompletion.add_sq_of_anticommute}\leanok\ \texttt{add\_sq\_of\_anticommute}
+  \item \lean{GppFinitePrimeCompletion.completed_sq_of_clifford_orthogonal}\leanok\ \texttt{completed\_sq\_of\_clifford\_orthogonal}
+  \item \lean{GppFinitePrimeCompletion.cross_term_forced_of_completed_zero}\leanok\ \texttt{cross\_term\_forced\_of\_completed\_zero}
+  \item \lean{GppFinitePrimeCompletion.positive_energy_sum_ne_zero}\leanok\ \texttt{positive\_energy\_sum\_ne\_zero}
+  \item \lean{GppFinitePrimeCompletion.completed_square_nonzero_of_positive_orthogonal}\leanok\ \texttt{completed\_square\_nonzero\_of\_positive\_orthogonal}
+\end{itemize}
+
+\subsection{GlobalVonMangoldtBridge}
+On the half-plane of absolute convergence, Mathlib proves that the L-series of the
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppGlobalVonMangoldt.vonMangoldtLSeries_eq_neg_zeta_logDeriv}\leanok\ \texttt{vonMangoldtLSeries\_eq\_neg\_zeta\_logDeriv}
+  \item \lean{GppGlobalVonMangoldt.riemannZeta_ne_zero_right_half_plane}\leanok\ \texttt{riemannZeta\_ne\_zero\_right\_half\_plane}
+  \item \lean{GppGlobalVonMangoldt.neg_zeta_logDeriv_eq_vonMangoldtLSeries}\leanok\ \texttt{neg\_zeta\_logDeriv\_eq\_vonMangoldtLSeries}
+  \item \lean{GppGlobalVonMangoldt.neg_zeta_logDeriv_eq_tsum_vonMangoldt_terms}\leanok\ \texttt{neg\_zeta\_logDeriv\_eq\_tsum\_vonMangoldt\_terms}
+  \item \lean{GppGlobalVonMangoldt.neg_zeta_logDeriv_eq_tsum_vonMangoldt_div}\leanok\ \texttt{neg\_zeta\_logDeriv\_eq\_tsum\_vonMangoldt\_div}
+  \item \lean{GppGlobalVonMangoldt.neg_zeta_logDeriv_re_eq_tsum_re_terms}\leanok\ \texttt{neg\_zeta\_logDeriv\_re\_eq\_tsum\_re\_terms}
+\end{itemize}
+
+\subsection{HaarSubgroupIndex}
+Real infrastructure toward the p-adic/adelic integral computations underlying Tate's
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppHaarSubgroupIndex.smul_eq_preimage_inv_mul}\leanok\ \texttt{smul\_eq\_preimage\_inv\_mul}
+  \item \lean{GppHaarSubgroupIndex.measure_smul_set}\leanok\ \texttt{measure\_smul\_set}
+  \item \lean{GppHaarSubgroupIndex.measurableSet_smul}\leanok\ \texttt{measurableSet\_smul}
+  \item \lean{GppHaarSubgroupIndex.cosets_pairwise_disjoint}\leanok\ \texttt{cosets\_pairwise\_disjoint}
+  \item \lean{GppHaarSubgroupIndex.index_smul_measure_eq_univ}\leanok\ \texttt{index\_smul\_measure\_eq\_univ}
+  \item \lean{GppHaarSubgroupIndex.index_vadd_measure_eq_univ}\leanok\ \texttt{index\_vadd\_measure\_eq\_univ}
+\end{itemize}
+
+\subsection{PadicZetaIntegralClosedForm}
+The capstone of this session's p-adic infrastructure thread: the exact geometric-series
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicFullZeta.normRpow_const_on_shell}\leanok\ \texttt{normRpow\_const\_on\_shell}
+  \item \lean{GppPadicFullZeta.shell_term_eq}\leanok\ \texttt{shell\_term\_eq}
+  \item \lean{GppPadicFullZeta.lintegral_norm_rpow}\leanok\ \texttt{lintegral\_norm\_rpow}
+  \item \lean{GppPadicFullZeta.lintegral_norm_rpow_zero}\leanok\ \texttt{lintegral\_norm\_rpow\_zero}
+  \item \lean{GppPadicFullZeta.lintegral_norm_rpow_one}\leanok\ \texttt{lintegral\_norm\_rpow\_one}
+  \item \lean{GppPadicFullZeta.tate_local_zeta_integral}\leanok\ \texttt{tate\_local\_zeta\_integral}
+\end{itemize}
+
+\subsection{PrimeFisherMomentSummability}
+For `β > 1`, the repaired all-order `logMul` convergence theorem implies absolute
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFisherMomentSummability.iterated_logMul_apply_general}\leanok\ \texttt{iterated\_logMul\_apply\_general}
+  \item \lean{GppPrimeFisherMomentSummability.iterated_logMul_apply}\leanok\ \texttt{iterated\_logMul\_apply}
+  \item \lean{GppPrimeFisherMomentSummability.natCast_neg_cpow_eq_ofReal_exp}\leanok\ \texttt{natCast\_neg\_cpow\_eq\_ofReal\_exp}
+  \item \lean{GppPrimeFisherMomentSummability.iterated_logMul_term_eq_ofReal_fisher_moment}\leanok\ \texttt{iterated\_logMul\_term\_eq\_ofReal\_fisher\_moment}
+  \item \lean{GppPrimeFisherMomentSummability.iterated_logMul_term_re_eq_fisher_moment}\leanok\ \texttt{iterated\_logMul\_term\_re\_eq\_fisher\_moment}
+  \item \lean{GppPrimeFisherMomentSummability.summable_fisherWeight_mul_log_pow}\leanok\ \texttt{summable\_fisherWeight\_mul\_log\_pow}
+\end{itemize}
+
+\subsection{PrimeHankelGram}
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHankel.finite_weighted_polynomial_gram_nonneg}\leanok\ \texttt{finite\_weighted\_polynomial\_gram\_nonneg}
+  \item \lean{GppPrimeHankel.finite_type_weighted_polynomial_gram_nonneg}\leanok\ \texttt{finite\_type\_weighted\_polynomial\_gram\_nonneg}
+  \item \lean{GppPrimeHankel.two_support_hankel_det_pos}\leanok\ \texttt{two\_support\_hankel\_det\_pos}
+  \item \lean{GppPrimeHankel.two_support_hankel_det_factor}\leanok\ \texttt{two\_support\_hankel\_det\_factor}
+  \item \lean{GppPrimeHankel.three_support_hankel_det_factor}\leanok\ \texttt{three\_support\_hankel\_det\_factor}
+  \item \lean{GppPrimeHankel.three_support_hankel_det_pos}\leanok\ \texttt{three\_support\_hankel\_det\_pos}
+\end{itemize}
+
+\subsection{ThermalCriticalLineBridge}
+This file packages exact facts motivating a thermal interpretation of the Riemann critical line
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppThermalCriticalLine.equilibrium_involution_iff_critical_line}\leanok\ \texttt{equilibrium\_involution\_iff\_critical\_line}
+  \item \lean{GppThermalCriticalLine.principalSeries_gamma_modulus_eq_planck_weight}\leanok\ \texttt{principalSeries\_gamma\_modulus\_eq\_planck\_weight}
+  \item \lean{GppThermalCriticalLine.planck_weight_first_moment}\leanok\ \texttt{planck\_weight\_first\_moment}
+  \item \lean{GppThermalCriticalLine.planck_weight_third_moment}\leanok\ \texttt{planck\_weight\_third\_moment}
+  \item \lean{GppThermalCriticalLine.completed_partition_im_zero}\leanok\ \texttt{completed\_partition\_im\_zero}
+  \item \lean{GppThermalCriticalLine.equilibrium_response_re_zero}\leanok\ \texttt{equilibrium\_response\_re\_zero}
+\end{itemize}
+
+\subsection{VonMangoldtCubicPositivity}
+For real `β > 1`, the arithmetic series
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppVonMangoldtCubicPositivity.logMul_logMul_term_re_eq_cubicSummand}\leanok\ \texttt{logMul\_logMul\_term\_re\_eq\_cubicSummand}
+  \item \lean{GppVonMangoldtCubicPositivity.summable_cubicSummand}\leanok\ \texttt{summable\_cubicSummand}
+  \item \lean{GppVonMangoldtCubicPositivity.cubicSummand_nonneg}\leanok\ \texttt{cubicSummand\_nonneg}
+  \item \lean{GppVonMangoldtCubicPositivity.cubicSummand_two_pos}\leanok\ \texttt{cubicSummand\_two\_pos}
+  \item \lean{GppVonMangoldtCubicPositivity.tsum_cubicSummand_pos}\leanok\ \texttt{tsum\_cubicSummand\_pos}
+  \item \lean{GppVonMangoldtCubicPositivity.logMul_logMul_vonMangoldt_re_pos}\leanok\ \texttt{logMul\_logMul\_vonMangoldt\_re\_pos}
+\end{itemize}
+
+\subsection{ArchimedeanEulerNonvanishing}
+The completed zeta factorization is multiplicative at the local-factor level.  This file
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppArchEuler.gamma_half_ne_zero_of_re_pos}\leanok\ \texttt{gamma\_half\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppArchEuler.archFactor_ne_zero_of_re_pos}\leanok\ \texttt{archFactor\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppArchEuler.eulerHolonomy_ne_zero_of_re_pos}\leanok\ \texttt{eulerHolonomy\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppArchEuler.finiteEulerProduct_ne_zero_of_re_pos}\leanok\ \texttt{finiteEulerProduct\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppArchEuler.finiteCompletedLocalProduct_ne_zero}\leanok\ \texttt{finiteCompletedLocalProduct\_ne\_zero}
+\end{itemize}
+
+\subsection{ConvolutionSquarePositive}
+Thread B of `docs/FORMALIZATION\_PLAN.md`. `HaarPositivityWeil.lean` (PR \#45) honestly
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppHaarPositivityWeil.integrable_shift_mul_shift}\leanok\ \texttt{integrable\_shift\_mul\_shift}
+  \item \lean{GppHaarPositivityWeil.convolution_shift}\leanok\ \texttt{convolution\_shift}
+  \item \lean{GppHaarPositivityWeil.mul_ofReal_re}\leanok\ \texttt{mul\_ofReal\_re}
+  \item \lean{GppHaarPositivityWeil.gram_square_nonneg}\leanok\ \texttt{gram\_square\_nonneg}
+  \item \lean{GppHaarPositivityWeil.convolution_square_positive_type}\leanok\ \texttt{convolution\_square\_positive\_type}
+\end{itemize}
+
+\subsection{EigenstateNormStrip}
+Thread A1 of `docs/FORMALIZATION\_PLAN.md`: for every `σ > 0` (in particular throughout the
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppSechIntegral.one_div_cosh_fourth_le}\leanok\ \texttt{one\_div\_cosh\_fourth\_le}
+  \item \lean{GppSechIntegral.integrableOn_eigenstateNorm_integrand}\leanok\ \texttt{integrableOn\_eigenstateNorm\_integrand}
+  \item \lean{GppSechIntegral.eigenstateNorm_integral_pos}\leanok\ \texttt{eigenstateNorm\_integral\_pos}
+  \item \lean{GppSechIntegral.eigenstateNorm_pos}\leanok\ \texttt{eigenstateNorm\_pos}
+  \item \lean{GppSechIntegral.eigenstateNorm_at_half}\leanok\ \texttt{eigenstateNorm\_at\_half}
+\end{itemize}
+
+\subsection{GlobalCompletedFactorization}
+Mathlib's analytically continued completed zeta function satisfies, away from `s = 0`,
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppGlobalCompleted.completedRiemannZeta_eq_GammaR_mul_zeta}\leanok\ \texttt{completedRiemannZeta\_eq\_GammaR\_mul\_zeta}
+  \item \lean{GppGlobalCompleted.completedRiemannZeta_eq_zero_iff_zeta_eq_zero}\leanok\ \texttt{completedRiemannZeta\_eq\_zero\_iff\_zeta\_eq\_zero}
+  \item \lean{GppGlobalCompleted.criticalStrip_completed_zero_iff_zeta_zero}\leanok\ \texttt{criticalStrip\_completed\_zero\_iff\_zeta\_zero}
+  \item \lean{GppGlobalCompleted.criticalLine_completed_zero_iff_zeta_zero}\leanok\ \texttt{criticalLine\_completed\_zero\_iff\_zeta\_zero}
+  \item \lean{GppGlobalCompleted.criticalLine_not_in_vonMangoldt_convergence_halfplane}\leanok\ \texttt{criticalLine\_not\_in\_vonMangoldt\_convergence\_halfplane}
+\end{itemize}
+
+\subsection{NumberEntropy}
+This file isolates the canonical thermodynamics of the zeta / prime-gas system in the
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppNumberEntropy.integer_partition_sum_eq_zeta}\leanok\ \texttt{integer\_partition\_sum\_eq\_zeta}
+  \item \lean{GppNumberEntropy.integerGibbsWeight_tsum_eq_one}\leanok\ \texttt{integerGibbsWeight\_tsum\_eq\_one}
+  \item \lean{GppNumberEntropy.numberEntropy_eq_logZ_add_sU}\leanok\ \texttt{numberEntropy\_eq\_logZ\_add\_sU}
+  \item \lean{GppNumberEntropy.internalEnergy_eq_vonMangoldt}\leanok\ \texttt{internalEnergy\_eq\_vonMangoldt}
+  \item \lean{GppNumberEntropy.numberEntropy_eq_logZ_add_vonMangoldt}\leanok\ \texttt{numberEntropy\_eq\_logZ\_add\_vonMangoldt}
+\end{itemize}
+
+\subsection{VonMangoldtCumulantDerivativeBridge}
+On the open half-plane `Re s > 1`, the genuine negative logarithmic derivative
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppVonMangoldtCumulantDerivativeBridge.negZetaLogDeriv_eqOn_vonMangoldtLSeries}\leanok\ \texttt{negZetaLogDeriv\_eqOn\_vonMangoldtLSeries}
+  \item \lean{GppVonMangoldtCumulantDerivativeBridge.iteratedDeriv_negZetaLogDeriv_eq_logMomentLSeries}\leanok\ \texttt{iteratedDeriv\_negZetaLogDeriv\_eq\_logMomentLSeries}
+  \item \lean{GppVonMangoldtCumulantDerivativeBridge.iteratedDeriv_two_negZetaLogDeriv_eq_logMul_logMul}\leanok\ \texttt{iteratedDeriv\_two\_negZetaLogDeriv\_eq\_logMul\_logMul}
+  \item \lean{GppVonMangoldtCumulantDerivativeBridge.iteratedDeriv_three_negZetaLogDeriv_eq_neg_logMul_three}\leanok\ \texttt{iteratedDeriv\_three\_negZetaLogDeriv\_eq\_neg\_logMul\_three}
+  \item \lean{GppVonMangoldtCumulantDerivativeBridge.iteratedDeriv_two_negZetaLogDeriv_re_pos}\leanok\ \texttt{iteratedDeriv\_two\_negZetaLogDeriv\_re\_pos}
+\end{itemize}
+
+\subsection{BlackbodyMellinZeta}
+(`blackbody\_law\_qg\_dtoupin\_v1.tex`), which states that "the Riemann zeta function is
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppRH.hasSum_exp_planckKernel}\leanok\ \texttt{hasSum\_exp\_planckKernel}
+  \item \lean{GppRH.mellin_planckKernel_eq}\leanok\ \texttt{mellin\_planckKernel\_eq}
+  \item \lean{GppRH.hasSum_exp_oddPlanckKernel}\leanok\ \texttt{hasSum\_exp\_oddPlanckKernel}
+  \item \lean{GppRH.mellin_oddPlanckKernel_eq}\leanok\ \texttt{mellin\_oddPlanckKernel\_eq}
+\end{itemize}
+
+\subsection{CompletedZetaReality}
+The completed zeta function has two exact symmetries:
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppCompletedZetaReality.GammaR_conj}\leanok\ \texttt{GammaR\_conj}
+  \item \lean{GppCompletedZetaReality.completedZeta_eq_GammaR_mul_zeta}\leanok\ \texttt{completedZeta\_eq\_GammaR\_mul\_zeta}
+  \item \lean{GppCompletedZetaReality.completedRiemannZeta_conj}\leanok\ \texttt{completedRiemannZeta\_conj}
+  \item \lean{GppCompletedZetaReality.completedRiemannZeta_im_eq_zero_of_re_half}\leanok\ \texttt{completedRiemannZeta\_im\_eq\_zero\_of\_re\_half}
+\end{itemize}
+
+\subsection{FiniteCompletedFactorNonvanishing}
+`ArchimedeanEulerNonvanishing.lean` proves nonvanishing for the Euler holonomies
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteCompletedFactor.zetaP_ne_zero_of_re_pos}\leanok\ \texttt{zetaP\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppFiniteCompletedFactor.finiteEulerZetaProduct_ne_zero_of_re_pos}\leanok\ \texttt{finiteEulerZetaProduct\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppFiniteCompletedFactor.finiteCompletedZetaProduct_ne_zero_of_re_pos}\leanok\ \texttt{finiteCompletedZetaProduct\_ne\_zero\_of\_re\_pos}
+  \item \lean{GppFiniteCompletedFactor.finiteCompletedZetaProduct_critical_ne_zero}\leanok\ \texttt{finiteCompletedZetaProduct\_critical\_ne\_zero}
+\end{itemize}
+
+\subsection{FiniteVandermondeEnergy}
+This module isolates the positivity half of the general finite-support
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteVandermondeEnergy.orderedVandermondeEnergy}\leanok\ \texttt{orderedVandermondeEnergy}
+  \item \lean{GppFiniteVandermondeEnergy.weighted_vandermonde_sq_nonneg}\leanok\ \texttt{weighted\_vandermonde\_sq\_nonneg}
+  \item \lean{GppFiniteVandermondeEnergy.weighted_vandermonde_sq_pos}\leanok\ \texttt{weighted\_vandermonde\_sq\_pos}
+  \item \lean{GppFiniteVandermondeEnergy.orderedVandermondeEnergy_nonneg}\leanok\ \texttt{orderedVandermondeEnergy\_nonneg}
+\end{itemize}
+
+\subsection{IdeleGroup}
+Not paper-sourced — genuine new infrastructure, building on Mathlib's
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppRH.resolution}\leanok\ \texttt{resolution}
+  \item \lean{GppRH.RationalIdeleGroup}\leanok\ \texttt{RationalIdeleGroup}
+  \item \lean{GppRH.diagonalEmbedding_injective}\leanok\ \texttt{diagonalEmbedding\_injective}
+  \item \lean{GppRH.adicCompletionIntegers_toSubring_eq_integer}\leanok\ \texttt{adicCompletionIntegers\_toSubring\_eq\_integer}
+\end{itemize}
+
+\subsection{PrimeHankelInfiniteLift}
+A strictly positive finite truncation of a summable nonnegative series forces the
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHankelInfiniteLift.tsum_pos_of_finite_sum_pos}\leanok\ \texttt{tsum\_pos\_of\_finite\_sum\_pos}
+  \item \lean{GppPrimeHankelInfiniteLift.weighted_sq_tsum_pos}\leanok\ \texttt{weighted\_sq\_tsum\_pos}
+  \item \lean{GppPrimeHankelInfiniteLift.finite_weighted_eval_comp_sq_sum_pos}\leanok\ \texttt{finite\_weighted\_eval\_comp\_sq\_sum\_pos}
+  \item \lean{GppPrimeHankelInfiniteLift.weighted_polynomial_tsum_pos}\leanok\ \texttt{weighted\_polynomial\_tsum\_pos}
+\end{itemize}
+
+\subsection{ScaleMassDiagnostic}
+For a positive scale `a`, the half-density-normalized multiplicative character is
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppScaleMass.norm_dilationCharacter}\leanok\ \texttt{norm\_dilationCharacter}
+  \item \lean{GppScaleMass.critical_line_dilation_unitary}\leanok\ \texttt{critical\_line\_dilation\_unitary}
+  \item \lean{GppScaleMass.critical_line_of_dilation_unitary}\leanok\ \texttt{critical\_line\_of\_dilation\_unitary}
+  \item \lean{GppScaleMass.critical_line_iff_dilation_unitary}\leanok\ \texttt{critical\_line\_iff\_dilation\_unitary}
+\end{itemize}
+
+\subsection{ScaleShadowHalfDensity}
+For
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppScaleShadow.shadow_centered_exponent}\leanok\ \texttt{shadow\_centered\_exponent}
+  \item \lean{GppScaleShadow.dilationCharacter_shadow_eq_inv}\leanok\ \texttt{dilationCharacter\_shadow\_eq\_inv}
+  \item \lean{GppScaleShadow.dilationCharacter_shadow_involution}\leanok\ \texttt{dilationCharacter\_shadow\_involution}
+  \item \lean{GppScaleShadow.critical_line_iff_unitary_with_shadow}\leanok\ \texttt{critical\_line\_iff\_unitary\_with\_shadow}
+\end{itemize}
+
+\subsection{VonMangoldtCumulantSummability}
+The strict zeta-Gibbs cumulant signs require more than termwise positivity: the
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppVonMangoldtCumulantSummability.abscissa_vonMangoldtComplex_le_one}\leanok\ \texttt{abscissa\_vonMangoldtComplex\_le\_one}
+  \item \lean{GppVonMangoldtCumulantSummability.summable_logMul_vonMangoldt}\leanok\ \texttt{summable\_logMul\_vonMangoldt}
+  \item \lean{GppVonMangoldtCumulantSummability.summable_logMul_logMul_vonMangoldt}\leanok\ \texttt{summable\_logMul\_logMul\_vonMangoldt}
+  \item \lean{GppVonMangoldtCumulantSummability.summable_iterated_logMul_vonMangoldt}\leanok\ \texttt{summable\_iterated\_logMul\_vonMangoldt}
+\end{itemize}
+
+\subsection{LogDerivativeProduct}
+At the local-factor level Tate completion is multiplicative.  The logarithmic derivative
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppLogDerivativeProduct.neg_logDeriv_mul_algebra}\leanok\ \texttt{neg\_logDeriv\_mul\_algebra}
+  \item \lean{GppLogDerivativeProduct.neg_logDeriv_product_of_hasDerivAt}\leanok\ \texttt{neg\_logDeriv\_product\_of\_hasDerivAt}
+  \item \lean{GppLogDerivativeProduct.hasDerivAt_completed_product}\leanok\ \texttt{hasDerivAt\_completed\_product}
+\end{itemize}
+
+\subsection{MomentumGeneratorNoPointSpectrum}
+Source: `ONON5213.tex` (Zenodo record 21260806, "On the Nature of Nature: Celestial
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppMomentumSpectrum.not_isFiniteMeasure_volume_real}\leanok\ \texttt{not\_isFiniteMeasure\_volume\_real}
+  \item \lean{GppMomentumSpectrum.rotation_normSq_const}\leanok\ \texttt{rotation\_normSq\_const}
+  \item \lean{GppMomentumSpectrum.no_nonzero_globally_L2_rotation_solution}\leanok\ \texttt{no\_nonzero\_globally\_L2\_rotation\_solution}
+\end{itemize}
+
+\subsection{PadicEulerFactorBridge}
+Mathlib already proves the Euler product for the Riemann zeta function:
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicFullZeta.riemannZeta_factor_eq_ofReal}\leanok\ \texttt{riemannZeta\_factor\_eq\_ofReal}
+  \item \lean{GppPadicFullZeta.euler_factor_toReal_eq}\leanok\ \texttt{euler\_factor\_toReal\_eq}
+  \item \lean{GppPadicFullZeta.euler_factor_bridge}\leanok\ \texttt{euler\_factor\_bridge}
+\end{itemize}
+
+\subsection{PrimeHankelPolynomialSummability}
+Once every weighted monomial `w n * x n ^ r` is summable, finite polynomial
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHankelPolynomialSummability.summable_weight_mul_polynomial_eval}\leanok\ \texttt{summable\_weight\_mul\_polynomial\_eval}
+  \item \lean{GppPrimeHankelPolynomialSummability.summable_weight_mul_polynomial_eval_sq}\leanok\ \texttt{summable\_weight\_mul\_polynomial\_eval\_sq}
+  \item \lean{GppPrimeHankelPolynomialSummability.summable_fisherWeight_mul_polynomial_eval_sq}\leanok\ \texttt{summable\_fisherWeight\_mul\_polynomial\_eval\_sq}
+\end{itemize}
+
+\subsection{PrimeOccupationBridge}
+The local Euler logarithmic derivative has exactly the algebraic form of a geometric
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeOccupation.occupation_recursion}\leanok\ \texttt{occupation\_recursion}
+  \item \lean{GppPrimeOccupation.minusLogDerivZetaP_eq_log_mul_occupation}\leanok\ \texttt{minusLogDerivZetaP\_eq\_log\_mul\_occupation}
+  \item \lean{GppPrimeOccupation.minusLogDerivZetaP_eq_bose}\leanok\ \texttt{minusLogDerivZetaP\_eq\_bose}
+\end{itemize}
+
+\subsection{SchurWeilClass}
+Thread S2 (the composition step of the S-truncated transport programme). The classical
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppHaarPositivityWeil.positiveType_weighted_gram}\leanok\ \texttt{positiveType\_weighted\_gram}
+  \item \lean{GppHaarPositivityWeil.positiveType_mul_convSquare}\leanok\ \texttt{positiveType\_mul\_convSquare}
+  \item \lean{GppHaarPositivityWeil.cauchyKernel_mul_convSquare_positive_type}\leanok\ \texttt{cauchyKernel\_mul\_convSquare\_positive\_type}
+\end{itemize}
+
+\subsection{TwoPointCriterion}
+Thread D2. `rh\_iff\_weil\_pairedForm\_nonneg` (Thread D, PR \#65) proved RH equivalent to
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppWeilCriterion.involution_fixed_of_two_point_nonneg}\leanok\ \texttt{involution\_fixed\_of\_two\_point\_nonneg}
+  \item \lean{GppWeilCriterion.rh_iff_two_point_pairedForm_nonneg}\leanok\ \texttt{rh\_iff\_two\_point\_pairedForm\_nonneg}
+  \item \lean{GppWeilCriterion.rh_of_two_point_pairedForm_nonneg}\leanok\ \texttt{rh\_of\_two\_point\_pairedForm\_nonneg}
+\end{itemize}
+
+\subsection{WeightedVarianceFinite}
+This file isolates the algebraic positivity mechanism needed by the zeta Gibbs/Fisher
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppWeightedVarianceFinite.weighted_first_moment_sq_le}\leanok\ \texttt{weighted\_first\_moment\_sq\_le}
+  \item \lean{GppWeightedVarianceFinite.weighted_variance_numerator_nonneg}\leanok\ \texttt{weighted\_variance\_numerator\_nonneg}
+  \item \lean{GppWeightedVarianceFinite.normalized_weighted_variance_nonneg}\leanok\ \texttt{normalized\_weighted\_variance\_nonneg}
+\end{itemize}
+
+\subsection{YakaboyluPositivityKernel}
+The final step of Yakaboylu, *Nontrivial Riemann Zeros as Spectrum* (arXiv:2408.15135v14,
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppYakaboylu.swap_test_vector_exists}\leanok\ \texttt{swap\_test\_vector\_exists}
+  \item \lean{GppYakaboylu.swap_test_vector_value}\leanok\ \texttt{swap\_test\_vector\_value}
+  \item \lean{GppYakaboylu.diagonal_form_nonneg}\leanok\ \texttt{diagonal\_form\_nonneg}
+\end{itemize}
+
+\subsection{ArchimedeanZetaIntegral}
+Tate's thesis needs a local factor at every place of `ℚ`, including the archimedean
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppArchimedeanZeta.archimedean_zeta_integral}\leanok\ \texttt{archimedean\_zeta\_integral}
+  \item \lean{GppArchimedeanZeta.archimedean_zeta_integral_one}\leanok\ \texttt{archimedean\_zeta\_integral\_one}
+\end{itemize}
+
+\subsection{CasimirIdentity}
+Source: verify\_blackbody\_capstone.py (companion to "The Blackbody Law of
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppCasimirIdentity.casimir_eq_neg_riemann_form}\leanok\ \texttt{casimir\_eq\_neg\_riemann\_form}
+  \item \lean{GppCasimirIdentity.casimir_value}\leanok\ \texttt{casimir\_value}
+\end{itemize}
+
+\subsection{CompletedLogDerivativeBridge}
+The earlier version of this file attempted to formalize several finite-product derivative
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppCompletedLogDerivative.realArchFactor_ne_zero}\leanok\ \texttt{realArchFactor\_ne\_zero}
+  \item \lean{GppCompletedLogDerivative.finiteWp_eq_two_mul_re_finitePrimeLogDerivative}\leanok\ \texttt{finiteWp\_eq\_two\_mul\_re\_finitePrimeLogDerivative}
+\end{itemize}
+
+\subsection{FiniteMomentFactorization}
+A bookkeeping lemma for the arbitrary finite-support Fisher/Vandermonde identity.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteMomentFactorization.rawMoment}\leanok\ \texttt{rawMoment}
+  \item \lean{GppFiniteMomentFactorization.triple_monomial_factorization}\leanok\ \texttt{triple\_monomial\_factorization}
+\end{itemize}
+
+\subsection{PadicFieldHaarMeasure}
+The first brick toward a genuine multiplicative Haar measure on `ℚ\_p^×` (Tate's-thesis
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicField.to}\leanok\ \texttt{to}
+  \item \lean{GppPadicField.fieldHaarMeasure_closedBall}\leanok\ \texttt{fieldHaarMeasure\_closedBall}
+\end{itemize}
+
+\subsection{PadicIndexPn}
+Real infrastructure toward Tate's-thesis p-adic zeta integral (the newly uploaded lecture
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicIndex.toZModPow_surjective}\leanok\ \texttt{toZModPow\_surjective}
+  \item \lean{GppPadicIndex.card_quotient_span_pow}\leanok\ \texttt{card\_quotient\_span\_pow}
+\end{itemize}
+
+\subsection{PadicMultiplicativeMeasure}
+Tate's-thesis local zeta integrals are stated against the *multiplicative* Haar measure
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicField.in}\leanok\ \texttt{in}
+  \item \lean{GppPadicField.measurable_multiplicativeDensity}\leanok\ \texttt{measurable\_multiplicativeDensity}
+\end{itemize}
+
+\subsection{PadicScalingHaar}
+First concrete step toward the `ℚ\_p^×`-scaling law documented in
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicField.isAddHaarMeasure_map_scaleAddEquiv}\leanok\ \texttt{isAddHaarMeasure\_map\_scaleAddEquiv}
+  \item \lean{GppPadicField.map_scaleAddEquiv_apply}\leanok\ \texttt{map\_scaleAddEquiv\_apply}
+\end{itemize}
+
+\subsection{PadicShellMeasure}
+Real infrastructure continuing the p-adic zeta integral thread (Tate's-thesis lecture
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPadicShell.measurableSet_span_pow}\leanok\ \texttt{measurableSet\_span\_pow}
+  \item \lean{GppPadicShell.haarMeasure_shell}\leanok\ \texttt{haarMeasure\_shell}
+\end{itemize}
+
+\subsection{PrimeHankelFisherSpecialization}
+This file instantiates the abstract infinite weighted-polynomial positivity theorem
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHankelFisherSpecialization.fisherWeight_nonneg}\leanok\ \texttt{fisherWeight\_nonneg}
+  \item \lean{GppPrimeHankelFisherSpecialization.fisher_polynomial_tsum_pos}\leanok\ \texttt{fisher\_polynomial\_tsum\_pos}
+\end{itemize}
+
+\subsection{PrimeHankelRootEscape}
+A nonzero real polynomial of degree at most `N` cannot vanish on `N+1`
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHankelRootEscape.exists_eval_ne_zero_of_natDegree_lt_card}\leanok\ \texttt{exists\_eval\_ne\_zero\_of\_natDegree\_lt\_card}
+  \item \lean{GppPrimeHankelRootEscape.exists_eval_ne_zero_of_card_gt_degree_bound}\leanok\ \texttt{exists\_eval\_ne\_zero\_of\_card\_gt\_degree\_bound}
+\end{itemize}
+
+\subsection{SpectralWeil}
+This file formalizes `thm:spectral-weil` (ONON52, cited 10×):
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppSpectralWeil.test_function_fe_symmetric}\leanok\ \texttt{test\_function\_fe\_symmetric}
+  \item \lean{GppSpectralWeil.digamma_series_form}\leanok\ \texttt{digamma\_series\_form}
+\end{itemize}
+
+\subsection{WeightedVarianceInfinite}
+This file passes the finite weighted Cauchy--Schwarz inequality to an infinite
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppWeightedVarianceInfinite.weighted_variance_numerator_nonneg_tsum}\leanok\ \texttt{weighted\_variance\_numerator\_nonneg\_tsum}
+  \item \lean{GppWeightedVarianceInfinite.normalized_weighted_variance_nonneg_tsum}\leanok\ \texttt{normalized\_weighted\_variance\_nonneg\_tsum}
+\end{itemize}
+
+\subsection{CharacterOrthogonality}
+Source: Tate's-thesis lecture notes (Warwick "tateweek4" notes, Lemma 4.15/Example 4.16)
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppCharacterOrthogonality.integral_eq_zero_of_ne_one}\leanok\ \texttt{integral\_eq\_zero\_of\_ne\_one}
+\end{itemize}
+
+\subsection{FiniteVandermondeExpansionKernel}
+Pointwise polynomial expansion underlying the arbitrary finite-support
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppFiniteVandermondeExpansionKernel.vandermonde_sq_expansion}\leanok\ \texttt{vandermonde\_sq\_expansion}
+\end{itemize}
+
+\subsection{GramPositivityBoundary}
+Yakaboylu (arXiv:2408.15135v15) constructs `V̂ := ∫₀^∞ ω(t)⁻² |t⟩⟨t| dt` (eq. 42) and notes
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppYakaboylu.gram_posSemidef}\leanok\ \texttt{gram\_posSemidef}
+\end{itemize}
+
+\subsection{PadicHaarMeasure}
+Real infrastructure toward Tate's-thesis local zeta integral computations (the p-adic
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppPadicHaar.haarMeasure_univ}\leanok\ \texttt{haarMeasure\_univ}
+\end{itemize}
+
+\subsection{PadicOriginMeasure}
+Real infrastructure continuing the p-adic zeta integral thread (Tate's-thesis lecture
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppPadicOrigin.haarMeasure_singleton_zero}\leanok\ \texttt{haarMeasure\_singleton\_zero}
+\end{itemize}
+
+\subsection{PadicShellNorm}
+Real infrastructure continuing the p-adic zeta integral thread (Tate's-thesis lecture
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppPadicShellNorm.norm_eq_of_mem_shell}\leanok\ \texttt{norm\_eq\_of\_mem\_shell}
+\end{itemize}
+
+\subsection{PadicZetaIntegral}
+The payoff of `HaarSubgroupIndex.lean` + `PadicHaarMeasure.lean` + `PadicIndexPn.lean`: the
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppPadicZetaIntegral.haarMeasure_span_pow}\leanok\ \texttt{haarMeasure\_span\_pow}
+\end{itemize}
+
+\subsection{PrimeGasPartition}
+For a prime mode `p`, the local Euler factor
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppPrimeGas.partition_eq_riemannZeta}\leanok\ \texttt{partition\_eq\_riemannZeta}
+\end{itemize}
+
+\subsection{PrimeHankelFiniteGramStrict}
+This file packages the root-escape theorem into the exact positivity statement
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppPrimeHankelFiniteGramStrict.weighted_eval_sq_sum_pos}\leanok\ \texttt{weighted\_eval\_sq\_sum\_pos}
+\end{itemize}
+
+\section{Thread Weil-Parity}
+
+\subsection{OddEigenpairLift}
+From `public.formalization\_queue` (Supabase project `dunrgpupddbmzffntwph`), item
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{and}\leanok\ \texttt{and}
+  \item \lean{CProj}\leanok\ \texttt{CProj}
+  \item \lean{AplusBlock}\leanok\ \texttt{AplusBlock}
+  \item \lean{etaVec}\leanok\ \texttt{etaVec}
+  \item \lean{fromBlocks_mulVec_inr}\leanok\ \texttt{fromBlocks\_mulVec\_inr}
+  \item \lean{fromBlocks_mulVec_gen}\leanok\ \texttt{fromBlocks\_mulVec\_gen}
+  \item \lean{vecMulVec_mulVec'}\leanok\ \texttt{vecMulVec\_mulVec'}
+  \item \lean{odd_eigenpair_defect_step1}\leanok\ \texttt{odd\_eigenpair\_defect\_step1}
+  \item \lean{odd_eigenpair_defect_step2}\leanok\ \texttt{odd\_eigenpair\_defect\_step2}
+  \item \lean{odd_eigenpair_canonical_lift}\leanok\ \texttt{odd\_eigenpair\_canonical\_lift}
+\end{itemize}
+
+\subsection{ArchimedeanTail}
+New thread, opened this session from `arithmetic\_principal\_series\_RH\_program34.tex`,
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppWeilParity.archTailAntideriv_hasDerivAt}\leanok\ \texttt{archTailAntideriv\_hasDerivAt}
+  \item \lean{GppWeilParity.archTailAntideriv_tendsto_atTop}\leanok\ \texttt{archTailAntideriv\_tendsto\_atTop}
+  \item \lean{GppWeilParity.tail_integral}\leanok\ \texttt{tail\_integral}
+  \item \lean{GppWeilParity.tail_integral_closed_form}\leanok\ \texttt{tail\_integral\_closed\_form}
+  \item \lean{GppWeilParity.archimedean_diagonal_tail}\leanok\ \texttt{archimedean\_diagonal\_tail}
+\end{itemize}
+
+\subsection{CrossResolvent}
+From `public.formalization\_queue` (Supabase project `dunrgpupddbmzffntwph`), section
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{cross_resolvent_det_identity}\leanok\ \texttt{cross\_resolvent\_det\_identity}
+  \item \lean{vecMulVec_mulVec}\leanok\ \texttt{vecMulVec\_mulVec}
+  \item \lean{hermitian_dotProduct_mulVec}\leanok\ \texttt{hermitian\_dotProduct\_mulVec}
+  \item \lean{parity_crossing_obstruction}\leanok\ \texttt{parity\_crossing\_obstruction}
+\end{itemize}
+
+\section{Number Theory --- Arithmetic Layer}
+
+\subsection{BSDPointCounts}
+Source: ONON monograph, BSD chapter, worked example "BSD for E: y² = x³ - x"
+
+\noindent\textbf{Proved (47 declarations):}
+\begin{itemize}
+  \item \lean{GppBSD.affinePoints}\leanok\ \texttt{affinePoints}
+  \item \lean{GppBSD.pointCount}\leanok\ \texttt{pointCount}
+  \item \lean{GppBSD.tracePairing}\leanok\ \texttt{tracePairing}
+  \item \lean{GppBSD.pointCount_three}\leanok\ \texttt{pointCount\_three}
+  \item \lean{GppBSD.tracePairing_three}\leanok\ \texttt{tracePairing\_three}
+  \item \lean{GppBSD.pointCount_five}\leanok\ \texttt{pointCount\_five}
+  \item \lean{GppBSD.tracePairing_five}\leanok\ \texttt{tracePairing\_five}
+  \item \lean{GppBSD.pointCount_seven}\leanok\ \texttt{pointCount\_seven}
+  \item \lean{GppBSD.tracePairing_seven}\leanok\ \texttt{tracePairing\_seven}
+  \item \lean{GppBSD.pointCount_eleven}\leanok\ \texttt{pointCount\_eleven}
+  \item \emph{\ldots and 37 further results in this module.}
+\end{itemize}
+
+\subsection{WeylCasimir}
+Source: zitterbewegung\_T\_boundary\_FINAL.tex, Theorem thm:weyl-casimir-value
+
+\noindent\textbf{Proved (30 declarations):}
+\begin{itemize}
+  \item \lean{GppWeylCasimir.rhoA3}\leanok\ \texttt{rhoA3}
+  \item \lean{GppWeylCasimir.rhoA3_dot_self}\leanok\ \texttt{rhoA3\_dot\_self}
+  \item \lean{GppWeylCasimir.weyl_vector_sq_numerator}\leanok\ \texttt{weyl\_vector\_sq\_numerator}
+  \item \lean{GppWeylCasimir.weyl_vector_casimir_times_four}\leanok\ \texttt{weyl\_vector\_casimir\_times\_four}
+  \item \lean{GppWeylCasimir.weyl_casimir_u4}\leanok\ \texttt{weyl\_casimir\_u4}
+  \item \lean{GppWeylCasimir.muPlusRhoA3}\leanok\ \texttt{muPlusRhoA3}
+  \item \lean{GppWeylCasimir.muPlusRhoA3_dot_self}\leanok\ \texttt{muPlusRhoA3\_dot\_self}
+  \item \lean{GppWeylCasimir.gr24_lambda1}\leanok\ \texttt{gr24\_lambda1}
+  \item \lean{GppWeylCasimir.rhoD4}\leanok\ \texttt{rhoD4}
+  \item \lean{GppWeylCasimir.casimirD4}\leanok\ \texttt{casimirD4}
+  \item \emph{\ldots and 20 further results in this module.}
+\end{itemize}
+
+\subsection{EulerSumCapstone}
+From `haar\_qg\_paper\_v2151.tex` base case `L = 2`: the physics paper reconstructs the
+
+\noindent\textbf{Proved (26 declarations):}
+\begin{itemize}
+  \item \lean{GppEulerSum.term_swap}\leanok\ \texttt{term\_swap}
+  \item \lean{GppEulerSum.nonneg_inv_sq}\leanok\ \texttt{nonneg\_inv\_sq}
+  \item \lean{GppEulerSum.summable_prod_inv_sq}\leanok\ \texttt{summable\_prod\_inv\_sq}
+  \item \lean{GppEulerSum.summable_term}\leanok\ \texttt{summable\_term}
+  \item \lean{GppEulerSum.hasSum_term}\leanok\ \texttt{hasSum\_term}
+  \item \lean{GppEulerSum.tsum_term_eq}\leanok\ \texttt{tsum\_term\_eq}
+  \item \lean{GppEulerSum.Dg}\leanok\ \texttt{Dg}
+  \item \lean{GppEulerSum.Lt}\leanok\ \texttt{Lt}
+  \item \lean{GppEulerSum.Gt}\leanok\ \texttt{Gt}
+  \item \lean{GppEulerSum.diagEquiv}\leanok\ \texttt{diagEquiv}
+  \item \emph{\ldots and 16 further results in this module.}
+\end{itemize}
+
+\subsection{DecodingReality}
+Source: decoding\_reality\_v4322.tex
+
+\noindent\textbf{Proved (24 declarations):}
+\begin{itemize}
+  \item \lean{GppDecodingReality.weinberg_angle_su5}\leanok\ \texttt{weinberg\_angle\_su5}
+  \item \lean{GppDecodingReality.weinberg_angle_su5_int}\leanok\ \texttt{weinberg\_angle\_su5\_int}
+  \item \lean{GppDecodingReality.casimir_formula_nonneg}\leanok\ \texttt{casimir\_formula\_nonneg}
+  \item \lean{GppDecodingReality.casimir_1}\leanok\ \texttt{casimir\_1}
+  \item \lean{GppDecodingReality.casimir_2}\leanok\ \texttt{casimir\_2}
+  \item \lean{GppDecodingReality.casimir_3}\leanok\ \texttt{casimir\_3}
+  \item \lean{GppDecodingReality.casimir_ratios_2_5_9}\leanok\ \texttt{casimir\_ratios\_2\_5\_9}
+  \item \lean{GppDecodingReality.casimir_nat_ratios}\leanok\ \texttt{casimir\_nat\_ratios}
+  \item \lean{GppDecodingReality.georgi_jarlskog_algebra}\leanok\ \texttt{georgi\_jarlskog\_algebra}
+  \item \lean{GppDecodingReality.georgi_jarlskog_casimir}\leanok\ \texttt{georgi\_jarlskog\_casimir}
+  \item \emph{\ldots and 14 further results in this module.}
+\end{itemize}
+
+\subsection{ShadowEulerIdentity}
+Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppShadowEuler.glueball_product_numerator}\leanok\ \texttt{glueball\_product\_numerator}
+  \item \lean{GppShadowEuler.lem_perfect_square}\leanok\ \texttt{lem\_perfect\_square}
+  \item \lean{GppShadowEuler.coupling_numerator_sq}\leanok\ \texttt{coupling\_numerator\_sq}
+  \item \lean{GppShadowEuler.denominator_pos}\leanok\ \texttt{denominator\_pos}
+  \item \lean{GppShadowEuler.coupling_numerator_nonzero}\leanok\ \texttt{coupling\_numerator\_nonzero}
+  \item \lean{GppShadowEuler.coupling_numerator_neg}\leanok\ \texttt{coupling\_numerator\_neg}
+  \item \lean{GppShadowEuler.coupling_numerator_arith_progression}\leanok\ \texttt{coupling\_numerator\_arith\_progression}
+  \item \lean{GppShadowEuler.shadowCoupling}\leanok\ \texttt{shadowCoupling}
+  \item \lean{GppShadowEuler.shadow_coupling_sq_rational}\leanok\ \texttt{shadow\_coupling\_sq\_rational}
+  \item \lean{GppShadowEuler.shadow_coupling_su3}\leanok\ \texttt{shadow\_coupling\_su3}
+  \item \emph{\ldots and 3 further results in this module.}
+\end{itemize}
+
+\subsection{ZetaProperties}
+This file collects provable properties of the Riemann zeta function
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppZeta.riemannXi_def_eq}\leanok\ \texttt{riemannXi\_def\_eq}
+  \item \lean{GppZeta.critical_line_unique_fixed_locus}\leanok\ \texttt{critical\_line\_unique\_fixed\_locus}
+  \item \lean{GppZeta.shadow_fixed_locus_is_critical_line}\leanok\ \texttt{shadow\_fixed\_locus\_is\_critical\_line}
+  \item \lean{GppZeta.principal_series_shadow_eq_conj}\leanok\ \texttt{principal\_series\_shadow\_eq\_conj}
+  \item \lean{GppZeta.trivial_zero_outside_critical_strip}\leanok\ \texttt{trivial\_zero\_outside\_critical\_strip}
+  \item \lean{GppZeta.xi_zero_iff_zeta_zero}\leanok\ \texttt{xi\_zero\_iff\_zeta\_zero}
+  \item \lean{GppZeta.xi_zeros_symmetric}\leanok\ \texttt{xi\_zeros\_symmetric}
+  \item \lean{GppZeta.critical_strip_symmetric}\leanok\ \texttt{critical\_strip\_symmetric}
+  \item \lean{GppZeta.off_critical_zero_gives_pair}\leanok\ \texttt{off\_critical\_zero\_gives\_pair}
+  \item \lean{GppZeta.RiemannHypothesis}\leanok\ \texttt{RiemannHypothesis}
+  \item \emph{\ldots and 3 further results in this module.}
+\end{itemize}
+
+\subsection{PerfectNumbersE8}
+Source: decoding\_reality\_v43221.tex, "E₈, Perfect Numbers, and Moonshine".
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppPerfectE8.sigmaK}\leanok\ \texttt{sigmaK}
+  \item \lean{GppPerfectE8.e8_theta_coeff_one}\leanok\ \texttt{e8\_theta\_coeff\_one}
+  \item \lean{GppPerfectE8.e8_theta_coeff_two}\leanok\ \texttt{e8\_theta\_coeff\_two}
+  \item \lean{GppPerfectE8.e8_theta_coeff_three}\leanok\ \texttt{e8\_theta\_coeff\_three}
+  \item \lean{GppPerfectE8.e8_theta_coeff_four}\leanok\ \texttt{e8\_theta\_coeff\_four}
+  \item \lean{GppPerfectE8.e8_theta_coeff_five}\leanok\ \texttt{e8\_theta\_coeff\_five}
+  \item \lean{GppPerfectE8.perfect_496}\leanok\ \texttt{perfect\_496}
+  \item \lean{GppPerfectE8.factorization_496}\leanok\ \texttt{factorization\_496}
+  \item \lean{GppPerfectE8.mersenne_31}\leanok\ \texttt{mersenne\_31}
+  \item \lean{GppPerfectE8.mersenne_31_prime}\leanok\ \texttt{mersenne\_31\_prime}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{TwinPrimeDoublets}
+Regard primes as vertices and join two vertices when their difference is `2`.  The graph
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppTwinPrime.twin_triplet_center_eq_five}\leanok\ \texttt{twin\_triplet\_center\_eq\_five}
+  \item \lean{GppTwinPrime.prime_gt_five_not_two_sided_twin}\leanok\ \texttt{prime\_gt\_five\_not\_two\_sided\_twin}
+  \item \lean{GppTwinPrime.two_sided_twin_iff_five}\leanok\ \texttt{two\_sided\_twin\_iff\_five}
+  \item \lean{GppTwinPrime.prime_gt_five_singlet_or_one_sided_doublet}\leanok\ \texttt{prime\_gt\_five\_singlet\_or\_one\_sided\_doublet}
+\end{itemize}
+
+\subsection{ZagierMZVGrowth}
+Source: ONON5213.tex, "Loop Transcendence from the Plastic Constant"
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppZagier.mzvDim}\leanok\ \texttt{mzvDim}
+  \item \lean{GppZagier.mzvDim_matches_source}\leanok\ \texttt{mzvDim\_matches\_source}
+  \item \lean{GppZagier.plastic_constant_cubic_approx}\leanok\ \texttt{plastic\_constant\_cubic\_approx}
+\end{itemize}
+
+\subsection{GaussSumModulus}
+Source: Tate's-thesis lecture notes (Warwick "tateweek4" notes, epsilon-factor discussion
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppGaussSumModulus.gaussSum_norm_eq_sqrt_card}\leanok\ \texttt{gaussSum\_norm\_eq\_sqrt\_card}
+\end{itemize}
+
+\subsection{ZetaNegativeIntegers}
+Source: decoding\_reality\_v43221.tex asserts `ζ(-3) = -1/120` (used as an input to a
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppZetaNegativeIntegers.riemannZeta_neg_three}\leanok\ \texttt{riemannZeta\_neg\_three}
+\end{itemize}
+
+\section{Celestial Holography --- Further Results}
+
+\subsection{HolographicChain}
+Source: holographic\_chain\_v93.tex
+
+\noindent\textbf{Proved (31 declarations):}
+\begin{itemize}
+  \item \lean{GppHolographicChain.plucker_ambient_dim}\leanok\ \texttt{plucker\_ambient\_dim}
+  \item \lean{GppHolographicChain.exterior_two_dim}\leanok\ \texttt{exterior\_two\_dim}
+  \item \lean{GppHolographicChain.gr24_euler_char}\leanok\ \texttt{gr24\_euler\_char}
+  \item \lean{GppHolographicChain.gr24_complex_dim}\leanok\ \texttt{gr24\_complex\_dim}
+  \item \lean{GppHolographicChain.hodgeStar_sq}\leanok\ \texttt{hodgeStar\_sq}
+  \item \lean{GppHolographicChain.hodgeStar_trace}\leanok\ \texttt{hodgeStar\_trace}
+  \item \lean{GppHolographicChain.sd1}\leanok\ \texttt{sd1}
+  \item \lean{GppHolographicChain.sd2}\leanok\ \texttt{sd2}
+  \item \lean{GppHolographicChain.sd3}\leanok\ \texttt{sd3}
+  \item \lean{GppHolographicChain.asd1}\leanok\ \texttt{asd1}
+  \item \emph{\ldots and 21 further results in this module.}
+\end{itemize}
+
+\subsection{TwistorGoogly}
+Source: twistor\_googly\_dtoupin\_v81.tex
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppTwistorGoogly.exterior_two_dim}\leanok\ \texttt{exterior\_two\_dim}
+  \item \lean{GppTwistorGoogly.gr24_complex_dim}\leanok\ \texttt{gr24\_complex\_dim}
+  \item \lean{GppTwistorGoogly.plucker_ambient_dim}\leanok\ \texttt{plucker\_ambient\_dim}
+  \item \lean{GppTwistorGoogly.schubert_cell_count}\leanok\ \texttt{schubert\_cell\_count}
+  \item \lean{GppTwistorGoogly.schubert_dim_sum}\leanok\ \texttt{schubert\_dim\_sum}
+  \item \lean{GppTwistorGoogly.shadow_as_grassmannian_involution}\leanok\ \texttt{shadow\_as\_grassmannian\_involution}
+\end{itemize}
+
+\subsection{GrassmannianSelfDuality}
+Source: ONON5213.tex, Chapter 7 ("The Isomorphism: From Quantum Gravity to Number Theory"),
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppCelestialHolography.grassmannian_orthogonal_dim}\leanok\ \texttt{grassmannian\_orthogonal\_dim}
+  \item \lean{GppCelestialHolography.grassmannian_orthogonal_involutive}\leanok\ \texttt{grassmannian\_orthogonal\_involutive}
+  \item \lean{GppCelestialHolography.grassmannian_self_dual_iff}\leanok\ \texttt{grassmannian\_self\_dual\_iff}
+  \item \lean{GppCelestialHolography.gr_two_four_self_dual}\leanok\ \texttt{gr\_two\_four\_self\_dual}
+  \item \lean{GppCelestialHolography.grassmannian_gaussian_binomial_two_four}\leanok\ \texttt{grassmannian\_gaussian\_binomial\_two\_four}
+\end{itemize}
+
+\subsection{MellinKinematics}
+Thread M of `docs/FORMALIZATION\_PLAN.md`, from `mellin\_kinematics.tex` — the elementary
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppMellin.power_law_classification}\leanok\ \texttt{power\_law\_classification}
+  \item \lean{GppMellin.scale_shadow_involutive}\leanok\ \texttt{scale\_shadow\_involutive}
+  \item \lean{GppMellin.scale_shadow_norm_sq}\leanok\ \texttt{scale\_shadow\_norm\_sq}
+  \item \lean{GppMellin.mellin_kernel_transport}\leanok\ \texttt{mellin\_kernel\_transport}
+  \item \lean{GppMellin.quadratic_transport_axis}\leanok\ \texttt{quadratic\_transport\_axis}
+\end{itemize}
+
+\subsection{FubiniStudyAntipodal}
+Source: qg\_foundations.tex, Lemma "Antipodal Symmetry" (`lem:antipodal`).
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppFubiniStudy.fs_measure_antipodal_invariant}\leanok\ \texttt{fs\_measure\_antipodal\_invariant}
+  \item \lean{GppFubiniStudy.fs_density_not_invariant_without_jacobian}\leanok\ \texttt{fs\_density\_not\_invariant\_without\_jacobian}
+\end{itemize}
+
+\section{Quantum Gravity --- Further Results}
+
+\subsection{SinhZetaBridge}
+Thread S of `docs/FORMALIZATION\_PLAN.md`, from `kinematic\_block\_v11.tex` (Proposition
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaBridge.sinh_summand_eq}\leanok\ \texttt{sinh\_summand\_eq}
+  \item \lean{GppZetaBridge.integral_term}\leanok\ \texttt{integral\_term}
+  \item \lean{GppZetaBridge.integrable_term}\leanok\ \texttt{integrable\_term}
+  \item \lean{GppZetaBridge.tsum_odd_inv_rpow}\leanok\ \texttt{tsum\_odd\_inv\_rpow}
+  \item \lean{GppZetaBridge.sinh_mellin_zeta}\leanok\ \texttt{sinh\_mellin\_zeta}
+  \item \lean{GppZetaBridge.integral_id_div_sinh}\leanok\ \texttt{integral\_id\_div\_sinh}
+  \item \lean{GppZetaBridge.integral_cube_div_sinh}\leanok\ \texttt{integral\_cube\_div\_sinh}
+  \item \lean{GppZetaBridge.plancherel_first_moment}\leanok\ \texttt{plancherel\_first\_moment}
+\end{itemize}
+
+\subsection{WightmanAxioms}
+Source: wightman\_paper.tex
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppWightmanAxioms.dim_su4}\leanok\ \texttt{dim\_su4}
+  \item \lean{GppWightmanAxioms.dim_u2}\leanok\ \texttt{dim\_u2}
+  \item \lean{GppWightmanAxioms.dim_stab}\leanok\ \texttt{dim\_stab}
+  \item \lean{GppWightmanAxioms.dim_gr24_real}\leanok\ \texttt{dim\_gr24\_real}
+  \item \lean{GppWightmanAxioms.dim_gr24_complex}\leanok\ \texttt{dim\_gr24\_complex}
+  \item \lean{GppWightmanAxioms.plucker_target_dim}\leanok\ \texttt{plucker\_target\_dim}
+  \item \lean{GppWightmanAxioms.dim_sun}\leanok\ \texttt{dim\_sun}
+\end{itemize}
+
+\subsection{ZitterbewegungShadow}
+Thread Z of `docs/FORMALIZATION\_PLAN.md`, from `zitterbewegung\_T\_boundary\_FINAL.tex`
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppZitter.shadow_energy_eq}\leanok\ \texttt{shadow\_energy\_eq}
+  \item \lean{GppZitter.shadow_splitting}\leanok\ \texttt{shadow\_splitting}
+  \item \lean{GppZitter.shadow_splitting_onshell}\leanok\ \texttt{shadow\_splitting\_onshell}
+  \item \lean{GppZitter.shadow_frequency_onshell}\leanok\ \texttt{shadow\_frequency\_onshell}
+  \item \lean{GppZitter.beat_frequency}\leanok\ \texttt{beat\_frequency}
+  \item \lean{GppZitter.mirror_dm_bound}\leanok\ \texttt{mirror\_dm\_bound}
+\end{itemize}
+
+\subsection{PlanckIntegral}
+Thread P of `docs/FORMALIZATION\_PLAN.md`, from `blackbody\_law\_qg\_v1.tex` (the
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppPlanck.integral_pow_three_mul_exp}\leanok\ \texttt{integral\_pow\_three\_mul\_exp}
+  \item \lean{GppPlanck.integrable_term}\leanok\ \texttt{integrable\_term}
+  \item \lean{GppPlanck.hasSum_six_div_pow_four}\leanok\ \texttt{hasSum\_six\_div\_pow\_four}
+  \item \lean{GppPlanck.planck_summand_eq}\leanok\ \texttt{planck\_summand\_eq}
+  \item \lean{GppPlanck.planck_integral}\leanok\ \texttt{planck\_integral}
+\end{itemize}
+
+\section{Standard Model --- Further Results}
+
+\subsection{MassOrientationCoupling}
+Source: mass\_orientation\_coupling\_v3.tex
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppMassOrientationCoupling.tau_tau_eq_neg}\leanok\ \texttt{tau\_tau\_eq\_neg}
+  \item \lean{GppMassOrientationCoupling.momentum_spinor_decomposition}\leanok\ \texttt{momentum\_spinor\_decomposition}
+  \item \lean{GppMassOrientationCoupling.psiL_zero}\leanok\ \texttt{psiL\_zero}
+  \item \lean{GppMassOrientationCoupling.psiR_zero}\leanok\ \texttt{psiR\_zero}
+  \item \lean{GppMassOrientationCoupling.clock_locking_negate}\leanok\ \texttt{clock\_locking\_negate}
+  \item \lean{GppMassOrientationCoupling.clock_locking_restore}\leanok\ \texttt{clock\_locking\_restore}
+  \item \lean{GppMassOrientationCoupling.clock_locking_population}\leanok\ \texttt{clock\_locking\_population}
+  \item \lean{GppMassOrientationCoupling.gamma0_double_commutator}\leanok\ \texttt{gamma0\_double\_commutator}
+\end{itemize}
+
+\subsection{KappaShadow3}
+Source: kappa\_paper.tex, "Fermion Mass Hierarchy from Division Algebra
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppKappaShadow3.kappaFS}\leanok\ \texttt{kappaFS}
+  \item \lean{GppKappaShadow3.kappa_shadow3_sum_rule}\leanok\ \texttt{kappa\_shadow3\_sum\_rule}
+  \item \lean{GppKappaShadow3.kappa_d_eq}\leanok\ \texttt{kappa\_d\_eq}
+  \item \lean{GppKappaShadow3.kappa_L_eq}\leanok\ \texttt{kappa\_L\_eq}
+  \item \lean{GppKappaShadow3.kappa_u_eq}\leanok\ \texttt{kappa\_u\_eq}
+  \item \lean{GppKappaShadow3.kappa_ud_sum}\leanok\ \texttt{kappa\_ud\_sum}
+  \item \lean{GppKappaShadow3.triality_complementary_angle}\leanok\ \texttt{triality\_complementary\_angle}
+\end{itemize}
+
+\subsection{KoideRelation}
+Source: ONON5213.tex, "The Koide Structure: √2 as a Theorem"
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppKoide.cos_two_pi_div_three}\leanok\ \texttt{cos\_two\_pi\_div\_three}
+  \item \lean{GppKoide.sin_two_pi_div_three}\leanok\ \texttt{sin\_two\_pi\_div\_three}
+  \item \lean{GppKoide.cos_four_pi_div_three}\leanok\ \texttt{cos\_four\_pi\_div\_three}
+  \item \lean{GppKoide.sin_four_pi_div_three}\leanok\ \texttt{sin\_four\_pi\_div\_three}
+  \item \lean{GppKoide.koide_phase_sum_zero}\leanok\ \texttt{koide\_phase\_sum\_zero}
+  \item \lean{GppKoide.koide_epsilon_sq_two}\leanok\ \texttt{koide\_epsilon\_sq\_two}
+  \item \lean{GppKoide.koide_epsilon_eq_sqrt_two}\leanok\ \texttt{koide\_epsilon\_eq\_sqrt\_two}
+\end{itemize}
+
+\subsection{MajoranaCondition}
+Sources:
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppMajorana.epsilon}\leanok\ \texttt{epsilon}
+  \item \lean{GppMajorana.epsilon_sq}\leanok\ \texttt{epsilon\_sq}
+  \item \lean{GppMajorana.epsilon_det}\leanok\ \texttt{epsilon\_det}
+  \item \lean{GppMajorana.zitterbewegung_frequency}\leanok\ \texttt{zitterbewegung\_frequency}
+  \item \lean{GppMajorana.zitterbewegung_period}\leanok\ \texttt{zitterbewegung\_period}
+\end{itemize}
+
+\subsection{ComplementaryPairs}
+Source: ONON5213.tex, "Counting Complementary Pairs" (thm:three-partitions),
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppComplementaryPairs.complementaryPairings}\leanok\ \texttt{complementaryPairings}
+  \item \lean{GppComplementaryPairs.exactly_three_complementary_pairings}\leanok\ \texttt{exactly\_three\_complementary\_pairings}
+\end{itemize}
+
+\section{General Relativity --- Further Results}
+
+\subsection{Rigidity}
+This file formalizes `thm:rigidity` (ONON52, cited 10×):
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppRigidity.graviton_shadow_dimension}\leanok\ \texttt{graviton\_shadow\_dimension}
+  \item \lean{GppRigidity.two_derivative_from_c0}\leanok\ \texttt{two\_derivative\_from\_c0}
+\end{itemize}
+
+\section{Cosmology}
+
+\subsection{DarkEnergy}
+Source: dark\_energy\_full2.tex
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppDarkEnergy.shadow_t_duality_involution}\leanok\ \texttt{shadow\_t\_duality\_involution}
+  \item \lean{GppDarkEnergy.shadow_self_dual_point}\leanok\ \texttt{shadow\_self\_dual\_point}
+  \item \lean{GppDarkEnergy.shadow_reflects_scale}\leanok\ \texttt{shadow\_reflects\_scale}
+  \item \lean{GppDarkEnergy.shadow_log_negation}\leanok\ \texttt{shadow\_log\_negation}
+  \item \lean{GppDarkEnergy.shadow_dimension_involution}\leanok\ \texttt{shadow\_dimension\_involution}
+  \item \lean{GppDarkEnergy.weyl_fermion_decomp}\leanok\ \texttt{weyl\_fermion\_decomp}
+  \item \lean{GppDarkEnergy.three_gen_conformally_coupled}\leanok\ \texttt{three\_gen\_conformally\_coupled}
+  \item \lean{GppDarkEnergy.dark_energy_acceleration_threshold}\leanok\ \texttt{dark\_energy\_acceleration\_threshold}
+  \item \lean{GppDarkEnergy.de_constant_growth}\leanok\ \texttt{de\_constant\_growth}
+  \item \lean{GppDarkEnergy.phantom_crossing_condition}\leanok\ \texttt{phantom\_crossing\_condition}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{UnifiedDipole}
+Source: unified\_dipole\_v115.tex
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppUnifiedDipole.dipole_shadow_eigenvalue_complex}\leanok\ \texttt{dipole\_shadow\_eigenvalue\_complex}
+  \item \lean{GppUnifiedDipole.dipole_eigenvalue_negative}\leanok\ \texttt{dipole\_eigenvalue\_negative}
+  \item \lean{GppUnifiedDipole.dipole_eigenvalue_at_unit}\leanok\ \texttt{dipole\_eigenvalue\_at\_unit}
+  \item \lean{GppUnifiedDipole.dipole_eigenvalue_bounded}\leanok\ \texttt{dipole\_eigenvalue\_bounded}
+  \item \lean{GppUnifiedDipole.dipole_eigenvalue_decreasing}\leanok\ \texttt{dipole\_eigenvalue\_decreasing}
+  \item \lean{GppUnifiedDipole.harrison_zeldovich_exponent}\leanok\ \texttt{harrison\_zeldovich\_exponent}
+  \item \lean{GppUnifiedDipole.slow_roll_from_tilt}\leanok\ \texttt{slow\_roll\_from\_tilt}
+  \item \lean{GppUnifiedDipole.bost_connes_inflation_parameter}\leanok\ \texttt{bost\_connes\_inflation\_parameter}
+  \item \lean{GppUnifiedDipole.shadow_deficit_positive}\leanok\ \texttt{shadow\_deficit\_positive}
+  \item \lean{GppUnifiedDipole.shadow_enhancement_exceeds_one}\leanok\ \texttt{shadow\_enhancement\_exceeds\_one}
+  \item \emph{\ldots and 1 further results in this module.}
+\end{itemize}
+
+\subsection{AbelHaloPair}
+Thread H of `docs/FORMALIZATION\_PLAN.md`, from ONON5213.tex Chapter "Dark Matter:
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppHalo.pseudo_isothermal_eq}\leanok\ \texttt{pseudo\_isothermal\_eq}
+  \item \lean{GppHalo.hasDerivAt_sq_sub}\leanok\ \texttt{hasDerivAt\_sq\_sub}
+  \item \lean{GppHalo.hasDerivAt_sq_add}\leanok\ \texttt{hasDerivAt\_sq\_add}
+  \item \lean{GppHalo.abel_forward}\leanok\ \texttt{abel\_forward}
+  \item \lean{GppHalo.abel_inverse_eval}\leanok\ \texttt{abel\_inverse\_eval}
+  \item \lean{GppHalo.dm_profile_boxed}\leanok\ \texttt{dm\_profile\_boxed}
+\end{itemize}
+
+\subsection{DarkMatterGammaRatio}
+Source: ONON5213.tex, "The Grassmannian Spinor Bundle: Time Reversal,
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppDMGamma.gamma_three_half_eq}\leanok\ \texttt{gamma\_three\_half\_eq}
+  \item \lean{GppDMGamma.gamma_ratio_one_half_three_half}\leanok\ \texttt{gamma\_ratio\_one\_half\_three\_half}
+  \item \lean{GppDMGamma.dm_baryon_leading_term}\leanok\ \texttt{dm\_baryon\_leading\_term}
+  \item \lean{GppDMGamma.shadow_kernel_normalization_three_half}\leanok\ \texttt{shadow\_kernel\_normalization\_three\_half}
+\end{itemize}
+
+\section{String Theory}
+
+\subsection{DivisionAlgebras}
+Source: why\_string\_theory\_works\_v4.tex
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppDivisionAlgebras.hurwitz_algebra_count}\leanok\ \texttt{hurwitz\_algebra\_count}
+  \item \lean{GppDivisionAlgebras.division_algebra_dim_sum}\leanok\ \texttt{division\_algebra\_dim\_sum}
+  \item \lean{GppDivisionAlgebras.division_algebra_dim_seq}\leanok\ \texttt{division\_algebra\_dim\_seq}
+  \item \lean{GppDivisionAlgebras.critical_brane_dimensions}\leanok\ \texttt{critical\_brane\_dimensions}
+  \item \lean{GppDivisionAlgebras.m_theory_dimension}\leanok\ \texttt{m\_theory\_dimension}
+  \item \lean{GppDivisionAlgebras.critical_dims_count}\leanok\ \texttt{critical\_dims\_count}
+  \item \lean{GppDivisionAlgebras.three_generations_weyl_anomaly}\leanok\ \texttt{three\_generations\_weyl\_anomaly}
+  \item \lean{GppDivisionAlgebras.three_generations_exact}\leanok\ \texttt{three\_generations\_exact}
+  \item \lean{GppDivisionAlgebras.gamma_functional_eq}\leanok\ \texttt{gamma\_functional\_eq}
+  \item \lean{GppDivisionAlgebras.gamma_at_one}\leanok\ \texttt{gamma\_at\_one}
+  \item \emph{\ldots and 3 further results in this module.}
+\end{itemize}
+
+\section{Thread S --- Signature and Inertia}
+
+\subsection{SignatureInertia}
+Finite-dimensional, analysis-free, zero-free (no Riemann zeta zeros anywhere in this
+
+\noindent\textbf{Proved (1 declaration):}
+\begin{itemize}
+  \item \lean{GppThreadS.inertia_sum}\leanok\ \texttt{inertia\_sum}
+\end{itemize}
+
+\section{Yang--Mills}
+
+\subsection{MassGap}
+Source: YM\_PAPER35.tex
+
+\noindent\textbf{Proved (22 declarations):}
+\begin{itemize}
+  \item \lean{GppYangMillsMassGap.dualCoxeterSU}\leanok\ \texttt{dualCoxeterSU}
+  \item \lean{GppYangMillsMassGap.casimirAdjointSU}\leanok\ \texttt{casimirAdjointSU}
+  \item \lean{GppYangMillsMassGap.casimirFundamentalSU}\leanok\ \texttt{casimirFundamentalSU}
+  \item \lean{GppYangMillsMassGap.casimirFundamentalSU_su3}\leanok\ \texttt{casimirFundamentalSU\_su3}
+  \item \lean{GppYangMillsMassGap.casimir_adj_fund_ratio}\leanok\ \texttt{casimir\_adj\_fund\_ratio}
+  \item \lean{GppYangMillsMassGap.mass_gap_ratio}\leanok\ \texttt{mass\_gap\_ratio}
+  \item \lean{GppYangMillsMassGap.mass_gap_ratio_su3_k1}\leanok\ \texttt{mass\_gap\_ratio\_su3\_k1}
+  \item \lean{GppYangMillsMassGap.mass_gap_ratio_su3_k3}\leanok\ \texttt{mass\_gap\_ratio\_su3\_k3}
+  \item \lean{GppYangMillsMassGap.mass_gap_ratio_pos}\leanok\ \texttt{mass\_gap\_ratio\_pos}
+  \item \lean{GppYangMillsMassGap.mass_gap_ratio_le_two}\leanok\ \texttt{mass\_gap\_ratio\_le\_two}
+  \item \emph{\ldots and 12 further results in this module.}
+\end{itemize}
+
+\section{Core Theorems and Grassmannian Geometry}
+
+\subsection{CoreTheorems}
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{IsInvolution}\leanok\ \texttt{IsInvolution}
+  \item \lean{shadow_involution}\leanok\ \texttt{shadow\_involution}
+  \item \lean{root_involution_order_2}\leanok\ \texttt{root\_involution\_order\_2}
+  \item \lean{involution_injective}\leanok\ \texttt{involution\_injective}
+  \item \lean{involution_surjective}\leanok\ \texttt{involution\_surjective}
+  \item \lean{involution_fourth_power}\leanok\ \texttt{involution\_fourth\_power}
+  \item \lean{SectorDecomposition}\leanok\ \texttt{SectorDecomposition}
+  \item \lean{googly_resolution}\leanok\ \texttt{googly\_resolution}
+  \item \lean{T_squared_identity}\leanok\ \texttt{T\_squared\_identity}
+  \item \lean{LeftHanded}\leanok\ \texttt{LeftHanded}
+  \item \emph{\ldots and 10 further results in this module.}
+\end{itemize}
+
+\subsection{GrassmannianJacobian}
+`GrassmannianMass.lean` proves that the chart transition map
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppGrassmannianJacobian.N}\leanok\ \texttt{N}
+  \item \lean{GppGrassmannianJacobian.K}\leanok\ \texttt{K}
+  \item \lean{GppGrassmannianJacobian.N_sq_eq_D_smul_K}\leanok\ \texttt{N\_sq\_eq\_D\_smul\_K}
+  \item \lean{GppGrassmannianJacobian.K_sq_eq_D_sq_smul_one}\leanok\ \texttt{K\_sq\_eq\_D\_sq\_smul\_one}
+  \item \lean{GppGrassmannianJacobian.N_pow_four_eq_D_pow_four_smul_one}\leanok\ \texttt{N\_pow\_four\_eq\_D\_pow\_four\_smul\_one}
+\end{itemize}
+
+\subsection{GrassmannianMass}
+On the big cell of the Grassmannian Gr(2,4), a 2-plane is represented in the
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppGrassmannian.on}\leanok\ \texttt{on}
+  \item \lean{GppGrassmannian.that}\leanok\ \texttt{that}
+  \item \lean{GppGrassmannian.massParameter}\leanok\ \texttt{massParameter}
+  \item \lean{GppGrassmannian.transition_det_eq}\leanok\ \texttt{transition\_det\_eq}
+  \item \lean{GppGrassmannian.transition_transition_eq_neg}\leanok\ \texttt{transition\_transition\_eq\_neg}
+\end{itemize}
 
 \chapter{Axiom Inventory}
 
