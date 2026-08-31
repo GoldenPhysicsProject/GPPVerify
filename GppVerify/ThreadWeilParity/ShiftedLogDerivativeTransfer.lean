@@ -76,7 +76,7 @@ theorem hasDerivAt_shiftedTransferF (g : ℂ → ℂ) (ρ z : ℂ) (k : ℕ)
     simpa [Pi.div_def] using this
   have h2 : HasDerivAt g (deriv g z) z := hg.hasDerivAt
   have := h1.mul h2
-  convert this using 1
+  simpa only [shiftedTransferF, Pi.mul_def] using this
 
 /-- The transferred denominator's witness function:
     `w(z) := (k+1)·g(z) + (z-ρ)·(g'(z) - λ·g(z))`. -/
