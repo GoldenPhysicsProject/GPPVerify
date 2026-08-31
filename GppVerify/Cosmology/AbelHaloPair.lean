@@ -230,6 +230,8 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
       have h2 : (0:ℝ) < t^2 + rc^2 := by positivity
       rw [div_pow, Real.sq_sqrt h1.le, Real.sq_sqrt h2.le]
       field_simp
+      -- Mathlib 4.33: `field_simp` stops one `ring` step short here.
+      ring
     rw [tendsto_congr' hcong]
     have hdenom : Tendsto (fun t : ℝ => t^2 + rc^2) atTop atTop :=
       tendsto_atTop_add_const_right atTop (rc^2) (tendsto_pow_atTop two_ne_zero)

@@ -528,7 +528,9 @@ theorem tendsto_KrN0 {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (θ : ℝ) :
     apply Finset.sum_congr rfl
     intro i _
     by_cases hi : i = 0 <;> simp [hi]
-  simpa only [Pi.div_def, Function.comp, hKrN0_eq] using hcomp
+  -- Mathlib 4.33: `Function.comp` no longer unfolds as a simp lemma, leaving `hcomp` in
+  -- `(f ∘ g)` form against a beta-reduced goal. `Function.comp_def` is the unfolding lemma.
+  simpa only [Pi.div_def, Function.comp_def, hKrN0_eq] using hcomp
 
 /-- **The full analytic result**: `Σⱼₖ c̄ⱼcₖ(K_r-1)(xⱼ-xₖ) ≥ 0` for the genuine, untruncated
     kernel, obtained from the finite-truncation milestone `KrN0_gram_nonneg` by passing to the

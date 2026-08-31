@@ -1,5 +1,6 @@
 import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import Mathlib.NumberTheory.NumberField.AdeleRing
+import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 import Mathlib.Topology.Algebra.Valued.LocallyCompact
 import Mathlib.Data.Int.WithZero
 import Mathlib.RingTheory.Valuation.RankOne
@@ -136,7 +137,9 @@ noncomputable instance adicCompletion.valuedRankOne
   -- this instance used no longer exist. Mathlib now also supplies
   -- `IsRankOneDiscrete` for `v.adicCompletion K` at full Dedekind-domain generality, so
   -- the whole instance reduces to its general `rankOne` constructor and the bespoke
-  -- uniformizer argument is no longer needed.
+  -- uniformizer argument is no longer needed. The `IsRankOneDiscrete` instance for
+  -- `v.adicCompletion K` lives in `Mathlib.NumberTheory.NumberField.Completion.FinitePlace`
+  -- and is not reachable from the other imports here, so that import is load-bearing.
   Valuation.IsRankOneDiscrete.rankOne
     (Valued.v : Valuation (v.adicCompletion K) (WithZero (Multiplicative ℤ)))
     (e := 2) (by norm_num)

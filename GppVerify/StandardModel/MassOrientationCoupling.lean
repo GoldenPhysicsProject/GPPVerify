@@ -129,6 +129,8 @@ theorem momentum_spinor_decomposition {p00 p11 : ℝ} {p01 : ℂ}
   · rw [div_mul_div_comm, mul_comm ((starRingEnd ℂ) p01) p01, Complex.mul_conj, hA2C, hCC]
     push_cast
     field_simp
+    -- Mathlib 4.33: `field_simp` stops one `ring` step short here.
+    ring
   · rw [Complex.normSq_mul, Complex.normSq_ofReal, Complex.normSq_ofReal, hA2R, hCR]
     field_simp
 

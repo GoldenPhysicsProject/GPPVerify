@@ -79,10 +79,13 @@ theorem hasDerivAt_zetaP (p : ℝ) (s : ℂ)
       (-(Complex.exp (-s * Complex.log p) * (-Complex.log p))) s := hexp.const_sub 1
   have hinv := hsub.inv hden
   unfold zetaP minusLogDerivZetaP
-  convert hinv using 1
+  -- Mathlib 4.33: `convert … using 1` splits off instance equalities here rather than
+  -- leaving the single arithmetic goal it used to, so the following `field_simp` had
+  -- nothing it could act on. `HasDerivAt.congr_deriv` keeps the function and leaves
+  -- exactly the derivative equality.
+  refine hinv.congr_deriv ?_
   have hexpne : Complex.exp (-s * Complex.log p) ≠ 0 := Complex.exp_ne_zero _
   field_simp
-  ring
 
 /-! ## The connection to `Wp`, closed
 
@@ -114,6 +117,15 @@ theorem KrClosed_sub_one_eq_two_mul_re {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (
   have hdeneq : (1 - r * Real.cos θ) * (1 - r * Real.cos θ) + -(r * Real.sin θ) * -(r * Real.sin θ)
       = 1 - 2 * r * Real.cos θ + r ^ 2 := by nlinarith [Real.sin_sq_add_cos_sq θ]
   rw [hdeneq]
+  -- Mathlib 4.33: `field_simp` emits the denominator commuted (`1 - r*cos θ*2 + r^2`)
+  -- rather than as `hdenpos` states it (`1 - 2*r*cos θ + r^2`), so it cannot see the
+  -- denominator is nonzero and leaves an uncleared `⁻¹`. Restate it in that shape.
+  -- `field_simp` reaches for whichever commutation its normal form happens to produce,
+  -- and it is not the one `hdenpos` states. Supply the shapes it actually asks for.
+  have hden' : 1 - r * Real.cos θ * 2 + r ^ 2 ≠ 0 := by
+    intro h; exact hdenpos.ne' (by linear_combination h)
+  have hden'' : 1 - r * 2 * Real.cos θ + r ^ 2 ≠ 0 := by
+    intro h; exact hdenpos.ne' (by linear_combination h)
   field_simp
   linear_combination 2 * r ^ 2 * Real.sin_sq_add_cos_sq θ
 
@@ -175,6 +187,11 @@ theorem Wp_eq_two_mul_re_minusLogDerivZetaP {p : ℝ} (hp : 1 < p) (t : ℝ) :
   have hdeneq : (1 - r * Real.cos θ) * (1 - r * Real.cos θ) + (r * Real.sin θ) * (r * Real.sin θ)
       = 1 - 2 * r * Real.cos θ + r ^ 2 := by nlinarith [Real.sin_sq_add_cos_sq θ]
   rw [hdeneq]
+  -- Same `field_simp` shape mismatch as in `KrClosed_sub_one_eq_two_re` above.
+  have hden' : 1 - r * Real.cos θ * 2 + r ^ 2 ≠ 0 := by
+    intro h; exact hdenpos.ne' (by linear_combination h)
+  have hden'' : 1 - r * 2 * Real.cos θ + r ^ 2 ≠ 0 := by
+    intro h; exact hdenpos.ne' (by linear_combination h)
   field_simp
   linear_combination (Real.log p) * (2 * r ^ 2) * Real.sin_sq_add_cos_sq θ
 
