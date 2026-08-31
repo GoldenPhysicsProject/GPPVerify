@@ -72,7 +72,12 @@ theorem deriv_negZetaLogDeriv_eq_firstResponse
   have hneg : HasDerivAt negZetaLogDeriv
       (-((deriv (deriv riemannZeta) s * riemannZeta s -
           deriv riemannZeta s * deriv riemannZeta s) / riemannZeta s ^ 2)) s := by
-    convert hbase.neg using 1 <;> simp [negZetaLogDeriv] <;> field_simp [hne] <;> ring
+    -- Mathlib 4.33: `convert … using 1` no longer yields the single arithmetic goal this
+    -- `<;>` chain was written for, so one of the tactics finds nothing to do and the chain
+    -- fails. `HasDerivAt.congr_deriv` keeps the function (defeq to `negZetaLogDeriv`) and
+    -- leaves exactly the derivative equality.
+    refine hbase.neg.congr_deriv ?_
+    field_simp [hne]
   simpa [firstResponse] using hneg.deriv
 
 /-- The first derivative identity holds on the whole open half-plane. -/
@@ -109,7 +114,9 @@ theorem deriv_firstResponse_eq_thirdLogResponse
     exact (h2.mul h0).sub (h1.mul h1)
   have hden : HasDerivAt (fun z => riemannZeta z ^ 2)
       (2 * riemannZeta s * deriv riemannZeta s) s := by
-    convert h0.pow 2 using 1 <;> ring
+    refine (h0.pow 2).congr_deriv ?_
+    push_cast
+    ring
   have hbase := hnum'.div hden (pow_ne_zero 2 hne)
   have hneg : HasDerivAt firstResponse
       (-((((deriv (deriv (deriv riemannZeta)) s * riemannZeta s +
@@ -121,7 +128,8 @@ theorem deriv_firstResponse_eq_thirdLogResponse
             deriv riemannZeta s * deriv riemannZeta s) *
             (2 * riemannZeta s * deriv riemannZeta s)) /
         (riemannZeta s ^ 2) ^ 2)) s := by
-    convert hbase.neg using 1 <;> simp [firstResponse] <;> field_simp [hne] <;> ring
+    refine hbase.neg.congr_deriv ?_
+    field_simp [hne]
   have hd := hneg.deriv
   rw [hd]
   field_simp [hne]
