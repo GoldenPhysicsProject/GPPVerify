@@ -196,11 +196,11 @@ theorem lintegral_K_le : ∀ n, ∫⁻ lam in Ioi (0:ℝ), K n lam ≤ (ENNReal.
         intro lam
         calc ∫⁻ mu in Ioi (0:ℝ), K n mu * Pe (|mu - lam|)
             ≤ ∫⁻ mu in Ioi (0:ℝ), K n mu * 1 :=
-              lintegral_mono (fun mu => mul_le_mul_left' (Pe_le_one (abs_nonneg _)) (K n mu))
+              lintegral_mono (fun mu => mul_le_mul_right (Pe_le_one (abs_nonneg _)) (K n mu))
           _ = ∫⁻ mu in Ioi (0:ℝ), K n mu := by simp
           _ ≤ B := hIH
       have hstep : ∀ lam : ℝ, K (n+1) lam ≤ Pe lam * B := fun lam =>
-        mul_le_mul_left' (hinner lam) (Pe lam)
+        mul_le_mul_right (hinner lam) (Pe lam)
       calc ∫⁻ lam in Ioi (0:ℝ), K (n+1) lam
           ≤ ∫⁻ lam in Ioi (0:ℝ), Pe lam * B := lintegral_mono hstep
         _ = B * ∫⁻ lam in Ioi (0:ℝ), Pe lam := by
@@ -246,7 +246,7 @@ theorem finiteness (n : ℕ) :
   · unfold M
     calc (ENNReal.ofReal (2 * π))⁻¹ ^ (n + 1) * ∫⁻ lam in Ioi (0:ℝ), K n lam
         ≤ (ENNReal.ofReal (2 * π))⁻¹ ^ (n + 1) * (ENNReal.ofReal (π / 4)) ^ (n + 1) :=
-          mul_le_mul_left' (lintegral_K_le n) _
+          mul_le_mul_right (lintegral_K_le n) _
       _ = ((ENNReal.ofReal (2 * π))⁻¹ * ENNReal.ofReal (π / 4)) ^ (n + 1) := by
           rw [mul_pow]
       _ = (ENNReal.ofReal (1 / 8)) ^ (n + 1) := by rw [twoPiInv_mul_piOverFour]

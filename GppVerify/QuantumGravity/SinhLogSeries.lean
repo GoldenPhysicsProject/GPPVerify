@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
 import Mathlib.Topology.Instances.ENNReal.Lemmas
 
@@ -54,7 +55,7 @@ theorem sinh_pos_of_pos {x : ℝ} (hx : 0 < x) : 0 < Real.sinh x := by
 sign as `λ`. -/
 theorem sinh_div_pos {lam : ℝ} (hlam : lam ≠ 0) :
     0 < Real.sinh (Real.pi * lam) / (Real.pi * lam) := by
-  rcases hlam.lt_or_lt with hneg | hpos
+  rcases hlam.lt_or_gt with hneg | hpos
   · have h1 : Real.pi * lam < 0 := mul_neg_of_pos_of_neg Real.pi_pos hneg
     have h2 : Real.sinh (Real.pi * lam) < 0 := by
       have := sinh_pos_of_pos (x := -(Real.pi * lam)) (by linarith)
@@ -78,7 +79,6 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
         = (fun n : ℕ => ∏ j ∈ Finset.range n, ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) := by
       funext n
       field_simp
-      ring
     rwa [heq] at h
   have hterm_pos : ∀ n : ℕ, (0 : ℝ) < 1 + lam ^ 2 / ((n : ℝ) + 1) ^ 2 := by
     intro n
@@ -89,7 +89,7 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
   have hlog_prod : ∀ n : ℕ,
       Real.log (∏ j ∈ Finset.range n, ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2))
         = ∑ j ∈ Finset.range n, Real.log (1 + lam ^ 2 / ((j : ℝ) + 1) ^ 2) :=
-    fun n => Real.log_prod _ _ (fun j _ => hterm_ne j)
+    fun n => Real.log_prod (fun j _ => hterm_ne j)
   have hpos_lim : 0 < Real.sinh (Real.pi * lam) / (Real.pi * lam) := sinh_div_pos hlam
   have hlogtendsto : Tendsto (fun n : ℕ =>
       ∑ j ∈ Finset.range n, Real.log (1 + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) atTop

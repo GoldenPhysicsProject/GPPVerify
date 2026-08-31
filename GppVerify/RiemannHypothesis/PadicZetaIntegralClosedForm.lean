@@ -38,7 +38,7 @@ theorem shell_term_eq (s : ℝ) (n : ℕ) :
   have hpR : (0 : ℝ) < (p : ℝ) := by exact_mod_cast (Fact.out : p.Prime).pos
   have hpow_pos : (0 : ℝ) < (p : ℝ) ^ (-(n : ℤ)) := zpow_pos hpR _
   rw [setLIntegral_congr_fun (measurableSet_shell p n)
-        (Filter.Eventually.of_forall (fun x hx => normRpow_const_on_shell p s hx)),
+        (fun x hx => normRpow_const_on_shell p s hx),
       setLIntegral_const]
   have hshell_eq : shell p n = (Ideal.span {(p : PadicInt p) ^ n} : Set (PadicInt p)) \
       (Ideal.span {(p : PadicInt p) ^ (n + 1)} : Set (PadicInt p)) := rfl

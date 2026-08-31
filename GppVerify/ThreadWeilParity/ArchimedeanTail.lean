@@ -60,16 +60,19 @@ theorem archTailAntideriv_hasDerivAt {u : ℝ} (hu : 1 < u) :
     have hd1 : HasDerivAt (fun u : ℝ => u - 1) 1 u := (hasDerivAt_id u).sub_const 1
     have hd2 : HasDerivAt (fun u : ℝ => u + 1) 1 u := (hasDerivAt_id u).add_const 1
     have := hd1.div hd2 h2
-    simpa using this
+    simpa [Pi.div_def] using this
   have hlog : HasDerivAt (fun u : ℝ => Real.log ((u - 1) / (u + 1)))
       ((((u + 1) - (u - 1)) / (u + 1) ^ 2) * ((u - 1) / (u + 1))⁻¹) u := by
     apply HasDerivAt.log hquot
     exact div_ne_zero h1 h2
   have := hlog.const_mul (1 / 2 : ℝ)
-  convert this using 1
-  rw [show (u ^ 2 - 1) = (u - 1) * (u + 1) from by ring]
-  field_simp
-  ring
+  have hval : (1 / 2 : ℝ) * ((((u + 1) - (u - 1)) / (u + 1) ^ 2) * ((u - 1) / (u + 1))⁻¹)
+      = (u ^ 2 - 1)⁻¹ := by
+    rw [show (u ^ 2 - 1) = (u - 1) * (u + 1) from by ring]
+    field_simp
+    ring
+  rw [← hval]
+  exact this
 
 theorem archTailAntideriv_tendsto_atTop : Tendsto archTailAntideriv atTop (𝓝 0) := by
   have hden : Tendsto (fun u : ℝ => u + 1) atTop atTop :=

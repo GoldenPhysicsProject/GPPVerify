@@ -46,7 +46,6 @@ square, not `g·|w|²`. Confirms the forward/converse formula mismatch precisely
 coincide only when `w` is real. -/
 theorem cj_eq_gj_mul_sq {v w : ℂ} (hw : w ≠ 0) : v * w = (v / w) * w ^ 2 := by
   field_simp
-  ring
 
 /-- The mismatch is not vacuous: a genuine `w` with `w² ≠ (normSq w : ℂ)` exists whenever
 `w` is non-real (e.g. `w = i`: `w² = -1` but `normSq i = 1`). Recorded as the concrete

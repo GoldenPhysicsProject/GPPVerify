@@ -47,9 +47,9 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℂ V]
     nonnegative real part. No orthogonality of the `v i` is assumed or needed: this is
     exactly `⟪x, x⟫.re ≥ 0` for `x := ∑ i ∈ S, c i • v i`, unpacked by sesquilinearity. -/
 theorem gram_posSemidef {ι : Type*} (S : Finset ι) (v : ι → V) (c : ι → ℂ) :
-    0 ≤ (∑ i ∈ S, ∑ j ∈ S, conj (c i) * c j * (inner (v i) (v j) : ℂ)).re := by
-  have hx : (inner (∑ i ∈ S, c i • v i) (∑ j ∈ S, c j • v j) : ℂ)
-      = ∑ i ∈ S, ∑ j ∈ S, conj (c i) * c j * (inner (v i) (v j) : ℂ) := by
+    0 ≤ (∑ i ∈ S, ∑ j ∈ S, conj (c i) * c j * (inner ℂ (v i) (v j) : ℂ)).re := by
+  have hx : (inner ℂ (∑ i ∈ S, c i • v i) (∑ j ∈ S, c j • v j) : ℂ)
+      = ∑ i ∈ S, ∑ j ∈ S, conj (c i) * c j * (inner ℂ (v i) (v j) : ℂ) := by
     rw [sum_inner]
     simp only [inner_smul_left, inner_sum, inner_smul_right]
     refine Finset.sum_congr rfl (fun i _ => Finset.sum_congr rfl (fun j _ => ?_))

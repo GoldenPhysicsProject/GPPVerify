@@ -1,5 +1,5 @@
-import Mathlib.Data.Real.GoldenRatio
-import Mathlib.Data.Matrix.Notation
+import Mathlib.NumberTheory.Real.GoldenRatio
+import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
@@ -29,8 +29,8 @@ precise, and only, claim is that inversion together with primitive translation, 
 to its minimal orientation-preserving hyperbolic completion in `SL₂(ℤ)`, selects `φ^{±2}`
 and discriminant `5`; and that the *independently defined* finite-place kernel at `q=5`,
 `s=1/2` happens to equal the same real number `φ²`. Golden ratio infrastructure is reused
-from Mathlib's `Data.Real.GoldenRatio` throughout (`goldenRatio`, `gold_sq`, `gold_ne_zero`,
-`goldConj_neg`, `gold_add_goldConj`, `gold_mul_goldConj`) rather than redefined.
+from Mathlib's `Data.Real.GoldenRatio` throughout (`Real.goldenRatio`, `Real.goldenRatio_sq`, `Real.goldenRatio_ne_zero`,
+`Real.goldenConj_neg`, `Real.goldenRatio_add_goldenConj`, `Real.goldenRatio_mul_goldenConj`) rather than redefined.
 
 **Missing-interface note**: the "characteristic polynomial" and "eigenvalue" statements
 below (`A_charpoly_root_*`) are stated as direct root-of-`X²-tr·X+det` facts, not connected
@@ -48,7 +48,7 @@ open Real
 /-- **The fixed-point characterization of `φ`**: for positive real `x`, `x = 1 + 1/x` iff
     `x = φ`. (`F = T∘J`, `F(x) = 1+1/x`; the unique positive fixed point is the golden
     ratio, the negative root `ψ` being excluded by positivity.) -/
-theorem fixedPoint_iff_gold {x : ℝ} (hx : 0 < x) : x = 1 + 1 / x ↔ x = goldenRatio := by
+theorem fixedPoint_iff_gold {x : ℝ} (hx : 0 < x) : x = 1 + 1 / x ↔ x = Real.goldenRatio := by
   constructor
   · intro h
     have hx' : x ≠ 0 := hx.ne'
@@ -56,16 +56,16 @@ theorem fixedPoint_iff_gold {x : ℝ} (hx : 0 < x) : x = 1 + 1 / x ↔ x = golde
       have h' := h
       field_simp at h'
       nlinarith [h']
-    have hfactor : (x - goldenRatio) * (x - goldenConj) = 0 := by
-      nlinarith [heq, gold_add_goldConj, gold_mul_goldConj]
+    have hfactor : (x - Real.goldenRatio) * (x - goldenConj) = 0 := by
+      nlinarith [heq, Real.goldenRatio_add_goldenConj, Real.goldenRatio_mul_goldenConj]
     rcases mul_eq_zero.mp hfactor with h1 | h1
     · linarith [sub_eq_zero.mp h1]
-    · exact absurd (sub_eq_zero.mp h1 ▸ hx) (not_lt.mpr goldConj_neg.le)
+    · exact absurd (sub_eq_zero.mp h1 ▸ hx) (not_lt.mpr Real.goldenConj_neg.le)
   · intro h
     rw [h]
-    have h1 : goldenRatio ≠ 0 := gold_ne_zero
+    have h1 : Real.goldenRatio ≠ 0 := Real.goldenRatio_ne_zero
     field_simp
-    nlinarith [gold_sq, Real.sq_sqrt (show (0:ℝ) ≤ 5 from by norm_num)]
+    nlinarith [Real.goldenRatio_sq, Real.sq_sqrt (show (0:ℝ) ≤ 5 from by norm_num)]
 
 /-! ## 2–3. The matrix identities -/
 
@@ -93,7 +93,7 @@ theorem trace_A : A.trace = 3 := by unfold A; rw [Matrix.trace_fin_two_of]; norm
     hyperbolic `SL₂(ℤ)` element (`|tr| > 2` is the hyperbolicity criterion), integrality of
     the trace forces `|tr| ≥ 3`. -/
 theorem hyperbolic_trace_ge_three {n : ℤ} (h : 2 < |n|) : 3 ≤ |n| := by
-  rcases le_or_lt 0 n with hn | hn
+  rcases le_or_gt 0 n with hn | hn
   · rw [abs_of_nonneg hn] at h ⊢; omega
   · rw [abs_of_neg hn] at h ⊢; omega
 
@@ -105,23 +105,23 @@ theorem A_trace_attains_min : |A.trace| = 3 := by rw [trace_A]; decide
 
 /-- `φ²` is a root of `A`'s characteristic polynomial `X² - (tr A)·X + det A`. -/
 theorem A_charpoly_root_goldSq :
-    ((goldenRatio : ℝ) ^ 2) ^ 2 - (A.trace : ℝ) * (goldenRatio : ℝ) ^ 2 + (A.det : ℝ) = 0 := by
+    ((Real.goldenRatio : ℝ) ^ 2) ^ 2 - (A.trace : ℝ) * (Real.goldenRatio : ℝ) ^ 2 + (A.det : ℝ) = 0 := by
   rw [trace_A, det_A]
   push_cast
-  nlinarith [gold_sq]
+  nlinarith [Real.goldenRatio_sq]
 
 /-- `φ⁻²` is the other root of `A`'s characteristic polynomial. -/
 theorem A_charpoly_root_goldInvSq :
-    ((goldenRatio : ℝ)⁻¹ ^ 2) ^ 2 - (A.trace : ℝ) * (goldenRatio : ℝ)⁻¹ ^ 2 + (A.det : ℝ) = 0 := by
+    ((Real.goldenRatio : ℝ)⁻¹ ^ 2) ^ 2 - (A.trace : ℝ) * (Real.goldenRatio : ℝ)⁻¹ ^ 2 + (A.det : ℝ) = 0 := by
   rw [trace_A, det_A]
   push_cast
-  have hφ : goldenRatio ≠ 0 := gold_ne_zero
-  have hinv : (goldenRatio : ℝ)⁻¹ = goldenRatio - 1 := by
-    have h := gold_sq
+  have hφ : Real.goldenRatio ≠ 0 := Real.goldenRatio_ne_zero
+  have hinv : (Real.goldenRatio : ℝ)⁻¹ = Real.goldenRatio - 1 := by
+    have h := Real.goldenRatio_sq
     field_simp
     nlinarith [h, Real.sq_sqrt (show (0:ℝ) ≤ 5 from by norm_num)]
   rw [hinv]
-  nlinarith [gold_sq]
+  nlinarith [Real.goldenRatio_sq]
 
 /-! ## 7. The discriminant -/
 
@@ -135,24 +135,24 @@ theorem discrA_eq_five : discrA = 5 := by unfold discrA; rw [trace_A, det_A]; de
 /-- **`A`'s Möbius fixed points are `φ` and `-φ⁻¹`**: for `x ≠ -1`, `(2x+1)/(x+1) = x` iff
     `x = φ` or `x = -φ⁻¹`. -/
 theorem A_mobius_fixedPoints {x : ℝ} (hx : x + 1 ≠ 0) :
-    (2 * x + 1) / (x + 1) = x ↔ x = goldenRatio ∨ x = -goldenRatio⁻¹ := by
+    (2 * x + 1) / (x + 1) = x ↔ x = Real.goldenRatio ∨ x = -Real.goldenRatio⁻¹ := by
   have hiff : (2 * x + 1) / (x + 1) = x ↔ x ^ 2 - x - 1 = 0 := by
     rw [div_eq_iff hx]
     constructor <;> intro h <;> nlinarith [h]
   rw [hiff]
-  have hinv : -goldenRatio⁻¹ = goldenConj := by
-    rw [inv_gold]; ring
+  have hinv : -Real.goldenRatio⁻¹ = goldenConj := by
+    rw [Real.inv_goldenRatio]; ring
   rw [hinv]
   constructor
   · intro heq
-    have hfactor : (x - goldenRatio) * (x - goldenConj) = 0 := by
-      nlinarith [heq, gold_add_goldConj, gold_mul_goldConj]
+    have hfactor : (x - Real.goldenRatio) * (x - goldenConj) = 0 := by
+      nlinarith [heq, Real.goldenRatio_add_goldenConj, Real.goldenRatio_mul_goldenConj]
     rcases mul_eq_zero.mp hfactor with h1 | h1
     · exact Or.inl (sub_eq_zero.mp h1)
     · exact Or.inr (sub_eq_zero.mp h1)
   · rintro (rfl | rfl)
-    · nlinarith [gold_sq]
-    · nlinarith [gold_sq, gold_add_goldConj, gold_mul_goldConj]
+    · nlinarith [Real.goldenRatio_sq]
+    · nlinarith [Real.goldenRatio_sq, Real.goldenRatio_add_goldenConj, Real.goldenRatio_mul_goldenConj]
 
 /-! ## 9–10. The finite-place shadow kernel at the selected discriminant -/
 
@@ -188,14 +188,14 @@ theorem finitePlaceKernel_half {q : ℝ} (hq : 1 < q) :
 
 /-- **The exact specialization at the independently-selected discriminant `q=5`**:
     `K_{5,1}(1/2) = φ²`. -/
-theorem finitePlaceKernel_five_half : finitePlaceKernel 5 (1 / 2) = (goldenRatio : ℝ) ^ 2 := by
+theorem finitePlaceKernel_five_half : finitePlaceKernel 5 (1 / 2) = (Real.goldenRatio : ℝ) ^ 2 := by
   rw [finitePlaceKernel_half (by norm_num : (1:ℝ) < 5)]
   have h5sq : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
   have h5gt1 : (1:ℝ) < Real.sqrt 5 := by
     have h1 : Real.sqrt 1 < Real.sqrt 5 := Real.sqrt_lt_sqrt (by norm_num) (by norm_num)
     simpa using h1
   have hden : Real.sqrt 5 - 1 ≠ 0 := by linarith
-  unfold goldenRatio
+  unfold Real.goldenRatio
   field_simp
   nlinarith [h5sq]
 
@@ -207,7 +207,7 @@ theorem finitePlaceKernel_five_half : finitePlaceKernel 5 (1 / 2) = (goldenRatio
     evaluated at the principal-series center (`K_{discrA,1}(1/2)`, from the independent
     definition of §§9–10) are the same real number, `φ²`. -/
 theorem golden_convergence :
-    (goldenRatio : ℝ) ^ 2 = finitePlaceKernel (discrA : ℝ) (1 / 2) := by
+    (Real.goldenRatio : ℝ) ^ 2 = finitePlaceKernel (discrA : ℝ) (1 / 2) := by
   rw [discrA_eq_five]
   norm_cast
   rw [finitePlaceKernel_five_half]

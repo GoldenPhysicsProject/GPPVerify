@@ -42,7 +42,7 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
   have hlogcont : Tendsto (fun n : ℕ => Real.log (∏ j ∈ range n, ((1:ℝ) + lam ^ 2 / ((j:ℝ) + 1) ^ 2)))
       atTop (𝓝 (Real.log (Real.sinh (Real.pi * lam) / (Real.pi * lam)))) := by
     have hpos : (0:ℝ) < Real.sinh (Real.pi * lam) / (Real.pi * lam) := by
-      rcases hlam.lt_or_lt with h | h
+      rcases hlam.lt_or_gt with h | h
       · have h1 : Real.pi * lam < 0 := by nlinarith [Real.pi_pos]
         have h2 : Real.sinh (Real.pi * lam) < 0 := Real.sinh_neg_iff.mpr h1
         exact div_pos_of_neg_of_neg h2 h1
@@ -55,14 +55,15 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
   have hlogsum : ∀ n : ℕ, Real.log (∏ j ∈ range n, ((1:ℝ) + lam ^ 2 / ((j:ℝ) + 1) ^ 2))
       = ∑ j ∈ range n, Real.log (1 + lam ^ 2 / ((j:ℝ) + 1) ^ 2) := by
     intro n
-    exact Real.log_prod _ _ (fun j _ => (hterm_pos j).ne')
+    exact Real.log_prod (fun j _ => (hterm_pos j).ne')
   simp_rw [hlogsum] at hlogcont
   have hsummable : Summable (fun j : ℕ => Real.log (1 + lam ^ 2 / ((j:ℝ) + 1) ^ 2)) := by
     apply Summable.of_nonneg_of_le
       (fun j : ℕ => Real.log_nonneg
         (by rw [le_add_iff_nonneg_right]; positivity : (1:ℝ) ≤ 1 + lam^2/((j:ℝ)+1)^2))
       (fun j : ℕ => Real.log_le_sub_one_of_pos (hterm_pos j))
-    simpa using summable_inv_sq_shift.mul_left (lam^2)
+    simpa only [div_eq_mul_inv, one_mul, add_sub_cancel_left] using
+      summable_inv_sq_shift.mul_left (lam^2)
   exact (hsummable.hasSum_iff_tendsto_nat).mpr hlogcont
 
 /-! ## Step B: the Taylor series of each factor's `log(1+x)` -/

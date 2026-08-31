@@ -64,7 +64,6 @@ theorem shift_sub_I {z : ℂ} (hz0 : z ≠ 0) (hz1 : 1 + Complex.I * z ≠ 0) :
   unfold Pc
   rw [h1, h2, hgam1, hgamneg]
   field_simp
-  ring
 
 /-- **The `λ ↦ λ + i` weight-shift relation**: `P(z+i) = [(1-iz)/(iz)]·P(z)`, for `z ≠ 0`
 and `1-iz ≠ 0` (automatic whenever `z` is real). -/
@@ -88,7 +87,6 @@ theorem shift_add_I {z : ℂ} (hz0 : z ≠ 0) (hz1 : 1 - Complex.I * z ≠ 0) :
   unfold Pc
   rw [h1, h2, hgam2, hgampos]
   field_simp
-  ring
 
 /-- **For real `λ`, the exclusion hypotheses of `shift_sub_I`/`shift_add_I` are vacuous**:
 `1 + iλ ≠ 0` for every real `λ`. -/

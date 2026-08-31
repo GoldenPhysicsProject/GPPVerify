@@ -1,5 +1,5 @@
 import GppVerify.RiemannHypothesis.CauchyKernelPositive
-import Mathlib.NumberTheory.VonMangoldt
+import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
 
 /-!
@@ -59,7 +59,7 @@ theorem convolution_hasSupportIn {g : ℝ → ℝ} {L : ℝ}
   show (∫ y : ℝ, g y * g (y - x)) = 0
   have hzero : ∀ y : ℝ, g y * g (y - x) = 0 := by
     intro y
-    rcases le_or_lt |y| (L/2) with h1 | h1
+    rcases le_or_gt |y| (L/2) with h1 | h1
     · have h3 : |x| - |y| ≤ |y - x| := by
         have h4 := abs_sub_abs_le_abs_sub x y
         rwa [abs_sub_comm] at h4

@@ -1,5 +1,5 @@
 import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
-import Mathlib.Analysis.SpecialFunctions.Integrals
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 
 /-!
 # Yakaboylu's regularized matrix element (Lemma 4.3, eq. (49))
@@ -83,6 +83,6 @@ theorem tendsto_matrix_element_zero {σ : ℝ} (hσ : σ ≠ 1) :
     simp only [neg_ne_zero]
     exact pow_ne_zero 2 (sub_ne_zero.mpr hσ)
   have := hnum.div hden hne
-  simpa using this
+  simpa [Pi.div_def] using this
 
 end GppYakaboylu

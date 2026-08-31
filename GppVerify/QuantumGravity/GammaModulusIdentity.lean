@@ -1,5 +1,6 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.Analysis.SpecialFunctions.Gamma.Beta
-import Mathlib.Data.Complex.Trigonometric
+import Mathlib.Analysis.Complex.Trigonometric
 
 /-!
 # The Gamma-modulus face: `Γ(1+iλ)·Γ(1-iλ) = πλ/sinh(πλ)`
@@ -43,6 +44,5 @@ theorem gamma_one_add_mul_gamma_one_sub (lam : ℝ) (hlam : lam ≠ 0) :
     exact_mod_cast Real.sinh_ne_zero.mpr (mul_ne_zero Real.pi_ne_zero hlam)
   push_cast
   field_simp
-  ring
 
 end GppGammaModulus

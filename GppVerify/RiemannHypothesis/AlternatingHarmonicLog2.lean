@@ -1,5 +1,5 @@
-import Mathlib.Analysis.SpecialFunctions.Integrals
-import Mathlib.Algebra.GeomSum
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
+import Mathlib.Algebra.Order.Ring.GeomSum
 
 /-!
 # The alternating harmonic series: `Σ (−1)ᵏ/(k+1) = log 2`
@@ -74,14 +74,18 @@ theorem log_two_sub_partial (n : ℕ) :
     intro x hx
     rw [Set.uIcc_of_le (by norm_num : (0:ℝ) ≤ 1)] at hx
     have hx0 : (0:ℝ) ≤ x := hx.1
-    positivity
+    simp only [Pi.add_apply, id_eq]
+    exact ne_of_gt (by linarith)
   have hint2 : IntervalIntegrable
       (fun x : ℝ => ∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k) MeasureTheory.volume 0 1 := by
     apply Continuous.intervalIntegrable
-    exact continuous_finset_sum _ fun k _ => continuous_const.mul (continuous_pow k)
+    exact continuous_finsetSum _ fun k _ => continuous_const.mul (continuous_pow k)
   have hsum_int : ∫ x in (0:ℝ)..1, (∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k) =
       ∑ k ∈ Finset.range n, (-1:ℝ)^k / (k+1) := by
-    rw [intervalIntegral.integral_finset_sum
+    -- pin `f` explicitly: otherwise the integrability argument forces `f k` to
+    -- elaborate as the point-free `(fun _ => c) * (fun a => a ^ k)`, which no longer
+    -- matches the lambda in the goal.
+    rw [intervalIntegral.integral_finsetSum (f := fun k (x : ℝ) => (-1 : ℝ) ^ k * x ^ k)
       (fun k _ => (continuous_const.mul (continuous_pow k)).intervalIntegrable 0 1)]
     apply Finset.sum_congr rfl
     intro k _
@@ -97,6 +101,8 @@ theorem log_two_sub_partial (n : ℕ) :
     show 1 / (1 + x) - ∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k = (-x)^n / (1 + x)
     rw [sum_neg_pow_eq n hx0]
     field_simp
+    -- Mathlib 4.33: `field_simp` stops one `ring` step short here.
+    ring
   calc Real.log 2 - ∑ k ∈ Finset.range n, (-1:ℝ)^k / (k+1)
       = (∫ x in (0:ℝ)..1, 1 / (1 + x)) -
           ∫ x in (0:ℝ)..1, (∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k) := by
@@ -124,7 +130,8 @@ theorem remainder_bound (n : ℕ) :
     intro x hx
     rw [Set.uIcc_of_le (by norm_num : (0:ℝ) ≤ 1)] at hx
     have hx0 : (0:ℝ) ≤ x := hx.1
-    positivity
+    simp only [Pi.add_apply, id_eq]
+    exact ne_of_gt (by linarith)
   have hintP : IntervalIntegrable (fun x : ℝ => x^n) MeasureTheory.volume 0 1 :=
     (continuous_pow n).intervalIntegrable 0 1
   have hval : ∫ x in (0:ℝ)..1, x^n = 1 / ((n:ℝ) + 1) := by

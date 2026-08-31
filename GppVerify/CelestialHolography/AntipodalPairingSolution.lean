@@ -73,10 +73,20 @@ theorem antipodal_solves_conservation (x5 y5 M : ℝ) (h5 : x5 ^ 2 + y5 ^ 2 ≠ 
   intro r2 x6 y6 ω5 ω6
   have hr2 : r2 ≠ 0 := h5
   have h1r2 : (1 : ℝ) + r2 ≠ 0 := by positivity
+  -- Mathlib 4.33: `field_simp` clears `r2` but then squares it and leaves the result
+  -- expanded, so the surviving denominator is the quartic `2x²y² + x⁴ + y⁴` rather than
+  -- anything matching `hr2`. Restate the fact in exactly that expanded shape.
+  have hq : x5 ^ 2 * y5 ^ 2 * 2 + x5 ^ 4 + y5 ^ 4 ≠ 0 := by
+    have hsq : x5 ^ 2 * y5 ^ 2 * 2 + x5 ^ 4 + y5 ^ 4 = (x5 ^ 2 + y5 ^ 2) ^ 2 := by ring
+    rw [hsq]
+    exact pow_ne_zero 2 h5
   funext i
+  -- Mathlib 4.33: `fin_cases` now yields indices of the form `⟨0, _⟩` rather than the
+  -- literals `0`/`1`/`2`/`3`, so the hand-listed `Matrix.cons_val_*` lemmas no longer fire
+  -- and `![…] ⟨0, _⟩` survives into `field_simp`'s output unreduced. Plain `simp` carries
+  -- the `Fin.isValue` normalisation that bridges the two.
   fin_cases i <;>
-    simp only [qVec, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      Matrix.cons_val_two, Matrix.tail_cons, Matrix.cons_val_three, x6, y6, ω5, ω6, r2] <;>
-    field_simp <;> ring
+    simp [qVec, x6, y6, ω5, ω6, r2] <;>
+    field_simp <;> try ring
 
 end GppAntipodalPairing

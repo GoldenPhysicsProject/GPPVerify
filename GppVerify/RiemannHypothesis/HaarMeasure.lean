@@ -96,7 +96,10 @@ theorem adelic_haar_self_dual
   -- Apply the geometric result from HaarSelfDuality.lean
   have key : Measure.map (inv_equiv : G → G) μ = μ :=
     haar_invariant_under_automorphism μ inv_equiv h_cont h_symm
-  convert key using 2
+  -- `(inv_equiv : G → G)` is definitionally `Inv.inv`, so this closes directly.
+  -- (Under Mathlib 4.19 this was `convert key using 2`; 4.33's `convert` no longer
+  -- discharges the residual coercion goal, and `exact` is the honest tactic anyway.)
+  exact key
 
 -- ============================================================
 -- §2  Compactness: the compact factor K¹ = A¹/Q×

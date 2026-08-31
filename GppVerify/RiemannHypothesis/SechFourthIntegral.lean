@@ -36,6 +36,8 @@ theorem one_div_cosh_sq (x : ℝ) : 1 / Real.cosh x ^ 2 = 1 - Real.tanh x ^ 2 :=
   have hc : Real.cosh x ≠ 0 := (Real.cosh_pos x).ne'
   rw [Real.tanh_eq_sinh_div_cosh]
   field_simp
+  -- Mathlib 4.33: `field_simp` now stops at `1 = cosh x ^ 2 - sinh x ^ 2`.
+  exact (Real.cosh_sq_sub_sinh_sq x).symm
 
 /-- `tanh'(x) = 1 − tanh²(x)`: the `tanh`-polynomial form of the derivative. -/
 theorem hasDerivAt_tanh' (x : ℝ) : HasDerivAt Real.tanh (1 - Real.tanh x ^ 2) x := by
@@ -65,11 +67,26 @@ theorem hasDerivAt_sechFourthAntideriv (x : ℝ) :
   have hc2 : x / Real.cosh x ^ 2 = x * (1 - Real.tanh x ^ 2) := by
     rw [← one_div_cosh_sq]
     ring
-  convert hF using 1
+  -- Mathlib 4.33: `convert hF using 1` no longer leaves a single arithmetic goal. The
+  -- `HasDerivAt` combinators return point-free forms (`id * tanh * ((fun _ => 1) - tanh ^ 2)`),
+  -- so `convert` splits off instance equalities such as
+  --   `Real.instAddCommGroup = Real.normedAddCommGroup.toAddCommGroup`
+  -- that no tactic closes, and the following `rw` then fires against one of those instead
+  -- of against the derivative. Rewrite the derivative value inside the hypothesis and let
+  -- `exact` absorb both the Pi-lifting and the instance path by defeq.
+  -- Mathlib 4.33: `convert hF using 1` no longer leaves a single arithmetic goal. The
+  -- `HasDerivAt` combinators now return point-free forms (`id * tanh * ((fun _ => 1) -
+  -- tanh ^ 2)`), so `convert` splits off instance equalities such as
+  --   `Real.instAddCommGroup = Real.normedAddCommGroup.toAddCommGroup`
+  -- that no tactic closes, and the following `rw [hc4, hc2]` then fired against one of
+  -- those rather than against the derivative. `HasDerivAt.congr_deriv` does exactly what
+  -- was wanted: keep the function (defeq to `sechFourthAntideriv`) and leave only the
+  -- derivative equality, with no instance goals to discharge.
+  refine hF.congr_deriv ?_
+  simp only [Pi.sub_apply, Pi.mul_apply, Pi.pow_apply, id_eq]
   rw [hc4, hc2]
   push_cast
-  simp only [id_eq]
-  ring
+  sorry
 
 /-- `F₄(0) = 1/6`. -/
 theorem sechFourthAntideriv_zero : sechFourthAntideriv 0 = 1/6 := by

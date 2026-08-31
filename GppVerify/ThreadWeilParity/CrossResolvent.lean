@@ -5,6 +5,8 @@ import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Data.Matrix.Mul
 import Mathlib.Data.Complex.Basic
 import Mathlib.Analysis.RCLike.Basic
+import Mathlib.Analysis.Complex.Order
+import Mathlib.Data.Complex.BigOperators
 
 /-!
 # Thread Weil-Parity — cross-resolvent / parity-crossing core
@@ -49,8 +51,8 @@ theorem cross_resolvent_det_identity
     (α : ℂ) (p β η' : n → ℂ) (E : Matrix n n ℂ) (z : ℂ)
     (hD : Invertible (E - z • (1 : Matrix n n ℂ))) :
     let A : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ :=
-      Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => α) (fun (_ : Unit) j => p j)
-        (fun i (_ : Unit) => β i) E
+      Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => α) (Matrix.of fun (_ : Unit) j => p j)
+        (Matrix.of fun i (_ : Unit) => β i) E
     let B : Matrix n n ℂ := E - Matrix.vecMulVec β η'
     let e0 : Unit ⊕ n → ℂ := Sum.elim (fun _ => (1 : ℂ)) 0
     let η : Unit ⊕ n → ℂ := Sum.elim (fun _ => (1 : ℂ)) η'
@@ -62,11 +64,11 @@ theorem cross_resolvent_det_identity
   set D : Matrix n n ℂ := E - z • (1 : Matrix n n ℂ) with hDdef
   set AzI : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ := A - z • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ)
     with hAzIdef
-  have hAdef : A = Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => α) (fun (_ : Unit) j => p j)
-      (fun i (_ : Unit) => β i) E := rfl
+  have hAdef : A = Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => α) (Matrix.of fun (_ : Unit) j => p j)
+      (Matrix.of fun i (_ : Unit) => β i) E := rfl
   -- Step 1: block form of `A - zI`.
-  have hblock : AzI = Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => α - z)
-      (fun (_ : Unit) j => p j) (fun i (_ : Unit) => β i) D := by
+  have hblock : AzI = Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => α - z)
+      (Matrix.of fun (_ : Unit) j => p j) (Matrix.of fun i (_ : Unit) => β i) D := by
     rw [hAzIdef, hDdef, hAdef]
     ext (i | i) (j | j) <;>
       simp [Matrix.fromBlocks, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply]
@@ -117,12 +119,14 @@ theorem cross_resolvent_det_identity
   have hxeq : AzI *ᵥ x = e0 := by
     rw [hblock]
     ext (i | i)
-    · show ∑ j : Unit ⊕ n, (Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => α - z)
-          (fun (_ : Unit) j => p j) (fun i (_ : Unit) => β i) D) (Sum.inl i) j * x j = e0 (Sum.inl i)
+    · show ∑ j : Unit ⊕ n, (Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => α - z)
+          (Matrix.of fun (_ : Unit) j => p j) (Matrix.of fun i (_ : Unit) => β i) D) (Sum.inl i) j * x j = e0 (Sum.inl i)
       rw [Fintype.sum_sum_type]
+      -- Mathlib 4.33: the blocks must be `Matrix.of ...`, so `fromBlocks_apply₁₁/₁₂`
+      -- leave an `of` application behind; `Matrix.of_apply` is what strips it.
       simp only [hxdef, Sum.elim_inl, Sum.elim_inr, Matrix.fromBlocks_apply₁₁,
-        Matrix.fromBlocks_apply₁₂, Finset.sum_const, Finset.card_univ, Fintype.card_unit,
-        one_smul, Matrix.mulVec, dotProduct]
+        Matrix.fromBlocks_apply₁₂, Matrix.of_apply, Finset.sum_const, Finset.card_univ,
+        Fintype.card_unit, one_smul, Matrix.mulVec, dotProduct]
       show (α - z) * x0 + ∑ j, p j * x' j = 1
       rw [hx'def]
       simp only [Pi.smul_apply, smul_eq_mul, Matrix.mulVec, dotProduct]
@@ -137,11 +141,11 @@ theorem cross_resolvent_det_identity
       have hstep : (α - z) * s⁻¹ + -s⁻¹ * (p ⬝ᵥ (D⁻¹ *ᵥ β)) = s * s⁻¹ := by
         rw [hsdef]; ring
       rw [hstep, mul_inv_cancel₀ hs_ne]
-    · show ∑ j : Unit ⊕ n, (Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => α - z)
-          (fun (_ : Unit) j => p j) (fun i (_ : Unit) => β i) D) (Sum.inr i) j * x j = e0 (Sum.inr i)
+    · show ∑ j : Unit ⊕ n, (Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => α - z)
+          (Matrix.of fun (_ : Unit) j => p j) (Matrix.of fun i (_ : Unit) => β i) D) (Sum.inr i) j * x j = e0 (Sum.inr i)
       rw [Fintype.sum_sum_type]
       simp only [hxdef, Sum.elim_inl, Sum.elim_inr, Matrix.fromBlocks_apply₂₁,
-        Matrix.fromBlocks_apply₂₂]
+        Matrix.fromBlocks_apply₂₂, Matrix.of_apply]
       show ∑ _j : Unit, β i * x0 + ∑ j, D i j * x' j = e0 (Sum.inr i)
       show ∑ _j : Unit, β i * x0 + ∑ j, D i j * x' j = (0 : n → ℂ) i
       simp only [Pi.zero_apply, Finset.sum_const, Finset.card_univ, Fintype.card_unit, one_smul,
@@ -181,7 +185,6 @@ theorem cross_resolvent_det_identity
   -- Step 6: assemble.
   rw [hdetB, hdetA, ← hxinv, hetax, hx0def]
   field_simp
-  ring
 
 end CrossResolventDeterminant
 
@@ -211,7 +214,7 @@ theorem hermitian_dotProduct_mulVec {n : Type*} [Fintype n] [DecidableEq n]
     rw [Matrix.star_mulVec]
     simp
   rw [h1, h2, hM.eq, hx]
-  simp [Matrix.dotProduct_smul]
+  simp [dotProduct_smul]
 
 /-- Formalization-queue item `0cf9aebf`, "Parity crossing obstruction from rank-one
 Sylvester displacement". If `C Aplus - Aminus C = β ηᴴ` and `lam` is a common eigenvalue
@@ -227,9 +230,26 @@ theorem parity_crossing_obstruction
     (lam : ℂ) (e : p → ℂ) (o : q → ℂ) (ho : o ≠ 0)
     (he_eig : Aplus *ᵥ e = lam • e) (ho_eig : Aminus *ᵥ o = lam • o) :
     (star o ⬝ᵥ β) * (star η ⬝ᵥ e) = 0 := by
+  -- Mathlib 4.33: `dotProduct_star_self_eq_zero` is stated for a `StarOrderedRing`, and on ℂ
+  -- the only route to that is `RCLike.toStarOrderedRing`, which lands at `RCLike.toPartialOrder`
+  -- while the ambient instance here is `Complex.partialOrder`. Instance search will not bridge
+  -- the two, so `open scoped ComplexOrder` does not rescue the old one-liner. Prove it directly
+  -- from `normSq` instead, which is independent of which order instance is in scope.
   have hoo_ne : star o ⬝ᵥ o ≠ 0 := by
-    rw [Ne, dotProduct_star_self_eq_zero]
-    exact ho
+    intro h
+    apply ho
+    have hflat : ∑ j, star (o j) * o j = 0 := by
+      simpa only [dotProduct, Pi.star_apply] using h
+    have hsum : ∑ j, Complex.normSq (o j) = 0 := by
+      have hre := congrArg Complex.re hflat
+      rw [Complex.re_sum] at hre
+      simp only [Complex.star_def] at hre
+      simpa only [Complex.zero_re, Complex.mul_re, Complex.conj_re, Complex.conj_im,
+        Complex.normSq_apply, neg_mul, sub_neg_eq_add] using hre
+    funext i
+    have hi := (Finset.sum_eq_zero_iff_of_nonneg
+      (fun j _ => Complex.normSq_nonneg (o j))).mp hsum i (Finset.mem_univ i)
+    simpa [Complex.normSq_eq_zero] using hi
   have hreal : star lam = lam := by
     have h1 : star o ⬝ᵥ (Aminus *ᵥ o) = lam * (star o ⬝ᵥ o) := by
       rw [ho_eig, dotProduct_smul, smul_eq_mul]

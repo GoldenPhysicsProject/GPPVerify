@@ -24,13 +24,15 @@ theorem weighted_first_moment_sq_le
     (hw : ∀ i ∈ s, 0 ≤ w i) :
     (∑ i ∈ s, w i * x i) ^ 2 ≤
       (∑ i ∈ s, w i) * (∑ i ∈ s, w i * x i ^ 2) := by
-  apply Finset.sum_sq_le_sum_mul_sum_of_sq_eq_mul s
+  apply Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul s
   · intro i hi
     exact hw i hi
   · intro i hi
     exact mul_nonneg (hw i hi) (sq_nonneg (x i))
   · intro i hi
-    ring
+    -- Mathlib 4.33: this side goal now arrives already normalised
+    -- (`w i ^ 2 * x i ^ 2 ≤ w i ^ 2 * x i ^ 2`), so `ring` has nothing to do and fails.
+    exact le_of_eq (by ring)
 
 /-- The finite unnormalized weighted variance numerator is nonnegative. -/
 theorem weighted_variance_numerator_nonneg
@@ -55,8 +57,7 @@ theorem normalized_weighted_variance_nonneg
           ((∑ i ∈ s, w i * x i) / (∑ i ∈ s, w i)) ^ 2 =
         ((∑ i ∈ s, w i) * (∑ i ∈ s, w i * x i ^ 2) -
           (∑ i ∈ s, w i * x i) ^ 2) / (∑ i ∈ s, w i) ^ 2 by
-        field_simp [hWne]
-        ring]
+        field_simp [hWne]]
   exact div_nonneg hnum (sq_nonneg _)
 
 end GppWeightedVarianceFinite

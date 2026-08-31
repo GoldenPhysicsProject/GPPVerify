@@ -137,7 +137,7 @@ theorem tendsto_abel_formula_zero {γ : ℝ} (hγ : γ ≠ 0) :
     simpa using this
   have hγ2 : γ ^ 2 ≠ 0 := pow_ne_zero 2 hγ
   have := hnum.div hden hγ2
-  simpa using this
+  simpa [Pi.div_def] using this
 
 /-! ## The full-line form
 

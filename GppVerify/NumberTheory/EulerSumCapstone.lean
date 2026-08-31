@@ -119,13 +119,13 @@ theorem tsum_term_offdiag :
 
 theorem Dgc_eq_union : (Dg : Set (ℕ × ℕ))ᶜ = Lt ∪ Gt := by
   ext p
-  simp only [Dg, Lt, Gt, Set.mem_compl_iff, Set.mem_setOf_eq, Set.mem_union]
+  simp only [Dg, Lt, Gt, Set.mem_compl_iff, Set.mem_ofPred_eq, Set.mem_union]
   omega
 
 theorem disjoint_Lt_Gt : Disjoint Lt Gt := by
   rw [Set.disjoint_left]
   intro p hp hp'
-  simp only [Lt, Gt, Set.mem_setOf_eq] at hp hp'
+  simp only [Lt, Gt, Set.mem_ofPred_eq] at hp hp'
   omega
 
 theorem tsum_term_offdiag_split :
@@ -164,13 +164,13 @@ def Le : Set (ℕ × ℕ) := {p | p.1 ≤ p.2}
 
 theorem Le_eq_union : (Le : Set (ℕ × ℕ)) = Lt ∪ Dg := by
   ext p
-  simp only [Le, Lt, Dg, Set.mem_setOf_eq, Set.mem_union]
+  simp only [Le, Lt, Dg, Set.mem_ofPred_eq, Set.mem_union]
   omega
 
 theorem disjoint_Lt_Dg : Disjoint Lt Dg := by
   rw [Set.disjoint_left]
   intro p hp hp'
-  simp only [Lt, Dg, Set.mem_setOf_eq] at hp hp'
+  simp only [Lt, Dg, Set.mem_ofPred_eq] at hp hp'
   omega
 
 theorem tsum_term_Le :
@@ -193,7 +193,6 @@ theorem two_mul_tsum_term_Le :
 theorem M2_eq : (Real.pi ^ 4 / 90) / Real.pi ^ 4 = 1 / 90 := by
   have hpi4 : Real.pi ^ 4 ≠ 0 := by positivity
   field_simp [hpi4]
-  ring
 
 /-- **Euler's second sum, `Σₙ Hₙ/n³ = (5/4)ζ(4) = π⁴/72`, is NOT formalized.**
 

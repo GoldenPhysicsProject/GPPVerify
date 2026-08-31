@@ -1,4 +1,6 @@
+import Mathlib.RingTheory.Valuation.Discrete.RankOne
 import Mathlib.NumberTheory.NumberField.AdeleRing
+import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 import Mathlib.Topology.Algebra.Valued.LocallyCompact
 import Mathlib.Data.Int.WithZero
 import Mathlib.RingTheory.Valuation.RankOne
@@ -128,17 +130,18 @@ open wall. -/
 noncomputable instance adicCompletion.valuedRankOne
     {R : Type*} [CommRing R] [IsDedekindDomain R] (K : Type*) [Field K] [Algebra R K]
     [IsFractionRing R K] (v : IsDedekindDomain.HeightOneSpectrum R) :
-    (Valued.v : Valuation (v.adicCompletion K) (WithZero (Multiplicative ℤ))).RankOne where
-  hom := WithZeroMulInt.toNNReal (e := 2) (by norm_num)
-  strictMono' := WithZeroMulInt.toNNReal_strictMono (by norm_num : (1 : ℝ≥0) < 2)
-  nontrivial' := by
-    obtain ⟨π, hπ⟩ := v.valuation_exists_uniformizer K
-    refine ⟨(π : v.adicCompletion K), ?_, ?_⟩
-    · rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation', hπ]
-      exact WithZero.coe_ne_zero
-    · rw [IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation', hπ]
-      refine ne_of_lt ?_
-      rw [← WithZero.coe_one, ← ofAdd_zero, WithZero.coe_lt_coe, ofAdd_lt]
-      norm_num
+    (Valued.v : Valuation (v.adicCompletion K) (WithZero (Multiplicative ℤ))).RankOne :=
+  -- Mathlib 4.33 restructured `Valuation.RankOne`: it now extends `RankLeOne` (whose
+  -- `hom'` maps out of `ValueGroup₀ v`, not out of `Γ₀` directly) together with
+  -- `Valuation.IsNontrivial`. The hand-rolled `hom`/`strictMono'`/`nontrivial'` fields
+  -- this instance used no longer exist. Mathlib now also supplies
+  -- `IsRankOneDiscrete` for `v.adicCompletion K` at full Dedekind-domain generality, so
+  -- the whole instance reduces to its general `rankOne` constructor and the bespoke
+  -- uniformizer argument is no longer needed. The `IsRankOneDiscrete` instance for
+  -- `v.adicCompletion K` lives in `Mathlib.NumberTheory.NumberField.Completion.FinitePlace`
+  -- and is not reachable from the other imports here, so that import is load-bearing.
+  Valuation.IsRankOneDiscrete.rankOne
+    (Valued.v : Valuation (v.adicCompletion K) (WithZero (Multiplicative ℤ)))
+    (e := 2) (by norm_num)
 
 end GppRH

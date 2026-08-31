@@ -150,7 +150,7 @@ theorem logPrime_lattice_injective {S : Finset ℕ} (hS : ∀ p ∈ S, Nat.Prime
       intro p hp
       have hp0 : (p : ℝ) ≠ 0 := by exact_mod_cast (hS p hp).pos.ne'
       exact pow_ne_zero _ hp0
-    rw [hcast, Real.log_prod S (fun p => (p : ℝ) ^ (C p)) hne]
+    rw [hcast, Real.log_prod hne]
     exact Finset.sum_congr rfl (fun p _ => by rw [Real.log_pow])
   rw [hprod A, hprod B, sub_eq_zero] at hk_sum
   -- both products are positive naturals; `log` is injective there, so the naturals agree

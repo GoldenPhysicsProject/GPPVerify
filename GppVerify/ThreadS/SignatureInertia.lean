@@ -1,4 +1,4 @@
-import Mathlib.LinearAlgebra.Matrix.Spectrum
+import Mathlib.Analysis.Matrix.Spectrum
 import Mathlib.LinearAlgebra.Matrix.PosDef
 
 /-!
@@ -53,7 +53,7 @@ ambient dimension. This is the arithmetic core of the whole inertia mechanism: a
 independently obtained bound on one component constrains the others once the total is
 fixed.
 
-Proved by two applications of `Finset.filter_card_add_filter_neg_card_eq_card`: first split
+Proved by two applications of `Finset.card_filter_add_card_filter_not`: first split
 `univ` into `{eigenvalues i ≥ 0}` and its negation `{eigenvalues i < 0}` (giving `nNeg`
 directly), then split `{eigenvalues i ≥ 0}` into `{eigenvalues i = 0}` and its negation
 `{eigenvalues i ≠ 0} = {eigenvalues i > 0}` on that subset (giving `nZero` and `nPos`). -/
@@ -61,7 +61,7 @@ theorem inertia_sum : nPos hQ + nNeg hQ + nZero hQ = Fintype.card n := by
   classical
   have hstep1 : (Finset.univ.filter (fun i => 0 ≤ hQ.eigenvalues i)).card +
       (Finset.univ.filter (fun i => ¬ 0 ≤ hQ.eigenvalues i)).card = Fintype.card n := by
-    rw [Finset.filter_card_add_filter_neg_card_eq_card, Finset.card_univ]
+    rw [Finset.card_filter_add_card_filter_not, Finset.card_univ]
   have hneg_eq : (Finset.univ.filter (fun i => ¬ 0 ≤ hQ.eigenvalues i)) =
       (Finset.univ.filter (fun i => hQ.eigenvalues i < 0)) := by
     apply Finset.filter_congr; intro i _; exact not_le
@@ -71,7 +71,7 @@ theorem inertia_sum : nPos hQ + nNeg hQ + nZero hQ = Fintype.card n := by
       ((Finset.univ.filter (fun i => 0 ≤ hQ.eigenvalues i)).filter
         (fun i => ¬ hQ.eigenvalues i = 0)).card
       = (Finset.univ.filter (fun i => 0 ≤ hQ.eigenvalues i)).card := by
-    rw [Finset.filter_card_add_filter_neg_card_eq_card]
+    rw [Finset.card_filter_add_card_filter_not]
   have hzero_eq : (Finset.univ.filter (fun i => 0 ≤ hQ.eigenvalues i)).filter
         (fun i => hQ.eigenvalues i = 0) = Finset.univ.filter (fun i => hQ.eigenvalues i = 0) := by
     rw [Finset.filter_filter]

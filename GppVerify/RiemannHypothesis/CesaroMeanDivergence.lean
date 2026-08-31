@@ -1,4 +1,4 @@
-import Mathlib.Analysis.SpecialFunctions.Integrals
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
 
 /-!
@@ -35,7 +35,7 @@ theorem tendsto_rpow_div_const_mul_log_atTop {r k : ℝ} (hr : 0 < r) (hk : 0 < 
     Tendsto (fun x : ℝ => x ^ r / (k * Real.log x)) atTop atTop := by
   rw [Filter.tendsto_atTop]
   intro M
-  rcases le_or_lt M 0 with hM | hM
+  rcases le_or_gt M 0 with hM | hM
   · filter_upwards [eventually_gt_atTop (1 : ℝ)] with x hx
     have hlog : 0 < Real.log x := Real.log_pos hx
     have hxr : 0 < x ^ r := Real.rpow_pos_of_pos (lt_trans one_pos hx) r
@@ -58,7 +58,6 @@ theorem tendsto_rpow_div_const_mul_log_atTop {r k : ℝ} (hr : 0 < r) (hk : 0 < 
       mul_le_mul_of_nonneg_left step1 hM.le
     have step3 : M * (k * (1 / (k * M) * x ^ r)) = x ^ r := by
       field_simp
-      ring
     linarith [step2, step3]
 
 /-- Core divergence estimate for `c > 0`: `(R^c - R^{-c}) / (c · 2 log R) → +∞`. -/
@@ -66,7 +65,7 @@ theorem tendsto_cesaro_diff_div_log_atTop_pos {c : ℝ} (hc : 0 < c) :
     Tendsto (fun R : ℝ => (R ^ c - R ^ (-c)) / (c * (2 * Real.log R))) atTop atTop := by
   rw [Filter.tendsto_atTop]
   intro M
-  rcases le_or_lt M 0 with hM | hM
+  rcases le_or_gt M 0 with hM | hM
   · filter_upwards [eventually_gt_atTop (1 : ℝ)] with R hR
     have hRpos : 0 < R := lt_trans one_pos hR
     have hlog : 0 < Real.log R := Real.log_pos hR
@@ -114,7 +113,7 @@ theorem tendsto_cesaro_diff_div_log_atTop_pos {c : ℝ} (hc : 0 < c) :
     leaving the ratio unchanged). -/
 theorem tendsto_cesaro_diff_div_log_atTop {c : ℝ} (hc : c ≠ 0) :
     Tendsto (fun R : ℝ => (R ^ c - R ^ (-c)) / (c * (2 * Real.log R))) atTop atTop := by
-  rcases hc.lt_or_lt with hneg | hpos
+  rcases hc.lt_or_gt with hneg | hpos
   · have hd : 0 < -c := by linarith
     have key := tendsto_cesaro_diff_div_log_atTop_pos hd
     have heq : ∀ R : ℝ, (R ^ (-c) - R ^ (-(-c))) / ((-c) * (2 * Real.log R)) =
@@ -144,7 +143,7 @@ theorem tendsto_cesaro_mean_atTop_of_ne {σ : ℝ} (hσ : σ ≠ 1 / 2) :
         ((2 * σ - 1) * (2 * Real.log R))) := by
     filter_upwards [eventually_gt_atTop (0 : ℝ)] with R hR
     have hRinv : (0 : ℝ) < 1 / R := by positivity
-    have h0 : (0 : ℝ) ∉ Set.uIcc (1 / R) R := Set.not_mem_uIcc_of_lt hRinv hR
+    have h0 : (0 : ℝ) ∉ Set.uIcc (1 / R) R := Set.notMem_uIcc_of_lt hRinv hR
     rw [integral_rpow (Or.inr ⟨hrne, h0⟩),
         show (2 * σ - 2 + 1 : ℝ) = 2 * σ - 1 by ring,
         show (1 / R : ℝ) = R⁻¹ by rw [one_div],

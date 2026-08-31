@@ -88,7 +88,7 @@ instance isAddHaarMeasure_comap :
   map_add_left_eq_self := by
     intro x
     refine Measure.ext fun S hS => ?_
-    have hcont : Continuous (fun z : PadicInt p => x + z) := continuous_add_left x
+    have hcont : Continuous (fun z : PadicInt p => x + z) := continuous_const_add x
     have hpre : MeasurableSet ((fun z => x + z) ⁻¹' S) := hS.preimage hcont.measurable
     rw [Measure.map_apply hcont.measurable hS, comap_apply p hpre, comap_apply p hS]
     have himg : coeAddHom p '' ((fun z => x + z) ⁻¹' S) =
@@ -163,7 +163,9 @@ theorem image_span_pow_eq_closedBall (n : ℕ) :
   · intro hx
     have hx1 : ‖x‖ ≤ 1 := le_trans hx hle1
     refine ⟨⟨x, hx1⟩, (PadicInt.norm_le_pow_iff_mem_span_pow ⟨x, hx1⟩ n).mp ?_, rfl⟩
-    rw [PadicInt.norm_def]
+    -- Mathlib 4.33: `rw [PadicInt.norm_def]` no longer matches here ("did not find an
+    -- occurrence of ‖?m‖"), but the lemma is `rfl` — `‖(⟨x, hx1⟩ : ℤ_[p])‖` is definitionally
+    -- `‖x‖` — so `exact` closes it without needing the rewrite to fire.
     exact hx
 
 /-- **The payoff**: `fieldHaarMeasure p (pⁿ ℤ_p) = p⁻ⁿ`, transferred from the

@@ -116,7 +116,7 @@ theorem tendsto_dampedCosAntideriv {b x : ℝ} (hb : 0 < b) :
           ≤ |x * Real.sin (x*t)| + |b * Real.cos (x*t)| := by
         rw [sub_eq_add_neg]
         calc |x * Real.sin (x*t) + -(b * Real.cos (x*t))|
-            ≤ |x * Real.sin (x*t)| + |-(b * Real.cos (x*t))| := abs_add _ _
+            ≤ |x * Real.sin (x*t)| + |-(b * Real.cos (x*t))| := abs_add_le _ _
           _ = |x * Real.sin (x*t)| + |b * Real.cos (x*t)| := by rw [abs_neg]
       have hs : |x * Real.sin (x*t)| ≤ |x| := by
         rw [abs_mul]

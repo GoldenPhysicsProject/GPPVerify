@@ -1,6 +1,6 @@
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
 import GppVerify.RiemannHypothesis.AbelCesaroRegularization
-import Mathlib.Data.Complex.Trigonometric
+import Mathlib.Analysis.Complex.Trigonometric
 import Mathlib.MeasureTheory.Measure.Lebesgue.Integral
 
 /-!

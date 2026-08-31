@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import Mathlib.MeasureTheory.Integral.IntegralEqImproper
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Analysis.SpecialFunctions.Log.Deriv
@@ -42,10 +43,10 @@ theorem hasDerivAt_tanh (x : ℝ) : HasDerivAt Real.tanh (1 / Real.cosh x ^ 2) x
     rw [show Real.cosh x * Real.cosh x - Real.sinh x * Real.sinh x =
         Real.cosh x ^ 2 - Real.sinh x ^ 2 by ring, Real.cosh_sq_sub_sinh_sq]
   rw [heq] at h
-  have hfun : (fun y => Real.sinh y / Real.cosh y) = Real.tanh := by
-    funext y
-    rw [Real.tanh_eq_sinh_div_cosh]
-  rwa [hfun] at h
+  have hfun : Real.tanh = Real.sinh / Real.cosh :=
+    funext fun y => Real.tanh_eq_sinh_div_cosh y
+  rw [hfun]
+  exact h
 
 /-- The antiderivative: `F(u) = u·tanh(u) − log(cosh u)`. -/
 noncomputable def sechSqAntideriv (u : ℝ) : ℝ := u * Real.tanh u - Real.log (Real.cosh u)
@@ -61,10 +62,15 @@ theorem hasDerivAt_sechSqAntideriv (x : ℝ) :
       (Real.sinh x / Real.cosh x) x :=
     (Real.hasDerivAt_cosh x).log hc
   have h := h1.sub h2
-  convert h using 1
-  rw [Real.tanh_eq_sinh_div_cosh]
-  field_simp
-  ring
+  -- 4.33: `convert` strands defeq instance-path goals here. Rewrite the derivative
+  -- value explicitly and let defeq match the function.
+  have hval : (1 * Real.tanh x + x * (1 / Real.cosh x ^ 2)) - Real.sinh x / Real.cosh x
+      = x / Real.cosh x ^ 2 := by
+    rw [Real.tanh_eq_sinh_div_cosh]
+    field_simp
+    ring
+  rw [← hval]
+  exact h
 
 /-- The closed-form rewrite of the antiderivative in terms of `E = e^{−2u}`:
     `F(u) = log 2 − 2u·E/(1+E) − log(1+E)`, valid for every `u`. This is the form whose
@@ -83,7 +89,6 @@ theorem sechSqAntideriv_eq (u : ℝ) :
     rw [Real.tanh_eq_sinh_div_cosh, Real.sinh_eq, Real.cosh_eq, hsplit]
     have hd : Real.exp u + Real.exp u * Real.exp (-(2 * u)) ≠ 0 := by positivity
     field_simp
-    ring
   have hcosh : Real.cosh u = Real.exp u * (1 + Real.exp (-(2 * u))) / 2 := by
     rw [Real.cosh_eq, hsplit]
     ring
@@ -117,7 +122,7 @@ theorem tendsto_sechSqAntideriv_log_two :
       (fun u : ℝ => 2 * u * Real.exp (-(2 * u)) / (1 + Real.exp (-(2 * u))))
       atTop (nhds 0) := by
     have h := hnum.div hden one_ne_zero
-    simpa only [zero_div] using h
+    simpa only [Pi.div_def, zero_div] using h
   have hB : Tendsto (fun u : ℝ => Real.log (1 + Real.exp (-(2 * u)))) atTop (nhds 0) := by
     have h : Tendsto (fun u : ℝ => Real.log (1 + Real.exp (-(2 * u)))) atTop
         (nhds (Real.log 1)) :=

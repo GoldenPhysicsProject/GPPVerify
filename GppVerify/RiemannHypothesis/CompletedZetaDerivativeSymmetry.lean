@@ -41,7 +41,14 @@ lemma one_sub_ne_one {s : ℂ} (hs0 : s ≠ 0) : 1 - s ≠ 1 := by
 theorem completedRiemannZeta_deriv_reflection {s : ℂ} (hs0 : s ≠ 0) (hs1 : s ≠ 1) :
     deriv completedRiemannZeta s = -deriv completedRiemannZeta (1 - s) := by
   have hinner : HasDerivAt (fun z : ℂ => 1 - z) (-1) s := by
-    simpa using (hasDerivAt_const (x := s) (c := (1 : ℂ))).sub (hasDerivAt_id s)
+    -- Mathlib 4.33: `HasDerivAt.sub` returns the point-free `(fun _ => 1) - id` with
+    -- derivative `0 - 1`. Fix the value arithmetically, then let `exact` absorb the
+    -- Pi-lifting by defeq — do not simp the hypothesis, which moves it onto another
+    -- instance path.
+    have h := (hasDerivAt_const (x := s) (c := (1 : ℂ))).sub (hasDerivAt_id s)
+    have hval : (0 : ℂ) - 1 = -1 := by ring
+    rw [hval] at h
+    exact h
   have hrefDiff : DifferentiableAt ℂ completedRiemannZeta (1 - s) :=
     differentiableAt_completedZeta (one_sub_ne_zero hs1) (one_sub_ne_one hs0)
   have hcomp : HasDerivAt (fun z : ℂ => completedRiemannZeta (1 - z))

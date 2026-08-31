@@ -182,7 +182,6 @@ theorem subordination_at_zero {r : ℝ} (hr : 0 < r) :
   rw [hinv]
   have hsp : Real.sqrt Real.pi ≠ 0 := by positivity
   field_simp
-  ring
 
 /-! ### The bridge to Thread L: the paper's prime side is the Weil ladder's prime side -/
 
@@ -240,8 +239,8 @@ theorem archimedeanLaplace_aux_one {r : ℝ} (hr : -(1/2 : ℝ) < r) :
     rw [sub_mul, ← Real.exp_add, ← Real.exp_add]
     ring_nf
   rw [setIntegral_congr_fun measurableSet_Ioi (fun x _ => hpt x)]
-  rw [integral_sub (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc1)
-      (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc2)]
+  rw [integral_sub (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc1)
+      (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc2)]
   rw [resolvent_laplace hc1, resolvent_laplace hc2]
   norm_num
 
@@ -258,8 +257,8 @@ theorem archimedeanLaplace_aux_two {r : ℝ} (hr : (1/2 : ℝ) < r) :
     rw [sub_mul, ← Real.exp_add, ← Real.exp_add]
     ring_nf
   rw [setIntegral_congr_fun measurableSet_Ioi (fun x _ => hpt x)]
-  rw [integral_sub (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc1)
-      (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc2)]
+  rw [integral_sub (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc1)
+      (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc2)]
   rw [resolvent_laplace hc1, resolvent_laplace hc2]
   norm_num
 
@@ -333,8 +332,14 @@ theorem subInvolution_hasDerivAt {w : ℝ} (hw : 0 < w) : HasDerivAt subInvoluti
   have h1 : HasDerivAt (fun y : ℝ => y) 1 w := hasDerivAt_id w
   have h2 : HasDerivAt (fun y : ℝ => y⁻¹) (-(w ^ 2)⁻¹) w := hasDerivAt_inv hw.ne'
   have := h1.sub h2
-  convert this using 1
-  field_simp
+  -- 4.33: `convert` descends into HasDerivAt's instance arguments and strands
+  -- `Real.instAddCommGroup = Real.normedAddCommGroup.toAddCommGroup`. Rewrite the
+  -- derivative value explicitly and match the Pi-sub form instead.
+  have hval : (1 : ℝ) - -(w ^ 2)⁻¹ = 1 + w⁻¹ ^ 2 := by
+    field_simp
+    ring
+  rw [← hval]
+  simpa only [Pi.sub_def] using this
 
 theorem subInvolution_strictMonoOn : StrictMonoOn subInvolution (Ioi (0:ℝ)) := by
   apply strictMonoOn_of_deriv_pos (convex_Ioi 0) subInvolution_continuousOn
@@ -400,7 +405,7 @@ theorem integrableOn_auxK_integrand {c : ℝ} (hc : 0 < c) :
   have hset : (Ioi (0:ℝ)) = Ioc (0:ℝ) 1 ∪ Ioi (1:ℝ) := by
     ext x; simp only [mem_Ioi, mem_union, mem_Ioc]
     constructor
-    · intro hx; rcases le_or_lt x 1 with h | h
+    · intro hx; rcases le_or_gt x 1 with h | h
       · exact Or.inl ⟨hx, h⟩
       · exact Or.inr h
     · rintro (⟨hx, _⟩ | hx)
@@ -410,7 +415,7 @@ theorem integrableOn_auxK_integrand {c : ℝ} (hc : 0 < c) :
   apply IntegrableOn.union
   · -- bounded (by 1) on a finite-measure set
     apply Integrable.mono' (g := fun _ : ℝ => (1:ℝ))
-    · exact integrableOn_const.mpr (Or.inr (by simp [Real.volume_Ioc]))
+    · exact integrableOn_const (by simp [Real.volume_Ioc])
     · exact ((auxK_integrand_continuousOn c).mono Ioc_subset_Ioi_self).aestronglyMeasurable measurableSet_Ioc
     · filter_upwards with x
       rw [Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
@@ -470,7 +475,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
   have hset : (Ioi (0:ℝ)) = Ioc (0:ℝ) 1 ∪ Ioi (1:ℝ) := by
     ext x; simp only [mem_Ioi, mem_union, mem_Ioc]
     constructor
-    · intro hx; rcases le_or_lt x 1 with h | h
+    · intro hx; rcases le_or_gt x 1 with h | h
       · exact Or.inl ⟨hx, h⟩
       · exact Or.inr h
     · rintro (⟨hx, _⟩ | hx)
@@ -479,7 +484,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
   rw [hset]
   apply IntegrableOn.union
   · apply Integrable.mono' (g := fun _ : ℝ => (2 / c : ℝ))
-    · exact integrableOn_const.mpr (Or.inr (by simp [Real.volume_Ioc]))
+    · exact integrableOn_const (by simp [Real.volume_Ioc])
     · apply ContinuousOn.aestronglyMeasurable _ measurableSet_Ioc
       apply ContinuousOn.mul
       · exact (continuousOn_id.inv₀ (fun x hx => ne_of_gt hx.1)).pow 2
@@ -496,7 +501,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
             mul_le_mul_of_nonneg_left hle (by positivity)
         _ ≤ 2 / c := mul_exp_neg_bound hc (x⁻¹ ^ 2) (by positivity)
   · apply Integrable.mono' (g := fun x : ℝ => Real.exp (-(c * x)))
-    · simpa only [neg_mul] using exp_neg_integrableOn_Ioi (1:ℝ) hc
+    · simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi (1:ℝ) hc
     · apply ContinuousOn.aestronglyMeasurable _ measurableSet_Ioi
       apply ContinuousOn.mul
       · exact (continuousOn_id.inv₀
@@ -591,9 +596,9 @@ theorem subScale_continuousOn (k : ℝ) : ContinuousOn (subScale k) (Ioi (0:ℝ)
 theorem subScale_hasDerivAt (k w : ℝ) : HasDerivAt (subScale k) (2 * k * w) w := by
   unfold subScale
   have h := (hasDerivAt_pow 2 w).const_mul k
-  convert h using 1
-  push_cast
-  ring
+  have hval : k * ((2 : ℕ) * w ^ (2 - 1)) = 2 * k * w := by push_cast; ring
+  rw [← hval]
+  exact h
 
 theorem subScale_strictMonoOn {k : ℝ} (hk : 0 < k) : StrictMonoOn (subScale k) (Ioi (0:ℝ)) := by
   apply strictMonoOn_of_deriv_pos (convex_Ioi 0) (subScale_continuousOn k)

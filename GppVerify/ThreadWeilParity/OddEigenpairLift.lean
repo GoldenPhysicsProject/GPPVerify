@@ -1,3 +1,4 @@
+import Mathlib.Data.Matrix.Mul
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
@@ -48,8 +49,8 @@ def CProj (D : Matrix n n ℂ) : Matrix n (Unit ⊕ n) ℂ :=
 
 /-- The even block `Aplus = [[a, bᴴ], [b, E]]` on `Unit ⊕ n`. -/
 def AplusBlock (a : ℂ) (b : n → ℂ) (E : Matrix n n ℂ) : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ :=
-  Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => a) (fun (_ : Unit) j => star (b j))
-    (fun i (_ : Unit) => b i) E
+  Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => a) (Matrix.of fun (_ : Unit) j => star (b j))
+    (Matrix.of fun i (_ : Unit) => b i) E
 
 /-- The functional `η = (1, η1)` on `Unit ⊕ n`. -/
 def etaVec (η1 : n → ℂ) : Unit ⊕ n → ℂ := Sum.elim (fun (_ : Unit) => (1 : ℂ)) η1
@@ -96,11 +97,11 @@ theorem odd_eigenpair_defect_step1
     rw [hvdef, Fintype.sum_sum_type]
     simp [Matrix.mulVec, dotProduct]
   have hApv : AplusBlock a b E *ᵥ v = Sum.elim (fun (_ : Unit) => star b ⬝ᵥ x1) (E *ᵥ x1) := by
-    have hthis := fromBlocks_mulVec_inr (fun (_ : Unit) (_ : Unit) => a)
-      (fun (_ : Unit) j => star (b j)) (fun i (_ : Unit) => b i) E x1
+    have hthis := fromBlocks_mulVec_inr (Matrix.of fun (_ : Unit) (_ : Unit) => a)
+      (Matrix.of fun (_ : Unit) j => star (b j)) (Matrix.of fun i (_ : Unit) => b i) E x1
     have hunfold : AplusBlock a b E *ᵥ v = (Matrix.fromBlocks
-        (fun (_ : Unit) (_ : Unit) => a) (fun (_ : Unit) j => star (b j))
-        (fun i (_ : Unit) => b i) E) *ᵥ (Sum.elim (0 : Unit → ℂ) x1) := by
+        (Matrix.of fun (_ : Unit) (_ : Unit) => a) (Matrix.of fun (_ : Unit) j => star (b j))
+        (Matrix.of fun i (_ : Unit) => b i) E) *ᵥ (Sum.elim (0 : Unit → ℂ) x1) := by
       rw [hvdef]; rfl
     rw [hunfold, hthis]
     congr 1
@@ -122,7 +123,7 @@ theorem odd_eigenpair_defect_step1
       (Matrix.mulVec_mulVec v Aminus (CProj D)).symm
     have step4 : D *ᵥ ((E - lam • (1 : Matrix n n ℂ)) *ᵥ x1)
         = D *ᵥ (E *ᵥ x1) - lam • (D *ᵥ x1) := by
-      rw [Matrix.sub_mulVec, Matrix.smul_mulVec_assoc, Matrix.one_mulVec, Matrix.mulVec_sub,
+      rw [Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec, Matrix.mulVec_sub,
         Matrix.mulVec_smul]
     rw [step1, step2, step3, hCApv, hCproj0, hy', step4]
   have hrhs : (Matrix.vecMulVec (D *ᵥ b) (star (etaVec η1))) *ᵥ v
@@ -147,7 +148,6 @@ theorem odd_eigenpair_defect_step2
     D⁻¹ *ᵥ y = (star η1 ⬝ᵥ (D⁻¹ *ᵥ y)) • ((E - lam • (1 : Matrix n n ℂ))⁻¹ *ᵥ b) := by
   have h1 := odd_eigenpair_defect_step1 a b η1 E Aminus D hD hsyl lam y hy
   have h2 := congrArg (fun v => (E - lam • (1 : Matrix n n ℂ))⁻¹ *ᵥ v) h1
-  simp only at h2
   rw [Matrix.mulVec_mulVec,
     Matrix.nonsing_inv_mul _ (isUnit_det_of_invertible (A := E - lam • (1 : Matrix n n ℂ))),
     Matrix.one_mulVec, Matrix.mulVec_smul] at h2
@@ -196,27 +196,27 @@ theorem odd_eigenpair_canonical_lift
     rw [dotProduct_smul, hcore, smul_eq_mul, mul_zero]
   · -- `(Aplus - λI) x = -s·φ(λ)·e0`.
     have hblock : AplusBlock a b E - lam • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ)
-        = Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => a - lam) (fun (_ : Unit) j => star (b j))
-            (fun i (_ : Unit) => b i) (E - lam • (1 : Matrix n n ℂ)) := by
-      show Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => a) (fun (_ : Unit) j => star (b j))
-          (fun i (_ : Unit) => b i) E - lam • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ) = _
+        = Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => a - lam) (Matrix.of fun (_ : Unit) j => star (b j))
+            (Matrix.of fun i (_ : Unit) => b i) (E - lam • (1 : Matrix n n ℂ)) := by
+      show Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => a) (Matrix.of fun (_ : Unit) j => star (b j))
+          (Matrix.of fun i (_ : Unit) => b i) E - lam • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ) = _
       ext (i | i) (j | j) <;>
         simp [Matrix.fromBlocks, Matrix.sub_apply, Matrix.smul_apply, Matrix.one_apply]
-    have hcore : (Matrix.fromBlocks (fun (_ : Unit) (_ : Unit) => a - lam)
-        (fun (_ : Unit) j => star (b j)) (fun i (_ : Unit) => b i)
+    have hcore : (Matrix.fromBlocks (Matrix.of fun (_ : Unit) (_ : Unit) => a - lam)
+        (Matrix.of fun (_ : Unit) j => star (b j)) (Matrix.of fun i (_ : Unit) => b i)
         (E - lam • (1 : Matrix n n ℂ))) *ᵥ (Sum.elim (fun (_ : Unit) => (-1 : ℂ)) w)
         = Sum.elim (fun (_ : Unit) => -phiSchur a b E lam) 0 := by
       rw [fromBlocks_mulVec_gen]
-      have hnpart : (fun i (_ : Unit) => b i : Matrix n Unit ℂ) *ᵥ (fun (_ : Unit) => (-1 : ℂ))
+      have hnpart : (Matrix.of fun i (_ : Unit) => b i : Matrix n Unit ℂ) *ᵥ (fun (_ : Unit) => (-1 : ℂ))
           + (E - lam • (1 : Matrix n n ℂ)) *ᵥ w = 0 := by
-        have h1 : (fun i (_ : Unit) => b i : Matrix n Unit ℂ) *ᵥ (fun (_ : Unit) => (-1 : ℂ)) = -b := by
+        have h1 : (Matrix.of fun i (_ : Unit) => b i : Matrix n Unit ℂ) *ᵥ (fun (_ : Unit) => (-1 : ℂ)) = -b := by
           funext i
           show ∑ _j : Unit, b i * (-1 : ℂ) = -b i
           simp
         rw [h1, hEw]
         ring_nf
-      have hupart : (fun (_ : Unit) (_ : Unit) => a - lam : Matrix Unit Unit ℂ) *ᵥ
-          (fun (_ : Unit) => (-1 : ℂ)) + (fun (_ : Unit) j => star (b j) : Matrix Unit n ℂ) *ᵥ w
+      have hupart : (Matrix.of fun (_ : Unit) (_ : Unit) => a - lam : Matrix Unit Unit ℂ) *ᵥ
+          (fun (_ : Unit) => (-1 : ℂ)) + (Matrix.of fun (_ : Unit) j => star (b j) : Matrix Unit n ℂ) *ᵥ w
           = fun (_ : Unit) => -phiSchur a b E lam := by
         funext _
         show ∑ _j : Unit, (a - lam) * (-1 : ℂ) + ∑ j, star (b j) * w j = -phiSchur a b E lam

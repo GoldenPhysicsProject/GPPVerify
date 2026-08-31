@@ -1,3 +1,6 @@
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.LinearAlgebra.Complex.Module
+import Mathlib.Analysis.RCLike.Basic
 import Mathlib.LinearAlgebra.Matrix.PosDef
 
 open scoped ComplexOrder Matrix
