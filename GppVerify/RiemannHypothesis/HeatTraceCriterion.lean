@@ -408,7 +408,7 @@ theorem integrableOn_auxK_integrand {c : ℝ} (hc : 0 < c) :
   apply IntegrableOn.union
   · -- bounded (by 1) on a finite-measure set
     apply Integrable.mono' (g := fun _ : ℝ => (1:ℝ))
-    · exact integrableOn_const
+    · exact integrableOn_const (by simp [Real.volume_Ioc])
     · exact ((auxK_integrand_continuousOn c).mono Ioc_subset_Ioi_self).aestronglyMeasurable measurableSet_Ioc
     · filter_upwards with x
       rw [Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
@@ -477,7 +477,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
   rw [hset]
   apply IntegrableOn.union
   · apply Integrable.mono' (g := fun _ : ℝ => (2 / c : ℝ))
-    · exact integrableOn_const
+    · exact integrableOn_const (by simp [Real.volume_Ioc])
     · apply ContinuousOn.aestronglyMeasurable _ measurableSet_Ioc
       apply ContinuousOn.mul
       · exact (continuousOn_id.inv₀ (fun x hx => ne_of_gt hx.1)).pow 2

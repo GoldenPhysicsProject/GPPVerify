@@ -148,7 +148,6 @@ theorem odd_eigenpair_defect_step2
     D⁻¹ *ᵥ y = (star η1 ⬝ᵥ (D⁻¹ *ᵥ y)) • ((E - lam • (1 : Matrix n n ℂ))⁻¹ *ᵥ b) := by
   have h1 := odd_eigenpair_defect_step1 a b η1 E Aminus D hD hsyl lam y hy
   have h2 := congrArg (fun v => (E - lam • (1 : Matrix n n ℂ))⁻¹ *ᵥ v) h1
-  simp only at h2
   rw [Matrix.mulVec_mulVec,
     Matrix.nonsing_inv_mul _ (isUnit_det_of_invertible (A := E - lam • (1 : Matrix n n ℂ))),
     Matrix.one_mulVec, Matrix.mulVec_smul] at h2

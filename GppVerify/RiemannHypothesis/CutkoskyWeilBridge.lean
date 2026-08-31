@@ -786,7 +786,7 @@ theorem vacuum_compression_operator_identity {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r 
     mulOpLin_comp (KrWeight r) P0Weight (KrWeight_bound hr0 hr1) P0Weight_bound _
   rw [hinner]
   rw [mulOpLin_comp P0Weight (fun n => KrWeight r n * P0Weight n) P0Weight_bound _
-        (fun n => by dsimp only; rw [← mul_assoc]; exact P0_Kr_P0_bound hr0 hr1 n)]
+        (fun n => by rw [← mul_assoc]; exact P0_Kr_P0_bound hr0 hr1 n)]
   congr 1
   funext n
   rw [← mul_assoc]
