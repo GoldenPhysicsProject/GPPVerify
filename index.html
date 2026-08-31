@@ -6,7 +6,7 @@
 <title>GPPVerify | Formal Proof Dashboard — Golden Physics Project</title>
 <meta name="description" content="Live Lean 4 formal verification of the Golden Physics Project. Machine-checked proofs of shadow=CPT, L² forces Re(s)=½, and three fermion generations.">
 <meta property="og:title" content="GPPVerify | Formal Proof Dashboard">
-<meta property="og:description" content="Machine-verified Lean 4 proofs from the ONON framework. Green = zero sorries.">
+<meta property="og:description" content="Machine-verified Lean 4 proofs from the shadow framework. Zero sorries, one axiom, 150 open stubs — all labelled.">
 <meta property="og:image" content="https://goldenphysics.org/gpp1a.jpg">
 <meta property="og:url" content="https://lean.goldenphysics.org">
 <link rel="canonical" href="https://lean.goldenphysics.org">
@@ -145,14 +145,19 @@ footer a:hover{color:var(--gpp-gold)}
 
 <div class="page-header">
   <h1 class="gold-gradient-text">GPPVerify</h1>
-  <p>Lean 4 + Mathlib formal verification of the ONON framework.<br>
-  Every green theorem has been checked by a machine that does not accept hand-waving.</p>
+  <p>Lean 4 + Mathlib formal verification of the shadow framework.<br>
+  Every green theorem has been checked by a machine that does not accept hand-waving.
+  Everything else is labelled open.</p>
   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-    <a href="https://github.com/GoldenPhysicsProject/GPPVerify" target="_blank" 
-       style="background:rgba(212,175,55,0.1);border:1px solid var(--gpp-gold-dark);padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
-      View on GitHub ↗
+    <a href="https://lean.goldenphysics.org/"
+       style="background:rgba(212,175,55,0.16);border:1px solid var(--gpp-gold);padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
+      Read the Blueprint
     </a>
-    <a href="https://goldenphysics.org/papers.html" 
+    <a href="https://github.com/GoldenPhysicsProject/GPPVerify" target="_blank"
+       style="background:rgba(212,175,55,0.1);border:1px solid var(--gpp-gold-dark);padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
+      View on GitHub &#8599;
+    </a>
+    <a href="https://goldenphysics.org/papers.html"
        style="background:transparent;border:1px solid #333;color:#888;padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
       View Papers
     </a>
@@ -162,360 +167,277 @@ footer a:hover{color:var(--gpp-gold)}
 <div class="stat-strip">
   <div class="stat-row">
     <div class="stat-item">
-      <span class="stat-num" style="color:var(--green-light)">19</span>
-      <span class="stat-label">Proved Clean</span>
+      <span class="stat-num">184</span>
+      <span class="stat-label">Lean Modules</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" style="color:var(--yellow-light)">10</span>
-      <span class="stat-label">Proved w/ Axioms</span>
+      <span class="stat-num" style="color:var(--green-light)">0</span>
+      <span class="stat-label">Sorries</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" style="color:var(--red-light)">0</span>
-      <span class="stat-label">Open Gaps</span>
+      <span class="stat-num" style="color:var(--yellow-light)">1</span>
+      <span class="stat-label">Axioms</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">29</span>
-      <span class="stat-label">Verified Files</span>
+      <span class="stat-num" style="color:var(--red-light)">150</span>
+      <span class="stat-label">Open Stubs</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">686</span>
-      <span class="stat-label">Named Results in ONON</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num stat-ci">68</span>
+      <span class="stat-num stat-ci">&mdash;</span>
       <span class="stat-label">CI Builds</span>
     </div>
   </div>
+  <p style="text-align:center;color:#666;font-size:0.82rem;max-width:720px;margin:22px auto 0;line-height:1.6">
+    Read those four numbers together. Zero sorries and one axiom is a clean bill of health
+    only for what is <em>stated</em>; the 150 open stubs are results deliberately parked as
+    <code style="color:var(--yellow-light)">theorem open_&hellip; : True := trivial</code>, which
+    assert nothing and so report zero sorries and zero axioms themselves. Every one of them is
+    named <code style="color:var(--yellow-light)">open_</code>&hellip; and CI rejects any that
+    is not.
+  </p>
 </div>
 
 <div style="background:#050505;border-bottom:1px solid #1a1a1a;padding:10px 20px;text-align:center;font-family:monospace;font-size:0.82rem">
-  <span id="build-status" style="color:var(--green-light)">✓ BUILD GREEN</span>
+  <span id="build-status" style="color:var(--green-light)">&#10003; BUILD GREEN</span>
   &nbsp;&nbsp;|&nbsp;&nbsp;
   <span style="color:#555">commit: </span><span id="latest-commit" style="color:#666">loading...</span>
   &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions" target="_blank" style="color:#555;font-size:0.78rem">CI History ↗</a>
+  <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions" target="_blank" style="color:#555;font-size:0.78rem">CI History &#8599;</a>
 </div>
 <div id="open-prs" style="display:none;background:#0a0800;border-bottom:1px solid #2a2000;padding:8px 20px;text-align:center;font-family:monospace;font-size:0.8rem"></div>
 
 <div class="container section-padding">
 
   <div class="legend">
-    <div class="legend-item"><span class="dot dot-green"></span> Proved — zero sorries, fully verified</div>
-    <div class="legend-item"><span class="dot dot-yellow"></span> Proved via axioms — established physics/math, labeled</div>
-    <div class="legend-item"><span class="dot dot-red"></span> Open — gap in Mathlib or open research problem</div>
+    <div class="legend-item"><span class="dot dot-green"></span> Proved &mdash; a real statement, machine-checked</div>
+    <div class="legend-item"><span class="dot dot-yellow"></span> Rests on a labelled axiom</div>
+    <div class="legend-item"><span class="dot dot-red"></span> Open &mdash; a <code>True</code>-stub, asserts nothing</div>
   </div>
 
+  <p style="color:#666;font-size:0.9rem;margin:-16px 0 40px;text-align:center;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.6">
+    A representative selection, not a catalogue. The blueprint covers all 184 modules and
+    every declaration in them; <code style="color:var(--yellow-light)">scripts/check_landing_claims.py</code>
+    fails the build if any name, file path or number on this page stops being true of the tree.
+  </p>
+
   <div class="section-heading">
-    <h2 style="font-size:1.1rem">Riemann Hypothesis — Pathway 2 (Spectral/Meyer)</h2>
+    <h2 style="font-size:1.1rem">Shadow Symmetry &mdash; the shared object</h2>
   </div>
 
   <div class="grid-auto" style="margin-bottom:48px">
 
     <div class="thm-card proved">
-      <div class="cited-badge">12× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">l2_constraint_implies_rh</div>
-      <div class="thm-desc">L²(A×/Q×) constraint forces Re(s) = ½. The load-bearing step connecting adelic analysis to the critical line.</div>
-      <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="cited-badge">10× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">temperedness_iff_critical_line</div>
-      <div class="thm-desc">Temperedness condition on the adelic space is equivalent to Re(s) = ½. Proved via two axioms.</div>
-      <div class="thm-meta">File: RiemannHypothesis/RHSpectralMultiplicity.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/RHSpectralMultiplicity.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">critical_line_is_fixed_locus</div>
-      <div class="thm-desc">The critical line Re(s) = ½ is the fixed-point locus of the shadow involution s ↦ 1−s.</div>
-      <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">two_zeros_at_ordinate</div>
-      <div class="thm-desc">At any ordinate t, the functional equation forces zeros to appear in symmetric pairs about Re(s) = ½.</div>
-      <div class="thm-meta">File: RiemannHypothesis/HaarMeasure.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/HaarMeasure.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="cited-badge">10× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">spectral_weil_connection</div>
-      <div class="thm-desc">Zeta zeros correspond to eigenvalues of the adelic shadow operator. Spectral interpretation of RH.</div>
-      <div class="thm-meta">File: RiemannHypothesis/SpectralWeil.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/SpectralWeil.lean" target="_blank">View source ↗</a>
-    </div>
-
-  </div>
-
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Celestial Holography & Shadow Framework</h2>
-  </div>
-
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card proved">
-      <div class="cited-badge">16× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
+      <div class="status-badge badge-proved">&#10003; Proved</div>
       <div class="thm-name">shadow_equals_time_reversal</div>
-      <div class="thm-desc">The celestial shadow map Δ ↦ 2−Δ equals the CPT time-reversal operator T. The cornerstone of the entire framework.</div>
-      <div class="thm-meta">File: CelestialHolography/ShadowSymmetry.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/ShadowSymmetry.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="cited-badge">10× cited</div>
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">link6 — c₂D = κ₀ · c₄D^Weyl</div>
-      <div class="thm-desc">Celestial CFT central charge equals Weyl anomaly c-coefficient times a positive constant. Proved via Weinberg (1965), Cachazo-Strominger (2014), Capper-Duff (1974), Adler-Bardeen (1969).</div>
-      <div class="thm-meta">File: CelestialHolography/Link6.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/Link6.lean" target="_blank">View source ↗</a>
+      <div class="thm-desc">The celestial shadow map &Delta; &#8614; 2&minus;&Delta; equals CPT time reversal on the principal series. The identification the whole framework turns on.</div>
+      <div class="thm-meta">File: RiemannHypothesis/ShadowSymmetry.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/ShadowSymmetry.lean" target="_blank">View source &#8599;</a>
     </div>
 
     <div class="thm-card proved">
-      <div class="cited-badge">10× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">shadow_discontinuity</div>
-      <div class="thm-desc">Loop integrands arise as discontinuities across the shadow cut. Replaces Feynman diagrams with shadow branch cuts.</div>
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">critical_line_is_fixed_locus</div>
+      <div class="thm-desc">conj(s) = 1&minus;s &#8660; Re(s) = &frac12;. The critical line <em>is</em> the fixed locus of the shadow involution &mdash; an iff, both directions checked.</div>
+      <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">shadow_involution_C</div>
+      <div class="thm-desc">The shadow map is an involution on &#8450;: applying it twice is the identity.</div>
       <div class="thm-meta">File: CelestialHolography/ShadowDiscontinuity.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/ShadowDiscontinuity.lean" target="_blank">View source ↗</a>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/ShadowDiscontinuity.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card open">
+      <div class="status-badge badge-open">Open</div>
+      <div class="thm-name">open_shadow_discontinuity</div>
+      <div class="thm-desc">That the discontinuity across the shadow cut <em>equals</em> the loop integrand is the conjecture, not a theorem. Blocked on celestial amplitude theory and unitarity cuts, neither in Mathlib. The supporting identities in the same file are proved.</div>
+      <div class="thm-meta">File: CelestialHolography/ShadowDiscontinuity.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/ShadowDiscontinuity.lean" target="_blank">View source &#8599;</a>
     </div>
 
   </div>
 
   <div class="section-heading">
-    <h2 style="font-size:1.1rem">Standard Model & Three Generations</h2>
+    <h2 style="font-size:1.1rem">The Half-Flip &mdash; CPT, time reversal, complete positivity</h2>
   </div>
 
   <div class="grid-auto" style="margin-bottom:48px">
 
     <div class="thm-card proved">
-      <div class="cited-badge">12× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">three_generations</div>
-      <div class="thm-desc">Exactly three Cayley-Dickson doublings ℝ→ℂ→ℍ→𝕆 yield exactly three generations of fermions. All combinatorial facts verified.</div>
-      <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean" target="_blank">View source ↗</a>
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">wignerT_wignerT</div>
+      <div class="thm-desc">Wigner time reversal squares to &minus;1 on a spin-&frac12; state: T&sup2;&psi; = &minus;&psi;. The half-flip, stated exactly.</div>
+      <div class="thm-meta">File: StandardModel/HalfFlipProposition.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/HalfFlipProposition.lean" target="_blank">View source &#8599;</a>
     </div>
 
     <div class="thm-card proved">
-      <div class="cited-badge">12× cited</div>
-      <div class="status-badge badge-proved">✓ Proved</div>
-      <div class="thm-name">anomaly_cancellation_forces_three_generations</div>
-      <div class="thm-desc">Anomaly cancellation conditions select exactly the three-generation structure derived from the division algebra tower.</div>
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">antiunitary_conj_eq_unitary_transpose</div>
+      <div class="thm-desc">Antiunitary conjugation of a Hermitian &rho; is unitary conjugation of its transpose &mdash; the bridge from time reversal to the transpose map.</div>
+      <div class="thm-meta">File: StandardModel/HalfFlipProposition.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/HalfFlipProposition.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">swap_not_posSemidef</div>
+      <div class="thm-desc">The SWAP matrix has a negative eigenvector, exhibited explicitly &mdash; so it is not positive semidefinite.</div>
+      <div class="thm-meta">File: QuantumInformation/HalfFlipMatrix.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumInformation/HalfFlipMatrix.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">not_completelyPositive_of_not_posSemidef_choiMatrix</div>
+      <div class="thm-desc">Choi&rsquo;s criterion, one direction: a map whose Choi matrix is not PSD is not completely positive. With the SWAP result above, this is why transposition &mdash; hence time reversal &mdash; is positive but not completely positive.</div>
+      <div class="thm-meta">File: QuantumInformation/ChoiMatrix.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumInformation/ChoiMatrix.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+  </div>
+
+  <div class="section-heading">
+    <h2 style="font-size:1.1rem">Riemann Hypothesis &mdash; what is actually proved</h2>
+  </div>
+
+  <div class="grid-auto" style="margin-bottom:48px">
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">completed_zeta_functional_eq</div>
+      <div class="thm-desc">&xi;(s) = &xi;(1&minus;s) away from the poles, from Mathlib&rsquo;s completed zeta.</div>
+      <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">rh_iff_weil_pairedForm_nonneg</div>
+      <div class="thm-desc">RH holds <em>if and only if</em> the Weil paired form is nonnegative on every finite set of zeros. A genuine equivalence &mdash; it reduces RH to a positivity statement, it does not prove either side.</div>
+      <div class="thm-meta">File: RiemannHypothesis/WeilPositivityCriterion.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/WeilPositivityCriterion.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">conj_eq_shadow_iff_critical</div>
+      <div class="thm-desc">A zero fixed by the shadow involution lies on the critical line.</div>
+      <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card open">
+      <div class="status-badge badge-open">Open</div>
+      <div class="thm-name">open_l2_constraint_implies_rh</div>
+      <div class="thm-desc">That the L&sup2;(A&times;/Q&times;) constraint forces Re(s) = &frac12; is the load-bearing step of Pathway 2, and it is <em>not</em> proved. It needs Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma and Peter&ndash;Weyl over the id&egrave;le class group &mdash; none of them in Mathlib.</div>
+      <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+  </div>
+
+  <div class="section-heading">
+    <h2 style="font-size:1.1rem">Number Theory &amp; Standard Model</h2>
+  </div>
+
+  <div class="grid-auto" style="margin-bottom:48px">
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">A_charpoly_root_goldSq</div>
+      <div class="thm-desc">&phi;&sup2; is a root of the characteristic polynomial of the minimal hyperbolic element of PSL&#8322;(&#8484;) &mdash; the golden ratio as the minimal hyperbolic sector, proved rather than asserted.</div>
+      <div class="thm-meta">File: NumberTheory/GoldenRatioHyperbolicSector.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/NumberTheory/GoldenRatioHyperbolicSector.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">exactly_three_doublings</div>
+      <div class="thm-desc">The Cayley&ndash;Dickson tower &#8477;&rarr;&#8450;&rarr;&#8461;&rarr;&#120134; admits exactly three proper doublings. A finite combinatorial fact, decided by the kernel.</div>
       <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean" target="_blank">View source ↗</a>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean" target="_blank">View source &#8599;</a>
     </div>
 
-    <div class="thm-card axiom">
-      <div class="cited-badge">13× cited</div>
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">dm_abundance</div>
-      <div class="thm-desc">Dark matter abundance follows from shadow symmetry breaking. Depends on Link6 axioms.</div>
-      <div class="thm-meta">File: StandardModel/DMAbundance.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/DMAbundance.lean" target="_blank">View source ↗</a>
+    <div class="thm-card open">
+      <div class="status-badge badge-open">Open</div>
+      <div class="thm-name">open_anomaly_cancellation_forces_three_generations</div>
+      <div class="thm-desc">That anomaly cancellation with the SM gauge group <em>forces</em> three generations is the physical claim, and it is parked as a stub depending on the open thm:link6. The combinatorics above is proved; the bridge to particle content is not.</div>
+      <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean" target="_blank">View source &#8599;</a>
     </div>
 
-  </div>
-
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Quantum Gravity & General Relativity</h2>
-  </div>
-
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card axiom">
-      <div class="cited-badge">11× cited</div>
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">born_rule_from_haar</div>
-      <div class="thm-desc">The Born rule probability measure arises canonically from Haar measure on the adelic group. Quantum mechanics from number theory.</div>
-      <div class="thm-meta">File: QuantumGravity/BornRuleHaar.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumGravity/BornRuleHaar.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="cited-badge">10× cited</div>
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">rigidity — Einstein uniqueness</div>
-      <div class="thm-desc">Einstein field equations uniquely determined by shadow symmetry + diffeomorphism invariance.</div>
-      <div class="thm-meta">File: GeneralRelativity/Rigidity.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/GeneralRelativity/Rigidity.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">wightman_axioms_from_gr24</div>
-      <div class="thm-desc">All 6 Wightman axioms (Hilbert space, Poincaré covariance, spectrum, locality, cyclicity, temperedness) derived from Haar measure on Gr(2,4) via Penrose–Peter-Weyl. QFT foundation from geometry.</div>
-      <div class="thm-meta">File: QuantumGravity/WightmanAxioms.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumGravity/WightmanAxioms.lean" target="_blank">View source ↗</a>
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">link6_corollary</div>
+      <div class="thm-desc">Given c&#8322;<sub>D</sub> = &kappa;&#8320;&middot;c&#8324;<sub>D</sub><sup>Weyl</sup> with &kappa;&#8320; &gt; 0, one vanishes iff the other does. The physics input is an explicit hypothesis here, not an axiom &mdash; 12 of the project&rsquo;s 13 custom axioms were retired this way.</div>
+      <div class="thm-meta">File: CelestialHolography/Link6.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/Link6.lean" target="_blank">View source &#8599;</a>
     </div>
 
   </div>
 
   <div class="section-heading">
-    <h2 style="font-size:1.1rem">Yang-Mills & Mass Gap</h2>
+    <h2 style="font-size:1.1rem">Yang&ndash;Mills &amp; Quantum Gravity</h2>
   </div>
 
   <div class="grid-auto" style="margin-bottom:48px">
 
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">yang_mills_mass_gap</div>
-      <div class="thm-desc">Yang-Mills existence and mass gap for compact simple Lie group G. Mass formula M = 2N/(k+N)·Λ_QCD via Kac-Moody level k. Sugawara formula and Casimir eigenvalues proved clean; QFT existence via axioms.</div>
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">mass_gap_ratio_su3_k1</div>
+      <div class="thm-desc">The Sugawara mass-gap ratio for SU(3) at level 1 is exactly 3/2, together with Casimir eigenvalues and central charges. Finite algebra, fully checked.</div>
       <div class="thm-meta">File: YangMills/MassGap.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/YangMills/MassGap.lean" target="_blank">View source ↗</a>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/YangMills/MassGap.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card open">
+      <div class="status-badge badge-open">Open</div>
+      <div class="thm-name">open_yang_mills_mass_gap</div>
+      <div class="thm-desc">The Millennium Prize problem itself. A stub, and named so it cannot be mistaken for anything else. The algebra above is real; Yang&ndash;Mills existence is not formalizable without QFT foundations Mathlib does not have.</div>
+      <div class="thm-meta">File: YangMills/MassGap.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/YangMills/MassGap.lean" target="_blank">View source &#8599;</a>
+    </div>
+
+    <div class="thm-card open">
+      <div class="status-badge badge-open">Open</div>
+      <div class="thm-name">open_born_rule_from_haar</div>
+      <div class="thm-desc">That the Born rule follows from Haar measure on the id&egrave;le class group. The normalization lemmas in the same file are proved; the derivation itself is parked.</div>
+      <div class="thm-meta">File: QuantumGravity/BornRuleHaar.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumGravity/BornRuleHaar.lean" target="_blank">View source &#8599;</a>
     </div>
 
   </div>
 
+</div>
+
+<div class="container section-padding" style="padding-top:0">
   <div class="section-heading">
-    <h2 style="font-size:1.1rem">Foundation — Core & Twistor</h2>
+    <h2 style="font-size:1.1rem">The One Remaining Axiom</h2>
   </div>
-
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">core_theorems — shadow &amp; T-symmetry</div>
-      <div class="thm-desc">12 machine-verified theorems: shadow involution order-2, T⁴=id, googly resolution, zitterbewegung periodicity, Haar self-duality. One axiom: haar_uniqueness (standard result, pending full Mathlib formalization).</div>
-      <div class="thm-meta">File: CoreTheorems.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CoreTheorems.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">twistor_googly_resolution</div>
-      <div class="thm-desc">Googly problem resolved via Haar self-duality on Gr(2,4). Plücker embedding, Betti numbers b_k(Gr(2,4)), Schubert cell count proved clean. Penrose-Ward correspondence and ASD/SD decomposition via axioms.</div>
-      <div class="thm-meta">File: CelestialHolography/TwistorGoogly.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/TwistorGoogly.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">majorana_condition_T_boundary</div>
-      <div class="thm-desc">Majorana neutrinos from T-boundary: ψ = Cψ̄ forced by T-boundary condition. Lightest neutrino massless (no T-boundary mass term). Neutrino mixing matrix phase constraint proved as algebraic identity.</div>
-      <div class="thm-meta">File: StandardModel/MajoranaCondition.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/MajoranaCondition.lean" target="_blank">View source ↗</a>
-    </div>
-
-  </div>
-
-  <div class="section-heading" style="margin-top:48px">
-    <h2 style="font-size:1.1rem">String Theory, Cosmology &amp; Standard Model Parameters</h2>
-  </div>
-
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">hurwitz_critical_dims</div>
-      <div class="thm-desc">Why string theory works: division algebras ℝ,ℂ,ℍ,𝕆 (dims 1,2,4,8) force critical dimensions D∈{4,5,7,11}. 48 Weyl fermions / 16 = 3 generations proved clean. KLT gravity=gauge² from Sugawara (axiom).</div>
-      <div class="thm-meta">File: StringTheory/DivisionAlgebras.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StringTheory/DivisionAlgebras.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">holographic_chain</div>
-      <div class="thm-desc">Division algebra tower R→C→H→O terminates at Gr(2,4): χ=6, 3 SD + 3 ASD modes, 3 Cayley–Dickson doublings = 3 physical constants. Hasse–Weil ζ_Gr factorization (axiom).</div>
-      <div class="thm-meta">File: CelestialHolography/HolographicChain.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/HolographicChain.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">decoding_reality</div>
-      <div class="thm-desc">SM parameters from L-functions: sin²θ_W=3/8, Casimir ratios 2:5:9, Georgi–Jarlskog m_d·m_b/m_s²=9/4, Cabibbo 2/5 — all proved as rational identities. CP phase δ_CKM=137π/360 from Jacobi sum (axiom).</div>
-      <div class="thm-meta">File: NumberTheory/DecodingReality.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/NumberTheory/DecodingReality.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">dark_energy_t_boundary</div>
-      <div class="thm-desc">Dark energy w(a)=-2/3-f-(2/3)d ln f/d ln a from T-boundary conformal self-lensing. χ²=0.02 DESI DR2 fit (zero free parameters). Shadow involution proved; w=-1 iff f=1/3 proved.</div>
-      <div class="thm-meta">File: Cosmology/DarkEnergy.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/Cosmology/DarkEnergy.lean" target="_blank">View source ↗</a>
-    </div>
-
-    <div class="thm-card axiom">
-      <div class="status-badge badge-axiom">⊢ Axioms</div>
-      <div class="thm-name">unified_dipole</div>
-      <div class="thm-desc">Number-count dipole from Haar shadow deficit: D_obs/D_c=1+e^(-x)·2π/(x+1). Re[κ̄₁]=-2/(1+λ²) axiomatized. Harrison–Zel'dovich n_s=1↔Haar self-duality. χ²=0.166 four-survey fit (axiom).</div>
-      <div class="thm-meta">File: Cosmology/UnifiedDipole.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/Cosmology/UnifiedDipole.lean" target="_blank">View source ↗</a>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="dep-section">
-  <div class="container">
-    <div class="section-heading">
-      <h2 style="font-size:1.1rem">Proof Dependency Chain</h2>
-    </div>
-    <div class="dep-tree">
-<span class="proved">✓ shadow_equals_time_reversal</span>  [shadow = CPT, 16× cited]
-  └── <span class="proved">✓ critical_line_is_fixed_locus</span>
-        └── <span class="proved">✓ two_zeros_at_ordinate</span>
-
-<span class="proved">✓ l2_constraint_implies_rh</span>  [L² forces Re(s)=½, 12× cited]
-  ├── <span class="proved">✓ temperedness_iff_critical_line</span>
-  └── <span class="proved">✓ spectral_weil_connection</span>
-
-<span class="axiom">⊢ link6</span>  [c₂D = κ₀·c₄D^Weyl, physics axioms]
-  └── <span class="proved">✓ three_generations</span>  [12× cited]
-        └── <span class="proved">✓ anomaly_cancellation_forces_three_generations</span>
-
-<span class="axiom">⊢ dm_abundance</span>  [shadow symmetry breaking, 13× cited]
-<span class="axiom">⊢ born_rule_from_haar</span>  [Haar → Born rule, 11× cited]
-<span class="axiom">⊢ rigidity</span>  [Einstein uniqueness, 10× cited]
-    </div>
-  </div>
-</div>
-
-<div style="background:#050505;border-bottom:1px solid #1a1a1a;padding:10px 20px;text-align:center;font-family:monospace;font-size:0.82rem">
-  <span id="build-status" style="color:var(--green-light)">✓ BUILD GREEN</span>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <span style="color:#555">commit: </span><span id="latest-commit" style="color:#666">loading...</span>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions" target="_blank" style="color:#555;font-size:0.78rem">CI History ↗</a>
-</div>
-<div id="open-prs" style="display:none;background:#0a0800;border-bottom:1px solid #2a2000;padding:8px 20px;text-align:center;font-family:monospace;font-size:0.8rem"></div>
-
-<div class="container section-padding">
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Remaining Gaps — Honest & Labeled</h2>
-  </div>
-  <p style="color:#666;margin-bottom:28px;font-size:0.9rem">These are not hidden assumptions. Every gap is documented with the exact Mathlib version where it will close.</p>
+  <p style="color:#666;margin-bottom:28px;font-size:0.9rem">
+    The project had 13 custom axioms. Twelve have been retired &mdash; the physics inputs became
+    explicit hypotheses on the theorems that use them, which is why <code style="color:var(--yellow-light)">link6_corollary</code>
+    above takes its input as an argument. One is left.
+  </p>
 
   <div class="gap-card">
-    <h4>arithmetic_admissibility</h4>
-    <p>Requires Meyer 2005 spectral-Weil explicit formula + positivity. <code>SpectralWeil.lean</code> documents the exact path. Will close when Mathlib formalizes the explicit formula.</p>
+    <h4>exp_growth_not_tempered</h4>
+    <p>That a function of exponential growth is not a tempered distribution. True, standard, and
+    simply absent from Mathlib. Everything else in the tree is either proved outright or parked
+    as a named <code>open_</code> stub.</p>
   </div>
 
   <div class="gap-card">
-    <h4>hurwitz_three_doublings</h4>
-    <p>Hurwitz's theorem — ℝ, ℂ, ℍ, 𝕆 are the only normed division algebras — is not yet in Mathlib 4.19.0. Will close in a future Mathlib version.</p>
-  </div>
-
-  <div class="gap-card">
-    <h4>Adelic infrastructure (Tate thesis, Fujisaki, L² on K')</h4>
-    <p>Awaiting <code>Mathlib.NumberTheory.NumberField.Adeles</code>. The Mathlib number theory community is actively developing this. All dependent theorems are axiomatized cleanly with clear documentation.</p>
-  </div>
-
-  <div class="gap-card">
-    <h4>thm:link6 (QFT axioms)</h4>
-    <p>The proof of c₂D = κ₀·c₄D^Weyl relies on four established physics results (Weinberg 1965, Cachazo-Strominger 2014, Capper-Duff 1974, Adler-Bardeen 1969) that are standard QFT but not yet in Mathlib. Axiomatized with full citations.</p>
+    <h4>What the 150 stubs are waiting on</h4>
+    <p>Overwhelmingly one thing: ad&egrave;lic analysis. Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma,
+    L&sup2; on the id&egrave;le class group, and Peter&ndash;Weyl for compact groups are not in
+    Mathlib, and Pathway 2 to RH cannot be stated &mdash; let alone proved &mdash; without them.
+    A smaller group waits on Schatten/trace-class operators. Mathlib 4.33 did unblock some of
+    this: <code>HasCompactSupport.toSchwartzMap</code> and the <code>AdeleRing</code> files are new.</p>
   </div>
 </div>
 
@@ -531,7 +453,10 @@ footer a:hover{color:var(--gpp-gold)}
     lake exe cache get<br>
     lake build
   </div>
-  <p style="color:#444;font-size:0.8rem;margin-top:16px">If it builds green — the proofs are correct. No peer review required.</p>
+  <p style="color:#444;font-size:0.8rem;margin-top:16px">
+    A green build means every stated theorem is correct. It does <em>not</em> mean the framework
+    is established &mdash; read the four numbers at the top of this page together.
+  </p>
 </div>
 
 <footer>
