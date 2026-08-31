@@ -240,8 +240,8 @@ theorem archimedeanLaplace_aux_one {r : ℝ} (hr : -(1/2 : ℝ) < r) :
     rw [sub_mul, ← Real.exp_add, ← Real.exp_add]
     ring_nf
   rw [setIntegral_congr_fun measurableSet_Ioi (fun x _ => hpt x)]
-  rw [integral_sub (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc1)
-      (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc2)]
+  rw [integral_sub (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc1)
+      (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc2)]
   rw [resolvent_laplace hc1, resolvent_laplace hc2]
   norm_num
 
@@ -258,8 +258,8 @@ theorem archimedeanLaplace_aux_two {r : ℝ} (hr : (1/2 : ℝ) < r) :
     rw [sub_mul, ← Real.exp_add, ← Real.exp_add]
     ring_nf
   rw [setIntegral_congr_fun measurableSet_Ioi (fun x _ => hpt x)]
-  rw [integral_sub (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc1)
-      (by simpa only [neg_mul] using exp_neg_integrableOn_Ioi 0 hc2)]
+  rw [integral_sub (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc1)
+      (by simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi 0 hc2)]
   rw [resolvent_laplace hc1, resolvent_laplace hc2]
   norm_num
 
@@ -496,7 +496,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
             mul_le_mul_of_nonneg_left hle (by positivity)
         _ ≤ 2 / c := mul_exp_neg_bound hc (x⁻¹ ^ 2) (by positivity)
   · apply Integrable.mono' (g := fun x : ℝ => Real.exp (-(c * x)))
-    · simpa only [neg_mul] using exp_neg_integrableOn_Ioi (1:ℝ) hc
+    · simpa only [neg_mul, IntegrableOn] using exp_neg_integrableOn_Ioi (1:ℝ) hc
     · apply ContinuousOn.aestronglyMeasurable _ measurableSet_Ioi
       apply ContinuousOn.mul
       · exact (continuousOn_id.inv₀

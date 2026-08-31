@@ -541,9 +541,9 @@ theorem KrClosed_minus_one_tendsto_positive {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r <
       (starRingEnd ℂ) (c j) * c k * KrN0 r N (x j - x k)) Filter.atTop
       (nhds (∑ j : Fin M, ∑ k : Fin M, (starRingEnd ℂ) (c j) * c k *
         (((KrClosed r (x j - x k) : ℝ) : ℂ) - 1))) := by
-    apply tendsto_finset_sum
+    apply tendsto_finsetSum
     intro j _
-    apply tendsto_finset_sum
+    apply tendsto_finsetSum
     intro k _
     exact tendsto_const_nhds.mul (tendsto_KrN0 hr0 hr1 (x j - x k))
   have hNonneg : ∀ᶠ N in Filter.atTop, 0 ≤ (∑ j : Fin M, ∑ k : Fin M,

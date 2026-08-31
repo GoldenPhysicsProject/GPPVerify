@@ -69,7 +69,7 @@ theorem cosets_pairwise_disjoint (H : Subgroup G) :
   simp only [Function.onFun, hfiber]
   rw [Set.disjoint_left]
   intro a hax hay
-  simp only [Set.mem_setOf_eq] at hax hay
+  simp only [Set.mem_ofPred_eq] at hax hay
   exact absurd (hax.symm.trans hay) hxy
 
 /-- **Haar measure of a finite-index measurable subgroup**: `H.index • μ H = μ univ`. -/

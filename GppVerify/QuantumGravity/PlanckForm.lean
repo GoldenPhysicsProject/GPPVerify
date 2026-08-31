@@ -78,6 +78,5 @@ theorem planck_form_bose_difference {lam : ℝ} (hlam : lam ≠ 0) :
   rw [show (2:ℝ) * π * lam = 2 * (π * lam) by ring, key]
   unfold GppStefanBoltzmann.P
   field_simp
-  ring
 
 end GppPlanckForm

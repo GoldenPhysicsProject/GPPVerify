@@ -43,10 +43,7 @@ theorem hasDerivAt_tanh (x : ℝ) : HasDerivAt Real.tanh (1 / Real.cosh x ^ 2) x
     rw [show Real.cosh x * Real.cosh x - Real.sinh x * Real.sinh x =
         Real.cosh x ^ 2 - Real.sinh x ^ 2 by ring, Real.cosh_sq_sub_sinh_sq]
   rw [heq] at h
-  have hfun : (fun y => Real.sinh y / Real.cosh y) = Real.tanh := by
-    funext y
-    exact (Real.tanh_eq_sinh_div_cosh y).symm
-  rwa [hfun] at h
+  simpa [Real.tanh_eq_sinh_div_cosh] using h
 
 /-- The antiderivative: `F(u) = u·tanh(u) − log(cosh u)`. -/
 noncomputable def sechSqAntideriv (u : ℝ) : ℝ := u * Real.tanh u - Real.log (Real.cosh u)

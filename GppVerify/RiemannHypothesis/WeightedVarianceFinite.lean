@@ -24,7 +24,7 @@ theorem weighted_first_moment_sq_le
     (hw : ∀ i ∈ s, 0 ≤ w i) :
     (∑ i ∈ s, w i * x i) ^ 2 ≤
       (∑ i ∈ s, w i) * (∑ i ∈ s, w i * x i ^ 2) := by
-  apply Finset.sum_sq_le_sum_mul_sum_of_sq_eq_mul s
+  apply Finset.sum_sq_le_sum_mul_sum_of_sq_le_mul s
   · intro i hi
     exact hw i hi
   · intro i hi

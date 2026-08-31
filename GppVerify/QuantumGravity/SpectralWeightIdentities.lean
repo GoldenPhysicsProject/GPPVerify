@@ -57,7 +57,6 @@ theorem planck_form {lam : ℝ} (hlam : 0 < lam) :
   unfold P bose
   rw [Real.sinh_eq, hexpneg, hexp2m1, hA, hB]
   field_simp
-  ring
 
 /-- **The reciprocal is the Weierstrass product**: for `λ ≠ 0`, the partial products of
     `1 + λ²/n²` converge to `1/P(λ)`. -/

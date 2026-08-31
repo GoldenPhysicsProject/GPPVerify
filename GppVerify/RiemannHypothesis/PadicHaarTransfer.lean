@@ -88,7 +88,7 @@ instance isAddHaarMeasure_comap :
   map_add_left_eq_self := by
     intro x
     refine Measure.ext fun S hS => ?_
-    have hcont : Continuous (fun z : PadicInt p => x + z) := continuous_add_left x
+    have hcont : Continuous (fun z : PadicInt p => x + z) := continuous_const_add x
     have hpre : MeasurableSet ((fun z => x + z) ⁻¹' S) := hS.preimage hcont.measurable
     rw [Measure.map_apply hcont.measurable hS, comap_apply p hpre, comap_apply p hS]
     have himg : coeAddHom p '' ((fun z => x + z) ⁻¹' S) =

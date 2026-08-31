@@ -210,7 +210,7 @@ theorem hermitian_dotProduct_mulVec {n : Type*} [Fintype n] [DecidableEq n]
     rw [Matrix.star_mulVec]
     simp
   rw [h1, h2, hM.eq, hx]
-  simp [Matrix.dotProduct_smul]
+  simp [dotProduct_smul]
 
 /-- Formalization-queue item `0cf9aebf`, "Parity crossing obstruction from rank-one
 Sylvester displacement". If `C Aplus - Aminus C = β ηᴴ` and `lam` is a common eigenvalue

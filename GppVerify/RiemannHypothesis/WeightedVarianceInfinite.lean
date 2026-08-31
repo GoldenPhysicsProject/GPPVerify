@@ -69,8 +69,7 @@ theorem normalized_weighted_variance_nonneg_tsum
           ((∑' n, w n * x n) / (∑' n, w n)) ^ 2 =
         ((∑' n, w n) * (∑' n, w n * x n ^ 2) -
           (∑' n, w n * x n) ^ 2) / (∑' n, w n) ^ 2 by
-        field_simp [hWne]
-        ring]
+        field_simp [hWne]]
   exact div_nonneg hnum (sq_nonneg _)
 
 end GppWeightedVarianceInfinite

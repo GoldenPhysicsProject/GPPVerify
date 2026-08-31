@@ -66,7 +66,7 @@ theorem digamma_add_one {x : ℝ} (hx : ∀ m : ℕ, x ≠ -m) :
   have hmul : HasDerivAt (fun s : ℝ => s * Real.Gamma s)
       (1 * Real.Gamma x + x * deriv Real.Gamma x) x := by
     have h := (hasDerivAt_id x).mul hderivGx
-    simpa [Pi.div_def] using h
+    simpa only [id_eq] using h
   -- `Gamma (s+1) = s * Gamma s` fails literally at `s = 0` (Mathlib's junk value gives
   -- `Gamma 1 = 1 ≠ 0 = 0 * Gamma 0`), so this can only be an equality of functions on a
   -- neighborhood of `x` avoiding `0`, not a global `funext` — matching the same care
