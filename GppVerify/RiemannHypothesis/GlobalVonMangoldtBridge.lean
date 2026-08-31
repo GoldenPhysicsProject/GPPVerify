@@ -23,8 +23,10 @@ noncomputable def vonMangoldtComplex (n : ℕ) : ℂ :=
 /-- **Global prime-power logarithmic derivative in the absolute-convergence half-plane.** -/
 theorem vonMangoldtLSeries_eq_neg_zeta_logDeriv {s : ℂ} (hs : 1 < s.re) :
     L vonMangoldtComplex s = - deriv riemannZeta s / riemannZeta s := by
-  simpa [vonMangoldtComplex] using
-    (ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs)
+  -- Mathlib 4.33: `simp [vonMangoldtComplex]` no longer unfolds the definition down to the
+  -- `fun n => ↑(Λ n)` that Mathlib's statement uses. The two are defeq by delta, so `exact`
+  -- matches them without needing simp to do the unfolding.
+  exact ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div hs
 
 /-- The Riemann zeta denominator occurring above is nonzero on `Re s > 1`. -/
 theorem riemannZeta_ne_zero_right_half_plane {s : ℂ} (hs : 1 < s.re) :
@@ -72,8 +74,8 @@ theorem neg_zeta_logDeriv_re_eq_tsum_re_terms {s : ℂ} (hs : 1 < s.re) :
       ∑' n : ℕ, (LSeries.term vonMangoldtComplex s n).re := by
   rw [neg_zeta_logDeriv_eq_tsum_vonMangoldt_terms hs]
   have hsum : Summable (fun n : ℕ ↦ LSeries.term vonMangoldtComplex s n) := by
-    simpa [LSeriesSummable, vonMangoldtComplex] using
-      (ArithmeticFunction.LSeriesSummable_vonMangoldt hs)
+    -- Same delta/eta gap as above; `exact` bridges it.
+    exact ArithmeticFunction.LSeriesSummable_vonMangoldt hs
   exact Complex.reCLM.map_tsum hsum
 
 end GppGlobalVonMangoldt

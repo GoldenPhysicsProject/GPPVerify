@@ -39,7 +39,11 @@ theorem hasDerivAt_completed_product
     (f g : ℂ → ℂ) (fp gp s : ℂ)
     (hfder : HasDerivAt f fp s) (hgder : HasDerivAt g gp s) :
     HasDerivAt (fun z => f z * g z) (fp * g s + f s * gp) s := by
-  simpa [add_comm] using hfder.mul hgder
+  -- Mathlib 4.33: the derivative values already match exactly, so `add_comm` is not needed
+  -- — and `simpa` actively hurts, rewriting the hypothesis onto
+  -- `instCommCStarAlgebraComplex.toCStarAlgebra.toAddCommGroup` while the goal wants
+  -- `Complex.addCommGroup`. `exact` absorbs both the Pi-lifting and the instance path.
+  exact hfder.mul hgder
 
 end GppLogDerivativeProduct
 

@@ -1,6 +1,10 @@
 import GppVerify.NumberTheory.TwinPrimeDoublets
 import GppVerify.RiemannHypothesis.PrimeFermionDirac
 import Mathlib.LinearAlgebra.Matrix.PosDef
+-- Mathlib 4.33 split the analytic `PosSemidef` API (`re_dotProduct_nonneg`, which needs
+-- `RCLike`) out into `Mathlib.Analysis.Matrix.PosDef`. Without it `PosSemidef` unfolds to
+-- its bare `And` and `hPSD.re_dotProduct_nonneg` is read as a structure projection.
+import Mathlib.Analysis.Matrix.PosDef
 import Mathlib.Tactic
 
 /-!
