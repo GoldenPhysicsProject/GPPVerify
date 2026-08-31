@@ -1,7 +1,7 @@
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
-import Mathlib.Data.Complex.ExponentialBounds
-import Mathlib.Data.Real.Pi.Bounds
+import Mathlib.Analysis.Complex.ExponentialBounds
+import Mathlib.Analysis.Real.Pi.Bounds
 
 /-!
 # Li's criterion: the entire Riemann Xi function and its first coefficient
@@ -89,8 +89,14 @@ theorem deriv_riemannXi_one :
   have hFG := hasDerivAt_mul_sub_one_at_one.mul hG
   have hFG' : HasDerivAt (fun s : ℂ => s * (s - 1) * completedRiemannZeta₀ s)
       (completedRiemannZeta₀ 1) 1 := by
-    convert hFG using 1
-    simp
+    -- Mathlib 4.33: `HasDerivAt.mul` returns the point-free `f * g` form, so `convert`
+    -- splits off instance-equality side goals (`addCommGroup = ...toCStarAlgebra...`)
+    -- that no `simp` set closes. Rewrite the derivative *value* inside the hypothesis
+    -- and let `exact` absorb both the Pi-lifting and the instance path by defeq.
+    have hval : (1 : ℂ) * completedRiemannZeta₀ 1
+        + 1 * (1 - 1) * deriv completedRiemannZeta₀ 1 = completedRiemannZeta₀ 1 := by ring
+    rw [hval] at hFG
+    exact hFG
   have hXi : HasDerivAt riemannXi ((1 / 2) * completedRiemannZeta₀ 1) 1 :=
     (hFG'.add_const 1).const_mul ((1 : ℂ) / 2)
   exact hXi.deriv

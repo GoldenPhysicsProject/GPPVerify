@@ -1,4 +1,5 @@
-import Mathlib.Analysis.InnerProductSpace.Projection
+import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional
+import Mathlib.Analysis.InnerProductSpace.Projection.Submodule
 
 /-!
 # Perfect self-duality of Gr(k,n)
