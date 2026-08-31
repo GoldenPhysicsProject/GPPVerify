@@ -161,7 +161,7 @@ theorem vonMangoldt_mode_positiveType (a : ℝ) (n : ℕ) :
 theorem positiveType_finset_sum_modes
     {ι : Type*} [DecidableEq ι] (S : Finset ι) (f : ι → ℝ → ℝ)
     (hf : ∀ i ∈ S, PositiveType (f i)) :
-    PositiveType (fun t => ∑ i in S, f i t) := by
+    PositiveType (fun t => ∑ i ∈ S, f i t) := by
   classical
   induction S using Finset.induction_on with
   | empty =>
@@ -169,7 +169,7 @@ theorem positiveType_finset_sum_modes
       simp
   | @insert a S ha ih =>
       have haPT : PositiveType (f a) := hf a (by simp)
-      have hSPT : PositiveType (fun t => ∑ i in S, f i t) := by
+      have hSPT : PositiveType (fun t => ∑ i ∈ S, f i t) := by
         apply ih
         intro i hi
         exact hf i (by simp [hi])
@@ -181,7 +181,7 @@ theorem positiveType_finset_sum_modes
 /-- Every finite truncation of the global von-Mangoldt cosine response is positive type. -/
 theorem finite_vonMangoldt_cosine_positiveType (a : ℝ) (S : Finset ℕ) :
     PositiveType (fun t : ℝ =>
-      ∑ n in S, ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log n * a) *
+      ∑ n ∈ S, ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log n * a) *
         Real.cos (Real.log n * t)) := by
   apply positiveType_finset_sum_modes S
   intro n hn
