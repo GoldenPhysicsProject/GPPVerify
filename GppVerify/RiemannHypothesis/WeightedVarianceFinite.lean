@@ -30,7 +30,9 @@ theorem weighted_first_moment_sq_le
   · intro i hi
     exact mul_nonneg (hw i hi) (sq_nonneg (x i))
   · intro i hi
-    ring
+    -- Mathlib 4.33: this side goal now arrives already normalised
+    -- (`w i ^ 2 * x i ^ 2 ≤ w i ^ 2 * x i ^ 2`), so `ring` has nothing to do and fails.
+    exact le_of_eq (by ring)
 
 /-- The finite unnormalized weighted variance numerator is nonnegative. -/
 theorem weighted_variance_numerator_nonneg

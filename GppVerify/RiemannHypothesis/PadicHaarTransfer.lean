@@ -163,7 +163,9 @@ theorem image_span_pow_eq_closedBall (n : ℕ) :
   · intro hx
     have hx1 : ‖x‖ ≤ 1 := le_trans hx hle1
     refine ⟨⟨x, hx1⟩, (PadicInt.norm_le_pow_iff_mem_span_pow ⟨x, hx1⟩ n).mp ?_, rfl⟩
-    rw [PadicInt.norm_def]
+    -- Mathlib 4.33: `rw [PadicInt.norm_def]` no longer matches here ("did not find an
+    -- occurrence of ‖?m‖"), but the lemma is `rfl` — `‖(⟨x, hx1⟩ : ℤ_[p])‖` is definitionally
+    -- `‖x‖` — so `exact` closes it without needing the rewrite to fire.
     exact hx
 
 /-- **The payoff**: `fieldHaarMeasure p (pⁿ ℤ_p) = p⁻ⁿ`, transferred from the

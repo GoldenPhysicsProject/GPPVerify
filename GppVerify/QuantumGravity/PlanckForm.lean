@@ -66,6 +66,14 @@ theorem nB_sub_nB_two_mul {y : ℝ} (hy : y ≠ 0) :
   unfold nB
   rw [h2y, hsinh]
   field_simp
+  -- Mathlib 4.33: `field_simp` leaves one `Real.exp y` unfolded next to the `E`s that
+  -- `set` introduced, so `ring` sees two different atoms. Fold it back first.
+  rw [← hE]
+  -- Mathlib 4.33: the goal now carries `E ^ 2 - 1` while `hden2` states `E * E - 1`,
+  -- so `field_simp` cannot see the denominator is nonzero. Same shape mismatch as in
+  -- GrassmannianMass; restate the fact in the form the goal actually uses.
+  have hden2' : E ^ 2 - 1 ≠ 0 := fun h => hden2 (by linear_combination h)
+  field_simp
   ring
 
 /-- **The Planck form of the Plancherel weight** (`Modular_Thermality`, Theorem "Planck

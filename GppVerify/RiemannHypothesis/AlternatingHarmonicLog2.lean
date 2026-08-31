@@ -101,6 +101,8 @@ theorem log_two_sub_partial (n : ℕ) :
     show 1 / (1 + x) - ∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k = (-x)^n / (1 + x)
     rw [sum_neg_pow_eq n hx0]
     field_simp
+    -- Mathlib 4.33: `field_simp` stops one `ring` step short here.
+    ring
   calc Real.log 2 - ∑ k ∈ Finset.range n, (-1:ℝ)^k / (k+1)
       = (∫ x in (0:ℝ)..1, 1 / (1 + x)) -
           ∫ x in (0:ℝ)..1, (∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k) := by
