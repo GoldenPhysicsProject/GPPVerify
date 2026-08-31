@@ -55,7 +55,7 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
   have hlogsum : ∀ n : ℕ, Real.log (∏ j ∈ range n, ((1:ℝ) + lam ^ 2 / ((j:ℝ) + 1) ^ 2))
       = ∑ j ∈ range n, Real.log (1 + lam ^ 2 / ((j:ℝ) + 1) ^ 2) := by
     intro n
-    exact Real.log_prod _ _ (fun j _ => (hterm_pos j).ne')
+    exact Real.log_prod (fun j _ => (hterm_pos j).ne')
   simp_rw [hlogsum] at hlogcont
   have hsummable : Summable (fun j : ℕ => Real.log (1 + lam ^ 2 / ((j:ℝ) + 1) ^ 2)) := by
     apply Summable.of_nonneg_of_le

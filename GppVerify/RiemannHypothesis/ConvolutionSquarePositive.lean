@@ -39,8 +39,8 @@ theorem integrable_shift_mul_shift {f : ℝ → ℝ} (hf : Integrable f (volume 
     Integrable (fun y => f (y + a) * f (y + b)) (volume : Measure ℝ) := by
   have ha : Integrable (fun y => f (y + a)) (volume : Measure ℝ) := hf.comp_add_right a
   have hb : Integrable (fun y => f (y + b)) (volume : Measure ℝ) := hf.comp_add_right b
-  exact hb.bdd_mul ha.aestronglyMeasurable
-    ⟨C, fun y => by rw [Real.norm_eq_abs]; exact hbdd (y + a)⟩
+  exact hb.bdd_mul (c := C) ha.aestronglyMeasurable
+    (Filter.Eventually.of_forall fun y => by rw [Real.norm_eq_abs]; exact hbdd (y + a))
 
 /-- Translation identity: `P(a−b) = ∫ f(y+a)·f(y+b) dy`, by right-invariance of Lebesgue
     measure. -/

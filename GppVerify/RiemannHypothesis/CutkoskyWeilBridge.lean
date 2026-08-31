@@ -380,7 +380,7 @@ theorem summable_rpow_natAbs {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) :
 theorem summable_KrClosed_summand {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) (θ : ℝ) :
     Summable (fun n : ℤ => if n = 0 then (0 : ℂ) else (r : ℂ) ^ n.natAbs *
       Complex.exp (Complex.I * n * θ)) := by
-  apply Summable.of_norm_bounded _ (summable_rpow_natAbs hr0 hr1)
+  apply Summable.of_norm_bounded (summable_rpow_natAbs hr0 hr1)
   intro n
   split_ifs with h
   · simp

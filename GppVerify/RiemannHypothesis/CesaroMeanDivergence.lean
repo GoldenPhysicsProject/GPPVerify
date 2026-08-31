@@ -143,7 +143,7 @@ theorem tendsto_cesaro_mean_atTop_of_ne {σ : ℝ} (hσ : σ ≠ 1 / 2) :
         ((2 * σ - 1) * (2 * Real.log R))) := by
     filter_upwards [eventually_gt_atTop (0 : ℝ)] with R hR
     have hRinv : (0 : ℝ) < 1 / R := by positivity
-    have h0 : (0 : ℝ) ∉ Set.uIcc (1 / R) R := Set.not_mem_uIcc_of_lt hRinv hR
+    have h0 : (0 : ℝ) ∉ Set.uIcc (1 / R) R := Set.notMem_uIcc_of_lt hRinv hR
     rw [integral_rpow (Or.inr ⟨hrne, h0⟩),
         show (2 * σ - 2 + 1 : ℝ) = 2 * σ - 1 by ring,
         show (1 / R : ℝ) = R⁻¹ by rw [one_div],

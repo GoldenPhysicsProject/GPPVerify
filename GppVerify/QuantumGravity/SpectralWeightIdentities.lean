@@ -1,3 +1,4 @@
+import Mathlib.Analysis.Complex.Exponential
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
 
@@ -31,7 +32,7 @@ theorem planck_form {lam : ℝ} (hlam : 0 < lam) :
     P lam = 2 * π * lam * (bose (π * lam) - bose (2 * π * lam)) := by
   have hpl : 0 < π * lam := by positivity
   have ha1 : (1:ℝ) < Real.exp (π * lam) := by
-    have h := Real.exp_lt_exp_of_lt hpl
+    have h := Real.exp_lt_exp.mpr hpl
     rwa [Real.exp_zero] at h
   have hexp2m1 : Real.exp (2 * π * lam) - 1
       = (Real.exp (π * lam) - 1) * (Real.exp (π * lam) + 1) := by
@@ -52,6 +53,7 @@ theorem planck_form {lam : ℝ} (hlam : 0 < lam) :
       - 1 / ((Real.exp (π * lam) - 1) * (Real.exp (π * lam) + 1))
       = Real.exp (π * lam) / ((Real.exp (π * lam) - 1) * (Real.exp (π * lam) + 1)) := by
     field_simp
+    ring
   unfold P bose
   rw [Real.sinh_eq, hexpneg, hexp2m1, hA, hB]
   field_simp

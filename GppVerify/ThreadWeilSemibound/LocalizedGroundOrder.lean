@@ -52,7 +52,7 @@ consequence of `IsGLB.mono`, with no reference to what `R` or `S` concretely are
 theorem lam_antitone_of_isGLB_of_nested {S : ℝ → Set X} (hS : Monotone S) {R : X → ℝ}
     {lam : ℝ → ℝ} (hlam : ∀ a, IsGLB (R '' S a) (lam a)) : Antitone lam := by
   intro a b hab
-  exact (hlam a).mono (hlam b) (Set.image_subset R (hS hab))
+  exact (hlam a).mono (hlam b) (Set.image_mono R (hS hab))
 
 /-- **(ii) Global uniform lower bound ⟺ `lam` bounded below.** A uniform constant `C`
 witnessing `-C ≤ R v` for every `v` in every level `S a` exists if and only if

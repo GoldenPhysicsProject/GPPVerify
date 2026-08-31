@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
 import Mathlib.Topology.Instances.ENNReal.Lemmas
 
@@ -88,7 +89,7 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
   have hlog_prod : ∀ n : ℕ,
       Real.log (∏ j ∈ Finset.range n, ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2))
         = ∑ j ∈ Finset.range n, Real.log (1 + lam ^ 2 / ((j : ℝ) + 1) ^ 2) :=
-    fun n => Real.log_prod _ _ (fun j _ => hterm_ne j)
+    fun n => Real.log_prod (fun j _ => hterm_ne j)
   have hpos_lim : 0 < Real.sinh (Real.pi * lam) / (Real.pi * lam) := sinh_div_pos hlam
   have hlogtendsto : Tendsto (fun n : ℕ =>
       ∑ j ∈ Finset.range n, Real.log (1 + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) atTop

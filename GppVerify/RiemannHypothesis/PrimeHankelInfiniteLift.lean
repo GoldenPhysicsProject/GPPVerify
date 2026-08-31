@@ -23,7 +23,7 @@ theorem tsum_pos_of_finite_sum_pos
     (hS : 0 < ∑ i ∈ S, f i) :
     0 < ∑' i, f i := by
   exact lt_of_lt_of_le hS
-    (sum_le_tsum S (fun i _ => hnonneg i) hf)
+    (Summable.sum_le_tsum S (fun i _ => hnonneg i) hf)
 
 /-- Convenient form for weighted squares: positivity of one finite truncation
 lifts to positivity of the full summable weighted-square series. -/

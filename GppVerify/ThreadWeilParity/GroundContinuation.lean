@@ -43,7 +43,7 @@ theorem lamPlus_lt_lamMinus_of_ne_of_lt_of_preconnected {s : Set ℝ} (hs : IsPr
     (hne : ∀ a ∈ s, lamPlus a ≠ lamMinus a) :
     ∀ a ∈ s, lamPlus a < lamMinus a := by
   intro a ha
-  rcases lt_or_le (lamPlus a) (lamMinus a) with h | h
+  rcases lt_or_ge (lamPlus a) (lamMinus a) with h | h
   · exact h
   · exfalso
     obtain ⟨x, hx, hxeq⟩ := hs.intermediate_value₂ ha0 ha hcp hcm hlt0.le h

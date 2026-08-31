@@ -1,3 +1,4 @@
+import Mathlib.Data.Matrix.Mul
 import Mathlib.LinearAlgebra.Matrix.Hermitian
 import Mathlib.LinearAlgebra.Matrix.SchurComplement
 import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
@@ -122,7 +123,7 @@ theorem odd_eigenpair_defect_step1
       (Matrix.mulVec_mulVec v Aminus (CProj D)).symm
     have step4 : D *ᵥ ((E - lam • (1 : Matrix n n ℂ)) *ᵥ x1)
         = D *ᵥ (E *ᵥ x1) - lam • (D *ᵥ x1) := by
-      rw [Matrix.sub_mulVec, Matrix.smul_mulVec_assoc, Matrix.one_mulVec, Matrix.mulVec_sub,
+      rw [Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec, Matrix.mulVec_sub,
         Matrix.mulVec_smul]
     rw [step1, step2, step3, hCApv, hCproj0, hy', step4]
   have hrhs : (Matrix.vecMulVec (D *ᵥ b) (star (etaVec η1))) *ᵥ v

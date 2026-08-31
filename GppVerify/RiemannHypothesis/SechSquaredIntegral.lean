@@ -45,7 +45,7 @@ theorem hasDerivAt_tanh (x : ℝ) : HasDerivAt Real.tanh (1 / Real.cosh x ^ 2) x
   rw [heq] at h
   have hfun : (fun y => Real.sinh y / Real.cosh y) = Real.tanh := by
     funext y
-    rw [Real.tanh_eq_sinh_div_cosh]
+    exact (Real.tanh_eq_sinh_div_cosh y).symm
   rwa [hfun] at h
 
 /-- The antiderivative: `F(u) = u·tanh(u) − log(cosh u)`. -/

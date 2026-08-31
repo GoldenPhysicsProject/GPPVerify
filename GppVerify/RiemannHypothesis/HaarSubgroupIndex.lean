@@ -56,9 +56,9 @@ theorem measurableSet_smul {s : Set G} (hs : MeasurableSet s) (g : G) :
 
 /-- Distinct left cosets `x.out • H` (for `x : G ⧸ H`) are pairwise disjoint: each coset
     is exactly the fiber of the quotient map over `x`. -/
-@[to_additive cosets_pairwise_disjoint_add "Distinct left cosets `x.out +ᵥ H` (for
+@[to_additive cosets_pairwise_disjoint_add /-- Distinct left cosets `x.out +ᵥ H` (for
     `x : G ⧸ H`) are pairwise disjoint: each coset is exactly the fiber of the quotient
-    map over `x`."]
+    map over `x`. -/]
 theorem cosets_pairwise_disjoint (H : Subgroup G) :
     Pairwise (Function.onFun Disjoint (fun x : G ⧸ H => x.out • (H : Set G))) := by
   have hfiber : ∀ x : G ⧸ H, x.out • (H : Set G) = {y : G | (y : G ⧸ H) = x} := by

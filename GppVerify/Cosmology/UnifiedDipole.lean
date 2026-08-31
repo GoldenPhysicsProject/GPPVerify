@@ -61,7 +61,7 @@ theorem dipole_shadow_eigenvalue_complex (lam : ℝ) (hlam : lam ≠ 0) :
       lam ^ 2 * (1 + lam ^ 2) := by
     rw [Complex.normSq_apply, hwre, hwim]; ring
   rw [Complex.div_re, hzre, hzim, hwre, hwim, hns]
-  rw [div_add_div_same,
+  rw [← add_div,
     show (1 : ℝ) * -(lam ^ 2) + -lam * lam = lam ^ 2 * -2 by ring,
     mul_comm (lam ^ 2) ((1 : ℝ) + lam ^ 2)]
   rw [mul_comm (lam ^ 2) (-2 : ℝ), mul_div_mul_right _ _ (pow_ne_zero 2 hlam)]
