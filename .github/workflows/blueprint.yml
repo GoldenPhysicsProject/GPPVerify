@@ -3,6 +3,15 @@ name: Blueprint
 on:
   push:
     branches: ["main"]
+  # Validate the blueprint on PRs too. The build job runs everywhere; only the
+  # deploy job is gated on main. Without this a LaTeX error is invisible until it
+  # has already been merged and republished the live site -- which is exactly how
+  # the escaped-underscore breakage happened (see website/GPPVERIFY.md).
+  pull_request:
+    paths:
+      - 'blueprint/**'
+      - 'scripts/patch_mobile.py'
+      - '.github/workflows/blueprint.yml'
   workflow_dispatch:
 
 permissions:
@@ -41,6 +50,7 @@ jobs:
           echo "lean.goldenphysics.org" > blueprint/src/web/CNAME
 
       - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: blueprint/src/web
@@ -48,6 +58,8 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build-blueprint
+    # Never deploy from a pull request -- PRs validate the build only.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
