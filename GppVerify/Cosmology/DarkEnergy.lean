@@ -19,9 +19,9 @@ Source: dark_energy_full2.tex
 - `phantom_crossing_condition` — w = -1 iff f = 1/3
 
 ### Axioms (T-boundary PDE, conformal geometry):
-- `dark_energy_eos_from_t_boundary` — w(a) = -2/3 - f - (2/3)d ln f/d ln a
-- `weyl_curvature_zero_at_boundary` — C_μνρσ|_{ℐ±} = 0
-- `desi_dr2_fit` — χ² = 0.02 DESI DR2 fit
+- `open_dark_energy_eos_from_t_boundary` — w(a) = -2/3 - f - (2/3)d ln f/d ln a
+- `open_weyl_curvature_zero_at_boundary` — C_μνρσ|_{ℐ±} = 0
+- `open_desi_dr2_fit` — χ² = 0.02 DESI DR2 fit
 -/
 
 namespace GppDarkEnergy
@@ -83,14 +83,14 @@ theorem cpl_at_present (w0 wa : ℝ) :
     Proof requires T-boundary enforcement calculation + conformal self-lensing.
     Not an axiom: the statement is content-free (`True`); left as a
     documented stub rather than adding an unnecessary axiom to the trust base. -/
-theorem dark_energy_eos_from_t_boundary : True := trivial
+theorem open_dark_energy_eos_from_t_boundary : True := trivial
 
 /-- T-symmetric boundary condition forces Weyl curvature to vanish at ℐ±:
     C_μνρσ|_{ℐ±} = 0. Proof requires conformal compactification. -/
-theorem weyl_curvature_zero_at_boundary : True := trivial
+theorem open_weyl_curvature_zero_at_boundary : True := trivial
 
 /-- DESI DR2 fit: χ² = 0.02 with zero free parameters (vs ΛCDM χ² = 11.2).
     Requires cosmological data analysis. -/
-theorem desi_dr2_fit : True := trivial
+theorem open_desi_dr2_fit : True := trivial
 
 end GppDarkEnergy

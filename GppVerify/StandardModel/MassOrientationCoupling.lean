@@ -67,7 +67,7 @@ theorem tau_tau_eq_neg (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
     immediate one-line consequence (apply the above to the negated tuple,
     whose determinant (-a)(-d)-(-b)(-c) = ad-bc is unchanged) rather than
     separate mathematical content. -/
-theorem tau_pow_four_remark : True := trivial
+theorem open_tau_pow_four_remark : True := trivial
 
 /-- Theorem 3.3(iv): the differential dτ_A has characteristic polynomial
     t⁴ - Δ⁻⁴ (Δ = det A) with explicit eigenvectors A(1∓ε)/2 for
@@ -76,7 +76,7 @@ theorem tau_pow_four_remark : True := trivial
     non-symmetric real matrix. Verified symbolically and numerically in
     the companion script (charpoly, eigenvectors, ensemble of 500 random
     matrices, unit-determinant fourth-roots-of-unity locus). -/
-theorem differential_charpoly : True := trivial
+theorem open_differential_charpoly : True := trivial
 
 /-- The Cholesky-type factor `λ¹ = (√p00, p̄01/√p00)` from Lemma 2.1(c). -/
 noncomputable def lambda1 (p00 : ℝ) (p01 : ℂ) : ℂ × ℂ :=

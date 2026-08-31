@@ -177,13 +177,13 @@ theorem mirror_baryon_lower_bound : (1 : ℕ) ≤ 1 := le_refl 1
 /-- Massless lightest neutrino prediction from T-boundary.
     Source: zitterbewegung paper, pred:massless.
     The lightest neutrino is massless because it cannot acquire T-boundary mass. -/
-theorem lightest_neutrino_massless : True := trivial
+theorem open_lightest_neutrino_massless : True := trivial
 -- NOTE: Requires spectral analysis of T-boundary Dirac operator (Mathlib gap).
 
 /-- Majorana condition from T-boundary.
     Source: zitterbewegung paper, cor:neutrino.
     Neutrinos satisfying the T-boundary condition are their own antiparticles. -/
-theorem majorana_from_T_boundary : True := trivial
+theorem open_majorana_from_T_boundary : True := trivial
 -- NOTE: Requires T-boundary differential geometry formalism (Mathlib gap).
 
 end GppWeylCasimir

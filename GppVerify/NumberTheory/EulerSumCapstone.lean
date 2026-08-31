@@ -205,6 +205,6 @@ theorem M2_eq : (Real.pi ^ 4 / 90) / Real.pi ^ 4 = 1 / 90 := by
     generating-function/shuffle-relation argument for `ζ(3,1)`) needs genuinely different
     machinery that Mathlib does not currently provide (no
     `Mathlib.NumberTheory.MultipleZetaValues`). Named honestly rather than faked. -/
-theorem euler_sum_two_gap : True := trivial
+theorem open_euler_sum_two_gap : True := trivial
 
 end GppEulerSum

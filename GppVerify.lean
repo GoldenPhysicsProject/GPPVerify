@@ -17,7 +17,7 @@ import GppVerify.RiemannHypothesis.HaarMeasure
 import GppVerify.RiemannHypothesis.FunctionalEquation
 
 -- Shadow = time reversal (thm:shadow-cpt, most-cited result)
--- NOTE: three_generations_from_c0_and_link6 carries
+-- NOTE: open_three_generations_from_c0_and_link6 carries
 --       "depends on thm:link6 — open problem"
 import GppVerify.RiemannHypothesis.ShadowSymmetry
 
@@ -56,8 +56,8 @@ import GppVerify.CelestialHolography.ShadowDiscontinuity
 -- analytic celestial-sewing identity (inverse-Mellin of the pair shadow discontinuity =
 -- momentum-space pair closure) is isolated as a LOCAL hypothesis,
 -- ShadowPairSewing.sewing_identity, not proved here and not a global axiom -- it does
--- NOT discharge the existing celestial_amplitude_has_cut / disc_equals_loop_integrand /
--- shadow_disc_mellin_density stubs above, which are untouched. No axiom, no sorry.
+-- NOT discharge the existing open_celestial_amplitude_has_cut / open_disc_equals_loop_integrand /
+-- open_shadow_disc_mellin_density stubs above, which are untouched. No axiom, no sorry.
 import GppVerify.CelestialHolography.TreeLoopSewing
 
 -- Dispersion reconstruction: proves the general (physics-convention-independent)
@@ -180,7 +180,7 @@ import GppVerify.QuantumInformation.ChoiMatrix
 
 -- ── Proposition 2.2, complete (New) ────────────────────────────
 -- Choi(transpose) = SWAP exactly, hence transpose map on M_2(C) is
--- not completely positive: no_enactment fully retired for d=2.
+-- not completely positive: open_no_enactment fully retired for d=2.
 import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
 
 -- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, ONON5213.tex) ─
@@ -1089,7 +1089,7 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- reflection pairing (Yakaboylu/Bombieri-Lagarias style) with NO prime, Mellin, or Haar-measure
 -- content to match against; already flagged in this file's own module doc (see above) before
 -- this pass began. The correct classical target is instead HaarPositivityWeil.lean's
--- weil_criterion (D_k = Sum_rho Omega-hat(rho) + local terms), which remains a full True-stub,
+-- open_weil_criterion (D_k = Sum_rho Omega-hat(rho) + local terms), which remains a full True-stub,
 -- honestly blocked on Tate's thesis + idele class groups (neither in Mathlib) for its ADELIC
 -- form. But the classical ELEMENTARY (non-adelic) explicit formula's finite-prime local term
 -- has a clean, checked closed form: with zeta_p(s):=(1-p^{-s})^{-1} the local Euler factor,

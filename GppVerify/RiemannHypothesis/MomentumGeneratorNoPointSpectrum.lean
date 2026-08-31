@@ -5,7 +5,7 @@ import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 /-!
 # The scaling generator has no globally square-integrable eigenfunction
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 Source: `ONON5213.tex` (Zenodo record 21260806, "On the Nature of Nature: Celestial

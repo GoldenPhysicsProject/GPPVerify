@@ -4,7 +4,7 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 /-!
 # Dark Matter Abundance from Shadow Symmetry (thm:dm-abundance, cited 13×)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:dm-abundance` (ONON52, third-most-cited, 13×):
@@ -75,7 +75,7 @@ lemma boltzmann_relic_form (m T_freeze M_Pl : ℝ)
 
     Gap: requires Boltzmann-equation analysis plus shadow-symmetry-breaking theory,
     neither of which exists in Mathlib. -/
-theorem shadow_breaking_gives_abundance : True := trivial
+theorem open_shadow_breaking_gives_abundance : True := trivial
 
 /-- Unitarity of the shadow operator implies positive abundance.
 

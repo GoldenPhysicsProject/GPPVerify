@@ -14,7 +14,7 @@
 -- cleanest possible bill of health, while asserting nothing.
 --
 -- This script contained exactly that bug until 2026-08-14: it audited
--- `GppShadow.three_generations_from_c0_and_link6`, a `∀ (_ : True), True` stub in
+-- `GppShadow.open_three_generations_from_c0_and_link6`, a `∀ (_ : True), True` stub in
 -- ShadowSymmetry.lean, and duly reported it axiom-free. The real theorem is
 -- `GppLink6.three_generations_from_c0`. Audit that one instead.
 --

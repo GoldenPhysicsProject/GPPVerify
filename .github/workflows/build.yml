@@ -83,3 +83,9 @@ jobs:
           echo
           echo "NOTE: a file can report 0 sorries and 0 axioms and still be mostly stubs."
           echo "Quote all three numbers (sorry / axiom / stub) in any status claim."
+
+      - name: Stub naming gate (FAILS the build)
+        run: python3 scripts/check_stub_naming.py
+
+      - name: Blueprint reference gate (FAILS the build)
+        run: python3 scripts/check_blueprint_refs.py

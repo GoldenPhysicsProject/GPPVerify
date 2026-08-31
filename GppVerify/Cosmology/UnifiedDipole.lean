@@ -21,8 +21,8 @@ Source: unified_dipole_v115.tex
 - `shadow_enhancement_sign` — dipole enhancement factor > 1
 
 ### Axioms (observational cosmology, T-boundary):
-- `dipole_survey_fit` — χ²=0.166, 4-survey fit with zero free parameters
-- `bost_connes_inflation_phase` — inflation as near-critical BC system
+- `open_dipole_survey_fit` — χ²=0.166, 4-survey fit with zero free parameters
+- `open_bost_connes_inflation_phase` — inflation as near-critical BC system
 -/
 
 namespace GppUnifiedDipole
@@ -123,10 +123,10 @@ theorem shadow_catwise_enhancement :
     Requires integration over flux-limited survey window functions. Not an
     axiom: the statement is content-free (`True`); left as a documented
     stub rather than adding an unnecessary axiom to the trust base. -/
-theorem dipole_survey_fit : True := trivial
+theorem open_dipole_survey_fit : True := trivial
 
 /-- Inflation as near-critical Bost–Connes: β_inf = 1+ε, just above the
     β_c = 1 phase transition. Requires BC Hamiltonian analysis. -/
-theorem bost_connes_inflation_phase : True := trivial
+theorem open_bost_connes_inflation_phase : True := trivial
 
 end GppUnifiedDipole

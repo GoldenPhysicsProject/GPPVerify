@@ -43,35 +43,35 @@ theorem schubert_dim_sum : 0 + 1 + 2 + 2 + 3 + 4 = (12 : ℕ) := by norm_num
 /-! ## Twistor geometry axioms -/
 
 /-- Penrose correspondence: non-null twistors ↔ lines in P³ (twistor lines = null rays) -/
-theorem penrose_correspondence : True := trivial
+theorem open_penrose_correspondence : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, thm:penrose-correspondence
 -- MATHLIB GAP: Complex manifold theory / projective spaces over ℂ not formalized
 -- to the level needed for the Penrose-Ward transform.
 
 /-- Penrose-Ward transform: instantons on S⁴ ↔ holomorphic bundles on CP³ -/
-theorem penrose_ward_transform : True := trivial
+theorem open_penrose_ward_transform : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex
 -- MATHLIB GAP: Holomorphic vector bundles, Yang-Mills instantons not in Mathlib.
 
 /-- ASD sector: H¹(PT, O(-4)) = space of ASD Yang-Mills fields -/
-theorem asd_cohomology : True := trivial
+theorem open_asd_cohomology : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, prop:cohomology
 -- MATHLIB GAP: Sheaf cohomology on complex manifolds not in Mathlib 4.19.0.
 
 /-- SD sector: H¹(PT*, O(-4)) = space of SD Yang-Mills fields (googly space) -/
-theorem sd_cohomology : True := trivial
+theorem open_sd_cohomology : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, prop:cohomology
 
 /-- Googly map: Haar self-duality on Gr(2,4) interchanges ASD and SD -/
-theorem googly_map_on_cohomology : True := trivial
+theorem open_googly_map_on_cohomology : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, prop:cohomology
 -- This is the mathematical content of the "googly problem resolution":
 -- the Haar measure self-duality under inversion on Gr(2,4) provides
 -- the map between ASD and SD that was missing in Penrose's original construction.
--- MATHLIB GAP: Combines penrose_ward_transform + haar_self_duality.
+-- MATHLIB GAP: Combines open_penrose_ward_transform + haar_self_duality.
 
 /-- Googly resolution: SD sector = T-image of ASD sector -/
-theorem googly_resolution_T_image : True := trivial
+theorem open_googly_resolution_T_image : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, main theorem
 -- The googly map is identified with T (time reversal) via the Haar inversion J.
 -- MATHLIB GAP: Requires all of the above plus T-reversal formalism.
@@ -83,27 +83,27 @@ theorem shadow_as_grassmannian_involution :
     ∀ (Δ : ℤ), 2 - Δ = 2 - Δ := fun _ => rfl
 
 /-- The googly map in twistor space corresponds to shadow reflection in CFT -/
-theorem googly_is_shadow : True := trivial
+theorem open_googly_is_shadow : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex
 -- The ONON identification: googly = shadow = T-reversal = Haar inversion J.
 
 /-! ## Holography -/
 
 /-- Celestial holography: Yang-Mills in bulk ↔ CFT on celestial sphere -/
-theorem celestial_holography : True := trivial
+theorem open_celestial_holography : True := trivial
 -- SOURCE: Multiple papers; the holographic dictionary is the core of ONON.
 -- MATHLIB GAP: Full holographic renormalization group not formalized.
 
 /-- The shadow discontinuity formula gives the one-loop integrand -/
-theorem shadow_discontinuity_one_loop : True := trivial
+theorem open_shadow_discontinuity_one_loop : True := trivial
 -- SOURCE: shadow_discontinuity_paper_v13.tex, thm:shadow-disc
 -- MATHLIB GAP: Loop amplitude integrals in celestial coordinates.
 
 /-- Cut-shadow correspondence: unitarity cuts = shadow discontinuities -/
-theorem cut_shadow_correspondence : True := trivial
+theorem open_cut_shadow_correspondence : True := trivial
 -- SOURCE: shadow_discontinuity_paper_v13.tex, lem:cut-shadow
 -- MATHLIB GAP: Optical theorem / unitarity in QFT not formalized.
 
-theorem twistor_googly_summary : True := trivial
+theorem open_twistor_googly_summary : True := trivial
 
 end GppTwistorGoogly

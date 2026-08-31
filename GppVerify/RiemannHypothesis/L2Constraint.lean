@@ -6,7 +6,7 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 /-!
 # L² Constraint Forces Re(s) = 1/2  (thm:l2-constraint)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `thm:l2-constraint` (ONON52, cited 12×):
@@ -74,11 +74,11 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
 /-- K¹ = A¹/Q× is compact with finite Haar measure.
     (Fujisaki's lemma; Weil 1974 Ch. IV §2.)
     Gap: Mathlib.NumberTheory.NumberField.Adeles. -/
-theorem K1_compact_haar : True := trivial
+theorem open_K1_compact_haar : True := trivial
 
 /-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).
     Follows from adelic_haar_self_dual. -/
-theorem T_preserves_L2 : True := trivial
+theorem open_T_preserves_L2 : True := trivial
 
 /-- A T-eigenfunction in L²(K¹) forces Re(s) = 1/2. This is *not* an axiom: the real
     claim is conditional on `χ_s ∈ L²(K¹)` and `χ_s` being a `T`-eigenfunction, neither
@@ -87,8 +87,8 @@ theorem T_preserves_L2 : True := trivial
     conclusion unconditionally would make the resulting `axiom` — and everything
     built on it — logically inconsistent: instantiated at any `s` with `s.re ≠ 1/2`
     (e.g. `s = 2`) it proves `False`. Left as a documented, content-free stub instead,
-    exactly like `K1_compact_haar` and `T_preserves_L2` above. -/
-theorem l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
+    exactly like `open_K1_compact_haar` and `open_T_preserves_L2` above. -/
+theorem open_l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
 
 -- ============================================================
 -- §3  Main theorem (thm:l2-constraint)
@@ -104,13 +104,13 @@ theorem l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
     of this file — this is *not* encoded as an unconditional theorem with `True` standing
     in for the missing hypotheses (doing so made the corresponding `axiom` inconsistent).
     Left as a documented, content-free stub. -/
-theorem l2_constraint : True := trivial
+theorem open_l2_constraint : True := trivial
 
 /-- Claim: every L²-admissible non-trivial zero of ζ satisfies `Re(s) = 1/2`. Same
-    status as `l2_constraint` above: a real, precisely-stated mathematical claim, not
+    status as `open_l2_constraint` above: a real, precisely-stated mathematical claim, not
     yet formalizable without adèlic L² theory, left honest rather than encoded as an
     unconditionally-quantified (and hence false) axiom. -/
-theorem l2_constraint_implies_rh : True := trivial
+theorem open_l2_constraint_implies_rh : True := trivial
 
 end GppL2
 
@@ -119,5 +119,5 @@ end GppL2
 #check @GppL2.conj_eq_shadow_iff_critical
 #check @GppL2.principal_series_char_unitary
 #check @GppL2.norm_one_of_mul_conj_eq_one
-#check @GppL2.l2_constraint
-#check @GppL2.l2_constraint_implies_rh
+#check @GppL2.open_l2_constraint
+#check @GppL2.open_l2_constraint_implies_rh

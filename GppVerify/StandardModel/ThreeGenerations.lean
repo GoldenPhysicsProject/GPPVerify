@@ -5,7 +5,7 @@ import Mathlib.FieldTheory.Finiteness
 /-!
 # Three Fermion Generations from Division Algebra Tower (cor:three-generations-anomaly)
 
-## Golden Physics Project — ONON Framework Formalization
+## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.19.0
 
 This file formalizes `cor:three-generations-anomaly` (ONON52, cited 12×):
@@ -127,7 +127,7 @@ theorem three_generations : (3 : ℕ) = 3 := by
 
 /-- Anomaly cancellation with SM gauge group forces n_gen = 3.
     THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM. -/
-theorem anomaly_cancellation_forces_three_generations :
+theorem open_anomaly_cancellation_forces_three_generations :
     ∀ (_ : True), True := by
   -- depends on thm:link6 — open problem
   intro; trivial
@@ -141,4 +141,4 @@ end GppSM
 #check @GppSM.sedenion_dim_outside_nda_set
 #check @GppSM.HurwitzDimensionHypothesis
 #check @GppSM.three_generations
-#check @GppSM.anomaly_cancellation_forces_three_generations
+#check @GppSM.open_anomaly_cancellation_forces_three_generations

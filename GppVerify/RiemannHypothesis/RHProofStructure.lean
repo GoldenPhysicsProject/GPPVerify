@@ -107,7 +107,7 @@ theorem scaling_eigenspace_ode (_ : ℝ) :
 -- This requires adèlic L² theory; axiomatized in AdelicL2.lean.
 
 /-- Multiplicity constraint: spectral atom at γ equals 1 = dim(eigenspace) -/
-theorem spectral_atom_weight_one (γ : ℝ) (_ : 0 < γ) : True := trivial
+theorem open_spectral_atom_weight_one (γ : ℝ) (_ : 0 < γ) : True := trivial
 -- SOURCE: rh_physics24_edited.tex, prop:atom
 -- PROOF SKETCH: Meyer spectral-Weil gives μ_A = μ_W; eigenspace is 1D;
 -- Weil atom weight = total analytic multiplicity; hence mult = 1.
@@ -133,11 +133,11 @@ theorem off_line_exponential_growth (σ : ℝ) (hσ : σ ≠ 0) :
       linarith⟩
 
 /-- The Haar inversion J: r ↦ r⁻¹ is an isometry of (R⁺, dr/r) -/
-theorem haar_inversion_isometry : True := trivial
+theorem open_haar_inversion_isometry : True := trivial
 -- NOTE: This is in CoreTheorems.lean as haar_self_duality (proved clean).
 
 /-- J maps evaluation functionals: l_{s₀} ∘ J = l_{1-s₀} -/
-theorem j_maps_functionals : True := trivial
+theorem open_j_maps_functionals : True := trivial
 -- SOURCE: rh_physics24_edited.tex, lem:j-on-functionals
 -- PROOF: (Jf)^(s₀) = f(1-s₀) by Mellin transform under inversion.
 -- MATHLIB GAP: Requires Mellin transform theory for spaces H₋.
@@ -180,17 +180,17 @@ theorem born_rule_cesaro (R : ℝ) (hR : 1 < R) :
 
 /-- Arithmetic Ward Identity: for K-invariant Haar square Φ,
     Φ̂(0) + Φ̂(1) - Σ_ρ Φ̂(ρ) = Φ(1) -/
-theorem arithmetic_ward_identity : True := trivial
+theorem open_arithmetic_ward_identity : True := trivial
 -- SOURCE: RH_final_v5_1.tex, thm:arithmetic-ward
 -- PROOF: BRST differential Q encodes functional equation; cohomology selects
 -- K-invariant functions; Euler product makes the difference Q-exact.
 -- MATHLIB GAP: BRST cohomology formalism + adèlic Fourier theory.
 
 /-- Weil positivity: W(Φ) ≥ 0 for Haar squares Φ = ψ̄ * ψ -/
-theorem weil_positivity_haar_squares : True := trivial
+theorem open_weil_positivity_haar_squares : True := trivial
 -- SOURCE: RH_final_v5_1.tex, cor:corollary-4.3
--- This follows from arithmetic_ward_identity + Φ(1) = ‖ψ‖² ≥ 0.
--- MATHLIB GAP: Same as arithmetic_ward_identity.
+-- This follows from open_arithmetic_ward_identity + Φ(1) = ‖ψ‖² ≥ 0.
+-- MATHLIB GAP: Same as open_arithmetic_ward_identity.
 
 /-! ## Main RH stubs -/
 
@@ -198,8 +198,8 @@ theorem weil_positivity_haar_squares : True := trivial
     SOURCE: rh_physics24_edited.tex, thm:rh; rh_cft_proof4.tex, thm:rh;
             rh_arithmetic_field1.tex, thm:rh; RH_final_v5_1.tex, thm:rh.
     PROOF: Off-line zero ⟹ two distinct zeros at same ordinate ⟹
-           total analytic multiplicity ≥ 2 ⟹ contradicts spectral_atom_weight_one. -/
-theorem rh_pathway_target : True := trivial
+           total analytic multiplicity ≥ 2 ⟹ contradicts open_spectral_atom_weight_one. -/
+theorem open_rh_pathway_target : True := trivial
 -- MATHLIB GAPS blocking unconditional proof:
 -- 1. Meyer spectral-Weil identity (μ_A = μ_W) — see SpectralWeil.lean
 -- 2. Tate functional equation for adèlic Haar squares
@@ -209,15 +209,15 @@ theorem rh_pathway_target : True := trivial
 /-- Simplicity of zeros: every non-trivial zero of ζ is simple.
     SOURCE: rh_physics24_edited.tex, cor:simple-zeros.
     PROOF: RH + spectral atom weight 1 ⟹ each ordinate has total multiplicity 1. -/
-theorem zero_simplicity : True := trivial
--- Conditional on rh_pathway_target and spectral_atom_weight_one.
+theorem open_zero_simplicity : True := trivial
+-- Conditional on open_rh_pathway_target and open_spectral_atom_weight_one.
 
 /-- Generalised RH for Hecke L-functions.
     SOURCE: rh_cft_proof4.tex, cor:grh.
     PROOF: Same spectral argument applies to each L-function separately. -/
-theorem generalised_rh : True := trivial
+theorem open_generalised_rh : True := trivial
 -- MATHLIB GAP: Hecke L-functions not yet in Mathlib 4.19.0.
 
-theorem rh_summary : True := trivial
+theorem open_rh_summary : True := trivial
 
 end GppRHProofStructure

@@ -146,18 +146,18 @@ theorem cp_phase_fraction_simplified :
     hypercharge normalization. Requires GUT representation theory. Not an
     axiom: the statement is content-free (`True`); left as a documented
     stub rather than adding an unnecessary axiom to the trust base. -/
-theorem weinberg_angle_full_derivation : True := trivial
+theorem open_weinberg_angle_full_derivation : True := trivial
 
 /-- The full quark mass spectrum m_u:m_c:m_t and m_d:m_s:m_b from
     Casimir eigenvalues and κ corrections. Requires fitting procedure. -/
-theorem quark_masses_from_casimir_cascade : True := trivial
+theorem open_quark_masses_from_casimir_cascade : True := trivial
 
 /-- Koide ratio K = 2/3 from Spin(8) triality action on Jordan algebra eigenvalues.
     Requires exceptional group theory (Spin(8), G₂, F₄). -/
-theorem koide_from_spin8_triality : True := trivial
+theorem open_koide_from_spin8_triality : True := trivial
 
 /-- CP phase δ_CKM = 137π/360 from Jacobi sum J(χ₄⁵, χ₃⁷) = e^(iπ/6).
     Requires analytic number theory: Jacobi sums, Hecke Grössencharacters. -/
-theorem cp_phase_from_jacobi_sum : True := trivial
+theorem open_cp_phase_from_jacobi_sum : True := trivial
 
 end GppDecodingReality

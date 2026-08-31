@@ -258,7 +258,7 @@ Located at `/home/user/website/lean/GppVerify/`:
 
 ## 8. MATHLIB COVERAGE
 
-| ONON concept | Mathlib location | Status |
+| shadow-framework concept | Mathlib location | Status |
 |---|---|---|
 | Haar measure existence | `MeasureTheory.Measure.Haar.Basic` | ✓ |
 | Haar measure uniqueness | `MeasureTheory.Measure.Haar.Unique` | ✓ |
