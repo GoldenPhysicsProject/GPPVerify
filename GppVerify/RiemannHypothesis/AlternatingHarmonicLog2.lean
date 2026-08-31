@@ -74,6 +74,7 @@ theorem log_two_sub_partial (n : ℕ) :
     intro x hx
     rw [Set.uIcc_of_le (by norm_num : (0:ℝ) ≤ 1)] at hx
     have hx0 : (0:ℝ) ≤ x := hx.1
+    simp only [Pi.add_apply, id_eq]
     exact ne_of_gt (by linarith)
   have hint2 : IntervalIntegrable
       (fun x : ℝ => ∑ k ∈ Finset.range n, (-1:ℝ)^k * x^k) MeasureTheory.volume 0 1 := by
@@ -124,6 +125,7 @@ theorem remainder_bound (n : ℕ) :
     intro x hx
     rw [Set.uIcc_of_le (by norm_num : (0:ℝ) ≤ 1)] at hx
     have hx0 : (0:ℝ) ≤ x := hx.1
+    simp only [Pi.add_apply, id_eq]
     exact ne_of_gt (by linarith)
   have hintP : IntervalIntegrable (fun x : ℝ => x^n) MeasureTheory.volume 0 1 :=
     (continuous_pow n).intervalIntegrable 0 1

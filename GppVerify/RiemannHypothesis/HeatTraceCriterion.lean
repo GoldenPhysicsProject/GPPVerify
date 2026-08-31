@@ -182,7 +182,6 @@ theorem subordination_at_zero {r : ℝ} (hr : 0 < r) :
   rw [hinv]
   have hsp : Real.sqrt Real.pi ≠ 0 := by positivity
   field_simp
-  ring
 
 /-! ### The bridge to Thread L: the paper's prime side is the Weil ladder's prime side -/
 
@@ -334,7 +333,6 @@ theorem subInvolution_hasDerivAt {w : ℝ} (hw : 0 < w) : HasDerivAt subInvoluti
   have h2 : HasDerivAt (fun y : ℝ => y⁻¹) (-(w ^ 2)⁻¹) w := hasDerivAt_inv hw.ne'
   have := h1.sub h2
   convert this using 1
-  field_simp
 
 theorem subInvolution_strictMonoOn : StrictMonoOn subInvolution (Ioi (0:ℝ)) := by
   apply strictMonoOn_of_deriv_pos (convex_Ioi 0) subInvolution_continuousOn
@@ -410,7 +408,7 @@ theorem integrableOn_auxK_integrand {c : ℝ} (hc : 0 < c) :
   apply IntegrableOn.union
   · -- bounded (by 1) on a finite-measure set
     apply Integrable.mono' (g := fun _ : ℝ => (1:ℝ))
-    · exact integrableOn_const.mpr (Or.inr (by simp [Real.volume_Ioc]))
+    · exact integrableOn_const
     · exact ((auxK_integrand_continuousOn c).mono Ioc_subset_Ioi_self).aestronglyMeasurable measurableSet_Ioc
     · filter_upwards with x
       rw [Real.norm_eq_abs, abs_of_pos (Real.exp_pos _)]
@@ -479,7 +477,7 @@ theorem integrableOn_invsq_mul_auxK_integrand {c : ℝ} (hc : 0 < c) :
   rw [hset]
   apply IntegrableOn.union
   · apply Integrable.mono' (g := fun _ : ℝ => (2 / c : ℝ))
-    · exact integrableOn_const.mpr (Or.inr (by simp [Real.volume_Ioc]))
+    · exact integrableOn_const
     · apply ContinuousOn.aestronglyMeasurable _ measurableSet_Ioc
       apply ContinuousOn.mul
       · exact (continuousOn_id.inv₀ (fun x hx => ne_of_gt hx.1)).pow 2
@@ -593,7 +591,6 @@ theorem subScale_hasDerivAt (k w : ℝ) : HasDerivAt (subScale k) (2 * k * w) w 
   have h := (hasDerivAt_pow 2 w).const_mul k
   convert h using 1
   push_cast
-  ring
 
 theorem subScale_strictMonoOn {k : ℝ} (hk : 0 < k) : StrictMonoOn (subScale k) (Ioi (0:ℝ)) := by
   apply strictMonoOn_of_deriv_pos (convex_Ioi 0) (subScale_continuousOn k)
