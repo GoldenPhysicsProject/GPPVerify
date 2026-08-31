@@ -55,8 +55,7 @@ theorem normalized_weighted_variance_nonneg
           ((∑ i ∈ s, w i * x i) / (∑ i ∈ s, w i)) ^ 2 =
         ((∑ i ∈ s, w i) * (∑ i ∈ s, w i * x i ^ 2) -
           (∑ i ∈ s, w i * x i) ^ 2) / (∑ i ∈ s, w i) ^ 2 by
-        field_simp [hWne]
-        ring]
+        field_simp [hWne]]
   exact div_nonneg hnum (sq_nonneg _)
 
 end GppWeightedVarianceFinite

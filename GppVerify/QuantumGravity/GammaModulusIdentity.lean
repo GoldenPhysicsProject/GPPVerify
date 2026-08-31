@@ -43,6 +43,5 @@ theorem gamma_one_add_mul_gamma_one_sub (lam : ℝ) (hlam : lam ≠ 0) :
     exact_mod_cast Real.sinh_ne_zero.mpr (mul_ne_zero Real.pi_ne_zero hlam)
   push_cast
   field_simp
-  ring
 
 end GppGammaModulus

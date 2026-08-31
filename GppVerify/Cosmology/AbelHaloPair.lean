@@ -101,7 +101,6 @@ theorem abel_forward {rc b : ℝ} (hrc : 0 < rc) (hb : 0 ≤ b) :
         2 * (rc^2 / (r^2 + rc^2)) * (r / Real.sqrt (r^2 - b^2)) := by
       rw [hstep, one_div_div]
       field_simp [hApos.ne', hsqrtpos.ne', hrcden r]
-      ring
     rw [hval] at h
     exact h
   -- endpoint continuity: the antiderivative is globally continuous
@@ -189,9 +188,6 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
         b * ((Real.sqrt (b^2 + rc^2))^2 - (Real.sqrt (b^2 - r^2))^2) /
           (Real.sqrt (b^2 - r^2) * Real.sqrt (b^2 + rc^2)) := by
       field_simp [hsm.ne', hsp.ne']
-      linear_combination
-        4 * b * Real.sqrt (b^2 + rc^2) * Real.sqrt (b^2 - r^2) * hspsq -
-          4 * b * Real.sqrt (b^2 + rc^2) * Real.sqrt (b^2 - r^2) * hsmsq
     have hval : ((2*b) / (2 * Real.sqrt (b^2 - r^2)) * Real.sqrt (b^2 + rc^2) -
         Real.sqrt (b^2 - r^2) * ((2*b) / (2 * Real.sqrt (b^2 + rc^2)))) /
           (Real.sqrt (b^2 + rc^2))^2 / (r^2 + rc^2) =
@@ -199,7 +195,6 @@ theorem abel_inverse_eval {rc r : ℝ} (hrc : 0 < rc) (hr : 0 ≤ r) :
       rw [e1, hsmsq, hspsq,
         show b^2 + rc^2 - (b^2 - r^2) = r^2 + rc^2 by ring, hcube_sp]
       field_simp [hsm.ne', hsp.ne', hrden.ne', hbc.ne']
-      ring
     rw [hval] at hq
     exact hq
   -- endpoint continuity (the denominator sqrt never vanishes)

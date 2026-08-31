@@ -181,7 +181,6 @@ theorem cross_resolvent_det_identity
   -- Step 6: assemble.
   rw [hdetB, hdetA, ← hxinv, hetax, hx0def]
   field_simp
-  ring
 
 end CrossResolventDeterminant
 

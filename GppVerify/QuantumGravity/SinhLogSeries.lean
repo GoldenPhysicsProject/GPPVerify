@@ -78,7 +78,6 @@ theorem hasSum_log_one_add_sq_div {lam : ℝ} (hlam : lam ≠ 0) :
         = (fun n : ℕ => ∏ j ∈ Finset.range n, ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) := by
       funext n
       field_simp
-      ring
     rwa [heq] at h
   have hterm_pos : ∀ n : ℕ, (0 : ℝ) < 1 + lam ^ 2 / ((n : ℝ) + 1) ^ 2 := by
     intro n

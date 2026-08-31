@@ -34,7 +34,6 @@ theorem shadow_energy_eq {E μ : ℝ} (hE : 0 < E) (hμ : 0 < μ) :
     μ * Real.exp (-(Real.log (E / μ))) = μ ^ 2 / E := by
   rw [Real.exp_neg, Real.exp_log (by positivity : (0:ℝ) < E / μ)]
   field_simp
-  ring
 
 /-- The shadow splitting `E − Ẽ = E − μ²/E`. -/
 theorem shadow_splitting {E μ : ℝ} (hE : 0 < E) (hμ : 0 < μ) :
@@ -51,7 +50,7 @@ theorem shadow_splitting_onshell {E : ℝ} (hE : E ≠ 0) :
     `(E + Ẽ)/ℏ` is exactly `2E/ℏ` — with `E = mc²`, the classical `2mc²/ℏ`. -/
 theorem shadow_frequency_onshell {E hbar : ℝ} (hE : E ≠ 0) (hh : hbar ≠ 0) :
     (E + E ^ 2 / E) / hbar = 2 * E / hbar := by
-  rw [show E ^ 2 / E = E from by field_simp; ring]
+  rw [show E ^ 2 / E = E from by field_simp]
   ring
 
 /-- The beat between the phase frequencies `+E/ℏ` and `−E/ℏ` is `2E/ℏ`. -/

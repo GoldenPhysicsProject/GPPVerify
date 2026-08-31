@@ -61,7 +61,6 @@ theorem casimir_adj_fund_ratio (N : ℕ) (hN : 2 ≤ N) :
   have hne : (N : ℚ) ^ 2 - 1 ≠ 0 := by nlinarith
   have hnne : (N : ℚ) ≠ 0 := by linarith
   field_simp
-  ring
 
 /-- Sugawara formula for mass gap ratio: M/Λ_QCD = 2N/(k+N) -/
 def mass_gap_ratio (N k : ℕ) : ℚ :=

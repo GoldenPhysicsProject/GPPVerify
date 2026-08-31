@@ -58,7 +58,6 @@ theorem sinh_summand_eq {t : ℝ} (ht : 0 < t) (s : ℝ) :
   have hXsq' : 1 - Real.exp t ^ 2 ≠ 0 := by nlinarith
   rw [Real.sinh_eq, show -(2*t) = -t + -t by ring, Real.exp_add, Real.exp_neg]
   field_simp
-  ring
 
 /-- The term integral: `∫₀^∞ t^{s−1}·e^{−(2k+1)t} dt = (2k+1)^{−s}·Γ(s)`. -/
 theorem integral_term {s : ℝ} (hs : 0 < s) (k : ℕ) :

@@ -84,7 +84,6 @@ theorem sechSqAntideriv_eq (u : ℝ) :
     rw [Real.tanh_eq_sinh_div_cosh, Real.sinh_eq, Real.cosh_eq, hsplit]
     have hd : Real.exp u + Real.exp u * Real.exp (-(2 * u)) ≠ 0 := by positivity
     field_simp
-    ring
   have hcosh : Real.cosh u = Real.exp u * (1 + Real.exp (-(2 * u))) / 2 := by
     rw [Real.cosh_eq, hsplit]
     ring
@@ -118,7 +117,7 @@ theorem tendsto_sechSqAntideriv_log_two :
       (fun u : ℝ => 2 * u * Real.exp (-(2 * u)) / (1 + Real.exp (-(2 * u))))
       atTop (nhds 0) := by
     have h := hnum.div hden one_ne_zero
-    simpa only [zero_div] using h
+    simpa only [Pi.div_def, zero_div] using h
   have hB : Tendsto (fun u : ℝ => Real.log (1 + Real.exp (-(2 * u)))) atTop (nhds 0) := by
     have h : Tendsto (fun u : ℝ => Real.log (1 + Real.exp (-(2 * u)))) atTop
         (nhds (Real.log 1)) :=

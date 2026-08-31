@@ -60,7 +60,7 @@ theorem archTailAntideriv_hasDerivAt {u : ℝ} (hu : 1 < u) :
     have hd1 : HasDerivAt (fun u : ℝ => u - 1) 1 u := (hasDerivAt_id u).sub_const 1
     have hd2 : HasDerivAt (fun u : ℝ => u + 1) 1 u := (hasDerivAt_id u).add_const 1
     have := hd1.div hd2 h2
-    simpa using this
+    simpa [Pi.div_def] using this
   have hlog : HasDerivAt (fun u : ℝ => Real.log ((u - 1) / (u + 1)))
       ((((u + 1) - (u - 1)) / (u + 1) ^ 2) * ((u - 1) / (u + 1))⁻¹) u := by
     apply HasDerivAt.log hquot

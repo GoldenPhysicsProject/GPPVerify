@@ -58,7 +58,6 @@ theorem tendsto_rpow_div_const_mul_log_atTop {r k : ℝ} (hr : 0 < r) (hk : 0 < 
       mul_le_mul_of_nonneg_left step1 hM.le
     have step3 : M * (k * (1 / (k * M) * x ^ r)) = x ^ r := by
       field_simp
-      ring
     linarith [step2, step3]
 
 /-- Core divergence estimate for `c > 0`: `(R^c - R^{-c}) / (c · 2 log R) → +∞`. -/
