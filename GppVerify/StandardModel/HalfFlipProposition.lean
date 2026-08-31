@@ -97,7 +97,7 @@ theorem wignerT_wignerT (ψ1 ψ2 : ℂ) :
     direction of Choi's theorem (Choi matrix PSD ⟹ complete positivity, which needs
     an operator-sum/Kraus decomposition and is not needed here). Verified
     numerically for d = 2..5 in the companion script. -/
-theorem no_enactment : True := trivial
+theorem open_no_enactment : True := trivial
 
 /-- Proposition 4.1(c): the channel E(ρ) = (1/3)Σᵢ σᵢρσᵢ is completely
     positive and trace preserving, and achieves inversion fidelity exactly
@@ -105,6 +105,6 @@ theorem no_enactment : True := trivial
     complete-positivity notion together with a Bloch-sphere fidelity
     computation. Verified symbolically and on a 200-sample numerical
     ensemble in the companion script. -/
-theorem universal_not_fidelity : True := trivial
+theorem open_universal_not_fidelity : True := trivial
 
 end GppHalfFlip

@@ -78,7 +78,7 @@ The algebra is clean; the physics derivation is documented as axioms.
 
 \begin{lemma}[Compact Factor $K^1 = \mathbb{A}^1/\mathbb{Q}^\times$]
   \label{lem:fujisaki}
-  \lean{GppHaar.adelic_quotient_compact_factor}
+  \lean{GppHaar.open_adelic_quotient_compact_factor}
   \uses{thm:adelic-haar}
   The norm-$1$ id\`ele class group $K^1$ is compact
   (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2).
@@ -86,7 +86,7 @@ The algebra is clean; the physics derivation is documented as axioms.
 
 \begin{theorem}[Peter-Weyl on $K^1$]
   \label{thm:peter-weyl-adelic}
-  \lean{GppHaar.peter_weyl_adelic_discrete_spectrum}
+  \lean{GppHaar.open_peter_weyl_adelic_discrete_spectrum}
   \uses{lem:fujisaki}
   $L^2(K^1, d^\times a)$ decomposes into finite-dimensional irreducibles,
   so any left-invariant self-adjoint operator on $L^2(K^1)$ has discrete spectrum.
@@ -105,7 +105,7 @@ The algebra is clean; the physics derivation is documented as axioms.
 
 \begin{theorem}[Tate Functional Equation]
   \label{thm:tate-fe}
-  \lean{GppFE.tate_functional_equation}
+  \lean{GppFE.open_tate_functional_equation}
   \uses{thm:adelic-haar}
   For any Schwartz-Bruhat function $\Phi$ on $\mathbb{A}$:
   $Z(\Phi, s) = Z(\hat\Phi, 1-s)$.
@@ -148,7 +148,7 @@ The algebra is clean; the physics derivation is documented as axioms.
 
 \begin{theorem}[Penrose Antipodal from Hodge Star]
   \label{thm:penrose-antipodal}
-  \lean{GppShadow.penrose_antipodal_from_hodge}
+  \lean{GppShadow.open_penrose_antipodal_from_hodge}
   \uses{thm:haar-self-dual}
   The orthogonal complement $\Lambda \mapsto \Lambda^\perp$ on $\mathrm{Gr}(2,4)$
   acts as the antipodal map on $S^2$ via the Penrose correspondence.
@@ -247,15 +247,20 @@ The algebra is clean; the physics derivation is documented as axioms.
 
 \begin{theorem}[Link 6: $c_{2D} = \kappa_0 \cdot c_{4D}^{\mathrm{Weyl}}$]
   \label{thm:link6}
-  \lean{GppLink6.link6_from_physics}
+  \lean{GppLink6.Link6Hypothesis}
   The celestial central charge $c_{2D}$ equals $\kappa_0$ times the Weyl anomaly
   $c_{4D}^{\mathrm{Weyl}}$.
 
-  \textbf{Formalized:} The identity is asserted as axiom \texttt{link6\_from\_physics}
-  with four supporting physics axioms: Weinberg soft graviton theorem,
-  Cachazo-Strominger celestial OPE, Capper-Duff one-loop Weyl anomaly,
-  Adler-Bardeen non-renormalization.  The algebraic corollary
-  \texttt{link6\_corollary} ($c_{2D} = 0 \iff c_{4D}^{\mathrm{Weyl}} = 0$) is proved clean.
+  \textbf{Formalized:} the identity is \emph{not} asserted. It is carried as the
+  explicit hypothesis \texttt{Link6Hypothesis}, so every consumer displays its
+  dependence on Link~6 in its own statement rather than inheriting a global axiom.
+  The five axioms this entry previously named (\texttt{link6\_from\_physics} plus
+  Weinberg soft-graviton, Cachazo--Strominger celestial OPE, Capper--Duff one-loop
+  Weyl anomaly, Adler--Bardeen non-renormalization) were retired on 2026-08-30;
+  the four physics inputs survive as documented \texttt{open\_} placeholders.
+  The algebraic corollary \texttt{link6\_corollary}
+  ($c_{2D} = 0 \iff c_{4D}^{\mathrm{Weyl}} = 0$, given $\kappa_0 > 0$) is proved clean
+  and is unconditional on Link~6 itself.
 \end{theorem}
 
 \begin{corollary}[Three Generations from $c = 0$]
@@ -562,7 +567,7 @@ stub.
 
 \begin{theorem}[Spectral Weil Closes Arithmetic Admissibility]
   \label{thm:spectral-weil}
-  \lean{GppSpectralWeil.spectral_weil}
+  \lean{GppSpectralWeil.open_spectral_weil}
   \uses{lem:adelic-l2-regularization}
   The Weil explicit formula expresses $\sum_\rho h(\rho)$ in terms of local data.
   Meyer's (2005) spectral interpretation identifies the adèlic $L^2$ spectrum
@@ -676,21 +681,23 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
 
 \begin{lemma}[Shadow Fixed Points are Critical]
   \label{lem:shadow-fixed-critical}
-  \lean{GppL2.shadow_fixed_iff_critical}
+  \lean{GppFE.critical_line_is_fixed_locus}
   \leanok
-  For $s \in \mathbb{C}$, $1 - s = s \iff \mathrm{Re}(s) = \tfrac{1}{2}$.
+  For $s \in \mathbb{C}$, $\overline{s} = 1 - s \iff \mathrm{Re}(s) = \tfrac{1}{2}$.
+  (The involution whose fixed locus is the critical line is $s \mapsto 1-\overline{s}$,
+  not $s \mapsto 1-s$: the latter fixes only the single point $s = \tfrac12$.)
 \end{lemma}
 
 \begin{lemma}[$L^2$ Unitarity Forces Critical Line]
   \label{lem:l2-unitarity}
-  \lean{GppL2.l2_unitarity_forces_critical}
+  \lean{GppL2.conj_eq_shadow_iff_critical}
   \leanok
   If $\overline{s} = 1 - s$ then $\mathrm{Re}(s) = \tfrac{1}{2}$.
 \end{lemma}
 
 \begin{lemma}[Principal Series Characters are Unitary]
   \label{lem:principal-series-unitary}
-  \lean{GppL2.principal_series_unitary}
+  \lean{GppL2.principal_series_char_unitary}
   \leanok
   For $s = \tfrac{1}{2} + i\gamma$, the character $a \mapsto |a|^{s-1/2}$
   has absolute value $1$.
@@ -698,7 +705,7 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
 
 \begin{theorem}[$L^2$ Constraint Theorem]
   \label{thm:l2-constraint}
-  \lean{GppL2.l2_constraint}
+  \lean{GppL2.open_l2_constraint}
   \uses{lem:l2-unitarity, lem:fujisaki, thm:peter-weyl-adelic}
   If $\chi_s \in L^2(K^1)$ is an eigenfunction of the shadow involution
   $T: a \mapsto a^{-1}$, then $\mathrm{Re}(s) = \tfrac{1}{2}$.
@@ -713,7 +720,7 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
 
 \begin{corollary}[$L^2$-Admissible Zeros on Critical Line]
   \label{cor:l2-rh}
-  \lean{GppL2.l2_constraint_implies_rh}
+  \lean{GppL2.open_l2_constraint_implies_rh}
   \uses{thm:l2-constraint}
   Every $L^2$-admissible non-trivial zero $\rho$ of $\zeta(s)$ satisfies
   $\mathrm{Re}(\rho) = \tfrac{1}{2}$.
@@ -725,12 +732,24 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
 
 \begin{lemma}[Hurwitz Classification]
   \label{lem:hurwitz}
-  \lean{GppSM.hurwitz_classification}
+  \lean{GppSM.HurwitzDimensionHypothesis}
   The only normed division algebras over $\mathbb{R}$ are
   $\mathbb{R}$, $\mathbb{C}$, $\mathbb{H}$, $\mathbb{O}$
   (Hurwitz 1898).  There are exactly $3$ Cayley--Dickson doublings.
 
-  Gap: full Hurwitz theorem not yet in Mathlib~4.19.0.
+  \textbf{Status:} carried as the \emph{hypothesis} \texttt{HurwitzDimensionHypothesis},
+  not an axiom --- the former axiom was retired on 2026-08-30 because no theorem
+  consumed it. The dimension-counting content this chapter actually uses
+  (\texttt{cdStages\_card}, \texttt{exactly\_three\_doublings},
+  \texttt{nda\_dimensions\_image}, \texttt{sedenion\_dim\_outside\_nda\_set})
+  is proved outright, with no axiom.
+
+  Gap: the real classification is not in Mathlib~4.19.0 (only the \emph{complex}
+  Gelfand--Mazur theorem is). Note also that Mathlib's \texttt{NormedDivisionRing}
+  extends \texttt{DivisionRing} and is therefore associative, so $\mathbb{O}$ does not
+  inhabit it: as literally stated the $8$ case is vacuous and the reachable content is
+  the Frobenius classification $\{1,2,4\}$. Any attempt to discharge this hypothesis
+  should first restate it over a genuine composition-algebra structure.
 \end{lemma}
 
 \begin{theorem}[Three Generations from Division Algebras]
@@ -744,7 +763,7 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
 
 \begin{theorem}[Anomaly Cancellation Forces 3 Generations]
   \label{thm:anomaly-cancel}
-  \lean{GppSM.anomaly_cancellation_forces_three_generations}
+  \lean{GppSM.open_anomaly_cancellation_forces_three_generations}
   \uses{cor:three-generations-anomaly}
   With $c_{4D}^{\mathrm{Weyl}} = 0$ and SM gauge group,
   anomaly cancellation (Boyle--Turok 2021) forces
@@ -1004,7 +1023,7 @@ reduction, shadow=Legendre-degree symmetry, the Mehler--Fock pair, the Temperedn
 Theorem).
 
 \begin{theorem}[Planck Form of the Plancherel Weight]
-  \label{thm:planck-form}
+  \label{thm:planck-form-plancherel}
   \lean{GppPlanckForm.planck_form_bose_difference}
   \leanok
   For every real $\lambda \neq 0$, with $n_B(y) := (e^y-1)^{-1}$ the Bose--Einstein
@@ -1087,50 +1106,6 @@ missing digamma function.
   genuinely new remaining work, scoped precisely in \texttt{docs/FORMALIZATION\_PLAN.md}.
 \end{theorem}
 
-\begin{theorem}[The Cumulant Law]
-  \label{thm:cumulant-law}
-  \lean{GppCumulantLaw.hasSum_log_double}
-  \leanok
-  \uses{thm:sinh-log-series}
-  For every real $\lambda$ with $0 < \lambda < 1$, the unconditional double sum over all
-  pairs $(n,k) \in \mathbb N \times \mathbb N$ of
-  $(-1)^k\bigl(\lambda^2/(n+1)^2\bigr)^{k+1}/(k+1)$ equals
-  $\log(\sinh(\pi\lambda)/(\pi\lambda))$.
-  \emph{Proved clean}: completes \texttt{thm:sinh-log-series} by expanding each row's
-  $\log(1+\lambda^2/(n+1)^2)$ via Mathlib's own alternating log series
-  (\texttt{Real.hasSum\_pow\_div\_log\_of\_abs\_lt\_one}) and combining the resulting
-  double family into one \texttt{HasSum} via \texttt{HasSum.prod\_fiberwise}. The step this
-  requires beyond bookkeeping is absolute summability of the double family: since
-  $\lambda^2/(n+1)^2 \le \lambda^2 < 1$ *uniformly* in $n$, a single geometric-series
-  comparison bounds every row, giving overall summability by comparison with the
-  convergent $p=2$ series $\sum 1/(n+1)^2$. \emph{Not attempted}: the final regrouping of
-  the double sum by $k$ alone to recover the paper's single-index closed form
-  $\sum_k(-1)^{k+1}\zeta(2k)\lambda^{2k}/k$ --- the double-indexed statement already
-  contains the same content, and the regrouping is left as a reindexing exercise.
-\end{theorem}
-
-\begin{theorem}[The Cumulant Law, Single-Index Closed Form]
-  \label{thm:cumulant-closed-form}
-  \lean{GppCumulantLawClosedForm.hasSum_cumulant_closed_form}
-  \leanok
-  \uses{thm:cumulant-law}
-  For every real $\lambda$ with $0 < \lambda < 1$, writing
-  $\zeta_{\mathbb R}(p) := \sum'_{n\ge0} 1/(n+1)^p$ for the literal Dirichlet-series
-  definition (no separate identification with Mathlib's \texttt{riemannZeta} needed),
-  \[
-    \log\!\Bigl(\frac{\sinh(\pi\lambda)}{\pi\lambda}\Bigr)
-    \;=\; \sum_{k=0}^{\infty} (-1)^k\,\zeta_{\mathbb R}(2k+2)\,\lambda^{2k+2}\big/(k+1),
-  \]
-  the paper's own "cumulants are even zeta values" statement (index-shifted by one from the
-  paper's $m\ge1$ convention: $k=m-1$).
-  \emph{Proved clean}: regroups \texttt{thm:cumulant-law}'s double-indexed \texttt{HasSum}
-  by swapping index roles (\texttt{Equiv.prodComm}) and combining with a fresh per-$k$-row
-  computation --- $\sum'_n(\lambda^2/(n{+}1)^2)^{k+1}=\lambda^{2k+2}\zeta_{\mathbb R}(2k+2)$,
-  an ordinary shifted $p$-series with $p=2k{+}2\ge2$ --- via \texttt{HasSum.prod\_fiberwise}
-  in place of \texttt{CumulantLaw.hasSum\_row}'s per-$n$-row computation. This closes the
-  cumulant-law sub-thread completely: no further step remains open in it.
-\end{theorem}
-
 \begin{theorem}[Weight-Shift Relations]
   \label{thm:weight-shift}
   \lean{GppWeightShift.shift_sub_I}
@@ -1152,15 +1127,15 @@ missing digamma function.
 \end{theorem}
 
 \texttt{thm:planck-form}, \texttt{thm:matsubara-poles}, \texttt{thm:sinh-log-series},
-\texttt{thm:cumulant-law}, \texttt{thm:cumulant-closed-form}, and \texttt{thm:weight-shift}
-above are, so far, the six pieces from this new canonical series formalized with no
+\texttt{thm:cumulant-law}, and \texttt{thm:weight-shift}
+above are, so far, the five pieces from this new canonical series formalized with no
 Mathlib blocker.
 
 \chapter{General Relativity --- Rigidity}
 
 \begin{theorem}[Einstein Uniqueness from Shadow Symmetry]
   \label{thm:rigidity}
-  \lean{GppRigidity.einstein_uniqueness_from_shadow}
+  \lean{GppRigidity.open_einstein_uniqueness_from_shadow}
   \uses{thm:shadow-cpt, thm:link6}
   The Einstein field equations $G_{\mu\nu} = 8\pi G T_{\mu\nu}$ are uniquely
   determined by:
@@ -1181,7 +1156,7 @@ Mathlib blocker.
 
 \begin{corollary}[Cosmological Constant Unique]
   \label{cor:lambda-unique}
-  \lean{GppRigidity.cosmological_constant_unique}
+  \lean{GppRigidity.open_cosmological_constant_unique}
   \uses{thm:rigidity}
   Dark energy (cosmological constant $\Lambda$) is the only free parameter
   in the gravitational action consistent with shadow symmetry.
@@ -2264,23 +2239,37 @@ tree --- genuinely eliminated, not renamed:
 
 \section{The \texttt{True}-Stub Convention (not axioms, not sorries)}
 
-Roughly twenty further declarations named in earlier snapshots of this chapter under
-``Infrastructure Axioms'' and ``Infrastructure Sorries'' --- e.g.\ \texttt{peter\_weyl\_K1},
-\texttt{weil\_explicit\_formula}, \texttt{K1\_haar\_probability}, \texttt{lovelock\_theorem},
-\texttt{celestial\_amplitude\_has\_cut} --- were spot-checked against the current tree while
-re-auditing this chapter (2026-08-15) and are \textbf{no longer axioms}: each is now a
-\texttt{theorem foo : True := trivial}, the repo's deliberate, documented convention for
-parking an open result as a vacuous statement carrying a doc comment that names the precise
-upstream gap, rather than smuggling it in as an axiom or leaving a live \texttt{sorry}. A
-few others (\texttt{shadow\_breaking\_gives\_abundance}, \texttt{shadow\_unitarity\_
-abundance\_pos}) turned out to be fully proved theorems, not placeholders at all.
+Open results are parked as \texttt{theorem foo : True := trivial} (or
+\texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
+comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
+or leaving a live \texttt{sorry}. There are currently \textbf{141} such stubs.
 
-There are currently \textbf{133} such stubs across 24 files. \textbf{This is the single
-most important caveat for reading this repo}: a file containing only stubs reports zero
-sorries and zero axioms --- the cleanest possible bill of health --- while asserting
-nothing. The full per-file, per-thread ledger (which stub covers which named gap, and the
-plan for closing it) lives in \texttt{docs/FORMALIZATION\_PLAN.md} in the repository, not
-in this blueprint; it is updated in the same PR that advances any thread.
+\medskip
+\noindent\textbf{Every stub name now begins with \texttt{open\_}, and CI enforces it}
+(\texttt{scripts/check\_stub\_naming.py}, wired into \texttt{build.yml} as a failing gate).
+This closes a real hazard rather than a cosmetic one. A stub is inert and cannot corrupt a
+proof, but it reports ``does not depend on any axioms'' --- the cleanest possible bill of
+health --- \emph{while asserting nothing}. Until 2026-08-30 the tree therefore contained,
+among others,
+\begin{center}
+\texttt{theorem yang\_mills\_mass\_gap : True := trivial}\\
+\texttt{theorem yang\_mills\_existence : True := trivial}\\
+\texttt{theorem weil\_criterion : True := trivial}\\
+\texttt{theorem os\_reconstruction : True := trivial}
+\end{center}
+Millennium-Prize-scale problems and major open results wearing the names of the theorems
+they are \emph{not}, in a repository advertising zero sorries and zero axioms. None was
+referenced by any real content, so nothing unsound was ever derived from them --- but a
+reader grepping the source could reasonably have concluded otherwise. The renaming makes
+the hazard structurally impossible: \texttt{open\_yang\_mills\_mass\_gap} cannot be misread,
+and the gate rejects any future stub that omits the prefix.
+
+\medskip
+\noindent\textbf{This remains the single most important caveat for reading this repo}: a
+file containing only stubs reports zero sorries and zero axioms while asserting nothing.
+The full per-file, per-thread ledger (which stub covers which named gap, and the plan for
+closing it) lives in \texttt{docs/FORMALIZATION\_PLAN.md}, not in this blueprint; it is
+updated in the same PR that advances any thread.
 
 \textbf{Sorry count: 0.} Enforced by a dedicated CI gate on every push
 (\texttt{.github/workflows/build.yml}). Declarations named in earlier snapshots of this

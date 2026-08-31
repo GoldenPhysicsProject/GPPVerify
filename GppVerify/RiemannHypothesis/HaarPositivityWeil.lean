@@ -25,7 +25,7 @@ All are instances of: "convolution square of a function on a group is positive-t
 
 The base algebraic case (the constant function is positive-type, and any
 positive-type function is nonnegative at 0) is proved clean. The general
-convolution-square case is documented (see `convolution_square_positive_type_statement`)
+convolution-square case is documented (see `open_convolution_square_positive_type_statement`)
 but left open pending the L² integrability bookkeeping it needs.
 
 ## Key axioms
@@ -84,7 +84,7 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
     than pushed through with an unverified `sorry`. `const_one_positive_type`
     and `positive_type_at_zero` above are the fully-proved content of this
     file. -/
-theorem convolution_square_positive_type_statement : True := trivial
+theorem open_convolution_square_positive_type_statement : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex
 -- STATEMENT: for f : ℝ → ℝ integrable (and bounded, so pairwise translated
 -- products stay integrable) and μ a left-invariant measure on ℝ,
@@ -100,7 +100,7 @@ theorem convolution_square_positive_type_statement : True := trivial
 /-! ## GNS construction -/
 
 /-- Positive-type functions generate a Hilbert space via GNS construction -/
-theorem gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : True := trivial
+theorem open_gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:gns-positive
 -- PROOF: Form inner product ⟨δ_{g_i}, δ_{g_j}⟩ = P(g_i^{-1}g_j); complete; done.
 -- MATHLIB GAP: GNS construction for groups not in Mathlib.
@@ -108,13 +108,13 @@ theorem gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : True := 
 /-! ## Weil positivity -/
 
 /-- Haar square on idèle class group: P = Ω^∨ * Ω is positive-type -/
-theorem adelic_haar_square_positive_type : True := trivial
+theorem open_adelic_haar_square_positive_type : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-square-positive for C_k
--- PROOF: Same abstract proof as convolution_square_positive_type_statement, applied to C_k.
+-- PROOF: Same abstract proof as open_convolution_square_positive_type_statement, applied to C_k.
 -- MATHLIB GAP: Idèle class groups not in Mathlib.
 
 /-- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P -/
-theorem weil_criterion : True := trivial
+theorem open_weil_criterion : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:weil
 -- FORWARD: RH → all zeros on critical line → spectral sum = Σ|Ω̂(1/2+it)|² ≥ 0.
 -- CONVERSE: off-line zero ρ₀ → construct Ω₀ making D_k(Ω₀*Ω₀^∨) < 0.
@@ -124,7 +124,7 @@ theorem weil_criterion : True := trivial
 --   (c) Mellin transform theory for idèle class group
 
 /-- Weil positivity as Hilbert admissibility: D_k gives the inner product -/
-theorem weil_positivity_hilbert : True := trivial
+theorem open_weil_positivity_hilbert : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, prop:weil-hilbert
 -- The Weil distribution D_k, if positive, is the inner product of a Hilbert space
 -- of admissible arithmetic states.
@@ -132,26 +132,26 @@ theorem weil_positivity_hilbert : True := trivial
 /-! ## Osterwalder-Schrader reflection positivity -/
 
 /-- Shadow positivity: Θ(φ̄) acts as time-reflection on Euclidean fields -/
-theorem shadow_reflection_positivity : True := trivial
+theorem open_shadow_reflection_positivity : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, prop:shadow-reflection
 -- The shadow involution Δ ↔ 2-Δ is the Euclidean time-reflection θ.
 -- Positivity under θ = positivity under shadow = Haar positivity.
 
 /-- OS reconstruction: Euclidean OS axioms → Minkowski Wightman axioms -/
-theorem os_reconstruction_theorem : True := trivial
+theorem open_os_reconstruction_theorem : True := trivial
 -- SOURCE: Osterwalder-Schrader 1973/1975; referenced in wightman_paper.tex
 -- MATHLIB GAP: OS reconstruction not formalized.
 
 /-! ## Universal positivity construction -/
 
 /-- Shadow-positive datum: (K, P_K, H, μ) satisfying Haar positivity -/
-theorem universal_positivity_construction : True := trivial
+theorem open_universal_positivity_construction : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:universal-positivity
 -- Every physical theory (YM, RH, QG) that satisfies Haar positivity
 -- automatically satisfies all four positivity conditions simultaneously.
 
 /-- Haar projection onto gauge-invariant sector is an orthogonal projection -/
-theorem haar_projection_orthogonal : True := trivial
+theorem open_haar_projection_orthogonal : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-projection
 -- P_K = ∫_K U(k)dk is the orthogonal projection onto K-invariant subspace.
 -- MATHLIB GAP: Compact group averaging (Peter-Weyl) in functional analysis,
@@ -170,7 +170,7 @@ theorem haar_projection_orthogonal : True := trivial
 vector space (a linear, not-necessarily-unitary, action -- self-adjointness needs the
 inner-product/isometry hypothesis, not pursued here), the averaged "Reynolds operator"
 `P := (1/|G|) • Σ_g U g` is idempotent. This is the finite-group case of
-`haar_projection_orthogonal`: Haar probability measure on a finite group is exactly the
+`open_haar_projection_orthogonal`: Haar probability measure on a finite group is exactly the
 normalized counting measure `1/|G| · Σ_g δ_g`, so `∫_G U(g) dμ(g) = (1/|G|) Σ_g U(g)`
 literally, with no approximation. -/
 theorem finiteHaarProjection_isIdempotentElem
@@ -282,7 +282,7 @@ theorem finiteHaarProjection_isSelfAdjoint
   rw [hstep, hreindex_inv]
 
 /-- Peter-Weyl decomposition (compact groups) -/
-theorem peter_weyl_decomposition : True := trivial
+theorem open_peter_weyl_decomposition : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:peter-weyl
 -- L²(G) = ⊕_{π∈Ĝ} V_π ⊗ V_π*, with each irrep appearing dim(V_π) times.
 -- MATHLIB GAP: Peter-Weyl in Mathlib 4.19.0 is partial; not sufficient here.
@@ -294,10 +294,10 @@ theorem haar_squares_always_positive : PositiveType (fun _ => (1 : ℝ)) :=
   const_one_positive_type
 
 /-- The four positivity conditions are equivalent in the Haar framework -/
-theorem four_positivities_equivalent : True := trivial
+theorem open_four_positivities_equivalent : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, prop:logical-status
 -- All four are instances of: P = Ω^∨ * Ω on a locally compact group.
 
-theorem haar_positivity_summary : True := trivial
+theorem open_haar_positivity_summary : True := trivial
 
 end GppHaarPositivityWeil

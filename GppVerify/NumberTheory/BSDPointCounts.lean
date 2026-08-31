@@ -122,13 +122,13 @@ theorem hasse_bound_neg4x_thirteen : tracePairingGen 13 (-4) 0 ^ 2 ≤ 4 * 13 :=
     NOTE: requires the full analytic continuation of L(E,s), modularity,
     Gross-Zagier heights, and Kolyvagin's Euler-system bound on Sha — none
     of which exist in Mathlib. Left as an honestly-labeled gap. -/
-theorem bsd_rank_formula_gap : True := trivial
+theorem open_bsd_rank_formula_gap : True := trivial
 
 /-- Parity conjecture: (-1)^(rank E(ℚ)) = w_E, the global root number.
     Source: ONON monograph, BSD chapter, proof from Haar self-duality of
     the local root number and the Cassels-Tate pairing on Selmer groups.
     NOTE: depends on local root-number computations and Selmer-group
     parity, not attempted here. -/
-theorem parity_conjecture_gap : True := trivial
+theorem open_parity_conjecture_gap : True := trivial
 
 end GppBSD

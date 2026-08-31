@@ -53,6 +53,6 @@ namespace GppLogisticFourierPair
     Gap: no `sech`/`cosh`-family Fourier transform, no Poisson-kernel closed form, and no
     residue-calculus API exist anywhere in Mathlib v4.19.0 (confirmed by direct grep, not
     assumed) — the textbook proof needs one of these. -/
-theorem logistic_fourier_pair : True := trivial
+theorem open_logistic_fourier_pair : True := trivial
 
 end GppLogisticFourierPair

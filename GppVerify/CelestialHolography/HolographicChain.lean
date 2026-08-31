@@ -33,8 +33,8 @@ Source: holographic_chain_v93.tex
 - `three_constants_count` — 3 doublings → 3 physical constants
 
 ### Axioms (arithmetic geometry, algebraic K-theory):
-- `hasse_weil_gr24_factorization` — ζ_Gr(s) product formula
-- `bost_connes_celestial_restriction` — BC system from prime sublattice
+- `open_hasse_weil_gr24_factorization` — ζ_Gr(s) product formula
+- `open_bost_connes_celestial_restriction` — BC system from prime sublattice
 -/
 
 namespace GppHolographicChain
@@ -256,10 +256,10 @@ theorem null_cone_quadric (t x y z : ℝ) :
     Proof requires Hasse–Weil theorem and Weil conjectures (Deligne 1974). Not
     an axiom: the statement is content-free (`True`); left as a documented
     stub rather than adding an unnecessary axiom to the trust base. -/
-theorem hasse_weil_gr24_factorization : True := trivial
+theorem open_hasse_weil_gr24_factorization : True := trivial
 
 /-- Bost–Connes system is the restriction of the celestial Hilbert space
     to the prime sublattice; Z_BC(β) = ζ(β). -/
-theorem bost_connes_celestial_restriction : True := trivial
+theorem open_bost_connes_celestial_restriction : True := trivial
 
 end GppHolographicChain

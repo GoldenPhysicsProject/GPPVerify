@@ -62,17 +62,17 @@ lemma haar_circle_uniform :
 
 /-- The adèlic Haar measure restricts to a probability measure on K¹.
     Gap: requires normalized Haar measure on K¹ (Fujisaki). -/
-theorem K1_haar_probability : True := trivial
+theorem open_K1_haar_probability : True := trivial
 
 /-- The Born rule probability P(A|ψ) = ‖P_A ψ‖² / ‖ψ‖² arises from
     the Haar measure on the unitary group U(H) ⊂ L²(K¹).
     Gap: requires unitary group Haar measure + quantum logic. -/
-theorem born_from_haar : True := trivial
+theorem open_born_from_haar : True := trivial
 
 /-- Uniqueness: the Born rule is the unique probability measure on projective
     Hilbert space invariant under U(H).
     Gap: Gleason's theorem not in Mathlib 4.19.0. -/
-theorem gleason_uniqueness : True := trivial
+theorem open_gleason_uniqueness : True := trivial
 
 -- ============================================================
 -- §3  Main lemma (lem:born-rule-haar)

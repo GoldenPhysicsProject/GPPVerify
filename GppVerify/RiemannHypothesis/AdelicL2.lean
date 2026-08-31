@@ -69,15 +69,15 @@ lemma l2_inner_product_sesquilinear (f g : ℝ → ℂ) :
 
 /-- Peter-Weyl theorem on K¹: L²(K¹) = ⊕_χ ℂ·χ over Hecke characters χ.
     Gap: requires Hecke character theory + Peter-Weyl for compact K¹. -/
-theorem peter_weyl_K1 : True := trivial
+theorem open_peter_weyl_K1 : True := trivial
 
 /-- Plancherel isometry: ‖f‖_{L²}² = Σ_χ |⟨f, χ⟩|².
     Gap: follows from Peter-Weyl + unitarity of Fourier transform on K¹. -/
-theorem plancherel_K1 : True := trivial
+theorem open_plancherel_K1 : True := trivial
 
 /-- The spectral measure on K¹ is discrete (K¹ compact → spectrum discrete).
     Each Hecke character appears with multiplicity 1. -/
-theorem spectrum_discrete_K1 : True := trivial
+theorem open_spectrum_discrete_K1 : True := trivial
 
 -- ============================================================
 -- §3  Main lemma (lem:adelic-l2-regularization)
@@ -99,7 +99,7 @@ theorem adelic_l2_regularization :
 
 /-- Corollary: the zero-counting function N(T) = #{ρ : Im(ρ) ≤ T, ζ(ρ) = 0}
     is controlled by the L² spectral data of K¹. -/
-theorem l2_controls_zero_count : True := trivial
+theorem open_l2_controls_zero_count : True := trivial
 
 end GppAdelicL2
 

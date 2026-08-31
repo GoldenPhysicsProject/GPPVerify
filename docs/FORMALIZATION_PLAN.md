@@ -2709,6 +2709,48 @@ thing the file actually needs.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
+## Thread: name/claim integrity between Lean and the blueprint (2026-08-31)
+
+Not new mathematics — an audit of whether the published blueprint still describes the Lean
+tree. It did not.
+
+**What was found.**
+1. **17 dangling `\lean{}` references** in `blueprint/src/web.tex`. Several carried
+   `\leanok`, i.e. lean.goldenphysics.org asserted a result was machine-verified while
+   pointing at an identifier that no longer existed. Causes: the `open_` stub-prefix pass
+   renamed ~143 declarations; two threads were re-proved under better routes
+   (`GppCumulantLaw.cumulant_law` superseding the two-file `CumulantLawClosedForm` route,
+   already documented above); the retired Hurwitz and Link-6 axioms became hypotheses.
+2. **Two duplicated `\label{}`s** — `thm:cumulant-law` (a stale copy of the superseded
+   route) and `thm:planck-form` (two genuinely different proved theorems,
+   `GppSpectralWeight.planck_form` and `GppPlanckForm.planck_form_bose_difference`,
+   colliding on one label). LaTeX resolves `\ref` to only one of each.
+3. **A mathematically false statement carrying `\leanok`**: `lem:shadow-fixed-critical`
+   claimed `1-s = s ⟺ Re(s) = 1/2`. That iff is false (`s = 1/2 + i` has `Re s = 1/2` and
+   `1-s ≠ s`). The true statement is about `s ↦ 1-conj(s)`, which is exactly
+   `GppFE.critical_line_is_fixed_locus`; it is now pointed there.
+4. **A vacuous existential wearing a real name.** `GppHaar.adelic_quotient_compact_factor`
+   stated `∃ K1, TopologicalSpace K1 ∧ CompactSpace K1 ∧ Group K1 ∧ ... ∧ True` and was
+   discharged with `⟨Unit, ...⟩`. It asserts only that *some* compact group exists. This is
+   strictly more misleading than a `True` stub, which at least advertises asserting nothing.
+   Retired to `open_adelic_quotient_compact_factor : True := trivial`, losing no content
+   because there was none. Its file's "Sorries and their status" table was also stale: it
+   claimed two sorries in a file that has none, and listed a declaration
+   (`adelic_quotient_locally_compact`) that does not exist.
+
+**Why CI missed all of it.** `build.yml` gates the Lean build; `blueprint.yml` gates that
+LaTeX compiles. Neither cross-checks the two against each other, so a rename on one side and
+a claim on the other could drift apart indefinitely.
+
+**Fix.** All 17 refs repointed, both label collisions resolved, the false iff corrected, the
+vacuous lemma retired, and a new gate `scripts/check_blueprint_refs.py` wired into
+`build.yml` — it fails the build on any dangling `\lean{}` or duplicate `\label{}`. It is
+deliberately syntactic (greps declaration headers, does not parse Lean): enough to catch a
+name that is simply gone, which is the failure that actually occurred, at no build cost.
+
+**Ledger after this pass**: 0 sorry, **1 axiom** (`exp_growth_not_tempered`, down from 13),
+142 `True`-stubs, all `open_`-prefixed and gated.
+
 ---
 
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary

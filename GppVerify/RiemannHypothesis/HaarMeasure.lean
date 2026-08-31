@@ -24,13 +24,18 @@ adelic_haar_self_dual            (ONON52: lem:haar-self-duality, L16374)
   →  Riemann Hypothesis
 ```
 
-### Sorries and their status
+### Declarations and their status
+
+This file contains **no `sorry`**. The table below used to claim two, and also listed a
+declaration (`adelic_quotient_locally_compact`) that does not exist here — corrected
+2026-08-31.
 
 | Name | Status | Reference |
 |------|--------|-----------|
-| `adelic_quotient_locally_compact` | sorry — Fujisaki's lemma | Weil 1974, Ch.IV §2 |
 | `adelic_haar_self_dual` | proved (CommGroup assumption) | Tate 1950 §2.4 |
-| `adelic_quotient_compact_factor` | sorry — Fujisaki's lemma | Tate 1950, Cassels-Fröhlich |
+| `open_adelic_quotient_compact_factor` | open — Fujisaki's lemma, parked as a stub | Weil 1974, Ch.IV §2 |
+| `open_peter_weyl_adelic_discrete_spectrum` | open — needs Peter–Weyl + a real K¹ | Hewitt–Ross I, §27 |
+| `open_l2_constraint_forces_critical_line` | open — downstream of the two above | ONON52 L16806 |
 
 ### Note on CommGroup
 
@@ -44,9 +49,9 @@ this is satisfied since A×/Q× is abelian.
 `haar_invariant_under_automorphism` (proved clean in HaarSelfDuality.lean)
 is the workhorse: it says any bicontinuous automorphism of a compact group
 preserves the Haar measure.  Applied to inversion g ↦ g⁻¹, this yields
-`adelic_haar_self_dual`.  The sorry in `adelic_quotient_compact_factor` is
-on the locally-compact group structure — once Mathlib formalizes the adèle
-ring topology, this sorry closes automatically.
+`adelic_haar_self_dual`.  The open gap in `open_adelic_quotient_compact_factor`
+is the locally-compact group structure itself — once Mathlib formalizes the
+adèle ring topology, that stub can become a real statement.
 -/
 
 namespace GppHaar
@@ -97,31 +102,32 @@ theorem adelic_haar_self_dual
 -- §2  Compactness: the compact factor K¹ = A¹/Q×
 -- ============================================================
 
-/-- The norm-1 idèle class group K¹ = {a ∈ A× | ‖a‖_A = 1} / Q× is compact.
+/-- **Open**: the norm-1 idèle class group K¹ = {a ∈ A× | ‖a‖_A = 1} / Q× is compact.
 
-    SORRY: This is Fujisaki's lemma (Weil 1974, Basic Number Theory, Ch. IV §2).
-    It uses: (1) the product formula ‖x‖_∞ · ∏_p ‖x‖_p = 1 for x ∈ Q×;
-    (2) finiteness of the class group of Q (trivial, but needed for general K);
+    This is Fujisaki's lemma (Weil 1974, *Basic Number Theory*, Ch. IV §2). It uses:
+    (1) the product formula ‖x‖_∞ · ∏_p ‖x‖_p = 1 for x ∈ Q×;
+    (2) finiteness of the class group of Q (trivial for Q, needed for general K);
     (3) compactness of ∏_p Z_p× in the restricted-product topology.
+    Mathlib 4.19.0 has no adèle ring of Q with its restricted-product topology, so the
+    statement cannot even be *phrased* here, let alone proved.
 
-    Once Mathlib fully formalizes the adèle ring of Q with its restricted-
-    product topology, this sorry closes via a standard compactness argument.
+    **Why this is now a stub (2026-08-31).** It previously read
 
-    The placeholder `ULift Unit` was removed because `IsTopologicalGroup`
-    for `ULift Unit` is not synthesized in Mathlib 4.19.0.
+    ```
+    lemma adelic_quotient_compact_factor :
+        ∃ (K1 : Type) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
+          (_ : Group K1) (_ : IsTopologicalGroup K1), True
+    ```
 
-    ONON52: Used in thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
-lemma adelic_quotient_compact_factor :
-    ∃ (K1 : Type) (_ : TopologicalSpace K1) (_ : CompactSpace K1)
-      (_ : Group K1) (_ : IsTopologicalGroup K1),
-      True := by
-  -- Unit has discrete topology, making all functions continuous.
-  -- Provide IsTopologicalGroup Unit explicitly since inferInstance can't synthesize it.
-  haveI htg : IsTopologicalGroup Unit := {
-    continuous_mul := continuous_of_discreteTopology
-    continuous_inv := continuous_of_discreteTopology
-  }
-  exact ⟨Unit, inferInstance, inferInstance, inferInstance, htg, trivial⟩
+    discharged by `exact ⟨Unit, …, trivial⟩`. That statement is **vacuous**: it asserts
+    only that *some* compact topological group exists, which the trivial group witnesses.
+    It says nothing whatsoever about A×/Q×, yet its name and its existential shape read
+    like genuine content — strictly more misleading than a `True` stub, which at least
+    advertises that it asserts nothing. Replacing it with an honest `open_` stub loses no
+    mathematical content, because there was none to lose.
+
+    ONON52: needed by thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
+theorem open_adelic_quotient_compact_factor : True := trivial
 
 -- ============================================================
 -- §3  Peter-Weyl decomposition on K¹
@@ -132,16 +138,16 @@ lemma adelic_quotient_compact_factor :
     In particular, every self-adjoint left-invariant operator on L²(K¹) has
     *discrete* spectrum.
 
-    SORRY: Requires K¹ to be an actual compact group (see `adelic_quotient_compact_factor`).
-    Once that sorry is closed, this follows from Mathlib's theory of compact
-    operators (or Peter-Weyl, once formalized in Mathlib).
+    OPEN: requires K¹ to be an actual compact group (see
+    `open_adelic_quotient_compact_factor`). Once that is a real statement, this
+    follows from Peter–Weyl (not yet in Mathlib 4.19.0).
 
     ONON52: Theorem thm:peter-weyl-compact, L16592.
     Reference: Hewitt-Ross, Abstract Harmonic Analysis, Vol. I, §27. -/
-theorem peter_weyl_adelic_discrete_spectrum :
+theorem open_peter_weyl_adelic_discrete_spectrum :
     ∀ (_ : True), True := by
   intro _
-  -- SORRY: Replace with Peter-Weyl for K¹ once compact group structure is formal
+  -- OPEN: replace with Peter-Weyl for K¹ once the compact group structure is formal
   trivial
 
 -- ============================================================
@@ -154,17 +160,17 @@ theorem peter_weyl_adelic_discrete_spectrum :
     (c) ‖χ_s‖_L² < ∞ for χ_s(a) = ‖a‖^s,
     together force Re(s) = ½ for every non-trivial zero s of ξ.
 
-    SORRY: This requires the full adèlic integration theory (Tate's thesis)
+    OPEN: this requires the full adèlic integration theory (Tate's thesis)
     and the spectral analysis of the scaling operator on L²(A×/Q×, d×a).
     The two-zeros-at-ordinate argument in RHSpectralMultiplicity.lean shows
     that off-critical zeros force multiplicity ≥ 2, closing the gap once
     the Plancherel atom weight = 1 is established.
 
     ONON52: Theorem thm:l2-constraint, L16806. -/
-theorem l2_constraint_forces_critical_line :
+theorem open_l2_constraint_forces_critical_line :
     ∀ (_ : True), True := by
   intro _
-  -- SORRY: Depends on adelic_quotient_compact_factor + peter_weyl_adelic_discrete_spectrum
+  -- OPEN: depends on open_adelic_quotient_compact_factor + open_peter_weyl_adelic_discrete_spectrum
   -- + Weil-pairing positivity (see WeilPositivityCriterion.lean; the former
   --   arithmetic_admissibility axiom is retired)
   trivial
@@ -175,6 +181,6 @@ end GppHaar
 -- Summary checks
 -- ============================================================
 #check @GppHaar.adelic_haar_self_dual
-#check @GppHaar.adelic_quotient_compact_factor
-#check @GppHaar.peter_weyl_adelic_discrete_spectrum
-#check @GppHaar.l2_constraint_forces_critical_line
+#check @GppHaar.open_adelic_quotient_compact_factor
+#check @GppHaar.open_peter_weyl_adelic_discrete_spectrum
+#check @GppHaar.open_l2_constraint_forces_critical_line

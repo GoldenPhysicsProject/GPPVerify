@@ -195,7 +195,7 @@ seed
 
 `positiveType_comp_addMonoidHom` above transports *positivity* along a homomorphism.
 A shadow-positive datum `(𝒜, Θ, ω)` in the sense of `HaarPositivityWeil.lean`'s
-`universal_positivity_construction` needs a second, independent compatibility fact:
+`open_universal_positivity_construction` needs a second, independent compatibility fact:
 the state `ω` itself must be *invariant under Θ*. On the Weil side (the memo's §6.1),
 `Θ_Weil` is inversion composed with conjugation on the idèle class group; in log
 coordinates on its `ℝ⁺` factor, inversion `r ↦ 1/r` becomes negation `u ↦ -u`. The

@@ -20,9 +20,9 @@ Source: why_string_theory_works_v4.tex
 - `m_theory_dimension` — D = 8+3 = 11
 
 ### Axioms (bootstrap/CFT/WZW):
-- `veneziano_celestial_unified` — both amplitudes from same Γ-product
-- `klt_gravity_gauge_squared` — KLT from Sugawara construction
-- `celestial_cft_unique_irfp` — universality theorem
+- `open_veneziano_celestial_unified` — both amplitudes from same Γ-product
+- `open_klt_gravity_gauge_squared` — KLT from Sugawara construction
+- `open_celestial_cft_unique_irfp` — universality theorem
 -/
 
 namespace GppDivisionAlgebras
@@ -93,14 +93,14 @@ theorem shadow_t_duality_same (x : ℝ) (hx : x ≠ 0) :
     Proof requires Mellin bootstrap and conformal block analysis. Not an
     axiom: the statement is content-free (`True`); left as a documented
     stub rather than adding an unnecessary axiom to the trust base. -/
-theorem veneziano_celestial_unified : True := trivial
+theorem open_veneziano_celestial_unified : True := trivial
 
 /-- KLT gravity = gauge² relation follows from Sugawara T(z) = 1/(2(k+h∨)) ΣₐJᵃJᵃ.
     Proof requires WZW model and affine Kac–Moody representation theory. -/
-theorem klt_gravity_gauge_squared : True := trivial
+theorem open_klt_gravity_gauge_squared : True := trivial
 
 /-- Celestial CFT is the unique IR fixed point of 4D quantum gravity with SM matter.
     Proof requires conformal bootstrap and anomaly cancellation analysis. -/
-theorem celestial_cft_unique_irfp : True := trivial
+theorem open_celestial_cft_unique_irfp : True := trivial
 
 end GppDivisionAlgebras

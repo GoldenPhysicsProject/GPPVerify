@@ -37,10 +37,10 @@ namespace GppRigidity
 -- ============================================================
 
 /-- In 4D, the Weyl tensor is traceless: g^{αβ} C_{αμβν} = 0. -/
-lemma weyl_traceless : True := trivial
+lemma open_weyl_traceless : True := trivial
 
 /-- Bianchi identity: ∇_μ G^{μν} = 0 (divergence-free). -/
-lemma bianchi_identity : True := trivial
+lemma open_bianchi_identity : True := trivial
 
 /-- The shadow dimension of the graviton is Δ_h = 2 (spin 2 in 4D).
     Under shadow Δ ↦ 2-Δ: Δ_h ↦ 2-2 = 0, the shadow is the conformal factor. -/
@@ -52,7 +52,7 @@ lemma two_derivative_from_c0 (c : ℝ) (hc : c = 0) : c = 0 := hc
 
 /-- Lovelock's theorem (algebraic form): in d=4, the divergence-free, symmetric
     second-order tensor from g_{μν} is uniquely G_{μν} + Λg_{μν} up to scale. -/
-lemma lovelock_uniqueness_algebraic : True := trivial
+lemma open_lovelock_uniqueness_algebraic : True := trivial
 
 -- ============================================================
 -- §2  Infrastructure axioms
@@ -61,15 +61,15 @@ lemma lovelock_uniqueness_algebraic : True := trivial
 /-- Lovelock (1971): in d=4, G_{μν} + Λg_{μν} is the unique divergence-free
     symmetric tensor from g_{μν} at most second order in derivatives.
     Gap: differential geometry infrastructure not in Mathlib 4.19.0. -/
-theorem lovelock_theorem : True := trivial
+theorem open_lovelock_theorem : True := trivial
 
 /-- Shadow symmetry forces graviton propagator to be 1/k² (massless, spin 2).
     Gap: requires spinor-helicity formalism for celestial amplitudes. -/
-theorem shadow_forces_massless_graviton : True := trivial
+theorem open_shadow_forces_massless_graviton : True := trivial
 
 /-- c_{4D}^Weyl = 0 eliminates all higher-curvature terms.
     Gap: requires quantum gravity renormalization group analysis. -/
-theorem c0_eliminates_higher_curvature : True := trivial
+theorem open_c0_eliminates_higher_curvature : True := trivial
 
 -- ============================================================
 -- §3  Main theorem (thm:rigidity)
@@ -84,15 +84,15 @@ theorem c0_eliminates_higher_curvature : True := trivial
 
     Algebraic core: Lovelock uniqueness + shadow dimension = 2.
     Infrastructure gap: differential geometry + spinor-helicity formalism. -/
-theorem einstein_uniqueness_from_shadow {c_4D_weyl : ℝ}
+theorem open_einstein_uniqueness_from_shadow {c_4D_weyl : ℝ}
     (hc : c_4D_weyl = 0) : True := trivial
 
 /-- Corollary: dark energy (cosmological constant Λ) is the only free parameter. -/
-theorem cosmological_constant_unique : True := trivial
+theorem open_cosmological_constant_unique : True := trivial
 
 end GppRigidity
 
 -- Summary checks
 #check @GppRigidity.graviton_shadow_dimension
 #check @GppRigidity.two_derivative_from_c0
-#check @GppRigidity.einstein_uniqueness_from_shadow
+#check @GppRigidity.open_einstein_uniqueness_from_shadow

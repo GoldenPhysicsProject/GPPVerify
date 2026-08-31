@@ -114,7 +114,7 @@ theorem kac_moody_level_appears_in_commutator (k m : ℤ) (δ_ab δ_mn : ℤ) :
     k * m * δ_ab * δ_mn = k * m * δ_ab * δ_mn := rfl
 
 /-- Sugawara energy-momentum tensor construction: T = :JJ:/(k+h^∨) -/
-theorem sugawara_construction : True := trivial
+theorem open_sugawara_construction : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:sugawara-conformal-dim
 -- MATHLIB GAP: WZW model / 2D CFT operator formalism not in Mathlib.
 
@@ -188,52 +188,52 @@ theorem glueball_ratio_scalar_excited (Λ : ℚ) (hΛ : Λ ≠ 0) :
 /-! ## Mass gap existence (axioms - full QFT not in Mathlib) -/
 
 /-- Haar measure orthogonality forces confinement (color singlet projection) -/
-theorem haar_confinement : True := trivial
+theorem open_haar_confinement : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:haar-confinement-main
 -- PROOF: Haar measure on G projects onto gauge-invariant (color-singlet) states.
 -- Peter-Weyl decomposition makes this explicit: only trivial rep contributes.
 -- MATHLIB GAP: Peter-Weyl theorem + measure theory on compact Lie groups.
 
 /-- Peter-Weyl discreteness forces discrete spectrum -/
-theorem peter_weyl_discrete_spectrum : True := trivial
+theorem open_peter_weyl_discrete_spectrum : True := trivial
 -- SOURCE: YM_PAPER35.tex, section on spectrum
 -- PROOF: Peter-Weyl decomposes L²(G) into finite-dim irreps.
 -- Discreteness of irrep dimensions forces discrete spectrum of H.
 -- MATHLIB GAP: Peter-Weyl theorem (partially in Mathlib but not sufficient).
 
 /-- Reflection positivity for celestial Yang-Mills -/
-theorem reflection_positivity_celestial : True := trivial
+theorem open_reflection_positivity_celestial : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:reflection-positivity-main
 -- PROOF: Shadow-reflection bridge + Kac-Peterson unitarity.
 -- MATHLIB GAP: OS axioms / reflection positivity formalism not in Mathlib.
 
 /-- Kac-Peterson unitarity for WZW model -/
-theorem kac_peterson_unitarity : True := trivial
+theorem open_kac_peterson_unitarity : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:kac-peterson
 -- MATHLIB GAP: WZW model / affine Kac-Moody representation theory.
 
 /-- Wightman axioms satisfied by celestial construction -/
-theorem wightman_axioms_satisfied : True := trivial
+theorem open_wightman_axioms_satisfied : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:os-complete, thm:wightman-verification
 -- MATHLIB GAP: Wightman QFT axioms not formalized in Mathlib.
 
 /-- Mass gap M = 2N/(k+N)·Λ_QCD > 0 -/
-theorem yang_mills_mass_gap : True := trivial
+theorem open_yang_mills_mass_gap : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:main (item 3)
 -- MATHLIB GAP: All of the above (QFT formalism absent from Mathlib).
 
 /-- Yang-Mills existence: Wightman QFT with gauge group G exists -/
-theorem yang_mills_existence : True := trivial
+theorem open_yang_mills_existence : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:main
 
 /-! ## Celestial/shadow connection -/
 
 /-- Shadow-reflection correspondence for loop amplitudes -/
-theorem shadow_reflection_correspondence : True := trivial
+theorem open_shadow_reflection_correspondence : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:shadow-reflection
 -- This is the bridge between the QG and RH papers:
 -- the shadow transform in celestial CFT = the functional equation reflection.
 
-theorem mass_gap_summary : True := trivial
+theorem open_mass_gap_summary : True := trivial
 
 end GppYangMillsMassGap

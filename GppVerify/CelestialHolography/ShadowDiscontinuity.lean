@@ -76,16 +76,16 @@ lemma residue_simple_pole (c : ℂ) (z z0 : ℂ) (h : z ≠ z0) :
 
 /-- The celestial amplitude has a branch cut along the shadow line.
     Gap: requires celestial amplitude theory (not in Mathlib). -/
-theorem celestial_amplitude_has_cut : True := trivial
+theorem open_celestial_amplitude_has_cut : True := trivial
 
 /-- The discontinuity across the shadow cut equals the loop integrand.
     This replaces Feynman diagrams with analytic continuation.
     Gap: requires unitarity cut equations + celestial OPE theory. -/
-theorem disc_equals_loop_integrand : True := trivial
+theorem open_disc_equals_loop_integrand : True := trivial
 
 /-- The shadow discontinuity is related to the zeta zero density via Mellin.
     Gap: requires Mellin transform theory on celestial amplitudes. -/
-theorem shadow_disc_mellin_density : True := trivial
+theorem open_shadow_disc_mellin_density : True := trivial
 
 -- ============================================================
 -- §3  Main theorem (thm:shadow-discontinuity)

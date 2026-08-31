@@ -41,7 +41,7 @@ The shadow=T theorem **itself** does NOT depend on Link 6.
 
 | Name | Blocks | Reason |
 |------|--------|--------|
-| `penrose_antipodal_from_hodge` | Step 1 | Penrose correspondence not in Mathlib |
+| `open_penrose_antipodal_from_hodge` | Step 1 | Penrose correspondence not in Mathlib |
 | `three_generations_from_c0` | Link 6 dependent | thm:link6 open problem |
 -/
 
@@ -86,7 +86,7 @@ theorem shadow_is_conjugation_on_principal_series (lam : ℝ) :
 
     ONON52: Step 1 of thm:shadow-cpt proof, L614–631.
     Reference: Penrose (1967), Mason-Woodhouse (1996). -/
-theorem penrose_antipodal_from_hodge :
+theorem open_penrose_antipodal_from_hodge :
     ∀ (_ : True), True := by
   intro _
   trivial
@@ -202,7 +202,7 @@ theorem critical_lines_coincide (s : ℂ) :
 
     THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM.
     Do not close this sorry without a proof of Link 6. -/
-theorem three_generations_from_c0_and_link6 :
+theorem open_three_generations_from_c0_and_link6 :
     -- Stub: the actual typed theorem is GppLink6.three_generations_from_c0 in Link6.lean.
     -- Link6.lean proves: c_2D = 0 → n_gen = 3 via Boyle-Turok 2021.
     -- Cannot import Link6 here (circular: ShadowSymmetry → ThreeGenerations → Link6).
@@ -216,10 +216,10 @@ end GppShadow
 -- ============================================================
 #check @GppShadow.shadow_is_involution
 #check @GppShadow.shadow_is_conjugation_on_principal_series
-#check @GppShadow.penrose_antipodal_from_hodge
+#check @GppShadow.open_penrose_antipodal_from_hodge
 #check @GppShadow.energy_inversion_from_antipodal
 #check @GppShadow.time_reversal_is_shadow
 #check @GppShadow.shadow_equals_time_reversal
 #check @GppShadow.delta_2s_shadow_is_functional_equation
 #check @GppShadow.critical_lines_coincide
-#check @GppShadow.three_generations_from_c0_and_link6
+#check @GppShadow.open_three_generations_from_c0_and_link6

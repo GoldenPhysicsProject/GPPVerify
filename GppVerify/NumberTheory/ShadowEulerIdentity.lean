@@ -25,30 +25,30 @@ Zeta Function at Glueball Celestial Weights via Products over the Riemann Zeros*
    `ξ(s)/ξ(1/2) = ∏_{γ > 0} (1 + (s - 1/2)²/γ²)`.
    Gap: Hadamard product theorem for ξ not in Mathlib 4.19.0.
 
-5. **`thm_hadamard_shadow`** (thm:hadamard-shadow) — AXIOM: normalized Hadamard product.
+5. **`open_thm_hadamard_shadow`** (thm:hadamard-shadow) — AXIOM: normalized Hadamard product.
 
-6. **`thm_shadow_euler`** (thm:shadow-euler) — AXIOM: main identity at glueball weights.
+6. **`open_thm_shadow_euler`** (thm:shadow-euler) — AXIOM: main identity at glueball weights.
    `ξ(kN/(k+N)) / ξ(1/2) = ∏_{γ > 0} (1 + a_{N,k}²/γ²)`.
 
-7. **`cor_su3_master`** (cor:su3) — AXIOM: SU(3) k=1 master identity.
+7. **`open_cor_su3_master`** (cor:su3) — AXIOM: SU(3) k=1 master identity.
 
-8. **`thm_xi_minimum_at_half`** (cor:minimum) — PROVED from `thm_universal_shadow_product`.
+8. **`open_thm_xi_minimum_at_half`** (cor:minimum) — PROVED from `thm_universal_shadow_product`.
 
-9. **`thm_logconcave`** (thm:logconcave) — AXIOM: log-concavity.
+9. **`open_thm_logconcave`** (thm:logconcave) — AXIOM: log-concavity.
 
-10. **`thm_spectral_moment_inversion`** (thm:inversion) — AXIOM: spectral moments from ξ.
+10. **`open_thm_spectral_moment_inversion`** (thm:inversion) — AXIOM: spectral moments from ξ.
 
-11. **`cor_li_criterion`** (cor:li) — AXIOM: Li's criterion via ξ-derivatives.
+11. **`open_cor_li_criterion`** (cor:li) — AXIOM: Li's criterion via ξ-derivatives.
 
-12. **`prop_ratio_identity`** (prop:ratio) — AXIOM: ratio product identities.
+12. **`open_prop_ratio_identity`** (prop:ratio) — AXIOM: ratio product identities.
 
 ### Dependency map
 
 `lem_perfect_square` (proved) →
 `shadow_coupling_sq_rational` (proved) →
-`thm_hadamard_shadow` (axiom) →
-`thm_shadow_euler` (axiom) →
-`cor_su3_master`, `thm_xi_minimum_at_half`, sum rules.
+`open_thm_hadamard_shadow` (axiom) →
+`open_thm_shadow_euler` (axiom) →
+`open_cor_su3_master`, `open_thm_xi_minimum_at_half`, sum rules.
 -/
 
 namespace GppShadowEuler
@@ -164,7 +164,7 @@ theorem thm_universal_shadow_product : ∀ (_ : ℂ), True := fun _ => trivial
 
     Gap: same as `thm_universal_shadow_product`.
     This is the intermediate form leading to the main Shadow Euler Identity. -/
-theorem thm_hadamard_shadow : True := trivial
+theorem open_thm_hadamard_shadow : True := trivial
 
 /-- **thm:shadow-euler** (Toupin 2026, Theorem 3.6).
     The Shadow Euler Identity:
@@ -172,12 +172,12 @@ theorem thm_hadamard_shadow : True := trivial
     where `a_{N,k} = |k + N - 2kN| / (2(k+N))` is rational for all k ≥ 1, N ≥ 2.
 
     Proof sketch (documented in source TeX):
-    1. Apply `thm_hadamard_shadow` with Δ = 2kN/(k+N).
+    1. Apply `open_thm_hadamard_shadow` with Δ = 2kN/(k+N).
     2. The numerator factors as a perfect square by `lem_perfect_square`.
     3. The coupling reduces to a_{N,k}².
 
-    Gap: `thm_hadamard_shadow` not in Mathlib; algebraic steps are proved above. -/
-theorem thm_shadow_euler : True := trivial
+    Gap: `open_thm_hadamard_shadow` not in Mathlib; algebraic steps are proved above. -/
+theorem open_thm_shadow_euler : True := trivial
 
 /-- **cor:su3** (Toupin 2026, Corollary 3.7).
     SU(3) master identity (k=1, N=3, a = 1/4):
@@ -185,8 +185,8 @@ theorem thm_shadow_euler : True := trivial
 
     This is the physically cleanest case: SU(3)_c is the QCD gauge group,
     and k=1 is the fundamental Kac-Moody level.
-    Gap: same as `thm_shadow_euler`. -/
-theorem cor_su3_master : True := trivial
+    Gap: same as `open_thm_shadow_euler`. -/
+theorem open_cor_su3_master : True := trivial
 
 /-- **cor:critical-line** (Toupin 2026, Corollary 3.4).
     On the critical line s = 1/2 + it, the universal formula gives:
@@ -196,7 +196,7 @@ theorem cor_su3_master : True := trivial
     lying on the real axis.
 
     Gap: requires `thm_universal_shadow_product`. -/
-theorem cor_critical_line_product : True := trivial
+theorem open_cor_critical_line_product : True := trivial
 
 /-- **cor:minimum** (Toupin 2026, Corollary 3.8).
     The completed zeta function ξ achieves its minimum on the real interval (0,1)
@@ -206,7 +206,7 @@ theorem cor_critical_line_product : True := trivial
     Proof from `thm_universal_shadow_product`: for real s ∈ (0,1),
     (s-1/2)² > 0, so each factor 1 + (s-1/2)²/γ² > 1, so the product > 1.
     Gap: requires `thm_universal_shadow_product`. -/
-theorem thm_xi_minimum_at_half : True := trivial
+theorem open_thm_xi_minimum_at_half : True := trivial
 
 -- ============================================================
 -- §4  SPECTRAL CONSEQUENCES — AXIOMS
@@ -219,14 +219,14 @@ theorem thm_xi_minimum_at_half : True := trivial
 
     This is the log-concavity of ξ in the distance from the critical interface.
     Gap: requires differentiability + absolute convergence of ∑ 1/γ² (not in Mathlib). -/
-theorem thm_logconcave : True := trivial
+theorem open_thm_logconcave : True := trivial
 
 /-- **cor:geomean** (Toupin 2026, Corollary 6.3).
     ξ-geometric-mean inequality:
     `ξ(1/2 + a)² ≥ ξ(1/2 + b) · ξ(1/2 + c)` when `a = √((b²+c²)/2)`.
-    Direct consequence of strict concavity (`thm_logconcave`).
-    Gap: same as `thm_logconcave`. -/
-theorem cor_xi_geomean_inequality : True := trivial
+    Direct consequence of strict concavity (`open_thm_logconcave`).
+    Gap: same as `open_thm_logconcave`. -/
+theorem open_cor_xi_geomean_inequality : True := trivial
 
 /-- **thm:inversion** (Toupin 2026, Theorem 6.5).
     Spectral moment inversion: every complete spectral moment
@@ -240,28 +240,28 @@ theorem cor_xi_geomean_inequality : True := trivial
     positive coupling values.
 
     Gap: requires `thm_universal_shadow_product` + Taylor expansion. -/
-theorem thm_spectral_moment_inversion : True := trivial
+theorem open_thm_spectral_moment_inversion : True := trivial
 
 /-- **cor:s2** (Toupin 2026, Corollary 6.6).
     The second spectral moment equals the second derivative of log ξ at 1/2:
     `S₂ = Σ_{γ > 0} γ^{-2} = ξ''(1/2) / (2 · ξ(1/2))`.
-    Gap: requires `thm_spectral_moment_inversion` + functional equation ξ'(1/2) = 0. -/
-theorem cor_s2_xi_derivative : True := trivial
+    Gap: requires `open_thm_spectral_moment_inversion` + functional equation ξ'(1/2) = 0. -/
+theorem open_cor_s2_xi_derivative : True := trivial
 
 /-- **prop:ratio** (Toupin 2026, Proposition 6.8).
     Unconditional ratio product identity:
     `ξ(s₁)/ξ(s₂) = ∏_{γ > 0} (γ² + a₁²)/(γ² + a₂²)`
     where aᵢ = |sᵢ - 1/2| and each sᵢ = kᵢNᵢ/(kᵢ+Nᵢ).
-    Gap: follows from `thm_shadow_euler` by division (unconditional). -/
-theorem prop_ratio_identity : True := trivial
+    Gap: follows from `open_thm_shadow_euler` by division (unconditional). -/
+theorem open_prop_ratio_identity : True := trivial
 
 /-- **cor:li** (Toupin 2026, Corollary 6.9).
     Li's criterion via ξ-derivatives: under RH, the second Li coefficient is
     `λ₂ = Σ_{γ > 0} 4γ² / (γ² + 1/4)² = 2·ξ''(1/2)/ξ(1/2) + O(S₄)`.
     Li's criterion (RH ↔ λₙ > 0 for all n ≥ 1) becomes an explicit family
     of positivity conditions on ξ-derivatives at s = 1/2.
-    Gap: requires `cor_s2_xi_derivative` + `thm_spectral_moment_inversion`. -/
-theorem cor_li_criterion : True := trivial
+    Gap: requires `open_cor_s2_xi_derivative` + `open_thm_spectral_moment_inversion`. -/
+theorem open_cor_li_criterion : True := trivial
 
 -- ============================================================
 -- §5  MAIN THEOREM ASSEMBLY
@@ -277,14 +277,14 @@ theorem cor_li_criterion : True := trivial
     - `coupling_numerator_nonzero`: a_{N,k} ≠ 0 for k≥1, N≥2
 
     Infrastructure part (6 axioms, all Hadamard-product gaps):
-    - `thm_universal_shadow_product`, `thm_hadamard_shadow`, `thm_shadow_euler`
-    - `cor_su3_master`, `thm_xi_minimum_at_half`
-    - `thm_spectral_moment_inversion`, `cor_li_criterion`
+    - `thm_universal_shadow_product`, `open_thm_hadamard_shadow`, `open_thm_shadow_euler`
+    - `open_cor_su3_master`, `open_thm_xi_minimum_at_half`
+    - `open_thm_spectral_moment_inversion`, `open_cor_li_criterion`
 
-    The proof of `thm_shadow_euler` given `thm_hadamard_shadow` is:
+    The proof of `open_thm_shadow_euler` given `open_thm_hadamard_shadow` is:
     substitute Δ = 2kN/(k+N), apply `lem_perfect_square`, simplify.
     This algebraic step is documented and fully clean. -/
-theorem shadow_euler_summary : True := trivial
+theorem open_shadow_euler_summary : True := trivial
 
 end GppShadowEuler
 
@@ -294,6 +294,6 @@ end GppShadowEuler
 #check @GppShadowEuler.lem_perfect_square
 #check @GppShadowEuler.shadow_coupling_su3
 #check @GppShadowEuler.coupling_numerator_nonzero
-#check @GppShadowEuler.thm_shadow_euler
-#check @GppShadowEuler.cor_su3_master
-#check @GppShadowEuler.cor_li_criterion
+#check @GppShadowEuler.open_thm_shadow_euler
+#check @GppShadowEuler.open_cor_su3_master
+#check @GppShadowEuler.open_cor_li_criterion

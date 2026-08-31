@@ -24,7 +24,7 @@ operator on the idèle class group.
 
 ### Connection to existing results
 
-Connects to: l2_constraint (L² forces Re = 1/2), two_zeros_at_ordinate,
+Connects to: open_l2_constraint (L² forces Re = 1/2), two_zeros_at_ordinate,
              adelic_l2_regularization.
 -/
 
@@ -42,7 +42,7 @@ lemma test_function_fe_symmetric (h : ℂ → ℂ) (rho : ℂ) :
 
 /-- The spectral sum over zeros converges absolutely for suitable test functions h.
     (Formal identity: each ρ contributes h(ρ) with multiplicity m(ρ).) -/
-lemma spectral_sum_well_defined : True := trivial
+lemma open_spectral_sum_well_defined : True := trivial
 
 /-- The explicit formula error term involves the gamma factor.
     Algebraic: Γ'/Γ(s) = -γ - 1/s + Σ_{n≥1} (1/n - 1/(n+s)). -/
@@ -52,7 +52,7 @@ lemma digamma_series_form (_ : ℂ) :
 
 /-- Shadow symmetry of the spectral sum: if ρ is a zero, so is 1-ρ̄
     (already proved: zeta_zero_implies_companion_zero). -/
-lemma spectral_sum_fe_symmetric : True := trivial
+lemma open_spectral_sum_fe_symmetric : True := trivial
 
 -- ============================================================
 -- §2  Infrastructure axioms
@@ -60,15 +60,15 @@ lemma spectral_sum_fe_symmetric : True := trivial
 
 /-- Weil explicit formula: Σ_ρ h(ρ) = geometric terms.
     Gap: not in Mathlib 4.19.0. Reference: Weil (1952), Bombieri (2000). -/
-theorem weil_explicit_formula : True := trivial
+theorem open_weil_explicit_formula : True := trivial
 
 /-- Meyer spectral-Weil identity: zeros of ζ = eigenvalues of adelic shadow operator.
     Gap: requires distributional spectral theory on idèle class group. -/
-theorem meyer_spectral_weil_identity : True := trivial
+theorem open_meyer_spectral_weil_identity : True := trivial
 
 /-- Positivity of Weil distribution: the explicit formula has non-negative contributions.
     Gap: this is the key positivity step in Pathway 2, related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
-theorem weil_distribution_positivity : True := trivial
+theorem open_weil_distribution_positivity : True := trivial
 
 -- ============================================================
 -- §3  Main theorem (thm:spectral-weil)
@@ -87,17 +87,17 @@ theorem weil_distribution_positivity : True := trivial
     Proved clean: test function symmetry, explicit formula structure.
     Infrastructure: Weil explicit formula, Meyer identity, positivity.
     This is the rigidity step that makes `arithmetic_admissibility` precise. -/
-theorem spectral_weil : True := trivial
+theorem open_spectral_weil : True := trivial
 
 /-- Connection to arithmetic_admissibility:
     The spectral-Weil identity is the precise content of `arithmetic_admissibility`.
-    Once weil_explicit_formula + weil_distribution_positivity are in Mathlib,
+    Once open_weil_explicit_formula + open_weil_distribution_positivity are in Mathlib,
     the (retired) arithmetic_admissibility condition becomes a theorem. -/
-theorem spectral_weil_closes_arithmetic_admissibility : True := trivial
+theorem open_spectral_weil_closes_arithmetic_admissibility : True := trivial
 
 end GppSpectralWeil
 
 -- Summary checks
 #check @GppSpectralWeil.test_function_fe_symmetric
-#check @GppSpectralWeil.spectral_weil
-#check @GppSpectralWeil.spectral_weil_closes_arithmetic_admissibility
+#check @GppSpectralWeil.open_spectral_weil
+#check @GppSpectralWeil.open_spectral_weil_closes_arithmetic_admissibility

@@ -65,21 +65,21 @@ namespace GppLink6
 
 /-- Weinberg (1965): tree-level TT OPE central charge vanishes.
     (Soft graviton theorem in 4D → zero tree-level contribution to 2D c.) -/
-theorem weinberg_soft_tree : True := trivial
+theorem open_weinberg_soft_tree : True := trivial
 
 /-- Cachazo-Strominger (2014): subleading soft graviton theorem defines T(z).
     Ensures the celestial stress tensor is well-defined from gravity amplitudes. -/
-theorem cachazo_strominger : True := trivial
+theorem open_cachazo_strominger : True := trivial
 
 /-- Capper-Duff (1974) / 't Hooft-Veltman (1974): graviton self-energy is
     Π(Q) = c_{4D} × Q⁴ × (Weyl structure) / (16π²).
     The exact Q⁴/Q⁴ = 1 cancellation in the dressed propagator G·Π·G = Π(Q)/Q⁴
     gives: one-loop celestial OPE coefficient = κ₀ × c_{4D}^Weyl. -/
-theorem capper_duff_one_loop : True := trivial
+theorem open_capper_duff_one_loop : True := trivial
 
 /-- Adler-Bardeen (1969): the trace anomaly is one-loop exact.
     All n ≥ 2 loop corrections to the TT OPE central charge vanish. -/
-theorem adler_bardeen_nonrenorm : True := trivial
+theorem open_adler_bardeen_nonrenorm : True := trivial
 
 -- ============================================================
 -- §3  Main theorem: c_{2D} = κ₀ × c_{4D}^Weyl
@@ -130,7 +130,7 @@ abbrev BoyleTurokHypothesis (c_4D_weyl : ℝ) (n_gen : ℕ) : Prop :=
     (the 2021 anomaly analysis). Given those, the implication `c_{2D} = 0 → n_gen = 3` is
     a genuine kernel-checked deduction depending on no custom axiom.
 
-    Corresponds to `three_generations_from_c0_and_link6` in `ShadowSymmetry.lean`, which
+    Corresponds to `open_three_generations_from_c0_and_link6` in `ShadowSymmetry.lean`, which
     cannot import this file (circular: ShadowSymmetry → ThreeGenerations → Link6). -/
 theorem three_generations_from_c0 {c_2D c_4D_weyl kappa_0 : ℝ} {n_gen : ℕ}
     (kappa_0_pos : 0 < kappa_0)

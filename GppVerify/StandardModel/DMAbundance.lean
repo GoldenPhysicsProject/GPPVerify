@@ -75,7 +75,7 @@ lemma boltzmann_relic_form (m T_freeze M_Pl : ℝ)
 
     Gap: requires Boltzmann-equation analysis plus shadow-symmetry-breaking theory,
     neither of which exists in Mathlib. -/
-theorem shadow_breaking_gives_abundance : True := trivial
+theorem open_shadow_breaking_gives_abundance : True := trivial
 
 /-- Unitarity of the shadow operator implies positive abundance.
 
