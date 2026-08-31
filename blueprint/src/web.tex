@@ -345,7 +345,7 @@ something is unproved --- check the Lean source.
 
 \begin{theorem}[Shadow Discontinuity]
   \label{thm:shadow-discontinuity}
-  \lean{GppShadowDisc.shadow_discontinuity}
+  \lean{GppShadowDisc.open_shadow_discontinuity}
   \uses{thm:shadow-cpt}
   The discontinuity of a celestial amplitude across the shadow cut
   $z \mapsto \bar{z}$ (i.e., $\Delta \mapsto 2-\bar\Delta$) equals the loop integrand,
@@ -615,7 +615,7 @@ stub.
 
 \begin{lemma}[Ad\`elic $L^2$ Regularization]
   \label{lem:adelic-l2-regularization}
-  \lean{GppAdelicL2.adelic_l2_regularization}
+  \lean{GppAdelicL2.open_adelic_l2_regularization}
   \uses{thm:l2-constraint, lem:fujisaki}
   The $L^2(\mathbb{A}^\times/\mathbb{Q}^\times)$ spectral decomposition is
   well-defined after Haar regularization:
@@ -1060,7 +1060,7 @@ standing rule against cataloguing manuscript errors in the public tree.
 
 \begin{lemma}[Born Rule from Haar Measure]
   \label{lem:born-rule-haar}
-  \lean{GppBorn.born_rule_from_haar}
+  \lean{GppBorn.open_born_rule_from_haar}
   \uses{thm:adelic-haar, lem:fujisaki}
   The Born rule $P(\psi) = |\langle\phi|\psi\rangle|^2$ arises as the unique
   probability measure on $L^2(K^1)$ induced by Haar measure and
@@ -3227,10 +3227,17 @@ A nonzero real polynomial of degree at most `N` cannot vanish on `N+1`
 \subsection{SpectralWeil}
 This file formalizes `thm:spectral-weil` (ONON52, cited 10×):
 
-\noindent\textbf{Proved (2 declarations):}
+\noindent\textbf{Proved (1 declaration):}
 \begin{itemize}
   \item \lean{GppSpectralWeil.test_function_fe_symmetric}\leanok\ \texttt{test\_function\_fe\_symmetric}
-  \item \lean{GppSpectralWeil.digamma_series_form}\leanok\ \texttt{digamma\_series\_form}
+\end{itemize}
+
+\noindent\textbf{Open (1 declaration):}
+\begin{itemize}
+  \item \lean{GppSpectralWeil.open_digamma_series_form} \texttt{open\_digamma\_series\_form} ---
+    a \texttt{True}-stub. It carried \texttt{\textbackslash leanok} until 2026-08-31, i.e.\ this
+    blueprint published it as machine-verified while it asserted nothing. It was unprefixed at the
+    time and so invisible to the stub-naming gate; see \S\ref{sec:axiom-inventory}.
 \end{itemize}
 
 \subsection{WeightedVarianceInfinite}
@@ -3874,7 +3881,7 @@ On the big cell of the Grassmannian Gr(2,4), a 2-plane is represented in the
   \item \lean{GppGrassmannian.transition_transition_eq_neg}\leanok\ \texttt{transition\_transition\_eq\_neg}
 \end{itemize}
 
-\chapter{Axiom Inventory}
+\chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
 "\textasciicircum axiom " GppVerify/}) rather than carried forward from an earlier snapshot.
@@ -3964,7 +3971,28 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{141} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{150} such stubs.
+
+\medskip
+\noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
+recording.} This blueprint published \textbf{141}; the gate reported 142; the tree held 150.
+The gate matched line by line --- it remembered the last \texttt{theorem} line, then looked for
+\texttt{: True := trivial} on a later one --- so it could not see a stub written as
+\begin{quote}\ttfamily
+theorem shadow\_discontinuity :\\
+\hspace*{2em}-{}- Disc(celestial amplitude) = shadow transform jump = loop integrand\\
+\hspace*{2em}True := trivial
+\end{quote}
+because the line carrying \texttt{True := trivial} has no colon in front of \texttt{True}; the
+colon is two lines up, behind a comment. Eight stubs sat in that blind spot and \emph{all eight
+were unprefixed} --- \texttt{shadow\_discontinuity}, \texttt{born\_rule\_from\_haar},
+\texttt{K\_compact}, \texttt{K\_trace\_class}, \texttt{plancherel\_atom\_one},
+\texttt{meyer\_spectral\_weil}, \texttt{adelic\_l2\_regularization},
+\texttt{digamma\_series\_form}. The gate printed ``All True-stubs correctly prefixed'' on every
+build while carrying exactly the names it exists to catch. They are now renamed
+\texttt{open\_}\ldots, and the gate reads whole declarations with comments stripped rather than
+lines, so a stub can no longer hide behind a comment inside its own statement. The gate also now
+checks this very sentence against the tree, so the published count cannot drift again.
 
 \medskip
 \noindent\textbf{Every stub name now begins with \texttt{open\_}, and CI enforces it}

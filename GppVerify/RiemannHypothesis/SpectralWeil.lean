@@ -25,7 +25,7 @@ operator on the idèle class group.
 ### Connection to existing results
 
 Connects to: open_l2_constraint (L² forces Re = 1/2), two_zeros_at_ordinate,
-             adelic_l2_regularization.
+             open_adelic_l2_regularization.
 -/
 
 namespace GppSpectralWeil
@@ -46,7 +46,7 @@ lemma open_spectral_sum_well_defined : True := trivial
 
 /-- The explicit formula error term involves the gamma factor.
     Algebraic: Γ'/Γ(s) = -γ - 1/s + Σ_{n≥1} (1/n - 1/(n+s)). -/
-lemma digamma_series_form (_ : ℂ) :
+lemma open_digamma_series_form (_ : ℂ) :
     -- digamma function satisfies this series (formal statement)
     True := trivial
 

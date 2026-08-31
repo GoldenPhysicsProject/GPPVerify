@@ -146,7 +146,7 @@ theorem two_zeros_at_ordinate (rho : Complex)
   · exact companion_im_eq rho
 
 /-- K = A¹/Q* is compact. (Tate 1950) -/
-theorem K_compact : True := by
+theorem open_K_compact : True := by
   -- Placeholder: Full formalization requires Fujisaki's lemma / adelic topology in Mathlib.
   -- This is the compactness of the norm-1 idèle class group, standard in class field theory.
   -- See also HaarMeasure.lean sorries.
@@ -154,14 +154,14 @@ theorem K_compact : True := by
 
 /-- Haar-square convolution operators are positive trace-class on H_1.
     (vol(K) = 1, Hilbert-Schmidt, Reed-Simon VI.22) -/
-theorem K_trace_class : True := by
+theorem open_K_trace_class : True := by
   -- Placeholder for trace-class property of the convolution operator on L^{2}(K).
   -- Follows from compactness + Haar measure normalization.
   trivial
 
 /-- Plancherel atom weight = 1 at each ordinate.
     (Fourier-Plancherel for (R+,x); 1D ODE eigenspace) -/
-theorem plancherel_atom_one (_ : Real) : True := by
+theorem open_plancherel_atom_one (_ : Real) : True := by
   -- Placeholder: The Plancherel measure on the principal series gives atom weight 1
   -- at each imaginary ordinate (corresponding to the 1-dimensional eigenspace of the
   -- infinitesimal generator). This is the key to multiplicity = 1 on the critical line.
@@ -169,7 +169,7 @@ theorem plancherel_atom_one (_ : Real) : True := by
 
 /-- Meyer spectral-Weil identity (Duke Math J 127, 2005).
     Hilbert atom weight at gamma = distributional zero count of zeta at gamma. -/
-theorem meyer_spectral_weil (_ : Real) (_ : Nat) : True := by
+theorem open_meyer_spectral_weil (_ : Real) (_ : Nat) : True := by
   -- Placeholder: Equates the spectral side (Plancherel/Hilbert) with the
   -- distributional/Weil explicit formula side. Once both sides are formalized,
   -- this forces multiplicity contradiction off the line.
