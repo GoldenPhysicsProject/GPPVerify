@@ -216,7 +216,7 @@ theorem open_zero_simplicity : True := trivial
     SOURCE: rh_cft_proof4.tex, cor:grh.
     PROOF: Same spectral argument applies to each L-function separately. -/
 theorem open_generalised_rh : True := trivial
--- MATHLIB GAP: Hecke L-functions not yet in Mathlib 4.19.0.
+-- MATHLIB GAP: Hecke L-functions re-verified absent in Mathlib 4.33.1 (2026-09-01).
 
 theorem open_rh_summary : True := trivial
 

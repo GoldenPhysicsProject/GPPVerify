@@ -7,7 +7,7 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 # L² Constraint Forces Re(s) = 1/2  (thm:l2-constraint)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `thm:l2-constraint` (ONON52, cited 12×):
 *If a Hecke character χ_s is square-integrable on the adèlic quotient K¹ = A¹/Q×
@@ -73,7 +73,14 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
 
 /-- K¹ = A¹/Q× is compact with finite Haar measure.
     (Fujisaki's lemma; Weil 1974 Ch. IV §2.)
-    Gap: Mathlib.NumberTheory.NumberField.Adeles. -/
+
+    Gap, restated 2026-09-01 against Mathlib 4.33.1. The old wording named a *module* —
+    "Gap: Mathlib.NumberTheory.NumberField.Adeles" — and that module now exists, so as
+    written the gap reads as closed when the mathematics is untouched. What is actually
+    missing: the idèle group `A×` (Mathlib has the adele *ring* only), its norm-1
+    subgroup, the quotient by `Q×`, and any compactness statement about it — there is no
+    `CompactSpace`/`IsCompact` anywhere in `AdeleRing.lean`. Fujisaki's lemma itself is
+    absent. Name the missing theorem, not the module. -/
 theorem open_K1_compact_haar : True := trivial
 
 /-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).

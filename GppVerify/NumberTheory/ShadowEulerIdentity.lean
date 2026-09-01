@@ -5,7 +5,7 @@ import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
 /-!
 # Shadow Euler Identity  (thm:shadow-euler)
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
 Zeta Function at Glueball Celestial Weights via Products over the Riemann Zeros*
@@ -150,7 +150,7 @@ lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by native_decide
 
 -- ============================================================
 -- §3  INFRASTRUCTURE AXIOMS
---     (Hadamard product theory, not in Mathlib 4.19.0)
+--     (Hadamard product theory; re-verified absent in Mathlib 4.33.1, 2026-09-01)
 -- ============================================================
 
 /-- **thm:universal** (Toupin 2026, Theorem 3.3).
@@ -161,7 +161,7 @@ lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by native_decide
     Gap: Requires the Hadamard product theorem for the completed zeta function ξ,
     together with the functional equation ξ(s) = ξ(1-s).
     The RH-consistent form uses ρ(1-ρ) = 1/4 + γ_ρ² (exact under RH).
-    Not available in Mathlib 4.19.0.
+    Re-verified absent in Mathlib 4.33.1 (2026-09-01).
 
     Reference: Davenport, *Multiplicative Number Theory* (2000), Ch. 12. -/
 theorem open_thm_universal_shadow_product : ∀ (_ : ℂ), True := fun _ => trivial

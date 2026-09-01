@@ -5,7 +5,7 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 # Dark Matter Abundance from Shadow Symmetry (thm:dm-abundance, cited 13×)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `thm:dm-abundance` (ONON52, third-most-cited, 13×):
 *The observed dark matter abundance Ω_{DM} h² ≈ 0.12 follows from the shadow

@@ -8,7 +8,7 @@ import Mathlib.Topology.Algebra.Group.Compact
 # Lean 4 Kernel | Zero Sorries | Zero Errors
 # Author: Daniel Toupin | Golden Physics Project | goldenphysics.org
 # ORCID: 0009-0003-7682-9579
-# Toolchain: leanprover/lean4:v4.19.0 | Mathlib: v4.19.0
+# Toolchain: leanprover/lean4:v4.33.1 | Mathlib: v4.33.1
 
 ## Theorems verified:
 ## 1. haar_invariant_under_automorphism — bicontinuous automorphism preserves Haar measure

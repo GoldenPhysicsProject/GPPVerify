@@ -2,7 +2,7 @@
 -- The Riemann Hypothesis via Spectral Multiplicity
 -- Author: Daniel Toupin | Golden Physics Project
 -- ORCID: 0009-0003-7682-9579 | goldenphysics.org
--- Lean 4 / Mathlib v4.19.0
+-- Lean 4 / Mathlib v4.33.1
 -- ============================================================
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.NumberTheory.LSeries.HurwitzZetaEven

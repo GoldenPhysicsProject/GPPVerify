@@ -6,7 +6,7 @@ import GppVerify.RiemannHypothesis.FunctionalEquation
 # Riemann Zeta Function Properties (from Mathlib 4.19.0)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file collects provable properties of the Riemann zeta function
 available in Mathlib 4.19.0, grounding the GPPVerify formalization

@@ -59,7 +59,7 @@ theorem open_charge_conjugation_sq : True := trivial
 theorem open_majorana_self_consistency : True := trivial
 -- SOURCE: zitterbewegung paper, thm:majorana
 -- The T-boundary condition ψ|_{t=0} = ψ̄|_{t=0} forces ψ = Cψ̄.
--- MATHLIB GAP: Spinor bundles not in Mathlib 4.19.0.
+-- MATHLIB GAP: Spinor bundles re-verified absent in Mathlib 4.33.1 (2026-09-01).
 
 /-- Twistor version: Majorana condition from Penrose-Ward transform -/
 theorem open_majorana_from_penrose_ward : True := trivial

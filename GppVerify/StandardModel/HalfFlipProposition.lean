@@ -30,7 +30,7 @@ Proposition 2.2 (No-Enactment: the Choi operator of the transpose is the
 swap, with eigenvalue -1 on the antisymmetric subspace, hence the map is
 not completely positive) needs a Kronecker/tensor-product formalization of
 the Choi matrix and a notion of complete positivity, neither of which is
-in a ready-made form in Mathlib 4.19.0; this is left open rather than
+in a ready-made form in Mathlib 4.33.1 (re-verified 2026-09-01); this is left open rather than
 axiomatized vacuously. Verified numerically (dimensions 2 through 5) in
 the companion script.
 

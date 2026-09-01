@@ -21,7 +21,7 @@ No physical postulate enters; the axioms are geometric theorems.
 - dim(SU(4)) = 15, dim(S(U(2)×U(2))) = 9, codim = 6
 - Plücker: Gr(2,4) ↪ P^5
 
-## Axioms (QFT formalism not in Mathlib 4.19.0)
+## Axioms (QFT formalism; re-verified absent in Mathlib 4.33.1, 2026-09-01)
 - W1: Hilbert space from L²(Gr(2,4), dμ_Haar)
 - W2: Poincaré covariance from P ↪ SU(2,2) ⊂ SU(4)
 - W3: Spectrum condition from forward-tube analyticity
