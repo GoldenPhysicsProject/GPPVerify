@@ -206,8 +206,63 @@ theorem open_cor_su3_master : True := trivial
     The RH is equivalent to all zeros of this product (as a function of complex t)
     lying on the real axis.
 
-    Gap: requires `open_thm_universal_shadow_product`. -/
+    Gap: requires `open_thm_universal_shadow_product`.
+
+    **The substitution and the vanishing locus are proved below**, 2026-09-01. The sign flip
+    that turns the universal factor into the sine-product factor is `(it)² = -t²` and needs
+    nothing; what needs Hadamard is the product formula it is applied to. -/
 theorem open_cor_critical_line_product : True := trivial
+
+/-! ### The critical line: why the product becomes a sine-product
+
+The universal factor is `1 + (s-1/2)²/γ²`. On the critical line the offset `s - 1/2` is
+*purely imaginary*, so its square is a negative real and the factor flips sign to
+`1 - t²/γ²`. That is the whole reason `cor:critical-line` reads as a sine-product analogue,
+and it is one line.
+
+The second lemma is the part with content: the finite product vanishes **exactly** at the
+ordinates, `t = ±γ_j`. That is the concrete form of the docstring's remark that RH is
+equivalent to the zeros of this product lying on the real axis — for the truncated product,
+the zeros are real and are precisely the ordinates, unconditionally. -/
+
+/-- On the critical line `s = 1/2 + it`, the shadow offset squares to a **negative** real:
+    `(s - 1/2)² = -t²`. -/
+lemma shadow_offset_critical_line (t : ℝ) :
+    ((1 / 2 + (t : ℂ) * Complex.I) - 1 / 2) ^ 2 = -((t : ℂ) ^ 2) := by
+  have h : ((1 / 2 + (t : ℂ) * Complex.I) - 1 / 2) = (t : ℂ) * Complex.I := by ring
+  rw [h, mul_pow, Complex.I_sq]
+  ring
+
+/-- Hence the universal factor at `s = 1/2 + it` is the sine-product factor `1 - t²/γ²`. -/
+lemma shadow_factor_critical_line (t g : ℝ) :
+    1 + (((1 / 2 + (t : ℂ) * Complex.I) - 1 / 2) ^ 2) / (g : ℂ) ^ 2
+      = 1 - (t : ℂ) ^ 2 / (g : ℂ) ^ 2 := by
+  rw [shadow_offset_critical_line]
+  ring
+
+/-- **The vanishing locus.** The finite critical-line product is zero exactly when `t` is
+    `±γ_j` for some ordinate in the index set — its zeros are real, and are precisely the
+    ordinates. This is `cor:critical-line`'s "zeros of this product" claim, proved for the
+    truncation and unconditionally. -/
+lemma critical_line_prod_eq_zero_iff {ι : Type*} (S : Finset ι) (g : ι → ℝ) (t : ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) :
+    (∏ j ∈ S, (1 - t ^ 2 / (g j) ^ 2)) = 0 ↔ ∃ j ∈ S, t = g j ∨ t = -(g j) := by
+  rw [Finset.prod_eq_zero_iff]
+  constructor
+  · rintro ⟨j, hj, hzero⟩
+    refine ⟨j, hj, ?_⟩
+    have hgj : (g j) ^ 2 ≠ 0 := pow_ne_zero 2 (hg j hj)
+    have h1 : (1:ℝ) = t ^ 2 / (g j) ^ 2 := sub_eq_zero.mp hzero
+    have h2 : (1:ℝ) * (g j) ^ 2 = t ^ 2 := (eq_div_iff hgj).mp h1
+    -- `t² = γ²` factors as `(t-γ)(t+γ) = 0`; avoids needing a `sq_eq_sq` lemma.
+    have hfac : (t - g j) * (t + g j) = 0 := by nlinarith [h2]
+    rcases mul_eq_zero.mp hfac with h | h
+    · exact Or.inl (by linarith)
+    · exact Or.inr (by linarith)
+  · rintro ⟨j, hj, h | h⟩ <;> refine ⟨j, hj, ?_⟩ <;>
+      · have hgj : (g j) ^ 2 ≠ 0 := pow_ne_zero 2 (hg j hj)
+        subst h
+        simp [div_self hgj]
 
 /-- **cor:minimum** (Toupin 2026, Corollary 3.8).
     The completed zeta function ξ achieves its minimum on the real interval (0,1)

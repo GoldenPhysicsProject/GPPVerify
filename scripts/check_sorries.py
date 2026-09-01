@@ -45,6 +45,25 @@ This does NOT replace the build-log check or the axiom audit; all three run:
 
 Each has a blind spot the others cover. Quote all of sorry / axiom / stub counts in any
 status claim about this tree — see `docs/FORMALIZATION_PLAN.md`.
+
+## Reading the three together: `sorryAx` without a source `sorry`
+
+Codex hit this on 2026-09-01 and recorded it in `gpp-bridge/CODEX_RESEARCH_NOTES.md`:
+**a module that fails to elaborate emits `sorryAx`.** Lean fills the hole left by a failed
+proof with the same axiom a literal `sorry` produces, so the axiom audit can report `sorryAx`
+while this script correctly reports zero — no `sorry` was ever written.
+
+So when the two disagree, the disagreement is itself the diagnosis:
+
+| this script | axiom audit | means |
+|---|---|---|
+| clean | clean | genuinely clean |
+| **finds one** | `sorryAx` | a real `sorry` was committed |
+| **clean** | `sorryAx` | **a module failed to build** — fix the build error, do not hunt for a `sorry` |
+
+Do not "reconcile" the two by weakening either. The third row is the useful one: it points
+at a compile failure that a green root build may be hiding, which is exactly what
+`check_import_graph.py` guards against from the other direction.
 """
 
 import re
