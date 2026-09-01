@@ -216,8 +216,89 @@ theorem open_cor_critical_line_product : True := trivial
 
     Proof from `open_thm_universal_shadow_product`: for real s ∈ (0,1),
     (s-1/2)² > 0, so each factor 1 + (s-1/2)²/γ² > 1, so the product > 1.
-    Gap: requires `open_thm_universal_shadow_product`. -/
+
+    **That argument is proved below**, 2026-09-01, as `xi_ge_at_half_of_shadow_prod` and
+    `xi_gt_at_half_of_shadow_prod` — with the product supplied as an explicit hypothesis
+    over a *finite* index set rather than assumed globally. This stub stays for the
+    unconditional claim, which still needs the Hadamard input. -/
 theorem open_thm_xi_minimum_at_half : True := trivial
+
+/-! ### The minimum argument, proved
+
+The docstring above states its own proof: each factor of the shadow product exceeds 1 for
+real `s ≠ 1/2`, so the product does, so `ξ(s) > ξ(1/2)`. Nothing in that step needs Hadamard
+— what needs Hadamard is knowing the product *formula* holds, and that is exactly what is
+taken as a hypothesis here.
+
+Deliberately stated over a `Finset` of ordinates. The infinite product needs convergence,
+which is part of the same missing Hadamard theory; the finite partial products are the
+honest reach, and the argument is identical. -/
+
+/-- Every factor of the shadow product is at least 1, for real argument.
+
+    No hypothesis on `g`: over `ℝ`, `a^2 / 0^2 = 0` by Lean's junk-value convention, so the
+    bound holds at a vanishing ordinate too. Stated without the hypothesis rather than
+    carrying one that is never needed. -/
+lemma one_le_shadow_factor (a g : ℝ) : 1 ≤ 1 + a ^ 2 / g ^ 2 := by
+  have : 0 ≤ a ^ 2 / g ^ 2 := div_nonneg (sq_nonneg a) (sq_nonneg g)
+  linarith
+
+/-- A factor is *strictly* above 1 when the offset and the ordinate are both nonzero. -/
+lemma one_lt_shadow_factor {a g : ℝ} (ha : a ≠ 0) (hg : g ≠ 0) :
+    1 < 1 + a ^ 2 / g ^ 2 := by
+  have : 0 < a ^ 2 / g ^ 2 :=
+    div_pos (pow_pos (abs_pos.mpr ha) 2 |>.trans_le (le_of_eq (sq_abs a)))
+      (pow_pos (abs_pos.mpr hg) 2 |>.trans_le (le_of_eq (sq_abs g)))
+  linarith
+
+/-- A finite shadow product is at least 1. -/
+lemma one_le_shadow_prod {ι : Type*} (S : Finset ι) (g : ι → ℝ) (a : ℝ) :
+    1 ≤ ∏ j ∈ S, (1 + a ^ 2 / (g j) ^ 2) := by
+  have h := Finset.prod_le_prod (s := S) (f := fun _ : ι => (1 : ℝ))
+      (g := fun j => 1 + a ^ 2 / (g j) ^ 2)
+      (fun j _ => zero_le_one) (fun j _ => one_le_shadow_factor a (g j))
+  simpa using h
+
+/-- A finite shadow product is *strictly* above 1 as soon as one ordinate in the index set
+    is nonzero and the offset is nonzero. -/
+lemma one_lt_shadow_prod {ι : Type*} [DecidableEq ι] {S : Finset ι} {g : ι → ℝ} {a : ℝ}
+    {j₀ : ι} (hj₀ : j₀ ∈ S) (ha : a ≠ 0) (hg : g j₀ ≠ 0) :
+    1 < ∏ j ∈ S, (1 + a ^ 2 / (g j) ^ 2) := by
+  rw [← Finset.mul_prod_erase _ _ hj₀]
+  have h1 : 1 < 1 + a ^ 2 / (g j₀) ^ 2 := one_lt_shadow_factor ha hg
+  have h2 : 1 ≤ ∏ j ∈ S.erase j₀, (1 + a ^ 2 / (g j) ^ 2) := one_le_shadow_prod _ g a
+  nlinarith
+
+/-- **cor:minimum, conditional form.** Given the shadow product formula over a finite set of
+    ordinates and `ξ(1/2) > 0`, the completed zeta function is at least `ξ(1/2)`.
+
+    `s` is unrestricted: the bound does not need `s ∈ (0,1)`, only that the product formula
+    holds at `s`. Restricting the interval is the paper's framing, not a requirement of this
+    argument. -/
+theorem xi_ge_at_half_of_shadow_prod {xi : ℝ → ℝ} {ι : Type*}
+    (S : Finset ι) (g : ι → ℝ) (hpos : 0 < xi (1/2)) (s : ℝ)
+    (hP : xi s / xi (1/2) = ∏ j ∈ S, (1 + (s - 1/2) ^ 2 / (g j) ^ 2)) :
+    xi (1/2) ≤ xi s := by
+  have h1 : 1 ≤ xi s / xi (1/2) := by
+    rw [hP]; exact one_le_shadow_prod S g (s - 1/2)
+  rw [le_div_iff₀ hpos] at h1
+  linarith
+
+/-- **cor:minimum, strict form** — the "*exactly* at `s = 1/2`" half of the claim.
+
+    Without this, `xi_ge_at_half_of_shadow_prod` would be consistent with `ξ` being constant,
+    and "achieves its minimum at the shadow-symmetric interface" would say nothing about the
+    interface being distinguished. -/
+theorem xi_gt_at_half_of_shadow_prod {xi : ℝ → ℝ} {ι : Type*} [DecidableEq ι]
+    {S : Finset ι} {g : ι → ℝ} {j₀ : ι} (hj₀ : j₀ ∈ S) (hg : g j₀ ≠ 0)
+    (hpos : 0 < xi (1/2)) {s : ℝ} (hs : s ≠ 1/2)
+    (hP : xi s / xi (1/2) = ∏ j ∈ S, (1 + (s - 1/2) ^ 2 / (g j) ^ 2)) :
+    xi (1/2) < xi s := by
+  have ha : s - 1/2 ≠ 0 := sub_ne_zero.mpr hs
+  have h1 : 1 < xi s / xi (1/2) := by
+    rw [hP]; exact one_lt_shadow_prod hj₀ ha hg
+  rw [lt_div_iff₀ hpos] at h1
+  linarith
 
 -- ============================================================
 -- §4  SPECTRAL CONSEQUENCES — AXIOMS
@@ -232,12 +313,145 @@ theorem open_thm_xi_minimum_at_half : True := trivial
     Gap: requires differentiability + absolute convergence of ∑ 1/γ² (not in Mathlib). -/
 theorem open_thm_logconcave : True := trivial
 
+/-! ### The log-concavity derivatives, proved
+
+The docstring above writes down `φ'` and `φ''` explicitly. Both are proved below for the
+finite truncation, together with the strict decrease of `φ'` — which *is* the concavity, and
+is what the corollaries downstream actually consume.
+
+Under the universal product, `ξ(1/2 + √u)/ξ(1/2) = ∏ (1 + u/γ²)`, so
+`φ(u) = ∑ log(1 + u/γ²)`. That substitution is the only place the (open) product formula
+enters; everything below is calculus on the sum, with the sum taken as the definition. -/
+
+/-- `φ_S(u) = ∑_{j ∈ S} log(1 + u/γ_j²)`, the finite truncation of
+    `log(ξ(1/2 + √u)/ξ(1/2))`. -/
+noncomputable def shadowLogSum {ι : Type*} (S : Finset ι) (g : ι → ℝ) (u : ℝ) : ℝ :=
+  ∑ j ∈ S, Real.log (1 + u / (g j) ^ 2)
+
+/-- **`φ'(u) = ∑ 1/(γ² + u)`** — the first derivative claimed in the docstring above. -/
+lemma hasDerivAt_shadowLogSum {ι : Type*} (S : Finset ι) (g : ι → ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) {u : ℝ} (hu : 0 ≤ u) :
+    HasDerivAt (shadowLogSum S g) (∑ j ∈ S, 1 / ((g j) ^ 2 + u)) u := by
+  have step : ∀ j ∈ S,
+      HasDerivAt (fun v => Real.log (1 + v / (g j) ^ 2)) (1 / ((g j) ^ 2 + u)) u := by
+    intro j hj
+    have hne : g j ≠ 0 := hg j hj
+    have hgj : (0:ℝ) < (g j) ^ 2 := by positivity
+    have hpos : (0:ℝ) < 1 + u / (g j) ^ 2 := by positivity
+    have h1 : HasDerivAt (fun v : ℝ => 1 + v / (g j) ^ 2) (1 / (g j) ^ 2) u := by
+      simpa using ((hasDerivAt_id u).div_const ((g j) ^ 2)).const_add 1
+    exact (h1.log hpos.ne').congr_deriv (by field_simp)
+  have key := HasDerivAt.sum step
+  -- Mathlib 4.33: `HasDerivAt.sum` returns the point-free `∑ j ∈ S, fun v => …`.
+  -- Rewrite the function to the pointwise form before matching the goal.
+  have hfun : (∑ j ∈ S, fun v : ℝ => Real.log (1 + v / (g j) ^ 2)) = shadowLogSum S g := by
+    funext v; simp [shadowLogSum, Finset.sum_apply]
+  rw [hfun] at key
+  simpa using key
+
+/-- **`φ''(u) = -∑ 1/(γ² + u)²`** — the second derivative claimed in the docstring above,
+    manifestly negative term by term. -/
+lemma hasDerivAt_shadowLogSum_deriv {ι : Type*} (S : Finset ι) (g : ι → ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) {u : ℝ} (hu : 0 ≤ u) :
+    HasDerivAt (fun v => ∑ j ∈ S, 1 / ((g j) ^ 2 + v))
+      (∑ j ∈ S, -(1 / ((g j) ^ 2 + u) ^ 2)) u := by
+  have step : ∀ j ∈ S,
+      HasDerivAt (fun v => 1 / ((g j) ^ 2 + v)) (-(1 / ((g j) ^ 2 + u) ^ 2)) u := by
+    intro j hj
+    have hne : g j ≠ 0 := hg j hj
+    have hgj : (0:ℝ) < (g j) ^ 2 := by positivity
+    have hpos : (0:ℝ) < (g j) ^ 2 + u := by linarith
+    have h1 : HasDerivAt (fun v : ℝ => (g j) ^ 2 + v) 1 u := by
+      simpa using (hasDerivAt_id u).const_add ((g j) ^ 2)
+    -- 4.33 recipe: pin the Pi-lifting with an explicit `have` so it resolves by defeq,
+    -- then convert `1/x` ↔ `x⁻¹` on both the function and the derivative value.
+    have h2 : HasDerivAt (fun v : ℝ => ((g j) ^ 2 + v)⁻¹) (-1 / ((g j) ^ 2 + u) ^ 2) u :=
+      h1.inv hpos.ne'
+    simpa [neg_div, one_div] using h2
+  have key := HasDerivAt.sum step
+  have hfun : (∑ j ∈ S, fun v : ℝ => 1 / ((g j) ^ 2 + v))
+      = fun v => ∑ j ∈ S, 1 / ((g j) ^ 2 + v) := by
+    funext v; simp [Finset.sum_apply]
+  rw [hfun] at key
+  exact key
+
+/-- **The concavity itself:** `φ'` is strictly decreasing on `u ≥ 0`.
+
+    This is what the downstream corollaries (`open_cor_xi_geomean_inequality`) consume, and
+    it is stated separately from `φ''` because it needs no differentiability argument — each
+    term `1/(γ² + u)` is strictly decreasing outright, so the sum is as soon as `S` is
+    nonempty. -/
+lemma shadowLogSum_deriv_strictAntiOn {ι : Type*} (S : Finset ι) (g : ι → ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) (hS : S.Nonempty) :
+    StrictAntiOn (fun u => ∑ j ∈ S, 1 / ((g j) ^ 2 + u)) (Set.Ici (0:ℝ)) := by
+  intro a ha b hb hab
+  refine Finset.sum_lt_sum_of_nonempty hS ?_
+  intro j hj
+  have hne : g j ≠ 0 := hg j hj
+  have hgj : (0:ℝ) < (g j) ^ 2 := by positivity
+  have h0 : (0:ℝ) ≤ a := ha
+  have hpa : (0:ℝ) < (g j) ^ 2 + a := by linarith
+  exact one_div_lt_one_div_of_lt hpa (by linarith)
+
 /-- **cor:geomean** (Toupin 2026, Corollary 6.3).
     ξ-geometric-mean inequality:
     `ξ(1/2 + a)² ≥ ξ(1/2 + b) · ξ(1/2 + c)` when `a = √((b²+c²)/2)`.
     Direct consequence of strict concavity (`open_thm_logconcave`).
-    Gap: same as `open_thm_logconcave`. -/
+
+    **Proved below** as `shadow_prod_geomean`, 2026-09-01 — and *not* via the concavity
+    route the docstring suggests. Going through `φ''` would need logs, their positivity, and
+    a concavity-to-midpoint transfer; termwise it is just `(X − Y)² ≥ 0`. The short proof is
+    the honest one, and it drops every side condition the long one would have carried. -/
 theorem open_cor_xi_geomean_inequality : True := trivial
+
+/-! ### The geometric-mean inequality, proved
+
+`cor:geomean` says `ξ(1/2+a)² ≥ ξ(1/2+b)·ξ(1/2+c)` when `a² = (b²+c²)/2`, and calls it a
+consequence of log-concavity. It is — but concavity is a detour. Under the shadow product
+the claim is a statement about the products themselves, and factor by factor it reduces to
+`(X − Y)² ≥ 0` with `X = b²/γ²`, `Y = c²/γ²`. No logarithm, no positivity of `ξ`, no
+differentiability. -/
+
+/-- The entire content of `cor:geomean`, isolated and with nothing else attached:
+    `(1+X)(1+Y) ≤ (1 + (X+Y)/2)²`.
+
+    True for **all** reals — expanding gives `XY ≤ (X+Y)²/4`, i.e. `0 ≤ (X−Y)²`. Stated
+    without nonnegativity hypotheses because it does not need them; carrying `0 ≤ X` here
+    would suggest the bound depends on it. -/
+lemma mul_le_sq_midpoint (X Y : ℝ) : (1 + X) * (1 + Y) ≤ (1 + (X + Y) / 2) ^ 2 := by
+  nlinarith [sq_nonneg (X - Y)]
+
+/-- Termwise form: with `a²` the mean of `b²` and `c²`, one shadow factor at `a` dominates
+    the product of the factors at `b` and `c`. -/
+lemma shadow_factor_geomean (gam b c a : ℝ) (h : a ^ 2 = (b ^ 2 + c ^ 2) / 2) :
+    (1 + b ^ 2 / gam ^ 2) * (1 + c ^ 2 / gam ^ 2) ≤ (1 + a ^ 2 / gam ^ 2) ^ 2 := by
+  have hmid : a ^ 2 / gam ^ 2 = (b ^ 2 / gam ^ 2 + c ^ 2 / gam ^ 2) / 2 := by rw [h]; ring
+  rw [hmid]
+  exact mul_le_sq_midpoint _ _
+
+/-- **cor:geomean, conditional form.** The shadow product at `a` squared dominates the
+    product of those at `b` and `c`, whenever `a² = (b²+c²)/2`.
+
+    Combined with the product formula this is exactly `ξ(1/2+a)² ≥ ξ(1/2+b)·ξ(1/2+c)`; the
+    formula is the open input, this inequality is not. -/
+lemma shadow_prod_geomean {ι : Type*} (S : Finset ι) (gam : ι → ℝ) (b c a : ℝ)
+    (h : a ^ 2 = (b ^ 2 + c ^ 2) / 2) :
+    (∏ j ∈ S, (1 + b ^ 2 / (gam j) ^ 2)) * (∏ j ∈ S, (1 + c ^ 2 / (gam j) ^ 2))
+      ≤ (∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2)) ^ 2 := by
+  have hstep : ∏ j ∈ S, ((1 + b ^ 2 / (gam j) ^ 2) * (1 + c ^ 2 / (gam j) ^ 2))
+      ≤ ∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2) ^ 2 := by
+    refine Finset.prod_le_prod
+      (f := fun j => (1 + b ^ 2 / (gam j) ^ 2) * (1 + c ^ 2 / (gam j) ^ 2))
+      (g := fun j => (1 + a ^ 2 / (gam j) ^ 2) ^ 2) (fun j _ => ?_) (fun j _ => ?_)
+    · have h1 : (0:ℝ) ≤ b ^ 2 / (gam j) ^ 2 := div_nonneg (sq_nonneg b) (sq_nonneg _)
+      have h2 : (0:ℝ) ≤ c ^ 2 / (gam j) ^ 2 := div_nonneg (sq_nonneg c) (sq_nonneg _)
+      nlinarith
+    · exact shadow_factor_geomean (gam j) b c a h
+  calc (∏ j ∈ S, (1 + b ^ 2 / (gam j) ^ 2)) * (∏ j ∈ S, (1 + c ^ 2 / (gam j) ^ 2))
+      = ∏ j ∈ S, ((1 + b ^ 2 / (gam j) ^ 2) * (1 + c ^ 2 / (gam j) ^ 2)) :=
+        (Finset.prod_mul_distrib).symm
+    _ ≤ ∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2) ^ 2 := hstep
+    _ = (∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2)) ^ 2 := Finset.prod_pow _ _ _
 
 /-- **thm:inversion** (Toupin 2026, Theorem 6.5).
     Spectral moment inversion: every complete spectral moment

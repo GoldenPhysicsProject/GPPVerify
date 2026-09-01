@@ -146,6 +146,89 @@ theorem two_zeros_at_ordinate (rho : Complex)
       simp at this; linarith [hstrip.2]
   · exact companion_im_eq rho
 
+/-! ## The pathway's target, as an actual theorem
+
+`RHProofStructure.open_rh_pathway_target` parked the framework's RH route as a vacuous
+`True` with the argument written out in a comment:
+
+    Off-line zero ⟹ two distinct zeros at same ordinate ⟹
+    total analytic multiplicity ≥ 2 ⟹ contradicts open_spectral_atom_weight_one.
+
+That argument is entirely available here — `two_zeros_at_ordinate` above is the whole first
+half and it is proved — so it is stated and proved below with the spectral input as an
+explicit hypothesis rather than as a comment.
+
+**Read the honest version of what this buys.** It is an *equivalence*, both directions
+proved: RH on the strip holds **iff** each ordinate carries at most one strip zero. So this
+does **not** advance RH by one inch. It relocates the entire difficulty into
+`AtomWeightOne`, which is exactly where the framework already says it sits, and which is
+still open — it needs trace-class theory for adèlic convolution operators, re-verified
+absent from Mathlib 4.33.1 on 2026-09-01 (`Schatten`: zero hits; the 39 files a naive grep
+returns are all `registerTraceClass`, Lean's debug tracing).
+
+What it *does* buy is that the reduction is now machine-checked rather than asserted in a
+comment, and the open input is visible in the signature of anything that uses it. That is
+the same move that retired twelve physics axioms in `Link6`/`DMAbundance`.
+
+The non-trivial content is the forward direction, and it is not formal shuffling: the
+second zero at the same ordinate is produced by combining the functional equation with
+`riemannZeta_conj` (proved above, via Mellin conjugation on the Hurwitz zeta), which is the
+classical fact that off-line zeros come in quadruples. -/
+
+/-- The companion `1 - conj ρ` of a critical-strip point is again in the critical strip,
+    since `Re(1 - conj ρ) = 1 - Re ρ`. -/
+lemma companion_mem_strip (rho : ℂ) (h0 : 0 < rho.re) (h1 : rho.re < 1) :
+    0 < (1 - starRingEnd ℂ rho).re ∧ (1 - starRingEnd ℂ rho).re < 1 := by
+  simp only [Complex.sub_re, Complex.one_re, Complex.conj_re]
+  constructor <;> linarith
+
+/-- **Atom weight one**: each ordinate carries at most one zero of `ζ` in the critical
+    strip. This is `RHProofStructure.open_spectral_atom_weight_one`'s content, stated as a
+    `Prop` to be *taken as a hypothesis* — deliberately not an axiom. -/
+def AtomWeightOne : Prop :=
+  ∀ r1 r2 : ℂ, riemannZeta r1 = 0 → riemannZeta r2 = 0 →
+    0 < r1.re → r1.re < 1 → 0 < r2.re → r2.re < 1 → r1.im = r2.im → r1 = r2
+
+/-- **The Riemann Hypothesis**, in the form the pathway targets: every zero of `ζ` in the
+    open critical strip has real part `1/2`. (Every non-trivial zero lies in the strip, so
+    this is the full statement.) -/
+def RiemannHypothesisStrip : Prop :=
+  ∀ r : ℂ, riemannZeta r = 0 → 0 < r.re → r.re < 1 → r.re = 1 / 2
+
+/-- **Atom weight one implies RH.** The pathway's argument, machine-checked: an off-line
+    strip zero `ρ` has the distinct companion `1 - conj ρ`, which `two_zeros_at_ordinate`
+    shows is also a strip zero at the *same* ordinate — two zeros where the hypothesis
+    permits one. -/
+theorem rh_of_atomWeightOne (h : AtomWeightOne) : RiemannHypothesisStrip := by
+  intro rho hzero h0 h1
+  by_contra hne
+  have hz' : riemannZeta (1 - starRingEnd ℂ rho) = 0 := by
+    apply zeta_zero_implies_companion_zero rho hzero
+    · intro n heq
+      have : rho.re = (-(n : ℂ)).re := congr_arg Complex.re heq
+      simp at this; linarith
+    · intro heq
+      have : rho.re = (1 : ℂ).re := congr_arg Complex.re heq
+      simp at this; linarith
+  obtain ⟨hs0, hs1⟩ := companion_mem_strip rho h0 h1
+  exact companion_ne_of_off_critical rho hne
+    (h _ _ hz' hzero hs0 hs1 h0 h1 (companion_im_eq rho))
+
+/-- **RH implies atom weight one** — the converse, one line: two strip zeros at the same
+    ordinate both have real part `1/2`, hence agree in both coordinates.
+
+    Stated because it is what makes the honest claim about the direction above: the two
+    statements are *equivalent*, so deriving RH from `AtomWeightOne` moves the difficulty
+    rather than reducing it. -/
+theorem atomWeightOne_of_rh (h : RiemannHypothesisStrip) : AtomWeightOne := by
+  intro r1 r2 hz1 hz2 ha0 ha1 hb0 hb1 him
+  exact Complex.ext (by rw [h r1 hz1 ha0 ha1, h r2 hz2 hb0 hb1]) him
+
+/-- RH on the strip **iff** atom weight one. The pathway's target and its stated spectral
+    input are the same statement; all the work is in establishing either one. -/
+theorem rh_iff_atomWeightOne : RiemannHypothesisStrip ↔ AtomWeightOne :=
+  ⟨atomWeightOne_of_rh, rh_of_atomWeightOne⟩
+
 /-- K = A¹/Q* is compact. (Tate 1950) -/
 theorem open_K_compact : True := by
   -- Placeholder: Full formalization requires Fujisaki's lemma / adelic topology in Mathlib.

@@ -1259,3 +1259,27 @@ import GppVerify.RiemannHypothesis.ZetaThirdCumulantStrict
 import GppVerify.RiemannHypothesis.ZetaFisherStrictMonotonicity
 import GppVerify.RiemannHypothesis.ZetaGibbsFisherStrict
 import GppVerify.RiemannHypothesis.PrimeHankelGram
+
+-- ── Modules that were outside the root import graph until 2026-09-01 ──
+-- `lake build GppVerify` only compiles what this file transitively imports, so these 15
+-- were never built by CI at all — including through the 4.33.1 upgrade (PR #133), whose
+-- title claimed "the whole tree builds clean". Each was built explicitly before being
+-- wired in here and all 15 passed, so nothing was broken; the gap was in the coverage,
+-- not the mathematics. `scripts/check_import_graph.py` now fails the build if a module
+-- under GppVerify/ is missing from this list. Hole found by Codex on its own port and
+-- relayed via the bridge — see gpp-bridge/CODEX_RESEARCH_NOTES.md, 2026-09-01.
+import GppVerify.RiemannHypothesis.ArchimedeanEulerNonvanishing
+import GppVerify.RiemannHypothesis.CayleyDicksonFockBridge
+import GppVerify.RiemannHypothesis.CayleyDicksonFockOperator
+import GppVerify.RiemannHypothesis.CompletedLogDerivativeBridge
+import GppVerify.RiemannHypothesis.CompletedZetaDerivativeSymmetry
+import GppVerify.RiemannHypothesis.CompletedZetaReality
+import GppVerify.RiemannHypothesis.FiniteCompletedFactorNonvanishing
+import GppVerify.RiemannHypothesis.FinitePrimeDiracCompletion
+import GppVerify.RiemannHypothesis.GlobalVonMangoldtBridge
+import GppVerify.RiemannHypothesis.NumberEntropy
+import GppVerify.RiemannHypothesis.PrimeGasPartition
+import GppVerify.RiemannHypothesis.PrimeOccupationBridge
+import GppVerify.RiemannHypothesis.ScaleMassDiagnostic
+import GppVerify.RiemannHypothesis.ScaleShadowHalfDensity
+import GppVerify.RiemannHypothesis.ThermalCriticalLineBridge
