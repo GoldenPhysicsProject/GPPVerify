@@ -229,6 +229,44 @@ theorem atomWeightOne_of_rh (h : RiemannHypothesisStrip) : AtomWeightOne := by
 theorem rh_iff_atomWeightOne : RiemannHypothesisStrip ↔ AtomWeightOne :=
   ⟨atomWeightOne_of_rh, rh_of_atomWeightOne⟩
 
+/-! ### `cor:simple-zeros`, and a distinction its statement elides
+
+`RHProofStructure.open_zero_simplicity` reads *"every non-trivial zero of ζ is simple"*, with
+the proof line "RH + spectral atom weight 1 ⟹ each ordinate has total multiplicity 1".
+
+**Those are two different claims and the wording runs them together.**
+
+* *One zero per ordinate* — the ordinate map is injective on the strip zero set. This follows
+  from `AtomWeightOne` immediately, and is proved below.
+* *Analytically simple* — each zero has order of vanishing exactly 1, i.e.
+  `analyticOrderAt ζ ρ = 1`. This is **not** proved here and does not follow from
+  `AtomWeightOne`: a single zero of order 2 sits at one ordinate and violates nothing above.
+
+"Simple zero" in the literature means the second. The tree can honestly claim only the first,
+so only the first is stated, and `open_zero_simplicity` stays for the second. Establishing it
+needs Mathlib's `analyticOrderAt` API applied to ζ — available at 4.33.1, so this is a real
+future target rather than a wall, but it is a separate theorem and not a corollary of what is
+here. -/
+
+/-- The zeros of ζ in the open critical strip. -/
+def stripZeros : Set ℂ := {r | riemannZeta r = 0 ∧ 0 < r.re ∧ r.re < 1}
+
+/-- **One zero per ordinate.** Under `AtomWeightOne` the ordinate map is injective on the
+    strip zero set — the "total multiplicity 1" half of `cor:simple-zeros`.
+
+    Not analytic simplicity: see the section note above. -/
+theorem ordinate_injOn_of_atomWeightOne (h : AtomWeightOne) :
+    Set.InjOn Complex.im stripZeros := by
+  rintro r1 ⟨hz1, ha1, hb1⟩ r2 ⟨hz2, ha2, hb2⟩ him
+  exact h r1 r2 hz1 hz2 ha1 hb1 ha2 hb2 him
+
+/-- The contrapositive, in the form the pathway argument uses: two *distinct* strip zeros
+    must sit at distinct ordinates. This is precisely what `two_zeros_at_ordinate`
+    contradicts for an off-line zero. -/
+theorem ordinate_ne_of_ne_of_atomWeightOne (h : AtomWeightOne)
+    {r1 r2 : ℂ} (h1 : r1 ∈ stripZeros) (h2 : r2 ∈ stripZeros) (hne : r1 ≠ r2) :
+    r1.im ≠ r2.im := fun him => hne (ordinate_injOn_of_atomWeightOne h h1 h2 him)
+
 /-- K = A¹/Q* is compact. (Tate 1950) -/
 theorem open_K_compact : True := by
   -- Placeholder: Full formalization requires Fujisaki's lemma / adelic topology in Mathlib.
