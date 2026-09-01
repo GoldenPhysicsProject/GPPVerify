@@ -81,10 +81,50 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
     L² hypothesis routed through `MeasureTheory.L2.integrable_inner` on the
     bundled `Lp ℝ 2 μ` type — both add real bookkeeping this thread has not yet
     verified against the compiler, so the interchange step is left open rather
-    than pushed through with an unverified `sorry`. `const_one_positive_type`
-    and `positive_type_at_zero` above are the fully-proved content of this
-    file. -/
+    than pushed through with an unverified `sorry`.
+
+    **Step 3 is now proved** (2026-09-01) as `sum_conj_mul_real_eq_normSq` and
+    `sum_conj_mul_real_re_nonneg` below. Only steps 1–2 — the translation identity and the
+    ∑/∫ interchange — remain, so what is missing here is *analytic bookkeeping*, not
+    algebra. Worth stating precisely: the outline reads as three equally-open steps and it
+    is one third that size. -/
 theorem open_convolution_square_positive_type_statement : True := trivial
+
+/-! ### Step 3 of the convolution-square argument, proved
+
+The outline above lists three steps. The third — `∑_ij c̄_i c_j a_i a_j = normSq(∑_i c_i a_i)
+≥ 0` for real `a_i` — is pure algebra and needs none of the measure theory blocking the other
+two. Proving it separately makes visible that the remaining gap is exactly steps 1 and 2, and
+leaves the algebraic core ready to use when they land. -/
+
+/-- **Step 3.** For a *real* family `a` and any complex coefficients `c`, the double sum
+    collapses to a squared modulus:
+    `∑_p ∑_q conj(c_p)·c_q·(a_p·a_q) = ‖∑_p c_p·a_p‖²`.
+
+    Reality of `a` is what makes it work: it lets `conj` pass through `a_p`, so the double
+    sum factors as `conj z · z`. -/
+lemma sum_conj_mul_real_eq_normSq {ι : Type*} (S : Finset ι) (c : ι → ℂ) (a : ι → ℝ) :
+    ∑ p ∈ S, ∑ q ∈ S, (starRingEnd ℂ) (c p) * c q * ((a p * a q : ℝ) : ℂ)
+      = ((Complex.normSq (∑ p ∈ S, c p * (a p : ℂ)) : ℝ) : ℂ) := by
+  have hfac : ∑ p ∈ S, ∑ q ∈ S, (starRingEnd ℂ) (c p) * c q * ((a p * a q : ℝ) : ℂ)
+      = (∑ p ∈ S, (starRingEnd ℂ) (c p) * (a p : ℂ)) * (∑ q ∈ S, c q * (a q : ℂ)) := by
+    rw [Finset.sum_mul_sum]
+    refine Finset.sum_congr rfl (fun p _ => Finset.sum_congr rfl (fun q _ => ?_))
+    push_cast; ring
+  rw [hfac]
+  have hconj : (∑ p ∈ S, (starRingEnd ℂ) (c p) * (a p : ℂ))
+      = (starRingEnd ℂ) (∑ p ∈ S, c p * (a p : ℂ)) := by
+    rw [map_sum]
+    exact Finset.sum_congr rfl (fun p _ => by rw [map_mul, Complex.conj_ofReal])
+  rw [hconj, mul_comm, Complex.mul_conj]
+
+/-- The nonnegativity step 3 exists to deliver: a rank-one real kernel has a nonnegative
+    quadratic form. This is exactly the shape `PositiveType` asks for, so once steps 1–2
+    supply `P(x_p − x_q) = a_p · a_q` pointwise, positivity follows immediately. -/
+lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) (a : ι → ℝ) :
+    0 ≤ (∑ p ∈ S, ∑ q ∈ S, (starRingEnd ℂ) (c p) * c q * ((a p * a q : ℝ) : ℂ)).re := by
+  rw [sum_conj_mul_real_eq_normSq]
+  simpa using Complex.normSq_nonneg (∑ p ∈ S, c p * (a p : ℂ))
 -- SOURCE: haar_positivity_weil_wightman.tex
 -- STATEMENT: for f : ℝ → ℝ integrable (and bounded, so pairwise translated
 -- products stay integrable) and μ a left-invariant measure on ℝ,
