@@ -949,7 +949,7 @@ positivity. Formalized here without appeal to any physics input.
 
 \begin{theorem}[Three Generations from Division Algebras]
   \label{cor:three-generations-anomaly}
-  \lean{GppSM.three_generations}
+  \lean{GppSM.open_three_generations}
   \uses{lem:hurwitz}
   The three Cayley--Dickson doublings $\mathbb{R}\to\mathbb{C}$,
   $\mathbb{C}\to\mathbb{H}$, $\mathbb{H}\to\mathbb{O}$
@@ -3993,7 +3993,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{151} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{156} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -4016,6 +4016,38 @@ build while carrying exactly the names it exists to catch. They are now renamed
 \texttt{open\_}\ldots, and the gate reads whole declarations with comments stripped rather than
 lines, so a stub can no longer hide behind a comment inside its own statement. The gate also now
 checks this very sentence against the tree, so the published count cannot drift again.
+
+\medskip
+\noindent\textbf{A second hiding place, found 2026-09-01: the reflexivity tautology.}
+Everything above hunts for the conclusion \texttt{True}. That is not the only way to assert
+nothing. A declaration whose conclusion is \texttt{X = X} for syntactically identical \texttt{X}
+is equally empty, is discharged by \texttt{rfl}, reports the same spotless axiom bill --- and,
+not being \texttt{True}, walked past every version of the gate. Eleven were in the tree, none
+prefixed, several carrying the name of a substantive claim:
+\begin{quote}\ttfamily
+theorem three\_generations : (3 : $\mathbb{N}$) = 3 := rfl\\
+lemma test\_function\_fe\_symmetric (h) (rho) : h rho = h rho := rfl\\
+theorem mirror\_baryon\_lower\_bound : (1 : $\mathbb{N}$) $\le$ 1 := le\_refl 1\\
+theorem dim\_sun (n) (\_ : 1 $\le$ n) : n\^{}2 - 1 = n\^{}2 - 1 := rfl
+\end{quote}
+\texttt{test\_function\_fe\_symmetric} sat under a section header reading ``algebraic spectral
+facts (proved clean)'' and was \texttt{\#check}ed in its file's summary.
+\texttt{three\_generations} --- the framework's headline Standard-Model prediction, and the
+\texttt{\textbackslash lean\{\}} target of Theorem~\ref{cor:three-generations-anomaly} --- said
+``OPEN PROBLEM'' in capitals in its own docstring while being proved by reflexivity on a
+numeral. \texttt{mirror\_baryon\_lower\_bound} is the sharpest case: it began as an axiom and a
+June 2026 session recorded it as \emph{closed} by restating it as \texttt{1 $\le$ 1}, which is
+strictly less honest than the axiom it replaced, since an axiom at least appears in
+\texttt{\#print axioms}.
+
+Five of the eleven had real content available and now state it (the shadow map's involution
+$2-(2-\Delta)=\Delta$; sesquilinearity's conjugate-linear half; the functional-equation partner
+map's involutivity and its fixed-point characterisation of the critical line; the Gr(2,4) point
+count's middle coefficient; and $\dim SU(n)$ in the one form that consumes its own hypothesis,
+$(n^2-1)+1 = n^2$, false at $n = 0$). The other six became \texttt{open\_} stubs and are
+included in the count above --- which is why it rose to \textbf{156} while a stub was
+simultaneously closed by proof. The gate now rejects any declaration whose two sides are
+character-for-character identical, so this class cannot recur either.
 
 \medskip
 \noindent\textbf{It took a third pass to get right.} On 2026-09-01 two further unprefixed

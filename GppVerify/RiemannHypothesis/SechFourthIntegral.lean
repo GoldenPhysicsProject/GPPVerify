@@ -68,13 +68,6 @@ theorem hasDerivAt_sechFourthAntideriv (x : ℝ) :
     rw [← one_div_cosh_sq]
     ring
   -- Mathlib 4.33: `convert hF using 1` no longer leaves a single arithmetic goal. The
-  -- `HasDerivAt` combinators return point-free forms (`id * tanh * ((fun _ => 1) - tanh ^ 2)`),
-  -- so `convert` splits off instance equalities such as
-  --   `Real.instAddCommGroup = Real.normedAddCommGroup.toAddCommGroup`
-  -- that no tactic closes, and the following `rw` then fires against one of those instead
-  -- of against the derivative. Rewrite the derivative value inside the hypothesis and let
-  -- `exact` absorb both the Pi-lifting and the instance path by defeq.
-  -- Mathlib 4.33: `convert hF using 1` no longer leaves a single arithmetic goal. The
   -- `HasDerivAt` combinators now return point-free forms (`id * tanh * ((fun _ => 1) -
   -- tanh ^ 2)`), so `convert` splits off instance equalities such as
   --   `Real.instAddCommGroup = Real.normedAddCommGroup.toAddCommGroup`
@@ -85,8 +78,13 @@ theorem hasDerivAt_sechFourthAntideriv (x : ℝ) :
   refine hF.congr_deriv ?_
   simp only [Pi.sub_apply, Pi.mul_apply, Pi.pow_apply, id_eq]
   rw [hc4, hc2]
-  push_cast
-  sorry
+  -- `HasDerivAt.pow 2` leaves the exponent as the unreduced `tanh x ^ (2 - 1)` and the
+  -- factor as a `Nat`-cast `↑2`; `ring` treats `2 - 1` as an opaque atom and cannot
+  -- normalise past it. `norm_num` reduces both, and then the identity is pure `tanh`
+  -- polynomial algebra: writing `T = 1 - tanh²x`, the two bracket terms cancel a `tanh·T`
+  -- against each other and leave `(x·T/3)(T - 2tanh²x + 2) = (x·T/3)·3T = x·T²`.
+  norm_num
+  ring
 
 /-- `F₄(0) = 1/6`. -/
 theorem sechFourthAntideriv_zero : sechFourthAntideriv 0 = 1/6 := by

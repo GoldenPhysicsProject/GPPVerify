@@ -96,6 +96,82 @@ STUB = re.compile(
 BLUEPRINT = Path("blueprint/src/web.tex")
 BLUEPRINT_COUNT = re.compile(r"There are currently \\textbf\{(\d+)\} such stubs\.")
 
+# --------------------------------------------------------------------------------------
+# Reflexivity tautologies -- a SECOND way to assert nothing (added 2026-09-01)
+# --------------------------------------------------------------------------------------
+#
+# Everything above hunts for the conclusion `True`. That is not the only vacuous
+# conclusion. A declaration whose conclusion is `X = X` for syntactically identical `X`
+# is equally empty, is proved by `rfl`, and reports the same spotless axiom bill -- and
+# because it is not `True`, every version of the gate so far walked straight past it.
+#
+# Eleven were in the tree when this check was written, none of them prefixed, several
+# carrying the name of a substantive claim:
+#
+#   theorem three_generations : (3 : ℕ) = 3 := rfl            -- the headline SM prediction
+#   lemma  test_function_fe_symmetric (h) (rho) : h rho = h rho := rfl
+#   theorem mirror_baryon_lower_bound : (1 : ℕ) ≤ 1 := le_refl 1
+#   theorem dim_sun (n) (_ : 1 ≤ n) : n^2 - 1 = n^2 - 1 := rfl
+#   theorem kac_moody_level_appears_in_commutator (k m δ_ab δ_mn) : … = … := rfl
+#
+# `test_function_fe_symmetric` sat under a section header reading "algebraic spectral
+# facts (proved clean)" and was `#check`ed in its file's summary. `three_generations`
+# said "OPEN PROBLEM" in capitals in its own docstring.
+#
+# The check is deliberately syntactic and conservative: it compares the two sides of the
+# top-level relation as text, after stripping one layer of type ascription, and only
+# fires when they are character-for-character identical. `2 - (2 - Δ) = Δ` is not caught
+# (nor should it be -- it is a real theorem); `2 - Δ = 2 - Δ` is.
+RELATIONS = (" = ", " ↔ ", " ≤ ", " ⊆ ", " ⊇ ", " ≥ ")
+ASCRIPTION = re.compile(r"^\((.*?)\s*:\s*[^:()]*\)$")
+
+
+def _split_top(s: str, tok: str):
+    """Split `s` at the first occurrence of `tok` at bracket depth 0."""
+    depth = 0
+    i = 0
+    while i < len(s):
+        c = s[i]
+        if c in "([{⟨":
+            depth += 1
+        elif c in ")]}⟩":
+            depth -= 1
+        elif depth == 0 and s.startswith(tok, i):
+            return s[:i], s[i + len(tok):]
+        i += 1
+    return None, None
+
+
+def _strip_ascription(x: str) -> str:
+    x = x.strip()
+    m = ASCRIPTION.match(x)
+    return m.group(1).strip() if m else x
+
+
+def is_reflexive_tautology(flat: str) -> bool:
+    """True if the declaration's conclusion is `X R X` for identical `X`."""
+    head, _ = _split_top(flat, " := ")
+    if head is None:
+        head, _ = _split_top(flat, ":= by")
+    if head is None:
+        return False
+    _, stmt = _split_top(head, " : ")
+    if stmt is None:
+        return False
+    stmt = stmt.strip()
+    # Peel leading `∀ …,` binders so the conclusion is what gets compared.
+    while stmt.startswith("∀"):
+        _, rest = _split_top(stmt, ", ")
+        if rest is None:
+            break
+        stmt = rest.strip()
+    for tok in RELATIONS:
+        lhs, rhs = _split_top(stmt, tok)
+        if lhs is None:
+            continue
+        return bool(lhs) and _strip_ascription(lhs) == _strip_ascription(rhs)
+    return False
+
 
 def strip_comments(src: str) -> str:
     """Remove Lean line comments and (nested) block comments, preserving newlines.
@@ -146,16 +222,19 @@ def main() -> int:
     repo = Path(__file__).resolve().parent.parent
     root = repo / "GppVerify"
     offenders: list[str] = []
+    tautologies: list[str] = []
     total = 0
 
     for path in sorted(root.rglob("*.lean")):
         src = strip_comments(path.read_text())
         for name, lineno, flat in declarations(src):
-            if not STUB.search(flat):
+            if STUB.search(flat):
+                total += 1
+                if not name.startswith("open_"):
+                    offenders.append(f"{path.relative_to(repo)}:{lineno}: {name}")
                 continue
-            total += 1
-            if not name.startswith("open_"):
-                offenders.append(f"{path.relative_to(repo)}:{lineno}: {name}")
+            if is_reflexive_tautology(flat):
+                tautologies.append(f"{path.relative_to(repo)}:{lineno}: {name}")
 
     print(f"True-stubs found: {total}")
 
@@ -169,6 +248,17 @@ def main() -> int:
             print(f"  {entry}")
     else:
         print("All True-stubs correctly prefixed 'open_'.")
+
+    if tautologies:
+        failed = True
+        print(f"::error::{len(tautologies)} declaration(s) state `X = X` for identical X.")
+        print("A reflexivity tautology asserts nothing, exactly like a `True` stub, but")
+        print("carries a real-looking statement. Either state what the name claims, or")
+        print("make it an honest `open_… : True := trivial` stub so it gets counted:")
+        for entry in tautologies:
+            print(f"  {entry}")
+    else:
+        print("No reflexivity tautologies (`X = X`) found.")
 
     # The blueprint states the stub count in prose. A hand-maintained number drifts --
     # it already had (141 published against 150 actual) -- so check it here rather than

@@ -62,12 +62,31 @@ theorem tau_tau_eq_neg (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
       = (-a, -b, -c, -d) :=
   transition_transition_eq_neg a b c d hD
 
-/-- Theorem 3.3(i), second clause: τ⁴ = id, since (-id)² = id. Not stated
-    as a further Lean theorem beyond `tau_tau_eq_neg`, since it is an
-    immediate one-line consequence (apply the above to the negated tuple,
-    whose determinant (-a)(-d)-(-b)(-c) = ad-bc is unchanged) rather than
-    separate mathematical content. -/
-theorem open_tau_pow_four_remark : True := trivial
+/-- The orientation map as a self-map of the coordinate 4-tuple, so `τ⁴` can be written
+    as an actual iterate. -/
+noncomputable def tauT (p : ℝ × ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ × ℝ := tauMap p
+
+/-- Theorem 3.3(i), second clause: **τ⁴ = id.** The fermion's internal orientation returns
+    to itself after four applications — the period-4 structure the Zitterbewegung reading
+    of this chart oscillation rests on.
+
+    This was parked as a stub until 2026-09-01 on the grounds that it is "an immediate
+    one-line consequence" of `tau_tau_eq_neg` and so not separate mathematical content.
+    That was the wrong call twice over. It *is* provable, so parking it as a vacuous `True`
+    understated the tree; and the step is not quite free — applying `τ²` a second time needs
+    the negated tuple's determinant to be nonzero, which holds because negation preserves
+    `ad - bc` (`GppGrassmannian.det_neg`). A stub is for something open, not for something
+    short. -/
+theorem tau_pow_four_eq_id (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
+    tauT^[4] (a, b, c, d) = (a, b, c, d) :=
+  tauMap_iterate_four a b c d hD
+
+/-- And the period is exactly 4, not 2: `τ² = -id` genuinely differs from the identity at
+    every point of the chart. Without this, "order 4" would not be established — an
+    involution satisfies `τ⁴ = id` too. -/
+theorem tau_tau_ne_id (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
+    tauT (tauT (a, b, c, d)) ≠ (a, b, c, d) :=
+  tauMap_tauMap_ne_self a b c d hD
 
 /-- Theorem 3.3(iv): the differential dτ_A has characteristic polynomial
     t⁴ - Δ⁻⁴ (Δ = det A) with explicit eigenvectors A(1∓ε)/2 for

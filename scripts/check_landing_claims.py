@@ -176,6 +176,30 @@ def main() -> int:
                 f"stat '{label}' says {stated}; the tree has {counts[key]}"
             )
 
+    # The visible stat block is not the only place the page states these numbers. The
+    # og:description meta tag states them too, in prose, and it is what gets shown when
+    # the page is shared anywhere — so a stale value there travels further than one in the
+    # page body. It was stale: it read "Zero sorries, one axiom, 151 open stubs" while the
+    # visible Axioms stat correctly read 0 and the tree held 156 stubs, because the gate
+    # only ever looked at the stat spans. Check the prose too.
+    og = re.search(r'<meta property="og:description" content="([^"]*)"', html)
+    if og:
+        text = og.group(1)
+        for label, key in (("open stubs", "stubs"), ("axioms", "axioms")):
+            m = re.search(r"(\d+)\s+" + re.escape(label), text)
+            if m and int(m.group(1)) != counts[key]:
+                failures.append(
+                    f"og:description says {m.group(1)} {label}; the tree has {counts[key]}"
+                )
+        words = {"zero": 0, "one": 1, "two": 2, "three": 3}
+        for word, n in words.items():
+            if re.search(rf"\b{word} axioms?\b", text, re.I) and n != counts["axioms"]:
+                failures.append(
+                    f"og:description says '{word} axiom(s)'; the tree has {counts['axioms']}"
+                )
+            if re.search(rf"\b{word} sorries\b", text, re.I) and n != 0:
+                failures.append(f"og:description says '{word} sorries'")
+
     if failures:
         print("Landing-page claim check FAILED.\n")
         for f in failures:

@@ -209,8 +209,13 @@ theorem chain_terminates_at_dim_8 :
     (16 : ℕ) ∉ ({1, 2, 4, 8} : Finset ℕ) := by native_decide
 
 /-- Exactly 3 fundamental constants from 3 Cayley–Dickson doublings:
-    ℏ (R→C), c (C→H), G (H→O) -/
-theorem three_constants_count : (3 : ℕ) = 3 := rfl
+    ℏ (R→C), c (C→H), G (H→O). Counted against the actual division-algebra dimension
+    set: four stages `{1,2,4,8}`, hence three doublings between them.
+
+    Until 2026-09-01 this was `(3 : ℕ) = 3 := rfl` — the numeral, not the count. Note the
+    *identification* of those three doublings with ℏ, c, G is physical interpretation and
+    is not formalized; what is proved here is only that there are three of them. -/
+theorem three_constants_count : ({1, 2, 4, 8} : Finset ℕ).card - 1 = 3 := by decide
 
 /-! ## Lorentzian signature from quaternions -/
 

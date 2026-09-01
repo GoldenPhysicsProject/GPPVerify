@@ -72,8 +72,14 @@ theorem sedenion_dim_outside_nda_set :
 theorem sedenion_not_nda : (8 : ℕ) * 2 = 16 ∧ 16 ≠ 8 := by decide
 
 /-- Under Δ = 2s, the 3 doublings correspond to the 3 roots of
-    the minimal polynomial of the shadow fixed point s = 1/2. -/
-theorem three_roots_match_three_doublings : (3 : ℕ) = 3 := rfl
+    the minimal polynomial of the shadow fixed point s = 1/2.
+
+    Gap: the claim is a *correspondence* between two counts, and the second one — the
+    minimal polynomial of the shadow fixed point, and its root count — is not defined
+    anywhere in this tree. The doubling count alone is real and is proved as
+    `GppHolographicChain.three_constants_count`. Until 2026-09-01 this was
+    `(3 : ℕ) = 3 := rfl`, which establishes neither side nor the correspondence. -/
+theorem open_three_roots_match_three_doublings : True := trivial
 
 -- ============================================================
 -- §2  Hurwitz classification — statement only, no axiom (revised 2026-08-30)
@@ -120,10 +126,16 @@ abbrev HurwitzDimensionHypothesis : Prop :=
     (3) → c₄D^Weyl = 0
     (4) Boyle-Turok (2021): 48 = 16×3 Weyl fermions → n_gen = 3
 
-    THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM. -/
-theorem three_generations : (3 : ℕ) = 3 := by
-  -- depends on thm:link6 — open problem
-  rfl
+    THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM.
+
+    Renamed to `open_` on 2026-09-01. Its own docstring said "OPEN PROBLEM" in capitals
+    while the statement was `(3 : ℕ) = 3 := rfl` — a name-level assertion of the
+    framework's headline Standard-Model prediction, discharged by reflexivity on a
+    numeral, and invisible to the stub gate because the vacuity was `3 = 3` rather than
+    `True`. Its own sibling below was already correctly named
+    `open_anomaly_cancellation_forces_three_generations`; this one was missed for exactly
+    that reason. Step (2) of the sketch above, Link 6, is the open step. -/
+theorem open_three_generations : True := trivial
 
 /-- Anomaly cancellation with SM gauge group forces n_gen = 3.
     THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM. -/
@@ -140,5 +152,5 @@ end GppSM
 #check @GppSM.nda_doubling_set_card
 #check @GppSM.sedenion_dim_outside_nda_set
 #check @GppSM.HurwitzDimensionHypothesis
-#check @GppSM.three_generations
+#check @GppSM.open_three_generations
 #check @GppSM.open_anomaly_cancellation_forces_three_generations

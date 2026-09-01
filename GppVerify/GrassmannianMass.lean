@@ -116,4 +116,54 @@ theorem transition_transition_eq_neg (a b c d : ℝ) (hD : a * d - b * c ≠ 0) 
       try field_simp
       try ring
 
+/-- The chart transition as a self-map of the coordinate 4-tuple, so that "applied four
+    times" is literally `tauMap^[4]` rather than a chain of hand-substituted arguments. -/
+noncomputable def tauMap (p : ℝ × ℝ × ℝ × ℝ) : ℝ × ℝ × ℝ × ℝ :=
+  transition p.1 p.2.1 p.2.2.1 p.2.2.2
+
+/-- `τ² = -id` in tuple form — `transition_transition_eq_neg` with the intermediate
+    coordinates folded into the map rather than written out. -/
+theorem tauMap_tauMap (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
+    tauMap (tauMap (a, b, c, d)) = (-a, -b, -c, -d) :=
+  transition_transition_eq_neg a b c d hD
+
+/-- Negating all four coordinates leaves the determinant unchanged:
+    `(-a)(-d) - (-b)(-c) = ad - bc`. This is what lets `τ²` be applied a second time. -/
+theorem det_neg (a b c d : ℝ) : -a * -d - -b * -c = a * d - b * c := by ring
+
+/-- **`τ⁴ = id`** (Theorem 3.3(i), second clause). The file docstring above has asserted
+    since this file was written that "applying it four times returns to the start"; here
+    that is actually proved, rather than left to the reader as a consequence of
+    `transition_transition_eq_neg`.
+
+    The one step that needs an argument is that `τ²` may be applied a *second* time at all:
+    it is conditional on a nonvanishing determinant, and the point it is applied to is the
+    negated tuple. `det_neg` supplies exactly that — negation preserves `ad - bc`, so the
+    same hypothesis `hD` discharges both applications. -/
+theorem tauMap_iterate_four (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
+    tauMap^[4] (a, b, c, d) = (a, b, c, d) := by
+  have hDneg : -a * -d - -b * -c ≠ 0 := by rw [det_neg]; exact hD
+  have h2 : tauMap (tauMap (a, b, c, d)) = (-a, -b, -c, -d) := tauMap_tauMap a b c d hD
+  have h4 : tauMap (tauMap (-a, -b, -c, -d)) = (- -a, - -b, - -c, - -d) :=
+    tauMap_tauMap (-a) (-b) (-c) (-d) hDneg
+  show tauMap (tauMap (tauMap (tauMap (a, b, c, d)))) = (a, b, c, d)
+  rw [h2, h4, neg_neg, neg_neg, neg_neg, neg_neg]
+
+/-- The period is exactly 4, not 2: `τ² = -id` is not the identity unless the coordinates
+    all vanish — which the chart excludes, since `ad - bc ≠ 0` forces some coordinate
+    nonzero. Stated because "order 4" is the claim the Zitterbewegung reading rests on, and
+    an order-2 map would satisfy `τ⁴ = id` just as well. -/
+theorem tauMap_tauMap_ne_self (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
+    tauMap (tauMap (a, b, c, d)) ≠ (a, b, c, d) := by
+  rw [tauMap_tauMap a b c d hD]
+  intro h
+  have ha : -a = a := congrArg Prod.fst h
+  have hb : -b = b := congrArg (fun p => p.2.1) h
+  have hc : -c = c := congrArg (fun p => p.2.2.1) h
+  have hd : -d = d := congrArg (fun p => p.2.2.2) h
+  exact hD (by
+    have : a = 0 := by linarith
+    have hb0 : b = 0 := by linarith
+    simp [this, hb0])
+
 end GppGrassmannian
