@@ -22,7 +22,7 @@ theorem integral_neg_rpow_zero_to
     (∫ x : ℝ in 0..L, x ^ (-δ : ℝ)) =
       L ^ (1 - δ : ℝ) / (1 - δ) := by
   have hr : -1 < -δ := by linarith
-  rw [integral_rpow (Or.inl hr)]
+  rw [intervalIntegral.integral_rpow (Or.inl hr)]
   have hp : 0 < 1 - δ := sub_pos.mpr hδ
   have hexp : -δ + 1 = 1 - δ := by ring
   rw [hexp]
