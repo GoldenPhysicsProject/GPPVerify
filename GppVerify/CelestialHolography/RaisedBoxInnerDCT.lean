@@ -7,8 +7,8 @@ import Mathlib.MeasureTheory.Integral.DominatedConvergence
 
 This file isolates the exact Mathlib 4.33 interval-DCT interface needed for the
 innermost `x3` slice of the concrete raised-box moment.  It deliberately does
-not claim the full simplex limit: the eventual domination on the affine slice
-remains explicit until it is discharged from the concrete Symanzik geometry.
+not claim the full simplex limit: packaging the fixed-regulator majorization
+into an eventual statement on `𝓝[>] 0` remains before the inner DCT closes.
 -/
 
 namespace GppRaisedBoxInnerDCT
@@ -28,8 +28,7 @@ theorem inner_majorant_intervalIntegrable
     (GppRaisedBoxRealMajorantSlice.channel_inner_intervalIntegrable hδ hS hx1 hL)
 
 /-- For every fixed regulator, the concrete inner raised-box integrand is
-strongly measurable on every interval restriction.  The Symanzik polynomial is
-a continuous affine function of `x3`, and real `rpow` is a measurable power. -/
+strongly measurable on every interval restriction. -/
 theorem inner_integrand_aestronglyMeasurable
     (ε S T x1 x2 L : ℝ) :
     AEStronglyMeasurable
@@ -75,8 +74,7 @@ theorem inner_integrand_tendsto_one_on_interval
     (GppRaisedBoxPointwiseLimit.symanzik_neg_regulator_tendsto_one
       hS hT hx1 hx2 hx3 hx4).mono_left inf_le_left
 
-/-- Almost-everywhere form of the preceding pointwise statement, in exactly the
-shape consumed by interval filter-DCT. -/
+/-- Almost-everywhere form of pointwise regulator removal. -/
 theorem ae_inner_integrand_tendsto_one
     {S T x1 x2 L : ℝ}
     (hS : 0 < S) (hT : 0 ≤ T) (hx1 : 0 < x1) (hx2 : 0 ≤ x2)
@@ -89,11 +87,36 @@ theorem ae_inner_integrand_tendsto_one
   exact inner_integrand_tendsto_one_on_interval
     hS hT hx1 hx2 hLdef hL hx3mem
 
-/-- The Mathlib 4.33 interval dominated-convergence theorem specialized to one
-raised-box `x3` slice and the certified one-channel majorant.
+/-- Fixed-regulator domination on a genuine inner simplex slice.  This is the
+pointwise inequality needed by DCT, now including the real norm rather than only
+the unsigned integrand. -/
+theorem inner_integrand_norm_le_majorant
+    {ε δ S T x1 x2 L x3 : ℝ}
+    (hS : 0 < S) (hT : 0 < T) (hx1 : 0 < x1) (hx2 : 0 ≤ x2)
+    (hLdef : L = 1 - x1 - x2) (hL : 0 ≤ L)
+    (hx3mem : x3 ∈ Ι (0 : ℝ) L)
+    (hε0 : 0 ≤ ε) (hεδ : ε ≤ δ) (hδ : 0 < δ) :
+    ‖integrand ε S T x1 x2 x3‖ ≤
+      1 + (S * x1 * x3) ^ (-δ : ℝ) := by
+  rw [Set.uIoc_of_le hL] at hx3mem
+  have hx3 : 0 < x3 := hx3mem.1
+  have hxsum : x1 + x2 + x3 ≤ 1 := by
+    linarith [hx3mem.2, hLdef]
+  have hx4 : 0 ≤ x4 x1 x2 x3 := by
+    unfold x4
+    linarith
+  have hQ : 0 ≤ Q S T x1 x2 x3 := by
+    unfold Q
+    positivity
+  have hint : 0 ≤ integrand ε S T x1 x2 x3 := by
+    unfold integrand
+    exact Real.rpow_nonneg hQ (-ε)
+  rw [Real.norm_eq_abs, abs_of_nonneg hint]
+  exact integrand_le_one_channel_majorant
+    hS hT hx1 hx2 hx3 hxsum hε0 hεδ hδ
 
-The conclusion is genuinely the convergence of the inner physical integral;
-only the eventual domination obligation remains explicit. -/
+/-- The Mathlib 4.33 interval dominated-convergence theorem specialized to one
+raised-box `x3` slice and the certified one-channel majorant. -/
 theorem inner_integral_tendsto_of_domination
     {δ S T x1 x2 L : ℝ}
     (hbound : IntervalIntegrable
@@ -121,4 +144,5 @@ end GppRaisedBoxInnerDCT
 #print axioms GppRaisedBoxInnerDCT.eventually_inner_integrand_aestronglyMeasurable
 #print axioms GppRaisedBoxInnerDCT.inner_integrand_tendsto_one_on_interval
 #print axioms GppRaisedBoxInnerDCT.ae_inner_integrand_tendsto_one
+#print axioms GppRaisedBoxInnerDCT.inner_integrand_norm_le_majorant
 #print axioms GppRaisedBoxInnerDCT.inner_integral_tendsto_of_domination
