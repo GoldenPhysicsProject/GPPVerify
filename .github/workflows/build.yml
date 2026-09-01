@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ["main"]
 
+concurrency:
+  group: verify-build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: lake build
@@ -13,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install elan
         run: |
@@ -42,27 +48,32 @@ jobs:
       - name: Build
         run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
 
+      - name: Compile every changed Lean module
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${{ github.base_ref }}" --quiet
+          mapfile -t FILES < <(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- 'GppVerify/**/*.lean')
+          if ((${#FILES[@]} == 0)); then
+            echo 'No changed Lean modules outside the root build.'
+            exit 0
+          fi
+          printf 'Changed Lean modules to compile explicitly:\n%s\n' "${FILES[*]}"
+          for file in "${FILES[@]}"; do
+            [[ -f "$file" ]] || continue
+            module="${file%.lean}"
+            module="${module//\//.}"
+            echo "=== $module ==="
+            lake build "$module"
+          done
+
       - name: Sorry gate, source-level (FAILS the build)
-        # Runs FIRST of the two sorry checks, and is the one that must not be removed:
-        # it reads the tree, so no cache state can hide anything from it.
         run: python3 scripts/check_sorries.py
 
       - name: Sorry gate, build-log (FAILS the build)
         run: |
           echo "=== Sorry gate (build log) ==="
-          # Gate on Lean's OWN diagnostic as well as on the source, because this one
-          # catches sorries introduced by a *tactic* rather than by the literal token,
-          # which `check_sorries.py` cannot see.
-          #
-          # This check alone is NOT sufficient, and the comment that used to stand here
-          # said otherwise: it claimed "lake replays warnings for cached modules, so this
-          # is reliable on a fully-cached build". That is false — a module replayed from
-          # cache emits no diagnostic at all. A `sorry` in hasDerivAt_sechFourthAntideriv
-          # rode into main through PR #133 ("the whole tree builds clean") and survived
-          # four further merges and several "0 sorries" status reports, because every one
-          # of those CI runs was cached and this gate printed OK each time.
-          #
-          # Keep both. Neither covers the other's blind spot.
           if grep -F "declaration uses 'sorry'" /tmp/build.log; then
             echo "::error::A declaration uses 'sorry'. Standing rule: no sorry ever committed."
             exit 1
@@ -72,9 +83,6 @@ jobs:
       - name: Axiom audit
         run: |
           echo "=== Axiom audit ==="
-          # No `--run`: the script has no `main`, so `--run` exits nonzero on
-          # "unknown declaration 'main'" even when the audit succeeded.
-          # Any `sorryAx` in this output means a flagship theorem rests on a sorry.
           lake env lean scripts/check_axioms.lean | tee /tmp/axioms.log
           if grep -F "sorryAx" /tmp/axioms.log; then
             echo "::error::A flagship theorem depends on sorryAx."
@@ -84,14 +92,11 @@ jobs:
       - name: Stub census (informational — does NOT fail)
         run: |
           echo "=== Open-result stubs: theorem _ : True := trivial ==="
-          # These are the honest parking convention for open results, NOT proofs.
-          # Invisible to both the sorry gate and the axiom audit, so surface them
-          # in every run to keep the drift visible.
           TOTAL=$(grep -rn ": True := trivial" GppVerify/ --include="*.lean" | wc -l)
           echo "Total stubs: $TOTAL"
           echo "--- per file ---"
           grep -rc ": True := trivial" GppVerify/ --include="*.lean" \
-            | grep -v ':0$' | sort -t: -k2 -rn
+            | grep -v ':0$' | sort -t: -k2 -rn || true
           echo
           echo "NOTE: a file can report 0 sorries and 0 axioms and still be mostly stubs."
           echo "Quote all three numbers (sorry / axiom / stub) in any status claim."
