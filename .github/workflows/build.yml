@@ -42,20 +42,32 @@ jobs:
       - name: Build
         run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
 
-      - name: Sorry gate (FAILS the build)
+      - name: Sorry gate, source-level (FAILS the build)
+        # Runs FIRST of the two sorry checks, and is the one that must not be removed:
+        # it reads the tree, so no cache state can hide anything from it.
+        run: python3 scripts/check_sorries.py
+
+      - name: Sorry gate, build-log (FAILS the build)
         run: |
-          echo "=== Sorry gate ==="
-          # Gate on Lean's OWN diagnostic, not on grepping source. Source-grepping
-          # for the string "sorry" false-positives on every doc comment that
-          # discusses a gap (this repo has ~17 such lines), and false-negatives on
-          # sorries introduced by a tactic rather than the literal token.
-          # `lake` replays warnings for cached modules, so this is reliable on a
-          # fully-cached build.
+          echo "=== Sorry gate (build log) ==="
+          # Gate on Lean's OWN diagnostic as well as on the source, because this one
+          # catches sorries introduced by a *tactic* rather than by the literal token,
+          # which `check_sorries.py` cannot see.
+          #
+          # This check alone is NOT sufficient, and the comment that used to stand here
+          # said otherwise: it claimed "lake replays warnings for cached modules, so this
+          # is reliable on a fully-cached build". That is false — a module replayed from
+          # cache emits no diagnostic at all. A `sorry` in hasDerivAt_sechFourthAntideriv
+          # rode into main through PR #133 ("the whole tree builds clean") and survived
+          # four further merges and several "0 sorries" status reports, because every one
+          # of those CI runs was cached and this gate printed OK each time.
+          #
+          # Keep both. Neither covers the other's blind spot.
           if grep -F "declaration uses 'sorry'" /tmp/build.log; then
             echo "::error::A declaration uses 'sorry'. Standing rule: no sorry ever committed."
             exit 1
           fi
-          echo "OK — no declaration uses 'sorry'."
+          echo "OK — no declaration uses 'sorry' in this run's build output."
 
       - name: Axiom audit
         run: |

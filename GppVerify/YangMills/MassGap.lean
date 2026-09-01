@@ -108,9 +108,15 @@ theorem mass_gap_ratio_strict_anti (N : ℕ) (hN : 1 ≤ N) {k1 k2 : ℕ} (hk : 
   have hklt : (k1 : ℚ) < (k2 : ℚ) := by exact_mod_cast hk
   nlinarith
 
-/-- Kac-Moody commutation relation: [J^a_m, J^b_n] structure constant is k -/
-theorem kac_moody_level_appears_in_commutator (k m : ℤ) (δ_ab δ_mn : ℤ) :
-    k * m * δ_ab * δ_mn = k * m * δ_ab * δ_mn := rfl
+/-- Kac-Moody commutation relation: the central term of `[J^a_m, J^b_n]` carries the
+    level `k`, as `k·m·δ^{ab}·δ_{m+n,0}`.
+
+    Gap: the currents `J^a_m` are not constructed here and there is no bracket to compute,
+    so the relation cannot be stated, let alone proved — the same WZW/2D-CFT operator
+    formalism gap recorded for `open_sugawara_construction` below. Until 2026-09-01 this
+    was `k * m * δ_ab * δ_mn = k * m * δ_ab * δ_mn := rfl`: four unconstrained integers,
+    the same product on both sides, named after the commutator it does not mention. -/
+theorem open_kac_moody_level_appears_in_commutator : True := trivial
 
 /-- Sugawara energy-momentum tensor construction: T = :JJ:/(k+h^∨) -/
 theorem open_sugawara_construction : True := trivial

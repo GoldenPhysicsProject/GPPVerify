@@ -163,16 +163,39 @@ def gr24_point_count (q : ℤ) : ℤ := 1 + q + 2 * q^2 + q^3 + q^4
 theorem gr24_point_count_at_1 : gr24_point_count 1 = 6 := by
   simp [gr24_point_count]
 
-/-- The physical shadow Casimir ratio: (Δ=1 central charge) / (k+N) coupling -/
-theorem shadow_dimension_at_critical : (1 : ℤ) * 2 = 2 * 1 := by decide
+/-- The physical shadow Casimir ratio: (Δ=1 central charge) / (k+N) coupling.
 
-/-- Doubly-degenerate b₄ Betti number for Gr(2,4) -/
-theorem gr24_middle_betti : (2 : ℕ) = 2 := rfl
+    Gap: neither the central charge at `Δ = 1` nor the `k+N` coupling is defined in this
+    file, so there is nothing here to take a ratio of. Until 2026-09-01 this was stated as
+    `(1 : ℤ) * 2 = 2 * 1`, which is commutativity of multiplication and carries none of
+    the claimed physics. Renamed to `open_` so the gate counts it. -/
+theorem open_shadow_dimension_at_critical : True := trivial
+
+/-- Doubly-degenerate b₄ Betti number for Gr(2,4): the middle coefficient of the point
+    count `1 + q + 2q² + q³ + q⁴` is `2`, while every other coefficient is `1`.
+
+    Stated against `gr24_point_count` — the object actually defined above — rather than as
+    the bare numeral `(2 : ℕ) = 2 := rfl`, which is what stood here until 2026-09-01 and
+    mentions neither Gr(2,4) nor any Betti number. -/
+theorem gr24_middle_betti (q : ℤ) :
+    gr24_point_count q - (1 + q + q^3 + q^4) = 2 * q^2 := by
+  simp only [gr24_point_count]
+  ring
 
 /-- Mirror baryon lower bound: number of dark generations ≥ 1.
     Source: zitterbewegung paper, thm:dm-bound.
-    The T-boundary condition forces at least one mirror generation. -/
-theorem mirror_baryon_lower_bound : (1 : ℕ) ≤ 1 := le_refl 1
+    The T-boundary condition forces at least one mirror generation.
+
+    Gap: there is no formal definition of "number of dark generations" in this tree, and
+    no formalization of the T-boundary condition that is supposed to force the bound, so
+    there is nothing for the inequality to range over.
+
+    History worth stating plainly: this began as an axiom, and a June 2026 session
+    recorded it as "closed" by restating it as `(1 : ℕ) ≤ 1 := le_refl 1`. That is not a
+    closure — it is a true statement about the numeral 1 wearing the name of a physics
+    theorem, and strictly less honest than the axiom it replaced, since an axiom at least
+    shows up in `#print axioms`. Now an `open_` stub the gate counts. -/
+theorem open_mirror_baryon_lower_bound : True := trivial
 
 /-- Massless lightest neutrino prediction from T-boundary.
     Source: zitterbewegung paper, pred:massless.

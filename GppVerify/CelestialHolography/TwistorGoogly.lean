@@ -78,9 +78,12 @@ theorem open_googly_resolution_T_image : True := trivial
 
 /-! ## Connection to shadow transform -/
 
-/-- Shadow transform Δ ↔ 2-Δ is the Grassmannian involution under Δ=2s -/
+/-- Shadow transform Δ ↔ 2-Δ is the Grassmannian involution under Δ=2s.
+
+    Until 2026-09-01 this was stated as `2 - Δ = 2 - Δ`, which is `rfl` and asserts
+    nothing — the involution property is that applying the map *twice* returns Δ. -/
 theorem shadow_as_grassmannian_involution :
-    ∀ (Δ : ℤ), 2 - Δ = 2 - Δ := fun _ => rfl
+    ∀ (Δ : ℤ), 2 - (2 - Δ) = Δ := fun _ => by ring
 
 /-- The googly map in twistor space corresponds to shadow reflection in CFT -/
 theorem open_googly_is_shadow : True := trivial

@@ -55,13 +55,31 @@ lemma l_infty_subset_l2_compact {α : Type*} [MeasurableSpace α]
         rw [integral_const]
         simp [Measure.real, smul_eq_mul]
 
-/-- The Haar regularization factor vol(K¹) = 1 (normalized).
-    This ensures the Plancherel formula has coefficient 1. -/
-lemma haar_volume_normalized : (1 : ℝ) = 1 := rfl
+/-- The Haar regularization factor vol(K¹) = 1 (normalized), which makes the Plancherel
+    formula's coefficient 1.
 
-/-- Spectral completeness: the inner product ⟨f, g⟩ = ∫ f · ḡ d×a is sesquilinear. -/
-lemma l2_inner_product_sesquilinear (f g : ℝ → ℂ) :
-    (fun t => f t * starRingEnd ℂ (g t)) = (fun t => f t * starRingEnd ℂ (g t)) := rfl
+    Gap: this is a *normalization convention* on a measure that is not constructed
+    anywhere in this file — there is no `K¹` here to take the volume of. Until
+    2026-09-01 it was stated as `(1 : ℝ) = 1 := rfl`, which is true of the numeral and
+    says nothing about any measure. Renamed to `open_` so the gate counts it. -/
+lemma open_haar_volume_normalized : True := trivial
+
+/-- The integrand of the inner product `⟨f, g⟩ = ∫ f · ḡ d×a` is sesquilinear: linear in
+    `f`, conjugate-linear in `g`. Stated pointwise on the integrand, since the measure and
+    the integral itself are not constructed in this file.
+
+    Until 2026-09-01 this was `(fun t => f t * conj (g t)) = (fun t => f t * conj (g t))`,
+    the same expression on both sides — `rfl`, and no statement about sesquilinearity at
+    all. The conjugate-linear half is the one with content: the scalar comes back out
+    conjugated. -/
+lemma l2_inner_product_sesquilinear (f g : ℝ → ℂ) (a b : ℂ) :
+    (fun t => (a * f t) * starRingEnd ℂ (g t))
+        = (fun t => a * (f t * starRingEnd ℂ (g t))) ∧
+    (fun t => f t * starRingEnd ℂ (b * g t))
+        = (fun t => starRingEnd ℂ b * (f t * starRingEnd ℂ (g t))) := by
+  constructor
+  · funext t; ring
+  · funext t; rw [map_mul]; ring
 
 -- ============================================================
 -- §2  Infrastructure axioms

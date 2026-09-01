@@ -36,9 +36,41 @@ open Complex
 -- §1  Algebraic spectral facts (proved clean)
 -- ============================================================
 
-/-- A test function h satisfying h(ρ) = h(1-ρ̄) is symmetric under the functional equation. -/
-lemma test_function_fe_symmetric (h : ℂ → ℂ) (rho : ℂ) :
-    h rho = h rho := rfl
+/-- The functional equation's partner map `ρ ↦ 1 - ρ̄` on the critical strip. -/
+def fePartner (rho : ℂ) : ℂ := 1 - (starRingEnd ℂ) rho
+
+/-- `ρ ↦ 1 - ρ̄` is an involution — the reason "symmetric under the functional equation"
+    is a condition on unordered *pairs* of zeros. -/
+lemma fePartner_involutive (rho : ℂ) : fePartner (fePartner rho) = rho := by
+  simp only [fePartner, map_sub, map_one, RingHom.id_apply, Complex.conj_conj]
+  ring
+
+/-- The partner map's fixed points are exactly the critical line `Re ρ = 1/2`. This is
+    what makes the functional-equation symmetry a statement *about* the critical line
+    rather than an arbitrary reflection. -/
+lemma fePartner_eq_self_iff (rho : ℂ) : fePartner rho = rho ↔ rho.re = 1 / 2 := by
+  constructor
+  · intro h
+    have := congrArg Complex.re h
+    simp only [fePartner, Complex.sub_re, Complex.one_re, Complex.conj_re] at this
+    linarith
+  · intro h
+    apply Complex.ext
+    · simp only [fePartner, Complex.sub_re, Complex.one_re, Complex.conj_re]; linarith
+    · simp [fePartner]
+
+/-- A test function `h` satisfying `h(ρ) = h(1-ρ̄)` takes equal values on each
+    functional-equation pair, and that pair collapses to a single point exactly on the
+    critical line.
+
+    Until 2026-09-01 this lemma was stated as `h rho = h rho := rfl`, in a section headed
+    "algebraic spectral facts (proved clean)" and `#check`ed in the file's summary — a
+    reflexivity tautology carrying the name and docstring of a real hypothesis. The
+    hypothesis is now an actual argument. -/
+lemma test_function_fe_symmetric (h : ℂ → ℂ)
+    (hfe : ∀ z : ℂ, h z = h (fePartner z)) (rho : ℂ) :
+    h rho = h (fePartner rho) ∧ (rho.re = 1 / 2 → fePartner rho = rho) :=
+  ⟨hfe rho, fun hre => (fePartner_eq_self_iff rho).mpr hre⟩
 
 /-- The spectral sum over zeros converges absolutely for suitable test functions h.
     (Formal identity: each ρ contributes h(ρ) with multiplicity m(ρ).) -/

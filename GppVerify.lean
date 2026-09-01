@@ -38,8 +38,9 @@ import GppVerify.RiemannHypothesis.MomentumGeneratorNoPointSpectrum
 
 -- ── Standard Model ───────────────────────────────────────────
 -- Three generations from Cayley-Dickson tower (cor:three-generations-anomaly)
--- NOTE: three_generations + anomaly_cancellation carry
---       "depends on thm:link6 — open problem"
+-- NOTE: open_three_generations + open_anomaly_cancellation_forces_three_generations
+--       carry "depends on thm:link6 — open problem". Both are open_ stubs; the first
+--       was renamed 2026-09-01, having previously been stated as `(3 : ℕ) = 3 := rfl`.
 import GppVerify.StandardModel.ThreeGenerations
 
 -- ── Celestial Holography ─────────────────────────────────────

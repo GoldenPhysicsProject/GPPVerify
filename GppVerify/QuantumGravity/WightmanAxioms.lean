@@ -51,8 +51,21 @@ theorem dim_gr24_complex : (4^2 - 1 - (2^2 + 2^2 - 1)) / 2 = (4 : ℕ) := by nor
 /-- Plücker embedding: Gr(2,4) ↪ P^5 = P(∧²ℂ⁴), dim P^5 = 5 -/
 theorem plucker_target_dim : Nat.choose 4 2 - 1 = (5 : ℕ) := by native_decide
 
-/-- dim(SU(n)) = n²-1 for SU(4) -/
-theorem dim_sun (n : ℕ) (_ : 1 ≤ n) : n^2 - 1 = n^2 - 1 := rfl
+/-- dim(SU(n)) = n²-1. Stated in the one way that carries content over `ℕ`: the
+    truncated subtraction actually cancels, `(n²-1)+1 = n²`, which is false at `n = 0`
+    and so genuinely consumes the hypothesis `1 ≤ n`.
+
+    Until 2026-09-01 this read `n^2 - 1 = n^2 - 1 := rfl`, with the hypothesis bound to
+    `_` because nothing used it — a reflexivity tautology carrying the name of the
+    dimension formula. Note this is still arithmetic about `n² - 1`, not a theorem that
+    the Lie algebra `𝔰𝔲(n)` has that dimension; Mathlib has no `SpecialUnitaryGroup`
+    dimension result to appeal to, so that direction remains unformalized. -/
+theorem dim_sun (n : ℕ) (hn : 1 ≤ n) : n^2 - 1 + 1 = n^2 := by
+  have : 1 ≤ n^2 := Nat.one_le_pow _ _ hn
+  omega
+
+/-- The instance the file actually uses: dim(SU(4)) = 15. -/
+theorem dim_su_four : 4^2 - 1 = (15 : ℕ) := by norm_num
 
 /-! ## Wightman axioms as Lean axioms -/
 
