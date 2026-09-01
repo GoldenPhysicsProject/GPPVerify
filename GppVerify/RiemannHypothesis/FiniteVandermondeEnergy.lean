@@ -66,8 +66,115 @@ theorem orderedVandermondeEnergy_nonneg
   exact weighted_vandermonde_sq_nonneg
     (p i) (p j) (p k) (x i) (x j) (x k) (hp i) (hp j) (hp k)
 
+/-- **Quantitative finite Vandermonde witness.** For nonnegative weights, every
+chosen ordered three-point contribution is a lower bound for the full ordered
+Vandermonde energy. Unlike mere strict positivity, this bound is stable when
+additional nonnegative support points are appended, so a fixed witness can be
+carried through a countable moment limit. -/
+theorem weighted_vandermonde_sq_le_orderedVandermondeEnergy
+    {n : ℕ} (p x : Fin n → ℝ)
+    (hp : ∀ a, 0 ≤ p a) (i j k : Fin n) :
+    p i * p j * p k *
+        (((x i - x j) * (x i - x k) * (x j - x k)) ^ 2) ≤
+      orderedVandermondeEnergy p x := by
+  unfold orderedVandermondeEnergy
+  have hk :
+      p i * p j * p k *
+          (((x i - x j) * (x i - x k) * (x j - x k)) ^ 2) ≤
+        ∑ c : Fin n,
+          p i * p j * p c *
+            (((x i - x j) * (x i - x c) * (x j - x c)) ^ 2) := by
+    refine Finset.single_le_sum
+      (s := Finset.univ)
+      (f := fun c : Fin n =>
+        p i * p j * p c *
+          (((x i - x j) * (x i - x c) * (x j - x c)) ^ 2)) ?_ (Finset.mem_univ k)
+    intro c hc
+    exact weighted_vandermonde_sq_nonneg
+      (p i) (p j) (p c) (x i) (x j) (x c) (hp i) (hp j) (hp c)
+  have hj :
+      (∑ c : Fin n,
+          p i * p j * p c *
+            (((x i - x j) * (x i - x c) * (x j - x c)) ^ 2)) ≤
+        ∑ b : Fin n, ∑ c : Fin n,
+          p i * p b * p c *
+            (((x i - x b) * (x i - x c) * (x b - x c)) ^ 2) := by
+    refine Finset.single_le_sum
+      (s := Finset.univ)
+      (f := fun b : Fin n =>
+        ∑ c : Fin n,
+          p i * p b * p c *
+            (((x i - x b) * (x i - x c) * (x b - x c)) ^ 2)) ?_ (Finset.mem_univ j)
+    intro b hb
+    apply Finset.sum_nonneg
+    intro c hc
+    exact weighted_vandermonde_sq_nonneg
+      (p i) (p b) (p c) (x i) (x b) (x c) (hp i) (hp b) (hp c)
+  have hi :
+      (∑ b : Fin n, ∑ c : Fin n,
+          p i * p b * p c *
+            (((x i - x b) * (x i - x c) * (x b - x c)) ^ 2)) ≤
+        ∑ a : Fin n, ∑ b : Fin n, ∑ c : Fin n,
+          p a * p b * p c *
+            (((x a - x b) * (x a - x c) * (x b - x c)) ^ 2) := by
+    refine Finset.single_le_sum
+      (s := Finset.univ)
+      (f := fun a : Fin n =>
+        ∑ b : Fin n, ∑ c : Fin n,
+          p a * p b * p c *
+            (((x a - x b) * (x a - x c) * (x b - x c)) ^ 2)) ?_ (Finset.mem_univ i)
+    intro a ha
+    apply Finset.sum_nonneg
+    intro b hb
+    apply Finset.sum_nonneg
+    intro c hc
+    exact weighted_vandermonde_sq_nonneg
+      (p a) (p b) (p c) (x a) (x b) (x c) (hp a) (hp b) (hp c)
+  exact hk.trans (hj.trans hi)
+
+/-- **Strict finite Vandermonde witness.** If all weights are nonnegative and
+there is one ordered triple whose three weights are strictly positive at three
+pairwise distinct observable values, then the full ordered Vandermonde energy
+is strictly positive. This promotes the local three-point witness to every
+finite prefix containing it and is the strictness input needed before taking a
+countable moment limit. -/
+theorem orderedVandermondeEnergy_pos_of_witness
+    {n : ℕ} (p x : Fin n → ℝ)
+    (hp : ∀ a, 0 ≤ p a)
+    (i j k : Fin n)
+    (hpi : 0 < p i) (hpj : 0 < p j) (hpk : 0 < p k)
+    (hij : x i ≠ x j) (hik : x i ≠ x k) (hjk : x j ≠ x k) :
+    0 < orderedVandermondeEnergy p x := by
+  unfold orderedVandermondeEnergy
+  apply Finset.sum_pos'
+  · intro a ha
+    apply Finset.sum_nonneg
+    intro b hb
+    apply Finset.sum_nonneg
+    intro c hc
+    exact weighted_vandermonde_sq_nonneg
+      (p a) (p b) (p c) (x a) (x b) (x c) (hp a) (hp b) (hp c)
+  · refine ⟨i, Finset.mem_univ i, ?_⟩
+    apply Finset.sum_pos'
+    · intro b hb
+      apply Finset.sum_nonneg
+      intro c hc
+      exact weighted_vandermonde_sq_nonneg
+        (p i) (p b) (p c) (x i) (x b) (x c) (hp i) (hp b) (hp c)
+    · refine ⟨j, Finset.mem_univ j, ?_⟩
+      apply Finset.sum_pos'
+      · intro c hc
+        exact weighted_vandermonde_sq_nonneg
+          (p i) (p j) (p c) (x i) (x j) (x c) (hp i) (hp j) (hp c)
+      · refine ⟨k, Finset.mem_univ k, ?_⟩
+        exact weighted_vandermonde_sq_pos
+          (p i) (p j) (p k) (x i) (x j) (x k)
+          hpi hpj hpk hij hik hjk
+
 end GppFiniteVandermondeEnergy
 
 #print axioms GppFiniteVandermondeEnergy.weighted_vandermonde_sq_nonneg
 #print axioms GppFiniteVandermondeEnergy.weighted_vandermonde_sq_pos
 #print axioms GppFiniteVandermondeEnergy.orderedVandermondeEnergy_nonneg
+#print axioms GppFiniteVandermondeEnergy.weighted_vandermonde_sq_le_orderedVandermondeEnergy
+#print axioms GppFiniteVandermondeEnergy.orderedVandermondeEnergy_pos_of_witness
