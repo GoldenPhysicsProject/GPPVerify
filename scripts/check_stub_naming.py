@@ -63,9 +63,33 @@ DECL_START = re.compile(
 NAME = re.compile(r"^(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_'!?]*)")
 
 # Applied to a whole declaration with comments already stripped and whitespace flattened.
+#
+# A stub is any declaration whose *conclusion* is `True` and whose proof is trivial-equivalent.
+# Both halves need to be permissive, and each was widened after a stub slipped through:
+#
+#   `theorem foo : True := trivial`                     -- the original shape
+#   `theorem foo : ∀ (_ : True), True := by intro; trivial`
+#   `theorem foo : ∀ (_ : ℂ), True := fun _ => trivial` -- binder is NOT `True` …
+#   `theorem foo (_ : ℝ) : ∀ (_ : ℂ), True := fun _ => trivial`  -- … and args come first
+#
+# The third and fourth shapes hid `thm_universal_shadow_product` and
+# `scaling_eigenspace_ode` — both unprefixed — until 2026-09-01. The earlier version keyed
+# on the binder being literally `True` and the proof being literally `trivial`; neither is
+# what makes a declaration vacuous. What makes it vacuous is the conclusion.
 STUB = re.compile(
+    # (a) The original two shapes, kept verbatim. Widening this pattern must never *lose* a
+    #     detection, and taking the union by construction is the only way to guarantee that
+    #     -- an earlier attempt at a "cleaner" single pattern silently dropped four stubs
+    #     written as `by intro _ <newline> trivial`, because it required a semicolon.
     r":\s*True\s*:=\s*(?:by\s+)?trivial\b"
     r"|∀\s*\(_\s*:\s*True\)\s*,\s*True\s*:="
+    # (b) Conclusion `True` under ANY binders, with a trivial-equivalent proof. What makes a
+    #     declaration vacuous is its conclusion -- not that the binder is literally `True`,
+    #     and not that the proof is literally the token `trivial`. Keying on those was how
+    #     `thm_universal_shadow_product` (`∀ (_ : ℂ), True := fun _ => trivial`) and
+    #     `scaling_eigenspace_ode` (`(_ : ℝ) : ∀ (_ : ℂ), True := fun _ => trivial`) stayed
+    #     invisible -- both unprefixed -- until 2026-09-01.
+    r"|:\s*(?:∀[^,]*,\s*)*True\s*:=\s*(?:(?:by|fun|intro|=>|_|;)\s*)*trivial\b"
 )
 
 # The blueprint publishes this number in prose; keep it honest automatically.

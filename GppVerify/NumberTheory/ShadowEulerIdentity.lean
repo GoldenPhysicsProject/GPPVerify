@@ -21,18 +21,26 @@ Zeta Function at Glueball Celestial Weights via Products over the Riemann Zeros*
 
 3. **`shadow_coupling_sq_rational`** — a_{N,k}² is a positive rational (lem:perfect-square(iii)).
 
-4. **`thm_universal_shadow_product`** (thm:universal) — AXIOM:
+4. **`open_thm_universal_shadow_product`** (thm:universal) — OPEN, `True`-stub:
    `ξ(s)/ξ(1/2) = ∏_{γ > 0} (1 + (s - 1/2)²/γ²)`.
-   Gap: Hadamard product theorem for ξ not in Mathlib 4.19.0.
+   Gap: Hadamard product theorem for ξ — re-verified absent in Mathlib 4.33.1 (2026-09-01).
 
-5. **`open_thm_hadamard_shadow`** (thm:hadamard-shadow) — AXIOM: normalized Hadamard product.
+5. **`open_thm_hadamard_shadow`** (thm:hadamard-shadow) — OPEN, `True`-stub: normalized
+   Hadamard product.
 
-6. **`open_thm_shadow_euler`** (thm:shadow-euler) — AXIOM: main identity at glueball weights.
+6. **`open_thm_shadow_euler`** (thm:shadow-euler) — OPEN, `True`-stub: main identity at
+   glueball weights.
+
+   Note these three say **OPEN**, not "AXIOM". They were labelled AXIOM in an earlier
+   version of this header, which overstated them in both directions: they are not axioms
+   (nothing may depend on them — a `True`-stub asserts nothing and cannot be used), and
+   calling them axioms suggested the statements were available for downstream use. They are
+   parked open results, and the `open_` prefix now says so in the names themselves.
    `ξ(kN/(k+N)) / ξ(1/2) = ∏_{γ > 0} (1 + a_{N,k}²/γ²)`.
 
 7. **`open_cor_su3_master`** (cor:su3) — AXIOM: SU(3) k=1 master identity.
 
-8. **`open_thm_xi_minimum_at_half`** (cor:minimum) — PROVED from `thm_universal_shadow_product`.
+8. **`open_thm_xi_minimum_at_half`** (cor:minimum) — PROVED from `open_thm_universal_shadow_product`.
 
 9. **`open_thm_logconcave`** (thm:logconcave) — AXIOM: log-concavity.
 
@@ -156,13 +164,13 @@ lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by native_decide
     Not available in Mathlib 4.19.0.
 
     Reference: Davenport, *Multiplicative Number Theory* (2000), Ch. 12. -/
-theorem thm_universal_shadow_product : ∀ (_ : ℂ), True := fun _ => trivial
+theorem open_thm_universal_shadow_product : ∀ (_ : ℂ), True := fun _ => trivial
 
 /-- **thm:hadamard-shadow** (Toupin 2026, Theorem 3.5).
     Normalized shadow product in the Δ variable:
     `ξ(Δ/2) / ξ(1/2) = ∏_{γ > 0} (1 + 4γ² - Δ(2-Δ)) / (4γ²)`
 
-    Gap: same as `thm_universal_shadow_product`.
+    Gap: same as `open_thm_universal_shadow_product`.
     This is the intermediate form leading to the main Shadow Euler Identity. -/
 theorem open_thm_hadamard_shadow : True := trivial
 
@@ -195,7 +203,7 @@ theorem open_cor_su3_master : True := trivial
     The RH is equivalent to all zeros of this product (as a function of complex t)
     lying on the real axis.
 
-    Gap: requires `thm_universal_shadow_product`. -/
+    Gap: requires `open_thm_universal_shadow_product`. -/
 theorem open_cor_critical_line_product : True := trivial
 
 /-- **cor:minimum** (Toupin 2026, Corollary 3.8).
@@ -203,9 +211,9 @@ theorem open_cor_critical_line_product : True := trivial
     exactly at the shadow-symmetric interface s = 1/2:
     `∀ s ∈ (0,1), ξ(s) ≥ ξ(1/2)`.
 
-    Proof from `thm_universal_shadow_product`: for real s ∈ (0,1),
+    Proof from `open_thm_universal_shadow_product`: for real s ∈ (0,1),
     (s-1/2)² > 0, so each factor 1 + (s-1/2)²/γ² > 1, so the product > 1.
-    Gap: requires `thm_universal_shadow_product`. -/
+    Gap: requires `open_thm_universal_shadow_product`. -/
 theorem open_thm_xi_minimum_at_half : True := trivial
 
 -- ============================================================
@@ -239,7 +247,7 @@ theorem open_cor_xi_geomean_inequality : True := trivial
     The coefficient matrix is a generalized Vandermonde — non-singular for distinct
     positive coupling values.
 
-    Gap: requires `thm_universal_shadow_product` + Taylor expansion. -/
+    Gap: requires `open_thm_universal_shadow_product` + Taylor expansion. -/
 theorem open_thm_spectral_moment_inversion : True := trivial
 
 /-- **cor:s2** (Toupin 2026, Corollary 6.6).
@@ -277,7 +285,7 @@ theorem open_cor_li_criterion : True := trivial
     - `coupling_numerator_nonzero`: a_{N,k} ≠ 0 for k≥1, N≥2
 
     Infrastructure part (6 axioms, all Hadamard-product gaps):
-    - `thm_universal_shadow_product`, `open_thm_hadamard_shadow`, `open_thm_shadow_euler`
+    - `open_thm_universal_shadow_product`, `open_thm_hadamard_shadow`, `open_thm_shadow_euler`
     - `open_cor_su3_master`, `open_thm_xi_minimum_at_half`
     - `open_thm_spectral_moment_inversion`, `open_cor_li_criterion`
 
