@@ -195,6 +195,9 @@ theorem open_thm_shadow_euler : True := trivial
     and k=1 is the fundamental Kac-Moody level.
     Gap: same as `open_thm_shadow_euler`. -/
 theorem open_cor_su3_master : True := trivial
+-- Superseded in the conditional direction by `su3_master_of_universal_product` below:
+-- given the universal product, this corollary is one evaluation at `a = 1/4`. The stub
+-- remains only for the *unconditional* claim, which still needs the Hadamard input.
 
 /-- **cor:critical-line** (Toupin 2026, Corollary 3.4).
     On the critical line s = 1/2 + it, the universal formula gives:
@@ -256,12 +259,44 @@ theorem open_thm_spectral_moment_inversion : True := trivial
     Gap: requires `open_thm_spectral_moment_inversion` + functional equation ξ'(1/2) = 0. -/
 theorem open_cor_s2_xi_derivative : True := trivial
 
-/-- **prop:ratio** (Toupin 2026, Proposition 6.8).
-    Unconditional ratio product identity:
-    `ξ(s₁)/ξ(s₂) = ∏_{γ > 0} (γ² + a₁²)/(γ² + a₂²)`
-    where aᵢ = |sᵢ - 1/2| and each sᵢ = kᵢNᵢ/(kᵢ+Nᵢ).
-    Gap: follows from `open_thm_shadow_euler` by division (unconditional). -/
-theorem open_prop_ratio_identity : True := trivial
+/-- **prop:ratio** (Toupin 2026, Proposition 6.8), as a *proved implication*.
+
+    `ξ(s₁)/ξ(s₂) = ∏_{γ > 0} (γ² + a₁²)/(γ² + a₂²)` where `aᵢ = |sᵢ - 1/2|`.
+
+    The stub this replaces recorded its own gap as "follows from
+    `open_thm_shadow_euler` by division (unconditional)" — i.e. the *only* missing
+    ingredient was the universal shadow product itself, and the step from it to the
+    ratio identity is arithmetic. That step is now proved, with the product supplied
+    as an explicit hypothesis `hP` rather than assumed globally.
+
+    This is the same move that retired twelve physics axioms in `Link6`/`DMAbundance`:
+    a claim that was being parked as a vacuous `True` becomes a real theorem whose
+    input is visible in its own signature. `P` is deliberately an arbitrary function —
+    nothing here presumes it *is* the Hadamard product, only that `ξ` normalised at
+    `1/2` agrees with it. Establishing that remains open
+    (`open_thm_universal_shadow_product`).
+
+    Note `P a₂ ≠ 0` is derived, not assumed: it follows from `ξ(1/2 + a₂) ≠ 0`. -/
+theorem ratio_identity_of_universal_product
+    {xi P : ℝ → ℝ} (hxi0 : xi (1/2) ≠ 0)
+    (hP : ∀ a : ℝ, xi (1/2 + a) / xi (1/2) = P a)
+    (a₁ a₂ : ℝ) (h₂ : xi (1/2 + a₂) ≠ 0) :
+    xi (1/2 + a₁) / xi (1/2 + a₂) = P a₁ / P a₂ := by
+  have e₁ : xi (1/2 + a₁) = P a₁ * xi (1/2) := by rw [← hP a₁]; field_simp
+  have e₂ : xi (1/2 + a₂) = P a₂ * xi (1/2) := by rw [← hP a₂]; field_simp
+  rw [e₁, e₂, mul_div_mul_right _ _ hxi0]
+
+/-- **cor:su3-master** (Toupin 2026), as a *proved implication*.
+
+    The SU(3) case `k = 1, N = 3` is the universal product evaluated at the shadow
+    coupling `a = 1/4`, which `shadow_coupling_su3` above proves is the correct
+    coupling for those indices. Given the product as a hypothesis, the corollary is
+    a single evaluation — which is exactly what the stub it replaces said its gap
+    was ("same as `open_thm_shadow_euler`"). -/
+theorem su3_master_of_universal_product
+    {xi P : ℝ → ℝ} (hP : ∀ a : ℝ, xi (1/2 + a) / xi (1/2) = P a) :
+    xi (1/2 + 1/4) / xi (1/2) = P (1/4) :=
+  hP (1/4)
 
 /-- **cor:li** (Toupin 2026, Corollary 6.9).
     Li's criterion via ξ-derivatives: under RH, the second Li coefficient is
