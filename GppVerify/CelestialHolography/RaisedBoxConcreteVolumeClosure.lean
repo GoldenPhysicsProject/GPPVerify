@@ -27,7 +27,12 @@ theorem simplexVolume_eq_one_sixth :
         (1 - x1) ^ 2 / 2 := by
     intro x1
     rw [intervalIntegral.integral_sub intervalIntegrable_const intervalIntegral.intervalIntegrable_id]
-    rw [intervalIntegral.integral_const, intervalIntegral.integral_id]
+    rw [intervalIntegral.integral_const]
+    have hid :
+        (∫ x2 : ℝ in (0 : ℝ)..(1 - x1), x2) = (1 - x1) ^ 2 / 2 := by
+      simpa using
+        (intervalIntegral.integral_pow (a := (0 : ℝ)) (b := 1 - x1) (n := 1))
+    rw [hid]
     ring
   simp_rw [hinner]
   have hpoly : ∀ x : ℝ,
@@ -37,7 +42,11 @@ theorem simplexVolume_eq_one_sixth :
   simp_rw [hpoly]
   rw [intervalIntegral.integral_add]
   · rw [intervalIntegral.integral_sub intervalIntegrable_const intervalIntegral.intervalIntegrable_id]
-    rw [intervalIntegral.integral_const, intervalIntegral.integral_id]
+    rw [intervalIntegral.integral_const]
+    have hid : (∫ x : ℝ in (0 : ℝ)..1, x) = (1 / 2 : ℝ) := by
+      simpa using
+        (intervalIntegral.integral_pow (a := (0 : ℝ)) (b := (1 : ℝ)) (n := 1))
+    rw [hid]
     rw [intervalIntegral.integral_div]
     rw [intervalIntegral.integral_pow]
     norm_num
