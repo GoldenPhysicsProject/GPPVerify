@@ -18,6 +18,17 @@ open MeasureTheory Filter Real
 open scoped Interval Topology
 open GppRaisedBoxConcreteMoment
 
+/-- The certified one-channel singular majorant is interval-integrable on every
+inner affine slice once `δ < 1`.  This removes the bound-integrability hypothesis
+from the eventual concrete DCT application. -/
+theorem inner_majorant_intervalIntegrable
+    {δ S x1 L : ℝ}
+    (hδ : δ < 1) (hS : 0 ≤ S) (hx1 : 0 ≤ x1) :
+    IntervalIntegrable
+      (fun x3 : ℝ => 1 + (S * x1 * x3) ^ (-δ : ℝ)) volume 0 L := by
+  exact intervalIntegral.intervalIntegrable_const.add
+    (GppRaisedBoxRealMajorantSlice.channel_inner_intervalIntegrable hδ hS hx1)
+
 /-- The Mathlib 4.33 interval dominated-convergence theorem specialized to one
 raised-box `x3` slice and the certified one-channel majorant.
 
@@ -50,4 +61,5 @@ theorem inner_integral_tendsto_of_ae_data
 
 end GppRaisedBoxInnerDCT
 
+#print axioms GppRaisedBoxInnerDCT.inner_majorant_intervalIntegrable
 #print axioms GppRaisedBoxInnerDCT.inner_integral_tendsto_of_ae_data
