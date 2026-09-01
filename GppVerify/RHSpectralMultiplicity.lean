@@ -267,6 +267,58 @@ theorem ordinate_ne_of_ne_of_atomWeightOne (h : AtomWeightOne)
     {r1 r2 : ℂ} (h1 : r1 ∈ stripZeros) (h2 : r2 ∈ stripZeros) (hne : r1 ≠ r2) :
     r1.im ≠ r2.im := fun him => hne (ordinate_injOn_of_atomWeightOne h h1 h2 him)
 
+/-! ### Analytic simplicity: statable and reducible, but **not** reachable
+
+`open_zero_simplicity`'s other half — each zero has order of vanishing exactly 1 — is stated
+here and reduced to a concrete non-vanishing condition. Neither is a proof of it.
+
+**Simplicity of the non-trivial zeros of ζ is an open problem in mathematics.** It is widely
+believed, and a positive proportion of zeros is known simple (Conrey–Ghosh–Gonek and
+successors), but the full statement is proved by no one. An earlier note in
+`RHProofStructure.lean` called it "a real future target rather than a wall" on the grounds
+that Mathlib has `analyticOrderAt`; that conflated *having the vocabulary to state a claim*
+with *being able to prove it*, and is corrected there.
+
+What follows is therefore infrastructure, not progress: it makes the claim expressible and
+converts it into the form any attack would have to attack. -/
+
+/-- **Analytic simplicity** of the critical-strip zeros: each has order of vanishing exactly
+    one. This is what "simple zero" means in the literature, and it is *open*. -/
+def SimpleStripZeros : Prop := ∀ r ∈ stripZeros, analyticOrderAt riemannZeta r = 1
+
+/-- ζ is analytic at every strip zero — the pole at `s = 1` is outside the open strip. -/
+private lemma zeta_analyticAt_of_strip {r : ℂ} (hr : r ∈ stripZeros) :
+    AnalyticAt ℂ riemannZeta r := by
+  have hne1 : r ≠ 1 := by
+    intro h; rw [h] at hr; exact absurd hr.2.2 (by norm_num)
+  exact analyticOn_riemannZeta r (by simpa using hne1)
+
+/-- **Simplicity is exactly non-vanishing of `ζ'` at the zeros.**
+
+    The useful direction is `←`: it turns a statement about orders of vanishing into a
+    concrete non-vanishing condition on a single derivative, which is the form the analytic
+    literature works in. The `→` direction is what makes it an equivalence rather than a
+    convenience: if `ζ` and `ζ'` both vanish at `r` then the order is at least 2. -/
+theorem simpleStripZeros_iff_deriv_ne_zero :
+    SimpleStripZeros ↔ ∀ r ∈ stripZeros, deriv riemannZeta r ≠ 0 := by
+  constructor
+  · intro h r hr hderiv
+    have hana := zeta_analyticAt_of_strip hr
+    have h1 : analyticOrderAt riemannZeta r = 1 := h r hr
+    have h2 : (2 : ℕ∞) ≤ analyticOrderAt riemannZeta r := by
+      have hiff := natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero (n := 2) hana
+      rw [show ((2 : ℕ) : ℕ∞) = (2 : ℕ∞) from rfl] at hiff
+      rw [hiff]
+      intro i hi
+      interval_cases i
+      · simpa using hr.1
+      · simpa using hderiv
+    rw [h1] at h2
+    norm_num at h2
+  · intro h r hr
+    exact (zeta_analyticAt_of_strip hr).analyticOrderAt_eq_one_of_zero_deriv_ne_zero
+      hr.1 (h r hr)
+
 /-- K = A¹/Q* is compact. (Tate 1950) -/
 theorem open_K_compact : True := by
   -- Placeholder: Full formalization requires Fujisaki's lemma / adelic topology in Mathlib.
