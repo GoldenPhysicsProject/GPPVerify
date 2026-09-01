@@ -1,5 +1,5 @@
 import GppVerify.CelestialHolography.RaisedBoxConcreteMoment
-import Mathlib.Analysis.SpecialFunctions.Integrals
+import Mathlib.Analysis.SpecialFunctions.Integrals.Basic
 import Mathlib.Tactic
 
 /-!
