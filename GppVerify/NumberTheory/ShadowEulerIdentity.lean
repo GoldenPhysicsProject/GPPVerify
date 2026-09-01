@@ -313,6 +313,86 @@ theorem xi_gt_at_half_of_shadow_prod {xi : ℝ → ℝ} {ι : Type*} [DecidableE
     Gap: requires differentiability + absolute convergence of ∑ 1/γ² (not in Mathlib). -/
 theorem open_thm_logconcave : True := trivial
 
+/-! ### The log-concavity derivatives, proved
+
+The docstring above writes down `φ'` and `φ''` explicitly. Both are proved below for the
+finite truncation, together with the strict decrease of `φ'` — which *is* the concavity, and
+is what the corollaries downstream actually consume.
+
+Under the universal product, `ξ(1/2 + √u)/ξ(1/2) = ∏ (1 + u/γ²)`, so
+`φ(u) = ∑ log(1 + u/γ²)`. That substitution is the only place the (open) product formula
+enters; everything below is calculus on the sum, with the sum taken as the definition. -/
+
+/-- `φ_S(u) = ∑_{j ∈ S} log(1 + u/γ_j²)`, the finite truncation of
+    `log(ξ(1/2 + √u)/ξ(1/2))`. -/
+noncomputable def shadowLogSum {ι : Type*} (S : Finset ι) (g : ι → ℝ) (u : ℝ) : ℝ :=
+  ∑ j ∈ S, Real.log (1 + u / (g j) ^ 2)
+
+/-- **`φ'(u) = ∑ 1/(γ² + u)`** — the first derivative claimed in the docstring above. -/
+lemma hasDerivAt_shadowLogSum {ι : Type*} (S : Finset ι) (g : ι → ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) {u : ℝ} (hu : 0 ≤ u) :
+    HasDerivAt (shadowLogSum S g) (∑ j ∈ S, 1 / ((g j) ^ 2 + u)) u := by
+  have step : ∀ j ∈ S,
+      HasDerivAt (fun v => Real.log (1 + v / (g j) ^ 2)) (1 / ((g j) ^ 2 + u)) u := by
+    intro j hj
+    have hne : g j ≠ 0 := hg j hj
+    have hgj : (0:ℝ) < (g j) ^ 2 := by positivity
+    have hpos : (0:ℝ) < 1 + u / (g j) ^ 2 := by positivity
+    have h1 : HasDerivAt (fun v : ℝ => 1 + v / (g j) ^ 2) (1 / (g j) ^ 2) u := by
+      simpa using ((hasDerivAt_id u).div_const ((g j) ^ 2)).const_add 1
+    exact (h1.log hpos.ne').congr_deriv (by field_simp)
+  have key := HasDerivAt.sum step
+  -- Mathlib 4.33: `HasDerivAt.sum` returns the point-free `∑ j ∈ S, fun v => …`.
+  -- Rewrite the function to the pointwise form before matching the goal.
+  have hfun : (∑ j ∈ S, fun v : ℝ => Real.log (1 + v / (g j) ^ 2)) = shadowLogSum S g := by
+    funext v; simp [shadowLogSum, Finset.sum_apply]
+  rw [hfun] at key
+  simpa using key
+
+/-- **`φ''(u) = -∑ 1/(γ² + u)²`** — the second derivative claimed in the docstring above,
+    manifestly negative term by term. -/
+lemma hasDerivAt_shadowLogSum_deriv {ι : Type*} (S : Finset ι) (g : ι → ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) {u : ℝ} (hu : 0 ≤ u) :
+    HasDerivAt (fun v => ∑ j ∈ S, 1 / ((g j) ^ 2 + v))
+      (∑ j ∈ S, -(1 / ((g j) ^ 2 + u) ^ 2)) u := by
+  have step : ∀ j ∈ S,
+      HasDerivAt (fun v => 1 / ((g j) ^ 2 + v)) (-(1 / ((g j) ^ 2 + u) ^ 2)) u := by
+    intro j hj
+    have hne : g j ≠ 0 := hg j hj
+    have hgj : (0:ℝ) < (g j) ^ 2 := by positivity
+    have hpos : (0:ℝ) < (g j) ^ 2 + u := by linarith
+    have h1 : HasDerivAt (fun v : ℝ => (g j) ^ 2 + v) 1 u := by
+      simpa using (hasDerivAt_id u).const_add ((g j) ^ 2)
+    -- 4.33 recipe: pin the Pi-lifting with an explicit `have` so it resolves by defeq,
+    -- then convert `1/x` ↔ `x⁻¹` on both the function and the derivative value.
+    have h2 : HasDerivAt (fun v : ℝ => ((g j) ^ 2 + v)⁻¹) (-1 / ((g j) ^ 2 + u) ^ 2) u :=
+      h1.inv hpos.ne'
+    simpa [neg_div, one_div] using h2
+  have key := HasDerivAt.sum step
+  have hfun : (∑ j ∈ S, fun v : ℝ => 1 / ((g j) ^ 2 + v))
+      = fun v => ∑ j ∈ S, 1 / ((g j) ^ 2 + v) := by
+    funext v; simp [Finset.sum_apply]
+  rw [hfun] at key
+  exact key
+
+/-- **The concavity itself:** `φ'` is strictly decreasing on `u ≥ 0`.
+
+    This is what the downstream corollaries (`open_cor_xi_geomean_inequality`) consume, and
+    it is stated separately from `φ''` because it needs no differentiability argument — each
+    term `1/(γ² + u)` is strictly decreasing outright, so the sum is as soon as `S` is
+    nonempty. -/
+lemma shadowLogSum_deriv_strictAntiOn {ι : Type*} (S : Finset ι) (g : ι → ℝ)
+    (hg : ∀ j ∈ S, g j ≠ 0) (hS : S.Nonempty) :
+    StrictAntiOn (fun u => ∑ j ∈ S, 1 / ((g j) ^ 2 + u)) (Set.Ici (0:ℝ)) := by
+  intro a ha b hb hab
+  refine Finset.sum_lt_sum_of_nonempty hS ?_
+  intro j hj
+  have hne : g j ≠ 0 := hg j hj
+  have hgj : (0:ℝ) < (g j) ^ 2 := by positivity
+  have h0 : (0:ℝ) ≤ a := ha
+  have hpa : (0:ℝ) < (g j) ^ 2 + a := by linarith
+  exact one_div_lt_one_div_of_lt hpa (by linarith)
+
 /-- **cor:geomean** (Toupin 2026, Corollary 6.3).
     ξ-geometric-mean inequality:
     `ξ(1/2 + a)² ≥ ξ(1/2 + b) · ξ(1/2 + c)` when `a = √((b²+c²)/2)`.
