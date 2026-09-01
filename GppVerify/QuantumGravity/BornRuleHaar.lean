@@ -5,7 +5,7 @@ import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
 # Born Rule from Haar Measure (lem:born-rule-haar, cited 11×)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `lem:born-rule-haar` (ONON52, cited 11×):
 *The Born rule probability measure P(A) = |⟨ψ|A|ψ⟩| / ‖ψ‖² arises canonically
@@ -71,7 +71,9 @@ theorem open_born_from_haar : True := trivial
 
 /-- Uniqueness: the Born rule is the unique probability measure on projective
     Hilbert space invariant under U(H).
-    Gap: Gleason's theorem not in Mathlib 4.19.0. -/
+    Gap: Gleason's theorem re-verified absent in Mathlib 4.33.1 (2026-09-01).
+    Grep trap: `grep Gleason` returns 3 files, all his *topology* result on projective /
+    extremally disconnected spaces. Different theorem, same surname. -/
 theorem open_gleason_uniqueness : True := trivial
 
 -- ============================================================

@@ -6,7 +6,7 @@ import Mathlib.FieldTheory.Finiteness
 # Three Fermion Generations from Division Algebra Tower (cor:three-generations-anomaly)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `cor:three-generations-anomaly` (ONON52, cited 12×):
 *The Cayley-Dickson doubling tower ℝ → ℂ → ℍ → 𝕆 yields exactly 3 generations
@@ -101,7 +101,7 @@ theorem open_three_roots_match_three_doublings : True := trivial
     `cdStages_card`, `exactly_three_doublings`, `nda_dimensions_image`,
     `sedenion_dim_outside_nda_set`.
 
-    **On the gap itself.** Mathlib 4.19.0 has the *complex* Gelfand–Mazur theorem
+    **On the gap itself.** Mathlib 4.33.1 still has only the *complex* Gelfand–Mazur theorem
     (`NormedRing.algEquivComplexOfComplete`, `Analysis/Normed/Algebra/Spectrum.lean`) but
     not the real classification, so this is genuinely unprovable at the pinned version.
     Note also that Mathlib's `NormedDivisionRing` extends `DivisionRing` and is therefore

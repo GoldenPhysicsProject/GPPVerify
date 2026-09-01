@@ -9,7 +9,7 @@ import GppVerify.HaarSelfDuality
 
 ## Golden Physics Project — Shadow Framework Formalization
 ## RH Pathway 2 (Spectral/Meyer) — Foundation Layer
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes the Haar measure infrastructure for the idèle class
 group A×/Q× required for Riemann Hypothesis Pathway 2.
@@ -111,8 +111,20 @@ theorem adelic_haar_self_dual
     (1) the product formula ‖x‖_∞ · ∏_p ‖x‖_p = 1 for x ∈ Q×;
     (2) finiteness of the class group of Q (trivial for Q, needed for general K);
     (3) compactness of ∏_p Z_p× in the restricted-product topology.
-    Mathlib 4.19.0 has no adèle ring of Q with its restricted-product topology, so the
-    statement cannot even be *phrased* here, let alone proved.
+    **The gap moved at 4.33.1, and the old wording is now actively misleading.** It
+    read: "Mathlib 4.19.0 has no adèle ring of Q with its restricted-product topology, so
+    the statement cannot even be *phrased* here, let alone proved." The first clause is no
+    longer true — `NumberTheory/NumberField/AdeleRing.lean` now defines `AdeleRing R K` as
+    a restricted product, at full Dedekind generality, with `algebraMap_injective` and
+    `principalSubgroup`. A reader checking "does Mathlib have adeles?" now gets *yes* and
+    could reasonably conclude this stub is closable.
+
+    It is not. Verified 2026-09-01 against 4.33.1: there is **no compactness result of any
+    kind** in that file — no `CompactSpace`, no `IsCompact` — and no idèle group at all
+    (`idele` appears only in three restricted-product docstring keyword lists). So the
+    ring can now be phrased; `A×`, the norm-1 subgroup, the quotient by `Q×`, and its
+    compactness all still have to be built. Naming a *module* as the gap was always the
+    wrong granularity; name the missing theorem instead.
 
     **Why this is now a stub (2026-08-31).** It previously read
 
@@ -143,7 +155,7 @@ theorem open_adelic_quotient_compact_factor : True := trivial
 
     OPEN: requires K¹ to be an actual compact group (see
     `open_adelic_quotient_compact_factor`). Once that is a real statement, this
-    follows from Peter–Weyl (not yet in Mathlib 4.19.0).
+    follows from Peter–Weyl (re-verified absent in Mathlib 4.33.1, 2026-09-01: zero hits).
 
     ONON52: Theorem thm:peter-weyl-compact, L16592.
     Reference: Hewitt-Ross, Abstract Harmonic Analysis, Vol. I, §27. -/

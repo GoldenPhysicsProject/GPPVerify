@@ -7,7 +7,7 @@ open scoped ComplexOrder Matrix
 # Proposition 2.2, complete: the transpose map on M_2(ℂ) is not completely positive
 
 ## Golden Physics Project — GPPVerify
-## Lean 4 | Mathlib v4.19.0
+## Lean 4 | Mathlib v4.33.1
 
 This file connects the two general/specific pieces built elsewhere in this session:
 

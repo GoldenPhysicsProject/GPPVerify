@@ -9,7 +9,7 @@ open scoped ComplexOrder Matrix
 # Complete positivity and the Choi matrix, in general
 
 ## Golden Physics Project — GPPVerify
-## Lean 4 | Mathlib v4.19.0
+## Lean 4 | Mathlib v4.33.1
 
 This file builds the general-purpose infrastructure needed to state and use Choi's
 theorem for an *arbitrary* finite-dimensional linear map `Φ : Matrix n n ℂ →ₗ[ℂ] Matrix n n ℂ`,

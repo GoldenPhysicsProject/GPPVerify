@@ -5,7 +5,7 @@ import Mathlib.Analysis.Complex.CauchyIntegral
 # Shadow Discontinuity = Loop Integrand (thm:shadow-discontinuity, cited 10×)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `thm:shadow-discontinuity` (ONON52, cited 10×):
 *The discontinuity of a celestial amplitude across the shadow cut z → z̄

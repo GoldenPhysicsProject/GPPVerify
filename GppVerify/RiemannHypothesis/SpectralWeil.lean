@@ -5,7 +5,7 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 # Spectral Weil Identity (thm:spectral-weil, cited 10×)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `thm:spectral-weil` (ONON52, cited 10×):
 *The zeros of ζ(s) correspond to eigenvalues of the adelic shadow operator,
@@ -91,7 +91,7 @@ lemma open_spectral_sum_fe_symmetric : True := trivial
 -- ============================================================
 
 /-- Weil explicit formula: Σ_ρ h(ρ) = geometric terms.
-    Gap: not in Mathlib 4.19.0. Reference: Weil (1952), Bombieri (2000). -/
+    Gap: re-verified absent in Mathlib 4.33.1 (2026-09-01). Reference: Weil (1952), Bombieri (2000). -/
 theorem open_weil_explicit_formula : True := trivial
 
 /-- Meyer spectral-Weil identity: zeros of ζ = eigenvalues of adelic shadow operator.

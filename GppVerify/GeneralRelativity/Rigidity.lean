@@ -5,7 +5,7 @@ import GppVerify.CelestialHolography.Link6
 # Rigidity Theorem: Einstein Equations from Shadow Symmetry (thm:rigidity, cited 10×)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `thm:rigidity` (ONON52, cited 10×):
 *The Einstein field equations G_{μν} = 8πG T_{μν} are uniquely determined by:
@@ -60,7 +60,8 @@ lemma open_lovelock_uniqueness_algebraic : True := trivial
 
 /-- Lovelock (1971): in d=4, G_{μν} + Λg_{μν} is the unique divergence-free
     symmetric tensor from g_{μν} at most second order in derivatives.
-    Gap: differential geometry infrastructure not in Mathlib 4.19.0. -/
+    Gap: differential geometry infrastructure re-verified absent in Mathlib 4.33.1
+    (2026-09-01: no Ricci curvature anywhere in the tree). -/
 theorem open_lovelock_theorem : True := trivial
 
 /-- Shadow symmetry forces graviton propagator to be 1/k² (massless, spin 2).

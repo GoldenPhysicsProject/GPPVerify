@@ -6,7 +6,7 @@ import GppVerify.RiemannHypothesis.FunctionalEquation
 
 ## Golden Physics Project — Shadow Framework Formalization
 ## Most-cited result: 16× cross-referenced in ONON52
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes Theorem `thm:shadow-cpt` (ONON52 L666):
 *Shadow symmetry Δ ↔ 2-Δ is time reversal T.*

@@ -14,7 +14,7 @@ Source: twistor_googly_dtoupin_v81.tex
 - Betti numbers of Gr(2,4): (1,0,1,0,2,0,1,0,1)
 - Schubert cell count: 6 cells
 
-### Axioms (twistor geometry not in Mathlib 4.19.0):
+### Axioms (twistor geometry; re-verified absent in Mathlib 4.33.1, 2026-09-01):
 - Penrose-Ward correspondence
 - Googly cohomology H¹(PT, O(-4))
 - ASD/SD sector decomposition
@@ -56,7 +56,9 @@ theorem open_penrose_ward_transform : True := trivial
 /-- ASD sector: H¹(PT, O(-4)) = space of ASD Yang-Mills fields -/
 theorem open_asd_cohomology : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, prop:cohomology
--- MATHLIB GAP: Sheaf cohomology on complex manifolds not in Mathlib 4.19.0.
+-- MATHLIB GAP: Sheaf cohomology on complex manifolds re-verified absent in 4.33.1.
+-- Partial grep trap: `SheafCohomology` DOES now return 2 files, but both are
+-- site-theoretic (CategoryTheory/Sites, AlgebraicGeometry étale). Nothing Dolbeault.
 
 /-- SD sector: H¹(PT*, O(-4)) = space of SD Yang-Mills fields (googly space) -/
 theorem open_sd_cohomology : True := trivial

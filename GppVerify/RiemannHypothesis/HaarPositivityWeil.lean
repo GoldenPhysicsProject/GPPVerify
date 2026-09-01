@@ -285,7 +285,7 @@ theorem finiteHaarProjection_isSelfAdjoint
 theorem open_peter_weyl_decomposition : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:peter-weyl
 -- L²(G) = ⊕_{π∈Ĝ} V_π ⊗ V_π*, with each irrep appearing dim(V_π) times.
--- MATHLIB GAP: Peter-Weyl in Mathlib 4.19.0 is partial; not sufficient here.
+-- MATHLIB GAP: Peter-Weyl re-verified absent in Mathlib 4.33.1 (2026-09-01): zero hits.
 
 /-! ## Logical status -/
 

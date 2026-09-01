@@ -5,7 +5,7 @@ import Mathlib.MeasureTheory.Measure.Haar.Basic
 # Adèlic L² Regularization (lem:adelic-l2-regularization, cited 14×)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file formalizes `lem:adelic-l2-regularization` (ONON52, second-most-cited, 14×):
 *The L²(A×/Q×) spectral decomposition is well-defined after Haar regularization,
@@ -36,7 +36,7 @@ open MeasureTheory
 
 /-- For a compact group, finite Haar measure ensures L² ⊇ L∞.
     Proof: ‖f‖ ≤ 1 a.e. → ‖f‖² ≤ 1 a.e. → ∫‖f‖² ≤ μ(univ).
-    Gap in Mathlib 4.19.0: `integral_mono` with explicit integrability
+    Gap re-verified in Mathlib 4.33.1 (2026-09-01): `integral_mono` with explicit integrability
     requires `integral_le_measure_mul_nnorm_of_ae_le` which is absent. -/
 lemma l_infty_subset_l2_compact {α : Type*} [MeasurableSpace α]
     (μ : Measure α) [IsFiniteMeasure μ] (f : α → ℂ)

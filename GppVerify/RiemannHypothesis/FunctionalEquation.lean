@@ -9,7 +9,7 @@ import GppVerify.RiemannHypothesis.HaarMeasure
 
 ## Golden Physics Project — Shadow Framework Formalization
 ## RH Pathway 2 (Spectral/Meyer) — Functional Equation Layer
-## Lean 4 / Mathlib v4.19.0
+## Lean 4 / Mathlib v4.33.1
 
 This file derives the functional equation of the completed Riemann zeta
 function from the Haar self-duality proved in HaarMeasure.lean.
