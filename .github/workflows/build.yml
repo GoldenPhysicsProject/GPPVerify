@@ -13,6 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install elan
         run: |
@@ -41,6 +43,26 @@ jobs:
 
       - name: Build
         run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
+
+      - name: Compile every changed Lean module
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${{ github.base_ref }}" --quiet
+          mapfile -t FILES < <(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- 'GppVerify/**/*.lean')
+          if ((${#FILES[@]} == 0)); then
+            echo 'No changed Lean modules outside the root build.'
+            exit 0
+          fi
+          printf 'Changed Lean modules to compile explicitly:\n%s\n' "${FILES[*]}"
+          for file in "${FILES[@]}"; do
+            [[ -f "$file" ]] || continue
+            module="${file%.lean}"
+            module="${module//\//.}"
+            echo "=== $module ==="
+            lake build "$module"
+          done
 
       - name: Sorry gate, source-level (FAILS the build)
         # Runs FIRST of the two sorry checks, and is the one that must not be removed:
