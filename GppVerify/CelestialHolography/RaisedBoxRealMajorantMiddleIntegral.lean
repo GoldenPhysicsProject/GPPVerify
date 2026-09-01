@@ -22,10 +22,10 @@ theorem integral_affine_post_inner
     {δ L : ℝ} (hδ : δ < 2) :
     (∫ x : ℝ in 0..L, (L - x) ^ (1 - δ : ℝ)) =
       L ^ (2 - δ : ℝ) / (2 - δ) := by
-  rw [integral_comp_sub_right (fun y : ℝ => y ^ (1 - δ : ℝ))]
+  rw [intervalIntegral.integral_comp_sub_right (fun y : ℝ => y ^ (1 - δ : ℝ))]
   simp only [sub_self, sub_zero]
   have hr : -1 < 1 - δ := by linarith
-  rw [integral_rpow (Or.inl hr)]
+  rw [intervalIntegral.integral_rpow (Or.inl hr)]
   have hp : 0 < 2 - δ := sub_pos.mpr hδ
   have hexp : 1 - δ + 1 = 2 - δ := by ring
   rw [hexp]
