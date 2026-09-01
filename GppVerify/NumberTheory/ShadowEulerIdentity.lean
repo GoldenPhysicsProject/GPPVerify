@@ -158,13 +158,69 @@ lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by native_decide
     `ξ(s)/ξ(1/2) = ∏_{γ_ρ > 0} (1 + (s - 1/2)²/γ_ρ²)`
     where {γ_ρ} are the positive imaginary parts of the nontrivial Riemann zeros.
 
-    Gap: Requires the Hadamard product theorem for the completed zeta function ξ,
-    together with the functional equation ξ(s) = ξ(1-s).
-    The RH-consistent form uses ρ(1-ρ) = 1/4 + γ_ρ² (exact under RH).
-    Re-verified absent in Mathlib 4.33.1 (2026-09-01).
+    **Gap, restated 2026-09-01. The real obstruction is RH itself, not Hadamard.**
+
+    The previous wording read: "Gap: Requires the Hadamard product theorem for the completed
+    zeta function ξ, together with the functional equation ξ(s) = ξ(1-s). The RH-consistent
+    form uses ρ(1-ρ) = 1/4 + γ_ρ² (exact under RH)."
+
+    Both named obstructions — Hadamard, and the functional equation — are *known theorems*
+    merely absent from Mathlib, so the statement read as a library gap that formalization
+    effort would eventually close. It is not. The parenthetical carried the whole weight:
+    the parametrisation `ρ(1-ρ) = 1/4 + γ²` is **equivalent to `Re ρ = 1/2`**, proved below
+    as `rho_one_sub_rho_eq_iff_critical`. Indexing the product over positive ordinates `γ`
+    with those factors therefore *presumes RH for every zero*.
+
+    So formalising Hadamard would not deliver this theorem. **This stub is blocked on the
+    Riemann Hypothesis**, and everything downstream that says "same gap as
+    `open_thm_universal_shadow_product`" inherits that — `open_thm_hadamard_shadow`,
+    `open_thm_shadow_euler`, `open_cor_su3_master`, `open_cor_critical_line_product`,
+    `open_thm_xi_minimum_at_half`, `open_thm_logconcave`, `open_cor_xi_geomean_inequality`.
+
+    **This does not affect the conditional theorems proved in this file.** They take the
+    product formula as an explicit *hypothesis* over an arbitrary ordinate family and never
+    assert it. What it does change is how they should be read: their hypothesis is
+    RH-strength, so they establish "given something equivalent to RH, X follows" — not
+    "given a missing library primitive, X follows".
 
     Reference: Davenport, *Multiplicative Number Theory* (2000), Ch. 12. -/
 theorem open_thm_universal_shadow_product : ∀ (_ : ℂ), True := fun _ => trivial
+
+/-! ### Why the universal product is RH-conditional
+
+The claim above is indexed over ordinates `γ` with factors `1 + (s-1/2)²/γ²`. That shape
+comes from writing `ρ(1-ρ) = 1/4 + γ²`, which the docstring calls "exact under RH". It is
+worth making precise how much that parenthetical is carrying, because it is the difference
+between a library gap and an open problem. -/
+
+/-- For `ρ = b + ig`, `ρ(1-ρ) = b(1-b) + g² + i·g(1-2b)`. -/
+lemma rho_one_sub_rho (b g : ℝ) :
+    (⟨b, g⟩ : ℂ) * (1 - ⟨b, g⟩) = ⟨b * (1 - b) + g ^ 2, g * (1 - 2 * b)⟩ := by
+  apply Complex.ext <;>
+    simp [Complex.mul_re, Complex.mul_im, Complex.sub_re, Complex.sub_im] <;> ring
+
+/-- **The universal product's parametrisation is exactly the critical line.**
+
+    `ρ(1-ρ) = 1/4 + γ²` holds **iff** `Re ρ = 1/2`. The real part alone forces it:
+    `b(1-b) = 1/4 ⟺ (b - 1/2)² = 0`.
+
+    So the "(exact under RH)" remark in the docstring above is not a technical aside — it is
+    the entire obstruction. A proof of the Hadamard product theorem would leave this
+    statement exactly as far away as it is now. -/
+theorem rho_one_sub_rho_eq_iff_critical (b g : ℝ) :
+    (⟨b, g⟩ : ℂ) * (1 - ⟨b, g⟩) = (⟨1 / 4 + g ^ 2, 0⟩ : ℂ) ↔ b = 1 / 2 := by
+  rw [rho_one_sub_rho]
+  constructor
+  · intro h
+    have hre : b * (1 - b) + g ^ 2 = 1 / 4 + g ^ 2 := congrArg Complex.re h
+    nlinarith [sq_nonneg (b - 1/2)]
+  · intro h
+    subst h
+    apply Complex.ext
+    · show 1 / 2 * (1 - 1 / 2) + g ^ 2 = 1 / 4 + g ^ 2
+      ring
+    · show g * (1 - 2 * (1 / 2)) = 0
+      ring
 
 /-- **thm:hadamard-shadow** (Toupin 2026, Theorem 3.5).
     Normalized shadow product in the Δ variable:
