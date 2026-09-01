@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: ["main"]
 
+concurrency:
+  group: verify-build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: lake build
@@ -13,6 +17,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install elan
         run: |
@@ -41,6 +47,26 @@ jobs:
 
       - name: Build
         run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
+
+      - name: Compile every changed Lean module
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${{ github.base_ref }}" --quiet
+          mapfile -t FILES < <(git diff --name-only "origin/${{ github.base_ref }}"...HEAD -- 'GppVerify/**/*.lean')
+          if ((${#FILES[@]} == 0)); then
+            echo 'No changed Lean modules outside the root build.'
+            exit 0
+          fi
+          printf 'Changed Lean modules to compile explicitly:\n%s\n' "${FILES[*]}"
+          for file in "${FILES[@]}"; do
+            [[ -f "$file" ]] || continue
+            module="${file%.lean}"
+            module="${module//\//.}"
+            echo "=== $module ==="
+            lake build "$module"
+          done
 
       - name: Import-graph gate (FAILS the build)
         # Runs BEFORE the sorry gates on purpose. `lake build GppVerify` only compiles what
@@ -99,7 +125,7 @@ jobs:
           echo "Total stubs: $TOTAL"
           echo "--- per file ---"
           grep -rc ": True := trivial" GppVerify/ --include="*.lean" \
-            | grep -v ':0$' | sort -t: -k2 -rn
+            | grep -v ':0$' | sort -t: -k2 -rn || true
           echo
           echo "NOTE: a file can report 0 sorries and 0 axioms and still be mostly stubs."
           echo "Quote all three numbers (sorry / axiom / stub) in any status claim."
