@@ -5,10 +5,11 @@ import Mathlib.MeasureTheory.Integral.DominatedConvergence
 /-!
 # Raised-box inner dominated-convergence layer
 
-This file isolates the exact Mathlib 4.33 interval-DCT interface needed for the
-innermost `x3` slice of the concrete raised-box moment.  It deliberately does
-not claim the full simplex limit: packaging the fixed-regulator majorization
-into an eventual statement on `𝓝[>] 0` remains before the inner DCT closes.
+This file closes the innermost `x3` dominated-convergence layer of the concrete
+raised-box moment.  For a genuine nonnegative affine simplex slice it proves
+that the physical inner integral tends to the slice length as the regulator
+tends to zero from the right.  This is one layer of the nested proof, not the
+full three-simplex limit.
 -/
 
 namespace GppRaisedBoxInnerDCT
@@ -88,7 +89,7 @@ theorem ae_inner_integrand_tendsto_one
     hS hT hx1 hx2 hLdef hL hx3mem
 
 /-- Fixed-regulator domination on a genuine inner simplex slice.  This is the
-pointwise inequality needed by DCT, now including the real norm rather than only
+pointwise inequality needed by DCT, including the real norm rather than only
 the unsigned integrand. -/
 theorem inner_integrand_norm_le_majorant
     {ε δ S T x1 x2 L x3 : ℝ}
@@ -115,6 +116,25 @@ theorem inner_integrand_norm_le_majorant
   exact integrand_le_one_channel_majorant
     hS hT hx1 hx2 hx3 hxsum hε0 hεδ hδ
 
+/-- The fixed-regulator inequality becomes an eventual DCT domination statement
+because the right-neighborhood filter eventually has `0 < ε < δ`. -/
+theorem eventually_inner_integrand_norm_le_majorant
+    {δ S T x1 x2 L : ℝ}
+    (hδ : 0 < δ) (hS : 0 < S) (hT : 0 < T)
+    (hx1 : 0 < x1) (hx2 : 0 ≤ x2)
+    (hLdef : L = 1 - x1 - x2) (hL : 0 ≤ L) :
+    ∀ᶠ ε : ℝ in 𝓝[>] 0,
+      ∀ᵐ x3 : ℝ ∂volume, x3 ∈ Ι (0 : ℝ) L →
+        ‖integrand ε S T x1 x2 x3‖ ≤
+          1 + (S * x1 * x3) ^ (-δ : ℝ) := by
+  have hε : ∀ᶠ ε : ℝ in 𝓝[>] 0, 0 < ε ∧ ε < δ :=
+    (nhdsGT_basis 0).mem_of_mem hδ
+  filter_upwards [hε] with ε hε
+  filter_upwards with x3
+  intro hx3mem
+  exact inner_integrand_norm_le_majorant
+    hS hT hx1 hx2 hLdef hL hx3mem hε.1.le hε.2.le hδ
+
 /-- The Mathlib 4.33 interval dominated-convergence theorem specialized to one
 raised-box `x3` slice and the certified one-channel majorant. -/
 theorem inner_integral_tendsto_of_domination
@@ -137,6 +157,23 @@ theorem inner_integral_tendsto_of_domination
     (eventually_inner_integrand_aestronglyMeasurable S T x1 x2 L)
     hdom hbound hlim
 
+/-- Complete inner-slice DCT: for `0 < δ < 1`, the physical `x3` integral tends
+to the affine slice length `L = 1 - x1 - x2` as `ε → 0⁺`. -/
+theorem inner_integral_tendsto_slice_length
+    {δ S T x1 x2 L : ℝ}
+    (hδ0 : 0 < δ) (hδ1 : δ < 1)
+    (hS : 0 < S) (hT : 0 < T)
+    (hx1 : 0 < x1) (hx2 : 0 ≤ x2)
+    (hLdef : L = 1 - x1 - x2) (hL : 0 ≤ L) :
+    Tendsto
+      (fun ε : ℝ => ∫ x3 in (0 : ℝ)..L, integrand ε S T x1 x2 x3)
+      (𝓝[>] 0) (𝓝 L) := by
+  have h := inner_integral_tendsto_of_domination
+    (inner_majorant_intervalIntegrable hδ1 hS.le hx1.le hL)
+    (eventually_inner_integrand_norm_le_majorant hδ0 hS hT hx1 hx2 hLdef hL)
+    (ae_inner_integrand_tendsto_one hS hT.le hx1 hx2 hLdef hL)
+  simpa [intervalIntegral.integral_const] using h
+
 end GppRaisedBoxInnerDCT
 
 #print axioms GppRaisedBoxInnerDCT.inner_majorant_intervalIntegrable
@@ -145,4 +182,6 @@ end GppRaisedBoxInnerDCT
 #print axioms GppRaisedBoxInnerDCT.inner_integrand_tendsto_one_on_interval
 #print axioms GppRaisedBoxInnerDCT.ae_inner_integrand_tendsto_one
 #print axioms GppRaisedBoxInnerDCT.inner_integrand_norm_le_majorant
+#print axioms GppRaisedBoxInnerDCT.eventually_inner_integrand_norm_le_majorant
 #print axioms GppRaisedBoxInnerDCT.inner_integral_tendsto_of_domination
+#print axioms GppRaisedBoxInnerDCT.inner_integral_tendsto_slice_length
