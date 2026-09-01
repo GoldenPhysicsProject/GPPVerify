@@ -86,8 +86,9 @@ without it is open, and the surrounding text says what is missing.
 Three categories are tracked separately and never conflated:
 \begin{itemize}
   \item \texttt{sorry} --- \textbf{zero}, and CI fails the build if any appears.
-  \item custom \texttt{axiom} --- \textbf{one} (\texttt{exp\_growth\_not\_tempered}),
-    down from thirteen. It is blocked on a genuine Mathlib gap, not on effort.
+  \item custom \texttt{axiom} --- \textbf{zero}, down from thirteen. The last one,
+    \texttt{exp\_growth\_not\_tempered}, was proved on 2026-08-31 once the move to
+    Mathlib 4.33 made a concrete nonzero Schwartz witness constructible.
   \item \texttt{True}-stubs --- open results deliberately parked. Every one is named
     \texttt{open\_}\ldots, and CI rejects any that is not. A file full of stubs still
     reports ``0 sorry, 0 axiom'', so the prefix is what keeps that honest.
@@ -3931,14 +3932,35 @@ hypothesis on the theorems that consume it.
 
 \section{Mathlib-Gap Axioms}
 
-Provable in principle; blocked only by content absent from Mathlib at the pinned commit,
-not by any open mathematical or physical question.
+\textbf{There are none. As of 2026-08-31 this repository contains zero custom axioms.}
 
-\begin{enumerate}
-  \item \texttt{exp\_growth\_not\_tempered} --- $e^{au}$ ($a\neq0$) is not a tempered
-        distribution. \textbf{The one remaining custom axiom in the repository.}
-        \hfill \texttt{RHSpectralMultiplicity.lean}
-\end{enumerate}
+The last one, \texttt{exp\_growth\_not\_tempered} --- $e^{au}$ ($a\neq0$) is not a tempered
+distribution --- is now \emph{proved}:
+\lean{ExpNotTempered.exp_growth_not_tempered}\leanok\
+\texttt{RiemannHypothesis/ExpNotTempered.lean}. Its only dependencies are
+\texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}, the three axioms of
+Lean itself.
+
+The argument: fix a bump $b$, smooth and supported in the unit ball, and set
+\[
+  \psi_n \;=\; e^{-|a|n}\, b(\,\cdot - t_n\,), \qquad t_n = \operatorname{sign}(a)\cdot n,
+\]
+so that $a\,t_n = |a|\,n$ whichever sign $a$ has. Two facts then collide. First
+$\psi_n \to 0$ in $\mathcal{S}(\mathbb{R},\mathbb{C})$: shifting the bump costs only
+polynomial growth in each Schwartz seminorm, $(|t_n|+1)^k$, while the scalar decays
+exponentially --- so continuity of $T$ forces $T\psi_n \to T0 = 0$. Second, $T\psi_n$ does
+not depend on $n$ at all: translating the bump multiplies the weighted integral by exactly
+$e^{a t_n} = e^{|a|n}$, which is what the scalar was chosen to cancel, leaving
+$T\psi_n = \int e^{av}b(v)\,dv$ for every $n$. A constant sequence converging to $0$ is
+$0$, contradicting the positivity of that integral.
+
+\medskip
+\noindent\textbf{This was not possible before the Mathlib 4.33 upgrade.}
+\texttt{HasCompactSupport.toSchwartzMap} is the entry point for every construction in that
+file and does not exist in Mathlib 4.19.0 --- the Schwartz space was available with no way
+to build a concrete nonzero element of it, which is precisely what this argument needs. The
+upgrade (2026-08-31) was undertaken partly on the expectation that it would unblock this
+axiom, and it did.
 
 \noindent\textbf{Retired here:} \texttt{hurwitz\_division\_algebra\_dimensions} (Hurwitz's
 theorem: the only normed division algebras over $\mathbb{R}$ are

@@ -8,6 +8,7 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.NumberTheory.LSeries.HurwitzZetaEven
 import Mathlib.NumberTheory.LSeries.AbstractFuncEq
 import Mathlib.Analysis.Distribution.SchwartzSpace
+import GppVerify.RiemannHypothesis.ExpNotTempered
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
@@ -201,10 +202,22 @@ theorem schwartz_integral_clm_exists :
       ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, (φ u : ℂ) :=
   ⟨SchwartzMap.integralCLM ℝ volume, fun _ => rfl⟩
 
-/-- Exponential growth is not a tempered distribution. -/
-axiom exp_growth_not_tempered (a : ℝ) (ha : a ≠ 0) :
+/-- **Exponential growth is not a tempered distribution.**
+
+    RETIRED AS AN AXIOM (2026-08-31), and it was the last custom axiom in this repository.
+    The proof is `ExpNotTempered.exp_growth_not_tempered` in
+    `RiemannHypothesis/ExpNotTempered.lean`: a bump translated to `sign(a)·n` and scaled by
+    `e^{-|a|n}` tends to zero in `𝓢(ℝ, ℂ)` (the shift costs only polynomial growth in the
+    seminorms, the scalar decays exponentially), while its weighted integral is exactly
+    translation-invariant. Continuity of `T` then forces a nonzero constant to be zero.
+
+    It could not have been proved before this repository moved to Mathlib 4.33:
+    `HasCompactSupport.toSchwartzMap`, which supplies the concrete nonzero Schwartz witness
+    the argument needs, does not exist in 4.19.0. -/
+theorem exp_growth_not_tempered (a : ℝ) (ha : a ≠ 0) :
     ¬∃ T : SchwartzMap ℝ ℂ →L[ℝ] ℂ,
-      ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, cexp (↑a * ↑u) * ↑(φ u)
+      ∀ φ : SchwartzMap ℝ ℂ, T φ = ∫ u : ℝ, cexp (↑a * ↑u) * ↑(φ u) :=
+  ExpNotTempered.exp_growth_not_tempered a ha
 
 /-- Temperedness characterises the critical line. -/
 theorem temperedness_iff_critical_line (a : ℝ) :
