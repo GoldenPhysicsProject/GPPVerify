@@ -86,61 +86,25 @@ def declared_names() -> set[str]:
     return names
 
 
-def strip_comments(src: str) -> str:
-    out: list[str] = []
-    i = 0
-    depth = 0
-    while i < len(src):
-        if src.startswith("/-", i):
-            depth += 1
-            i += 2
-            continue
-        if src.startswith("-/", i) and depth:
-            depth -= 1
-            i += 2
-            continue
-        if depth:
-            out.append("\n" if src[i] == "\n" else " ")
-            i += 1
-            continue
-        if src.startswith("--", i):
-            j = src.find("\n", i)
-            if j < 0:
-                break
-            out.append(" " * (j - i))
-            i = j
-            continue
-        out.append(src[i])
-        i += 1
-    return "".join(out)
+# The stub census and the comment stripper live in check_stub_naming.py. Import them rather
+# than keeping a second copy: this file and that one disagreed by two on 2026-09-01 because
+# the pattern was widened in one place and not the other, and two gates reporting different
+# numbers for the same tree is precisely the drift these gates exist to prevent.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from check_stub_naming import STUB, strip_comments, declarations  # noqa: E402
 
 
 def tree_counts() -> dict[str, int]:
     """Numbers the landing page is allowed to state, computed from the tree."""
-    stub_re = re.compile(
-        r":\s*True\s*:=\s*(?:by\s+)?trivial\b|∀\s*\(_\s*:\s*True\)\s*,\s*True\s*:="
-    )
-    decl_start = re.compile(
-        r"^(?:@\[|theorem|lemma|def|noncomputable|instance|structure|inductive|abbrev|"
-        r"example|class|opaque|axiom)\b",
-        re.M,
-    )
-    name_re = re.compile(r"^(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_'!?]*)")
-
     modules = 0
     stubs = 0
     axioms = 0
     for path in LEAN_ROOT.rglob("*.lean"):
         modules += 1
-        raw = path.read_text(encoding="utf-8")
-        src = strip_comments(raw)
+        src = strip_comments(path.read_text(encoding="utf-8"))
         axioms += len(re.findall(r"^axiom\s", src, re.M))
-        starts = [m.start() for m in decl_start.finditer(src)] + [len(src)]
-        for a, b in zip(starts, starts[1:]):
-            chunk = src[a:b]
-            if not name_re.match(chunk):
-                continue
-            if stub_re.search(re.sub(r"\s+", " ", chunk).strip()):
+        for _name, _lineno, flat in declarations(src):
+            if STUB.search(flat):
                 stubs += 1
     return {"modules": modules, "stubs": stubs, "axioms": axioms}
 

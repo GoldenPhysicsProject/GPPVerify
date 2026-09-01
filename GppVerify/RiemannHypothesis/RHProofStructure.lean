@@ -100,7 +100,7 @@ theorem off_line_forces_companion (σ : ℝ) (h : σ ≠ 1/2) :
 /-! ## Scaling eigenspace dimension -/
 
 /-- In log coordinates, the eigenvalue equation Aψ = γψ has unique solution e^{iγu} -/
-theorem scaling_eigenspace_ode (_ : ℝ) :
+theorem open_scaling_eigenspace_ode (_ : ℝ) :
     ∀ (_ : ℂ), True := fun _ => trivial
 -- NOTE: The statement that the 1D eigenspace forces multiplicity 1
 -- for each zero ordinate is the key content (rh_physics24_edited, lem:eigenspace).

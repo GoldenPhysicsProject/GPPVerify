@@ -3993,11 +3993,12 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{150} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{152} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
-recording.} This blueprint published \textbf{141}; the gate reported 142; the tree held 150.
+recording.} This blueprint published \textbf{141}; the gate reported 142; the tree held 150 --- and
+on 2026-09-01 a third pass found two more, for \textbf{152}.
 The gate matched line by line --- it remembered the last \texttt{theorem} line, then looked for
 \texttt{: True := trivial} on a later one --- so it could not see a stub written as
 \begin{quote}\ttfamily
@@ -4015,6 +4016,25 @@ build while carrying exactly the names it exists to catch. They are now renamed
 \texttt{open\_}\ldots, and the gate reads whole declarations with comments stripped rather than
 lines, so a stub can no longer hide behind a comment inside its own statement. The gate also now
 checks this very sentence against the tree, so the published count cannot drift again.
+
+\medskip
+\noindent\textbf{It took a third pass to get right.} On 2026-09-01 two further unprefixed
+stubs surfaced: \texttt{thm\_universal\_shadow\_product}
+(\texttt{$\forall$ (\_ : $\mathbb{C}$), True := fun \_ => trivial}) and
+\texttt{scaling\_eigenspace\_ode}. Both were invisible because the gate still keyed on the
+\emph{binder} being literally \texttt{True} and the \emph{proof} being literally the token
+\texttt{trivial}. Neither is what makes a declaration vacuous --- \textbf{the conclusion is}.
+The pattern now matches a \texttt{True} conclusion under any binders with any
+\texttt{by}/\texttt{fun}/\texttt{intro} boilerplate, and is built as a \emph{union} with the
+previous pattern: an intermediate "cleaner" rewrite silently dropped four stubs written as
+\texttt{by intro \_} then \texttt{trivial} on the next line, so widening is now done additively
+by construction. Five shapes are negative-tested.
+
+\medskip
+\noindent The file header of \texttt{ShadowEulerIdentity.lean} also described three of these
+stubs as \textbf{axioms}. They are not. An axiom asserts its statement and downstream results
+may depend on it; a \texttt{True}-stub asserts nothing and \emph{nothing can depend on it}.
+Calling a stub an axiom overstates it in both directions at once. Corrected.
 
 \medskip
 \noindent\textbf{Every stub name now begins with \texttt{open\_}, and CI enforces it}
