@@ -198,7 +198,18 @@ theorem open_weil_positivity_haar_squares : True := trivial
     SOURCE: rh_physics24_edited.tex, thm:rh; rh_cft_proof4.tex, thm:rh;
             rh_arithmetic_field1.tex, thm:rh; RH_final_v5_1.tex, thm:rh.
     PROOF: Off-line zero ⟹ two distinct zeros at same ordinate ⟹
-           total analytic multiplicity ≥ 2 ⟹ contradicts open_spectral_atom_weight_one. -/
+           total analytic multiplicity ≥ 2 ⟹ contradicts open_spectral_atom_weight_one.
+
+    **The conditional version of this is now proved**, 2026-09-01, as
+    `GppRH.rh_of_atomWeightOne` in `RHSpectralMultiplicity.lean`: the argument sketched
+    above, machine-checked, with the spectral input as an explicit hypothesis
+    (`GppRH.AtomWeightOne`) rather than as a comment. `GppRH.rh_iff_atomWeightOne` proves
+    the converse too — the pathway's target and its stated input are *equivalent*, so that
+    result relocates the difficulty rather than reducing it.
+
+    This stub stays for the **unconditional** claim, which is what the source papers assert
+    and which is still open. The four gaps below are what stands between the conditional
+    theorem and it. -/
 theorem open_rh_pathway_target : True := trivial
 -- MATHLIB GAPS blocking unconditional proof:
 -- 1. Meyer spectral-Weil identity (μ_A = μ_W) — see SpectralWeil.lean
