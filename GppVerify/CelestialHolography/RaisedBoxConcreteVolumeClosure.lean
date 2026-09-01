@@ -9,6 +9,10 @@ import Mathlib.Tactic
 This file closes the normalization gap between the actual real affine-simplex
 volume used by `simplexMoment` and the auxiliary complex Beta/Gamma reduction.
 The concrete nested interval integral is evaluated directly.
+
+On Mathlib 4.33 the linear and quadratic interval integrals are instantiated
+explicitly from `intervalIntegral.integral_pow`; avoiding a bare rewrite keeps
+the proof robust to namespace/elaboration changes.
 -/
 
 namespace GppRaisedBoxConcreteVolumeClosure
