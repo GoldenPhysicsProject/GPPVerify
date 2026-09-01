@@ -42,6 +42,14 @@ jobs:
       - name: Build
         run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
 
+      - name: Import-graph gate (FAILS the build)
+        # Runs BEFORE the sorry gates on purpose. `lake build GppVerify` only compiles what
+        # the root module transitively imports, so a file outside that graph is never built
+        # — it can be broken, carry a `sorry`, or declare an axiom while CI reports green.
+        # 15 of 185 modules were in exactly that state until 2026-09-01, including through
+        # the 4.33.1 upgrade. Hole found by Codex on its own port and relayed via the bridge.
+        run: python3 scripts/check_import_graph.py
+
       - name: Sorry gate, source-level (FAILS the build)
         # Runs FIRST of the two sorry checks, and is the one that must not be removed:
         # it reads the tree, so no cache state can hide anything from it.
