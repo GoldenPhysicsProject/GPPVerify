@@ -3993,7 +3993,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{152} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{151} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -4029,6 +4029,23 @@ The pattern now matches a \texttt{True} conclusion under any binders with any
 previous pattern: an intermediate "cleaner" rewrite silently dropped four stubs written as
 \texttt{by intro \_} then \texttt{trivial} on the next line, so widening is now done additively
 by construction. Five shapes are negative-tested.
+
+\medskip
+\noindent\textbf{One stub was then closed by proof rather than by counting.}
+\texttt{open\_prop\_ratio\_identity} recorded its own gap as ``follows from
+\texttt{open\_thm\_shadow\_euler} by division (unconditional)'' --- that is, the only missing
+ingredient was the universal shadow product, and the step from it to the ratio identity is
+arithmetic. That step is now proved as
+\lean{GppShadowEuler.ratio_identity_of_universal_product}\leanok, with the product supplied as
+an explicit hypothesis rather than assumed globally, together with
+\lean{GppShadowEuler.su3_master_of_universal_product}\leanok\ for the $SU(3)$ specialisation at
+the coupling $a = 1/4$ that \texttt{shadow\_coupling\_su3} already proves correct.
+
+This is the same move that retired twelve physics axioms in \texttt{Link6}/\texttt{DMAbundance}:
+a claim parked as a vacuous \texttt{True} becomes a real theorem whose input is visible in its
+own signature. The hypothesis function is deliberately arbitrary --- nothing presumes it
+\emph{is} the Hadamard product, only that $\xi$ normalised at $1/2$ agrees with it.
+Establishing that remains open.
 
 \medskip
 \noindent The file header of \texttt{ShadowEulerIdentity.lean} also described three of these
