@@ -21,7 +21,7 @@ volume exactly `1/6`. -/
 theorem simplexVolume_eq_one_sixth :
     simplexVolume = (1 / 6 : ℝ) := by
   unfold simplexVolume
-  simp only [intervalIntegral.integral_const]
+  simp only [intervalIntegral.integral_const, sub_zero, smul_eq_mul, mul_one]
   have hinner : ∀ x1 : ℝ,
       (∫ x2 in (0 : ℝ)..(1 - x1), (1 - x1 - x2 : ℝ)) =
         (1 - x1) ^ 2 / 2 := by
@@ -34,12 +34,16 @@ theorem simplexVolume_eq_one_sixth :
         (intervalIntegral.integral_pow (a := (0 : ℝ)) (b := 1 - x1) (n := 1))
     rw [hid]
     ring
-  simp_rw [hinner]
+  rw [show (∫ x1 in (0 : ℝ)..1, ∫ x2 in (0 : ℝ)..(1 - x1), (1 - x1 - x2 : ℝ)) =
+      ∫ x1 in (0 : ℝ)..1, (1 - x1) ^ 2 / 2 by
+        apply intervalIntegral.integral_congr
+        intro x1 _
+        exact hinner x1]
   have hpoly : ∀ x : ℝ,
       (1 - x) ^ 2 / 2 = (1 / 2 : ℝ) - x + x ^ 2 / 2 := by
     intro x
     ring
-  simp_rw [hpoly]
+  apply Eq.trans (intervalIntegral.integral_congr (fun x _ => hpoly x))
   rw [intervalIntegral.integral_add]
   · rw [intervalIntegral.integral_sub intervalIntegrable_const intervalIntegral.intervalIntegrable_id]
     rw [intervalIntegral.integral_const]
