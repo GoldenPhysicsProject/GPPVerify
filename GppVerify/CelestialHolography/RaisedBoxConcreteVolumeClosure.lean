@@ -59,7 +59,6 @@ theorem simplexVolume_eq_one_sixth :
     have hsq_raw := integral_pow (a := (0 : ℝ)) (b := (1 : ℝ)) (n := 2)
     have hsq : (∫ x : ℝ in (0 : ℝ)..1, x ^ 2) = (1 / 3 : ℝ) := by
       norm_num at hsq_raw ⊢
-      exact hsq_raw
     rw [hsq]
     norm_num
   · exact intervalIntegrable_const.sub intervalIntegral.intervalIntegrable_id
