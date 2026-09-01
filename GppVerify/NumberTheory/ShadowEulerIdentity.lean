@@ -216,8 +216,89 @@ theorem open_cor_critical_line_product : True := trivial
 
     Proof from `open_thm_universal_shadow_product`: for real s ∈ (0,1),
     (s-1/2)² > 0, so each factor 1 + (s-1/2)²/γ² > 1, so the product > 1.
-    Gap: requires `open_thm_universal_shadow_product`. -/
+
+    **That argument is proved below**, 2026-09-01, as `xi_ge_at_half_of_shadow_prod` and
+    `xi_gt_at_half_of_shadow_prod` — with the product supplied as an explicit hypothesis
+    over a *finite* index set rather than assumed globally. This stub stays for the
+    unconditional claim, which still needs the Hadamard input. -/
 theorem open_thm_xi_minimum_at_half : True := trivial
+
+/-! ### The minimum argument, proved
+
+The docstring above states its own proof: each factor of the shadow product exceeds 1 for
+real `s ≠ 1/2`, so the product does, so `ξ(s) > ξ(1/2)`. Nothing in that step needs Hadamard
+— what needs Hadamard is knowing the product *formula* holds, and that is exactly what is
+taken as a hypothesis here.
+
+Deliberately stated over a `Finset` of ordinates. The infinite product needs convergence,
+which is part of the same missing Hadamard theory; the finite partial products are the
+honest reach, and the argument is identical. -/
+
+/-- Every factor of the shadow product is at least 1, for real argument.
+
+    No hypothesis on `g`: over `ℝ`, `a^2 / 0^2 = 0` by Lean's junk-value convention, so the
+    bound holds at a vanishing ordinate too. Stated without the hypothesis rather than
+    carrying one that is never needed. -/
+lemma one_le_shadow_factor (a g : ℝ) : 1 ≤ 1 + a ^ 2 / g ^ 2 := by
+  have : 0 ≤ a ^ 2 / g ^ 2 := div_nonneg (sq_nonneg a) (sq_nonneg g)
+  linarith
+
+/-- A factor is *strictly* above 1 when the offset and the ordinate are both nonzero. -/
+lemma one_lt_shadow_factor {a g : ℝ} (ha : a ≠ 0) (hg : g ≠ 0) :
+    1 < 1 + a ^ 2 / g ^ 2 := by
+  have : 0 < a ^ 2 / g ^ 2 :=
+    div_pos (pow_pos (abs_pos.mpr ha) 2 |>.trans_le (le_of_eq (sq_abs a)))
+      (pow_pos (abs_pos.mpr hg) 2 |>.trans_le (le_of_eq (sq_abs g)))
+  linarith
+
+/-- A finite shadow product is at least 1. -/
+lemma one_le_shadow_prod {ι : Type*} (S : Finset ι) (g : ι → ℝ) (a : ℝ) :
+    1 ≤ ∏ j ∈ S, (1 + a ^ 2 / (g j) ^ 2) := by
+  have h := Finset.prod_le_prod (s := S) (f := fun _ : ι => (1 : ℝ))
+      (g := fun j => 1 + a ^ 2 / (g j) ^ 2)
+      (fun j _ => zero_le_one) (fun j _ => one_le_shadow_factor a (g j))
+  simpa using h
+
+/-- A finite shadow product is *strictly* above 1 as soon as one ordinate in the index set
+    is nonzero and the offset is nonzero. -/
+lemma one_lt_shadow_prod {ι : Type*} [DecidableEq ι] {S : Finset ι} {g : ι → ℝ} {a : ℝ}
+    {j₀ : ι} (hj₀ : j₀ ∈ S) (ha : a ≠ 0) (hg : g j₀ ≠ 0) :
+    1 < ∏ j ∈ S, (1 + a ^ 2 / (g j) ^ 2) := by
+  rw [← Finset.mul_prod_erase _ _ hj₀]
+  have h1 : 1 < 1 + a ^ 2 / (g j₀) ^ 2 := one_lt_shadow_factor ha hg
+  have h2 : 1 ≤ ∏ j ∈ S.erase j₀, (1 + a ^ 2 / (g j) ^ 2) := one_le_shadow_prod _ g a
+  nlinarith
+
+/-- **cor:minimum, conditional form.** Given the shadow product formula over a finite set of
+    ordinates and `ξ(1/2) > 0`, the completed zeta function is at least `ξ(1/2)`.
+
+    `s` is unrestricted: the bound does not need `s ∈ (0,1)`, only that the product formula
+    holds at `s`. Restricting the interval is the paper's framing, not a requirement of this
+    argument. -/
+theorem xi_ge_at_half_of_shadow_prod {xi : ℝ → ℝ} {ι : Type*}
+    (S : Finset ι) (g : ι → ℝ) (hpos : 0 < xi (1/2)) (s : ℝ)
+    (hP : xi s / xi (1/2) = ∏ j ∈ S, (1 + (s - 1/2) ^ 2 / (g j) ^ 2)) :
+    xi (1/2) ≤ xi s := by
+  have h1 : 1 ≤ xi s / xi (1/2) := by
+    rw [hP]; exact one_le_shadow_prod S g (s - 1/2)
+  rw [le_div_iff₀ hpos] at h1
+  linarith
+
+/-- **cor:minimum, strict form** — the "*exactly* at `s = 1/2`" half of the claim.
+
+    Without this, `xi_ge_at_half_of_shadow_prod` would be consistent with `ξ` being constant,
+    and "achieves its minimum at the shadow-symmetric interface" would say nothing about the
+    interface being distinguished. -/
+theorem xi_gt_at_half_of_shadow_prod {xi : ℝ → ℝ} {ι : Type*} [DecidableEq ι]
+    {S : Finset ι} {g : ι → ℝ} {j₀ : ι} (hj₀ : j₀ ∈ S) (hg : g j₀ ≠ 0)
+    (hpos : 0 < xi (1/2)) {s : ℝ} (hs : s ≠ 1/2)
+    (hP : xi s / xi (1/2) = ∏ j ∈ S, (1 + (s - 1/2) ^ 2 / (g j) ^ 2)) :
+    xi (1/2) < xi s := by
+  have ha : s - 1/2 ≠ 0 := sub_ne_zero.mpr hs
+  have h1 : 1 < xi s / xi (1/2) := by
+    rw [hP]; exact one_lt_shadow_prod hj₀ ha hg
+  rw [lt_div_iff₀ hpos] at h1
+  linarith
 
 -- ============================================================
 -- §4  SPECTRAL CONSEQUENCES — AXIOMS
