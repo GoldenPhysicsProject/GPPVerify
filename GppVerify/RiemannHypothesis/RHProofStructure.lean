@@ -228,9 +228,22 @@ theorem open_rh_pathway_target : True := trivial
 
     The *second* is proved, 2026-09-01, as `GppRH.ordinate_injOn_of_atomWeightOne` — the
     ordinate map is injective on strip zeros under `GppRH.AtomWeightOne`. This stub stays
-    for the first, which is what the name asserts. It is a real future target rather than a
-    wall: Mathlib 4.33.1 has `analyticOrderAt`, so the missing work is applying it to ζ, not
-    waiting for upstream. -/
+    for the first, which is what the name asserts.
+
+    **Correction, same day.** An earlier version of this note called analytic simplicity "a
+    real future target rather than a wall", on the grounds that Mathlib 4.33.1 has
+    `analyticOrderAt` so "the missing work is applying it to ζ". That was wrong in a way
+    worth spelling out, because it is an easy mistake to repeat:
+
+    *Simplicity of the non-trivial zeros of ζ is an open problem in mathematics.* It is
+    widely believed, and a positive proportion of zeros is known to be simple
+    (Conrey–Ghosh–Gonek and successors), but the full statement is not proved by anyone. No
+    amount of formalization effort closes it.
+
+    What `analyticOrderAt` makes reachable is *stating* the claim, and reducing it to a
+    concrete non-vanishing condition — both done in `RHSpectralMultiplicity.lean` as
+    `GppRH.SimpleStripZeros` and `GppRH.simpleStripZeros_iff_deriv_ne_zero`. That is a
+    genuine contribution and it is not the theorem. Do not file this stub as reachable. -/
 theorem open_zero_simplicity : True := trivial
 -- Conditional on open_rh_pathway_target and open_spectral_atom_weight_one.
 
