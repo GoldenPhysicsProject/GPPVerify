@@ -11,8 +11,8 @@ volume used by `simplexMoment` and the auxiliary complex Beta/Gamma reduction.
 The concrete nested interval integral is evaluated directly.
 
 On Mathlib 4.33 the linear and quadratic interval integrals are instantiated
-explicitly from `intervalIntegral.integral_pow`; avoiding a bare rewrite keeps
-the proof robust to namespace/elaboration changes.
+explicitly from the top-level theorem `integral_pow`; avoiding a bare rewrite
+keeps the proof robust to namespace/elaboration changes.
 -/
 
 namespace GppRaisedBoxConcreteVolumeClosure
@@ -35,7 +35,7 @@ theorem simplexVolume_eq_one_sixth :
     have hid :
         (∫ x2 : ℝ in (0 : ℝ)..(1 - x1), x2) = (1 - x1) ^ 2 / 2 := by
       simpa using
-        (intervalIntegral.integral_pow (a := (0 : ℝ)) (b := 1 - x1) (n := 1))
+        (integral_pow (a := (0 : ℝ)) (b := 1 - x1) (n := 1))
     rw [hid]
     ring
   rw [show (∫ x1 in (0 : ℝ)..1, ∫ x2 in (0 : ℝ)..(1 - x1), (1 - x1 - x2 : ℝ)) =
@@ -53,12 +53,12 @@ theorem simplexVolume_eq_one_sixth :
     rw [intervalIntegral.integral_const]
     have hid : (∫ x : ℝ in (0 : ℝ)..1, x) = (1 / 2 : ℝ) := by
       simpa using
-        (intervalIntegral.integral_pow (a := (0 : ℝ)) (b := (1 : ℝ)) (n := 1))
+        (integral_pow (a := (0 : ℝ)) (b := (1 : ℝ)) (n := 1))
     rw [hid]
     rw [intervalIntegral.integral_div]
     have hsq : (∫ x : ℝ in (0 : ℝ)..1, x ^ 2) = (1 / 3 : ℝ) := by
       simpa using
-        (intervalIntegral.integral_pow (a := (0 : ℝ)) (b := (1 : ℝ)) (n := 2))
+        (integral_pow (a := (0 : ℝ)) (b := (1 : ℝ)) (n := 2))
     rw [hsq]
     norm_num
   · exact intervalIntegrable_const.sub intervalIntegral.intervalIntegrable_id
