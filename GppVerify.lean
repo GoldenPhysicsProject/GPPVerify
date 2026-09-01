@@ -24,6 +24,7 @@ import GppVerify.RiemannHypothesis.ShadowSymmetry
 -- Spectral multiplicity argument (two_zeros_at_ordinate, riemannZeta_conj).
 -- riemann_hypothesis alias + arithmetic_admissibility axiom RETIRED 2026-07-17;
 -- flagship conditional: GppWeilCriterion.rh_of_weil_pairedForm_nonneg
+import GppVerify.RiemannHypothesis.ExpNotTempered
 import GppVerify.RHSpectralMultiplicity
 
 -- ── L² Constraint ────────────────────────────────────────────

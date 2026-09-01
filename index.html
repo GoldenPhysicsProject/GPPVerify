@@ -167,7 +167,7 @@ footer a:hover{color:var(--gpp-gold)}
 <div class="stat-strip">
   <div class="stat-row">
     <div class="stat-item">
-      <span class="stat-num">184</span>
+      <span class="stat-num">185</span>
       <span class="stat-label">Lean Modules</span>
     </div>
     <div class="stat-item">
@@ -175,7 +175,7 @@ footer a:hover{color:var(--gpp-gold)}
       <span class="stat-label">Sorries</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num" style="color:var(--yellow-light)">1</span>
+      <span class="stat-num" style="color:var(--green-light)">0</span>
       <span class="stat-label">Axioms</span>
     </div>
     <div class="stat-item">
@@ -188,7 +188,7 @@ footer a:hover{color:var(--gpp-gold)}
     </div>
   </div>
   <p style="text-align:center;color:#666;font-size:0.82rem;max-width:720px;margin:22px auto 0;line-height:1.6">
-    Read those four numbers together. Zero sorries and one axiom is a clean bill of health
+    Read those four numbers together. Zero sorries and zero axioms is a clean bill of health
     only for what is <em>stated</em>; the 150 open stubs are results deliberately parked as
     <code style="color:var(--yellow-light)">theorem open_&hellip; : True := trivial</code>, which
     assert nothing and so report zero sorries and zero axioms themselves. Every one of them is
@@ -416,19 +416,25 @@ footer a:hover{color:var(--gpp-gold)}
 
 <div class="container section-padding" style="padding-top:0">
   <div class="section-heading">
-    <h2 style="font-size:1.1rem">The One Remaining Axiom</h2>
+    <h2 style="font-size:1.1rem">No Remaining Axioms</h2>
   </div>
   <p style="color:#666;margin-bottom:28px;font-size:0.9rem">
-    The project had 13 custom axioms. Twelve have been retired &mdash; the physics inputs became
-    explicit hypotheses on the theorems that use them, which is why <code style="color:var(--yellow-light)">link6_corollary</code>
-    above takes its input as an argument. One is left.
+    The project had 13 custom axioms. All thirteen are now retired. Twelve became explicit
+    hypotheses on the theorems that use them, which is why <code style="color:var(--yellow-light)">link6_corollary</code>
+    above takes its input as an argument. The last one is now proved.
   </p>
 
   <div class="gap-card">
-    <h4>exp_growth_not_tempered</h4>
-    <p>That a function of exponential growth is not a tempered distribution. True, standard, and
-    simply absent from Mathlib. Everything else in the tree is either proved outright or parked
-    as a named <code>open_</code> stub.</p>
+    <h4>exp_growth_not_tempered &mdash; proved 2026-08-31</h4>
+    <p>That a function of exponential growth is not a tempered distribution. A bump translated
+    to <code>sign(a)&middot;n</code> and scaled by <code>e^(-|a|n)</code> tends to zero in the
+    Schwartz space &mdash; the shift costs only polynomial growth in the seminorms while the
+    scalar decays exponentially &mdash; yet its weighted integral is exactly
+    translation-invariant, so continuity of the functional forces a nonzero constant to be zero.
+    It could not have been proved before the move to Mathlib 4.33:
+    <code>HasCompactSupport.toSchwartzMap</code>, which supplies the concrete nonzero Schwartz
+    witness, does not exist in 4.19. Everything in the tree is now either proved outright or
+    parked as a named <code>open_</code> stub &mdash; nothing rests on an assumption.</p>
   </div>
 
   <div class="gap-card">
