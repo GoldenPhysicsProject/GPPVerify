@@ -219,7 +219,18 @@ theorem open_rh_pathway_target : True := trivial
 
 /-- Simplicity of zeros: every non-trivial zero of ζ is simple.
     SOURCE: rh_physics24_edited.tex, cor:simple-zeros.
-    PROOF: RH + spectral atom weight 1 ⟹ each ordinate has total multiplicity 1. -/
+    PROOF: RH + spectral atom weight 1 ⟹ each ordinate has total multiplicity 1.
+
+    **Careful — the statement and the proof line are two different claims.** "Simple zero"
+    means analytic order of vanishing exactly 1; "each ordinate has total multiplicity 1"
+    means one zero per ordinate. The second does not give the first: a single zero of order
+    2 sits at one ordinate and violates nothing.
+
+    The *second* is proved, 2026-09-01, as `GppRH.ordinate_injOn_of_atomWeightOne` — the
+    ordinate map is injective on strip zeros under `GppRH.AtomWeightOne`. This stub stays
+    for the first, which is what the name asserts. It is a real future target rather than a
+    wall: Mathlib 4.33.1 has `analyticOrderAt`, so the missing work is applying it to ζ, not
+    waiting for upstream. -/
 theorem open_zero_simplicity : True := trivial
 -- Conditional on open_rh_pathway_target and open_spectral_atom_weight_one.
 
