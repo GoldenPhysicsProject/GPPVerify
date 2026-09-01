@@ -397,8 +397,61 @@ lemma shadowLogSum_deriv_strictAntiOn {ι : Type*} (S : Finset ι) (g : ι → �
     ξ-geometric-mean inequality:
     `ξ(1/2 + a)² ≥ ξ(1/2 + b) · ξ(1/2 + c)` when `a = √((b²+c²)/2)`.
     Direct consequence of strict concavity (`open_thm_logconcave`).
-    Gap: same as `open_thm_logconcave`. -/
+
+    **Proved below** as `shadow_prod_geomean`, 2026-09-01 — and *not* via the concavity
+    route the docstring suggests. Going through `φ''` would need logs, their positivity, and
+    a concavity-to-midpoint transfer; termwise it is just `(X − Y)² ≥ 0`. The short proof is
+    the honest one, and it drops every side condition the long one would have carried. -/
 theorem open_cor_xi_geomean_inequality : True := trivial
+
+/-! ### The geometric-mean inequality, proved
+
+`cor:geomean` says `ξ(1/2+a)² ≥ ξ(1/2+b)·ξ(1/2+c)` when `a² = (b²+c²)/2`, and calls it a
+consequence of log-concavity. It is — but concavity is a detour. Under the shadow product
+the claim is a statement about the products themselves, and factor by factor it reduces to
+`(X − Y)² ≥ 0` with `X = b²/γ²`, `Y = c²/γ²`. No logarithm, no positivity of `ξ`, no
+differentiability. -/
+
+/-- The entire content of `cor:geomean`, isolated and with nothing else attached:
+    `(1+X)(1+Y) ≤ (1 + (X+Y)/2)²`.
+
+    True for **all** reals — expanding gives `XY ≤ (X+Y)²/4`, i.e. `0 ≤ (X−Y)²`. Stated
+    without nonnegativity hypotheses because it does not need them; carrying `0 ≤ X` here
+    would suggest the bound depends on it. -/
+lemma mul_le_sq_midpoint (X Y : ℝ) : (1 + X) * (1 + Y) ≤ (1 + (X + Y) / 2) ^ 2 := by
+  nlinarith [sq_nonneg (X - Y)]
+
+/-- Termwise form: with `a²` the mean of `b²` and `c²`, one shadow factor at `a` dominates
+    the product of the factors at `b` and `c`. -/
+lemma shadow_factor_geomean (gam b c a : ℝ) (h : a ^ 2 = (b ^ 2 + c ^ 2) / 2) :
+    (1 + b ^ 2 / gam ^ 2) * (1 + c ^ 2 / gam ^ 2) ≤ (1 + a ^ 2 / gam ^ 2) ^ 2 := by
+  have hmid : a ^ 2 / gam ^ 2 = (b ^ 2 / gam ^ 2 + c ^ 2 / gam ^ 2) / 2 := by rw [h]; ring
+  rw [hmid]
+  exact mul_le_sq_midpoint _ _
+
+/-- **cor:geomean, conditional form.** The shadow product at `a` squared dominates the
+    product of those at `b` and `c`, whenever `a² = (b²+c²)/2`.
+
+    Combined with the product formula this is exactly `ξ(1/2+a)² ≥ ξ(1/2+b)·ξ(1/2+c)`; the
+    formula is the open input, this inequality is not. -/
+lemma shadow_prod_geomean {ι : Type*} (S : Finset ι) (gam : ι → ℝ) (b c a : ℝ)
+    (h : a ^ 2 = (b ^ 2 + c ^ 2) / 2) :
+    (∏ j ∈ S, (1 + b ^ 2 / (gam j) ^ 2)) * (∏ j ∈ S, (1 + c ^ 2 / (gam j) ^ 2))
+      ≤ (∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2)) ^ 2 := by
+  have hstep : ∏ j ∈ S, ((1 + b ^ 2 / (gam j) ^ 2) * (1 + c ^ 2 / (gam j) ^ 2))
+      ≤ ∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2) ^ 2 := by
+    refine Finset.prod_le_prod
+      (f := fun j => (1 + b ^ 2 / (gam j) ^ 2) * (1 + c ^ 2 / (gam j) ^ 2))
+      (g := fun j => (1 + a ^ 2 / (gam j) ^ 2) ^ 2) (fun j _ => ?_) (fun j _ => ?_)
+    · have h1 : (0:ℝ) ≤ b ^ 2 / (gam j) ^ 2 := div_nonneg (sq_nonneg b) (sq_nonneg _)
+      have h2 : (0:ℝ) ≤ c ^ 2 / (gam j) ^ 2 := div_nonneg (sq_nonneg c) (sq_nonneg _)
+      nlinarith
+    · exact shadow_factor_geomean (gam j) b c a h
+  calc (∏ j ∈ S, (1 + b ^ 2 / (gam j) ^ 2)) * (∏ j ∈ S, (1 + c ^ 2 / (gam j) ^ 2))
+      = ∏ j ∈ S, ((1 + b ^ 2 / (gam j) ^ 2) * (1 + c ^ 2 / (gam j) ^ 2)) :=
+        (Finset.prod_mul_distrib).symm
+    _ ≤ ∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2) ^ 2 := hstep
+    _ = (∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2)) ^ 2 := Finset.prod_pow _ _ _
 
 /-- **thm:inversion** (Toupin 2026, Theorem 6.5).
     Spectral moment inversion: every complete spectral moment
