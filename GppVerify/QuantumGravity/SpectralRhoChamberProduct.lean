@@ -4,9 +4,9 @@ import Mathlib.Tactic
 /-!
 # All-order chamber product for the normalized spectral Gamma family
 
-The one-step recurrence telescopes exactly.  Relative to the base weight
+The one-step recurrence telescopes exactly. Relative to the base weight
 `rhoGamma 0`, every higher chamber is obtained by multiplication by an explicit
-positive even polynomial and a factorial normalization.  This is algebraic
+positive even polynomial and a factorial normalization. This is algebraic
 special-function structure only; no convolution theorem is assumed.
 -/
 
@@ -14,6 +14,7 @@ namespace GppSpectralRhoChamber
 
 open Complex
 open GppSpectralRho
+open scoped BigOperators
 
 noncomputable def chamberCoeff (k : ℕ) : ℝ :=
   (2 : ℝ) ^ (2 * k) / (((2 * k + 1).factorial : ℕ) : ℝ)
@@ -73,13 +74,14 @@ theorem rhoGamma_eq_chamberProduct (k : ℕ) (x : ℝ) :
         ((chamberPoly k x : ℝ) : ℂ) * rhoGamma 0 x) := by
   simpa [chamberCoeff] using rhoGamma_eq_chamberProduct_factored k x
 
-theorem chamberPoly_nonneg (k : ℕ) (x : ℝ) : 0 ≤ chamberPoly k x := by
-  unfold chamberPoly
-  positivity
-
 theorem chamberPoly_pos (k : ℕ) (x : ℝ) : 0 < chamberPoly k x := by
   unfold chamberPoly
-  exact Finset.prod_pos fun j _ => by positivity
+  apply Finset.prod_pos
+  intro j hj
+  positivity
+
+theorem chamberPoly_nonneg (k : ℕ) (x : ℝ) : 0 ≤ chamberPoly k x :=
+  (chamberPoly_pos k x).le
 
 end GppSpectralRhoChamber
 
