@@ -45,18 +45,18 @@ theorem schubert_dim_sum : 0 + 1 + 2 + 2 + 3 + 4 = (12 : ℕ) := by norm_num
 /-- Penrose correspondence: non-null twistors ↔ lines in P³ (twistor lines = null rays) -/
 theorem open_penrose_correspondence : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, thm:penrose-correspondence
--- MATHLIB GAP: Complex manifold theory / projective spaces over ℂ not formalized
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Complex manifold theory / projective spaces over ℂ not formalized
 -- to the level needed for the Penrose-Ward transform.
 
 /-- Penrose-Ward transform: instantons on S⁴ ↔ holomorphic bundles on CP³ -/
 theorem open_penrose_ward_transform : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex
--- MATHLIB GAP: Holomorphic vector bundles, Yang-Mills instantons not in Mathlib.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Holomorphic vector bundles, Yang-Mills instantons not in Mathlib.
 
 /-- ASD sector: H¹(PT, O(-4)) = space of ASD Yang-Mills fields -/
 theorem open_asd_cohomology : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, prop:cohomology
--- MATHLIB GAP: Sheaf cohomology on complex manifolds re-verified absent in 4.33.1.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Sheaf cohomology on complex manifolds re-verified absent in 4.33.1.
 -- Partial grep trap: `SheafCohomology` DOES now return 2 files, but both are
 -- site-theoretic (CategoryTheory/Sites, AlgebraicGeometry étale). Nothing Dolbeault.
 
@@ -70,13 +70,15 @@ theorem open_googly_map_on_cohomology : True := trivial
 -- This is the mathematical content of the "googly problem resolution":
 -- the Haar measure self-duality under inversion on Gr(2,4) provides
 -- the map between ASD and SD that was missing in Penrose's original construction.
--- MATHLIB GAP: Combines open_penrose_ward_transform + haar_self_duality.
+-- FRAMEWORK CLAIM: the identification is proposed by the framework. Depends on
+-- open_penrose_ward_transform (LIBRARY GAP) + haar_self_duality.
 
 /-- Googly resolution: SD sector = T-image of ASD sector -/
 theorem open_googly_resolution_T_image : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, main theorem
 -- The googly map is identified with T (time reversal) via the Haar inversion J.
--- MATHLIB GAP: Requires all of the above plus T-reversal formalism.
+-- FRAMEWORK CLAIM: googly = shadow is the framework's central identification, not a known
+-- theorem. Requires all of the above plus a T-reversal formalism (LIBRARY GAP).
 
 /-! ## Connection to shadow transform -/
 
@@ -97,17 +99,19 @@ theorem open_googly_is_shadow : True := trivial
 /-- Celestial holography: Yang-Mills in bulk ↔ CFT on celestial sphere -/
 theorem open_celestial_holography : True := trivial
 -- SOURCE: Multiple papers; the holographic dictionary is the core of ONON.
--- MATHLIB GAP: Full holographic renormalization group not formalized.
+-- FRAMEWORK CLAIM: flat-space holography is an active research programme, not settled.
+-- LIBRARY GAP as well: full holographic renormalization group not formalized.
 
 /-- The shadow discontinuity formula gives the one-loop integrand -/
 theorem open_shadow_discontinuity_one_loop : True := trivial
 -- SOURCE: shadow_discontinuity_paper_v13.tex, thm:shadow-disc
--- MATHLIB GAP: Loop amplitude integrals in celestial coordinates.
+-- FRAMEWORK CLAIM: shadow discontinuity = one-loop integrand is a proposal.
+-- LIBRARY GAP as well: loop amplitude integrals in celestial coordinates.
 
 /-- Cut-shadow correspondence: unitarity cuts = shadow discontinuities -/
 theorem open_cut_shadow_correspondence : True := trivial
 -- SOURCE: shadow_discontinuity_paper_v13.tex, lem:cut-shadow
--- MATHLIB GAP: Optical theorem / unitarity in QFT not formalized.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Optical theorem / unitarity in QFT not formalized.
 
 theorem open_twistor_googly_summary : True := trivial
 
