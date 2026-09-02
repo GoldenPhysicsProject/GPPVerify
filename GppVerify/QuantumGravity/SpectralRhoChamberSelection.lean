@@ -25,8 +25,10 @@ theorem adjacent_step_selection_iff
     {k : ℕ} (hk : 0 < k) (x : ℝ) :
     1 < rhoStepFactor (k - 1) x ∧ rhoStepFactor k x < 1 ↔
       (k : ℝ) < 2 * x ^ 2 ∧ 2 * x ^ 2 < (k : ℝ) + 1 := by
+  have hk1 : 1 ≤ k := Nat.succ_le_iff.mpr hk
+  have hnat : k - 1 + 1 = k := Nat.sub_add_cancel hk1
   have hkm1 : (((k - 1 : ℕ) : ℝ) + 1) = (k : ℝ) := by
-    omega
+    exact_mod_cast hnat
   rw [rhoStepFactor_gt_one_iff, rhoStepFactor_lt_one_iff, hkm1]
 
 /-- The selected chamber index, if it exists, is unique: two natural numbers
