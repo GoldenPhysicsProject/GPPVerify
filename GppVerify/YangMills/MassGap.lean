@@ -252,8 +252,13 @@ theorem open_peter_weyl_discrete_spectrum : True := trivial
 -- SOURCE: YM_PAPER35.tex, section on spectrum
 -- PROOF: Peter-Weyl decomposes L²(G) into finite-dim irreps.
 -- Discreteness of irrep dimensions forces discrete spectrum of H.
--- LIBRARY GAP: Peter-Weyl theorem (partially in Mathlib but not sufficient). Known
--- mathematics; a formalization target.
+-- LIBRARY GAP, re-verified against Mathlib 4.33.1 (2026-09-02). This read "partially in
+-- Mathlib but not sufficient", which is vague enough to be unactionable — it does not say
+-- which part. Precisely: "Peter-Weyl" has ZERO hits in the 4.33.1 checkout. What Mathlib
+-- has is the two special cases, `Analysis/Fourier/AddCircle` (the circle group) and
+-- `Analysis/Fourier/FiniteAbelian` (finite abelian groups). The general compact-group
+-- statement — L²(G) = ⊕ V_π ⊗ V_π*, each irrep with multiplicity dim V_π — is absent, and
+-- it is the general statement this stub needs. Known mathematics; a formalization target.
 
 /-- Reflection positivity for celestial Yang-Mills -/
 theorem open_reflection_positivity_celestial : True := trivial
