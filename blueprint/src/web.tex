@@ -2000,6 +2000,23 @@ classify honestly, never axiomatize the desired conclusion) each was attempted t
   ratio functional or test spaces concretely are.
 \end{theorem}
 
+\begin{theorem}[Localized Ground Energies Converge to the Global One]
+  \label{thm:weil-semibound-sharp-limit}
+  \lean{GppWeilSemibound.lam_tendsto_globalGround}
+  \leanok
+  Same abstract setting. The global ratio set $R''\bigcup_a S_a$ and the family
+  $\operatorname{range}\lambda$ have \emph{the same lower bounds}
+  (\lean{GppWeilSemibound.lowerBounds_global_eq_lowerBounds_range_lam}), from which: $L$ is
+  the global greatest lower bound iff it is the greatest lower bound of the localized ground
+  energies, the two sets are bounded below together, and --- with nesting --- $\lambda_a\to
+  L$. Sharpens Theorem~\ref{thm:weil-semibound-order-skeleton}(ii), which matched only the
+  \emph{existence} of a bound on each side: the two \emph{optimal} constants are the same
+  real number, reached as a limit, so localization loses nothing. Accompanied by the
+  dichotomy \lean{GppWeilSemibound.lam_tendsto_atBot_or_tendsto_ciInf}: an antitone $\lambda$
+  either diverges to $-\infty$ or converges to $\bigsqcap_a\lambda_a$, with no third case, so
+  no downstream statement needs to assume convergence.
+\end{theorem}
+
 \textbf{Honest boundary, this pass.} Theorem~\ref{thm:weil-semibound-order-skeleton} does
 \emph{not} define $Q_W$, the Weil quadratic form, $\|\cdot\|_2$, or
 $S_a=C_c^\infty(-a,a)$ --- no such localized compactly-supported-test-function machinery
