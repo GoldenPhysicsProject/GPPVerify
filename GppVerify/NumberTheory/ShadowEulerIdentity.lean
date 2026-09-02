@@ -283,7 +283,16 @@ theorem open_thm_shadow_euler : True := trivial
 
     This is the physically cleanest case: SU(3)_c is the QCD gauge group,
     and k=1 is the fundamental Kac-Moody level.
-    Gap: same as `open_thm_shadow_euler`. -/
+
+    Note added 2026-09-02: the *mathematical* statement here needs nothing from Kac–Moody
+    theory — `k` and `N` are integer parameters of `shadowCoupling`, and `(k,N) = (1,3)` is
+    an evaluation. The Kac–Moody reading of `k` is what makes this "the physically cleanest
+    case", and that reading rests on a source claim Codex could not verify (celestial
+    Yang–Mills level `k = 4π/g²` positive-integer quantized, attributed to
+    Pate–Raclariu–Strominger). See the header of `GppVerify/YangMills/MassGap.lean`. This
+    does not affect the identity; it affects the sentence that says why the identity matters.
+
+    Gap: same as `open_thm_shadow_euler` — which is **RH**, not a library gap. -/
 theorem open_cor_su3_master : True := trivial
 -- Superseded in the conditional direction by `su3_master_of_universal_product` below:
 -- given the universal product, this corollary is one evaluation at `a = 1/4`. The stub

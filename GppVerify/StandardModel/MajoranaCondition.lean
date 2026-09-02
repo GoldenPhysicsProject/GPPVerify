@@ -59,13 +59,13 @@ theorem open_charge_conjugation_sq : True := trivial
 theorem open_majorana_self_consistency : True := trivial
 -- SOURCE: zitterbewegung paper, thm:majorana
 -- The T-boundary condition ψ|_{t=0} = ψ̄|_{t=0} forces ψ = Cψ̄.
--- MATHLIB GAP: Spinor bundles re-verified absent in Mathlib 4.33.1 (2026-09-01).
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Spinor bundles re-verified absent in Mathlib 4.33.1 (2026-09-01).
 
 /-- Twistor version: Majorana condition from Penrose-Ward transform -/
 theorem open_majorana_from_penrose_ward : True := trivial
 -- SOURCE: twistor_googly_dtoupin_v81.tex, thm:majorana
 -- The twistor half-form ∧¹ condition on the googly line bundle forces
--- the Majorana condition. MATHLIB GAP: Twistor geometry not in Mathlib.
+-- the Majorana condition. LIBRARY GAP (known mathematics, absent from Mathlib): Twistor geometry not in Mathlib.
 
 /-! ## Neutrino physics predictions -/
 
@@ -75,18 +75,22 @@ theorem open_majorana_from_penrose_ward : True := trivial
     no Majorana mass can be written without violating T-boundary symmetry.
     The two heavier generations acquire Dirac masses from Yukawa couplings. -/
 theorem open_lightest_neutrino_massless : True := trivial
--- MATHLIB GAP: Yukawa coupling theory + T-boundary spectral analysis.
+-- FRAMEWORK CLAIM + physical prediction: whether the lightest neutrino is massless is not
+-- settled by mathematics. LIBRARY GAP as well: Yukawa coupling theory + T-boundary spectral
+-- analysis, needed to state it.
 
 /-- Inverted hierarchy from T-boundary: two massive, one massless -/
 theorem open_neutrino_inverted_hierarchy : True := trivial
 -- SOURCE: zitterbewegung paper, cor:neutrino
--- MATHLIB GAP: Neutrino mass matrix spectral theory.
+-- FRAMEWORK CLAIM + open experimental question: the mass ordering is not known. LIBRARY GAP
+-- as well: neutrino mass matrix spectral theory.
 
 /-- Neutrino delocalisation: ψ is supported across T-boundary -/
 theorem open_neutrino_delocalisation : True := trivial
 -- SOURCE: zitterbewegung paper, cor:neutrino
 -- ARGUMENT: The T-boundary Dirac equation has solutions extending
--- continuously across t=0. MATHLIB GAP: T-boundary PDE theory.
+-- continuously across t=0. FRAMEWORK CLAIM: T-boundary delocalisation is proposed by the framework, not established.
+-- LIBRARY GAP as well: T-boundary PDE theory.
 
 /-! ## Mirror matter -/
 
@@ -95,13 +99,15 @@ theorem open_T_image_baryons : True := trivial
 -- SOURCE: zitterbewegung paper, thm:dm-bound
 -- ARGUMENT: T-reversal maps the pre-Big-Bang sector to the post-Big-Bang sector.
 -- Mirror baryons are the T-image of ordinary baryons.
--- MATHLIB GAP: T-reversal operator on QFT Hilbert space.
+-- FRAMEWORK CLAIM: the T-image baryon sector is a proposal of the framework.
+-- LIBRARY GAP as well: T-reversal operator on QFT Hilbert space.
 
 /-- Mirror baryon abundance ≥ ordinary baryon abundance -/
 theorem open_mirror_baryon_abundance : True := trivial
 -- SOURCE: zitterbewegung paper, thm:dm-bound
 -- The argument is: T-reflection is an isometry, so ρ_mirror ≥ ρ_baryon.
--- MATHLIB GAP: Cosmological Boltzmann equation not in Mathlib.
+-- FRAMEWORK CLAIM + physical prediction: a mirror-baryon abundance is not a theorem.
+-- LIBRARY GAP as well: cosmological Boltzmann equation not in Mathlib.
 
 /-! ## Zitterbewegung period -/
 
@@ -115,7 +121,8 @@ theorem zitterbewegung_period (m : ℝ) (hm : 0 < m) :
 /-- The T-boundary oscillation at frequency 2m produces return after period π/m -/
 theorem open_T_boundary_oscillation_period : True := trivial
 -- SOURCE: zitterbewegung paper. The complex phase e^{2imt} returns to 1 at t = π/m.
--- MATHLIB GAP: Oscillatory PDE at T-boundary (Mathlib gap).
+-- FRAMEWORK CLAIM + physical prediction: the oscillation period is framework output.
+-- LIBRARY GAP as well: oscillatory PDE at T-boundary.
 
 /-! ## Summary -/
 

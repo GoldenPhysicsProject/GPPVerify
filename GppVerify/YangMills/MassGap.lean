@@ -8,7 +8,7 @@ import Mathlib.Tactic
 Source: YM_PAPER35.tex
 "Yang-Mills Theory via Celestial Holography and Kac-Moody Algebras"
 
-## Main theorem (axiom)
+## The target statement
 
 Theorem (Yang-Mills Existence and Mass Gap):
 Let G be a compact simple Lie group. There exists a QFT on R^{1,3} satisfying:
@@ -27,10 +27,43 @@ Stage I: Celestial construction via WZW model + inverse Mellin transform
 Stage II: Mass gap via lattice strong-coupling + RG invariance of Λ_QCD
 Stage III: Identification (asymptotic freedom + OPE matching)
 
-## Provable arithmetic facts (proved below)
+## What is proved here, and two things this file used to imply that it should not
 
-The Sugawara formula for conformal dimensions is algebraically precise.
-Casimir eigenvalues and Kac-Moody level contributions are computable.
+**Proved:** rational arithmetic. `casimirFundamentalSU`, `casimir_adj_fund_ratio`,
+`sugawara_conformal_dim`, and the `mass_gap_ratio` family are facts about explicit rational
+functions of two natural numbers. They are correct and they are checkable. Nothing else here
+is proved.
+
+### 1. This is an open problem, not a formalization backlog (corrected 2026-09-02)
+
+Every stub below carried a `MATHLIB GAP:` line, and `open_yang_mills_mass_gap` /
+`open_yang_mills_existence` carried "All of the above (QFT formalism absent from Mathlib)".
+
+That is the wrong label, in the dangerous direction. **Yang–Mills existence and the mass gap
+is a Millennium Prize problem — open mathematics, not unformalized mathematics.** Formalising
+the Wightman axioms, Peter–Weyl, and the WZW operator formalism would leave it exactly as far
+away as it is now. A reader working the `MATHLIB GAP` list would have arrived at these two
+expecting a library task.
+
+The gaps are now split: **LIBRARY GAP** where a known theorem is merely absent from Mathlib
+(Peter–Weyl, Kac–Peterson unitarity, OS/Wightman formalism), and **OPEN PROBLEM** where the
+mathematics itself does not exist. Same error class as the ζ-zero-simplicity correction
+(`CLAUDE_CORRECTIONS.md` entry 12) and the RH-vs-Hadamard cluster (entry 16): "not in Mathlib"
+is prose that fits both, and only one of them is a formalization target.
+
+### 2. The Kac–Moody level is unverified source input (Codex, 2026-09-02)
+
+The source paper attributes to Pate–Raclariu–Strominger that the celestial Yang–Mills
+Kac–Moody algebra sits at **positive integer** level `k = 4π/g²`, topologically quantized and
+nonperturbative. Codex went looking for that statement while mining YM v7 and **could not find
+it** in the Pate/Raclariu/Strominger celestial papers it checked; those establish soft/current
+algebra structure, and the wider celestial-YM literature treats the level considerably more
+delicately.
+
+So `k = 4π/g² ∈ ℤ_{>0}` is **unverified source input**, not established literature. It is not
+load-bearing for anything proved in this file — the arithmetic below holds for every `k : ℕ`
+and never asks where `k` came from — but it *is* what would carry the results into physics, so
+it is recorded here rather than assumed. Do not close a stub on the strength of it.
 -/
 
 namespace GppYangMillsMassGap
@@ -62,7 +95,13 @@ theorem casimir_adj_fund_ratio (N : ℕ) (hN : 2 ≤ N) :
   have hnne : (N : ℚ) ≠ 0 := by linarith
   field_simp
 
-/-- Sugawara formula for mass gap ratio: M/Λ_QCD = 2N/(k+N) -/
+/-- Sugawara formula for mass gap ratio: M/Λ_QCD = 2N/(k+N).
+
+    **This is a rational function of two naturals, and that is all it is here.** Reading it
+    as a mass gap needs (a) the celestial construction to produce a Hamiltonian, which is
+    `open_yang_mills_existence`, and (b) `k` to be a quantized positive integer level, which
+    is the unverified source claim recorded in the module header. Neither is available, so
+    the theorems below are stated about `mass_gap_ratio`, never about `M`. -/
 def mass_gap_ratio (N k : ℕ) : ℚ :=
   (2 * N : ℚ) / (k + N : ℚ)
 
@@ -70,7 +109,12 @@ theorem mass_gap_ratio_su3_k1 : mass_gap_ratio 3 1 = 3/2 := by native_decide
 
 theorem mass_gap_ratio_su3_k3 : mass_gap_ratio 3 3 = 1 := by native_decide
 
-theorem mass_gap_ratio_pos (N k : ℕ) (hN : 1 ≤ N) (hk : 0 ≤ k) :
+/-- The ratio is positive for every `N ≥ 1` and every level.
+
+    `hk : 0 ≤ k` was dropped 2026-09-02. For `k : ℕ` it is `Nat.zero_le k` — satisfiable by
+    every `k`, so it constrained nothing while reading like a physical condition on the
+    level. A hypothesis that cannot fail is not a hypothesis. -/
+theorem mass_gap_ratio_pos (N k : ℕ) (hN : 1 ≤ N) :
     0 < mass_gap_ratio N k := by
   simp only [mass_gap_ratio]
   apply div_pos
@@ -95,9 +139,12 @@ theorem mass_gap_ratio_le_two (N k : ℕ) (hN : 1 ≤ N) :
     div_nonneg (by linarith) (by linarith)
   linarith
 
-/-- The mass gap ratio is strictly antitone (decreasing) in the
-    Kac-Moody level k, for fixed N ≥ 1: a higher level suppresses the
-    ratio M/Λ_QCD. -/
+/-- `mass_gap_ratio N ·` is strictly antitone in `k`, for fixed `N ≥ 1`.
+
+    Read as physics this says a higher level suppresses `M/Λ_QCD`; read as mathematics it
+    says `2N/(k+N)` decreases in `k`, which is what is actually proved. The gap between
+    those two readings is `open_yang_mills_existence` plus the level-quantization claim in
+    the module header. -/
 theorem mass_gap_ratio_strict_anti (N : ℕ) (hN : 1 ≤ N) {k1 k2 : ℕ} (hk : k1 < k2) :
     mass_gap_ratio N k2 < mass_gap_ratio N k1 := by
   simp only [mass_gap_ratio]
@@ -121,7 +168,7 @@ theorem open_kac_moody_level_appears_in_commutator : True := trivial
 /-- Sugawara energy-momentum tensor construction: T = :JJ:/(k+h^∨) -/
 theorem open_sugawara_construction : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:sugawara-conformal-dim
--- MATHLIB GAP: WZW model / 2D CFT operator formalism not in Mathlib.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): WZW model / 2D CFT operator formalism not in Mathlib.
 
 /-- Conformal dimension from Sugawara: Δ = C₂(λ)/(k+h^∨).
     `C2` is rational (not `ℕ`), since the fundamental-representation
@@ -197,39 +244,55 @@ theorem open_haar_confinement : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:haar-confinement-main
 -- PROOF: Haar measure on G projects onto gauge-invariant (color-singlet) states.
 -- Peter-Weyl decomposition makes this explicit: only trivial rep contributes.
--- MATHLIB GAP: Peter-Weyl theorem + measure theory on compact Lie groups.
+-- LIBRARY GAP: Peter-Weyl theorem + measure theory on compact Lie groups. Known
+-- mathematics; a formalization target.
 
 /-- Peter-Weyl discreteness forces discrete spectrum -/
 theorem open_peter_weyl_discrete_spectrum : True := trivial
 -- SOURCE: YM_PAPER35.tex, section on spectrum
 -- PROOF: Peter-Weyl decomposes L²(G) into finite-dim irreps.
 -- Discreteness of irrep dimensions forces discrete spectrum of H.
--- MATHLIB GAP: Peter-Weyl theorem (partially in Mathlib but not sufficient).
+-- LIBRARY GAP: Peter-Weyl theorem (partially in Mathlib but not sufficient). Known
+-- mathematics; a formalization target.
 
 /-- Reflection positivity for celestial Yang-Mills -/
 theorem open_reflection_positivity_celestial : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:reflection-positivity-main
 -- PROOF: Shadow-reflection bridge + Kac-Peterson unitarity.
--- MATHLIB GAP: OS axioms / reflection positivity formalism not in Mathlib.
+-- LIBRARY GAP for the formalism (OS axioms / reflection positivity), but note the stated
+-- PROOF route runs through Kac-Peterson unitarity at positive integer level -- see the
+-- module header on why that level claim is unverified source input.
 
 /-- Kac-Peterson unitarity for WZW model -/
 theorem open_kac_peterson_unitarity : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:kac-peterson
--- MATHLIB GAP: WZW model / affine Kac-Moody representation theory.
+-- LIBRARY GAP: WZW model / affine Kac-Moody representation theory. Kac-Peterson unitarity
+-- at positive integer level is an established theorem, so this one genuinely is absent
+-- library rather than absent mathematics. What is NOT established is that the celestial
+-- Yang-Mills level is such an integer -- see the module header.
 
 /-- Wightman axioms satisfied by celestial construction -/
 theorem open_wightman_axioms_satisfied : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:os-complete, thm:wightman-verification
--- MATHLIB GAP: Wightman QFT axioms not formalized in Mathlib.
+-- LIBRARY GAP for stating the axioms; OPEN PROBLEM for verifying them of a 4D Yang-Mills
+-- theory, which is the Millennium problem itself. Do not read this as one task.
 
-/-- Mass gap M = 2N/(k+N)·Λ_QCD > 0 -/
+/-- Mass gap M = 2N/(k+N)·Λ_QCD > 0.
+
+    **OPEN PROBLEM, not a library gap.** This is item 3 of the Clay Millennium problem.
+    Relabelled 2026-09-02: it previously read "MATHLIB GAP: All of the above (QFT formalism
+    absent from Mathlib)", which said that formalizing the Wightman axioms would close it.
+    It would not. -/
 theorem open_yang_mills_mass_gap : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:main (item 3)
--- MATHLIB GAP: All of the above (QFT formalism absent from Mathlib).
+-- OPEN PROBLEM: Yang-Mills existence and mass gap (Clay Millennium Prize).
 
-/-- Yang-Mills existence: Wightman QFT with gauge group G exists -/
+/-- Yang-Mills existence: Wightman QFT with gauge group G exists.
+
+    **OPEN PROBLEM, not a library gap** — the other half of the Millennium problem. -/
 theorem open_yang_mills_existence : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:main
+-- OPEN PROBLEM: Yang-Mills existence (Clay Millennium Prize).
 
 /-! ## Celestial/shadow connection -/
 

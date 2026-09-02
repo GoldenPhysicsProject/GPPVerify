@@ -111,7 +111,7 @@ theorem open_spectral_atom_weight_one (γ : ℝ) (_ : 0 < γ) : True := trivial
 -- SOURCE: rh_physics24_edited.tex, prop:atom
 -- PROOF SKETCH: Meyer spectral-Weil gives μ_A = μ_W; eigenspace is 1D;
 -- Weil atom weight = total analytic multiplicity; hence mult = 1.
--- MATHLIB GAP: Requires trace-class theory for adèlic operators.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Requires trace-class theory for adèlic operators.
 
 /-! ## Temperedness and J-symmetry -/
 
@@ -140,7 +140,7 @@ theorem open_haar_inversion_isometry : True := trivial
 theorem open_j_maps_functionals : True := trivial
 -- SOURCE: rh_physics24_edited.tex, lem:j-on-functionals
 -- PROOF: (Jf)^(s₀) = f(1-s₀) by Mellin transform under inversion.
--- MATHLIB GAP: Requires Mellin transform theory for spaces H₋.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Requires Mellin transform theory for spaces H₋.
 
 /-! ## Born rule -/
 
@@ -179,18 +179,56 @@ theorem born_rule_cesaro (R : ℝ) (hR : 1 < R) :
 /-! ## BRST Ward identity -/
 
 /-- Arithmetic Ward Identity: for K-invariant Haar square Φ,
-    Φ̂(0) + Φ̂(1) - Σ_ρ Φ̂(ρ) = Φ(1) -/
+    Φ̂(0) + Φ̂(1) - Σ_ρ Φ̂(ρ) = Φ(1)
+
+    **Relabelled 2026-09-02.** The note read "MATHLIB GAP: BRST cohomology formalism +
+    adèlic Fourier theory", i.e. a library gap. But the BRST derivation quoted on the
+    `PROOF:` line — `Q` encodes the functional equation, cohomology selects `K`-invariant
+    functions, the Euler product makes the difference `Q`-exact — is a **proposal of the
+    source framework, not an established theorem**. Formalizing BRST cohomology and adèlic
+    Fourier theory would let the argument be *written down*; whether it is valid is the
+    research question, and it is the step that carries all the weight (see
+    `open_weil_positivity_haar_squares` immediately below). -/
 theorem open_arithmetic_ward_identity : True := trivial
 -- SOURCE: RH_final_v5_1.tex, thm:arithmetic-ward
 -- PROOF: BRST differential Q encodes functional equation; cohomology selects
 -- K-invariant functions; Euler product makes the difference Q-exact.
--- MATHLIB GAP: BRST cohomology formalism + adèlic Fourier theory.
+-- FRAMEWORK CLAIM: the BRST route above is proposed, not established.
+-- LIBRARY GAP as well: BRST cohomology formalism + adèlic Fourier theory — needed to state
+-- the argument, not sufficient to validate it.
 
-/-- Weil positivity: W(Φ) ≥ 0 for Haar squares Φ = ψ̄ * ψ -/
+/-- Weil positivity: W(Φ) ≥ 0 for Haar squares Φ = ψ̄ * ψ.
+
+    **This is RH-equivalent, and until 2026-09-02 it was labelled a library gap.**
+
+    The note read "MATHLIB GAP: Same as `open_arithmetic_ward_identity`", which put this on
+    the formalization backlog. It does not belong there. Weil positivity of the explicit-
+    formula distribution over exactly this test class — Haar squares `Φ = ψ̄ * ψ` — **is**
+    Weil's criterion, and this repository states that criterion itself, as an iff, one file
+    away: `GppHaarPositivityWeil.open_weil_criterion`, "RH ↔ D_k(P) ≥ 0 for all Weil squares
+    P". So asserting this stub is asserting RH.
+
+    Read together, the two notes formed a chain that says RH is a formalization exercise:
+
+        formalize BRST + adèlic Fourier  ⟹  arithmetic Ward identity
+                                         ⟹  Weil positivity  ⟹  RH
+
+    Every arrow after the first is a framework proposal, and the last one is an equivalence,
+    not an implication — so nothing is being *reduced* along that chain. This is the
+    understating-the-gap failure recorded as `CLAUDE_CORRECTIONS.md` entry 16, in its most
+    consequential instance in this tree.
+
+    Codex reached the same boundary from the source side on 2026-09-02 while auditing the
+    Haar-Square Trace Identity material, and put it well: `K = T†T` establishes positivity of
+    the *constructed Gram kernel*, not positivity of Weil's global prime + Archimedean
+    distribution; local Gamma/Cauchy/chamber positivity must not be promoted to global Weil
+    positivity. The literature agrees the global upgrade is open (Meyer is
+    nuclear/bornological, Burnol is a reduced multiplicative-line class, Connes–Consani is
+    Archimedean with residual structure). -/
 theorem open_weil_positivity_haar_squares : True := trivial
 -- SOURCE: RH_final_v5_1.tex, cor:corollary-4.3
--- This follows from open_arithmetic_ward_identity + Φ(1) = ‖ψ‖² ≥ 0.
--- MATHLIB GAP: Same as open_arithmetic_ward_identity.
+-- Stated route: open_arithmetic_ward_identity + Φ(1) = ‖ψ‖² ≥ 0.
+-- OPEN PROBLEM: equivalent to the Riemann Hypothesis by Weil's criterion.
 
 /-! ## Main RH stubs -/
 
@@ -211,11 +249,20 @@ theorem open_weil_positivity_haar_squares : True := trivial
     and which is still open. The four gaps below are what stands between the conditional
     theorem and it. -/
 theorem open_rh_pathway_target : True := trivial
--- MATHLIB GAPS blocking unconditional proof:
+-- Header corrected 2026-09-02. This list read "MATHLIB GAPS blocking unconditional proof",
+-- which says the four below are what stands between this repo and RH. They are not, and the
+-- docstring above already says why: `GppRH.rh_iff_atomWeightOne` proves the pathway's target
+-- and its spectral input are EQUIVALENT, so the pathway relocates the difficulty rather than
+-- reducing it. Closing all four library gaps yields the conditional theorem, whose hypothesis
+-- is RH-strength.
+--
+-- LIBRARY GAPS blocking the CONDITIONAL pathway (known mathematics, absent from Mathlib):
 -- 1. Meyer spectral-Weil identity (μ_A = μ_W) — see SpectralWeil.lean
 -- 2. Tate functional equation for adèlic Haar squares
 -- 3. Stone's theorem for scaling flow generator
 -- 4. Trace-class theory for adèlic convolution operators
+--
+-- OPEN PROBLEM blocking the UNCONDITIONAL claim: the Riemann Hypothesis.
 
 /-- Simplicity of zeros: every non-trivial zero of ζ is simple.
     SOURCE: rh_physics24_edited.tex, cor:simple-zeros.
@@ -249,9 +296,22 @@ theorem open_zero_simplicity : True := trivial
 
 /-- Generalised RH for Hecke L-functions.
     SOURCE: rh_cft_proof4.tex, cor:grh.
-    PROOF: Same spectral argument applies to each L-function separately. -/
+    PROOF: Same spectral argument applies to each L-function separately.
+
+    **Relabelled 2026-09-02: this is an OPEN PROBLEM, not a library gap.** The note read
+    "MATHLIB GAP: Hecke L-functions re-verified absent in Mathlib 4.33.1", which is true and
+    is the wrong thing to say. Formalizing Hecke L-functions would make GRH *statable*; it
+    would not make it provable. GRH is open mathematics and strictly stronger than RH, which
+    is itself open.
+
+    This is `open_zero_simplicity`'s error (see the correction in its docstring above, and
+    `CLAUDE_CORRECTIONS.md` entry 12) repeated one declaration away and left standing when
+    that one was fixed — the tell in both cases is a gap phrased around **library
+    availability**, which answers a different question from **is the mathematics known**. -/
 theorem open_generalised_rh : True := trivial
--- MATHLIB GAP: Hecke L-functions re-verified absent in Mathlib 4.33.1 (2026-09-01).
+-- OPEN PROBLEM: the Generalised Riemann Hypothesis.
+-- (LIBRARY GAP as well: Hecke L-functions re-verified absent in Mathlib 4.33.1, 2026-09-01
+--  — needed to state the claim, not to prove it.)
 
 theorem open_rh_summary : True := trivial
 
