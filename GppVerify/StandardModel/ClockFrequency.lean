@@ -12,16 +12,18 @@ theorem clock_locking_population_double_frequency (ω : ℝ) (χ : ℂ) (t : ℝ
   constructor
   · rw [hL, Real.cos_two_mul]
     ring
-  · rw [hR, Real.cos_two_mul]
+  · rw [hR]
     have htrig := Real.sin_sq_add_cos_sq (ω * t)
-    nlinarith
+    have hs : Real.sin (ω * t) ^ 2 = (1 - Real.cos (2 * (ω * t))) / 2 := by
+      rw [Real.cos_two_mul]
+      nlinarith
+    rw [hs]
 
 theorem clock_locking_half_exchange (ω : ℝ) (hω : ω ≠ 0) (χ : ℂ) :
     psiL ω χ 0 (Real.pi / (2 * ω)) = 0 ∧
     psiR ω χ 0 (Real.pi / (2 * ω)) = -Complex.I * χ := by
   have ht : ω * (Real.pi / (2 * ω)) = Real.pi / 2 := by
     field_simp
-    ring
   constructor
   · simp [psiL, ht, Real.cos_pi_div_two]
   · simp [psiR, ht, Real.sin_pi_div_two]
