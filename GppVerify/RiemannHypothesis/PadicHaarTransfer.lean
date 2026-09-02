@@ -71,7 +71,7 @@ theorem isOpenEmbedding_coeAddHom : Topology.IsOpenEmbedding (coeAddHom p) := by
 theorem comap_apply {S : Set (PadicInt p)} (hS : MeasurableSet S) :
     (fieldHaarMeasure p).comap (coeAddHom p) S = fieldHaarMeasure p (coeAddHom p '' S) :=
   Measure.comap_apply (coeAddHom p) (isOpenEmbedding_coeAddHom p).injective
-    (fun s hs =>
+    (fun _ hs =>
       (isOpenEmbedding_coeAddHom p).measurableEmbedding.measurableSet_image.mpr hs)
     _ hS
 

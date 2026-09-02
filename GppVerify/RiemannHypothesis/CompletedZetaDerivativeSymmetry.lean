@@ -72,7 +72,7 @@ theorem completedRiemannZeta_deriv_one_sub {s : ℂ} (hs0 : s ≠ 0) (hs1 : s �
 /-- **Reflected logarithmic derivative.** Wherever the completed zeta factor is nonzero,
 its logarithmic derivative is odd under `s ↦ 1-s`. -/
 theorem completedRiemannZeta_logDeriv_reflection {s : ℂ}
-    (hs0 : s ≠ 0) (hs1 : s ≠ 1) (hΛ : completedRiemannZeta s ≠ 0) :
+    (hs0 : s ≠ 0) (hs1 : s ≠ 1) :
     deriv completedRiemannZeta s / completedRiemannZeta s =
       -(deriv completedRiemannZeta (1 - s) / completedRiemannZeta (1 - s)) := by
   have hval : completedRiemannZeta (1 - s) = completedRiemannZeta s :=

@@ -104,10 +104,9 @@ lemma xi_zero_iff_zeta_zero (s : ℂ)
 -- ============================================================
 
 /-- If ξ(s) = 0 then ξ(1-s) = 0. Already in FunctionalEquation.lean. -/
-lemma xi_zeros_symmetric (s : ℂ) (hzero : GppFE.riemannXi s = 0)
-    (hn : ∀ n : ℕ, s ≠ -↑n) (hone : s ≠ 1) :
+lemma xi_zeros_symmetric (s : ℂ) (hzero : GppFE.riemannXi s = 0) :
     GppFE.riemannXi (1 - s) = 0 :=
-  GppFE.xi_zero_symmetric s hzero hn hone
+  GppFE.xi_zero_symmetric s hzero
 
 /-- The critical strip 0 < Re(s) < 1 is symmetric under s ↦ 1-s. -/
 lemma critical_strip_symmetric (s : ℂ) (h : 0 < s.re ∧ s.re < 1) :
@@ -116,8 +115,7 @@ lemma critical_strip_symmetric (s : ℂ) (h : 0 < s.re ∧ s.re < 1) :
   exact ⟨by linarith [h.2], by linarith [h.1]⟩
 
 /-- Off-critical-line zeros come in pairs {s, 1-s} with different real parts. -/
-lemma off_critical_zero_gives_pair (s : ℂ)
-    (hstrip : 0 < s.re ∧ s.re < 1) (hcrit : s.re ≠ 1/2) :
+lemma off_critical_zero_gives_pair (s : ℂ) (hcrit : s.re ≠ 1/2) :
     (1 - s).re ≠ s.re := by
   simp [Complex.sub_re, Complex.one_re]
   intro h
@@ -146,9 +144,30 @@ theorem rh_partner_on_critical_line (rh : RiemannHypothesis) (s : ℂ)
   simp only [Complex.sub_re, Complex.one_re]
   linarith
 
-/-- Under RH: the imaginary axis Re(s) = 0 has no non-trivial zeros. -/
-theorem rh_no_zeros_on_imaginary_axis (rh : RiemannHypothesis) (s : ℂ)
-    (hzero : riemannZeta s = 0) (hs_re : s.re = 0) :
+/-- **The imaginary axis is outside the critical strip.**
+
+    Renamed and stripped 2026-09-02. This was `rh_no_zeros_on_imaginary_axis`, stated as
+
+        theorem rh_no_zeros_on_imaginary_axis (rh : RiemannHypothesis) (s : ℂ)
+            (hzero : riemannZeta s = 0) (hs_re : s.re = 0) : ¬(0 < s.re ∧ s.re < 1)
+
+    with the docstring "Under RH: the imaginary axis Re(s) = 0 has no non-trivial zeros" —
+    and a proof that used **neither** `rh` **nor** `hzero`. It is `¬(0 < 0)`. Zeta never
+    enters, RH never enters; the two hypotheses that made it read as a theorem about zeta
+    zeros under RH were decoration, and the name advertised exactly the content they
+    supplied, which is none.
+
+    This is the third distinct way a declaration in this tree has asserted nothing while
+    looking substantial — after `True := trivial` stubs and `X = X` reflexivity
+    tautologies — and the first that the stub gate could not see, because its conclusion is
+    a genuine (if trivial) proposition. What gave it away was the compiler's unused-binder
+    warning, which only appears on a *fresh* compile: the same cache blindness that hid a
+    live `sorry` in `main` for four merges. See `scripts/check_vacuity.py`.
+
+    The arithmetic fact is kept, under a name that claims only it. Anything wanting "RH
+    implies no zeros off the critical line" should use `rh_zeros_on_critical_line`, which
+    genuinely applies `rh`. -/
+theorem re_eq_zero_not_mem_critical_strip {s : ℂ} (hs_re : s.re = 0) :
     ¬ (0 < s.re ∧ s.re < 1) := by
   intro ⟨h, _⟩
   linarith
