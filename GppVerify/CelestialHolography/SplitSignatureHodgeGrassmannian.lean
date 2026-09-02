@@ -60,6 +60,21 @@ theorem splitStar_negates_asd (p : P6) :
   · ring
   · constructor <;> ring
 
+/-- Reversing orientation changes `*` to `-*`, so a `+1` split-signature eigenvector
+is a `-1` eigenvector for the reversed orientation. -/
+theorem orientation_reversal_exchanges_split_sd
+    {V : Type*} [AddCommGroup V] [Module ℝ V]
+    (star : V →ₗ[ℝ] V) (F : V) (hF : star F = F) :
+    (-star) F = (-1 : ℝ) • F := by
+  simp [hF]
+
+/-- Conversely a `-1` eigenvector becomes `+1` self-dual after orientation reversal. -/
+theorem orientation_reversal_exchanges_split_asd
+    {V : Type*} [AddCommGroup V] [Module ℝ V]
+    (star : V →ₗ[ℝ] V) (F : V) (hF : star F = (-1 : ℝ) • F) :
+    (-star) F = F := by
+  simp [hF]
+
 noncomputable def splitComplement (A : M2) : M2 :=
   let D := det2 A
   (A.2.2.2 / D, -A.2.2.1 / D, -A.2.1 / D, A.1 / D)
@@ -104,10 +119,29 @@ theorem splitQuarterTurn_sq (A : M2) :
   rcases A with ⟨a,b,c,d⟩
   rfl
 
+/-- Split complement and the fixed quarter-turn commute on the invertible big cell. -/
+theorem splitComplement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
+    splitComplement (splitQuarterTurn A) = splitQuarterTurn (splitComplement A) := by
+  rcases A with ⟨a,b,c,d⟩
+  simp only [det2, splitComplement, splitQuarterTurn] at hD ⊢
+  field_simp [hD]
+  <;> ring
+
 /-- The existing Grassmannian `tau` factors through the split-signature Hodge complement. -/
 theorem tau_eq_splitQuarterTurn_splitComplement (A : M2) :
     tau A = splitQuarterTurn (splitComplement A) := by
   rcases A with ⟨a,b,c,d⟩
   rfl
+
+/-- The order-four law is recovered from an involutive split Hodge complement and a
+commuting quarter-turn whose square is the central sign. -/
+theorem tau_sq_from_split_hodge (A : M2) (hD : det2 A ≠ 0) :
+    tau (tau A) = (-A.1,-A.2.1,-A.2.2.1,-A.2.2.2) := by
+  rw [tau_eq_splitQuarterTurn_splitComplement, tau_eq_splitQuarterTurn_splitComplement]
+  rw [splitComplement_quarterTurn_commute (splitComplement A)]
+  · rw [splitComplement_involutive A hD]
+    exact splitQuarterTurn_sq A
+  · rw [det2_splitComplement A hD]
+    exact one_div_ne_zero hD
 
 end GppSplitSignatureHodgeGrassmannian
