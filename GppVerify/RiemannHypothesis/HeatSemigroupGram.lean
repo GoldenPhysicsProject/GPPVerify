@@ -110,19 +110,24 @@ theorem finiteHeatMixture_hankel_nonneg {m n : ℕ}
                 (((w r * heatMode (rate r) (t i + t j) : ℝ) : ℂ)) := by
     unfold finiteHeatMixture
     push_cast
-    rw [Finset.sum_comm]
-    apply Finset.sum_congr rfl
-    intro r hr
-    rw [Finset.sum_comm]
-    apply Finset.sum_congr rfl
-    intro i hi
-    rw [Finset.mul_sum]
-    apply Finset.sum_congr rfl
-    intro j hj
-    rw [Finset.mul_sum]
-    ring
-  rw [heq, map_sum]
-  exact Finset.sum_nonneg fun r hr => hmode r
+    simp_rw [Finset.mul_sum]
+    calc
+      (∑ i : Fin n, ∑ j : Fin n, ∑ r : Fin m,
+          (starRingEnd ℂ) (c i) * c j *
+            ((w r : ℂ) * (heatMode (rate r) (t i + t j) : ℂ))) =
+          ∑ i : Fin n, ∑ r : Fin m, ∑ j : Fin n,
+            (starRingEnd ℂ) (c i) * c j *
+              ((w r : ℂ) * (heatMode (rate r) (t i + t j) : ℂ)) := by
+        apply Finset.sum_congr rfl
+        intro i hi
+        rw [Finset.sum_comm]
+      _ = ∑ r : Fin m, ∑ i : Fin n, ∑ j : Fin n,
+            (starRingEnd ℂ) (c i) * c j *
+              ((w r : ℂ) * (heatMode (rate r) (t i + t j) : ℂ)) := by
+        rw [Finset.sum_comm]
+  rw [heq]
+  simpa only [Complex.re_sum] using
+    (Finset.sum_nonneg fun r hr => hmode r)
 
 end GppHeatSemigroupGram
 
