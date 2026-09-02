@@ -125,25 +125,46 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
     0 ≤ (∑ p ∈ S, ∑ q ∈ S, (starRingEnd ℂ) (c p) * c q * ((a p * a q : ℝ) : ℂ)).re := by
   rw [sum_conj_mul_real_eq_normSq]
   simpa using Complex.normSq_nonneg (∑ p ∈ S, c p * (a p : ℂ))
--- SOURCE: haar_positivity_weil_wightman.tex
--- STATEMENT: for f : ℝ → ℝ integrable (and bounded, so pairwise translated
--- products stay integrable) and μ a left-invariant measure on ℝ,
--- P x := ∫ y, f y * f (y - x) ∂μ is positive-type.
--- STATUS: the gap described below is NOW CLOSED — the statement is proved
--- in full for Lebesgue (= Haar) measure on ℝ as
+-- Pointer, not a declaration. SOURCE: haar_positivity_weil_wightman.tex. The
+-- convolution-square statement —
+--   for `f : ℝ → ℝ` integrable and bounded and `μ` left-invariant on `ℝ`,
+--   `P x := ∫ y, f y * f (y - x) ∂μ` is positive-type
+-- — is PROVED IN FULL for Lebesgue (= Haar) measure on `ℝ`, as
 -- `GppHaarPositivityWeil.convolution_square_positive_type` in
--- `ConvolutionSquarePositive.lean` (integrability of the translated
--- products via `Integrable.comp_add_right` + `Integrable.bdd_mul`, the
--- interchange via `integral_finset_sum`, and the pointwise Gram-square
--- identity). This stub is retained only so older references resolve.
+-- `ConvolutionSquarePositive.lean`: integrability of the translated products via
+-- `Integrable.comp_add_right` + `Integrable.bdd_mul`, the ∑/∫ interchange via
+-- `integral_finset_sum`, and the pointwise Gram-square identity above.
+--
+-- Corrected 2026-09-02: this block used to end "This stub is retained only so older
+-- references resolve" — but the stub it described had already been deleted, so the sentence
+-- attached itself to `sum_conj_mul_real_re_nonneg` directly above and read as if that proved
+-- lemma were the retained stub. There is no stub here; there is a proof, in another file.
 
 /-! ## GNS construction -/
 
-/-- Positive-type functions generate a Hilbert space via GNS construction -/
-theorem open_gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : True := trivial
--- SOURCE: haar_positivity_weil_wightman.tex, thm:gns-positive
--- PROOF: Form inner product ⟨δ_{g_i}, δ_{g_j}⟩ = P(g_i^{-1}g_j); complete; done.
--- LIBRARY GAP (known mathematics, absent from Mathlib): GNS construction for groups not in Mathlib.
+/-- Positive-type functions generate a Hilbert space via GNS construction.
+
+    SOURCE: haar_positivity_weil_wightman.tex, thm:gns-positive.
+    Sketch: form `⟨δ_{g_i}, δ_{g_j}⟩ = P(g_i⁻¹ g_j)`, quotient by the null space, complete.
+
+    LIBRARY GAP, **re-verified and narrowed against Mathlib 4.33.1 (2026-09-02).** This line
+    read "GNS construction for groups not in Mathlib", which is now wrong in the direction
+    that costs the most: it sends a future session off to build GNS from nothing.
+
+    Mathlib *has* the GNS construction — `Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`
+    (added 2025): `PositiveLinearMap.PreGNS`, `.GNS` (the Hilbert-space completion), and
+    `.gnsStarAlgHom` / `.gnsNonUnitalStarAlgHom`.
+
+    What is missing is the *bridge*, not the construction: from a positive-definite function on
+    a group to a positive linear functional on a C⋆-algebra containing that group. That needs a
+    C⋆-norm on the group algebra — `MonoidAlgebra` exists, a C⋆ structure on it does not. So the
+    remaining work is the positive-definite-function ↔ state correspondence, after which
+    Mathlib's GNS applies unchanged.
+
+    The phantom `(P : ℝ → ℝ) (_ : PositiveType P)` arguments are dropped with the same
+    correction: they made this read as a statement about a particular positive-type function,
+    and it was not one. -/
+theorem open_gns_from_positive_type : True := trivial
 
 /-! ## Weil positivity -/
 
