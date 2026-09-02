@@ -14,13 +14,12 @@ namespace GppSpectralRhoChamber
 
 open Complex
 open GppSpectralRho
-open scoped BigOperators
 
 noncomputable def chamberCoeff (k : ℕ) : ℝ :=
   (2 : ℝ) ^ (2 * k) / (((2 * k + 1).factorial : ℕ) : ℝ)
 
 noncomputable def chamberPoly (k : ℕ) (x : ℝ) : ℝ :=
-  ∏ j in Finset.range k, (((j : ℝ) + 1) ^ 2 + x ^ 2)
+  Finset.prod (Finset.range k) (fun j => (((j : ℝ) + 1) ^ 2 + x ^ 2))
 
 @[simp] theorem chamberCoeff_zero : chamberCoeff 0 = 1 := by
   norm_num [chamberCoeff]
