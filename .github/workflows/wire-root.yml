@@ -15,10 +15,21 @@
 # triggers and no `push:` event on purpose: a workflow that silently rewrites branches is a
 # worse problem than the one it solves.
 #
-# The push here triggers the normal Build workflow on the same branch, which cold-builds and
-# runs all seven gates. So one dispatch gives you wired *and* verified — and the build is the
-# point: adding an import to the root graph is exactly the moment a module that has never
-# compiled starts having to.
+# The wiring push does NOT trigger the Build workflow, and an earlier version of this file
+# claimed it did. Two independent reasons, confirmed by self-test on 2026-09-02: `build.yml`
+# triggers only on `main` pushes and pull requests, and — more fundamentally — GitHub
+# suppresses workflow triggers from pushes made with `GITHUB_TOKEN`, to prevent recursion.
+#
+# That matters, because wiring a module into the root graph is exactly the moment it starts
+# having to compile for the first time, and today that turned up four genuine breaks across
+# two payloads. Wiring without building is the more dangerous half on its own: it converts
+# "this module was never checked" into "this module is in the build graph" without anyone
+# checking it.
+#
+# So this workflow verifies its own work. The `verify` job below cold-builds the wired branch
+# and runs every gate. It duplicates `build.yml` rather than reusing it, which is a real cost
+# — if you change the gates there, change them here — and is still better than a dispatch that
+# silently leaves a branch wired but unbuilt.
 name: wire root
 
 on:
@@ -74,8 +85,76 @@ jobs:
       - name: Report
         run: |
           if [ "${{ steps.wire.outputs.changed }}" = "true" ]; then
-            echo "Wired and pushed. The Build workflow will now cold-build this branch and"
-            echo "run all seven gates — that run is the real verification, not this job."
+            echo "Wired and pushed. The verify job below cold-builds this branch and runs"
+            echo "every gate — a wiring push does not trigger the Build workflow, so that"
+            echo "job is the only verification this dispatch gets."
           else
             echo "Nothing to wire; the root import graph was already complete."
           fi >> "$GITHUB_STEP_SUMMARY"
+
+  # Wiring a module is the moment it must compile for the first time. Verify it here, because
+  # the push above cannot trigger `build.yml` (GITHUB_TOKEN pushes raise no workflow events).
+  verify:
+    needs: wire
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+
+      - name: Install elan
+        run: |
+          curl -sSfL \
+            https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz \
+            | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Discard this package's build artifacts (keep Mathlib's)
+        run: rm -rf .lake/build
+
+      - name: Build
+        run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
+
+      - name: Unused-hypothesis gate
+        run: |
+          if grep -E "is not explicitly referenced" /tmp/build.log; then
+            echo "::error::Unused binder(s) in the freshly wired tree."
+            exit 1
+          fi
+          echo "OK — no unused binders."
+
+      - name: Sorry gate, build-log
+        run: |
+          if grep -F "declaration uses 'sorry'" /tmp/build.log; then
+            echo "::error::A declaration uses 'sorry'."
+            exit 1
+          fi
+          echo "OK — no declaration uses 'sorry'."
+
+      - name: Source and honesty gates
+        run: |
+          python3 scripts/check_import_graph.py
+          python3 scripts/check_sorries.py
+          python3 scripts/check_stub_naming.py
+          python3 scripts/check_vacuity.py
+          python3 scripts/check_blueprint_refs.py
+          python3 scripts/check_landing_claims.py
