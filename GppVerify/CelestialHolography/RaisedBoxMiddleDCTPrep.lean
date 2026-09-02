@@ -1,5 +1,6 @@
 import GppVerify.CelestialHolography.RaisedBoxInnerDCT
 import GppVerify.CelestialHolography.RaisedBoxRealMajorantSliceIntegral
+import GppVerify.CelestialHolography.RaisedBoxRealMajorantMiddleIntegral
 import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Tactic
 
@@ -26,6 +27,7 @@ open scoped Interval Topology
 open GppRaisedBoxConcreteMoment
 open GppRaisedBoxInnerDCT
 open GppRaisedBoxRealMajorantSliceIntegral
+open GppRaisedBoxRealMajorantMiddleIntegral
 
 /-- A simple `x2`-constant majorant for the already integrated `x3` slice. -/
 noncomputable def middleMajorant (δ S x1 : ℝ) : ℝ :=
@@ -143,6 +145,14 @@ theorem inner_slice_tendsto_affine_length
   apply inner_integral_tendsto_slice_length hδ0 hδ1 hS hT hx1 hx2 rfl
   linarith
 
+/-- Exact integral of the pointwise middle-DCT limit.  Once the `x2` DCT is
+assembled, this is the value to which the double inner slice must converge. -/
+theorem affine_middle_limit_integral (x1 : ℝ) :
+    (∫ x2 : ℝ in (0 : ℝ)..(1 - x1), 1 - x1 - x2) =
+      (1 - x1) ^ 2 / 2 := by
+  have h := integral_affine_post_inner (δ := (0 : ℝ)) (L := 1 - x1) (by norm_num)
+  simpa [Real.rpow_one, Real.rpow_two] using h
+
 end GppRaisedBoxMiddleDCTPrep
 
 #print axioms GppRaisedBoxMiddleDCTPrep.middleMajorant_nonneg
@@ -150,3 +160,4 @@ end GppRaisedBoxMiddleDCTPrep
 #print axioms GppRaisedBoxMiddleDCTPrep.inner_majorant_integral_le_middleMajorant
 #print axioms GppRaisedBoxMiddleDCTPrep.inner_integral_norm_le_middleMajorant
 #print axioms GppRaisedBoxMiddleDCTPrep.inner_slice_tendsto_affine_length
+#print axioms GppRaisedBoxMiddleDCTPrep.affine_middle_limit_integral
