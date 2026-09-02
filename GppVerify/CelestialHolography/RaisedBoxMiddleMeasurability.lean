@@ -84,7 +84,21 @@ theorem wholeLine_inner_integral_eq_intervalIntegral
       (Set.Ioc (0 : ℝ) (1 - x1 - x2)).indicator
         (fun x3 : ℝ => integrand ε S T x1 x2 x3) := by
     funext x3
-    simp [innerRegion, Set.mem_Ioc]
+    by_cases h : 0 < x3 ∧ x3 ≤ 1 - x1 - x2
+    · have hinner : (x2, x3) ∈ innerRegion x1 := by
+        simpa [innerRegion] using h
+      have hioc : x3 ∈ Set.Ioc (0 : ℝ) (1 - x1 - x2) := by
+        simpa [Set.mem_Ioc] using h
+      simp [hinner, hioc]
+    · have hinner : (x2, x3) ∉ innerRegion x1 := by
+        intro hx
+        apply h
+        simpa [innerRegion] using hx
+      have hioc : x3 ∉ Set.Ioc (0 : ℝ) (1 - x1 - x2) := by
+        intro hx
+        apply h
+        simpa [Set.mem_Ioc] using hx
+      simp [hinner, hioc]
   rw [hfun, integral_indicator measurableSet_Ioc,
     intervalIntegral.integral_of_le hL]
 
