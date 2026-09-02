@@ -25,7 +25,7 @@ theorem integral_affine_post_inner
   rw [intervalIntegral.integral_comp_sub_right (fun y : ℝ => y ^ (1 - δ : ℝ))]
   simp only [sub_self, sub_zero]
   have hr : -1 < 1 - δ := by linarith
-  rw [intervalIntegral.integral_rpow (Or.inl hr)]
+  rw [integral_rpow (Or.inl hr)]
   have hp : 0 < 2 - δ := sub_pos.mpr hδ
   have hexp : 1 - δ + 1 = 2 - δ := by ring
   rw [hexp]
