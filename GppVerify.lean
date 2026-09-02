@@ -1285,3 +1285,28 @@ import GppVerify.RiemannHypothesis.ScaleShadowHalfDensity
 import GppVerify.RiemannHypothesis.ThermalCriticalLineBridge
 
 import GppVerify.RiemannHypothesis.PrimeFockPartition
+
+-- ── Wired automatically by scripts/wire_root.py ─────────────
+-- Modules added here were on disk but outside the root import graph, so
+-- `lake build GppVerify` was not compiling them. Move an import up into the
+-- appropriate curated section above, with a note on what it is for, whenever
+-- you know where it belongs — this block is a staging area, not a destination.
+import GppVerify.CelestialHolography.RaisedBoxConcreteMoment
+import GppVerify.CelestialHolography.RaisedBoxConcreteVolumeClosure
+import GppVerify.CelestialHolography.RaisedBoxInnerDCT
+import GppVerify.CelestialHolography.RaisedBoxMiddleDCT
+import GppVerify.CelestialHolography.RaisedBoxMiddleDCTPrep
+import GppVerify.CelestialHolography.RaisedBoxMiddleMeasurability
+import GppVerify.CelestialHolography.RaisedBoxPointwiseLimit
+import GppVerify.CelestialHolography.RaisedBoxRealMajorantIntegrability
+import GppVerify.CelestialHolography.RaisedBoxRealMajorantMiddleIntegral
+import GppVerify.CelestialHolography.RaisedBoxRealMajorantSlice
+import GppVerify.CelestialHolography.RaisedBoxRealMajorantSliceIntegral
+import GppVerify.CelestialHolography.RaisedBoxRealOuterDomination
+import GppVerify.CelestialHolography.RaisedBoxRealOuterIntegrability
+import GppVerify.CelestialHolography.RaisedBoxSimplexBetaLayer
+import GppVerify.CelestialHolography.RaisedBoxSimplexGammaClosure
+import GppVerify.CelestialHolography.RaisedBoxSimplexMajorantAlgebra
+import GppVerify.CelestialHolography.RaisedBoxSimplexMeasureBridge
+import GppVerify.CelestialHolography.RaisedBoxSimplexNestedReduction
+import GppVerify.CelestialHolography.RaisedBoxSimplexZeroVolume
