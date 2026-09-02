@@ -90,7 +90,7 @@ theorem inner_majorant_integral_le_middleMajorant
         1 + (S * x1) ^ (-δ : ℝ) * (1 / (1 - δ)) :=
       add_le_add hL1 hscaled
     _ = 1 + (S * x1) ^ (-δ : ℝ) / (1 - δ) := by
-      rw [div_eq_mul_inv, one_div]
+      ring
 
 /-- The physical inner integral itself is bounded in norm by the same simple
 middle majorant whenever `0 ≤ ε ≤ δ < 1`. -/
