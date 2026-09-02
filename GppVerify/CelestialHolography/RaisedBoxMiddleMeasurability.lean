@@ -1,5 +1,6 @@
 import GppVerify.CelestialHolography.RaisedBoxConcreteMoment
 import Mathlib.MeasureTheory.Integral.Prod
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 import Mathlib.Tactic
 
 /-!
@@ -67,9 +68,30 @@ theorem wholeLine_inner_integral_stronglyMeasurable
             (fun p : ℝ × ℝ => integrand ε S T x1 p.1 p.2) (x2, x3)) := by
   exact (inner_indicator_stronglyMeasurable ε S T x1).integral_prod_right'
 
+/-- On a physical middle slice, the measurable whole-line indicator model is
+exactly the variable-endpoint interval integral used by the raised-box moment. -/
+theorem wholeLine_inner_integral_eq_intervalIntegral
+    {ε S T x1 x2 : ℝ} (hL : 0 ≤ 1 - x1 - x2) :
+    (∫ x3 : ℝ,
+      (innerRegion x1).indicator
+        (fun p : ℝ × ℝ => integrand ε S T x1 p.1 p.2) (x2, x3)) =
+      ∫ x3 : ℝ in (0 : ℝ)..(1 - x1 - x2),
+        integrand ε S T x1 x2 x3 := by
+  have hfun :
+      (fun x3 : ℝ =>
+        (innerRegion x1).indicator
+          (fun p : ℝ × ℝ => integrand ε S T x1 p.1 p.2) (x2, x3)) =
+      (Set.Ioc (0 : ℝ) (1 - x1 - x2)).indicator
+        (fun x3 : ℝ => integrand ε S T x1 x2 x3) := by
+    funext x3
+    simp [innerRegion, Set.mem_Ioc]
+  rw [hfun, integral_indicator measurableSet_Ioc,
+    intervalIntegral.integral_of_le hL]
+
 end GppRaisedBoxMiddleMeasurability
 
 #print axioms GppRaisedBoxMiddleMeasurability.measurableSet_innerRegion
 #print axioms GppRaisedBoxMiddleMeasurability.joint_integrand_stronglyMeasurable
 #print axioms GppRaisedBoxMiddleMeasurability.inner_indicator_stronglyMeasurable
 #print axioms GppRaisedBoxMiddleMeasurability.wholeLine_inner_integral_stronglyMeasurable
+#print axioms GppRaisedBoxMiddleMeasurability.wholeLine_inner_integral_eq_intervalIntegral
