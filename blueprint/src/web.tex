@@ -3306,6 +3306,22 @@ The payoff of `HaarSubgroupIndex.lean` + `PadicHaarMeasure.lean` + `PadicIndexPn
   \item \lean{GppPadicZetaIntegral.haarMeasure_span_pow}\leanok\ \texttt{haarMeasure\_span\_pow}
 \end{itemize}
 
+\subsection{PrimeFockPartition}
+The occupation-basis (sum) side of the prime-gas dictionary, which the Euler-product form
+does not give: configurations of the primon gas biject with the positive integers, so the
+spectrum is non-degenerate and equal to $\{\log N : N \geq 1\}$, and the partition function
+$\sum_n e^{-sE(n)}$ is $\zeta(s)$ on $\operatorname{Re} s > 1$. All of it is unique
+factorization; no Fock space, Hamiltonian or Hilbert space is constructed, and there is no
+critical-strip content.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFock.occEnergy_injective}\leanok\ \texttt{occEnergy\_injective}
+  \item \lean{GppPrimeFock.occEnergy_range}\leanok\ \texttt{occEnergy\_range}
+  \item \lean{GppPrimeFock.exp_occEnergy_range}\leanok\ \texttt{exp\_occEnergy\_range}
+  \item \lean{GppPrimeFock.partition_eq_riemannZeta}\leanok\ \texttt{partition\_eq\_riemannZeta}
+\end{itemize}
+
 \subsection{PrimeGasPartition}
 For a prime mode `p`, the local Euler factor
 
