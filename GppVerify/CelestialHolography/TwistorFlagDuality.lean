@@ -10,9 +10,10 @@ Annihilator duality reverses this incidence exactly:
 
   ell <= W  ==>  W^0 <= ell^0.
 
-This is the abstract linear-algebra statement behind the explicit big-cell computation
-in `TwistorAnnihilatorIncidence.lean`.  It needs no coordinates and no twistor-specific
-axiom; it is simply the antitonicity of the dual annihilator.
+The reverse operation is dual coannihilation.  For vector spaces Mathlib proves
+`W.dualAnnihilator.dualCoannihilator = W`, so the flag correspondence closes
+exactly at the level of linear incidence geometry.  This is the algebraic core
+needed before attempting a cohomological Penrose/googly pull-push transform.
 -/
 
 namespace GppTwistorFlagDuality
@@ -28,6 +29,15 @@ theorem dualAnnihilator_antitone {L W : Submodule K V} (hLW : L ≤ W) :
   rw [Submodule.mem_dualAnnihilator] at hφ ⊢
   intro x hx
   exact hφ x (hLW hx)
+
+/-- Dual coannihilator also reverses inclusion. -/
+theorem dualCoannihilator_antitone
+    {Phi Psi : Submodule K (Module.Dual K V)} (h : Phi ≤ Psi) :
+    Psi.dualCoannihilator ≤ Phi.dualCoannihilator := by
+  intro x hx
+  rw [Submodule.mem_dualCoannihilator] at hx ⊢
+  intro phi hphi
+  exact hx phi (h hphi)
 
 /-- The incidence datum used by the ordinary Penrose correspondence, stripped to
 its linear-algebra core: a subspace `line` included in a subspace `plane`. -/
@@ -48,10 +58,30 @@ def annihilatorFlag (F : Flag12 (K:=K) (V:=V)) : DualFlag23 (K:=K) (V:=V) where
   lineAnn := F.line.dualAnnihilator
   incidence := dualAnnihilator_antitone F.incidence
 
+/-- Canonical reverse map by dual coannihilators. -/
+def recoverFlag (F : DualFlag23 (K:=K) (V:=V)) : Flag12 (K:=K) (V:=V) where
+  line := F.lineAnn.dualCoannihilator
+  plane := F.planeAnn.dualCoannihilator
+  incidence := dualCoannihilator_antitone F.incidence
+
 /-- The defining incidence relation of the dual flag is forced by the original incidence. -/
 theorem annihilatorFlag_incidence (F : Flag12 (K:=K) (V:=V)) :
     (annihilatorFlag F).planeAnn ≤ (annihilatorFlag F).lineAnn :=
   (annihilatorFlag F).incidence
+
+/-- The annihilator/coannihilator round trip recovers the original Penrose flag exactly. -/
+theorem recover_annihilatorFlag (F : Flag12 (K:=K) (V:=V)) :
+    recoverFlag (annihilatorFlag F) = F := by
+  cases F with
+  | mk line plane incidence =>
+      simp [recoverFlag, annihilatorFlag]
+
+/-- In particular, annihilator flag duality is injective: no incidence data are lost. -/
+theorem annihilatorFlag_injective :
+    Function.Injective (annihilatorFlag : Flag12 (K:=K) (V:=V) → DualFlag23 (K:=K) (V:=V)) := by
+  intro F G h
+  have := congrArg recoverFlag h
+  simpa [recover_annihilatorFlag] using this
 
 section FourDimensional
 
