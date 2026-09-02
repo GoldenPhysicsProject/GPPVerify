@@ -277,7 +277,9 @@ def main() -> int:
             failed = True
             print(
                 f"::error::{BLUEPRINT} states {m.group(1)} stubs; the tree has {total}. "
-                "Update the blueprint sentence so the published ledger is not a lie."
+                "Update the blueprint sentence so the published ledger is not a lie — "
+                "`python3 scripts/sync_published_counts.py` does it, and the same run "
+                "fixes the matching numbers on index.html."
             )
         else:
             print(f"Blueprint stub count agrees with the tree ({total}).")
