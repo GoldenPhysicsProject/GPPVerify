@@ -2000,6 +2000,23 @@ classify honestly, never axiomatize the desired conclusion) each was attempted t
   ratio functional or test spaces concretely are.
 \end{theorem}
 
+\begin{theorem}[Localized Ground Energies Converge to the Global One]
+  \label{thm:weil-semibound-sharp-limit}
+  \lean{GppWeilSemibound.lam_tendsto_globalGround}
+  \leanok
+  Same abstract setting. The global ratio set $R''\bigcup_a S_a$ and the family
+  $\operatorname{range}\lambda$ have \emph{the same lower bounds}
+  (\lean{GppWeilSemibound.lowerBounds_global_eq_lowerBounds_range_lam}), from which: $L$ is
+  the global greatest lower bound iff it is the greatest lower bound of the localized ground
+  energies, the two sets are bounded below together, and --- with nesting --- $\lambda_a\to
+  L$. Sharpens Theorem~\ref{thm:weil-semibound-order-skeleton}(ii), which matched only the
+  \emph{existence} of a bound on each side: the two \emph{optimal} constants are the same
+  real number, reached as a limit, so localization loses nothing. Accompanied by the
+  dichotomy \lean{GppWeilSemibound.lam_tendsto_atBot_or_tendsto_ciInf}: an antitone $\lambda$
+  either diverges to $-\infty$ or converges to $\bigsqcap_a\lambda_a$, with no third case, so
+  no downstream statement needs to assume convergence.
+\end{theorem}
+
 \textbf{Honest boundary, this pass.} Theorem~\ref{thm:weil-semibound-order-skeleton} does
 \emph{not} define $Q_W$, the Weil quadratic form, $\|\cdot\|_2$, or
 $S_a=C_c^\infty(-a,a)$ --- no such localized compactly-supported-test-function machinery
@@ -3306,6 +3323,22 @@ The payoff of `HaarSubgroupIndex.lean` + `PadicHaarMeasure.lean` + `PadicIndexPn
   \item \lean{GppPadicZetaIntegral.haarMeasure_span_pow}\leanok\ \texttt{haarMeasure\_span\_pow}
 \end{itemize}
 
+\subsection{PrimeFockPartition}
+The occupation-basis (sum) side of the prime-gas dictionary, which the Euler-product form
+does not give: configurations of the primon gas biject with the positive integers, so the
+spectrum is non-degenerate and equal to $\{\log N : N \geq 1\}$, and the partition function
+$\sum_n e^{-sE(n)}$ is $\zeta(s)$ on $\operatorname{Re} s > 1$. All of it is unique
+factorization; no Fock space, Hamiltonian or Hilbert space is constructed, and there is no
+critical-strip content.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFock.occEnergy_injective}\leanok\ \texttt{occEnergy\_injective}
+  \item \lean{GppPrimeFock.occEnergy_range}\leanok\ \texttt{occEnergy\_range}
+  \item \lean{GppPrimeFock.exp_occEnergy_range}\leanok\ \texttt{exp\_occEnergy\_range}
+  \item \lean{GppPrimeFock.partition_eq_riemannZeta}\leanok\ \texttt{partition\_eq\_riemannZeta}
+\end{itemize}
+
 \subsection{PrimeGasPartition}
 For a prime mode `p`, the local Euler factor
 
@@ -3451,7 +3484,7 @@ Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
   \item \lean{GppShadowEuler.coupling_numerator_neg}\leanok\ \texttt{coupling\_numerator\_neg}
   \item \lean{GppShadowEuler.coupling_numerator_arith_progression}\leanok\ \texttt{coupling\_numerator\_arith\_progression}
   \item \lean{GppShadowEuler.shadowCoupling}\leanok\ \texttt{shadowCoupling}
-  \item \lean{GppShadowEuler.shadow_coupling_sq_rational}\leanok\ \texttt{shadow\_coupling\_sq\_rational}
+  \item \lean{GppShadowEuler.shadow_coupling_sq_rational}\leanok\ \texttt{shadow\_coupling\_sq\_rational} (restated in $\mathbb{R}$ 2026-09-02; the $\mathbb{Q}$-valued form asserted nothing)
   \item \lean{GppShadowEuler.shadow_coupling_su3}\leanok\ \texttt{shadow\_coupling\_su3}
   \item \emph{\ldots and 3 further results in this module.}
 \end{itemize}
@@ -3725,7 +3758,6 @@ This file formalizes `thm:rigidity` (ONON52, cited 10×):
 \noindent\textbf{Proved (2 declarations):}
 \begin{itemize}
   \item \lean{GppRigidity.graviton_shadow_dimension}\leanok\ \texttt{graviton\_shadow\_dimension}
-  \item \lean{GppRigidity.two_derivative_from_c0}\leanok\ \texttt{two\_derivative\_from\_c0}
 \end{itemize}
 
 \section{Cosmology}
@@ -3993,7 +4025,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{156} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{158} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth

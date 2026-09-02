@@ -120,8 +120,7 @@ lemma gamma_reflection_half (s : ℂ) (_ : ∀ n : ℕ, s ≠ -2 * n) :
 
     ONON52: Theorem thm:functional-equation-adelic, L16391.
     This is the *output* of `adelic_haar_self_dual` via Tate's thesis. -/
-theorem completed_zeta_functional_eq (s : ℂ)
-    (hn : ∀ n : ℕ, s ≠ -↑n) (hone : s ≠ 1) :
+theorem completed_zeta_functional_eq (s : ℂ) :
     riemannXi s = riemannXi (1 - s) := by
   simp only [riemannXi, completedRiemannZeta_one_sub]
   ring
@@ -132,10 +131,9 @@ theorem completed_zeta_functional_eq (s : ℂ)
 
 /-- If ξ(s) = 0 then ξ(1-s) = 0.
     Follows immediately from the functional equation. -/
-theorem xi_zero_symmetric (s : ℂ) (hzero : riemannXi s = 0)
-    (hn : ∀ n : ℕ, s ≠ -↑n) (hone : s ≠ 1) :
+theorem xi_zero_symmetric (s : ℂ) (hzero : riemannXi s = 0) :
     riemannXi (1 - s) = 0 := by
-  rw [← completed_zeta_functional_eq s hn hone]
+  rw [← completed_zeta_functional_eq s]
   exact hzero
 
 /-- The functional equation forces the critical line Re(s) = ½ to be

@@ -46,9 +46,24 @@ lemma open_bianchi_identity : True := trivial
     Under shadow Δ ↦ 2-Δ: Δ_h ↦ 2-2 = 0, the shadow is the conformal factor. -/
 lemma graviton_shadow_dimension : (2 : ℤ) - 2 = 0 := by decide
 
-/-- Two-derivative truncation: the action contains at most R (Ricci scalar).
-    Higher-derivative terms R² would contribute c_{4D}^Weyl ≠ 0. -/
-lemma two_derivative_from_c0 (c : ℝ) (hc : c = 0) : c = 0 := hc
+/-- **Open**: two-derivative truncation — the action contains at most `R` (Ricci scalar),
+    higher-derivative `R²` terms contributing `c_{4D}^Weyl ≠ 0`.
+
+    Parked as an honest stub on 2026-09-02, replacing
+
+        lemma two_derivative_from_c0 (c : ℝ) (hc : c = 0) : c = 0 := hc
+
+    which was the identity function: conclusion and hypothesis are the same proposition, so
+    it transported no information and could not have failed. Nothing about the action, the
+    Ricci scalar, or the Weyl coefficient appeared in it.
+
+    Second instance of this exact shape in the tree — `shadow_exact_implies_c0` in
+    `StandardModel/DMAbundance.lean` was the other — which is why `scripts/check_vacuity.py`
+    now gates on `conclusion-is-hypothesis` rather than on either name.
+
+    Gap: no formalization of the gravitational action, curvature invariants, or the
+    higher-derivative expansion exists in this tree or in Mathlib. -/
+lemma open_two_derivative_from_c0 : True := trivial
 
 /-- Lovelock's theorem (algebraic form): in d=4, the divergence-free, symmetric
     second-order tensor from g_{μν} is uniquely G_{μν} + Λg_{μν} up to scale. -/
@@ -86,7 +101,7 @@ theorem open_c0_eliminates_higher_curvature : True := trivial
     Algebraic core: Lovelock uniqueness + shadow dimension = 2.
     Infrastructure gap: differential geometry + spinor-helicity formalism. -/
 theorem open_einstein_uniqueness_from_shadow {c_4D_weyl : ℝ}
-    (hc : c_4D_weyl = 0) : True := trivial
+    (_hc : c_4D_weyl = 0) : True := trivial
 
 /-- Corollary: dark energy (cosmological constant Λ) is the only free parameter. -/
 theorem open_cosmological_constant_unique : True := trivial
@@ -95,5 +110,4 @@ end GppRigidity
 
 -- Summary checks
 #check @GppRigidity.graviton_shadow_dimension
-#check @GppRigidity.two_derivative_from_c0
 #check @GppRigidity.open_einstein_uniqueness_from_shadow

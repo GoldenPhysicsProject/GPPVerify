@@ -44,8 +44,7 @@ theorem minusLogDerivZetaP_eq_log_mul_occupation (p : ℝ) (s : ℂ) :
 /-- **Bose-Einstein form of the local prime response.**  Whenever the occupation denominator
 is nonzero, the local Euler negative logarithmic derivative is exactly
 `log p / (exp(s log p)-1)`. -/
-theorem minusLogDerivZetaP_eq_bose (p : ℝ) (s : ℂ)
-    (hden : Complex.exp (s * Complex.log p) - 1 ≠ 0) :
+theorem minusLogDerivZetaP_eq_bose (p : ℝ) (s : ℂ) :
     GppCutkoskyWeil.minusLogDerivZetaP p s =
       Complex.log p / (Complex.exp (s * Complex.log p) - 1) := by
   unfold GppCutkoskyWeil.minusLogDerivZetaP
@@ -54,7 +53,7 @@ theorem minusLogDerivZetaP_eq_bose (p : ℝ) (s : ℂ)
       (Complex.exp (s * Complex.log p))⁻¹ := by
     rw [show -s * Complex.log p = -(s * Complex.log p) by ring, Complex.exp_neg]
   rw [hneg]
-  field_simp [hE, hden]
+  field_simp [hE]
 
 end GppPrimeOccupation
 

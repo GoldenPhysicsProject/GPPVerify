@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: ["main"]
 
-concurrency:
-  group: verify-build-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build:
     name: lake build
@@ -45,6 +41,27 @@ jobs:
       - name: Get Mathlib cache
         run: lake exe cache get || true
 
+      - name: Discard this package's build artifacts (keep Mathlib's)
+        # The `.lake` cache above is what makes CI fast, and it was also hiding things.
+        # `.lake/build/` holds THIS package's artifacts; Mathlib's live under
+        # `.lake/packages/mathlib/.lake/build` and are untouched by this step. So deleting
+        # it costs the ~3 minutes it takes to elaborate 186 GppVerify modules, not the hour
+        # Mathlib would cost — and it buys back every elaboration-time diagnostic.
+        #
+        # Why that matters, twice over:
+        #   * A module replayed from cache emits NO `declaration uses 'sorry'` diagnostic.
+        #     That is how a live `sorry` rode into main through PR #133 and survived four
+        #     further merges while this workflow printed "OK" each time (see the sorry gate
+        #     below, and scripts/check_sorries.py).
+        #   * The same is true of the `unusedVariables` linter. On 2026-09-02 a clean local
+        #     rebuild emitted 21 unused-binder warnings that no CI run had ever shown,
+        #     including a theorem stated "under RH" whose proof used neither RH nor its zero
+        #     hypothesis, and three declarations that asserted nothing at all.
+        #
+        # Building fresh is the structural fix: it turns every gate that reads build output
+        # from "checks whatever happened to recompile" into "checks the tree".
+        run: rm -rf .lake/build
+
       - name: Build
         run: set -o pipefail && lake build 2>&1 | tee /tmp/build.log
 
@@ -67,6 +84,20 @@ jobs:
             echo "=== $module ==="
             lake build "$module"
           done
+      - name: Unused-hypothesis gate (FAILS the build)
+        # A hypothesis in a theorem's signature that the proof never uses is a lie about
+        # what the theorem depends on. It is also how vacuous declarations disguise
+        # themselves: `(rh : RiemannHypothesis)` in the signature makes ¬(0 < 0) read as a
+        # result about zeta. Meaningful only because of the clean-build step above.
+        run: |
+          echo "=== Unused-hypothesis gate ==="
+          if grep -E "is not explicitly referenced" /tmp/build.log; then
+            echo "::error::Unused binder(s). Either the hypothesis is not needed — drop it, and"
+            echo "the theorem gets stronger — or the statement should be using it. Silence a"
+            echo "deliberately-unused binder by prefixing its name with an underscore."
+            exit 1
+          fi
+          echo "OK — no unused binders in a freshly elaborated tree."
 
       - name: Import-graph gate (FAILS the build)
         # Runs BEFORE the sorry gates on purpose. `lake build GppVerify` only compiles what
@@ -125,13 +156,19 @@ jobs:
           echo "Total stubs: $TOTAL"
           echo "--- per file ---"
           grep -rc ": True := trivial" GppVerify/ --include="*.lean" \
-            | grep -v ':0$' | sort -t: -k2 -rn || true
+            | grep -v ':0$' | sort -t: -k2 -rn
           echo
           echo "NOTE: a file can report 0 sorries and 0 axioms and still be mostly stubs."
           echo "Quote all three numbers (sorry / axiom / stub) in any status claim."
 
       - name: Stub naming gate (FAILS the build)
         run: python3 scripts/check_stub_naming.py
+
+      - name: Vacuity gate (FAILS the build)
+        # Two shapes that assert nothing and that a compiler will never complain about,
+        # because both type-check perfectly: a conclusion identical to one of the
+        # declaration's own hypotheses, and `∃ x, x = e` for `e` free of `x`.
+        run: python3 scripts/check_vacuity.py
 
       - name: Blueprint reference gate (FAILS the build)
         run: python3 scripts/check_blueprint_refs.py

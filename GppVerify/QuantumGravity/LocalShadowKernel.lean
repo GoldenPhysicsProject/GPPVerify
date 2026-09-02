@@ -48,7 +48,7 @@ theorem archKernel_shadow_eq_conj (d t : ℝ) :
 /-- **Principal-series positivity**: on `a = d/2 + it` (`d > 0`), `K_{∞,d}(a)` is the positive
     real number `|Γ(d/2+it)|²/Γ(d)`, cast into `ℂ`. Shadow reflection becomes Hermitian
     conjugation exactly on this line. -/
-theorem archKernel_principal_series (d : ℝ) (hd : 0 < d) (t : ℝ) :
+theorem archKernel_principal_series (d : ℝ) (t : ℝ) :
     archKernel d ((d : ℂ) / 2 + (t : ℂ) * Complex.I)
       = ((Complex.normSq (Complex.Gamma ((d : ℂ) / 2 + (t : ℂ) * Complex.I))
           / Real.Gamma d : ℝ) : ℂ) := by
@@ -62,7 +62,7 @@ theorem archKernel_principal_series (d : ℝ) (hd : 0 < d) (t : ℝ) :
 theorem archKernel_principal_series_pos (d : ℝ) (hd : 0 < d) (t : ℝ)
     (hne : Complex.Gamma ((d : ℂ) / 2 + (t : ℂ) * Complex.I) ≠ 0) :
     0 < (archKernel d ((d : ℂ) / 2 + (t : ℂ) * Complex.I)).re := by
-  rw [archKernel_principal_series d hd t]
+  rw [archKernel_principal_series d t]
   simp only [Complex.ofReal_re]
   have hGpos : 0 < Real.Gamma d := Real.Gamma_pos_of_pos hd
   have hnormSq : 0 < Complex.normSq (Complex.Gamma ((d : ℂ) / 2 + (t : ℂ) * Complex.I)) :=

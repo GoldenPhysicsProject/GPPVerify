@@ -69,4 +69,20 @@ theorem grassmannian_gaussian_binomial_two_four {q : ℝ} (hq1 : q ≠ 1) (hqm1 
   rw [div_eq_iff (mul_ne_zero h3 h1)]
   ring
 
+/-- The `Gr(2,4)` point-count polynomial factors into the two elementary
+palindromic factors corresponding to its Schubert-cell profile. -/
+theorem gr24_point_count_factorization (q : ℝ) :
+    1 + q + 2 * q ^ 2 + q ^ 3 + q ^ 4 =
+      (q ^ 2 + 1) * (q ^ 2 + q + 1) := by
+  ring
+
+/-- The `Gr(2,4)` point-count polynomial is reciprocal of degree four,
+matching the palindromic coefficient profile `1,1,2,1,1`. -/
+theorem gr24_point_count_reciprocal {q : ℝ} (hq : q ≠ 0) :
+    q ^ 4 *
+        (1 + q⁻¹ + 2 * (q⁻¹) ^ 2 + (q⁻¹) ^ 3 + (q⁻¹) ^ 4) =
+      1 + q + 2 * q ^ 2 + q ^ 3 + q ^ 4 := by
+  field_simp [hq]
+  ring
+
 end GppCelestialHolography
