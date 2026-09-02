@@ -187,6 +187,34 @@ theorem finite_vonMangoldt_cosine_positiveType (a : ℝ) (S : Finset ℕ) :
   intro n hn
   exact vonMangoldt_mode_positiveType a n
 
+/-- Positive type is closed under pointwise sequential limits.  This packages the
+finite-Gram limiting argument used elsewhere in the project into a reusable theorem. -/
+theorem positiveType_of_pointwise_tendsto
+    (P : ℕ → ℝ → ℝ) (Q : ℝ → ℝ)
+    (hP : ∀ N, PositiveType (P N))
+    (hlim : ∀ t, Filter.Tendsto (fun N => P N t) Filter.atTop (nhds (Q t))) :
+    PositiveType Q := by
+  intro n x c
+  have hTendstoSum : Filter.Tendsto
+      (fun N : ℕ => ∑ i : Fin n, ∑ j : Fin n,
+        (starRingEnd ℂ (c i)) * c j * (P N (x i - x j) : ℂ))
+      Filter.atTop
+      (nhds (∑ i : Fin n, ∑ j : Fin n,
+        (starRingEnd ℂ (c i)) * c j * (Q (x i - x j) : ℂ))) := by
+    apply tendsto_finsetSum
+    intro i _
+    apply tendsto_finsetSum
+    intro j _
+    exact tendsto_const_nhds.mul
+      ((Complex.continuous_ofReal.tendsto (Q (x i - x j))).comp
+        (hlim (x i - x j)))
+  have hNonneg : ∀ᶠ N in Filter.atTop,
+      0 ≤ (∑ i : Fin n, ∑ j : Fin n,
+        (starRingEnd ℂ (c i)) * c j * (P N (x i - x j) : ℂ)).re :=
+    Filter.Eventually.of_forall (fun N => hP N n x c)
+  exact ge_of_tendsto
+    (Complex.continuous_re.continuousAt.tendsto.comp hTendstoSum) hNonneg
+
 end GppVonMangoldtCosine
 
 #print axioms GppVonMangoldtCosine.natCast_neg_cpow_re
@@ -195,3 +223,4 @@ end GppVonMangoldtCosine
 #print axioms GppVonMangoldtCosine.cosine_frequency_positiveType
 #print axioms GppVonMangoldtCosine.vonMangoldt_mode_positiveType
 #print axioms GppVonMangoldtCosine.finite_vonMangoldt_cosine_positiveType
+#print axioms GppVonMangoldtCosine.positiveType_of_pointwise_tendsto
