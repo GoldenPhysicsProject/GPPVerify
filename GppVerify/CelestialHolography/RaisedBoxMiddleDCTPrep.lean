@@ -83,7 +83,12 @@ theorem inner_majorant_integral_le_middleMajorant
     Real.rpow_nonneg (mul_nonneg hS hx1) (-δ)
   have hscaled := mul_le_mul_of_nonneg_left hquot hscale
   unfold middleMajorant
-  nlinarith
+  calc
+    L + (S * x1) ^ (-δ : ℝ) * (L ^ (1 - δ : ℝ) / (1 - δ)) ≤
+        1 + (S * x1) ^ (-δ : ℝ) * (1 / (1 - δ)) :=
+      add_le_add hL1 hscaled
+    _ = 1 + (S * x1) ^ (-δ : ℝ) / (1 - δ) := by
+      rw [div_eq_mul_inv, one_div]
 
 /-- The physical inner integral itself is bounded in norm by the same simple
 middle majorant whenever `0 ≤ ε ≤ δ < 1`. -/
@@ -118,8 +123,10 @@ theorem inner_integral_norm_le_middleMajorant
         (L ^ (1 - δ : ℝ) / (1 - δ)) := by
     positivity
   rw [abs_of_nonneg hmaj0] at hnorm
-  exact hnorm.trans (inner_majorant_integral_le_middleMajorant
-    hδ1 hS.le hx1.le hL0 hL1)
+  have hupper := inner_majorant_integral_le_middleMajorant
+    hδ1 hS.le hx1.le hL0 hL1
+  rw [heq] at hupper
+  exact hnorm.trans hupper
 
 /-- Pointwise `x2`-slice convergence inherited from the completed inner DCT.
 For fixed physical `x1,x2`, the inner integral tends to its affine length. -/
