@@ -3686,6 +3686,34 @@ Thread P of `docs/FORMALIZATION\_PLAN.md`, from `blackbody\_law\_qg\_v1.tex` (th
 
 \section{Standard Model --- Further Results}
 
+\subsection{TauDifferential}
+Theorem 3.3(iv) of \texttt{mass\_orientation\_coupling\_v3.tex}: the differential of the
+orientation map $\tau(A)=A\varepsilon/\det A$ on the big cell of $\mathrm{Gr}(2,4)$. Retires
+\texttt{open\_differential\_charpoly}, which had been parked on the grounds that it needed
+``eigenvalue/spectrum theory for a non-symmetric real matrix''. It does not: what
+``characteristic polynomial $t^4-\Delta^{-4}$'' asserts about the matrix is Cayley--Hamilton
+plus the two eigenvalues, and both are matrix arithmetic. The Jacobian itself is a theorem,
+not an asserted matrix --- all sixteen partials are proved, four coordinates at a time, as
+genuine \texttt{HasDerivAt} statements about the full 4-tuple.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppTauDifferential.hasDerivAt_affine_div_affine}\leanok\ \texttt{hasDerivAt\_affine\_div\_affine}
+  \item \lean{GppTauDifferential.hasDerivAt_tau4_a}\leanok\ \texttt{hasDerivAt\_tau4\_a}
+  \item \lean{GppTauDifferential.hasDerivAt_tau4_b}\leanok\ \texttt{hasDerivAt\_tau4\_b}
+  \item \lean{GppTauDifferential.hasDerivAt_tau4_c}\leanok\ \texttt{hasDerivAt\_tau4\_c}
+  \item \lean{GppTauDifferential.hasDerivAt_tau4_d}\leanok\ \texttt{hasDerivAt\_tau4\_d}
+  \item \lean{GppTauDifferential.tauJac_pow_four}\leanok\ \texttt{tauJac\_pow\_four}
+  \item \lean{GppTauDifferential.tauJac_mulVec_eigen_pos}\leanok\ \texttt{tauJac\_mulVec\_eigen\_pos}
+\end{itemize}
+
+\textbf{Honest boundary.} \texttt{tauJac} is the matrix of \emph{partial} derivatives, which is
+what the four \texttt{HasDerivAt} results establish; Fr\'echet differentiability of $\tau$ as a
+map $\mathbb{R}^4\to\mathbb{R}^4$ follows from continuity of those partials by the standard
+$C^1$ criterion, not formalized here and not depended on by anything above. And the result is
+not stated as a literal \texttt{Matrix.charpoly} identity, which would require a symbolic
+$4\times 4$ determinant over $\mathrm{Polynomial}\ \mathbb{R}$.
+
 \subsection{MassOrientationCoupling}
 Source: mass\_orientation\_coupling\_v3.tex
 
@@ -4025,7 +4053,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{158} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{157} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth

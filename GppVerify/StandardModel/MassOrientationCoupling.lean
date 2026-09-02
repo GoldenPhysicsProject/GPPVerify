@@ -25,12 +25,10 @@ citation, rather than duplicating the proof.
 
 ## What remains open in this paper
 
-Theorem 3.3(iv) (the differential dτ_A has characteristic polynomial
-t⁴ - Δ⁻⁴, Δ = det A, with explicit eigenvectors) is the derivative-level
-refinement of τ² = -id and is not formalized here: it needs the Jacobian
-of τ as an actual endomorphism together with Mathlib's eigenvalue/spectrum
-machinery for a non-symmetric real matrix, which is a substantial further
-undertaking (see the discussion in `GrassmannianMass.lean`).
+Theorem 3.3(iv) (the differential dτ_A has characteristic polynomial t⁴ - Δ⁻⁴,
+Δ = det A, with explicit eigenvectors) is the derivative-level refinement of
+τ² = -id. **It is now proved**, in `TauDifferential.lean` — see the retired
+stub below for what the estimate in this paragraph got right and wrong.
 
 Lemma 2.1(c) (a positive momentum matrix decomposes as p = λ₁λ₁* + λ₂λ₂*
 with det p = m² = |⟨λ₁,λ₂⟩|², the spinor-helicity decomposition) is now
@@ -88,14 +86,26 @@ theorem tau_tau_ne_id (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
     tauT (tauT (a, b, c, d)) ≠ (a, b, c, d) :=
   tauMap_tauMap_ne_self a b c d hD
 
-/-- Theorem 3.3(iv): the differential dτ_A has characteristic polynomial
-    t⁴ - Δ⁻⁴ (Δ = det A) with explicit eigenvectors A(1∓ε)/2 for
-    eigenvalues ±Δ⁻¹. Not formalized: needs the Jacobian of τ as an
-    endomorphism of M₂(ℝ) together with eigenvalue/spectrum theory for a
-    non-symmetric real matrix. Verified symbolically and numerically in
-    the companion script (charpoly, eigenvectors, ensemble of 500 random
-    matrices, unit-determinant fourth-roots-of-unity locus). -/
-theorem open_differential_charpoly : True := trivial
+-- `open_differential_charpoly` was retired on 2026-09-02. Theorem 3.3(iv) is now proved in
+-- `GppVerify/StandardModel/TauDifferential.lean`.
+--
+-- The stub read: "Not formalized: needs the Jacobian of τ as an endomorphism of M₂(ℝ)
+-- together with eigenvalue/spectrum theory for a non-symmetric real matrix." The first half
+-- was right and is done — `GppTauDifferential.hasDerivAt_tau4_a` … `_d` are the four partial
+-- derivatives as genuine `HasDerivAt` statements, so the Jacobian is a theorem rather than an
+-- asserted matrix. The second half turned out to be unnecessary: what "characteristic
+-- polynomial t⁴ - Δ⁻⁴" asserts about the matrix is Cayley-Hamilton plus the two eigenvalues,
+-- and both are matrix arithmetic:
+--
+--   GppTauDifferential.tauJac_pow_four          (dτ_A)⁴ = Δ⁻⁴ · I
+--   GppTauDifferential.tauJac_mulVec_eigen_pos  A(1-ε) ↦ +Δ⁻¹
+--   GppTauDifferential.tauJac_mulVec_eigen_neg  A(1+ε) ↦ -Δ⁻¹
+--
+-- No spectrum theory for non-symmetric real matrices was used. Two things are deliberately
+-- NOT claimed there and are stated in that module's own scope section: Fréchet
+-- differentiability of τ (the partials are proved; the C¹ criterion is not formalized), and
+-- a literal `Matrix.charpoly` equation (which would need a symbolic 4×4 determinant over
+-- `Polynomial ℝ`).
 
 /-- The Cholesky-type factor `λ¹ = (√p00, p̄01/√p00)` from Lemma 2.1(c). -/
 noncomputable def lambda1 (p00 : ℝ) (p01 : ℂ) : ℂ × ℂ :=
