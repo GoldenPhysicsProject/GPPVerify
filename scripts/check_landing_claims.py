@@ -206,7 +206,11 @@ def main() -> int:
             print(f"  {f}")
         print(
             "\nindex.html is served at lean.goldenphysics.org. Every name, path and\n"
-            "number on it must be true of this tree. Fix the page, not this gate."
+            "number on it must be true of this tree. Fix the page, not this gate.\n"
+            "\nThe three counts above are derived from the tree and have a fixer:\n"
+            "  python3 scripts/sync_landing_stats.py\n"
+            "Names, paths, links and badges do not, and should not — a claim that has\n"
+            "gone false is for a person to look at, not for a script to rewrite."
         )
         return 1
 

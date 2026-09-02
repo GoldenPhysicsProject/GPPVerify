@@ -26,6 +26,12 @@
 # "this module was never checked" into "this module is in the build graph" without anyone
 # checking it.
 #
+# It also resyncs the landing page's derived counts (`scripts/sync_landing_stats.py`). A
+# branch that adds modules makes those numbers stale as a side effect, so without this the
+# dispatch that exists to be a one-command fix ends red on the landing-claim gate, over a
+# number the run itself invalidated. A gate that reds on work nobody got wrong is a gate
+# people learn to wave through.
+#
 # So this workflow verifies its own work. The `verify` job below cold-builds the wired branch
 # and runs every gate. It duplicates `build.yml` rather than reusing it, which is a real cost
 # — if you change the gates there, change them here — and is still better than a dispatch that
@@ -54,9 +60,16 @@ jobs:
 
       - name: Wire any modules missing from the root import graph
         id: wire
+        # The stats sync runs unconditionally, not only when wiring changed something. A
+        # branch that adds modules makes the landing page's derived counts stale whether or
+        # not its author also remembered the import — so wiring alone would leave the
+        # dispatch red on the landing-claim gate, on a number the branch made stale and
+        # nobody chose. Self-test on 2026-09-02: `stat 'Lean Modules' says 187; the tree has
+        # 188`, after a run that did exactly what it was asked to do.
         run: |
           python3 scripts/wire_root.py | tee /tmp/wire.log
-          if git diff --quiet -- GppVerify.lean; then
+          python3 scripts/sync_landing_stats.py | tee /tmp/stats.log
+          if git diff --quiet -- GppVerify.lean index.html; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -67,17 +80,28 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add GppVerify.lean
-          # The wiring report goes in the message so the commit says which modules were
-          # added and why, rather than leaving a bare "wire root" in the history.
+          git add GppVerify.lean index.html
+          # The subject names what actually changed, and the body carries both reports, so
+          # the commit says which modules were added and which published numbers moved —
+          # rather than leaving a bare "wire root" in the history, or claiming a wiring that
+          # did not happen on a run that only resynced the page.
+          if git diff --cached --quiet -- GppVerify.lean; then
+            SUBJECT="Sync the landing page's derived counts to the tree"
+          else
+            SUBJECT="Wire modules into the root import graph"
+          fi
           {
-            echo "Wire modules into the root import graph"
+            echo "$SUBJECT"
             echo
-            echo "Run of scripts/wire_root.py, dispatched for branch ${{ inputs.branch }}."
-            echo "These modules were on disk but outside the root graph, so"
+            echo "Dispatched for branch ${{ inputs.branch }}."
+            echo
+            echo "scripts/wire_root.py — modules on disk but outside the root graph, so"
             echo "\`lake build GppVerify\` was not compiling them:"
             echo
             sed -n 's/^  \(GppVerify\..*\)$/  \1/p' /tmp/wire.log
+            echo
+            echo "scripts/sync_landing_stats.py:"
+            sed 's/^/  /' /tmp/stats.log
           } > /tmp/msg
           git commit -F /tmp/msg
           git push origin "HEAD:${{ inputs.branch }}"
@@ -85,11 +109,12 @@ jobs:
       - name: Report
         run: |
           if [ "${{ steps.wire.outputs.changed }}" = "true" ]; then
-            echo "Wired and pushed. The verify job below cold-builds this branch and runs"
-            echo "every gate — a wiring push does not trigger the Build workflow, so that"
+            echo "Pushed. The verify job below cold-builds this branch and runs every"
+            echo "gate — a push made with GITHUB_TOKEN raises no workflow events, so that"
             echo "job is the only verification this dispatch gets."
           else
-            echo "Nothing to wire; the root import graph was already complete."
+            echo "Nothing to do; the root import graph was already complete and the"
+            echo "landing page's derived counts already matched the tree."
           fi >> "$GITHUB_STEP_SUMMARY"
 
   # Wiring a module is the moment it must compile for the first time. Verify it here, because
