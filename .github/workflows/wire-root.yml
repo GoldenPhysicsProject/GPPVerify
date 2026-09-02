@@ -26,11 +26,12 @@
 # "this module was never checked" into "this module is in the build graph" without anyone
 # checking it.
 #
-# It also resyncs the landing page's derived counts (`scripts/sync_landing_stats.py`). A
-# branch that adds modules makes those numbers stale as a side effect, so without this the
-# dispatch that exists to be a one-command fix ends red on the landing-claim gate, over a
-# number the run itself invalidated. A gate that reds on work nobody got wrong is a gate
-# people learn to wave through.
+# It also resyncs the published counts — `index.html`'s stat strip and og:description, and
+# the blueprint's stub sentence (`scripts/sync_published_counts.py`). A branch that adds a
+# module or parks a stub makes those numbers stale as a side effect, so without this the
+# dispatch that exists to be a one-command fix ends red on the landing-claim gate and the
+# stub-naming gate, over numbers the run itself invalidated. A gate that reds on work nobody
+# got wrong is a gate people learn to wave through.
 #
 # So this workflow verifies its own work. The `verify` job below cold-builds the wired branch
 # and runs every gate. It duplicates `build.yml` rather than reusing it, which is a real cost
@@ -60,16 +61,17 @@ jobs:
 
       - name: Wire any modules missing from the root import graph
         id: wire
-        # The stats sync runs unconditionally, not only when wiring changed something. A
-        # branch that adds modules makes the landing page's derived counts stale whether or
-        # not its author also remembered the import — so wiring alone would leave the
-        # dispatch red on the landing-claim gate, on a number the branch made stale and
-        # nobody chose. Self-test on 2026-09-02: `stat 'Lean Modules' says 187; the tree has
-        # 188`, after a run that did exactly what it was asked to do.
+        # The counts sync runs unconditionally, not only when wiring changed something. A
+        # branch makes the published counts stale whether or not it also needs an import
+        # wired — parking one stub does it — so wiring alone would leave the dispatch red on
+        # the landing-claim and stub-naming gates, over numbers the branch made stale and
+        # nobody chose. Both were caught by self-test on 2026-09-02, one after the other:
+        #   stat 'Lean Modules' says 187; the tree has 188
+        #   blueprint/src/web.tex states 157 stubs; the tree has 158
         run: |
           python3 scripts/wire_root.py | tee /tmp/wire.log
-          python3 scripts/sync_landing_stats.py | tee /tmp/stats.log
-          if git diff --quiet -- GppVerify.lean index.html; then
+          python3 scripts/sync_published_counts.py | tee /tmp/stats.log
+          if git diff --quiet -- GppVerify.lean index.html blueprint/src/web.tex; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -80,13 +82,13 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add GppVerify.lean index.html
+          git add GppVerify.lean index.html blueprint/src/web.tex
           # The subject names what actually changed, and the body carries both reports, so
           # the commit says which modules were added and which published numbers moved —
           # rather than leaving a bare "wire root" in the history, or claiming a wiring that
           # did not happen on a run that only resynced the page.
           if git diff --cached --quiet -- GppVerify.lean; then
-            SUBJECT="Sync the landing page's derived counts to the tree"
+            SUBJECT="Sync the published counts to the tree"
           else
             SUBJECT="Wire modules into the root import graph"
           fi
@@ -100,7 +102,7 @@ jobs:
             echo
             sed -n 's/^  \(GppVerify\..*\)$/  \1/p' /tmp/wire.log
             echo
-            echo "scripts/sync_landing_stats.py:"
+            echo "scripts/sync_published_counts.py:"
             sed 's/^/  /' /tmp/stats.log
           } > /tmp/msg
           git commit -F /tmp/msg
