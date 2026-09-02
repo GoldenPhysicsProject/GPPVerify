@@ -41,7 +41,9 @@ theorem pluckerStar_fixes_sd (p : P6) :
     s3 (pluckerStar p) = s3 p := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
   simp [s1,s2,s3,pluckerStar]
-  constructor <;> ring
+  constructor
+  · ring
+  · constructor <;> ring
 
 /-- Hodge star negates all three anti-self-dual coordinates. -/
 theorem pluckerStar_negates_asd (p : P6) :
@@ -50,7 +52,9 @@ theorem pluckerStar_negates_asd (p : P6) :
     a3 (pluckerStar p) = -a3 p := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
   simp [a1,a2,a3,pluckerStar]
-  constructor <;> ring
+  constructor
+  · ring
+  · constructor <;> ring
 
 /-- Orientation reversal swaps the eigenspace labels abstractly: if `F` is
 +1-self-dual for `star`, it is -1-anti-self-dual for `-star`. -/
