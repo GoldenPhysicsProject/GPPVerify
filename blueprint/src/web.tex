@@ -3256,6 +3256,23 @@ This file formalizes `thm:spectral-weil` (ONON52, cited 10×):
     a \texttt{True}-stub. It carried \texttt{\textbackslash leanok} until 2026-08-31, i.e.\ this
     blueprint published it as machine-verified while it asserted nothing. It was unprefixed at the
     time and so invisible to the stub-naming gate; see \S\ref{sec:axiom-inventory}.
+
+    \textbf{Narrowed 2026-09-02.} The stub is still open, but it now stands for one step rather
+    than for the whole series. \texttt{RiemannHypothesis/DigammaSeries.lean} proves,
+    unconditionally, that the Gauss series converges absolutely off the non-positive integers
+    (\lean{GppDigammaSeries.summable_digammaSeriesTerm}\leanok), that it satisfies
+    $F(s+1) = F(s) + 1/s$ --- the functional equation Mathlib's
+    \texttt{Complex.digamma\_apply\_add\_one} proves for $\psi$ ---
+    (\lean{GppDigammaSeries.digammaSeries_add_one}\leanok), and that at $s = 1$ it telescopes
+    to $-\gamma$, agreeing with \texttt{Complex.digamma\_one}
+    (\lean{GppDigammaSeries.digammaSeries_one}\leanok). Mathlib derives that value from the
+    derivative of $\Gamma$ at $1$, so the agreement is a genuine check of the formula at a point.
+
+    What remains is the identification $F = \psi$ itself. The difference of the two is
+    $1$-periodic and vanishes at $1$; eliminating it requires a growth or convexity input
+    (Wielandt / Bohr--Mollerup uniqueness), which is a \emph{library gap}: Mathlib 4.33.1 has
+    \texttt{Complex.digamma} but lists Gauss' representation under \texttt{TODO} in its own
+    module header.
 \end{itemize}
 
 \subsection{WeightedVarianceInfinite}
