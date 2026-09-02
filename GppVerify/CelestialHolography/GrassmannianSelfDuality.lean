@@ -76,11 +76,8 @@ theorem gr24_point_count_factorization (q : ℝ) :
       (q ^ 2 + 1) * (q ^ 2 + q + 1) := by
   ring
 
-/-- The `Gr(2,4)` point-count polynomial is reciprocal of degree four.
-This is the algebraic shadow of the Betti-number palindrome `1,1,2,1,1`
-that Poincaré duality supplies.  It is deliberately stated at the polynomial
-level: an automorphism pullback preserves cohomological degree, so complementary
-degrees must not be attributed to the Grassmannian complement map itself. -/
+/-- The `Gr(2,4)` point-count polynomial is reciprocal of degree four,
+matching the palindromic coefficient profile `1,1,2,1,1`. -/
 theorem gr24_point_count_reciprocal {q : ℝ} (hq : q ≠ 0) :
     q ^ 4 *
         (1 + q⁻¹ + 2 * (q⁻¹) ^ 2 + (q⁻¹) ^ 3 + (q⁻¹) ^ 4) =
