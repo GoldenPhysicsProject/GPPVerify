@@ -25,7 +25,7 @@ theorem inner_majorant_intervalIntegrable
     (hδ : δ < 1) (hS : 0 ≤ S) (hx1 : 0 ≤ x1) (hL : 0 ≤ L) :
     IntervalIntegrable
       (fun x3 : ℝ => 1 + (S * x1 * x3) ^ (-δ : ℝ)) volume 0 L := by
-  exact intervalIntegral.intervalIntegrable_const.add
+  exact intervalIntegrable_const.add
     (GppRaisedBoxRealMajorantSlice.channel_inner_intervalIntegrable hδ hS hx1 hL)
 
 /-- For every fixed regulator, the concrete inner raised-box integrand is
