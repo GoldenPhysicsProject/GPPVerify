@@ -24,15 +24,28 @@ The mathematics here is **unique factorization**, in two steps:
 * `occNumber_eq_factorizationEquiv` — that encoding is exactly Mathlib's
   `Nat.factorizationEquiv`, so configurations **biject with the positive integers**.
 
-Given those, `e^{-sE(n)} = N^{-s}` (`boltzmann_eq_inv_cpow`) and the partition sum is
-`∑_{N ≥ 1} N^{-s}`, which is `ζ(s)` on `Re s > 1`.
+Everything else is a consequence of those two, in two groups.
+
+**The spectrum.** `occEnergy_injective` — distinct configurations have distinct energies, so
+the occupation-basis spectrum is **non-degenerate**: exactly one state per level, no
+multiplicity anywhere. `occEnergy_range` — the set of energies is exactly `{log N : N ≥ 1}`,
+equivalently `exp_occEnergy_range`: exponentiating the spectrum gives precisely the positive
+integers, which is the sense in which the spectrum is "integer". Both directions are needed
+and both are unique factorization read one way and then the other — injectivity is
+uniqueness of the factorization, surjectivity is existence of it.
+
+**The partition function.** `e^{-sE(n)} = N^{-s}` (`boltzmann_eq_inv_cpow`), so the partition
+sum is `∑_{N ≥ 1} N^{-s}`, which is `ζ(s)` on `Re s > 1`.
 
 The statistical-mechanical reading — that this is a free bosonic gas whose modes are the
 primes, whose states are the positive integers, and whose partition function is `ζ` — is a
 **dictionary**, as in `PrimeGasPartition.lean`. Nothing here constructs a Fock space, a
-Hamiltonian, or a Hilbert space; `dΓ(L)` does not appear. What is machine-checked is the
-combinatorial identity that dictionary rests on. Reporting this as "the prime Fock
-Hamiltonian is formalized" would overstate it.
+Hamiltonian, or a Hilbert space; `dΓ(L)` does not appear. In particular `occEnergy_injective`
+and `occEnergy_range` describe the **occupation-basis labels**, not the spectrum of a
+self-adjoint operator: no operator is defined, so no spectral theorem is invoked and no claim
+is made that the label set equals `spec(H_B)` for any `H_B` in this tree. What is
+machine-checked is the combinatorial identity the dictionary rests on. Reporting this as "the
+prime Fock Hamiltonian is formalized" would overstate it.
 
 **No RH content.** `Re s > 1` is the half-plane of absolute convergence, strictly to the
 right of the critical strip. Nothing here says anything about zeros.
@@ -80,6 +93,91 @@ theorem occNumber_eq_factorizationEquiv (f : PrimeOccupation) :
     occNumber f = (Nat.factorizationEquiv.symm f : ℕ+) :=
   (Nat.factorizationEquiv_symm_apply_coe f).symm
 
+/-! ### The occupation-basis spectrum
+
+`occNumber` is a bijection from configurations onto the positive integers — injective by
+uniqueness of prime factorization, surjective by its existence. Transported through `log`,
+that says the energy levels are non-degenerate and are exactly `{log N : N ≥ 1}`.
+-/
+
+/-- Every positive integer is realised: `factorizationEquiv m` is the configuration
+    encoding `m`. This is *existence* of a prime factorization. -/
+theorem occNumber_factorizationEquiv (m : ℕ+) :
+    occNumber (Nat.factorizationEquiv m) = (m : ℕ) := by
+  rw [occNumber_eq_factorizationEquiv, Equiv.symm_apply_apply]
+
+/-- Distinct configurations encode distinct integers. This is *uniqueness* of the prime
+    factorization, in the form the spectrum needs. -/
+theorem occNumber_injective : Function.Injective occNumber := by
+  intro a b hab
+  rw [occNumber_eq_factorizationEquiv a, occNumber_eq_factorizationEquiv b] at hab
+  have h2 : Nat.factorizationEquiv.symm a = Nat.factorizationEquiv.symm b :=
+    PNat.coe_injective (by exact_mod_cast hab)
+  simpa using congrArg Nat.factorizationEquiv h2
+
+/-- The configurations encode **exactly** the positive integers. -/
+theorem occNumber_range : Set.range occNumber = {n : ℕ | 0 < n} := by
+  ext n
+  constructor
+  · rintro ⟨f, rfl⟩
+    exact occNumber_pos f
+  · intro hn
+    exact ⟨Nat.factorizationEquiv ⟨n, hn⟩, occNumber_factorizationEquiv ⟨n, hn⟩⟩
+
+/-- **The occupation-basis spectrum is non-degenerate.** Distinct configurations have
+    distinct energies — exactly one state per level, no multiplicity anywhere.
+
+    Physically this is the statement that the primon gas has no accidental degeneracy: the
+    additive structure `∑_p n_p log p` never collides, because `log` is injective on the
+    positive integers and the integers are uniquely factorable. It is the reason the level
+    counting of the gas is the divisor-free count `#{N ≤ x} = ⌊x⌋` rather than something
+    with multiplicities. -/
+theorem occEnergy_injective : Function.Injective occEnergy := by
+  intro a b hab
+  rw [occEnergy_eq_log_occNumber, occEnergy_eq_log_occNumber] at hab
+  refine occNumber_injective ?_
+  have ha : (0:ℝ) < (occNumber a : ℝ) := by exact_mod_cast occNumber_pos a
+  have hb : (0:ℝ) < (occNumber b : ℝ) := by exact_mod_cast occNumber_pos b
+  exact_mod_cast Real.log_injOn_pos (Set.mem_Ioi.mpr ha) (Set.mem_Ioi.mpr hb) hab
+
+/-- **The spectrum is exactly `{log N : N ≥ 1}`.** Nothing is missing and nothing extra
+    appears. -/
+theorem occEnergy_range :
+    Set.range occEnergy = Real.log '' {x : ℝ | ∃ n : ℕ, 0 < n ∧ x = n} := by
+  ext E
+  constructor
+  · rintro ⟨f, rfl⟩
+    exact ⟨(occNumber f : ℝ), ⟨occNumber f, occNumber_pos f, rfl⟩,
+      (occEnergy_eq_log_occNumber f).symm⟩
+  · rintro ⟨x, ⟨n, hn, rfl⟩, rfl⟩
+    obtain ⟨m, rfl⟩ : ∃ m : ℕ+, (m : ℕ) = n := ⟨⟨n, hn⟩, rfl⟩
+    exact ⟨Nat.factorizationEquiv m, by
+      rw [occEnergy_eq_log_occNumber, occNumber_factorizationEquiv]⟩
+
+/-- **The spectrum is "integer" in the only sense that is literally true:** exponentiating
+    it gives exactly the positive integers.
+
+    The energies themselves are logarithms, not integers — `occEnergy_range` says so. What
+    is integral is `e^{E}`, which is the state's occupation number `N`. Stating it this way
+    keeps the claim checkable rather than resting on a choice of units. -/
+theorem exp_occEnergy_range :
+    Set.range (fun f => Real.exp (occEnergy f)) = {x : ℝ | ∃ n : ℕ, 0 < n ∧ x = n} := by
+  ext x
+  constructor
+  · rintro ⟨f, rfl⟩
+    refine ⟨occNumber f, occNumber_pos f, ?_⟩
+    dsimp only
+    rw [occEnergy_eq_log_occNumber, Real.exp_log]
+    exact_mod_cast occNumber_pos f
+  · rintro ⟨n, hn, rfl⟩
+    obtain ⟨m, rfl⟩ : ∃ m : ℕ+, (m : ℕ) = n := ⟨⟨n, hn⟩, rfl⟩
+    refine ⟨Nat.factorizationEquiv m, ?_⟩
+    dsimp only
+    rw [occEnergy_eq_log_occNumber, occNumber_factorizationEquiv, Real.exp_log]
+    exact_mod_cast m.pos
+
+/-! ### The partition function -/
+
 /-- **The Boltzmann weight of a configuration is `N^{-s}`.** Immediate from
     `occEnergy_eq_log_occNumber`, and the step that makes the partition sum a Dirichlet
     series rather than merely a sum of exponentials. -/
@@ -123,4 +221,7 @@ theorem partition_eq_riemannZeta {s : ℂ} (hs : 1 < s.re) :
 
 end GppPrimeFock
 
+#print axioms GppPrimeFock.occEnergy_injective
+#print axioms GppPrimeFock.occEnergy_range
+#print axioms GppPrimeFock.exp_occEnergy_range
 #print axioms GppPrimeFock.partition_eq_riemannZeta
