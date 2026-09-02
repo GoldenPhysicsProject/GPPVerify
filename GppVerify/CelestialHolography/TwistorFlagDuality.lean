@@ -12,8 +12,14 @@ Annihilator duality reverses this incidence exactly:
 
 The reverse operation is dual coannihilation.  For vector spaces Mathlib proves
 `W.dualAnnihilator.dualCoannihilator = W`, so the flag correspondence closes
-exactly at the level of linear incidence geometry.  This is the algebraic core
-needed before attempting a cohomological Penrose/googly pull-push transform.
+exactly at the level of linear incidence geometry.
+
+A crucial point for the googly problem is also formalized below: in dimension four,
+the annihilator of a twistor line is three-dimensional, not one-dimensional. Thus
+annihilation does not define a pointwise map `PT -> PT*`. It defines projective dual
+incidence data, so any transform between twistor and dual-twistor wavefunctions must
+be a correspondence/integral transform rather than the naive point replacement that
+earlier versions of the framework implicitly suggested.
 -/
 
 namespace GppTwistorFlagDuality
@@ -25,10 +31,10 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 /-- Dual annihilator reverses inclusion. -/
 theorem dualAnnihilator_antitone {L W : Submodule K V} (hLW : L ≤ W) :
     W.dualAnnihilator ≤ L.dualAnnihilator := by
-  intro φ hφ
-  rw [Submodule.mem_dualAnnihilator] at hφ ⊢
+  intro phi hphi
+  rw [Submodule.mem_dualAnnihilator] at hphi ⊢
   intro x hx
-  exact hφ x (hLW hx)
+  exact hphi x (hLW hx)
 
 /-- Dual coannihilator also reverses inclusion. -/
 theorem dualCoannihilator_antitone
@@ -80,8 +86,8 @@ theorem recover_annihilatorFlag (F : Flag12 (K:=K) (V:=V)) :
 theorem annihilatorFlag_injective :
     Function.Injective (annihilatorFlag : Flag12 (K:=K) (V:=V) → DualFlag23 (K:=K) (V:=V)) := by
   intro F G h
-  have := congrArg recoverFlag h
-  simpa [recover_annihilatorFlag] using this
+  have h' := congrArg recoverFlag h
+  simpa only [recover_annihilatorFlag] using h'
 
 section FourDimensional
 
@@ -101,6 +107,20 @@ theorem line_annihilator_finrank_three
     finrank K L.dualAnnihilator = 3 := by
   have h := Subspace.finrank_add_finrank_dualAnnihilator_eq L
   omega
+
+/-- Therefore annihilation of a projective twistor point is not another projective
+twistor point: its annihilator has rank 3, not rank 1. -/
+theorem line_annihilator_not_line
+    (L : Submodule K V) (hV : finrank K V = 4) (hL : finrank K L = 1) :
+    finrank K L.dualAnnihilator ≠ 1 := by
+  rw [line_annihilator_finrank_three L hV hL]
+  norm_num
+
+/-- By contrast, spacetime 2-planes dualize pointwise inside the dual Grassmannian. -/
+theorem plane_annihilator_is_plane
+    (W : Submodule K V) (hV : finrank K V = 4) (hW : finrank K W = 2) :
+    finrank K W.dualAnnihilator = 2 :=
+  plane_annihilator_finrank_two W hV hW
 
 /-- Therefore a genuine `(1,2)` Penrose incidence flag in dimension four becomes
 exactly a `(2,3)` dual flag under annihilator reversal. -/
