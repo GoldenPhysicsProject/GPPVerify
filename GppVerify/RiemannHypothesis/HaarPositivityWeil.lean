@@ -143,7 +143,7 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 theorem open_gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:gns-positive
 -- PROOF: Form inner product ⟨δ_{g_i}, δ_{g_j}⟩ = P(g_i^{-1}g_j); complete; done.
--- MATHLIB GAP: GNS construction for groups not in Mathlib.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): GNS construction for groups not in Mathlib.
 
 /-! ## Weil positivity -/
 
@@ -151,14 +151,14 @@ theorem open_gns_from_positive_type (P : ℝ → ℝ) (_ : PositiveType P) : Tru
 theorem open_adelic_haar_square_positive_type : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-square-positive for C_k
 -- PROOF: Same abstract proof as open_convolution_square_positive_type_statement, applied to C_k.
--- MATHLIB GAP: Idèle class groups not in Mathlib.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Idèle class groups not in Mathlib.
 
 /-- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P -/
 theorem open_weil_criterion : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:weil
 -- FORWARD: RH → all zeros on critical line → spectral sum = Σ|Ω̂(1/2+it)|² ≥ 0.
 -- CONVERSE: off-line zero ρ₀ → construct Ω₀ making D_k(Ω₀*Ω₀^∨) < 0.
--- MATHLIB GAPS:
+-- LIBRARY GAPS (known mathematics, absent from Mathlib):
 --   (a) Tate's thesis: adèlic zeta integrals and functional equation
 --   (b) Weil explicit formula: D_k = Σ_ρ Ω̂(ρ) + local terms
 --   (c) Mellin transform theory for idèle class group
@@ -180,7 +180,7 @@ theorem open_shadow_reflection_positivity : True := trivial
 /-- OS reconstruction: Euclidean OS axioms → Minkowski Wightman axioms -/
 theorem open_os_reconstruction_theorem : True := trivial
 -- SOURCE: Osterwalder-Schrader 1973/1975; referenced in wightman_paper.tex
--- MATHLIB GAP: OS reconstruction not formalized.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): OS reconstruction not formalized.
 
 /-! ## Universal positivity construction -/
 
@@ -194,7 +194,7 @@ theorem open_universal_positivity_construction : True := trivial
 theorem open_haar_projection_orthogonal : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-projection
 -- P_K = ∫_K U(k)dk is the orthogonal projection onto K-invariant subspace.
--- MATHLIB GAP: Compact group averaging (Peter-Weyl) in functional analysis,
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Compact group averaging (Peter-Weyl) in functional analysis,
 -- for a general (infinite) compact group and a genuine Bochner/vector-valued
 -- integral. The FINITE-group case is a real, non-degenerate instance --
 -- Haar measure on a finite group is exactly normalized counting measure --
@@ -325,7 +325,7 @@ theorem finiteHaarProjection_isSelfAdjoint
 theorem open_peter_weyl_decomposition : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:peter-weyl
 -- L²(G) = ⊕_{π∈Ĝ} V_π ⊗ V_π*, with each irrep appearing dim(V_π) times.
--- MATHLIB GAP: Peter-Weyl re-verified absent in Mathlib 4.33.1 (2026-09-01): zero hits.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): Peter-Weyl re-verified absent in Mathlib 4.33.1 (2026-09-01): zero hits.
 
 /-! ## Logical status -/
 

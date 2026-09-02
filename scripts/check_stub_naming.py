@@ -218,15 +218,61 @@ def declarations(src: str):
         yield m.group(1), src.count("\n", 0, a) + 1, re.sub(r"\s+", " ", chunk).strip()
 
 
+# --------------------------------------------------------------------------------------
+# Gap labels: "MATHLIB GAP" answers the wrong question (added 2026-09-02)
+# --------------------------------------------------------------------------------------
+#
+# The `open_` prefix says a result is open. It does not say *why*, and the tree used one
+# label — `MATHLIB GAP:` — for two situations that could not be more different:
+#
+#   * a known theorem merely absent from Mathlib, which formalization effort closes;
+#   * mathematics nobody has, which formalization effort does not touch.
+#
+# Both are true statements of the form "X is not in Mathlib", so the label fit both and
+# distinguished neither. That misdirection has now been caught five separate times:
+#
+#   open_zero_simplicity          simplicity of ζ's zeros — open, filed as reachable
+#                                 (CLAUDE_CORRECTIONS.md entry 12)
+#   the shadow-product cluster    blocked on RH; gap statement named Hadamard (entry 16)
+#   open_yang_mills_mass_gap      Millennium Prize problem, labelled
+#                                 "MATHLIB GAP: All of the above"
+#   open_generalised_rh           GRH, labelled "MATHLIB GAP: Hecke L-functions absent"
+#   open_weil_positivity_haar_squares
+#                                 RH-equivalent by Weil's criterion — which this same repo
+#                                 states as an iff one file away — labelled "MATHLIB GAP"
+#
+# Every one of those points a future session at a library task that will not close it.
+#
+# The gate does not decide which label is right; it makes the ambiguous one unavailable, so
+# that whoever writes the note has to choose:
+#
+#   LIBRARY GAP    known mathematics, absent from Mathlib. Formalization closes it.
+#   OPEN PROBLEM   the mathematics does not exist. Formalization does not close it.
+#   FRAMEWORK CLAIM  a proposal of the shadow framework, or a physical prediction. Library
+#                    work lets you state it; whether it holds is a research question.
+#
+# A stub may carry more than one (most `FRAMEWORK CLAIM`s also have a `LIBRARY GAP` before
+# they can even be written down). Only the bare word `MATHLIB` as a label is rejected.
+#
+# Matches a label at the start of a line (optionally after `--`), so prose *discussing* the
+# old label — which the correction notes necessarily quote — is not caught.
+GAP_LABEL = re.compile(r"^[ \t]*(?:--[ \t]*)?MATHLIB[ \t]+GAPS?[ \t]*:", re.M)
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parent.parent
     root = repo / "GppVerify"
     offenders: list[str] = []
     tautologies: list[str] = []
+    gap_labels: list[str] = []
     total = 0
 
     for path in sorted(root.rglob("*.lean")):
-        src = strip_comments(path.read_text())
+        raw = path.read_text()
+        for m in GAP_LABEL.finditer(raw):
+            lineno = raw.count("\n", 0, m.start()) + 1
+            gap_labels.append(f"{path.relative_to(repo)}:{lineno}")
+        src = strip_comments(raw)
         for name, lineno, flat in declarations(src):
             if STUB.search(flat):
                 total += 1
@@ -259,6 +305,22 @@ def main() -> int:
             print(f"  {entry}")
     else:
         print("No reflexivity tautologies (`X = X`) found.")
+
+    if gap_labels:
+        failed = True
+        print(f"::error::{len(gap_labels)} gap note(s) use the ambiguous label 'MATHLIB GAP'.")
+        print("'X is not in Mathlib' is true both of a known theorem awaiting formalization")
+        print("and of mathematics nobody has. Those are opposite situations, and the second")
+        print("has been mislabelled as the first five times in this tree — including the")
+        print("Yang-Mills mass gap, GRH, and a statement equivalent to RH. Choose one:")
+        print("  LIBRARY GAP     known mathematics, absent from Mathlib — formalization closes it")
+        print("  OPEN PROBLEM    the mathematics does not exist — formalization does not")
+        print("  FRAMEWORK CLAIM a proposal or physical prediction — library work only states it")
+        print("More than one may apply. Sites:")
+        for entry in gap_labels:
+            print(f"  {entry}")
+    else:
+        print("No ambiguous 'MATHLIB GAP' labels (LIBRARY / OPEN PROBLEM / FRAMEWORK CLAIM).")
 
     # The blueprint states the stub count in prose. A hand-maintained number drifts --
     # it already had (141 published against 150 actual) -- so check it here rather than

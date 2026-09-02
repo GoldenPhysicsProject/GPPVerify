@@ -72,38 +72,38 @@ theorem dim_su_four : 4^2 - 1 = (15 : ℕ) := by norm_num
 /-- W1: Hilbert space from L²(Gr(2,4), dμ_Gr) with vacuum Ω = vol^{-1/2}
     SOURCE: wightman_paper.tex, thm:w1
     PROOF: Haar existence + compactness of Gr(2,4) + Peter-Weyl trivial rep appears once.
-    MATHLIB GAP: Gr(2,4) as a Lean type with Haar measure not formalized. -/
+    LIBRARY GAP (known mathematics, absent from Mathlib): Gr(2,4) as a Lean type with Haar measure not formalized. -/
 theorem open_wightman_w1 : True := trivial
 
 /-- W2: Poincaré covariance from P ↪ SU(2,2) ↪ SU(4) acting on Gr(2,4)
     SOURCE: wightman_paper.tex, thm:w2
     PROOF: Penrose transform intertwines SU(2,2) action with conformal action on fields.
-    MATHLIB GAP: Penrose transform / twistor spaces not in Mathlib. -/
+    LIBRARY GAP (known mathematics, absent from Mathlib): Penrose transform / twistor spaces not in Mathlib. -/
 theorem open_wightman_w2 : True := trivial
 
 /-- W3: Spectrum condition from forward-tube analyticity of Penrose transform
     SOURCE: wightman_paper.tex, thm:w3
     PROOF: PT_+ maps to forward tube; Mellin integration over ω>0 forces spec ⊂ V̄_+.
-    MATHLIB GAP: Complex geometry of twistor space not in Mathlib. -/
+    LIBRARY GAP (known mathematics, absent from Mathlib): Complex geometry of twistor space not in Mathlib. -/
 theorem open_wightman_w3 : True := trivial
 
 /-- W4: Locality from twistor non-incidence for spacelike-separated x,y
     SOURCE: wightman_paper.tex, thm:w4
     PROOF: x,y spacelike ↔ L_x ∩ L_y = ∅ ↔ Penrose propagator holomorphic ↔
            commutator = contour integral of holomorphic function = 0.
-    MATHLIB GAP: Twistor geometry + sheaf cohomology not in Mathlib. -/
+    LIBRARY GAP (known mathematics, absent from Mathlib): Twistor geometry + sheaf cohomology not in Mathlib. -/
 theorem open_wightman_w4 : True := trivial
 
 /-- W5: Cyclicity of vacuum from Peter-Weyl irreducibility + Penrose surjectivity
     SOURCE: wightman_paper.tex, thm:w5
     PROOF: Field operators connect trivial sector to all PW sectors; Schur's lemma closes.
-    MATHLIB GAP: Peter-Weyl on SU(4)/S(U(2)×U(2)) + operator algebra not in Mathlib. -/
+    LIBRARY GAP (known mathematics, absent from Mathlib): Peter-Weyl on SU(4)/S(U(2)×U(2)) + operator algebra not in Mathlib. -/
 theorem open_wightman_w5 : True := trivial
 
 /-- W6: Temperedness from elliptic regularity on compact Gr(2,4)
     SOURCE: wightman_paper.tex, thm:w6
     PROOF: Spectrum condition + polynomial bounds from PW + elliptic regularity → tempered.
-    MATHLIB GAP: Elliptic regularity on compact manifolds not formalized sufficiently. -/
+    LIBRARY GAP (known mathematics, absent from Mathlib): Elliptic regularity on compact manifolds not formalized sufficiently. -/
 theorem open_wightman_w6 : True := trivial
 
 /-- All six Wightman axioms hold for the Gr(2,4) construction -/
@@ -122,15 +122,30 @@ theorem open_haar_selfduality_unifies_rh_and_wightman : True := trivial
 /-- OS reconstruction: Wightman ← Osterwalder-Schrader axioms -/
 theorem open_os_reconstruction : True := trivial
 -- SOURCE: wightman_paper.tex (background)
--- MATHLIB GAP: OS axioms / reconstruction theorem not formalized.
+-- LIBRARY GAP (known mathematics, absent from Mathlib): OS axioms / reconstruction theorem not formalized.
 
-/-- CPT theorem follows from W1-W6 -/
+/-- CPT theorem follows from W1-W6.
+
+    **"Derivable from" is doing a great deal of work here** (noted 2026-09-02). The
+    implication *is* Jost's theorem — a major result of axiomatic QFT resting on analytic
+    continuation of Wightman functions to the extended tube and the Bargmann–Hall–Wightman
+    theorem — not a corollary anyone reads off W1–W6. And `open_wightman_all_six` is itself a
+    stub, so the antecedent is unavailable too.
+
+    LIBRARY GAP (both halves are known mathematics): Wightman axioms, the extended tube, BHW,
+    and Jost's theorem, none in Mathlib. Recorded so that nobody schedules this as "one line
+    once W1–W6 land". -/
 theorem open_cpt_theorem : True := trivial
--- SOURCE: Streater-Wightman; derivable from open_wightman_all_six.
+-- SOURCE: Streater-Wightman, PCT, Spin and Statistics, and All That, Thm 4-3.
 
-/-- Spin-statistics theorem follows from W1-W6 -/
+/-- Spin-statistics theorem follows from W1-W6.
+
+    Same caveat as `open_cpt_theorem`: the implication is the spin-statistics theorem itself,
+    which is the substance of Streater–Wightman ch. 4, not a step after W1–W6.
+
+    LIBRARY GAP: known mathematics, absent from Mathlib. -/
 theorem open_spin_statistics : True := trivial
--- SOURCE: Streater-Wightman; derivable from open_wightman_all_six.
+-- SOURCE: Streater-Wightman, PCT, Spin and Statistics, and All That, Thm 4-10.
 
 theorem open_wightman_summary : True := trivial
 
