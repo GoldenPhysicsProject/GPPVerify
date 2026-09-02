@@ -1285,3 +1285,10 @@ import GppVerify.RiemannHypothesis.ScaleShadowHalfDensity
 import GppVerify.RiemannHypothesis.ThermalCriticalLineBridge
 
 import GppVerify.RiemannHypothesis.PrimeFockPartition
+
+-- ── Wired automatically by scripts/wire_root.py ─────────────
+-- Modules added here were on disk but outside the root import graph, so
+-- `lake build GppVerify` was not compiling them. Move an import up into the
+-- appropriate curated section above, with a note on what it is for, whenever
+-- you know where it belongs — this block is a staging area, not a destination.
+import GppVerify.StandardModel.TauDifferential
