@@ -1292,3 +1292,4 @@ import GppVerify.RiemannHypothesis.PrimeFockPartition
 -- appropriate curated section above, with a note on what it is for, whenever
 -- you know where it belongs — this block is a staging area, not a destination.
 import GppVerify.StandardModel.TauDifferential
+import GppVerify.RiemannHypothesis.HeatSemigroupGram
