@@ -1,0 +1,81 @@
+# Run scripts/wire_root.py on a branch and push the result.
+#
+# Why this exists: the import-graph gate correctly rejects any branch carrying a module that
+# `GppVerify.lean` does not import, because `lake build GppVerify` never compiles such a
+# module — it can be broken, carry a `sorry`, or declare an axiom while CI reports green.
+#
+# `scripts/wire_root.py` fixes that in one command, which helps whoever can run a shell.
+# Codex cannot: its connector edits files through the GitHub API, and `GppVerify.lean` is
+# ~86 KB of curated section headers that a wholesale rewrite would destroy. So on 2026-09-02
+# every Codex payload — raised-box, heat-semigroup, spectral chambers, Fisher–Vandermonde —
+# needed a manual wiring pass from the other side. Four round trips for a mechanical edit.
+#
+# This closes that. It is `workflow_dispatch` only, so nothing is ever pushed to a branch
+# except when someone explicitly asks for it, naming the branch. There are no automatic
+# triggers and no `push:` event on purpose: a workflow that silently rewrites branches is a
+# worse problem than the one it solves.
+#
+# The push here triggers the normal Build workflow on the same branch, which cold-builds and
+# runs all seven gates. So one dispatch gives you wired *and* verified — and the build is the
+# point: adding an import to the root graph is exactly the moment a module that has never
+# compiled starts having to.
+name: wire root
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to wire (e.g. codex/my-payload). Must already exist."
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+          fetch-depth: 0
+
+      - name: Wire any modules missing from the root import graph
+        id: wire
+        run: |
+          python3 scripts/wire_root.py | tee /tmp/wire.log
+          if git diff --quiet -- GppVerify.lean; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.wire.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add GppVerify.lean
+          # The wiring report goes in the message so the commit says which modules were
+          # added and why, rather than leaving a bare "wire root" in the history.
+          {
+            echo "Wire modules into the root import graph"
+            echo
+            echo "Run of scripts/wire_root.py, dispatched for branch ${{ inputs.branch }}."
+            echo "These modules were on disk but outside the root graph, so"
+            echo "\`lake build GppVerify\` was not compiling them:"
+            echo
+            sed -n 's/^  \(GppVerify\..*\)$/  \1/p' /tmp/wire.log
+          } > /tmp/msg
+          git commit -F /tmp/msg
+          git push origin "HEAD:${{ inputs.branch }}"
+
+      - name: Report
+        run: |
+          if [ "${{ steps.wire.outputs.changed }}" = "true" ]; then
+            echo "Wired and pushed. The Build workflow will now cold-build this branch and"
+            echo "run all seven gates — that run is the real verification, not this job."
+          else
+            echo "Nothing to wire; the root import graph was already complete."
+          fi >> "$GITHUB_STEP_SUMMARY"
