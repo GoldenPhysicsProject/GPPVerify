@@ -43,7 +43,7 @@ theorem shadow_reflects_scale (t : ℝ) (ht : t > 1) : (1 : ℝ) / t < 1 := by
   linarith
 
 /-- log(1/t) = -log(t) for t > 0 — shadow in log-scale is negation -/
-theorem shadow_log_negation (t : ℝ) (ht : t > 0) :
+theorem shadow_log_negation (t : ℝ) :
     Real.log (1 / t) = -Real.log t := by
   rw [one_div, Real.log_inv]
 

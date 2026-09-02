@@ -56,7 +56,7 @@ theorem cross_resolvent_det_identity
     let B : Matrix n n ℂ := E - Matrix.vecMulVec β η'
     let e0 : Unit ⊕ n → ℂ := Sum.elim (fun _ => (1 : ℂ)) 0
     let η : Unit ⊕ n → ℂ := Sum.elim (fun _ => (1 : ℂ)) η'
-    ∀ hA : Invertible (A - z • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ)),
+    ∀ _hA : Invertible (A - z • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ)),
       det (B - z • (1 : Matrix n n ℂ))
         = det (A - z • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ))
             * (η ⬝ᵥ ((A - z • (1 : Matrix (Unit ⊕ n) (Unit ⊕ n) ℂ))⁻¹ *ᵥ e0)) := by
@@ -224,7 +224,7 @@ argument (kept as a hypothesis for fidelity to the queue item's physical setup, 
 though the proof does not use `hAplus`). -/
 theorem parity_crossing_obstruction
     (Aplus : Matrix p p ℂ) (Aminus : Matrix q q ℂ)
-    (hAplus : Aplus.IsHermitian) (hAminus : Aminus.IsHermitian)
+    (hAminus : Aminus.IsHermitian)
     (C : Matrix q p ℂ) (β : q → ℂ) (η : p → ℂ)
     (hsyl : C * Aplus - Aminus * C = Matrix.vecMulVec β (star η))
     (lam : ℂ) (e : p → ℂ) (o : q → ℂ) (ho : o ≠ 0)

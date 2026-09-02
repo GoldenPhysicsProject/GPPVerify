@@ -22,18 +22,6 @@ theorem neg_logDeriv_mul_algebra (f fp g gp : ℂ) (hf : f ≠ 0) (hg : g ≠ 0)
   field_simp
   ring
 
-/-- Genuine derivative form: if `f` and `g` are differentiable with nonzero values at `s`,
-then the negative logarithmic derivative of their product is the sum of the two negative
-logarithmic derivatives. -/
-theorem neg_logDeriv_product_of_hasDerivAt
-    (f g : ℂ → ℂ) (fp gp s : ℂ)
-    (hfder : HasDerivAt f fp s) (hgder : HasDerivAt g gp s)
-    (hf : f s ≠ 0) (hg : g s ≠ 0) :
-    -((fp * g s + f s * gp) / (f s * g s)) =
-      -(fp / f s) - (gp / g s) := by
-  field_simp
-  ring
-
 /-- The derivative of the scalar completed product itself has the usual Leibniz form. -/
 theorem hasDerivAt_completed_product
     (f g : ℂ → ℂ) (fp gp s : ℂ)
@@ -44,6 +32,34 @@ theorem hasDerivAt_completed_product
   -- `instCommCStarAlgebraComplex.toCStarAlgebra.toAddCommGroup` while the goal wants
   -- `Complex.addCommGroup`. `exact` absorbs both the Pi-lifting and the instance path.
   exact hfder.mul hgder
+
+/-- Genuine derivative form: if `f` and `g` are differentiable with nonzero values at `s`,
+then the negative logarithmic derivative of their product is the sum of the two negative
+logarithmic derivatives.
+
+**Made genuine, 2026-09-02.** The statement previously read
+
+    -((fp * g s + f s * gp) / (f s * g s)) = -(fp / f s) - (gp / g s)
+
+with `hfder` and `hgder` in the signature and *neither used in the proof* — the Leibniz
+numerator was written out by hand, so this was `neg_logDeriv_mul_algebra` above with two
+decorative hypotheses attached, sitting directly beneath the honest version of itself while
+its docstring called it the "genuine derivative form". The compiler's unused-binder warning
+is what caught it; the docstring did not.
+
+The fix is not to strip the name down to what the statement was, but to make the statement
+match the name: the left side is now `deriv (fun z => f z * g z) s`, and `hfder`/`hgder` are
+what identify that derivative (via `hasDerivAt_completed_product` below). All four
+hypotheses are now load-bearing. -/
+theorem neg_logDeriv_product_of_hasDerivAt
+    (f g : ℂ → ℂ) (fp gp s : ℂ)
+    (hfder : HasDerivAt f fp s) (hgder : HasDerivAt g gp s)
+    (hf : f s ≠ 0) (hg : g s ≠ 0) :
+    -(deriv (fun z => f z * g z) s / (f s * g s)) =
+      -(fp / f s) - (gp / g s) := by
+  rw [(hasDerivAt_completed_product f g fp gp s hfder hgder).deriv]
+  field_simp
+  ring
 
 end GppLogDerivativeProduct
 
