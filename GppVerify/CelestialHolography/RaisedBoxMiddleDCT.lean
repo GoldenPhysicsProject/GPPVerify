@@ -82,6 +82,10 @@ theorem middle_inner_aestronglyMeasurable
       (volume.restrict (Ι (0 : ℝ) (1 - x1))) :=
     (wholeLine_inner_integral_stronglyMeasurable ε S T x1).aestronglyMeasurable.restrict
   apply hg.congr
+  change ∀ᵐ x2 : ℝ ∂volume.restrict (Ι (0 : ℝ) (1 - x1)),
+    g x2 =
+      ∫ x3 : ℝ in (0 : ℝ)..(1 - x1 - x2),
+        integrand ε S T x1 x2 x3
   rw [ae_restrict_iff' measurableSet_uIoc]
   filter_upwards with x2 hx2mem
   have hB : 0 ≤ 1 - x1 := by linarith
