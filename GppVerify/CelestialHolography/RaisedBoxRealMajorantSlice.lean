@@ -24,7 +24,7 @@ theorem channel_neg_rpow_factor
     (hS : 0 ≤ S) (hx1 : 0 ≤ x1) (hx3 : 0 ≤ x3) :
     (S * x1 * x3) ^ (-δ : ℝ) =
       (S * x1) ^ (-δ : ℝ) * x3 ^ (-δ : ℝ) := by
-  exact Real.mul_rpow (mul_nonneg hS hx1) hx3 (-δ)
+  exact Real.mul_rpow (mul_nonneg hS hx1) hx3
 
 /-- For every nonnegative affine inner simplex slice `[0,L]`, the singular
 channel is interval-integrable as a function of `x3`.  The hypothesis
