@@ -215,6 +215,66 @@ theorem positiveType_of_pointwise_tendsto
   exact ge_of_tendsto
     (Complex.continuous_re.continuousAt.tendsto.comp hTendstoSum) hNonneg
 
+/-- The real von-Mangoldt cosine series is absolutely summable on every vertical
+line `Re s = a > 1`. -/
+theorem summable_vonMangoldt_cosine
+    {a t : ℝ} (ha : 1 < a) :
+    Summable (fun n : ℕ =>
+      ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log n * a) *
+        Real.cos (Real.log n * t)) := by
+  have hs : 1 < (((a : ℂ) + (t : ℂ) * Complex.I).re) := by
+    simpa using ha
+  have hsumC : Summable (fun n : ℕ =>
+      LSeries.term vonMangoldtComplex
+        ((a : ℂ) + (t : ℂ) * Complex.I) n) := by
+    exact ArithmeticFunction.LSeriesSummable_vonMangoldt hs
+  have hsumR : Summable (fun n : ℕ =>
+      (LSeries.term vonMangoldtComplex
+        ((a : ℂ) + (t : ℂ) * Complex.I) n).re) :=
+    Complex.reCLM.summable hsumC
+  refine hsumR.congr ?_
+  intro n
+  rcases eq_or_ne n 0 with rfl | hn
+  · simp
+  · exact vonMangoldt_term_re_eq_exp_cos n hn a t
+
+/-- The genuine untruncated von-Mangoldt cosine response is positive type on
+`Re s = a > 1`.  This is the infinite-series closure of the finite mode theorem;
+it is local to the absolute-convergence half-plane and is not Weil positivity. -/
+theorem vonMangoldt_cosine_tsum_positiveType
+    {a : ℝ} (ha : 1 < a) :
+    PositiveType (fun t : ℝ =>
+      ∑' n : ℕ, ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log n * a) *
+        Real.cos (Real.log n * t)) := by
+  apply positiveType_of_pointwise_tendsto
+    (fun N t =>
+      ∑ n ∈ Finset.range N,
+        ArithmeticFunction.vonMangoldt n * Real.exp (-Real.log n * a) *
+          Real.cos (Real.log n * t))
+  · intro N
+    exact finite_vonMangoldt_cosine_positiveType a (Finset.range N)
+  · intro t
+    exact (summable_vonMangoldt_cosine (a := a) (t := t) ha).hasSum.tendsto_sum_nat
+
+/-- Equivalently, on every vertical line strictly to the right of the critical
+strip, `-Re(ζ'/ζ)` is a positive-type kernel in the spectral variable `t`.
+This uses only the nonnegative von-Mangoldt weights and absolute convergence. -/
+theorem neg_zeta_logDeriv_vertical_positiveType
+    {a : ℝ} (ha : 1 < a) :
+    PositiveType (fun t : ℝ =>
+      (-(deriv riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I) /
+        riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re) := by
+  rw [show
+      (fun t : ℝ =>
+        (-(deriv riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I) /
+          riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re) =
+      (fun t : ℝ =>
+        ∑' n : ℕ, ArithmeticFunction.vonMangoldt n *
+          Real.exp (-Real.log n * a) * Real.cos (Real.log n * t)) by
+    funext t
+    exact neg_zeta_logDeriv_re_eq_vonMangoldt_cosine_tsum (a := a) (t := t) ha]
+  exact vonMangoldt_cosine_tsum_positiveType ha
+
 end GppVonMangoldtCosine
 
 #print axioms GppVonMangoldtCosine.natCast_neg_cpow_re
@@ -224,3 +284,6 @@ end GppVonMangoldtCosine
 #print axioms GppVonMangoldtCosine.vonMangoldt_mode_positiveType
 #print axioms GppVonMangoldtCosine.finite_vonMangoldt_cosine_positiveType
 #print axioms GppVonMangoldtCosine.positiveType_of_pointwise_tendsto
+#print axioms GppVonMangoldtCosine.summable_vonMangoldt_cosine
+#print axioms GppVonMangoldtCosine.vonMangoldt_cosine_tsum_positiveType
+#print axioms GppVonMangoldtCosine.neg_zeta_logDeriv_vertical_positiveType
