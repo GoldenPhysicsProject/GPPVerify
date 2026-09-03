@@ -44,14 +44,12 @@ theorem fourierWeight_involutive (k : ℤ) :
 theorem fourierWeight_twistor_eq_dual (n : ℤ) :
     fourierWeight (twistorWeight n) = dualTwistorWeight n := by
   simp [fourierWeight, twistorWeight, dualTwistorWeight]
-  ring
 
 /-- The resulting dual-twistor weight is numerically the ordinary twistor weight
 of opposite helicity. -/
 theorem dualWeight_eq_oppositeHelicityWeight (n : ℤ) :
     dualTwistorWeight n = twistorWeight (-n) := by
   simp [dualTwistorWeight, twistorWeight]
-  ring
 
 /-- Combined form: four-dimensional Fourier duality implements the exact
 homogeneity shift required by helicity reversal. -/
