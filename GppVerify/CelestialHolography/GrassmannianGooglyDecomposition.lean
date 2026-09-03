@@ -52,13 +52,13 @@ noncomputable def tau (A : M2) : M2 :=
 /-- The quarter-turn squares to the central sign. -/
 theorem quarterTurn_sq (A : M2) : quarterTurn (quarterTurn A) = (-A.1,-A.2.1,-A.2.2.1,-A.2.2.2) := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [quarterTurn]
 
 /-- Hence the quarter-turn has order four. -/
 theorem quarterTurn_four (A : M2) :
     quarterTurn (quarterTurn (quarterTurn (quarterTurn A))) = A := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [quarterTurn]
 
 /-- The determinant of the complementary chart is reciprocal. -/
 theorem det2_complement (A : M2) (hD : det2 A ≠ 0) :
@@ -74,7 +74,11 @@ theorem complement_involutive (A : M2) (hD : det2 A ≠ 0) :
   rcases A with ⟨a,b,c,d⟩
   simp only [det2, complement] at hD ⊢
   have hrecip : d * a - c * b ≠ 0 := by
-    nlinarith
+    intro h
+    apply hD
+    calc
+      a * d - b * c = d * a - c * b := by ring
+      _ = 0 := h
   field_simp [hD, hrecip]
   <;> ring
 
@@ -90,7 +94,7 @@ theorem complement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
 theorem tau_eq_quarterTurn_complement (A : M2) :
     tau A = quarterTurn (complement A) := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [tau, quarterTurn, complement, det2]
 
 /-- The factorization explains the nonlinear order-four law: tau squared is -identity. -/
 theorem tau_sq_from_complement (A : M2) (hD : det2 A ≠ 0) :
@@ -111,7 +115,6 @@ structure P6 where
   p12 : ℝ
   p13 : ℝ
   p23 : ℝ
-  deriving Repr
 
 /-- Euclidean Hodge star in the ordered Plucker basis
 `(01,02,03,12,13,23)`. -/
@@ -120,7 +123,7 @@ def pluckerStar (p : P6) : P6 :=
 
 theorem pluckerStar_sq (p : P6) : pluckerStar (pluckerStar p) = p := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
-  rfl
+  simp [pluckerStar]
 
 /-- Klein-quadric polynomial. Its zero locus is the decomposable Plucker quadric. -/
 def kleinQ (p : P6) : ℝ := p.p01*p.p23 - p.p02*p.p13 + p.p03*p.p12
@@ -147,8 +150,8 @@ theorem chartPlucker_complement (A : M2) (hD : det2 A ≠ 0) :
           (pluckerStar (chartPlucker A)).p23 / D⟩ := by
   rcases A with ⟨a,b,c,d⟩
   simp only [chartPlucker, complement, det2, pluckerStar]
-  ext <;> simp
-  · field_simp [hD]
-    ring
+  apply P6.ext <;> simp
+  field_simp [hD]
+  ring
 
 end GppGrassmannianGooglyDecomposition
