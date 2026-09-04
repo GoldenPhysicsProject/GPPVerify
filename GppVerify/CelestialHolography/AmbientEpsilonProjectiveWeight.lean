@@ -5,12 +5,12 @@ import GppVerify.CelestialHolography.TwistorCanonicalShift
 # Ambient epsilon and the projective twistor weight four
 
 The projective twistor three-form is obtained by contracting an ambient rank-four
-alternating form with the Euler/radial vector.  Algebraically it has one copy of the
+alternating form with the Euler/radial vector. Algebraically it has one copy of the
 homogeneous coordinate and three copies of its differential, so simultaneous projective
 scaling contributes four powers of the scale.
 
 This file formalizes that rank-four scaling statement without pretending to construct
-the full differential-form geometry of CP^3.  It is the exact algebraic source of the
+the full differential-form geometry of CP^3. It is the exact algebraic source of the
 `+4` top-form weight and hence the canonical degree `-4` used by the twistor Fourier
 reflection `k -> -k-4`.
 -/
@@ -21,20 +21,23 @@ open GppTwistorCanonicalShift
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 
-/-- An ambient rank-four covariant form, represented as a curried 4-linear map. -/
-abbrev FourForm := V →ₗ[K] V →ₗ[K] V →ₗ[K] V →ₗ[K] K
+/-- An ambient rank-four covariant form, represented as a fully parenthesized curried
+4-linear map so Lean can resolve every intermediate module instance. -/
+abbrev FourForm :=
+  V →ₗ[K] (V →ₗ[K] (V →ₗ[K] (V →ₗ[K] K)))
 
 /-- Algebraic Euler contraction evaluated on three tangent directions. -/
-def eulerContract (ε : FourForm) (Z d1 d2 d3 : V) : K :=
+def eulerContract (ε : FourForm (K:=K) (V:=V)) (Z d1 d2 d3 : V) : K :=
   ε Z d1 d2 d3
 
 /-- Simultaneously scaling the homogeneous coordinate and its three differential
 slots gives exactly four powers of the projective scale. -/
 theorem eulerContract_scale_four
-    (ε : FourForm) (λ : K) (Z d1 d2 d3 : V) :
-    eulerContract ε (λ • Z) (λ • d1) (λ • d2) (λ • d3) =
-      λ ^ 4 * eulerContract ε Z d1 d2 d3 := by
-  simp [eulerContract, pow_succ, mul_assoc, mul_left_comm, mul_comm]
+    (ε : FourForm (K:=K) (V:=V)) (c : K) (Z d1 d2 d3 : V) :
+    eulerContract ε (c • Z) (c • d1) (c • d2) (c • d3) =
+      c ^ 4 * eulerContract ε Z d1 d2 d3 := by
+  simp [eulerContract]
+  ring
 
 /-- The number of homogeneous factors in the Euler-contracted ambient four-form is
 exactly four. -/
@@ -50,6 +53,7 @@ theorem canonical_degree_from_epsilon_rank_four : canonicalDegree = -4 := by
 canonical rank-four projective Fourier reflection. -/
 theorem epsilon_forces_fourier_weight (k : ℤ) :
     canonicalDegree - k = -k - 4 := by
-  norm_num [canonicalDegree, projectiveTwistorDim]
+  rw [canonical_degree_from_epsilon_rank_four]
+  omega
 
 end GppAmbientEpsilonProjectiveWeight
