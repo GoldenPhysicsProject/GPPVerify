@@ -45,6 +45,20 @@ directly, `GrassmannianMass.lean`). The identity proved here, N⁴ = D⁴•1,
 is the corrected, exact replacement: it specializes at |D| = 1 to
 N⁴ = 1, a period-4 structure, matching `transition_transition_eq_neg`'s
 τ² = -id (period 4 overall) rather than a period-2 complex structure.
+
+## Split-complement Jacobian and the recurring four
+
+For the split-signature Hodge/polarity map on the big cell,
+
+  C_split(A) = A^{-T} = (d,-c,-b,a)/(ad-bc),
+
+the derivative has denominator D².  Clearing it gives `splitComplementJacNum`
+below.  Its determinant is exactly `-D⁴`.  Therefore the actual Jacobian
+determinant is `-D⁴/D⁸ = -D⁻⁴` whenever D≠0.  This identifies, on the
+Grassmannian chart itself, the same rank-four exponent that appears in the
+projective twistor canonical weight `K_{CP³}=O(-4)`.  The equality of exponents
+is an exact calculation; interpreting the two Jacobians as one functorial
+measure statement still requires the projective/correspondence theorem.
 -/
 
 namespace GppGrassmannianJacobian
@@ -92,5 +106,28 @@ theorem N_pow_four_eq_D_pow_four_smul_one (a b c d : ℝ) :
   simp only [smul_smul]
   congr 1
   ring
+
+/-- Numerator of the derivative of the split complement `A ↦ A⁻ᵀ`, after
+clearing the common denominator `(det A)²` in coordinates `(a,b,c,d)`. -/
+def splitComplementJacNum (a b c d : ℝ) : Matrix (Fin 4) (Fin 4) ℝ :=
+  !![-d ^ 2, c * d, b * d, -(b * c);
+      c * d, -c ^ 2, -(a * d), a * c;
+      b * d, -(a * d), -b ^ 2, a * b;
+      -(b * c), a * c, a * b, -a ^ 2]
+
+/-- The cleared split-complement Jacobian has determinant `-(det A)^4`.
+This is the exact polynomial core of the Jacobian law `det dC_split = -(det A)⁻⁴`. -/
+theorem det_splitComplementJacNum (a b c d : ℝ) :
+    Matrix.det (splitComplementJacNum a b c d) = -(a * d - b * c) ^ 4 := by
+  simp [splitComplementJacNum, Matrix.det_fin_four]
+  ring
+
+/-- Dividing the cleared determinant by the eighth power coming from the four
+rows' common `D²` denominator yields the rank-four inverse determinant factor. -/
+theorem splitComplement_jacobian_det_ratio
+    (a b c d : ℝ) (hD : a * d - b * c ≠ 0) :
+    (-(a * d - b * c) ^ 4) / (a * d - b * c) ^ 8 =
+      -(1 / (a * d - b * c) ^ 4) := by
+  field_simp [hD]
 
 end GppGrassmannianJacobian
