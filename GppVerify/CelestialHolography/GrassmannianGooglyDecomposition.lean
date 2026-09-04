@@ -54,14 +54,13 @@ theorem complement_involutive (A : M2) (hD : det2 A ≠ 0) :
     calc
       a * d - b * c = d * a - c * b := by ring
       _ = 0 := h
-  field_simp [hD, hrecip]
-  <;> ring
+  ext <;> field_simp [hD, hrecip]
 
 theorem complement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
     complement (quarterTurn A) = quarterTurn (complement A) := by
   rcases A with ⟨a,b,c,d⟩
   simp only [det2, complement, quarterTurn] at hD ⊢
-  field_simp [hD]
+  ext <;> field_simp [hD]
 
 theorem tau_eq_quarterTurn_complement (A : M2) :
     tau A = quarterTurn (complement A) := by
@@ -112,6 +111,6 @@ theorem chartPlucker_complement (A : M2) (hD : det2 A ≠ 0) :
           (pluckerStar (chartPlucker A)).p23 / D⟩ := by
   rcases A with ⟨a,b,c,d⟩
   simp only [chartPlucker, complement, det2, pluckerStar]
-  congr 1 <;> field_simp [hD]
+  ext <;> field_simp [hD]
 
 end GppGrassmannianGooglyDecomposition
