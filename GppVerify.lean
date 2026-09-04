@@ -1293,3 +1293,50 @@ import GppVerify.RiemannHypothesis.PrimeFockPartition
 -- you know where it belongs — this block is a staging area, not a destination.
 import GppVerify.StandardModel.TauDifferential
 import GppVerify.RiemannHypothesis.DigammaSeries
+
+-- ── Orientation / mass-time / googly topic branch staging ─────────────
+-- Direct root imports are intentional: scripts/check_import_graph.py requires every
+-- module under GppVerify/ to be named here, even when another topic module imports it.
+import GppVerify.CelestialHolography.AmbientFourDualitySpine
+import GppVerify.CelestialHolography.AmbientFourPenroseIntertwiner
+import GppVerify.CelestialHolography.AmbientEpsilonProjectiveWeight
+import GppVerify.CelestialHolography.AnnihilatorComplementBridge
+import GppVerify.CelestialHolography.ConcreteGooglyDualitySpine
+import GppVerify.CelestialHolography.FourierDualSplitPolarity
+import GppVerify.CelestialHolography.FourierSliceSupportGeometry
+import GppVerify.CelestialHolography.GooglyCorrespondenceWeights
+import GppVerify.CelestialHolography.GooglyGeometryIntertwinerSpine
+import GppVerify.CelestialHolography.GooglyRepresentationIdentity
+import GppVerify.CelestialHolography.GooglySquareRoot
+import GppVerify.CelestialHolography.GrassmannianGooglyDecomposition
+import GppVerify.CelestialHolography.IncidenceKernelGoogly
+import GppVerify.CelestialHolography.LorentzianTwistorPolarity
+import GppVerify.CelestialHolography.NonlinearGooglyClosure
+import GppVerify.CelestialHolography.OnShellDualReconstruction
+import GppVerify.CelestialHolography.OrientationGooglyCore
+import GppVerify.CelestialHolography.OrientationOnlyGooglyNoGo
+import GppVerify.CelestialHolography.PenroseQuotientDescent
+import GppVerify.CelestialHolography.PluckerChiralityAction
+import GppVerify.CelestialHolography.ProjectiveFourierPenroseQuotient
+import GppVerify.CelestialHolography.ProjectiveGooglyInvolution
+import GppVerify.CelestialHolography.ProjectiveObservableInvariance
+import GppVerify.CelestialHolography.ProjectiveOrientationInvariance
+import GppVerify.CelestialHolography.SplitGooglyGeometryCapstone
+import GppVerify.CelestialHolography.SplitPolarityComplementBridge
+import GppVerify.CelestialHolography.SplitSignatureGooglyFactorization
+import GppVerify.CelestialHolography.SplitSignatureHodgeGrassmannian
+import GppVerify.CelestialHolography.SplitSignatureLightParity
+import GppVerify.CelestialHolography.SplitSignaturePenroseFourierSquare
+import GppVerify.CelestialHolography.TwistorAnnihilatorIncidence
+import GppVerify.CelestialHolography.TwistorCanonicalShift
+import GppVerify.CelestialHolography.TwistorDiagonalDuality
+import GppVerify.CelestialHolography.TwistorFlagDuality
+import GppVerify.CelestialHolography.TwistorWeightDuality
+import GppVerify.StandardModel.ClockFrequency
+import GppVerify.StandardModel.GrassmannianDiracIntertwiner
+import GppVerify.StandardModel.GrassmannianDiracPhysicalIntertwiner
+import GppVerify.StandardModel.GrassmannianMassClockBridge
+import GppVerify.StandardModel.GrassmannianPhysicalMass
+import GppVerify.StandardModel.OrientationMassTime
+import GppVerify.StandardModel.OrientationMassTimeSpectral
+import GppVerify.StandardModel.SpinorMassBridge
