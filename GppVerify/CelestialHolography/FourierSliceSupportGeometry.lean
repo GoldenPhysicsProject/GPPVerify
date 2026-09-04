@@ -89,4 +89,33 @@ theorem support_constraints_force_incidence
   rw [restricted_phase_factorization, h1, h2]
   ring
 
+/-- The two support constraints vanish exactly when the Fourier phase vanishes on
+*every* vector of the original 2-plane.  Thus the constraints are not merely a
+coordinate trick: they characterize the annihilator condition intrinsically. -/
+theorem constraints_iff_phase_zero_on_plane
+    (a b c d : ℝ) (ξ : V4) :
+    (phaseConstraint1 a b ξ = 0 ∧ phaseConstraint2 c d ξ = 0) ↔
+      ∀ r s : ℝ, pair4 (lineVector a b c d r s) ξ = 0 := by
+  constructor
+  · rintro ⟨h1,h2⟩ r s
+    exact support_constraints_force_incidence a b c d ξ h1 h2 r s
+  · intro h
+    constructor
+    · have h10 := h 1 0
+      rw [restricted_phase_factorization] at h10
+      simpa using h10
+    · have h01 := h 0 1
+      rw [restricted_phase_factorization] at h01
+      simpa using h01
+
+/-- Full intrinsic big-cell characterization of Fourier support: a Fourier variable is
+on the annihilator dual plane iff its pairing with every vector of the original plane
+vanishes. -/
+theorem on_annihilator_iff_phase_zero_on_plane
+    (a b c d : ℝ) (ξ : V4) :
+    ξ = dualLineVector a b c d ξ.2.2.1 ξ.2.2.2 ↔
+      ∀ r s : ℝ, pair4 (lineVector a b c d r s) ξ = 0 := by
+  rw [← constraints_iff_on_annihilator]
+  exact constraints_iff_phase_zero_on_plane a b c d ξ
+
 end GppFourierSliceSupportGeometry
