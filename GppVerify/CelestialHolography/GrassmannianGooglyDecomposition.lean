@@ -5,8 +5,8 @@ import GppVerify.GrassmannianMass
 # Grassmannian googly decomposition
 
 On the big cell represented by `[I|A]`, the Euclidean Hodge/complement operation
-induces `C(A)=-A^{-T}`.  The chart map `tau` factors as a fixed quarter-turn after
-this complement.  This Euclidean convention is kept separate from the split-signature
+induces `C(A)=-A^{-T}`. The chart map `tau` factors as a fixed quarter-turn after
+this complement. This Euclidean convention is kept separate from the split-signature
 construction in `SplitSignatureHodgeGrassmannian`.
 -/
 
@@ -31,12 +31,12 @@ noncomputable def tau (A : M2) : M2 :=
 theorem quarterTurn_sq (A : M2) :
     quarterTurn (quarterTurn A) = (-A.1,-A.2.1,-A.2.2.1,-A.2.2.2) := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [quarterTurn]
 
 theorem quarterTurn_four (A : M2) :
     quarterTurn (quarterTurn (quarterTurn (quarterTurn A))) = A := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [quarterTurn]
 
 theorem det2_complement (A : M2) (hD : det2 A ≠ 0) :
     det2 (complement A) = 1 / det2 A := by
@@ -47,42 +47,36 @@ theorem det2_complement (A : M2) (hD : det2 A ≠ 0) :
 
 theorem complement_involutive (A : M2) (hD : det2 A ≠ 0) :
     complement (complement A) = A := by
+  have hdet := det2_complement A hD
+  have hdet' : det2 (complement A) ≠ 0 := by
+    rw [hdet]
+    exact one_div_ne_zero hD
   rcases A with ⟨a,b,c,d⟩
-  simp only [det2, complement] at hD ⊢
-  have hrecip : d * a - c * b ≠ 0 := by
-    intro h
-    apply hD
-    calc
-      a * d - b * c = d * a - c * b := by ring
-      _ = 0 := h
+  simp only [complement, det2] at hD hdet hdet' ⊢
   apply Prod.ext
-  · field_simp [hD, hrecip]
-    ring
+  · field_simp [hD, hdet'] <;> ring
   · apply Prod.ext
-    · field_simp [hD, hrecip]
-      ring
+    · field_simp [hD, hdet'] <;> ring
     · apply Prod.ext
-      · field_simp [hD, hrecip]
-        ring
-      · field_simp [hD, hrecip]
-        ring
+      · field_simp [hD, hdet'] <;> ring
+      · field_simp [hD, hdet'] <;> ring
 
 theorem complement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
     complement (quarterTurn A) = quarterTurn (complement A) := by
   rcases A with ⟨a,b,c,d⟩
   simp only [det2, complement, quarterTurn] at hD ⊢
   apply Prod.ext
-  · field_simp [hD]
+  · field_simp [hD] <;> ring
   · apply Prod.ext
-    · field_simp [hD]
+    · field_simp [hD] <;> ring
     · apply Prod.ext
-      · field_simp [hD]
-      · field_simp [hD]
+      · field_simp [hD] <;> ring
+      · field_simp [hD] <;> ring
 
 theorem tau_eq_quarterTurn_complement (A : M2) :
     tau A = quarterTurn (complement A) := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [tau, quarterTurn, complement, det2]
 
 theorem tau_sq_from_complement (A : M2) (hD : det2 A ≠ 0) :
     tau (tau A) = (-A.1,-A.2.1,-A.2.2.1,-A.2.2.2) := by
@@ -101,12 +95,19 @@ structure P6 where
   p13 : ℝ
   p23 : ℝ
 
+@[ext] theorem P6.ext {p q : P6}
+    (h01 : p.p01 = q.p01) (h02 : p.p02 = q.p02) (h03 : p.p03 = q.p03)
+    (h12 : p.p12 = q.p12) (h13 : p.p13 = q.p13) (h23 : p.p23 = q.p23) : p = q := by
+  cases p
+  cases q
+  simp_all
+
 def pluckerStar (p : P6) : P6 :=
   ⟨p.p23, -p.p13, p.p12, p.p03, -p.p02, p.p01⟩
 
 theorem pluckerStar_sq (p : P6) : pluckerStar (pluckerStar p) = p := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
-  rfl
+  simp [pluckerStar]
 
 def kleinQ (p : P6) : ℝ := p.p01*p.p23 - p.p02*p.p13 + p.p03*p.p12
 
@@ -130,11 +131,10 @@ theorem chartPlucker_complement (A : M2) (hD : det2 A ≠ 0) :
   simp only [chartPlucker, complement, det2, pluckerStar]
   apply P6.ext
   · simp
-  · field_simp [hD]
-  · field_simp [hD]
-  · field_simp [hD]
-  · field_simp [hD]
-  · field_simp [hD]
-    ring
+  · field_simp [hD] <;> ring
+  · field_simp [hD] <;> ring
+  · field_simp [hD] <;> ring
+  · field_simp [hD] <;> ring
+  · field_simp [hD] <;> ring
 
 end GppGrassmannianGooglyDecomposition
