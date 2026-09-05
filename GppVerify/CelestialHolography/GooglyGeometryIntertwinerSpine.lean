@@ -1,5 +1,6 @@
 import Mathlib.Tactic
 import GppVerify.CelestialHolography.FourierDualSplitPolarity
+import GppVerify.CelestialHolography.KleinSpinorIncidence
 import GppVerify.CelestialHolography.SplitGooglyGeometryCapstone
 import GppVerify.CelestialHolography.TwistorCanonicalShift
 import GppVerify.CelestialHolography.TwistorRepresentationConvention
@@ -26,10 +27,22 @@ Fourier `PT* <-> PT` preserves the physical helicity of the momentum state, wher
 same degree reflection read on one fixed twistor side is the opposite-helicity bundle
 degree.  These statements must not be conflated.
 
-Thus the exact support geometry is more accurately
+The new `KleinSpinorIncidence` module supplies the epsilon-only replacement for the
+noncanonical pointwise polarity shortcut: a Klein bivector acts between `V` and `V*`
+by the two chiral Clifford maps, with square `-Q_Klein`.  On the Klein quadric the action
+is nilpotent and its two kernels are exactly the twistor line and annihilator dual-twistor
+line of the same spacetime point.  Thus the intrinsic geometry is a chiral incidence
+operator/correspondence, not an isomorphism `V* ≅ V`.
 
-  D_Fourier-support -> D_annihilator
-      --[chosen V*≅V polarity]--> D_polarity = D_Gr = D_Hodge(chosen metric).
+Accordingly the exact support geometry is more accurately
+
+  D_Fourier-support -> D_annihilator,
+
+while the epsilon-only common geometry is
+
+  Klein point p -> [ cPlus(p): V -> V*, cMinus(p): V* -> V ],
+
+with the chosen metric polarity retained only as an optional additional identification.
 
 What is NOT proved here:
 
