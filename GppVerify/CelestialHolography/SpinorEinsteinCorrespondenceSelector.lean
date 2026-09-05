@@ -106,6 +106,11 @@ theorem spinor_vanishing_implies_null_cone_vanishing
   intro a b c d hdet
   obtain ⟨lambda,lambdatilde,hfac⟩ := det_zero_factors_as_spinors a b c d hdet
   have hs := hspin lambda lambdatilde
+  change quad4 A B C D E F G H I J
+    (nullMomentum lambda lambdatilde).1
+    (nullMomentum lambda lambdatilde).2.1
+    (nullMomentum lambda lambdatilde).2.2.1
+    (nullMomentum lambda lambdatilde).2.2.2 = 0 at hs
   rw [hfac] at hs
   exact hs
 
@@ -129,7 +134,9 @@ theorem pure_trace_vanishes_on_spinors
     (mu : ℝ) (lambda lambdatilde : Spinor2) :
     let X := nullMomentum lambda lambdatilde
     mu * det2 X = 0 := by
-  simp [nullMomentum_det_zero]
+  dsimp
+  rw [nullMomentum_det_zero]
+  ring
 
 /-- Hence the correspondence-space spinor condition and the pure-trace condition are
 exactly equivalent at the finite quadratic level. -/
@@ -144,7 +151,10 @@ theorem spinor_vanishing_iff_pure_trace
   · exact spinor_vanishing_implies_pure_trace A B C D E F G H I J
   · rintro ⟨mu,hmu⟩ lambda lambdatilde
     let X := nullMomentum lambda lambdatilde
+    change quad4 A B C D E F G H I J X.1 X.2.1 X.2.2.1 X.2.2.2 = 0
     rw [hmu X.1 X.2.1 X.2.2.1 X.2.2.2]
-    exact pure_trace_vanishes_on_spinors mu lambda lambdatilde
+    change mu * det2 (nullMomentum lambda lambdatilde) = 0
+    rw [nullMomentum_det_zero]
+    ring
 
 end GppSpinorEinsteinCorrespondenceSelector
