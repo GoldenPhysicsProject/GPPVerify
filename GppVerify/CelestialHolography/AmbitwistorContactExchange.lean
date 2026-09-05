@@ -4,6 +4,7 @@ import GppVerify.CelestialHolography.KleinCliffordPinConjugation
 import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
 import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
 import GppVerify.CelestialHolography.NullConeEinsteinSelector
+import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 
 /-!
 # Ambitwistor factor exchange is anti-contact at the flat incidence level
@@ -28,7 +29,10 @@ finite-dimensional spine:
   when the pointwise reflection becomes singular at flat infinity;
 * `NullConeEinsteinSelector` proves that a quadratic tensor vanishing on every split null
   direction is necessarily pure trace, the algebraic converse behind the null-geodesic
-  form of the almost-Einstein equation.
+  form of the almost-Einstein equation;
+* `EinsteinNullRaySL2Geometry` proves that the associated rank-two null-ray state geometry
+  is symplectic/`SL(2)` at the finite-dimensional level and contains the same Weyl and
+  unipotent matrices used by the flat celestial kernel.
 
 The analytic Knapp--Stein/light-transform integral, the curved correspondence-space
 realization of the Einstein bundle, and a general curved orientation-reversal theorem
