@@ -1,5 +1,9 @@
 import Mathlib.Tactic
 import GppVerify.CelestialHolography.TaggedAmbitwistorParity
+import GppVerify.CelestialHolography.KleinCliffordPinConjugation
+import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
+import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
+import GppVerify.CelestialHolography.NullConeEinsteinSelector
 
 /-!
 # Ambitwistor factor exchange is anti-contact at the flat incidence level
@@ -12,6 +16,23 @@ twistor/dual-twistor product.  Its standard symplectic potential is proportional
 Exchanging the two chiral factors therefore reverses the sign of `Theta`.  On the
 projectivized incidence space this preserves the contact hyperplane distribution while
 reversing the chosen contact one-form/coorientation.
+
+The imported companion modules now place this anti-contact statement inside the sharper
+finite-dimensional spine:
+
+* `KleinCliffordPinConjugation` proves the polarized Clifford relation and the internal
+  Pin-adjoint implementation of non-null Klein reflection;
+* `KleinWeylReflectionConjugacy` identifies the positive-norm cosmological reflection as
+  a split-dilation conjugate of one fixed Weyl reflection;
+* `FlatNullWeylFiberGeometry` records the projective `RP^1` kernel/unipotent geometry left
+  when the pointwise reflection becomes singular at flat infinity;
+* `NullConeEinsteinSelector` proves that a quadratic tensor vanishing on every split null
+  direction is necessarily pure trace, the algebraic converse behind the null-geodesic
+  form of the almost-Einstein equation.
+
+The analytic Knapp--Stein/light-transform integral, the curved correspondence-space
+realization of the Einstein bundle, and a general curved orientation-reversal theorem
+remain external/open.  None of those claims is hidden in the imports here.
 
 This module formalizes the underlying bilinear algebra with the twistor and dual-twistor
 tags kept distinct.  It does not formalize differential forms, projectivization, or claim
