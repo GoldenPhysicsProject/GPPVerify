@@ -106,30 +106,26 @@ theorem parity_shadow_commute (w : WeightPair) :
 theorem deltaSpin_lightL (w : WeightPair) :
     deltaSpin (lightL w) = (1 - (deltaSpin w).2, 1 - (deltaSpin w).1) := by
   rcases w with ⟨h,hb⟩
-  simp [deltaSpin, lightL]
-  constructor <;> ring
+  apply Prod.ext <;> simp [deltaSpin, lightL] <;> ring
 
 /-- In `(Delta,J)` coordinates, the right light transform sends
 `(Delta,J)` to `(1+J,Delta-1)`. -/
 theorem deltaSpin_lightR (w : WeightPair) :
     deltaSpin (lightR w) = (1 + (deltaSpin w).2, (deltaSpin w).1 - 1) := by
   rcases w with ⟨h,hb⟩
-  simp [deltaSpin, lightR]
-  constructor <;> ring
+  apply Prod.ext <;> simp [deltaSpin, lightR] <;> ring
 
 /-- Full shadow sends `(Delta,J)` to `(2-Delta,-J)`. -/
 theorem deltaSpin_shadow (w : WeightPair) :
     deltaSpin (shadow w) = (2 - (deltaSpin w).1, -(deltaSpin w).2) := by
   rcases w with ⟨h,hb⟩
-  simp [deltaSpin, shadow]
-  constructor <;> ring
+  apply Prod.ext <;> simp [deltaSpin, shadow] <;> ring
 
 /-- Parity preserves Delta and reverses J. -/
 theorem deltaSpin_parity (w : WeightPair) :
     deltaSpin (parity w) = ((deltaSpin w).1, -(deltaSpin w).2) := by
   rcases w with ⟨h,hb⟩
-  simp [deltaSpin, parity]
-  constructor <;> ring
+  apply Prod.ext <;> simp [deltaSpin, parity] <;> ring
 
 /-- Principal-series parametrization around the two chiral unitary axes. -/
 def principalWeights (a b : ℝ) : WeightPair :=
@@ -138,20 +134,17 @@ def principalWeights (a b : ℝ) : WeightPair :=
 /-- The left light reflection flips only the left principal-series spectral parameter. -/
 theorem lightL_principal (a b : ℝ) :
     lightL (principalWeights a b) = principalWeights (-a) b := by
-  simp [lightL, principalWeights]
-  constructor <;> ring
+  apply Prod.ext <;> simp [lightL, principalWeights] <;> ring
 
 /-- The right light reflection flips only the right principal-series spectral parameter. -/
 theorem lightR_principal (a b : ℝ) :
     lightR (principalWeights a b) = principalWeights a (-b) := by
-  simp [lightR, principalWeights]
-  constructor <;> ring
+  apply Prod.ext <;> simp [lightR, principalWeights] <;> ring
 
 /-- Full shadow flips both principal-series spectral parameters. -/
 theorem shadow_principal (a b : ℝ) :
     shadow (principalWeights a b) = principalWeights (-a) (-b) := by
-  simp [shadow, principalWeights]
-  constructor <;> ring
+  apply Prod.ext <;> simp [shadow, principalWeights] <;> ring
 
 /-- Parity swaps the two chiral spectral parameters. -/
 theorem parity_principal (a b : ℝ) :
@@ -162,8 +155,7 @@ theorem parity_principal (a b : ℝ) :
 expected Klein-four orbit at the level of weights. -/
 theorem light_klein_four_orbit (w : WeightPair) :
     lightL (lightR (lightL (lightR w))) = w := by
-  rw [light_commute]
-  rw [lightL_sq]
-  exact lightR_sq w
+  rcases w with ⟨h,hb⟩
+  simp [lightL, lightR]
 
 end GppCelestialLightWeylIntertwiners
