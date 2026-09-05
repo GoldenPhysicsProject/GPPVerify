@@ -34,7 +34,7 @@ theorem onConformalInfinity_iff_screen_null (p : P6) :
     OnConformalInfinity p ↔ p.p01 = 0 ∧ det2 (screen p) = 0 := by
   constructor
   · intro h
-    have hp01 : p.p01 = 0 := (onConformalInfinity_iff p).mp h |>.2
+    have hp01 : p.p01 = 0 := ((onConformalInfinity_iff p).mp h).2
     constructor
     · exact hp01
     · have hQ : kleinQ p = 0 := h.1
@@ -54,7 +54,10 @@ theorem null_screenLift_on_conformalInfinity
     (A : M2) (r : ℝ) (hA : det2 A = 0) :
     OnConformalInfinity (screenLift A r) := by
   rw [onConformalInfinity_iff_screen_null]
-  exact ⟨rfl, by simpa [screen_screenLift] using hA⟩
+  constructor
+  · rfl
+  · rw [screen_screenLift]
+    exact hA
 
 /-- In particular every rank-one celestial spinor outer product labels an entire
 conformal-infinity generator. -/
@@ -76,14 +79,15 @@ theorem screenLift_generator_shift
 theorem generator_has_constant_screen
     (A : M2) (r s : ℝ) :
     screen (screenLift A r) = screen (screenLift A s) := by
-  simp [screen_screenLift]
+  rw [screen_screenLift, screen_screenLift]
 
 /-- Moving along a conformal-infinity generator preserves conformal infinity. -/
 theorem conformalInfinity_generator_closed
     (p : P6) (hp : OnConformalInfinity p) (t : ℝ) :
     OnConformalInfinity (shiftAlongInfinity t p) := by
-  have hp01 : p.p01 = 0 := (onConformalInfinity_iff_screen_null p).mp hp |>.1
-  have hdet : det2 (screen p) = 0 := (onConformalInfinity_iff_screen_null p).mp hp |>.2
+  have hchar := (onConformalInfinity_iff_screen_null p).mp hp
+  have hp01 : p.p01 = 0 := hchar.1
+  have hdet : det2 (screen p) = 0 := hchar.2
   rw [onConformalInfinity_iff_screen_null]
   constructor
   · simpa [shiftAlongInfinity] using hp01
