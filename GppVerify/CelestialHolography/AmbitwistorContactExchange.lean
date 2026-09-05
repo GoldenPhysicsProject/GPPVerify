@@ -4,6 +4,7 @@ import GppVerify.CelestialHolography.KleinCliffordPinConjugation
 import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
 import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
 import GppVerify.CelestialHolography.InfinityLeviScreenGeometry
+import GppVerify.CelestialHolography.ConformalInfinityConeFactorization
 import GppVerify.CelestialHolography.NullConeEinsteinSelector
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
@@ -32,6 +33,9 @@ finite-dimensional spine:
 * `InfinityLeviScreenGeometry` derives the four-dimensional split screen
   `I^perp/<I>` directly from the six-dimensional Klein coordinates and proves that
   independent determinant-one left/right `2x2` actions preserve its determinant metric;
+* `ConformalInfinityConeFactorization` proves that the tangent hyperplane section at flat
+  infinity is a cone whose generator labels are rank-one screen matrices, hence the two
+  projective spinor factors of the split celestial cut;
 * `NullConeEinsteinSelector` proves that a quadratic tensor vanishing on every split null
   direction is necessarily pure trace, the algebraic converse behind the null-geodesic
   form of the almost-Einstein equation;
