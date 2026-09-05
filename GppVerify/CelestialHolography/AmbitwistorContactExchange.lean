@@ -3,6 +3,7 @@ import GppVerify.CelestialHolography.TaggedAmbitwistorParity
 import GppVerify.CelestialHolography.KleinCliffordPinConjugation
 import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
 import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
+import GppVerify.CelestialHolography.InfinityLeviScreenGeometry
 import GppVerify.CelestialHolography.NullConeEinsteinSelector
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
@@ -28,6 +29,9 @@ finite-dimensional spine:
   a split-dilation conjugate of one fixed Weyl reflection;
 * `FlatNullWeylFiberGeometry` records the projective `RP^1` kernel/unipotent geometry left
   when the pointwise reflection becomes singular at flat infinity;
+* `InfinityLeviScreenGeometry` derives the four-dimensional split screen
+  `I^perp/<I>` directly from the six-dimensional Klein coordinates and proves that
+  independent determinant-one left/right `2x2` actions preserve its determinant metric;
 * `NullConeEinsteinSelector` proves that a quadratic tensor vanishing on every split null
   direction is necessarily pure trace, the algebraic converse behind the null-geodesic
   form of the almost-Einstein equation;
