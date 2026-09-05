@@ -8,6 +8,8 @@ import GppVerify.CelestialHolography.PrincipalSeriesLightPlancherelMatch
 import GppVerify.CelestialHolography.EinsteinInfinityTwistorFamily
 import GppVerify.CelestialHolography.KleinPinReflectionDegeneration
 import GppVerify.CelestialHolography.AmbitwistorContactExchange
+import GppVerify.CelestialHolography.OrientationProjectorSwap
+import GppVerify.CelestialHolography.SpinorEinsteinCorrespondenceSelector
 import GppVerify.CelestialHolography.FourierDualSplitPolarity
 import GppVerify.CelestialHolography.KleinSpinorIncidence
 import GppVerify.CelestialHolography.SplitGooglyGeometryCapstone
@@ -53,8 +55,8 @@ is involutive, and has active `(p01,p23)` block determinant `-1`.
 adds the coordinate Clifford anticommutator and the adjoint identity which implements
 that same Klein reflection on Clifford multiplication.  Thus the finite coordinate Pin
 bridge is now stated internally rather than merely inferred from the abstract Pin-group
-theorem.  The abstract global group identification itself is not needed for these
-coordinate equalities.
+theorem.  This Pin/Klein reflection is a discrete conformal-representation operation; it
+must not be conflated with mere reversal of the four-dimensional orientation label.
 
 At the standard flat infinity point the two chiral maps form an exact two-periodic
 complex.  The two two-dimensional kernel factors give the split celestial spinors and
@@ -76,16 +78,33 @@ the weight level.  No analytic integral is hidden in that module; the two commut
 squares are explicit assumptions.  `PrincipalSeriesLightPlancherelMatch` records the
 closed-form normalization relation to the odd real principal-series density.
 
-`AmbitwistorContactExchange` gives a second, independent flat-incidence characterization
-of chiral factor exchange.  On `Z.W=0`, differentiating incidence gives
-`W.dZ + Z.dW = 0`, so exchanging the two tagged projections reverses the standard
+`AmbitwistorContactExchange` gives an independent FLAT-incidence statement.  On
+`Z.W=0`, exchanging the two tagged twistor/dual-twistor projections reverses the standard
 ambitwistor potential while preserving its kernel/contact hyperplane.  This is an exact
-anti-contact statement in the flat coordinate model.  Its transitive imports also record
-the null-ray Einstein selector: vanishing of the almost-Einstein quadratic tensor on all
-split null directions forces pure trace; the corresponding rank-two state geometry is
-symplectic/SL(2), and changes of its two-solution basis act projectively by Möbius maps.
-The differential-geometric identification of the solution ratio with an affine parameter
-of the Einstein representative remains external input.
+anti-contact factor-exchange theorem in the flat coordinate model.
+
+Crucial distinction: standard light-ray/contact geometry is determined by the conformal
+class and does not require a choice of four-dimensional spacetime orientation.  Therefore
+four-orientation reversal does not move the underlying unparametrized null geodesic in
+intrinsic ambitwistor/light-ray space.  Its bulk action is instead the Hodge relabelling
+`star -> -star`.  `OrientationProjectorSwap` proves for a completely generic complexified
+curvature/two-form field that
+
+  P_plus[-o](F)  = P_minus[o](F),
+  P_minus[-o](F) = P_plus[o](F),
+
+while the underlying field `F` is unchanged.  Thus flat anti-contact factor exchange and
+spacetime orientation reversal are distinct operations and are no longer identified here.
+
+The transitive Einstein-selector modules record a second major bridge.  Vanishing of the
+almost-Einstein quadratic tensor on all split null directions forces it to be pure trace.
+`SpinorEinsteinCorrespondenceSelector` strengthens this to the exact spinor form: every
+zero-determinant `2x2` tangent matrix factors as `lambda tensor lambdatilde`, so vanishing
+on every correspondence-space spinor pair is equivalent to the pure-trace condition.
+This is the finite algebraic core of the correspondence-space second-order Einstein-bundle
+operator described by LeBrun and later Bailey-type constructions.  The exact holomorphic
+bundle/operator identification remains external geometry, not encoded as a differential
+operator in Lean.
 
 For backward compatibility, this module also retains the older chosen-polarity/Hodge
 coordinate chain.  That chain explicitly chooses the ambient bilinear form
@@ -104,16 +123,18 @@ What is NOT proved here:
   canonical incidence chain);
 * the full homogeneous distributional/projective Fourier-Penrose integral theorem in Lean;
 * the analytic half-Fourier/light-transform integral intertwiners in Lean;
-* a proof that flat anti-contact factor exchange is the physical orientation reversal on
-  arbitrary curved ambitwistor/contact geometry;
 * generation of an independent second chiral component from one pure chiral field;
-* the exact holomorphic identification of the null-ray almost-Einstein rank-two solution
-  bundle with LeBrun's Einstein bundle on curved ambitwistor space.
+* an intrinsic holomorphic construction of LeBrun's rank-two Einstein bundle solely from
+  the curved ambitwistor/contact manifold;
+* a nonlinear reconstruction theorem showing how generic interacting left/right field
+  data are encoded simultaneously as unconstrained intrinsic ambitwistor data.
 
-The nonlinear frontier is therefore sharply localized: full conformal geometry naturally
-lives on ambidextrous twistor/dual-twistor incidence; the remaining work is to identify
-and transport the Einstein selector and orientation/Pin exchange intrinsically through
-the curved ambitwistor/contact geometry without collapsing the two Weyl chiralities.
+The nonlinear frontier is therefore sharply localized.  Full conformal geometry already
+lives on the single orientation-blind null-geodesic/contact space, and orientation reversal
+only swaps its Hodge/Weyl chiral reading.  The genuinely hard googly problem is not this
+label swap: it is the intrinsic nonlinear encoding/reconstruction of both interacting
+chiral sectors—equivalently, recognizing the Einstein selector and field data directly
+inside curved ambitwistor geometry without retreating to one integrable twistor quotient.
 -/
 
 namespace GppGooglyGeometryIntertwinerSpine
