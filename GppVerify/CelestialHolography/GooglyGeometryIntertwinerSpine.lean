@@ -5,6 +5,8 @@ import GppVerify.CelestialHolography.FlatInfinityCelestialFactorization
 import GppVerify.CelestialHolography.CelestialLightWeylIntertwiners
 import GppVerify.CelestialHolography.PrincipalSeriesLightPlancherelMatch
 import GppVerify.CelestialHolography.EinsteinInfinityTwistorFamily
+import GppVerify.CelestialHolography.KleinPinReflectionDegeneration
+import GppVerify.CelestialHolography.AmbitwistorContactExchange
 import GppVerify.CelestialHolography.FourierDualSplitPolarity
 import GppVerify.CelestialHolography.KleinSpinorIncidence
 import GppVerify.CelestialHolography.SplitGooglyGeometryCapstone
@@ -43,6 +45,14 @@ bridge degenerates to the flat null complex below.  The identification of this a
 family with the curved parallel scale tractor/infinity twistor is an external geometric
 input, not a theorem of this file.
 
+`KleinPinReflectionDegeneration` supplies the corresponding vector-side operation for
+`Lambda != 0`: reflection in the non-null Klein vector `I_Lambda` preserves `Q_Klein`,
+is involutive, and has active `(p01,p23)` block determinant `-1`.  Standard Clifford/Pin
+theory identifies a non-null odd Clifford vector with the lift of this orthogonal
+reflection; internally, the vector-side reflection and spinor-side chirality isomorphism
+are proved independently.  At `Lambda=0` both descriptions hit the same null singular
+limit: the ordinary reflection is no longer defined and the spinor bridge is nilpotent.
+
 At the standard flat infinity point the two chiral maps form an exact two-periodic
 complex.  The two two-dimensional kernel factors give the split celestial spinors and
 the rank-one null-momentum factorization formalized in
@@ -58,6 +68,13 @@ operations separate:
 Their product `L Lbar` is full shadow, while `P L P = Lbar`; parity/factor exchange is
 therefore not identified with shadow.  `PrincipalSeriesLightPlancherelMatch` records the
 exact closed-form normalization relation to the odd real principal-series density.
+
+`AmbitwistorContactExchange` gives a second, independent flat-incidence characterization
+of the same chiral exchange.  On `Z.W=0`, differentiating incidence gives
+`W.dZ + Z.dW = 0`, so exchanging the two tagged projections reverses the standard
+ambitwistor potential while preserving its kernel/contact hyperplane.  This is an exact
+anti-contact statement in the flat coordinate model.  Its identification with physical
+spacetime orientation reversal on general curved ambitwistor data remains open.
 
 For backward compatibility, this module also retains the older chosen-polarity/Hodge
 coordinate chain.  That chain explicitly chooses the ambient bilinear form
@@ -75,13 +92,16 @@ What is NOT proved here:
   canonical incidence chain);
 * the full homogeneous distributional/projective Fourier-Penrose integral theorem in Lean;
 * the analytic half-Fourier/light-transform integral intertwiner in Lean;
-* a physical orientation reversal from the optional polarity map;
+* the standard abstract Pin-lift theorem inside Lean;
+* a proof that flat anti-contact factor exchange is the physical orientation reversal on
+  arbitrary curved ambitwistor/contact geometry;
 * generation of an independent second chiral component from one pure chiral field;
-* the nonlinear Einstein selector on full ambitwistor/contact data.
+* the full nonlinear Einstein selector intrinsically on ambitwistor/contact data.
 
-The last item is now the principal nonlinear frontier: the finite-dimensional algebra
-naturally points to ambidextrous twistor/dual-twistor incidence rather than a deterministic
-map from one chirality to the other.
+The nonlinear frontier is therefore sharply localized: full conformal geometry naturally
+lives on ambidextrous twistor/dual-twistor incidence; the remaining work is to transport
+the parallel-tractor/infinity-twistor Einstein selector and the orientation/Pin exchange
+through the curved ambitwistor/Penrose transform without collapsing the two chiral fields.
 -/
 
 namespace GppGooglyGeometryIntertwinerSpine
