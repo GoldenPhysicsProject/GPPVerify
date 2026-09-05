@@ -52,7 +52,12 @@ theorem projectiveRatio_basisChange
   rcases M with ⟨a,b,c,d⟩
   rcases u with ⟨x,y⟩
   simp [basisChange, act2, projectiveRatio, mobius] at hu hden ⊢
-  field_simp [hu, hden]
+  have hout : c*x + d*y ≠ 0 := by
+    intro hxy
+    apply hden
+    field_simp [hu]
+    exact hxy
+  field_simp [hu, hden, hout]
   ring
 
 /-- An `SL(2)` basis change preserves the Wronskian/symplectic form, so the same basis
