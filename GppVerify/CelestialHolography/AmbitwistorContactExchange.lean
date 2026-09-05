@@ -8,6 +8,7 @@ import GppVerify.CelestialHolography.ConformalInfinityConeFactorization
 import GppVerify.CelestialHolography.NullConeEinsteinSelector
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
+import GppVerify.CelestialHolography.SkyEinsteinIntrinsicSpine
 
 /-!
 # Ambitwistor factor exchange is anti-contact at the flat incidence level
@@ -43,13 +44,17 @@ finite-dimensional spine:
   is symplectic/`SL(2)` at the finite-dimensional level and contains the same Weyl and
   unipotent matrices used by the flat celestial kernel;
 * `EinsteinScaleProjectiveFiber` proves that `SL(2)` changes of the two-solution basis act
-  on the solution ratio by Möbius transformations while preserving the Wronskian.  The
-  identification of that ratio with Einstein-affine parameter is differential-geometric
-  input, not hidden in the finite algebra.
+  on the solution ratio by Möbius transformations while preserving the Wronskian;
+* `SkyEinsteinIntrinsicSpine` adds the sky-family refinement: the modern intrinsic datum
+  is the light-ray/contact geometry together with its distinguished family of skies, the
+  tangent planes to those skies form Jacobi curves, and the finite sky-trace Einstein
+  selector is exactly equivalent to the correspondence-space spinor selector and to the
+  pure-trace condition.  The curved sky/Jacobi and optical-trace identifications remain
+  external differential geometry rather than hidden Lean assumptions.
 
-The analytic Knapp--Stein/light-transform integral, the curved correspondence-space
-realization of the Einstein bundle, and a general curved orientation-reversal theorem
-remain external/open.  None of those claims is hidden in the imports here.
+The analytic Knapp--Stein/light-transform integral, the global holomorphic identification
+`E_sky = E_LeBrun`, and a general curved factor-exchange symmetry remain external/open.
+None of those claims is hidden in the imports here.
 
 This module formalizes the underlying bilinear algebra with the twistor and dual-twistor
 tags kept distinct.  It does not formalize differential forms, projectivization, or claim
