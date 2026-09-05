@@ -3,6 +3,7 @@ import GppVerify.CelestialHolography.FourierEpsilonCliffordSupport
 import GppVerify.CelestialHolography.FlatInfinityChiralComplex
 import GppVerify.CelestialHolography.FlatInfinityCelestialFactorization
 import GppVerify.CelestialHolography.CelestialLightWeylIntertwiners
+import GppVerify.CelestialHolography.FourierLightShadowDiamond
 import GppVerify.CelestialHolography.PrincipalSeriesLightPlancherelMatch
 import GppVerify.CelestialHolography.EinsteinInfinityTwistorFamily
 import GppVerify.CelestialHolography.KleinPinReflectionDegeneration
@@ -47,11 +48,13 @@ input, not a theorem of this file.
 
 `KleinPinReflectionDegeneration` supplies the corresponding vector-side operation for
 `Lambda != 0`: reflection in the non-null Klein vector `I_Lambda` preserves `Q_Klein`,
-is involutive, and has active `(p01,p23)` block determinant `-1`.  Standard Clifford/Pin
-theory identifies a non-null odd Clifford vector with the lift of this orthogonal
-reflection; internally, the vector-side reflection and spinor-side chirality isomorphism
-are proved independently.  At `Lambda=0` both descriptions hit the same null singular
-limit: the ordinary reflection is no longer defined and the spinor bridge is nilpotent.
+is involutive, and has active `(p01,p23)` block determinant `-1`.
+`KleinCliffordPinConjugation`, imported transitively through `AmbitwistorContactExchange`,
+adds the coordinate Clifford anticommutator and the adjoint identity which implements
+that same Klein reflection on Clifford multiplication.  Thus the finite coordinate Pin
+bridge is now stated internally rather than merely inferred from the abstract Pin-group
+theorem.  The abstract global group identification itself is not needed for these
+coordinate equalities.
 
 At the standard flat infinity point the two chiral maps form an exact two-periodic
 complex.  The two two-dimensional kernel factors give the split celestial spinors and
@@ -66,15 +69,23 @@ operations separate:
 * chiral factor exchange `P : (h,hbar) -> (hbar,h)`.
 
 Their product `L Lbar` is full shadow, while `P L P = Lbar`; parity/factor exchange is
-therefore not identified with shadow.  `PrincipalSeriesLightPlancherelMatch` records the
-exact closed-form normalization relation to the odd real principal-series density.
+therefore not identified with shadow.  `FourierLightShadowDiamond` packages the exact
+logical consequence of the two externally established half-Fourier/light commuting
+squares: their composition intertwines full Fourier with `Lbar L`, hence with shadow at
+the weight level.  No analytic integral is hidden in that module; the two commuting
+squares are explicit assumptions.  `PrincipalSeriesLightPlancherelMatch` records the
+closed-form normalization relation to the odd real principal-series density.
 
 `AmbitwistorContactExchange` gives a second, independent flat-incidence characterization
-of the same chiral exchange.  On `Z.W=0`, differentiating incidence gives
+of chiral factor exchange.  On `Z.W=0`, differentiating incidence gives
 `W.dZ + Z.dW = 0`, so exchanging the two tagged projections reverses the standard
 ambitwistor potential while preserving its kernel/contact hyperplane.  This is an exact
-anti-contact statement in the flat coordinate model.  Its identification with physical
-spacetime orientation reversal on general curved ambitwistor data remains open.
+anti-contact statement in the flat coordinate model.  Its transitive imports also record
+the null-ray Einstein selector: vanishing of the almost-Einstein quadratic tensor on all
+split null directions forces pure trace; the corresponding rank-two state geometry is
+symplectic/SL(2), and changes of its two-solution basis act projectively by Möbius maps.
+The differential-geometric identification of the solution ratio with an affine parameter
+of the Einstein representative remains external input.
 
 For backward compatibility, this module also retains the older chosen-polarity/Hodge
 coordinate chain.  That chain explicitly chooses the ambient bilinear form
@@ -84,24 +95,25 @@ the canonical epsilon core.
 The rank-four homogeneous degree reflection also retains two tagged interpretations:
 cross-side full Fourier `PT* <-> PT` preserves the physical helicity of the momentum
 state, whereas the same integer reflection read on one fixed twistor side is the
-opposite-helicity bundle degree.
+opposite-helicity bundle degree.  Likewise, the celestial shadow label `J -> -J` must not
+be read as Fourier physically manufacturing an opposite-helicity state.
 
 What is NOT proved here:
 
 * a conformally canonical pointwise identification `PT* -> PT` (none is needed for the
   canonical incidence chain);
 * the full homogeneous distributional/projective Fourier-Penrose integral theorem in Lean;
-* the analytic half-Fourier/light-transform integral intertwiner in Lean;
-* the standard abstract Pin-lift theorem inside Lean;
+* the analytic half-Fourier/light-transform integral intertwiners in Lean;
 * a proof that flat anti-contact factor exchange is the physical orientation reversal on
   arbitrary curved ambitwistor/contact geometry;
 * generation of an independent second chiral component from one pure chiral field;
-* the full nonlinear Einstein selector intrinsically on ambitwistor/contact data.
+* the exact holomorphic identification of the null-ray almost-Einstein rank-two solution
+  bundle with LeBrun's Einstein bundle on curved ambitwistor space.
 
 The nonlinear frontier is therefore sharply localized: full conformal geometry naturally
-lives on ambidextrous twistor/dual-twistor incidence; the remaining work is to transport
-the parallel-tractor/infinity-twistor Einstein selector and the orientation/Pin exchange
-through the curved ambitwistor/Penrose transform without collapsing the two chiral fields.
+lives on ambidextrous twistor/dual-twistor incidence; the remaining work is to identify
+and transport the Einstein selector and orientation/Pin exchange intrinsically through
+the curved ambitwistor/contact geometry without collapsing the two Weyl chiralities.
 -/
 
 namespace GppGooglyGeometryIntertwinerSpine
