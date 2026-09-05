@@ -4,6 +4,7 @@ import GppVerify.CelestialHolography.FlatInfinityChiralComplex
 import GppVerify.CelestialHolography.FlatInfinityCelestialFactorization
 import GppVerify.CelestialHolography.CelestialLightWeylIntertwiners
 import GppVerify.CelestialHolography.PrincipalSeriesLightPlancherelMatch
+import GppVerify.CelestialHolography.EinsteinInfinityTwistorFamily
 import GppVerify.CelestialHolography.FourierDualSplitPolarity
 import GppVerify.CelestialHolography.KleinSpinorIncidence
 import GppVerify.CelestialHolography.SplitGooglyGeometryCapstone
@@ -34,6 +35,13 @@ and their compositions are `-Q_Klein(p)` times the identity.  On the Klein quadr
 `Q_Klein(p)=0`, the action is therefore nilpotent and its two kernels are exactly the
 twistor line and its dual annihilator line.  This is intrinsic incidence geometry, not
 a hidden metric polarity.
+
+`EinsteinInfinityTwistorFamily` packages the one-parameter family
+`I_Lambda=(Lambda,0,0,0,0,1)`.  Its Klein norm is `Lambda`, so for nonzero `Lambda`
+the two chiral Clifford maps are inverse up to the scalar `-Lambda`; at `Lambda=0` the
+bridge degenerates to the flat null complex below.  The identification of this algebraic
+family with the curved parallel scale tractor/infinity twistor is an external geometric
+input, not a theorem of this file.
 
 At the standard flat infinity point the two chiral maps form an exact two-periodic
 complex.  The two two-dimensional kernel factors give the split celestial spinors and
