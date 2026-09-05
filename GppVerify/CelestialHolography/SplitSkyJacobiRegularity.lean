@@ -76,7 +76,9 @@ theorem splitDot2_nondegenerate
   have h1 := h (0,1)
   rcases v with ⟨v0,v1⟩
   simp [splitDot2] at h0 h1 ⊢
-  exact ⟨h0, by linarith⟩
+  constructor
+  · exact h0
+  · linarith
 
 /-- Therefore the sky velocity bilinear form is nondegenerate at every parameter. -/
 theorem split_sky_velocity_nondegenerate
