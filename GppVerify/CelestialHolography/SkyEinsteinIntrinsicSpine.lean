@@ -1,5 +1,6 @@
 import Mathlib.Tactic
 import GppVerify.CelestialHolography.FlatSkyJacobiCurve
+import GppVerify.CelestialHolography.SplitSkyJacobiRegularity
 import GppVerify.CelestialHolography.SkyProjectiveEinsteinCriterion
 import GppVerify.CelestialHolography.SkyProjectiveSpinLift
 import GppVerify.CelestialHolography.OrientationProjectorSwap
@@ -21,6 +22,11 @@ recognition mechanism:
 
 * `FlatSkyJacobiCurve`: flat sky tangents are exactly Jacobi fields vanishing at a point,
   are isotropic for the Wronskian form, and evolve by symplectic Jacobi transport;
+* `SplitSkyJacobiRegularity`: in the GPP split `(2,2)` working slice, the sky velocity
+  bilinear form is the `(1,1)` screen pairing.  It is nondegenerate but indefinite, so the
+  flat sky curve is regular but non-monotonous.  This is exactly enough for the original
+  Agrachev--Zelenko canonical projective-structure construction; stronger definite
+  normal-frame results are not imported here;
 * `SkyProjectiveEinsteinCriterion`: if the intrinsic sky optical trace is identified with
   the standard null Ricci focusing trace, then vanishing for every null spinor pair is
   equivalent, by exact split null-cone rigidity, to the Ricci tensor being pure trace;
@@ -33,13 +39,19 @@ recognition mechanism:
 External geometric input, not formalized here:
 
 1. the sky-tangent family of a curved light ray is a Lagrangian Jacobi curve;
-2. its conformal Jacobi Ricci trace defines the canonical projective parameter class;
+2. for a regular Jacobi curve, generalized Ricci curvature supplies a canonical projective
+   parameter class, with projective reparametrizations related by Möbius maps;
 3. the ratio of solutions of the corresponding second-order projective equation gives a
    developing projective coordinate;
 4. after a theta/spin choice that projective system lifts to a rank-two `SL(2)` local
    system;
 5. LeBrun's rank-two holomorphic Einstein bundle exists over complex ambitwistor space and
    nonzero holomorphic sections correspond to Einstein representatives.
+
+Signature caveat: the projective-Ricci/Schwarzian mechanism is supported by the original
+regular-curve theory and therefore does not require definite velocity.  By contrast,
+later complete Cartan/eigenframe classification results may use stronger admissibility or
+definiteness hypotheses and are not part of the current split-signature argument.
 
 Current open theorem:
 
