@@ -1,5 +1,6 @@
 import Mathlib.Tactic
 import GppVerify.CelestialHolography.CelestialLightWeylIntertwiners
+import GppVerify.CelestialHolography.SplitFourierKernelFactorization
 
 /-!
 # Two half-Fourier/light diamonds compose to the full shadow diamond
@@ -14,8 +15,14 @@ Brown--Gowdy--Spence prove, analytically in split signature, two commuting diagr
   celestial --L--> light celestial      celestial --Lbar--> dual-light celestial.
 
 They also describe the full Fourier transform as the composition of the two complementary
-half-Fourier transforms.  Since the two normalized celestial light transforms commute and
-their product is full shadow, the two commuting squares compose.
+half-Fourier transforms.  `SplitFourierKernelFactorization` proves the underlying finite
+algebra in the GPP twistor coordinates: the four-dimensional Fourier phase is the sum of
+the two chiral rank-two phases, hence every exponential-type kernel factorizes into the
+product of the two half kernels.  The analytic passage from kernel factorization to
+iterated distributional integrals remains external.
+
+Since the two normalized celestial light transforms commute and their product is full
+shadow, the two commuting squares compose.
 
 This file formalizes the categorical composition only.  It does not formalize any Fourier,
 Mellin, or light integral; those enter as explicit commuting-square hypotheses.  The weight
