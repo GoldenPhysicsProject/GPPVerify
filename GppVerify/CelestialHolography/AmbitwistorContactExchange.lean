@@ -5,6 +5,7 @@ import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
 import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
 import GppVerify.CelestialHolography.NullConeEinsteinSelector
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
+import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
 
 /-!
 # Ambitwistor factor exchange is anti-contact at the flat incidence level
@@ -32,7 +33,11 @@ finite-dimensional spine:
   form of the almost-Einstein equation;
 * `EinsteinNullRaySL2Geometry` proves that the associated rank-two null-ray state geometry
   is symplectic/`SL(2)` at the finite-dimensional level and contains the same Weyl and
-  unipotent matrices used by the flat celestial kernel.
+  unipotent matrices used by the flat celestial kernel;
+* `EinsteinScaleProjectiveFiber` proves that `SL(2)` changes of the two-solution basis act
+  on the solution ratio by Möbius transformations while preserving the Wronskian.  The
+  identification of that ratio with Einstein-affine parameter is differential-geometric
+  input, not hidden in the finite algebra.
 
 The analytic Knapp--Stein/light-transform integral, the curved correspondence-space
 realization of the Einstein bundle, and a general curved orientation-reversal theorem
