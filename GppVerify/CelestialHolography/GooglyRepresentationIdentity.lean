@@ -3,6 +3,7 @@ import GppVerify.CelestialHolography.TwistorWeightDuality
 import GppVerify.CelestialHolography.TwistorRepresentationConvention
 import GppVerify.CelestialHolography.SplitSignaturePenroseFourierSquare
 import GppVerify.CelestialHolography.OrientationOnlyGooglyNoGo
+import GppVerify.CelestialHolography.KleinSpinorInfinityBridge
 
 /-!
 # Same-state representation identity behind the split linear googly
@@ -24,7 +25,12 @@ same physical helicity `h`.  Thus a physical helicity flip does not follow from 
 integer reflection `k ↦ -k-4`.  Orientation reversal, if used, is an additional geometric
 operation.
 
-The final section combines this same-state Fourier bridge with the existing orientation-only
+The epsilon-only `KleinSpinorInfinityBridge` now supplies a separate geometric fact:
+a non-null Klein bivector gives an invertible Clifford bridge between the two twistor
+chiralities, whereas a null Klein bivector gives a nilpotent incidence operator.  This
+avoids inserting a noncanonical symmetric metric on the twistor fundamental.
+
+The final section combines the same-state Fourier bridge with the existing orientation-only
 no-go.  The result is an exact obstruction: Fourier representation change plus orientation
 reversal can exchange the two pure-chiral labelings of one field, but cannot manufacture a
 generic field with two independently nonzero chiral components.  Hence this linear
