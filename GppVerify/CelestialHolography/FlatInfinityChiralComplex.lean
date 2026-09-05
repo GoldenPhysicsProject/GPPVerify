@@ -62,7 +62,7 @@ theorem cPlus_image_iff (α : V4) :
     simp [cPlus, infinityPoint]
 
 /-- Explicit image characterization of `cMinus(I)`: precisely the last two ordinary
- twistor coordinate directions. -/
+twistor coordinate directions. -/
 theorem cMinus_image_iff (z : V4) :
     (∃ α : V4, cMinus infinityPoint α = z) ↔ z.1 = 0 ∧ z.2.1 = 0 := by
   constructor
@@ -113,10 +113,18 @@ theorem flat_infinity_maps_not_injective :
     ¬ Function.Injective (cMinus infinityPoint) := by
   constructor
   · intro hinj
-    have h := hinj ordinary_kernel_nontrivial.1
+    have heq : cPlus infinityPoint (0,0,1,0) =
+        cPlus infinityPoint (0,0,0,0) := by
+      rw [ordinary_kernel_nontrivial.1]
+      simp [cPlus, infinityPoint]
+    have h := hinj heq
     exact ordinary_kernel_nontrivial.2 h
   · intro hinj
-    have h := hinj dual_kernel_nontrivial.1
+    have heq : cMinus infinityPoint (1,0,0,0) =
+        cMinus infinityPoint (0,0,0,0) := by
+      rw [dual_kernel_nontrivial.1]
+      simp [cMinus, infinityPoint]
+    have h := hinj heq
     exact dual_kernel_nontrivial.2 h
 
 end GppFlatInfinityChiralComplex
