@@ -31,12 +31,12 @@ noncomputable def tau (A : M2) : M2 :=
 theorem quarterTurn_sq (A : M2) :
     quarterTurn (quarterTurn A) = (-A.1,-A.2.1,-A.2.2.1,-A.2.2.2) := by
   rcases A with ⟨a,b,c,d⟩
-  simp [quarterTurn]
+  rfl
 
 theorem quarterTurn_four (A : M2) :
     quarterTurn (quarterTurn (quarterTurn (quarterTurn A))) = A := by
   rcases A with ⟨a,b,c,d⟩
-  simp [quarterTurn]
+  rfl
 
 theorem det2_complement (A : M2) (hD : det2 A ≠ 0) :
     det2 (complement A) = 1 / det2 A := by
@@ -76,7 +76,12 @@ theorem complement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
 theorem tau_eq_quarterTurn_complement (A : M2) :
     tau A = quarterTurn (complement A) := by
   rcases A with ⟨a,b,c,d⟩
-  simp [tau, quarterTurn, complement, det2]
+  simp only [tau, quarterTurn, complement, det2]
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor <;> simp
 
 theorem tau_sq_from_complement (A : M2) (hD : det2 A ≠ 0) :
     tau (tau A) = (-A.1,-A.2.1,-A.2.2.1,-A.2.2.2) := by
@@ -107,7 +112,7 @@ def pluckerStar (p : P6) : P6 :=
 
 theorem pluckerStar_sq (p : P6) : pluckerStar (pluckerStar p) = p := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
-  simp [pluckerStar]
+  rfl
 
 def kleinQ (p : P6) : ℝ := p.p01*p.p23 - p.p02*p.p13 + p.p03*p.p12
 
@@ -130,7 +135,7 @@ theorem chartPlucker_complement (A : M2) (hD : det2 A ≠ 0) :
   rcases A with ⟨a,b,c,d⟩
   simp only [chartPlucker, complement, det2, pluckerStar]
   apply P6.ext
-  · simp
+  · rfl
   · field_simp [hD] <;> ring
   · field_simp [hD] <;> ring
   · field_simp [hD] <;> ring
