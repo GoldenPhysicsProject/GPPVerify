@@ -2,6 +2,7 @@ import Mathlib.Tactic
 import GppVerify.CelestialHolography.TwistorWeightDuality
 import GppVerify.CelestialHolography.TwistorRepresentationConvention
 import GppVerify.CelestialHolography.SplitSignaturePenroseFourierSquare
+import GppVerify.CelestialHolography.OrientationOnlyGooglyNoGo
 
 /-!
 # Same-state representation identity behind the split linear googly
@@ -23,8 +24,14 @@ same physical helicity `h`.  Thus a physical helicity flip does not follow from 
 integer reflection `k ↦ -k-4`.  Orientation reversal, if used, is an additional geometric
 operation.
 
+The final section combines this same-state Fourier bridge with the existing orientation-only
+no-go.  The result is an exact obstruction: Fourier representation change plus orientation
+reversal can exchange the two pure-chiral labelings of one field, but cannot manufacture a
+generic field with two independently nonzero chiral components.  Hence this linear
+representation theorem is not by itself a nonlinear googly solution.
+
 This file formalizes those exact algebraic/categorical statements, not the analytic
-Fourier integral or an orientation-reversal theorem.
+Fourier integral or an orientation-reversal construction on twistor cohomology.
 -/
 
 namespace GppGooglyRepresentationIdentity
@@ -32,6 +39,7 @@ namespace GppGooglyRepresentationIdentity
 open GppTwistorWeightDuality
 open GppTwistorRepresentationConvention
 open GppSplitPenroseFourierSquare
+open GppOrientationOnlyGooglyNoGo
 
 /-- Legacy pair of homogeneous degrees.  Interpreted side-aware, the first component is
 the dual-twistor weight and the second the ordinary-twistor weight of the same state. -/
@@ -84,5 +92,44 @@ theorem one_state_two_representations
     dualTwistorWeight n = twistorWeight (-n) := by
   exact ⟨same_momentum_state_same_bulk B hinv m,
     dualWeight_eq_oppositeHelicityWeight n⟩
+
+/-! ## Exact limit of same-state Fourier plus orientation reversal -/
+
+/-- If the source Penrose field is purely plus-chiral, the Fourier-related dual-twistor
+representative reconstructs that same pure field.  Reversing orientation therefore gives
+the purely minus-chiral labeling and nothing more. -/
+theorem fourier_then_orientation_of_pure_plus
+    {Mom Tw TwDual A : Type*} [Zero A]
+    (B : CommonMomentumBridge Mom Tw TwDual (ChiralPair A))
+    (z : Tw) (a : A)
+    (hsrc : B.penrose z = ChiralPair.mk a 0) :
+    reverseOrientation (B.dualPenrose (B.fullFourier z)) = ChiralPair.mk 0 a := by
+  rw [B.penrose_fullFourier_commutes z, hsrc]
+  rfl
+
+/-- Same-state Fourier representation change plus orientation reversal cannot produce a
+generic non-self-dual pair `(a,b)` with both components nonzero from a pure source.
+This is the precise obstruction separating the linear representation identity from the
+nonlinear googly problem. -/
+theorem same_state_fourier_orientation_excludes_generic
+    {Mom Tw TwDual A : Type*} [Zero A]
+    (B : CommonMomentumBridge Mom Tw TwDual (ChiralPair A))
+    (z : Tw) (a b : A) (ha : a ≠ 0) (hb : b ≠ 0)
+    (hsrc : B.penrose z = ChiralPair.mk a 0) :
+    reverseOrientation (B.dualPenrose (B.fullFourier z)) ≠ ChiralPair.mk a b := by
+  rw [B.penrose_fullFourier_commutes z, hsrc]
+  exact generic_pair_not_from_reversing_pure_plus a b ha hb
+
+/-- The two representatives available from a pure source through identity/Fourier and
+orientation relabeling exclude every genuinely two-chiral field. -/
+theorem same_state_orientation_orbit_excludes_generic
+    {Mom Tw TwDual A : Type*} [Zero A]
+    (B : CommonMomentumBridge Mom Tw TwDual (ChiralPair A))
+    (z : Tw) (a b : A) (ha : a ≠ 0) (hb : b ≠ 0)
+    (hsrc : B.penrose z = ChiralPair.mk a 0) :
+    ChiralPair.mk a b ≠ B.dualPenrose (B.fullFourier z) ∧
+    ChiralPair.mk a b ≠ reverseOrientation (B.dualPenrose (B.fullFourier z)) := by
+  rw [B.penrose_fullFourier_commutes z, hsrc]
+  exact orientation_orbit_of_pure_excludes_generic a b ha hb
 
 end GppGooglyRepresentationIdentity
