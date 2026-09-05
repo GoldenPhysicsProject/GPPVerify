@@ -129,10 +129,14 @@ theorem cPlus_infinityTwistor_injective
     (Lambda : ℝ) (hLambda : Lambda ≠ 0) :
     Function.Injective (cPlus (infinityTwistor Lambda)) := by
   intro x y hxy
-  have h := congrArg
-    (fun alpha => scale4 (-1/Lambda) (cMinus (infinityTwistor Lambda) alpha)) hxy
-  simpa [scaled_cMinus_leftInverse_cPlus Lambda hLambda x,
-    scaled_cMinus_leftInverse_cPlus Lambda hLambda y] using h
+  calc
+    x = scale4 (-1/Lambda)
+        (cMinus (infinityTwistor Lambda) (cPlus (infinityTwistor Lambda) x)) :=
+      (scaled_cMinus_leftInverse_cPlus Lambda hLambda x).symm
+    _ = scale4 (-1/Lambda)
+        (cMinus (infinityTwistor Lambda) (cPlus (infinityTwistor Lambda) y)) := by
+      rw [hxy]
+    _ = y := scaled_cMinus_leftInverse_cPlus Lambda hLambda y
 
 /-- And it is surjective, with the displayed scaled opposite-chirality preimage. -/
 theorem cPlus_infinityTwistor_surjective
@@ -152,8 +156,8 @@ theorem cPlus_infinityTwistor_bijective
 /-- At `Lambda=0` the cosmological square degenerates to zero. -/
 theorem flat_limit_cMinus_cPlus_zero (z : V4) :
     cMinus (infinityTwistor 0) (cPlus (infinityTwistor 0) z) = (0,0,0,0) := by
-  rw [infinityTwistor_zero, GppKleinNullInfinityBoundary.infinityPoint_is_null]
-  rw [cMinus_cPlus]
+  rw [infinityTwistor_zero, cMinus_cPlus,
+      GppKleinNullInfinityBoundary.infinityPoint_is_null]
   rcases z with ⟨z0,z1,z2,z3⟩
   simp [scale4]
 
