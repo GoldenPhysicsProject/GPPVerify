@@ -47,7 +47,13 @@ theorem positiveType_weighted_gram {P : ℝ → ℝ} (hP : PositiveType P)
     {n : ℕ} (x : Fin n → ℝ) (c : Fin n → ℂ) (d : Fin n → ℝ) :
     0 ≤ ∑ i : Fin n, ∑ j : Fin n,
       ((starRingEnd ℂ) (c i) * c j).re * P (x i - x j) * (d i * d j) := by
-  have h := hP n x (fun i => c i * ((d i : ℝ) : ℂ))
+  -- `PositiveType` now asserts nonnegativity in `ℂ`; take its real component,
+  -- which is exactly the quantity this Gram-weighting statement is about.
+  have h : (0 : ℝ) ≤ (∑ i : Fin n, ∑ j : Fin n,
+      (starRingEnd ℂ) (c i * ((d i : ℝ) : ℂ)) * (c j * ((d j : ℝ) : ℂ)) *
+        ((P (x i - x j) : ℝ) : ℂ)).re := by
+    have := (RCLike.nonneg_iff.mp (hP n x (fun i => c i * ((d i : ℝ) : ℂ)))).1
+    simpa using this
   refine h.trans_eq ?_
   rw [Complex.re_sum]
   refine Finset.sum_congr rfl fun i _ => ?_
@@ -72,7 +78,15 @@ theorem positiveType_weighted_gram {P : ℝ → ℝ} (hP : PositiveType P)
 theorem positiveType_mul_convSquare {P f : ℝ → ℝ} (hP : PositiveType P)
     (hf : Integrable f (volume : Measure ℝ)) {C : ℝ} (hbdd : ∀ x, |f x| ≤ C) :
     PositiveType (fun x => P x * ∫ y, f y * f (y - x)) := by
-  intro n x c
+  -- Evenness of the product now comes for free: `hP.even` gives it for `P` — a
+  -- consequence the old `.re`-taking definition could not supply — and the
+  -- convolution square is even by translation invariance.
+  refine positiveType_of_even_of_re (fun t => ?_) (fun n x c => ?_)
+  · have hc₁ := convolution_shift (f := f) (0 : ℝ) t
+    have hc₂ := convolution_shift (f := f) t (0 : ℝ)
+    simp only [zero_sub, sub_zero, add_zero] at hc₁ hc₂
+    rw [hP.even t, hc₁, hc₂]
+    exact congrArg _ (integral_congr_ae (Filter.Eventually.of_forall (fun y => mul_comm _ _)))
   -- Step 1: rewrite each matrix entry through the translation identity.
   have hentry : ∀ i j : Fin n,
       (((fun x => P x * ∫ y, f y * f (y - x)) (x i - x j) : ℝ) : ℂ) =

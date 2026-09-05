@@ -558,11 +558,16 @@ theorem KrClosed_minus_one_tendsto_positive {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r <
     review, completing the finite-truncation milestone `KrN0_gram_nonneg`. -/
 theorem KrClosed_minus_one_positiveType {r : ℝ} (hr0 : 0 ≤ r) (hr1 : r < 1) :
     GppHaarPositivityWeil.PositiveType (fun θ => KrClosed r θ - 1) := by
-  intro M x c
-  have := KrClosed_minus_one_tendsto_positive hr0 hr1 x c
-  convert this using 3
-  push_cast
-  ring
+  -- `KrClosed r θ = (1 - r²)/(1 - 2r cos θ + r²)` is even because `cos` is, which
+  -- is what `positiveType_of_even_of_re` needs; the limiting real-part argument
+  -- below is the original proof, unchanged.
+  refine GppHaarPositivityWeil.positiveType_of_even_of_re (fun t => ?_) (fun M x c => ?_)
+  · unfold KrClosed
+    rw [Real.cos_neg]
+  · have := KrClosed_minus_one_tendsto_positive hr0 hr1 x c
+    convert this using 3
+    push_cast
+    ring
 
 /-! ## Fifth pass: the operator-level vacuum-compression identity
 
