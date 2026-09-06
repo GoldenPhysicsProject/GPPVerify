@@ -3,6 +3,7 @@ import GppVerify.CelestialHolography.FlatSkyJacobiCurve
 import GppVerify.CelestialHolography.SplitSkyJacobiRegularity
 import GppVerify.CelestialHolography.SkyProjectiveEinsteinCriterion
 import GppVerify.CelestialHolography.SkyProjectiveSpinLift
+import GppVerify.CelestialHolography.PenroseLocalTwistorRayReduction
 import GppVerify.CelestialHolography.OrientationProjectorSwap
 
 /-!
@@ -33,8 +34,19 @@ recognition mechanism:
 * `SkyProjectiveSpinLift`: the central `±I` ambiguity of the rank-two `SL(2)` solution
   system is invisible projectively, isolating the finite algebra behind the standard
   PSL(2)-to-SL(2) theta/spin lift;
+* `PenroseLocalTwistorRayReduction`: Penrose's local-twistor transport, when restricted
+  to the natural null-incidence line along a ray, reduces algebraically to the SAME
+  two-component projective/Sturm system `f'=p`, `p'=-kappa f`.  The curvature coefficient
+  `kappa` is deliberately convention-neutral because Penrose and modern conformal
+  references use different displayed Schouten/Riemann signs;
 * `OrientationProjectorSwap`: four-orientation reversal leaves the underlying field fixed
   and swaps its two Hodge/Weyl projectors.
+
+The Penrose reduction is especially important conceptually.  The proposed rank-two
+sky/projective system is therefore not merely a modern construction added to twistor
+geometry: it appears as a natural incidence-restricted subsystem of Penrose's own
+raywise local-twistor space `T_gamma`.  What remains is to identify the global bundle
+obtained by gluing these raywise systems.
 
 External geometric input, not formalized here:
 
@@ -45,7 +57,9 @@ External geometric input, not formalized here:
    developing projective coordinate;
 4. after a theta/spin choice that projective system lifts to a rank-two `SL(2)` local
    system;
-5. LeBrun's rank-two holomorphic Einstein bundle exists over complex ambitwistor space and
+5. Penrose's full local-twistor transport along each null ray is conformally natural, and
+   generic curved spacetime does not canonically identify the different `T_gamma` fibres;
+6. LeBrun's rank-two holomorphic Einstein bundle exists over complex ambitwistor space and
    nonzero holomorphic sections correspond to Einstein representatives.
 
 Signature caveat: the projective-Ricci/Schwarzian mechanism is supported by the original
@@ -55,7 +69,7 @@ definiteness hypotheses and are not part of the current split-signature argument
 
 Current open theorem:
 
-  E_sky ?= E_LeBrun.
+  E_sky ?= incidence-restricted Penrose T_gamma system ?= E_LeBrun.
 
 The fibrewise rank, `SL(2)` structure, and second-order projective equation now match.
 What remains is the transverse/holomorphic gluing across neighboring light rays/skies and
