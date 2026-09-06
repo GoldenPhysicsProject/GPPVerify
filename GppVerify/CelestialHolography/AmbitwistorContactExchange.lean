@@ -1,5 +1,7 @@
 import Mathlib.Tactic
 import GppVerify.CelestialHolography.TaggedAmbitwistorParity
+import GppVerify.CelestialHolography.AmbitwistorSecondOrderIncidence
+import GppVerify.CelestialHolography.AmbitwistorContactNeutralCone
 import GppVerify.CelestialHolography.KleinCliffordPinConjugation
 import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
 import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
@@ -9,13 +11,14 @@ import GppVerify.CelestialHolography.NullConeEinsteinSelector
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
 import GppVerify.CelestialHolography.SkyEinsteinIntrinsicSpine
+import GppVerify.CelestialHolography.NullOpticalRicciWeylSplit
 import GppVerify.CelestialHolography.NullSurfaceEinsteinBundleBridge
 import GppVerify.CelestialHolography.NSFSkyAffineParameterBridge
 import GppVerify.CelestialHolography.EinsteinChiralCurvatureBlocks
 import GppVerify.CelestialHolography.NSFOppositeHelicityTailCoupling
 
 /-!
-# Ambitwistor factor exchange is anti-contact at the flat incidence level
+# Ambitwistor contact exchange, second-order incidence, and the neutral contact screen
 
 The flat four-dimensional ambitwistor model is the incidence quadric `Z.W=0` in a
 twistor/dual-twistor product.  Its standard symplectic potential is proportional to
@@ -32,9 +35,22 @@ carefully separated spine:
 * the Klein/Clifford modules give the metric-free incidence geometry, the non-null Pin
   reflection, and the flat null degeneration;
 * the infinity-screen modules derive the split celestial screen and its two spinor factors;
+* `AmbitwistorSecondOrderIncidence` formalizes Penrose's TN41 observation that the two
+  chiral weak-incidence conditions coincide to first order on the ambitwistor tangent
+  hyperplane, while exact strong incidence along an affine displacement is controlled by
+  the quadratic term `dZ.dW`;
+* `AmbitwistorContactNeutralCone` formalizes the universal rank-two Lagrangian-contact
+  algebra: for a contact splitting `H=L_-+L_+`, the Levi pairing plus para-complex splitting
+  gives a neutral quadratic form `q(X,Y)=2 Y^T X`, so the standard contact-null condition
+  is exactly `Y^T X=0`.  Standard type-A Lagrangian-contact geometry supplies the external
+  identification of these halves with the two projective ambitwistor projections;
 * the sky modules refine the intrinsic real datum from bare contact space to the light-ray
   space together with its distinguished family of skies, and identify the exact finite
   null-cone algebra behind the Einstein selector;
+* `NullOpticalRicciWeylSplit` separates the two-dimensional optical/Jacobi curvature into
+  its scalar trace and trace-free part.  Under the standard geometric interpretation the
+  former is null Ricci focusing and the latter is the projected Weyl/shear information,
+  making explicit that solving the Einstein-scale trace problem does not erase the graviton;
 * `NullSurfaceEinsteinBundleBridge` proves the scalar coefficient equivalence between the
   NSF second-order conformal-scale equation and the null almost-Einstein equation once the
   curvature-sign convention is made explicit;
@@ -49,6 +65,14 @@ carefully separated spine:
   vanish there, so a nonzero selected tail source requires both helicity sectors.  It does
   NOT claim that every nonlinear graviton process has this selection rule; equal-helicity
   four-graviton channels can be nonzero.
+
+Penrose's TN41 second-order strong-incidence condition and the standard contact-null cone
+now agree at the level of the homogeneous Lagrangian-contact model.  What is not yet
+formalized is the full chart theorem carrying a general projective ambitwistor tangent
+vector `(dZ,dW)` to the rank-two contact-half coordinates `(X,Y)` globally/projectively.
+Nor is it yet proved that the curvature of the evolving sky Jacobi plane is exactly the
+curved deformation of Penrose's second-order strong-incidence cone.  Those are the next
+geometric bridge theorems rather than assumptions hidden in this file.
 
 The analytic Knapp--Stein/light-transform integrals, NSF metricity/descent as a differential
 system, the global holomorphic identification `E_sky = E_NSF = E_LeBrun`, and a general
