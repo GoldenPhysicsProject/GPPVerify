@@ -9,6 +9,10 @@ import GppVerify.CelestialHolography.NullConeEinsteinSelector
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
 import GppVerify.CelestialHolography.SkyEinsteinIntrinsicSpine
+import GppVerify.CelestialHolography.NullSurfaceEinsteinBundleBridge
+import GppVerify.CelestialHolography.NSFSkyAffineParameterBridge
+import GppVerify.CelestialHolography.EinsteinChiralCurvatureBlocks
+import GppVerify.CelestialHolography.NSFOppositeHelicityTailCoupling
 
 /-!
 # Ambitwistor factor exchange is anti-contact at the flat incidence level
@@ -22,39 +26,34 @@ Exchanging the two chiral factors therefore reverses the sign of `Theta`.  On th
 projectivized incidence space this preserves the contact hyperplane distribution while
 reversing the chosen contact one-form/coorientation.
 
-The imported companion modules now place this anti-contact statement inside the sharper
-finite-dimensional spine:
+The imported companion modules now place this anti-contact statement inside a broader,
+carefully separated spine:
 
-* `KleinCliffordPinConjugation` proves the polarized Clifford relation and the internal
-  Pin-adjoint implementation of non-null Klein reflection;
-* `KleinWeylReflectionConjugacy` identifies the positive-norm cosmological reflection as
-  a split-dilation conjugate of one fixed Weyl reflection;
-* `FlatNullWeylFiberGeometry` records the projective `RP^1` kernel/unipotent geometry left
-  when the pointwise reflection becomes singular at flat infinity;
-* `InfinityLeviScreenGeometry` derives the four-dimensional split screen
-  `I^perp/<I>` directly from the six-dimensional Klein coordinates and proves that
-  independent determinant-one left/right `2x2` actions preserve its determinant metric;
-* `ConformalInfinityConeFactorization` proves that the tangent hyperplane section at flat
-  infinity is a cone whose generator labels are rank-one screen matrices, hence the two
-  projective spinor factors of the split celestial cut;
-* `NullConeEinsteinSelector` proves that a quadratic tensor vanishing on every split null
-  direction is necessarily pure trace, the algebraic converse behind the null-geodesic
-  form of the almost-Einstein equation;
-* `EinsteinNullRaySL2Geometry` proves that the associated rank-two null-ray state geometry
-  is symplectic/`SL(2)` at the finite-dimensional level and contains the same Weyl and
-  unipotent matrices used by the flat celestial kernel;
-* `EinsteinScaleProjectiveFiber` proves that `SL(2)` changes of the two-solution basis act
-  on the solution ratio by Möbius transformations while preserving the Wronskian;
-* `SkyEinsteinIntrinsicSpine` adds the sky-family refinement: the modern intrinsic datum
-  is the light-ray/contact geometry together with its distinguished family of skies, the
-  tangent planes to those skies form Jacobi curves, and the finite sky-trace Einstein
-  selector is exactly equivalent to the correspondence-space spinor selector and to the
-  pure-trace condition.  The curved sky/Jacobi and optical-trace identifications remain
-  external differential geometry rather than hidden Lean assumptions.
+* the Klein/Clifford modules give the metric-free incidence geometry, the non-null Pin
+  reflection, and the flat null degeneration;
+* the infinity-screen modules derive the split celestial screen and its two spinor factors;
+* the sky modules refine the intrinsic real datum from bare contact space to the light-ray
+  space together with its distinguished family of skies, and identify the exact finite
+  null-cone algebra behind the Einstein selector;
+* `NullSurfaceEinsteinBundleBridge` proves the scalar coefficient equivalence between the
+  NSF second-order conformal-scale equation and the null almost-Einstein equation once the
+  curvature-sign convention is made explicit;
+* `NSFSkyAffineParameterBridge` records the reciprocal-rate algebra showing that the NSF
+  physical affine parameter and the normalized projective solution ratio have the same
+  derivative along a ray;
+* `EinsteinChiralCurvatureBlocks` records the block-diagonal Einstein pattern and the fact
+  that reversing Hodge orientation exchanges already existing chiral blocks rather than
+  generating one from the other;
+* `NSFOppositeHelicityTailCoupling` formalizes the narrowly scoped 2026 NSF selection rule
+  for the quadratic cone-source two-annihilation/tail sector: equal-helicity coefficients
+  vanish there, so a nonzero selected tail source requires both helicity sectors.  It does
+  NOT claim that every nonlinear graviton process has this selection rule; equal-helicity
+  four-graviton channels can be nonzero.
 
-The analytic Knapp--Stein/light-transform integral, the global holomorphic identification
-`E_sky = E_LeBrun`, and a general curved factor-exchange symmetry remain external/open.
-None of those claims is hidden in the imports here.
+The analytic Knapp--Stein/light-transform integrals, NSF metricity/descent as a differential
+system, the global holomorphic identification `E_sky = E_NSF = E_LeBrun`, and a general
+curved factor-exchange symmetry remain external/open.  None of those claims is hidden in
+the imports here.
 
 This module formalizes the underlying bilinear algebra with the twistor and dual-twistor
 tags kept distinct.  It does not formalize differential forms, projectivization, or claim
