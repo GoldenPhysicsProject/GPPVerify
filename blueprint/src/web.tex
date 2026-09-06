@@ -1531,6 +1531,67 @@ separate extension, not attempted here. The Gauss integral representation of $\p
 general real $r$ (needed by Thread HT's Archimedean Laplace transform) is likewise not yet
 established.
 
+\section{The closing third of the First Moment Theorem}
+
+\texttt{principal\_series\_blocks\_v2.tex}'s Theorem~6.1 (\texttt{thm:moment}) asserts
+\[
+  \frac{1}{2\pi}\int_{\mathbb{R}} P(\lambda)\,
+  \mathrm{Re}\,\psi\!\left(\tfrac12+\tfrac{i\lambda}{2}\right)\dd\lambda
+  = \frac18 + \frac14\,\psi\!\left(\tfrac12\right),
+  \qquad P(\lambda)=\frac{\pi\lambda}{\sinh(\pi\lambda)} .
+\]
+Its proof has three inputs. The results below are the third --- the one that produces the
+$1/8$ --- and they are unconditional. \textbf{Theorem~6.1 itself is not proved and is not
+stated in Lean.}
+
+\begin{theorem}[Gauss kernel as a hyperbolic one]
+  \label{thm:fm-exp-sinh}
+  \lean{GppFirstMoment.exp_div_one_sub_exp_eq}
+  \leanok
+  $e^{-t/2}/(1-e^{-t}) = 1/(2\sinh(t/2))$ for every $t>0$.
+\end{theorem}
+
+\begin{theorem}[The hyperbolic collapse, with its Jacobian]
+  \label{thm:fm-collapse}
+  \lean{GppFirstMoment.collapse}
+  \leanok
+  $\dfrac{1}{2\sinh 2u}\cdot\dfrac{1-\operatorname{sech}^2u}{4}
+   = \dfrac{1}{16}\,\tanh u\,\operatorname{sech}^2u$ for every real $u$.
+  The paper performs this in one line as ``the integrand collapses to
+  $\tanh u\operatorname{sech}^2u$''; that line silently carries the substitution $u=t/4$,
+  and hence the constant $1/16$ made explicit here.
+\end{theorem}
+
+\begin{theorem}[The elementary integral]
+  \label{thm:fm-tanh-sech}
+  \lean{GppFirstMoment.integral_tanh_mul_sech_sq}
+  \leanok
+  $\int_0^\infty \tanh u\,\operatorname{sech}^2u\,\dd u = 1/2$, by the fundamental theorem
+  of calculus with antiderivative $-1/(2\cosh^2 u)$.
+\end{theorem}
+
+\begin{theorem}[The remainder integral is $1/8$]
+  \label{thm:fm-remainder}
+  \lean{GppFirstMoment.remainder_integral_eq_one_eighth}
+  \leanok
+  \uses{thm:fm-collapse, thm:fm-tanh-sech}
+  \[
+    \int_0^\infty \frac{1}{2\sinh(t/2)}\cdot
+    \frac{1-\operatorname{sech}^2(t/4)}{4}\,\dd t \;=\; \frac18 .
+  \]
+  This is where Theorem~6.1's $1/8$ comes from.
+\end{theorem}
+
+\textbf{Honest boundary.} Two inputs remain, and neither is stated in Lean --- not as an
+axiom, not as a \texttt{sorry}, not as a \texttt{True}-valued stub. First, the Fourier pair
+$\frac{1}{2\pi}\int_{\mathbb{R}} P(\lambda)\cos(\lambda y)\dd\lambda
+= 1/(4\cosh^2(y/2))$, used at $y=0$ to give $\frac{1}{2\pi}\int P=\frac14$ and at $y=t/2$ to
+produce the integrand above; Mathlib has the Gaussian Fourier transform but nothing for
+$\operatorname{sech}^2$. Second, Gauss's integral representation
+$\psi(s)=-\gamma+\int_0^\infty (e^{-t}-e^{-st})/(1-e^{-t})\dd t$, together with the complex
+digamma along $\mathrm{Re}\,s=1/2$. The exchange of integration order between them is
+Tonelli on a positive integrand and is routine once both exist.
+
 \chapter{Local-Field Shadow Kernels}
 
 From Daniel Toupin's ``Local-field shadow kernels, celestial unitarity, and the adelic
