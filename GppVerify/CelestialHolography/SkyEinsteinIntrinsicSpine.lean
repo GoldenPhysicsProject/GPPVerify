@@ -4,6 +4,7 @@ import GppVerify.CelestialHolography.SplitSkyJacobiRegularity
 import GppVerify.CelestialHolography.SkyProjectiveEinsteinCriterion
 import GppVerify.CelestialHolography.SkyProjectiveSpinLift
 import GppVerify.CelestialHolography.PenroseLocalTwistorRayReduction
+import GppVerify.CelestialHolography.PenroseLocalTwistorEinsteinQuotient
 import GppVerify.CelestialHolography.OrientationProjectorSwap
 
 /-!
@@ -39,14 +40,23 @@ recognition mechanism:
   two-component projective/Sturm system `f'=p`, `p'=-kappa f`.  The curvature coefficient
   `kappa` is deliberately convention-neutral because Penrose and modern conformal
   references use different displayed Schouten/Riemann signs;
+* `PenroseLocalTwistorEinsteinQuotient`: strengthens the preceding scalar reduction by
+  keeping all four adapted local-twistor components.  The ray-aligned three-dimensional
+  subspace is transport-invariant; its one-dimensional kernel is exactly the invariant
+  ray-twistor line; quotienting by that line leaves a canonical two-dimensional carrier
+  whose induced generator squares to `-U`, with `U=P(k,k)` in the spinorial geometry;
 * `OrientationProjectorSwap`: four-orientation reversal leaves the underlying field fixed
   and swaps its two Hodge/Weyl projectors.
 
-The Penrose reduction is especially important conceptually.  The proposed rank-two
+The Penrose quotient is especially important conceptually.  The proposed rank-two
 sky/projective system is therefore not merely a modern construction added to twistor
-geometry: it appears as a natural incidence-restricted subsystem of Penrose's own
-raywise local-twistor space `T_gamma`.  What remains is to identify the global bundle
-obtained by gluing these raywise systems.
+geometry: fibrewise, it is the canonical ray-aligned quotient
+
+  T_gamma^aligned / <Z_gamma>
+
+of Penrose's own raywise local-twistor space.  This upgrades the previous structural
+similarity to an exact finite quotient statement.  What remains is global: determine how
+these quotient fibres glue across neighbouring rays and skies.
 
 External geometric input, not formalized here:
 
@@ -59,7 +69,9 @@ External geometric input, not formalized here:
    system;
 5. Penrose's full local-twistor transport along each null ray is conformally natural, and
    generic curved spacetime does not canonically identify the different `T_gamma` fibres;
-6. LeBrun's rank-two holomorphic Einstein bundle exists over complex ambitwistor space and
+6. the null-surface formulation supplies additional metricity equations which couple the
+   raywise data transversely so that one spacetime metric descends;
+7. LeBrun's rank-two holomorphic Einstein bundle exists over complex ambitwistor space and
    nonzero holomorphic sections correspond to Einstein representatives.
 
 Signature caveat: the projective-Ricci/Schwarzian mechanism is supported by the original
@@ -69,12 +81,13 @@ definiteness hypotheses and are not part of the current split-signature argument
 
 Current open theorem:
 
-  E_sky ?= incidence-restricted Penrose T_gamma system ?= E_LeBrun.
+  E_sky ?= (T_gamma^aligned / <Z_gamma>) glued over ray space ?= E_LeBrun.
 
-The fibrewise rank, `SL(2)` structure, and second-order projective equation now match.
-What remains is the transverse/holomorphic gluing across neighboring light rays/skies and
-proof that the resulting bundle agrees with LeBrun's Einstein bundle, not merely with the
-same one-dimensional equation on each ray.
+The fibrewise rank, `SL(2)` structure, quotient geometry, and second-order projective
+equation now match.  What remains is the transverse/holomorphic gluing across neighbouring
+light rays/skies and proof that the resulting bundle agrees with LeBrun's Einstein bundle.
+The leading candidate for the missing descent law is the metricity system of the null-
+surface formulation, but that identification is not yet proved.
 -/
 
 namespace GppSkyEinsteinIntrinsicSpine
