@@ -7,6 +7,7 @@ import GppVerify.CelestialHolography.PenroseLocalTwistorRayReduction
 import GppVerify.CelestialHolography.PenroseLocalTwistorEinsteinQuotient
 import GppVerify.CelestialHolography.PenroseLocalTwistorRayGaugeCovariance
 import GppVerify.CelestialHolography.PenroseQuotientTautologicalTwist
+import GppVerify.CelestialHolography.AmbidextrousPenroseRayQuotients
 import GppVerify.CelestialHolography.RayFieldSkyDescent
 import GppVerify.CelestialHolography.OrientationProjectorSwap
 
@@ -55,9 +56,19 @@ recognition mechanism:
 * `PenroseQuotientTautologicalTwist`: records the important bundle-weight correction.  The
   quotient coordinates `(x,p)` transform by a common factor `a^{-1}` when
   `lambda -> a lambda`; the invariant object is `lambda tensor (x,p)`.  Therefore the raw
-  quotient is naturally twisted by the tautological ray-spinor line.  Its projectivization
-  is canonical, but comparison with an untwisted scalar Einstein-scale solution bundle
-  must include the corresponding line dual/twist;
+  quotient carries the inverse character of the actual tautological `lambda` line;
+* `AmbidextrousPenroseRayQuotients`: constructs the mirror/dual local-twistor quotient at
+  the same finite algebraic level.  Its quotient state has the SAME Sturm generator but
+  transforms by `a`, opposite to the ordinary side.  Hence the two actual neutral
+  rank-two presentations are
+
+      L_lambda tensor Q_left,
+      L_lambdatilde tensor Q_right,
+
+  where `L_lambda` and `L_lambdatilde` are the lines spanned by the two null spinors.
+  This corrects an earlier schematic `L_lambda^* tensor Q_left`: with `L_lambda` defined as
+  the actual line spanned by `lambda`, its `+1` character cancels the quotient's `-1`
+  character directly, without a dual;
 * `RayFieldSkyDescent`: proves the exact set-theoretic descent principle that a family of
   raywise values comes from one spacetime field iff it agrees on all samples representing
   the same spacetime point.  This isolates the logical content that NSF metricity or an
@@ -67,17 +78,18 @@ recognition mechanism:
 
 The Penrose quotient is especially important conceptually.  The same second-order
 projective/Sturm dynamics found from skies and the null almost-Einstein equation occurs as
-an exact quotient of Penrose's own raywise local-twistor transport.  However, gauge
-covariance shows that the strongest correct bundle-level statement is now
+an exact quotient of Penrose's own raywise local-twistor transport.  Gauge covariance and
+the mirror construction now sharpen the statement:
 
-  projectivization(E_sky,gamma)
-      = projectivization(T_gamma^aligned / <Z_gamma>)
+  P(Q_left,gamma) = P(Q_right,gamma) = P(E_sky,gamma)
 
-at the finite coordinate level, together with an explicit common tautological spinor-line
-weight on the Penrose quotient coordinates.  A literal untwisted vector-bundle equality
-requires identifying and cancelling this line twist.  This replaces an earlier overly
-strong wording which treated the raw quotient coordinate `x` as if it were already a
-little-group-neutral scalar Einstein scale.
+at the level of the common two-dimensional Sturm/projective carrier, after the stated
+constant phase convention.  The two one-sided vector representatives have opposite
+little-group weights.  Tensoring each with its ACTUAL tautological ray-spinor line cancels
+that weight.  A canonical vector-bundle isomorphism between the two neutralized objects is
+NOT proved: the unprimed and primed spinor lines remain distinct, and identifying them
+would require additional parity/reality/spin data.  The correct nonlinear target is thus
+ambidextrous rather than a hidden pointwise `S ≅ S'` identification.
 
 External geometric input, not formalized here:
 
@@ -88,39 +100,51 @@ External geometric input, not formalized here:
    developing projective coordinate;
 4. after a theta/spin choice that projective system lifts to a rank-two `SL(2)` local
    system;
-5. Penrose's full local-twistor transport along each null ray is conformally natural, and
-   generic curved spacetime does not canonically identify the different `T_gamma` fibres;
-6. the null-surface formulation supplies metricity equations which couple the raywise data
-   transversely so that one spacetime metric descends.  The NSF literature explicitly
-   combines the raywise second-order Einstein-bundle equation with metricity to recover the
-   full Einstein system;
-7. LeBrun's rank-two holomorphic Einstein bundle exists over complex ambitwistor space and
-   nonzero holomorphic sections correspond to Einstein representatives.  In the standard
-   correspondence-space description its pullback is characterized as the kernel of a
-   conformally invariant second-order operator on a conformal density line.
+5. ordinary and dual local-twistor transport are conformally natural and reduce along an
+   adapted null ray to the two mirror calculations encoded above;
+6. modern four-dimensional projective ambitwistor space has the redundant anti-diagonal
+   action `Z -> a Z`, `Ztilde -> a^{-1} Ztilde`; line bundles `O(p,q)` have corresponding
+   character `a^(p-q)`.  Therefore the present finite calculation fixes only
+   `p-q=-1` for `Q_left` and `p-q=+1` for `Q_right`.  Their separate `(p,q)` homogeneities
+   are NOT yet determined because simultaneous/projective ray scaling also reparametrizes
+   the affine ray and acts non-uniformly on `(field,derivative)` state coordinates;
+7. the null-surface formulation supplies metricity equations which couple the raywise data
+   transversely so that one spacetime metric descends.  NSF explicitly describes these as
+   the conditions making the celestial-direction-dependent metric representatives one and
+   the same spacetime metric;
+8. LeBrun's generic rank-two holomorphic Einstein bundle exists over complex ambitwistor
+   space and nonzero holomorphic sections correspond to Einstein representatives.  Its
+   correspondence-space pullback is characterized by a conformally invariant second-order
+   operator on a conformal density line.  Right-flat reductions admit additional one-sided
+   descriptions such as `E ≅ Omega^1 P tensor L^{-2}`; those one-sided bundles have different
+   rank bookkeeping and must NOT be identified mechanically with the generic rank-two
+   ambitwistor bundle or with the present ray quotient.
 
 Signature caveat: the projective-Ricci/Schwarzian mechanism is supported by the original
 regular-curve theory and therefore does not require definite velocity.  By contrast,
 later complete Cartan/eigenframe classification results may use stronger admissibility or
 definiteness hypotheses and are not part of the current split-signature argument.
 
-Current open theorem, with the line twist now explicit:
+Current open theorem, with the ambidextrous line weights now explicit:
 
-  E_sky ?= L_ray^* tensor (T_gamma^aligned / <Z_gamma>) glued over ray space ?= E_LeBrun,
+  glue(L_lambda tensor Q_left) ?= glue(L_lambdatilde tensor Q_right)
+      ?= E_LeBrun,
 
-up to the precise convention for which tautological spinor line/dual carries the local
-frame weight.  The projective dynamics and gauge covariance are exact; the remaining hard
-steps are:
+where the first `?=` means an isomorphism of the appropriate neutral rank-two
+holomorphic/projective systems, not an identification of the unprimed and primed spinor
+lines themselves.  The remaining hard steps are:
 
-* identify the correct holomorphic tautological line factor globally;
+* determine the full holomorphic homogeneity/transition data, not just the anti-diagonal
+  little-group character;
 * prove transverse/sky compatibility across neighbouring rays;
-* show NSF metricity is the same descent law as the transition/gluing condition of the
-  LeBrun Einstein bundle;
-* prove the resulting rank-two holomorphic bundle is LeBrun's `E`.
+* show NSF metricity realizes the same descent law as the transition/gluing condition of
+  LeBrun's generic Einstein bundle;
+* identify the resulting neutral rank-two holomorphic bundle with LeBrun's `E`.
 
 The historical Penrose/newsletter review strongly supports this formulation: his googly
-maps repeatedly become projective before a scale is chosen, and the unresolved obstruction
-repeatedly migrates from local propagation to global consistency/gluing.
+maps repeatedly become projective before a scale is chosen, his later work demands
+symmetry between twistor and dual-twistor data, and the unresolved obstruction repeatedly
+migrates from local propagation to global consistency/gluing.
 -/
 
 namespace GppSkyEinsteinIntrinsicSpine
