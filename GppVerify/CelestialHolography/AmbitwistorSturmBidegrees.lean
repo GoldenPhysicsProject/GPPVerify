@@ -1,6 +1,7 @@
 import Mathlib.Tactic
 import Mathlib.Data.Complex.Basic
 import GppVerify.CelestialHolography.AmbidextrousPenroseRayQuotients
+import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 
 /-!
 # Ambitwistor bidegrees of the Penrose raywise Sturm systems
@@ -193,5 +194,153 @@ theorem diagonal_geometric_weights (b U : ℂ) :
   · simp [derivativeScale, pow_two]
   · simp [curvatureScale]
     ring
+
+/-! ## A finite golden/modular bridge inside the Sturm carrier
+
+The earlier `GoldenRatioHyperbolicSector` theorem found the golden ratio from the modular
+word `T J`, where `J : z ↦ 1/z` and `T : z ↦ z+1`.  The present rank-two Sturm carrier
+contains exact linear representatives of those same two elementary operations:
+
+* at zero potential, affine free propagation is the unipotent shear
+  `(x,p) ↦ (x+t p,p)`;
+* component exchange `(x,p) ↦ (p,x)` induces reciprocal inversion on the projective ratio
+  `z=x/p`.
+
+At primitive parameter `t=1`, their composite is therefore
+
+    (x,p) ↦ (x+p,x),
+
+represented by `[[1,1],[1,0]]`.  Its square is the orientation-preserving hyperbolic matrix
+`[[2,1],[1,1]]` already formalized in `GoldenRatioHyperbolicSector`, and the induced affine
+map is `z ↦ 1+1/z`, whose unique positive fixed point is `φ`.
+
+The statements below are finite algebra.  They do **not** identify component exchange with
+physical celestial shadow/factor exchange, and they do **not** assert that the physical
+normalization selects unit affine propagation.  Those are precisely the geometric bridge
+questions still to be proved before `φ` can be called a physical constant of the framework.
+-/
+
+/-- Affine/free Sturm shear.  For the flat equation `x''=0`, this is the exact finite
+propagation law over affine parameter `t`. -/
+def freeShear (t : ℂ) (u : SturmState) : SturmState :=
+  (u.1 + t*u.2, u.2)
+
+/-- The free shears form the additive one-parameter subgroup. -/
+theorem freeShear_add (s t : ℂ) (u : SturmState) :
+    freeShear (s+t) u = freeShear s (freeShear t u) := by
+  rcases u with ⟨x,p⟩
+  simp [freeShear]
+  constructor <;> ring
+
+/-- Free propagation preserves the Sturm Wronskian exactly. -/
+theorem freeShear_preserves_wronskian (t : ℂ) (u v : SturmState) :
+    wronskian (freeShear t u) (freeShear t v) = wronskian u v := by
+  rcases u with ⟨x,p⟩
+  rcases v with ⟨y,q⟩
+  simp [wronskian, freeShear]
+  ring
+
+/-- Reciprocal component exchange.  On the affine projective coordinate `z=x/p`, this is
+`z ↦ 1/z` whenever both ratios are defined. -/
+def reciprocalSwap (u : SturmState) : SturmState := (u.2,u.1)
+
+/-- Reciprocal exchange is an involution. -/
+theorem reciprocalSwap_involution (u : SturmState) :
+    reciprocalSwap (reciprocalSwap u) = u := by
+  rcases u with ⟨x,p⟩
+  rfl
+
+/-- Reciprocal exchange reverses the Wronskian orientation. -/
+theorem reciprocalSwap_reverses_wronskian (u v : SturmState) :
+    wronskian (reciprocalSwap u) (reciprocalSwap v) = -wronskian u v := by
+  rcases u with ⟨x,p⟩
+  rcases v with ⟨y,q⟩
+  simp [wronskian, reciprocalSwap]
+  ring
+
+/-- The epsilon quarter-turn `[[0,1],[-1,0]]`, the same finite `Z4` matrix appearing in
+the big-cell orientation map `tau(A)=A epsilon/det(A)`. -/
+def epsilonTurn (u : SturmState) : SturmState := (u.2,-u.1)
+
+/-- The epsilon turn squares to central sign. -/
+theorem epsilonTurn_sq (u : SturmState) :
+    epsilonTurn (epsilonTurn u) = scaleSturmState (-1) u := by
+  rcases u with ⟨x,p⟩
+  simp [epsilonTurn, scaleSturmState]
+
+/-- Hence the epsilon turn has projective order two and vector-level order four. -/
+theorem epsilonTurn_four (u : SturmState) :
+    epsilonTurn (epsilonTurn (epsilonTurn (epsilonTurn u))) = u := by
+  rcases u with ⟨x,p⟩
+  simp [epsilonTurn]
+
+/-- Reflection of the momentum component. -/
+def momentumReflection (u : SturmState) : SturmState := (u.1,-u.2)
+
+/-- The reciprocal involution is reflection composed with the epsilon quarter-turn:
+`diag(1,-1) * epsilon = [[0,1],[1,0]]`. -/
+theorem reflection_epsilon_eq_reciprocal (u : SturmState) :
+    momentumReflection (epsilonTurn u) = reciprocalSwap u := by
+  rcases u with ⟨x,p⟩
+  simp [momentumReflection, epsilonTurn, reciprocalSwap]
+
+/-- One primitive orientation-reversing modular/Sturm step: free unit propagation after
+reciprocal exchange. -/
+def goldenStep (u : SturmState) : SturmState :=
+  freeShear 1 (reciprocalSwap u)
+
+/-- The primitive step is exactly the matrix `[[1,1],[1,0]]`. -/
+theorem goldenStep_apply (x p : ℂ) :
+    goldenStep (x,p) = (x+p,x) := by
+  simp [goldenStep, freeShear, reciprocalSwap]
+  constructor <;> ring
+
+/-- Squaring gives the orientation-preserving matrix `[[2,1],[1,1]]`. -/
+theorem goldenStep_sq_apply (x p : ℂ) :
+    goldenStep (goldenStep (x,p)) = (2*x+p,x+p) := by
+  rw [goldenStep_apply, goldenStep_apply]
+  constructor <;> ring
+
+/-- One golden step reverses the Wronskian, as expected from determinant `-1`. -/
+theorem goldenStep_reverses_wronskian (u v : SturmState) :
+    wronskian (goldenStep u) (goldenStep v) = -wronskian u v := by
+  rcases u with ⟨x,p⟩
+  rcases v with ⟨y,q⟩
+  simp [goldenStep, freeShear, reciprocalSwap, wronskian]
+  ring
+
+/-- Two golden steps preserve the Wronskian, hence lie in the orientation-preserving
+`SL(2)` sector. -/
+theorem goldenStep_sq_preserves_wronskian (u v : SturmState) :
+    wronskian (goldenStep (goldenStep u)) (goldenStep (goldenStep v)) = wronskian u v := by
+  rw [goldenStep_reverses_wronskian, goldenStep_reverses_wronskian]
+  ring
+
+/-- On the affine chart `(z,1)`, the primitive Sturm step induces the modular map
+`z ↦ 1+1/z`. -/
+theorem goldenStep_projective_ratio (z : ℂ) (hz : z ≠ 0) :
+    (goldenStep (z,1)).1 / (goldenStep (z,1)).2 = 1 + 1/z := by
+  rw [goldenStep_apply]
+  simp
+  field_simp [hz]
+  ring
+
+/-- Real affine form of the projective map induced by `goldenStep`. -/
+def goldenMobius (x : ℝ) : ℝ := 1 + 1/x
+
+/-- Reappearance of the previous golden-ratio theorem in the present Sturm carrier: the
+induced positive projective fixed point is exactly `φ`. -/
+theorem goldenMobius_fixed_iff_gold {x : ℝ} (hx : 0 < x) :
+    x = goldenMobius x ↔ x = Real.goldenRatio := by
+  simpa [goldenMobius] using
+    (GppGoldenHyperbolic.fixedPoint_iff_gold (x := x) hx)
+
+/-- At the previous golden hyperbolic value, the reciprocal Cartan trace is exactly `3`:
+`φ² + φ⁻² = 3`.  This is the trace of the minimal orientation-preserving hyperbolic
+`SL(2,Z)` element formalized in `GoldenRatioHyperbolicSector`. -/
+theorem golden_cartan_trace :
+    Real.goldenRatio^2 + Real.goldenRatio⁻¹^2 = 3 := by
+  rw [Real.inv_goldenRatio]
+  nlinarith [Real.goldenRatio_sq]
 
 end GppAmbitwistorSturmBidegrees
