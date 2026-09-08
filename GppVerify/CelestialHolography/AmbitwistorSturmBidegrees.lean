@@ -126,9 +126,9 @@ theorem left_sturm_biscale_covariant
       scaleSturmState (derivativeScale r s)
         (leftBiScale r s (sturmGenerator U u)) := by
   rcases u with ⟨x,p⟩
-  simp [sturmGenerator, curvatureScale, derivativeScale,
-    leftBiScale, scaleSturmState]
-  constructor <;> ring
+  apply Prod.ext <;>
+    simp [sturmGenerator, curvatureScale, derivativeScale,
+      leftBiScale, scaleSturmState] <;> ring
 
 /-- Mirror covariance with the bidegrees reversed. -/
 theorem right_sturm_biscale_covariant
@@ -137,9 +137,9 @@ theorem right_sturm_biscale_covariant
       scaleSturmState (derivativeScale r s)
         (rightBiScale r s (sturmGenerator U u)) := by
   rcases u with ⟨x,p⟩
-  simp [sturmGenerator, curvatureScale, derivativeScale,
-    rightBiScale, scaleSturmState]
-  constructor <;> ring
+  apply Prod.ext <;>
+    simp [sturmGenerator, curvatureScale, derivativeScale,
+      rightBiScale, scaleSturmState] <;> ring
 
 /-- Anti-diagonal scaling makes both components of the left jet carry the common
 little-group character `a^{-1}`. -/
@@ -229,8 +229,7 @@ def freeShear (t : ℂ) (u : SturmState) : SturmState :=
 theorem freeShear_add (s t : ℂ) (u : SturmState) :
     freeShear (s+t) u = freeShear s (freeShear t u) := by
   rcases u with ⟨x,p⟩
-  simp [freeShear]
-  constructor <;> ring
+  apply Prod.ext <;> simp [freeShear] <;> ring
 
 /-- Free propagation preserves the Sturm Wronskian exactly. -/
 theorem freeShear_preserves_wronskian (t : ℂ) (u v : SturmState) :
@@ -292,14 +291,13 @@ def goldenStep (u : SturmState) : SturmState :=
 /-- The primitive step is exactly the matrix `[[1,1],[1,0]]`. -/
 theorem goldenStep_apply (x p : ℂ) :
     goldenStep (x,p) = (x+p,x) := by
-  simp [goldenStep, freeShear, reciprocalSwap]
-  constructor <;> ring
+  apply Prod.ext <;> simp [goldenStep, freeShear, reciprocalSwap] <;> ring
 
 /-- Squaring gives the orientation-preserving matrix `[[2,1],[1,1]]`. -/
 theorem goldenStep_sq_apply (x p : ℂ) :
     goldenStep (goldenStep (x,p)) = (2*x+p,x+p) := by
   rw [goldenStep_apply, goldenStep_apply]
-  constructor <;> ring
+  apply Prod.ext <;> simp <;> ring
 
 /-- One golden step reverses the Wronskian, as expected from determinant `-1`. -/
 theorem goldenStep_reverses_wronskian (u v : SturmState) :
