@@ -1,6 +1,7 @@
 import Mathlib.Tactic
 import GppVerify.CelestialHolography.TaggedAmbitwistorParity
 import GppVerify.CelestialHolography.EinsteinChiralCurvatureBlocks
+import GppVerify.CelestialHolography.TaggedAmbitwistorEinsteinGooglyCriterion
 
 /-!
 # Factorized ambitwistor reconstruction makes the Einstein googly exchange automatic
