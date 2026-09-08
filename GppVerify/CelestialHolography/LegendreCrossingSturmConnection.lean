@@ -89,19 +89,23 @@ theorem legendrePotential_one_over_one_sub_covariant
   field_simp [hz, hz1]
   ring
 
-/-- The potential has equal leading double-pole coefficient `1/4` at the cusp `z=0`,
-expressed algebraically by clearing the nonsingular factor. -/
+/-- Away from both finite cusps, clearing the `z=0` double pole leaves the equal
+normalized coefficient `1/4`.  Both exclusions are required because Lean's division is
+totalized, so the corresponding formula is false at `z=0` itself. -/
 theorem cusp_zero_normalized
-    (z : ℝ) (hz1 : z ≠ 1) :
+    (z : ℝ) (hz : z ≠ 0) (hz1 : z ≠ 1) :
     z^2 * legendrePotential z = (z^2-z+1) / (4*(1-z)^2) := by
   unfold legendrePotential
-  field_simp [hz1]
+  field_simp [hz, hz1]
+  ring
 
-/-- The `z=1` cusp has the same normalized coefficient by crossing reflection. -/
+/-- The `z=1` cusp has the same normalized coefficient by crossing reflection; again the
+rational identity is stated on the common domain away from both finite cusps. -/
 theorem cusp_one_normalized
-    (z : ℝ) (hz : z ≠ 0) :
+    (z : ℝ) (hz : z ≠ 0) (hz1 : z ≠ 1) :
     (1-z)^2 * legendrePotential z = (z^2-z+1) / (4*z^2) := by
   unfold legendrePotential
-  field_simp [hz]
+  field_simp [hz, hz1]
+  ring
 
 end GppLegendreCrossingSturmConnection
