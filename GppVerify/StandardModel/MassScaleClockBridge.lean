@@ -52,19 +52,20 @@ theorem restEnergy_eq_hbar_mul_comptonFrequency
   field_simp [hh]
   ring
 
-/-- Scaling the mass by a nonzero factor scales the Compton frequency by the same factor. -/
+/-- Scaling the mass by a factor scales the Compton frequency by the same factor. -/
 theorem comptonFrequency_mass_scale
     (a m c hbar : ℝ) :
     comptonFrequency (a*m) c hbar = a * comptonFrequency m c hbar := by
   simp [comptonFrequency]
   ring
 
-/-- Conversely the Compton time scales inversely with the mass scale. -/
+/-- Conversely the Compton time scales inversely with a nonzero mass rescaling on the
+physical nonzero-mass/nonzero-light-speed domain. -/
 theorem comptonTime_mass_scale
-    (a m c hbar : ℝ) (ha : a ≠ 0) :
+    (a m c hbar : ℝ) (ha : a ≠ 0) (hm : m ≠ 0) (hc : c ≠ 0) :
     comptonTime (a*m) c hbar = a⁻¹ * comptonTime m c hbar := by
   simp [comptonTime]
-  field_simp [ha]
+  field_simp [ha, hm, hc]
   ring
 
 /-- Therefore the dimensionless phase product `omega_C * tau_C` is insensitive to a
