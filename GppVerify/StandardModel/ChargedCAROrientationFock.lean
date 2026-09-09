@@ -185,6 +185,6 @@ theorem psi_opposite_frequencies_same_charge (eps : ℝ) :
   rw [show Q * (ap + aaDag) - (ap + aaDag) * Q =
       (Q*ap-ap*Q) + (Q*aaDag-aaDag*Q) by noncomm_ring]
   rw [particle_annihilator_charge, antiparticle_creator_charge]
-  module
+  simp [smul_add]
 
 end GppChargedCAROrientationFock
