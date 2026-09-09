@@ -23,6 +23,11 @@ This is extremely close to the project's relational-orientation algebra.  It est
 that "two commuting quarter-turn structures whose relative orientation is a physical Z2
 charge" is not an ad-hoc construction: it is standard charged-field mathematics.
 
+The key sharpened statement is literal alignment: because `j = i q`, on the `q=+1`
+sector the two complex structures act in the same direction, while on the `q=-1` sector
+they act in opposite directions.  Thus physical charge is exactly an alignment-versus-
+anti-alignment grading of two complex structures in this standard formalism.
+
 What remains conjectural in the GPP interpretation is the dictionary assigning one of these
 complex structures to the proposed microscopic temporal/frequency orientation in the full
 Dirac/twistor theory, and the global CPT/horizon interpretation.
@@ -82,6 +87,25 @@ theorem chargeQ_sq_one : chargeQ * chargeQ = (1 : M2C) := by
   fin_cases i <;> fin_cases j <;>
     norm_num [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
 
+/-- The gauge complex structure differs from the dynamical one exactly by physical charge:
+`J = I Q`. -/
+theorem gaugeJ_eq_dynI_mul_chargeQ :
+    gaugeJ = dynI * chargeQ := by
+  rw [chargeQ_explicit]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [dynI, gaugeJ, Matrix.mul_apply, Fin.sum_univ_two,
+      Complex.I_mul_I]
+
+/-- Conversely `I = J Q`. -/
+theorem dynI_eq_gaugeJ_mul_chargeQ :
+    dynI = gaugeJ * chargeQ := by
+  rw [chargeQ_explicit]
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    norm_num [dynI, gaugeJ, Matrix.mul_apply, Fin.sum_univ_two,
+      Complex.I_mul_I]
+
 /-- Simultaneously reversing both complex orientations leaves physical charge unchanged. -/
 theorem reverse_both_preserves_charge :
     -((-dynI) * (-gaugeJ)) = chargeQ := by
@@ -109,6 +133,29 @@ def minusState : V2C := ![0,1]
   rw [chargeQ_explicit]
   ext i
   fin_cases i <;> norm_num [minusState, Matrix.mulVec, Fin.sum_univ_two]
+
+/-- On positive charge, the two complex structures are aligned. -/
+theorem complex_structures_align_on_plus :
+    gaugeJ *ᵥ plusState = dynI *ᵥ plusState := by
+  ext i
+  fin_cases i <;>
+    norm_num [gaugeJ, dynI, plusState, Matrix.mulVec, Fin.sum_univ_two]
+
+/-- On negative charge, the two complex structures are anti-aligned. -/
+theorem complex_structures_antialign_on_minus :
+    gaugeJ *ᵥ minusState = -(dynI *ᵥ minusState) := by
+  ext i
+  fin_cases i <;>
+    norm_num [gaugeJ, dynI, minusState, Matrix.mulVec, Fin.sum_univ_two]
+
+/-- Alignment/anti-alignment is therefore exactly the physical charge grading. -/
+theorem charge_is_relative_complex_orientation :
+    (chargeQ *ᵥ plusState = plusState ∧
+      gaugeJ *ᵥ plusState = dynI *ᵥ plusState) ∧
+    (chargeQ *ᵥ minusState = -minusState ∧
+      gaugeJ *ᵥ minusState = -(dynI *ᵥ minusState)) := by
+  exact ⟨⟨chargeQ_plus, complex_structures_align_on_plus⟩,
+    ⟨chargeQ_minus, complex_structures_antialign_on_minus⟩⟩
 
 /-- Positive Hamiltonian with the same energy scale on both charge sectors. -/
 def positiveHamiltonian (eps : ℝ) : M2C :=
