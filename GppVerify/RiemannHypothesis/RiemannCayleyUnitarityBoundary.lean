@@ -16,7 +16,9 @@ The finite real algebra below proves:
 * `|beta| < 1` exactly on `sigma > 1/2`;
 * `|beta| = 1` exactly on `sigma = 1/2`;
 * `|beta| > 1` exactly on `sigma < 1/2`;
-* functional-equation reflection `sigma -> 1-sigma` reciprocates the squared modulus.
+* functional-equation reflection `sigma -> 1-sigma` reciprocates the squared modulus;
+* the exact contraction defect of `sigma = 1/2 + delta` is
+  `2 delta / ((1/2+delta)^2+t^2)`.
 
 Thus the critical line is literally the unitary boundary of this Cayley chart, while an
 off-line functional-equation pair is a contraction/expansion reciprocal pair.  This file is
@@ -66,6 +68,24 @@ theorem cayley_norm_sq_sub_one
   unfold cayleyNormSq
   field_simp [hden]
   ring
+
+/-- The exact positive contraction defect for a right-shift `delta` from the critical line. -/
+theorem cayley_right_shift_defect
+    (delta t : ℝ)
+    (hden : 0 < ((1 / 2 : ℝ) + delta)^2 + t^2) :
+    1 - cayleyNormSq ((1 / 2 : ℝ) + delta) t =
+      (2 * delta) / (((1 / 2 : ℝ) + delta)^2 + t^2) := by
+  have hsub := cayley_norm_sq_sub_one ((1 / 2 : ℝ) + delta) t hden.ne'
+  linarith
+
+/-- A positive displacement from the critical line gives a strictly positive defect. -/
+theorem cayley_right_shift_defect_pos
+    (delta t : ℝ)
+    (hdelta : 0 < delta)
+    (hden : 0 < ((1 / 2 : ℝ) + delta)^2 + t^2) :
+    0 < 1 - cayleyNormSq ((1 / 2 : ℝ) + delta) t := by
+  rw [cayley_right_shift_defect delta t hden]
+  positivity
 
 /--
 Functional-equation reflection across `sigma = 1/2` exchanges contraction and expansion:
