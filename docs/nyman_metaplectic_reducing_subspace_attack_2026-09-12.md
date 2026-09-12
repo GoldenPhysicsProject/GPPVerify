@@ -1,20 +1,19 @@
-# Nyman--Burnol / metaplectic reducing-subspace attack
+# Nyman--Burnol / metaplectic defect attack
 
 Date: 2026-09-12
 
 ## Starting point
 
 The current arithmetic manuscript has an exact zero-independent Hilbert-space model of the
-bad-zero sector.  Under the Mellin identification
+bad-zero sector. Under the Mellin identification
 
     X = L^2((0,1),du)  ~=  H^2(Re s > 1/2),
 
-the closed Nyman--Burnol span `N` is
+the closed Nyman--Burnol span `N` has transform
 
     N^ = B H^2,
 
-where `B` is the Blaschke product of zeta zeros with `Re rho > 1/2`.
-Consequently
+where `B` is the Blaschke product of zeta zeros with `Re rho > 1/2`. Consequently
 
     X/N  ~=  H^2 \ominus B H^2 = K_B,
 
@@ -22,154 +21,202 @@ and
 
     RH  <=>  B is constant  <=>  N^ = H^2  <=>  K_B = 0.
 
-The Nyman space is already invariant under the forward contraction/shift semigroup.  The
-new question suggested by the metaplectic orientation picture is whether global
-Poisson/Fourier duality can supply the *adjoint* invariance.
+The quotient `K_B` is the exact Hardy ghost space.
 
-## Elementary operator reduction
+## Correction: the naive internal reflection theorem is impossible
 
-For the multiplicity-one unilateral shift `S` on scalar Hardy space, the only reducing
-subspaces are `0` and the whole Hardy space.  Therefore:
+An earlier version proposed constructing a bijective unitary or antiunitary `J` on the
+single positive Hardy polarization with
 
-> If the nonzero Nyman--Burnol subspace `B H^2` were invariant under both `S` and `S*`, then
-> it would reduce the unilateral shift.  Hence `B H^2 = H^2`, so `B` is constant and RH
-> follows.
-
-Thus a sufficient theorem is
-
-    S* (B H^2) subset B H^2.
-
-Equivalently, it would suffice to construct an arithmetic unitary or antiunitary `J` on the
-physical Hardy boundary satisfying
-
-    J (B H^2) = B H^2,
     J S J^{-1} = S*,
 
-because forward invariance would then imply backward invariance.
+where `S` is the multiplicity-one unilateral shift. This cannot happen.
 
-This is an operator-theoretic version of the project's diagonal-duality idea: one half of
-the structure supplies the causal/forward semigroup, the dual half must return its adjoint.
-If both descend to the same physical quotient, the bad-zero invariant subspace has no room
-to remain proper.
+Indeed
 
-## Why ordinary functional-equation symmetry does not already do this
+    ker S = {0},
+    dim ker S* = 1.
 
-The shadow/functional-equation reflection exchanges the two Hardy half-planes.  It does not
-by itself act as an internal adjoint symmetry of the positive Hardy space.  Consequently one
-cannot simply set `J=Fourier` and claim the theorem: that would hide exactly the global
-causality/OS-positivity step equivalent to RH.
+Conjugation by any bijection preserves kernel dimension, so `S` and `S*` cannot be similar
+or antiunitarily conjugate on the same ambient Hardy space.
 
-This is the same separation already seen elsewhere:
+This kills the naive internal-Hardy version of the metaplectic reflection. The physically
+correct doubled picture is instead that reflection exchanges incoming and outgoing Hardy /
+Lax--Phillips polarizations. The RH problem is then whether the arithmetic physical quotient
+is causal/positive after that doubling. Burnol's adelic Lax--Phillips construction reaches
+exactly this wall: global causality is equivalent to RH, so merely writing the doubled
+reflection does not prove anything.
 
-    boundary unitarity != reflection positivity,
-    forward invariance != reducing invariance,
-    functional-equation pairing != no-ghost theorem.
+## A second no-go: every nonzero ghost model space already has its own reflection
 
-The finite no-go `PositiveSquareOddSectorNoGo.lean` is the two-state version of the same
-warning.
+There is an even sharper warning from standard Hardy model-space theory. For every inner
+function `B`, including every nonconstant bad-zero Blaschke product, the model space
 
-## Metaplectic candidate mechanism
+    K_B = H^2 \ominus B H^2
 
-The semilocal Connes--Consani--Moscovici cyclic pair has
+carries a canonical conjugation `C_B`. If
 
-    F_S D_S = -D_S F_S,
+    S_B = P_{K_B} S |_{K_B}
 
-with Fourier acting as spectral reflection and the cyclic spectral density
+is the compressed shift, then
 
-    dmu_S(t) = | product_{v in S} L_v(1/2-it) |^2 dt.
+    C_B S_B C_B = S_B*.
 
-For every finite set of places this is a genuine positive even cyclic pair.  The full Weil
-representation gives the natural double-cover/Fourier structure.  The desired global `J`
-would have to survive the all-place Tate quotient and, after the OS/Hardy polarization,
-turn the forward semigroup into its adjoint *without leaving the physical quotient*.
+Thus a forward/backward reflection on the *ghost quotient itself* exists automatically even
+when `K_B` is nonzero. Quotient-level reflection symmetry therefore cannot eliminate the
+ghost sector. This is the infinite-dimensional theorem mirrored by the finite Lean module
 
-That last phrase is the whole problem.  The present arithmetic manuscript proves that local
-Euler homotopies leave the global Poisson domain and that bilateral Gaussian smoothing
-breaks Tate causality.  Hence `J` cannot be assembled as an identity tensor product of local
-prime operations.  It must be a genuinely global Poisson/scattering operator.
+    GppVerify/RiemannHypothesis/FiniteModelSpaceReflectionNoGo.lean.
 
-## Normal-derivative bridge from semilocal positive measures to the Weil prime term
+That module proves on a two-state carrier that an involutive reflection can exchange forward
+and backward nilpotent shifts while two nonzero rank-one boundary defects survive.
 
-There is an exact local relation which makes the target more concrete.  For
+The target must therefore be stronger than reflected symmetry. It must annihilate the
+boundary defect or lift the reflection to an ambient causal statement that rules the defect
+out.
 
-    L_p(s) = (1-p^{-s})^{-1},
-    R_p(sigma,t) = |L_p(sigma-it)|^2,
+## The exact rank-one ghost defect
 
-logarithmic differentiation gives
+The compressed shift on `K_B` carries the standard rank-one defect identities
 
-    - d/dsigma log R_p(sigma,t)
-      = 2 sum_{m>=1} (log p) p^{-m sigma} cos(m t log p).
+    I - S_B S_B* = k_0^B \otimes k_0^B,
+    I - S_B* S_B = \widetilde k_0^B \otimes \widetilde k_0^B,
 
-At `sigma=1/2`,
+with `\widetilde k_0^B = C_B k_0^B` and, in the disk normalization,
 
-    - d/dsigma log R_p |_(1/2)
-      = 2 sum_{m>=1} Lambda(p^m) p^{-m/2} cos(m t log p),
+    k_0^B(z) = 1 - overline(B(0)) B(z),
+    ||k_0^B||^2 = 1 - |B(0)|^2.
 
-which is exactly the symmetric Fourier transform of the local prime-power measure in the
-Weil explicit formula.
+So the reflection swaps the two defect directions; it does not kill them.
 
-Equivalently, with `r=p^{-1/2}` and `theta=t log p`,
+This gives a sharper exact RH target:
 
-    |L_p(1/2-it)|^2
-      = 1/(1-2r cos theta+r^2)
-      = P_r(theta)/(1-r^2),
+    RH  <=>  k_0^B = 0
+        <=>  I - S_B S_B* = 0
+        <=>  I - S_B* S_B = 0.
 
-where `P_r` is the positive Poisson kernel.  Thus the local Weil prime distribution is the
-normal/logarithmic derivative of a positive semilocal Plancherel density.
+For a nonconstant inner `B`, the defect vector is nonzero. When `B` is constant unimodular,
+`K_B=0` and the defect vanishes trivially.
 
-This explains both the promise and the obstruction:
+## Why the distinguished point is exactly Burnol's Nyman product
 
-* every finite local spectral measure is positive;
-* the Weil form is a boundary derivative/compression of those measures, not the measures
-  themselves;
-* positivity of a measure does not imply positivity of its normal derivative;
-* the missing global theorem is a convexity/causality/reflection statement for the
-  all-place boundary flow.
+Use the Cayley coordinate taking the critical half-plane to the unit disk and the physical
+anchor `s=1` to the disk origin:
 
-## A sharper contraction formulation
+    z = (s-1)/s = 1 - 1/s.
 
-The desired global reflection positivity can be expressed as a frame contraction.  Seek
-feature maps
+A bad zero `rho` with `Re rho > 1/2` is sent to
 
-    V_infty : test -> H_infty,
-    V_p     : test -> H_p
+    beta_rho = 1 - 1/rho,
 
-and a nonlocal arithmetic map `T` such that
+and
 
-    V_p = T V_infty,
-    ||T|| <= 1.
+    |beta_rho| < 1
 
-Then
+because
 
-    Q_Weil(f)
-      = ||V_infty f||^2 - ||V_p f||^2
-      = <V_infty f,(1-T* T)V_infty f>
-      >= 0.
+    |rho|^2 - |rho-1|^2 = 2 Re(rho) - 1 > 0.
 
-The ultraviolet support obstruction in the current manuscript rules out local/identity
-choices of `T`; Burnol's global scattering and the adelic Weil/metaplectic representation
-are the natural nonlocal carriers.
+Therefore the disk Blaschke product satisfies, up to its irrelevant unimodular phase,
 
-## Hard theorem now isolated
+    |B(0)|
+      = product_{Re rho > 1/2} |beta_rho|^{m_rho}
+      = product_{Re rho > 1/2} |1 - 1/rho|^{m_rho}.
 
-A particularly sharp route to RH is therefore one of the following equivalent-strength
-statements, proved from zero-independent arithmetic data:
+This is precisely the product that appears in Burnol's quantitative refinement of the
+Nyman--Beurling criterion. In the corresponding normalized Hardy convention it is the norm
+of the projection of the distinguished vacuum/kernel vector onto the Nyman subspace.
+Hence
 
-1. the Nyman--Burnol subspace is invariant under the adjoint Hardy shift;
-2. a global metaplectic/Poisson reflection `J` preserves the Nyman subspace and conjugates
-   forward shift to backward shift;
-3. the arithmetic scattering transfer is causal/inner;
-4. the prime feature map is a contraction of the real-place feature map;
-5. the Gaussian heat kernel `K(s+t)` has a positive Hilbert Gram factorization.
+    ghost leakage^2
+      = ||P_{K_B} 1||^2
+      = 1 - |B(0)|^2
+      = 1 - product_{Re rho > 1/2} |1 - 1/rho|^{2m_rho}.
 
-The first formulation is useful because its final step is completely elementary operator
-theory: a nonzero reducing subspace of the simple unilateral shift must be the whole space.
-All of the difficulty is therefore concentrated into one explicit global duality-invariance
-statement.
+Thus RH is equivalent to **one scalar saturation law**:
 
-## Status
+    ||P_N 1|| = 1,
 
-This is a research reduction, not a proof of the missing duality-invariance statement.  It
-should be used to test proposed metaplectic/Poisson constructions: if a candidate `J` does
-not genuinely preserve the Nyman physical subspace while conjugating the causal semigroup to
-its adjoint, it has not crossed the RH wall.
+or equivalently
+
+    ||P_{K_B}1|| = 0.
+
+This does not make RH easy, but it changes the operator target. We do not need a fictional
+internal conjugacy of the unilateral shift. We need a zero-independent arithmetic mechanism
+which proves that no norm leaks from the distinguished vacuum into the model-space defect.
+
+## Finite-dimensional determinant interpretation
+
+For a finite Blaschke product with zeros `beta_j`, the compressed shift has eigenvalues
+(conjugates of) the `beta_j`, and therefore
+
+    |det S_B| = product_j |beta_j| = |B(0)|.
+
+The Burnol/Nyman projection product is consequently the finite ghost transfer determinant.
+Every nontrivial ghost factor makes it strictly contractive:
+
+    |det S_B| < 1.
+
+RH corresponds to saturation at unit modulus only because the ghost space has disappeared.
+This provides the right physical reading: reflection can pair the two boundary defects, but
+a no-loss/no-ghost theorem must force the contraction defect itself to vanish.
+
+## Relation to the current arithmetic heat/causality program
+
+This rank-one model-space defect fits the structures already proved in the arithmetic
+manuscript:
+
+1. The shifted transfer `Theta_a` is boundary-unimodular unconditionally, but off-line zeros
+   contribute a Blaschke denominator and a negative model-space kernel.
+2. Burnol's adelic scattering supplies the doubled incoming/outgoing system, but its global
+   causality is equivalent to RH.
+3. The zero-independent heat function `K(t)` has OS positivity exactly under RH.
+4. The causal Dirichlet heat construction produces exact prime boundary commutator traces,
+   but the all-prime/Archimedean limit still permits escaped trace.
+5. The Nyman--Burnol quotient identifies the escaped/odd sector exactly as `K_B`.
+
+The new compression is therefore:
+
+    global RH obstruction
+      = nonzero model-space boundary defect
+      = nonzero vacuum leakage ||P_{K_B}1||
+      = 1 - |B(0)|^2.
+
+The metaplectic/Fourier reflection remains useful only if it supplies an **ambient no-loss
+identity** strong enough to prove this scalar defect vanishes. Reflection internal to `K_B`
+is automatic and carries no RH information.
+
+## Revised hard theorem
+
+The strongest economical target is now a vacuum-saturation / no-escaped-norm theorem,
+proved from zero-independent Tate--Poisson and prime--Archimedean data:
+
+    ||P_N 1|| = 1.
+
+Equivalent forms are
+
+    P_{K_B}1 = 0,
+    k_0^B = 0,
+    B is constant,
+    K_B = 0,
+    RH.
+
+A stronger but still valid route is to prove the full arithmetic OS/causality theorem. The
+single-vector saturation formulation is preferable for experimentation because any proposed
+positivity or conservation law can be tested directly against one distinguished state.
+
+## What will not count as closure
+
+The following are now explicitly ruled out as proof mechanisms by themselves:
+
+* functional-equation pairing;
+* boundary unimodularity;
+* metaplectic/Fourier reflection alone;
+* canonical conjugation of the compressed ghost shift;
+* positivity of an ambient Hilbert metric;
+* a doubled Krein-unitary realization;
+* finite-place positivity without a global no-loss estimate.
+
+All of these can coexist with a nonzero `K_B`.
+
+The remaining theorem is genuinely a **no boundary leakage** statement.
