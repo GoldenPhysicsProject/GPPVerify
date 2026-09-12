@@ -1315,3 +1315,4 @@ import GppVerify.RiemannHypothesis.HeatTraceModeSum
 import GppVerify.RiemannHypothesis.BernsteinEasy
 import GppVerify.RiemannHypothesis.SemigroupPositiveDefinite
 import GppVerify.RiemannHypothesis.ExponentialConvexity
+import GppVerify.Upstream.WeierstrassFactor
