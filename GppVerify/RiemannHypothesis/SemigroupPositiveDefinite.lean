@@ -27,10 +27,16 @@ This file defines that notion and proves the direction that is available now: a 
 transform is semigroup-positive-definite, because `K(s+t) = ∫ e^{-λs} e^{-λt} dμ` exhibits the
 Gram matrix as the Gram matrix of the vectors `λ ↦ e^{-λ t_i}` in `L²(μ)`.
 
-The remaining converse — semigroup-positive-definite implies Laplace transform of a positive
-measure, hence completely monotone — is the **Hausdorff-Bernstein-Widder theorem**. That, not
-Bochner, is the single theorem standing between Weil positivity and the heat-trace criterion.
-It is absent from Mathlib, as is `CompletelyMonotone` itself.
+**The converse is FALSE**, and `ExponentialConvexity.semigroupPosDef_not_imp_completelyMonotone`
+proves it false: `exp` is semigroup positive-definite (its Gram form is a perfect square) and is
+not completely monotone. An earlier version of this docstring asserted that converse as
+"Hausdorff-Bernstein-Widder" and called it the single remaining gap. That was wrong.
+
+Semigroup positive-definiteness is *exponential convexity*, whose representation theorem puts
+the measure on all of `ℝ`; complete monotonicity is the same formula with the measure supported
+on `[0,∞)`. The chain therefore needs TWO inputs: Widder's representation, and a support
+condition forcing the measure onto `[0,∞)` — equivalently boundedness of `K` on `(0,∞)`. See
+`ExponentialConvexity` for the correction.
 -/
 
 namespace GppHeatTrace
@@ -87,10 +93,5 @@ theorem semigroupPosDef_laplace (h : LaplaceMoments μ) : SemigroupPosDef (lapla
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
   rw [key]
   exact integral_nonneg fun l => sq_nonneg _
-
-/-- **Hausdorff-Bernstein-Widder**, the converse, stated for the record. It is the single
-    theorem standing between Weil positivity and the heat-trace criterion, and it is absent
-    from Mathlib. Not asserted here. -/
-theorem open_hausdorff_bernstein_widder : True := trivial
 
 end GppHeatTrace
