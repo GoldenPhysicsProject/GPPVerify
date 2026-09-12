@@ -54,10 +54,7 @@ theorem beta_shadow_eq_inv
     beta (1 - s) = (beta s)⁻¹ := by
   unfold beta
   have hsm1 : s - 1 ≠ 0 := sub_ne_zero.mpr hs1
-  have h1ms : 1 - s ≠ 0 := by
-    intro h
-    apply hs1
-    linarith
+  have h1ms : 1 - s ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
   field_simp [hs0, hsm1, h1ms]
   ring
 
@@ -95,10 +92,7 @@ theorem beta_shadow_eq_adjoint_iff_critical
       calc
         beta (1 - s) = (starRingEnd ℂ) (beta s) := h
         _ = beta ((starRingEnd ℂ) s) := hconj.symm
-    have h1ms : 1 - s ≠ 0 := by
-      intro hz
-      apply hs1
-      linarith
+    have h1ms : 1 - s ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
     have hcs : (starRingEnd ℂ) s ≠ 0 := by
       simpa using hs0
     have hsEq : 1 - s = (starRingEnd ℂ) s :=
