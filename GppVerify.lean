@@ -825,12 +825,14 @@ import GppVerify.QuantumGravity.AllLoopFiniteness
 --     (Tendsto of partial products, for every real lam) rather than the paper's own
 --     truncated-at-N=2000-with-Hurwitz-remainder numerical bound -- derived from Mathlib's
 --     Complex.tendsto_euler_sin_prod (Euler's product for sin) via the substitution z=i*lam.
--- Proposition 7.1(b)'s analytic continuation to Re s > -1, and Theorem 6.1 (First Moment,
--- needs a digamma function -- Mathlib v4.19.0 has NONE, grepped, zero hits for
--- digamma/polygamma anywhere in the tree) and Theorems 2.1/3.1/4.1/4.4 (conical reduction,
--- shadow=Legendre-degree symmetry, Mehler-Fock, Temperedness -- need Legendre/conical
--- special functions, also entirely absent from Mathlib) remain open; see
--- docs/FORMALIZATION_PLAN.md for the precise boundary of each gap.
+-- Theorems 2.1/3.1/4.1/4.4 (conical reduction, shadow=Legendre-degree symmetry, Mehler-Fock,
+-- Temperedness) remain open, needing Legendre/conical special functions that Mathlib does not
+-- have; see docs/FORMALIZATION_PLAN.md for the precise boundary of each gap. Theorem 6.1
+-- (First Moment) is partly closed -- see FirstMomentCore below. The claim that stood here
+-- until 2026-09-06, that this was blocked because "Mathlib v4.19.0 has NONE, grepped, zero
+-- hits for digamma/polygamma anywhere in the tree", was stale on both halves: the pin has
+-- been Mathlib 4.33.1 since PR #133, and GppDigamma has existed since task #9 -- built from
+-- GammaDeriv, which the original grep never looked for because it searched for the NAME.
 import GppVerify.QuantumGravity.KinematicZetaBridge
 import GppVerify.QuantumGravity.SinhWeierstrassProduct
 
@@ -974,6 +976,20 @@ import GppVerify.QuantumGravity.SpectralWeightIdentities
 -- kinematic_block_v1.tex's First Moment Theorem needs is a further, separate extension, not
 -- attempted here. Kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.Digamma
+
+-- ── The closing third of the First Moment Theorem (task #10) ─────────────────────────────
+-- principal_series_blocks_v2.tex's Theorem 6.1 (thm:moment) has three inputs; this file
+-- proves the last one, unconditionally, and states the other two precisely as prose rather
+-- than as declarations. Proved: exp(-t/2)/(1-exp(-t)) = 1/(2 sinh(t/2)) for t>0; the
+-- hyperbolic collapse with the u=t/4 Jacobian written out (the paper's one-line "collapses
+-- to tanh u sech^2 u" silently carries a factor of 16); the improper integral
+-- int_0^inf tanh u sech^2 u du = 1/2 by FTC with antiderivative -1/(2 cosh^2 u); and hence
+-- the remainder integral int_0^inf (1/(2 sinh(t/2)))(1/4)[1-sech^2(t/4)] dt = 1/8, which is
+-- where Theorem 6.1's 1/8 comes from. NOT proved and NOT stated in Lean: the Fourier pair
+-- (1/2pi) int P(lam) cos(lam y) dlam = 1/(4 cosh^2(y/2)), and Gauss's integral
+-- representation of psi. Theorem 6.1 itself is therefore still open, and this file says so.
+-- Kernel-clean, no axiom, no sorry.
+import GppVerify.QuantumGravity.FirstMomentCore
 
 -- ── Positive Gamma--Plancherel defect (v34, Theorem 62.1) ────────────────────────────────
 -- Exact identity between the real-place density and the existing celestial weight
