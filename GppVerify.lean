@@ -1316,3 +1316,4 @@ import GppVerify.RiemannHypothesis.BernsteinEasy
 import GppVerify.RiemannHypothesis.SemigroupPositiveDefinite
 import GppVerify.RiemannHypothesis.ExponentialConvexity
 import GppVerify.Upstream.WeierstrassFactor
+import GppVerify.Upstream.WeierstrassProduct
