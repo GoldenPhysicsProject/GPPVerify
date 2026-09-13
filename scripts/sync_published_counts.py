@@ -3,6 +3,7 @@
 
 Two surfaces publish those counts, and two different gates check them:
 
+* `README.md` — the three-category table (`sorry` / `axiom` / `True := trivial`).
 * `index.html` — the stat strip (`Lean Modules`, `Open Stubs`, `Axioms`) and the same numbers
   stated in prose in the `og:description` meta tag. Gated by `check_landing_claims.py`.
 * `blueprint/src/web.tex` — the sentence "There are currently \\textbf{N} such stubs."
@@ -140,6 +141,28 @@ def sync_og(html: str, counts: dict[str, int]) -> str:
     return html[: m.start(2)] + text + html[m.end(2) :]
 
 
+# The README's three-category table. It advertised itself as "grep-verified against the
+# tree" while reading 13 axioms and 134 stubs against a tree holding 0 and 156 -- stale for
+# three weeks because nothing wrote it. A number that claims to be verified and is not is
+# worse than one that admits it is hand-maintained, so the table joins the machine.
+README_ROWS = {
+    "axioms": re.compile(r"(\|\s*`axiom`\s*\|\s*\*\*)(\d+)(\*\*)"),
+    "stubs": re.compile(r"(\|\s*`theorem _ : True := trivial`\s*\|\s*\*\*)(\d+)(\*\*)"),
+}
+README_SORRY = re.compile(r"(\|\s*`sorry`\s*\|\s*\*\*)(\d+)(\*\*)")
+
+
+def sync_readme(text: str, counts: dict[str, int]) -> str:
+    """Rewrite the README's axiom and stub counts from the tree.
+
+    The `sorry` row is written too, from the constant 0 the whole repo is gated on, so a
+    tree that somehow grew one cannot leave the table reading zero.
+    """
+    for key, pattern in README_ROWS.items():
+        text = pattern.sub(lambda m: m.group(1) + str(counts[key]) + m.group(3), text)
+    return README_SORRY.sub(lambda m: m.group(1) + "0" + m.group(3), text)
+
+
 def sync_blueprint(tex: str, counts: dict[str, int]) -> str:
     """Rewrite the blueprint's published stub count.
 
@@ -162,6 +185,7 @@ def main() -> int:
     # separate build and a checkout without it should still be able to fix the landing page.
     surfaces = [
         (LANDING, "landing page", lambda t: sync_og(sync_stats(t, counts), counts)),
+        (REPO / "README.md", "README table", lambda t: sync_readme(t, counts)),
         (REPO / BLUEPRINT, "blueprint", lambda t: sync_blueprint(t, counts)),
     ]
 
