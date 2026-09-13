@@ -12,7 +12,7 @@ under the integral sign, which is, and it is the half the shadow programme actua
   K(t) = <W, gaussian_t>/sqrt(4 pi t) = ∫ exp(-λ t) dμ(λ), μ ≥ 0           [gaussian self-dual]
   => K completely monotone                                                 [THIS FILE]
 
-Combined with `arithmetic_principal_series_RH_program`'s `RH <=> K completely monotone`, this
+Combined with `arithmetic_principal_series_RH_program`'s **stated** `RH <=> K completely monotone`, this
 is the bridge making Weil positivity and the heat-trace criterion the same condition rather
 than two parallel criteria.
 

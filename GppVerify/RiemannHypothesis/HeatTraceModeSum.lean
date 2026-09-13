@@ -1,11 +1,15 @@
 import GppVerify.RiemannHypothesis.HeatTraceCriterion
 
 /-!
-# The Hilbert-Pólya heat trace is completely monotone, and why that is RH
+# A nonnegative superposition of heat modes is completely monotone
 
-`arithmetic_principal_series_RH_program` proves `RH <=> K completely monotone on (0,∞)`,
-where `K(t) = (4πt)^{-1/2} <W, exp(-x²/4t)>` and `W = ν∞ - ν_p`, and observes that under
-RH this is literally the Hilbert-Pólya heat trace `K(t) = Σ_{γ>0} m_γ exp(-γ² t)`.
+`arithmetic_principal_series_RH_program` **states** `RH <=> K completely monotone on (0,∞)`,
+where `K(t) = (4πt)^{-1/2} <W, exp(-x²/4t)>` and `W = ν∞ - ν_p`, and observes that under RH
+this is literally the Hilbert-Pólya heat trace `K(t) = Σ_{γ>0} m_γ exp(-γ² t)`.
+
+**States**, not proves: that biconditional lives in a TeX file and a Lean module cannot vouch
+for it. The verb is load-bearing, because everything proved below sits on the easy side of
+it, and the file title says only what the file does.
 
 This file formalizes the forward half at the level of the mode expansion: **a nonnegative
 superposition of heat modes is completely monotone.** The arithmetic content is where the

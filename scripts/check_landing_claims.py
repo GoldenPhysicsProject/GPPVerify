@@ -33,8 +33,18 @@ What this checks
 3. Every "View source" link points at a file that exists.
 4. No card badged "Proved" names an `open_`-prefixed declaration (a stub).
 5. Any card naming an `open_` declaration is badged Open.
-6. The stat-strip numbers that are derivable from the tree (module count, stub
-   count, axiom count) match it.
+6. The `<head>` prose -- `<title>`, `<meta name="description">`, `og:title`,
+   `og:description` -- asserts no result whose backing declaration is an `open_`
+   stub. Checks 4 and 5 covered only the card grid. On 2026-09-13 the head was
+   found advertising "Machine-checked proofs of shadow=CPT, L^2 forces
+   Re(s)=1/2, and three fermion generations" while all three of those results
+   were `theorem open_... : True := trivial` in the tree, and while the card
+   gate was correctly forcing the body to badge each of them Open. Head prose
+   travels further than the body: it is what search engines index and what every
+   link preview renders. It gets the same rule.
+7. The stat-strip numbers that are derivable from the tree (module count, stub
+   count, axiom count) match it, and so do the same numbers restated in prose in
+   the og:description.
 
 Names carrying a space or an em dash are treated as prose headings, not
 declarations, and are skipped by checks 1 and 4-5 -- but their file paths are
@@ -115,6 +125,67 @@ CHECKED_STATS = {
     "Open Stubs": "stubs",
     "Axioms": "axioms",
 }
+
+
+# Head metadata fields whose prose is checked. These are the fields that leave the page:
+# the browser tab, the search-engine snippet, and the link-preview card.
+HEAD_FIELDS = (
+    (r"<title>([^<]*)</title>", "<title>"),
+    (r'<meta name="description" content="([^"]*)"', 'meta description'),
+    (r'<meta property="og:title" content="([^"]*)"', "og:title"),
+    (r'<meta property="og:description" content="([^"]*)"', "og:description"),
+)
+
+# Prose claims that are only true if a specific result is actually proved, mapped to the
+# base name of the declaration that would carry them. A claim is forbidden in head prose
+# when its declaration is absent from the tree, or present only under the `open_` prefix.
+#
+# Keep the patterns broad and the list short. A false positive here costs one deliberate
+# edit by a person; a false negative puts an unproved theorem on the front page.
+HEAD_CLAIMS: list[tuple[str, str]] = [
+    (r"shadow\s*=\s*CPT|shadow[-\s]equals[-\s]CPT|\bCPT theorem\b", "cpt_theorem"),
+    # NOTE: the historical text was "L\u00b2 forces Re(s)=\u00bd" with a SUPERSCRIPT two and a
+    # vulgar one-half. A first version of this pattern spelled the exponent `2` and matched
+    # neither, so the claim sailed through a gate written to catch it. Accept both forms,
+    # and keep a standalone "Re(s) = 1/2" alternative so dropping the verb does not help.
+    (r"L\s*[\u00b22][^.]{0,40}?forces?[^.]{0,30}?Re\s*\(\s*s\s*\)"
+     r"|forces?\s+(the\s+)?critical\s+line"
+     r"|(proof|proves|proved|machine-checked)[^.]{0,40}?Re\s*\(\s*s\s*\)\s*=\s*(\u00bd|1/2)",
+     "l2_constraint_implies_rh"),
+    (r"\bthree\s+(fermion\s+)?generations\b", "three_generations"),
+    (r"\bmass\s+gap\b", "yang_mills_mass_gap"),
+    (r"\bBorn\s+rule\b", "born_rule_from_haar"),
+    (r"\bshadow\s+discontinuity\b", "shadow_discontinuity"),
+    (r"(proof|proves|proved|proving)\s+of\s+the\s+Riemann\s+Hypothesis"
+     r"|Riemann\s+Hypothesis\s+is\s+(proved|true|established)", "riemann_hypothesis"),
+]
+
+
+def head_claim_failures(html: str, declared: set[str]) -> list[str]:
+    """Head prose may not assert a result the tree marks open."""
+    out: list[str] = []
+    for pattern, field in HEAD_FIELDS:
+        m = re.search(pattern, html, re.I)
+        if not m:
+            continue
+        text = m.group(1)
+        for claim_re, decl in HEAD_CLAIMS:
+            hit = re.search(claim_re, text, re.I)
+            if not hit:
+                continue
+            if decl in declared:
+                continue          # the real declaration exists: the claim is earned
+            if "open_" + decl in declared:
+                out.append(
+                    f"{field} claims {hit.group(0)!r}, but the tree has only "
+                    f"`open_{decl}` -- that result is an open stub"
+                )
+            else:
+                out.append(
+                    f"{field} claims {hit.group(0)!r}, but no declaration `{decl}` "
+                    f"or `open_{decl}` exists in the tree"
+                )
+    return out
 
 
 def main() -> int:
@@ -199,6 +270,8 @@ def main() -> int:
                 )
             if re.search(rf"\b{word} sorries\b", text, re.I) and n != 0:
                 failures.append(f"og:description says '{word} sorries'")
+
+    failures.extend(head_claim_failures(html, declared))
 
     if failures:
         print("Landing-page claim check FAILED.\n")

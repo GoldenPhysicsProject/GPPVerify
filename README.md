@@ -15,8 +15,8 @@ The most self-contained proof of the Riemann Hypothesis in the shadow framework:
 ```
 Haar self-duality on A×/Q×          [HaarSelfDuality.lean — CLEAN ✓]
   → functional equation ξ(s) = ξ(1-s)  [FunctionalEquation.lean — CLEAN ✓]
-  → Peter-Weyl discrete spectrum        [HaarMeasure.lean — mostly clean, 2 Mathlib-gap axioms]
-  → L² constraint forces Re(s) = ½     [RHSpectralMultiplicity.lean — improved]
+  → Peter-Weyl discrete spectrum        [HaarMeasure.lean — clean; 2 True-stubs pending Fujisaki / adelic compactness, no axioms]
+  → L² constraint forces Re(s) = ½     [RHSpectralMultiplicity.lean — OPEN: `open_l2_constraint_implies_rh` is a True-stub]
   → Riemann Hypothesis
 ```
 
@@ -41,7 +41,7 @@ axiom-based version; see the file's own doc comment for what changed and why.
 |------|---------|--------|--------|
 | `GppVerify/HaarSelfDuality.lean` | 0 | 0 | **CLEAN** |
 | `GppVerify/CoreTheorems.lean` | 0 | 0 | Clean |
-| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 1 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); `schwartz_integral_clm_exists` **retired 2026-08-14** — now a theorem via Mathlib's `SchwartzMap.integralCLM`, kernel-verified to depend on no custom axiom. Sole remaining axiom: `exp_growth_not_tempered` (see `docs/FORMALIZATION_PLAN.md` Phase 4 — the Lean statement is subtler than the mathematics, because Mathlib's integral takes a junk value on non-integrable integrands) |
+| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 0 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); `schwartz_integral_clm_exists` **retired 2026-08-14** — now a theorem via Mathlib's `SchwartzMap.integralCLM`, kernel-verified to depend on no custom axiom. The last axiom, `exp_growth_not_tempered`, is **retired** too: it is a proved theorem in `RiemannHypothesis/ExpNotTempered.lean`. Its Lean statement is subtler than the mathematics, because Mathlib's integral takes a junk value on non-integrable integrands, which is why it took so long to discharge |
 | `GppVerify/RiemannHypothesis/TwoPointCriterion.lean` | 0 | 0 | Thread D2: RH iff pair positivity on the reflection pairs `{rho, 1-conj(rho)}` — kernel-checked record that the zero side of the Weil criterion carries no analytic content |
 | `GppVerify/RiemannHypothesis/SchurWeilClass.lean` | 0 | 0 | Thread S2: positive-type x convolution square is positive-type (translates as Gram vectors, no spectral theorem); corollary: the epsilon-regularized Cauchy-kernel datum is positive-type |
 | `GppVerify/RiemannHypothesis/TruncatedTransport.lean` | 0 | 0 | Thread T: rung-level transport onto the S-truncated chart `R x Z^S` — one pullback, no adeles. `logPrime_lattice_injective` is now **PROVED** (this row previously claimed 1 sorry; stale — kernel-verified clean 2026-08-14) |
@@ -61,17 +61,23 @@ itself.
 
 Sorry and axiom counts alone overstate how much is proved, because the `True := trivial`
 convention is invisible to both. **Any status claim about this repo should quote all three
-numbers.** As of 2026-08-23, `grep`-verified against the tree:
+numbers.** The counts below are written by `scripts/sync_published_counts.py` from the tree
+and checked in CI by `scripts/check_landing_claims.py`, the same machinery that maintains the
+landing page. They were hand-maintained until 2026-09-13, and by then said 13 axioms and 134
+stubs against a tree holding 0 and 156 — while this very sentence claimed they were verified.
+Do not edit the numbers by hand; run the sync.
 
 | Category | Count | Meaning |
 |---|---|---|
 | `sorry` | **0** | Enforced discipline. Never commit one. |
-| `axiom` | **13** | Mostly named physics parameters (`omega_DM`, `c_2D`, `kappa_0`) and explicitly-open physics inputs (`link6_from_physics`, `boyle_turok_2021`). One analytic axiom remains: `exp_growth_not_tempered`. |
-| `theorem _ : True := trivial` | **134** in 25 files | Open results parked honestly, each with a doc comment naming the upstream gap. **Not a proof of anything.** |
+| `axiom` | **0** | No custom axiom remains. The named physics parameters and open physics inputs are gone, and the last analytic one, `exp_growth_not_tempered`, is now a **proved theorem** in `RiemannHypothesis/ExpNotTempered.lean`. Every result in the tree rests on `propext`, `Classical.choice`, `Quot.sound` alone. |
+| `theorem _ : True := trivial` | **156** | Open results parked honestly, each with a doc comment naming the upstream gap. **Not a proof of anything.** |
 
-Densest stub files: `RiemannHypothesis/HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`,
-`NumberTheory/ShadowEulerIdentity` (12 each), `CelestialHolography/TwistorGoogly` (11),
-`YangMills/MassGap`, `StandardModel/MajoranaCondition` (10 each).
+Densest stub files, snapshot at 2026-09-13 (156 stubs across 30 files):
+`RiemannHypothesis/HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`,
+`NumberTheory/ShadowEulerIdentity` (12 each), `YangMills/MassGap`,
+`CelestialHolography/TwistorGoogly` (11 each), `StandardModel/MajoranaCondition`,
+`RiemannHypothesis/RHProofStructure` (10 each), `GeneralRelativity/Rigidity` (9).
 
 Reproduce:
 ```bash
