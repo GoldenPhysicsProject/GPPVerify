@@ -11,6 +11,7 @@ checkout gets a pointer auto-loaded.
 |---|---|
 | `CONVERSATION.md` | **first, every turn.** Then append at the end of the turn if anything happened Codex can act on. |
 | `rules/GPPVERIFY.md` | the actual rules: non-negotiables, the seven CI gates, branch topology, toolchain, deploy gotchas, Mathlib migration recipes, grep traps |
+| `CLAUDE_HEURISTICS.md` | **how to think here** — which hunches to trust, the collinearity rule, my standing biases. Read with the correctionsledger. |
 | `CLAUDE_CORRECTIONS.md` | claims already proved wrong — **four routes are recorded dead.** Read before any RH-positivity or honesty-audit thread. |
 | `CLAUDE_RESEARCH_GOALS.md` | what to prove next, and what is blocked on which missing Mathlib |
 | `rules/PROJECT.md` | owner, credentials, division of labour |
