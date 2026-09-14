@@ -46,16 +46,16 @@ theorem beta_injective_of_ne_zero
 /-- Complex conjugation of `s` becomes complex conjugation of the Cayley coordinate. -/
 theorem beta_conj (s : ℂ) :
     beta ((starRingEnd ℂ) s) = (starRingEnd ℂ) (beta s) := by
-  simp [beta, map_sub, map_div]
+  simp [beta]
 
 /-- Functional-equation shadow becomes multiplicative inversion in the Cayley chart. -/
 theorem beta_shadow_eq_inv
-    (s : ℂ) (hs0 : s ≠ 0) (hs1 : s ≠ 1) :
+    (s : ℂ) (_hs0 : s ≠ 0) (hs1 : s ≠ 1) :
     beta (1 - s) = (beta s)⁻¹ := by
   unfold beta
   have hsm1 : s - 1 ≠ 0 := sub_ne_zero.mpr hs1
   have h1ms : 1 - s ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
-  field_simp [hs0, hsm1, h1ms]
+  field_simp [hsm1, h1ms]
   ring
 
 /-- If inverse and conjugate coincide for a nonzero scalar, its norm is one. -/
