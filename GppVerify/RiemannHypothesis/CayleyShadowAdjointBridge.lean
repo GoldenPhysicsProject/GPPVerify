@@ -34,7 +34,7 @@ namespace GppCayleyShadowAdjointBridge
 open Complex
 
 /-- Burnol/Nyman Cayley coordinate. -/
-def beta (s : ℂ) : ℂ := (s - 1) / s
+noncomputable def beta (s : ℂ) : ℂ := (s - 1) / s
 
 /-- The Cayley coordinate is injective away from its pole at `s=0`. -/
 theorem beta_injective_of_ne_zero
