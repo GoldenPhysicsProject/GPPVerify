@@ -35,12 +35,12 @@ noncomputable def gaugePotential : ArithmeticFunction ℝ :=
 
 /-- Exact arithmetic identity: the gauge potential is the von Mangoldt function. -/
 theorem gaugePotential_eq_vonMangoldt :
-    gaugePotential = (Λ : ArithmeticFunction ℝ) := by
+    gaugePotential = ArithmeticFunction.vonMangoldt := by
   simp [gaugePotential]
 
 /-- Pointwise version of the same identity. -/
 theorem gaugePotential_apply (n : ℕ) :
-    gaugePotential n = Λ n := by
+    gaugePotential n = ArithmeticFunction.vonMangoldt n := by
   rw [gaugePotential_eq_vonMangoldt]
 
 /-- Multiplying the connection back by the zeta element recovers logarithmic length. -/
@@ -51,7 +51,7 @@ theorem gaugePotential_mul_zeta :
 
 /-- The half-density prime-power weight used by the Weil explicit formula. -/
 noncomputable def halfDensityWeight (n : ℕ) : ℝ :=
-  Λ n / Real.sqrt n
+  ArithmeticFunction.vonMangoldt n / Real.sqrt n
 
 /-- Every half-density von Mangoldt weight is nonnegative. -/
 theorem halfDensityWeight_nonneg (n : ℕ) :
