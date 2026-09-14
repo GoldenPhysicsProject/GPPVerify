@@ -75,9 +75,10 @@ theorem cayley_right_shift_defect
     (hden : 0 < ((1 / 2 : ℝ) + delta)^2 + t^2) :
     1 - cayleyNormSq ((1 / 2 : ℝ) + delta) t =
       (2 * delta) / (((1 / 2 : ℝ) + delta)^2 + t^2) := by
-  unfold cayleyNormSq
-  field_simp [hden.ne']
-  ring
+  have hsub := cayley_norm_sq_sub_one ((1 / 2 : ℝ) + delta) t hden.ne'
+  have hnum : 1 - 2 * ((1 / 2 : ℝ) + delta) = -(2 * delta) := by ring
+  rw [hnum, neg_div] at hsub
+  linarith
 
 /-- A positive displacement from the critical line gives a strictly positive defect. -/
 theorem cayley_right_shift_defect_pos
