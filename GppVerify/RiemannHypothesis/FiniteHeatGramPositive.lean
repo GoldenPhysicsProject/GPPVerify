@@ -46,7 +46,8 @@ theorem finiteHeatGramKernel_eq_add {m : ℕ}
   unfold finiteHeatGramKernel finiteHeatKernel heatFeature
   apply Finset.sum_congr rfl
   intro k _
-  rw [← Real.exp_add]
+  rw [mul_assoc, ← Real.exp_add]
+  congr 1
   congr 1
   ring
 
