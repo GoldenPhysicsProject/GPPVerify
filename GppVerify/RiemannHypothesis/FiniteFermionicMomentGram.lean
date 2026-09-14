@@ -49,9 +49,14 @@ theorem pointwise_square_identity {m : ℕ}
     (∑ i : Fin m, ∑ j : Fin m,
         c i * c j * x ^ ((i : ℕ) + (j : ℕ) + 1))
       = x * (polyEval c x)^2 := by
-  simp only [polyEval, pow_add, pow_succ]
-  rw [sq]
-  simp_rw [Finset.sum_mul, Finset.mul_sum]
+  unfold polyEval
+  rw [pow_two]
+  simp only [Finset.sum_mul, Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  apply Finset.sum_congr rfl
+  intro j _
+  simp only [pow_add, pow_one]
   ring
 
 /-- Exact finite Hankel = sum-of-squares factorization. -/
@@ -60,27 +65,31 @@ theorem hankelQuad_eq_sum_squares {n m : ℕ}
     hankelQuad lam c
       = 2 * ∑ r : Fin n, lam r * (polyEval c (lam r))^2 := by
   unfold hankelQuad moment
-  simp_rw [Finset.mul_sum]
-  rw [Finset.mul_sum]
-  simp_rw [← Finset.sum_mul]
-  -- Reorder the finite sums so each spectral value is treated pointwise.
   calc
-    ∑ i : Fin m, ∑ j : Fin m,
-        c i * c j * (2 * ∑ r : Fin n, lam r ^ ((i : ℕ) + (j : ℕ) + 1))
-        = 2 * ∑ r : Fin n,
-            ∑ i : Fin m, ∑ j : Fin m,
-              c i * c j * lam r ^ ((i : ℕ) + (j : ℕ) + 1) := by
-                simp_rw [Finset.mul_sum, Finset.sum_mul]
-                rw [Finset.sum_comm]
-                congr 1
-                funext r
-                rw [Finset.sum_comm]
-                ring
+    _ = ∑ i : Fin m, ∑ j : Fin m, ∑ r : Fin n,
+        2 * (c i * c j * lam r ^ ((i : ℕ) + (j : ℕ) + 1)) := by
+      simp only [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro i _
+      apply Finset.sum_congr rfl
+      intro j _
+      apply Finset.sum_congr rfl
+      intro r _
+      ring
+    _ = ∑ i : Fin m, ∑ r : Fin n, ∑ j : Fin m,
+        2 * (c i * c j * lam r ^ ((i : ℕ) + (j : ℕ) + 1)) := by
+      apply Finset.sum_congr rfl
+      intro i _
+      rw [Finset.sum_comm]
+    _ = ∑ r : Fin n, ∑ i : Fin m, ∑ j : Fin m,
+        2 * (c i * c j * lam r ^ ((i : ℕ) + (j : ℕ) + 1)) := by
+      rw [Finset.sum_comm]
     _ = 2 * ∑ r : Fin n, lam r * (polyEval c (lam r))^2 := by
-          congr 1
-          apply Finset.sum_congr rfl
-          intro r hr
-          rw [pointwise_square_identity]
+      simp only [← Finset.mul_sum]
+      congr 1
+      apply Finset.sum_congr rfl
+      intro r _
+      exact pointwise_square_identity c (lam r)
 
 /-- Positivity of every finite Hankel form for a nonnegative spectrum. -/
 theorem hankelQuad_nonneg {n m : ℕ}
@@ -88,7 +97,8 @@ theorem hankelQuad_nonneg {n m : ℕ}
     (c : Fin m → ℝ) :
     0 ≤ hankelQuad lam c := by
   rw [hankelQuad_eq_sum_squares]
-  positivity
+  exact mul_nonneg (by norm_num) (Finset.sum_nonneg fun r _ =>
+    mul_nonneg (hlam r) (sq_nonneg _))
 
 /-- Strict positivity when at least one occupied spectral channel sees a nonzero source. -/
 theorem hankelQuad_pos_of_channel {n m : ℕ}
@@ -100,7 +110,7 @@ theorem hankelQuad_pos_of_channel {n m : ℕ}
   rw [hankelQuad_eq_sum_squares]
   have hnonneg : ∀ r : Fin n, 0 ≤ lam r * (polyEval c (lam r))^2 := by
     intro r
-    positivity
+    exact mul_nonneg (hlam r) (sq_nonneg _)
   have hpos : 0 < lam r0 * (polyEval c (lam r0))^2 := by
     have hs : 0 < (polyEval c (lam r0))^2 := sq_pos_of_ne_zero hc0
     positivity
