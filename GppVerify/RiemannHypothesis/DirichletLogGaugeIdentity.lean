@@ -52,8 +52,7 @@ theorem lengthDeriv_zeta :
   ext n
   rcases eq_or_ne n 0 with rfl | hn
   · simp [lengthDeriv]
-  · simp [lengthDeriv, ArithmeticFunction.log_apply,
-      ArithmeticFunction.zeta_apply_ne hn, hn]
+  · simp [lengthDeriv, ArithmeticFunction.log_apply, hn]
 
 /--
 **Exact Möbius gauge identity.**  Conjugating logarithmic differentiation by zeta synthesis
@@ -66,7 +65,7 @@ theorem mobius_lengthDeriv_zeta_mul
   rw [lengthDeriv_mul]
   rw [mul_add, ← mul_assoc, ← mul_assoc]
   rw [lengthDeriv_zeta]
-  simpa [add_comm]
+  simp [add_comm]
 
 /-- Equivalent connection form after subtracting the bare logarithmic derivative. -/
 theorem mobius_gauge_connection
