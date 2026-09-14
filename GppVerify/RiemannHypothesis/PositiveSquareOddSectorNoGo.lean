@@ -23,6 +23,8 @@ needs the genuinely arithmetic theorem that the completed physical cohomology ha
 part (equivalently, the relevant Weil/OS Gram form is positive).
 -/
 
+open scoped Matrix
+
 namespace GppPositiveSquareOddSectorNoGo
 
 /-- Z2 grading. -/
