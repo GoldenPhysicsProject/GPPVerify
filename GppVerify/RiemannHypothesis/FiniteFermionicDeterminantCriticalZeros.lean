@@ -34,9 +34,11 @@ theorem single_positive_factor_zero_implies_re_zero
   have hre := congrArg Complex.re hzero
   have him := congrArg Complex.im hzero
   simp [pow_two, Complex.mul_re, Complex.mul_im] at hre him
+  have him' : z.re * z.im + z.im * z.re = 0 :=
+    him.resolve_left (ne_of_gt hlambda)
   by_contra hz
   have himz : z.im = 0 := by
-    rcases mul_eq_zero.mp (by nlinarith [him]) with h | h
+    rcases mul_eq_zero.mp (show z.re * z.im = 0 by nlinarith [him']) with h | h
     · exact (hz h).elim
     · exact h
   rw [himz] at hre
