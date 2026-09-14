@@ -54,8 +54,10 @@ theorem quarterTurn_sq_neg_one :
 theorem quarterTurn_four_one :
     quarterTurn * quarterTurn * quarterTurn * quarterTurn =
       (1 : Matrix (Fin 2) (Fin 2) ℝ) := by
-  rw [quarterTurn_sq_neg_one]
-  simp
+  calc
+    _ = (quarterTurn * quarterTurn) * (quarterTurn * quarterTurn) := by
+      simp only [mul_assoc]
+    _ = 1 := by rw [quarterTurn_sq_neg_one]; simp
 
 /-- The first-order dilation sign squares to the positive identity. -/
 theorem dilationSign_sq_one :
