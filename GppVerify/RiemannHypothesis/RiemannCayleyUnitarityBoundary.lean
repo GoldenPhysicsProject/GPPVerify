@@ -28,7 +28,7 @@ pure finite algebra; it contains no claim about the location of zeta zeros.
 namespace GppRiemannCayleyUnitarityBoundary
 
 /-- Squared modulus of `(s-1)/s` for `s = sigma + i t`. -/
-def cayleyNormSq (sigma t : ℝ) : ℝ :=
+noncomputable def cayleyNormSq (sigma t : ℝ) : ℝ :=
   (((sigma - 1)^2 + t^2) / (sigma^2 + t^2))
 
 /-- Right of the critical line is exactly the contractive disk side. -/
@@ -75,8 +75,9 @@ theorem cayley_right_shift_defect
     (hden : 0 < ((1 / 2 : ℝ) + delta)^2 + t^2) :
     1 - cayleyNormSq ((1 / 2 : ℝ) + delta) t =
       (2 * delta) / (((1 / 2 : ℝ) + delta)^2 + t^2) := by
-  have hsub := cayley_norm_sq_sub_one ((1 / 2 : ℝ) + delta) t hden.ne'
-  linarith
+  unfold cayleyNormSq
+  field_simp [hden.ne']
+  ring
 
 /-- A positive displacement from the critical line gives a strictly positive defect. -/
 theorem cayley_right_shift_defect_pos
@@ -93,17 +94,16 @@ the squared Cayley modulus is inverted.
 -/
 theorem reflected_cayley_norm_sq_reciprocal
     (sigma t : ℝ)
-    (hden : 0 < sigma^2 + t^2)
-    (hnum : 0 < (sigma - 1)^2 + t^2) :
+    (_hden : 0 < sigma^2 + t^2)
+    (_hnum : 0 < (sigma - 1)^2 + t^2) :
     cayleyNormSq (1 - sigma) t = 1 / cayleyNormSq sigma t := by
-  unfold cayleyNormSq
-  field_simp [hden.ne', hnum.ne']
-  ring
+  simp only [cayleyNormSq, one_div, inv_div]
+  congr 1 <;> ring
 
 /-- A reflected off-line pair cannot have both members contractive. -/
 theorem reflected_right_half_becomes_expansive
     (sigma t : ℝ)
-    (hden : 0 < sigma^2 + t^2)
+    (_hden : 0 < sigma^2 + t^2)
     (hrefden : 0 < (1 - sigma)^2 + t^2)
     (hsigma : (1 / 2 : ℝ) < sigma) :
     1 < cayleyNormSq (1 - sigma) t := by
