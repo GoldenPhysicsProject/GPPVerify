@@ -118,3 +118,34 @@ in 79 source files including dependent bad imports. The whole project and
 all newest RH modules must not be called machine checked. PR173 remains
 open and draft. Local workspace became unavailable; connector-based
 repairs continue with explicit verification limitations.
+
+## Constructive complement: the closability threshold is exact
+
+For every sigma>1/2 the SAME form IS closable on ordinary l2.
+Let alpha=2sigma and define the generalized Jordan totient
+J_alpha(d)=d^alpha product_{p|d}(1-p^(-alpha))>0.
+The divisor identity sum_{d|n} J_alpha(d)=n^alpha gives
+
+    q_sigma(c)=sum_d J_(2sigma)(d)
+                    |sum_{n: d|n} c_n/n^sigma|^2.
+
+Define T_0 on finite sequences by the expression inside this square:
+(T_0 c)_d=sqrt(J_(2sigma)(d)) sum_{d|n} c_n/n^sigma.
+Its image has finite support. Each fixed row is in l2 when sigma>1/2,
+since its squared norm is
+J_(2sigma)(d) d^(-2sigma) zeta(2sigma).
+If c_j->0 in l2 and T_0 c_j->y in l2, row continuity gives y_d=0 for
+every d, hence y=0. This proves T_0 is closable and thus q_sigma is closable.
+The closure has form ||closure(T_0)c||^2 and associated positive self-adjoint
+operator closure(T_0)^* closure(T_0).
+
+Combined with the prime witness:
+
+    for sigma>0, q_sigma is closable on ordinary l2 iff sigma>1/2.
+
+This constructs a genuine positive operator above criticality, without zeros.
+It supplies neither a critical extension nor the desired Fredholm determinant.
+Closability is weaker than boundedness. No boundedness claim for sigma>1/2 is made.
+
+The Jordan-totient finite factorization is classical GCD-matrix machinery;
+no priority claim is made for it or for the threshold without a fuller literature audit.
