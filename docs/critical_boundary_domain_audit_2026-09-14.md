@@ -149,3 +149,19 @@ Closability is weaker than boundedness. No boundedness claim for sigma>1/2 is ma
 
 The Jordan-totient finite factorization is classical GCD-matrix machinery;
 no priority claim is made for it or for the threshold without a fuller literature audit.
+
+## Bounded Archimedean corrections cannot repair this particular domain defect
+
+Let b(c)=<c,Bc> for any bounded self-adjoint B on ordinary l2.
+For the critical prime witness x_P above, b(x_P)->0 and
+b(x_P-x_Q)->0. Hence q_sigma+b has the same nonclosability witness
+whenever q_sigma+b is nonnegative. If it is only lower semibounded,
+adding a bounded multiple of ||c||^2 makes it nonnegative and the
+same argument applies.
+
+Thus a bounded correction, including a bounded finite-rank boundary correction,
+cannot turn this unchanged critical GCD form into a closed semibounded form
+on ordinary l2. A successful completion must change the ambient topology,
+restrict/change the initial domain, or introduce a correction not bounded
+in this ambient norm. This conclusion concerns this GCD form specifically;
+it does not assert that the true Archimedean Weil contribution is bounded.
