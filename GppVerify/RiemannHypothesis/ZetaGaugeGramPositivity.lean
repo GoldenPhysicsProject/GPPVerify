@@ -62,6 +62,7 @@ theorem weightedGramQuadratic_pos_of_channel
     (x : ι → ℝ) (k0 : κ)
     (hdk : 0 < d k0) (hxk : synth Z x k0 ≠ 0) :
     0 < weightedGramQuadratic Z d x := by
+  classical
   unfold weightedGramQuadratic
   have hterm : 0 < d k0 * (synth Z x k0)^2 := by
     exact mul_pos hdk (sq_pos_of_ne_zero hxk)
