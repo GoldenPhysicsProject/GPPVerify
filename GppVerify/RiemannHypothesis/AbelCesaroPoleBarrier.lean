@@ -48,6 +48,39 @@ theorem off_self_dual_has_regulator_gap {σ : ℝ} (hσ : σ ≠ 1) :
   have habs : |σ - 1| < ε := convergence_strip_iff_abs_lt.mp hstrip
   linarith
 
+/-- A real exponent lies in the positive Abel convergence strip at **every** positive
+regularization scale iff it is exactly self-dual.  This is the clean all-scale stability
+form of the half-density selector. -/
+theorem all_positive_regulators_iff_self_dual {σ : ℝ} :
+    (∀ ε : ℝ, 0 < ε → (1 - ε < σ ∧ σ < 1 + ε)) ↔ σ = 1 := by
+  constructor
+  · intro hall
+    by_contra hσ
+    obtain ⟨η, hη, hgap⟩ := off_self_dual_has_regulator_gap hσ
+    have hhalfpos : 0 < η / 2 := by linarith
+    have hhalfsmall : η / 2 < η := by linarith
+    exact hgap (η / 2) hhalfpos hhalfsmall (hall (η / 2) hhalfpos)
+  · intro hσ ε hε
+    subst σ
+    constructor <;> linarith
+
+/-- The two-sided Abel kernel factors algebraically into forward and reflected one-sided
+resolvent factors.  The hypotheses merely exclude the poles. -/
+theorem abel_kernel_causal_shadow_factorization {ε α : ℝ}
+    (hden : ε ^ 2 - α ^ 2 ≠ 0) :
+    ε ^ 2 / (ε ^ 2 - α ^ 2) =
+      (ε / (ε - α)) * (ε / (ε + α)) := by
+  have hminus : ε - α ≠ 0 := by
+    intro h
+    apply hden
+    nlinarith
+  have hplus : ε + α ≠ 0 := by
+    intro h
+    apply hden
+    nlinarith
+  field_simp
+  ring
+
 /-- Specialization to a reflection pair centered at the critical half-density.  The
 self-pairing real exponent is `σ = 1 + 2δ`, so any nonzero displacement `δ` produces a
 strict regulator gap before `ε = 0`. -/
@@ -60,6 +93,21 @@ theorem offcenter_reflection_pair_has_regulator_gap {δ : ℝ} (hδ : δ ≠ 0) 
     have : δ = 0 := by linarith
     exact hδ this
   exact off_self_dual_has_regulator_gap hσ
+
+/-- A centered reflection pair stays inside the genuine Abel integral domain at every
+positive scale iff its displacement is zero. -/
+theorem reflection_pair_all_scales_iff_centered {δ : ℝ} :
+    (∀ ε : ℝ, 0 < ε →
+      (1 - ε < 1 + 2 * δ ∧ 1 + 2 * δ < 1 + ε)) ↔ δ = 0 := by
+  constructor
+  · intro h
+    have hs : (1 + 2 * δ : ℝ) = 1 :=
+      all_positive_regulators_iff_self_dual.mp h
+    linarith
+  · intro h
+    subst δ
+    intro ε hε
+    constructor <;> linarith
 
 /-- The algebraic/meromorphic matrix-element formula nevertheless tends to zero at the
 origin for every nonzero displacement.  Together with
@@ -92,6 +140,9 @@ end GppAbelCesaroPoleBarrier
 
 #check @GppAbelCesaroPoleBarrier.convergence_strip_iff_abs_lt
 #check @GppAbelCesaroPoleBarrier.off_self_dual_has_regulator_gap
+#check @GppAbelCesaroPoleBarrier.all_positive_regulators_iff_self_dual
+#check @GppAbelCesaroPoleBarrier.abel_kernel_causal_shadow_factorization
 #check @GppAbelCesaroPoleBarrier.offcenter_reflection_pair_has_regulator_gap
+#check @GppAbelCesaroPoleBarrier.reflection_pair_all_scales_iff_centered
 #check @GppAbelCesaroPoleBarrier.offcenter_meromorphic_formula_tends_zero
 #check @GppAbelCesaroPoleBarrier.offcenter_pole_barrier_package
