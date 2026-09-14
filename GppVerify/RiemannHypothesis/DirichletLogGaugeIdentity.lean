@@ -53,7 +53,7 @@ theorem lengthDeriv_zeta :
   rcases eq_or_ne n 0 with rfl | hn
   · simp [lengthDeriv]
   · simp [lengthDeriv, ArithmeticFunction.log_apply,
-      ArithmeticFunction.zeta_apply_ne hn]
+      ArithmeticFunction.zeta_apply_ne hn, hn]
 
 /--
 **Exact Möbius gauge identity.**  Conjugating logarithmic differentiation by zeta synthesis
@@ -62,19 +62,18 @@ produces the von Mangoldt connection term.
 theorem mobius_lengthDeriv_zeta_mul
     (f : ArithmeticFunction ℝ) :
     (μ : ArithmeticFunction ℝ) * lengthDeriv ((ζ : ArithmeticFunction ℝ) * f) =
-      lengthDeriv f + (Λ : ArithmeticFunction ℝ) * f := by
+      lengthDeriv f + ArithmeticFunction.vonMangoldt * f := by
   rw [lengthDeriv_mul]
   rw [mul_add, ← mul_assoc, ← mul_assoc]
   rw [lengthDeriv_zeta]
-  simp
-  ac_rfl
+  simpa [add_comm]
 
 /-- Equivalent connection form after subtracting the bare logarithmic derivative. -/
 theorem mobius_gauge_connection
     (f : ArithmeticFunction ℝ) :
     (μ : ArithmeticFunction ℝ) * lengthDeriv ((ζ : ArithmeticFunction ℝ) * f)
       - lengthDeriv f =
-      (Λ : ArithmeticFunction ℝ) * f := by
+      ArithmeticFunction.vonMangoldt * f := by
   rw [mobius_lengthDeriv_zeta_mul]
   abel
 
