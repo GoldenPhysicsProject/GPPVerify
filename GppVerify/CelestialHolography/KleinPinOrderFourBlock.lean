@@ -82,11 +82,12 @@ theorem pinQuarterLift_sq (psi : FullSpin) :
   rcases psi with ⟨sPlus,sMinus⟩
   simp [pinQuarterLift, mMinus_mPlus, mPlus_mMinus]
 
-/-- Four applications close exactly on the eight-component spin carrier. -/
+/-- Four applications close exactly on the eight-component spin carrier.  The proof is
+expanded componentwise so it does not depend on rewrite-order heuristics. -/
 theorem pinQuarterLift_four (psi : FullSpin) :
     pinQuarterLift (pinQuarterLift (pinQuarterLift (pinQuarterLift psi))) = psi := by
-  rw [pinQuarterLift_sq, pinQuarterLift_sq]
-  simp [gammaBlock_sq]
+  rcases psi with ⟨⟨a,b,c,d⟩,⟨e,f,g,h⟩⟩
+  simp [pinQuarterLift, mPlus, mMinus]
 
 /-- The order-four algebra in one package: the lift exchanges 4+4 chiral components,
 its square is the nontrivial diagonal involution, and its fourth power is identity. -/
