@@ -66,8 +66,44 @@ theorem orderedVandermondeEnergy_nonneg
   exact weighted_vandermonde_sq_nonneg
     (p i) (p j) (p k) (x i) (x j) (x k) (hp i) (hp j) (hp k)
 
+/-- One strictly positive three-point contribution makes the full ordered
+Vandermonde energy strictly positive when all weights are nonnegative. -/
+theorem orderedVandermondeEnergy_pos_of_witness
+    {n : ℕ} (p x : Fin n → ℝ)
+    (hp : ∀ a, 0 ≤ p a)
+    (i j k : Fin n)
+    (hpi : 0 < p i) (hpj : 0 < p j) (hpk : 0 < p k)
+    (hij : x i ≠ x j) (hik : x i ≠ x k) (hjk : x j ≠ x k) :
+    0 < orderedVandermondeEnergy p x := by
+  unfold orderedVandermondeEnergy
+  apply Finset.sum_pos'
+  · intro a ha
+    apply Finset.sum_nonneg
+    intro b hb
+    apply Finset.sum_nonneg
+    intro c hc
+    exact weighted_vandermonde_sq_nonneg
+      (p a) (p b) (p c) (x a) (x b) (x c) (hp a) (hp b) (hp c)
+  · refine ⟨i, Finset.mem_univ i, ?_⟩
+    apply Finset.sum_pos'
+    · intro b hb
+      apply Finset.sum_nonneg
+      intro c hc
+      exact weighted_vandermonde_sq_nonneg
+        (p i) (p b) (p c) (x i) (x b) (x c) (hp i) (hp b) (hp c)
+    · refine ⟨j, Finset.mem_univ j, ?_⟩
+      apply Finset.sum_pos'
+      · intro c hc
+        exact weighted_vandermonde_sq_nonneg
+          (p i) (p j) (p c) (x i) (x j) (x c) (hp i) (hp j) (hp c)
+      · exact ⟨k, Finset.mem_univ k,
+          weighted_vandermonde_sq_pos
+            (p i) (p j) (p k) (x i) (x j) (x k)
+            hpi hpj hpk hij hik hjk⟩
+
 end GppFiniteVandermondeEnergy
 
 #print axioms GppFiniteVandermondeEnergy.weighted_vandermonde_sq_nonneg
 #print axioms GppFiniteVandermondeEnergy.weighted_vandermonde_sq_pos
 #print axioms GppFiniteVandermondeEnergy.orderedVandermondeEnergy_nonneg
+#print axioms GppFiniteVandermondeEnergy.orderedVandermondeEnergy_pos_of_witness
