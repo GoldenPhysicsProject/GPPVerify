@@ -1542,3 +1542,5 @@ import GppVerify.StandardModel.Z2HaarFourierContactBridge
 import GppVerify.RiemannHypothesis.FiniteCuspSchurComplement
 
 import GppVerify.CelestialHolography.DoubledSpacetimeMassReduction
+
+import GppVerify.CelestialHolography.DoubledLorentzQuarterTurn
