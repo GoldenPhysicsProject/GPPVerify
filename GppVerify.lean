@@ -1556,3 +1556,7 @@ import GppVerify.CelestialHolography.DiracSpinCoverIntertwiner
 
 -- Spin^c local diagonal quotient and the exact X=3(B-L) parity/anomaly arithmetic.
 import GppVerify.StandardModel.SpinCOrientationQuotient
+
+-- Moving normal-plane frame: parent canonical one-form produces minimal U(1)
+-- coupling, with conditional zitter/Compton scale algebra.
+import GppVerify.CelestialHolography.TransverseNormalConnection
