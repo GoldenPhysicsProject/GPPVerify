@@ -1553,3 +1553,6 @@ import GppVerify.CelestialHolography.DoubledLorentzRelativeMass
 -- Exact finite Spin(2)/Dirac cover intertwiner: opposite z^{±1} weights,
 -- central deck sign, half-flip phase inversion, and -i*SWAP quarter-turn.
 import GppVerify.CelestialHolography.DiracSpinCoverIntertwiner
+
+-- Spin^c local diagonal quotient and the exact X=3(B-L) parity/anomaly arithmetic.
+import GppVerify.StandardModel.SpinCOrientationQuotient
