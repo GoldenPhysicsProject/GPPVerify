@@ -114,6 +114,15 @@ theorem y_x_sq_anomaly_zero :
     ynC*(xnC : ℚ)^2 = 0 := by
   norm_num [yQ, yuC, ydC, yL, yeC, ynC, xQ, xuC, xdC, xL, xeC, xnC]
 
+/-- Residual order-two deck parity.  Using natAbs makes the definition independent
+of the sign convention for the Abelian charge. -/
+def deckParity (X : ℤ) : ℤ := (-1 : ℤ) ^ X.natAbs
+
+/-- Charge conjugation X -> -X leaves the residual deck parity unchanged. -/
+theorem deckParity_charge_conjugation_even (X : ℤ) :
+    deckParity (-X) = deckParity X := by
+  simp [deckParity]
+
 /-- A scalar of X-charge 6 has even charge, so its vacuum can preserve the X-parity subgroup. -/
 theorem majorana_scalar_charge_even : Even (6 : ℤ) := by
   norm_num [Even]
