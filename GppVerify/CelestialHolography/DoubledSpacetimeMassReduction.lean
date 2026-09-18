@@ -185,4 +185,128 @@ theorem massive_pair_from_primal
   exact ⟨cPlus_eq_mass_dualFromMass p m z hm,
          cMinus_dualFromMass_eq_mass p m z hm hQ⟩
 
+
+/-! ## Dirac-style first-order factorization
+
+After an SO(2) rotation of the transverse positive two-plane, a nonzero transverse
+vector may be placed on the first axis and written simply as the real scalar `m`.
+The following two eight-component symbols are then the two chiral factors of the
+extended quadratic form.
+-/
+
+/-- Componentwise addition on one four-component half-spinor. -/
+def add4 (x y : V4) : V4 :=
+  (x.1 + y.1, x.2.1 + y.2.1, x.2.2.1 + y.2.2.1, x.2.2.2 + y.2.2.2)
+
+/-- Gauge-fixed first chiral factor of the extended Klein-plus-transverse symbol. -/
+def massiveSymbolPlus (p : P6) (m : ℝ) (psi : DiracTwistor) : DiracTwistor :=
+  (add4 (cMinus p psi.2) (scale4 (-m) psi.1),
+   add4 (cPlus p psi.1) (scale4 (-m) psi.2))
+
+/-- Conjugate factor: the transverse coordinate has the opposite sign. -/
+def massiveSymbolMinus (p : P6) (m : ℝ) (psi : DiracTwistor) : DiracTwistor :=
+  (add4 (cMinus p psi.2) (scale4 m psi.1),
+   add4 (cPlus p psi.1) (scale4 m psi.2))
+
+/-- Scaling distributes over four-component addition. -/
+theorem scale4_add4 (a : ℝ) (x y : V4) :
+    scale4 a (add4 x y) = add4 (scale4 a x) (scale4 a y) := by
+  rcases x with ⟨x0,x1,x2,x3⟩
+  rcases y with ⟨y0,y1,y2,y3⟩
+  simp [scale4, add4]
+  ring
+
+/-- `cPlus` distributes over addition. -/
+theorem cPlus_add4 (p : P6) (x y : V4) :
+    cPlus p (add4 x y) = add4 (cPlus p x) (cPlus p y) := by
+  rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
+  rcases x with ⟨x0,x1,x2,x3⟩
+  rcases y with ⟨y0,y1,y2,y3⟩
+  apply Prod.ext
+  · simp [cPlus, add4]
+    ring
+  · apply Prod.ext
+    · simp [cPlus, add4]
+      ring
+    · apply Prod.ext
+      · simp [cPlus, add4]
+        ring
+      · simp [cPlus, add4]
+        ring
+
+/-- `cMinus` distributes over addition. -/
+theorem cMinus_add4 (p : P6) (x y : V4) :
+    cMinus p (add4 x y) = add4 (cMinus p x) (cMinus p y) := by
+  rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
+  rcases x with ⟨x0,x1,x2,x3⟩
+  rcases y with ⟨y0,y1,y2,y3⟩
+  apply Prod.ext
+  · simp [cMinus, add4]
+    ring
+  · apply Prod.ext
+    · simp [cMinus, add4]
+      ring
+    · apply Prod.ext
+      · simp [cMinus, add4]
+        ring
+      · simp [cMinus, add4]
+        ring
+
+/-- Dirac-style factorization of the gauge-fixed eight-dimensional quadratic form:
+the two first-order eight-component symbols compose to
+`-(kleinQ(p)+m^2)` times the identity. -/
+theorem massiveSymbol_factorization
+    (p : P6) (m : ℝ) (psi : DiracTwistor) :
+    massiveSymbolMinus p m (massiveSymbolPlus p m psi) =
+      (scale4 (-(kleinQ p + m^2)) psi.1,
+       scale4 (-(kleinQ p + m^2)) psi.2) := by
+  rcases psi with ⟨z,alpha⟩
+  rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
+  rcases z with ⟨z0,z1,z2,z3⟩
+  rcases alpha with ⟨a0,a1,a2,a3⟩
+  apply Prod.ext
+  · apply Prod.ext
+    · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+      ring
+    · apply Prod.ext
+      · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+        ring
+      · apply Prod.ext
+        · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+          ring
+        · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+          ring
+  · apply Prod.ext
+    · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+      ring
+    · apply Prod.ext
+      · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+        ring
+      · apply Prod.ext
+        · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+          ring
+        · simp [massiveSymbolMinus, massiveSymbolPlus, add4, cMinus, cPlus, scale4, kleinQ]
+          ring
+
+/-- On the extended null shell `kleinQ(p)+m^2=0`, the product of the two
+first-order symbols vanishes identically. -/
+theorem massiveSymbol_factorization_on_shell
+    (p : P6) (m : ℝ) (psi : DiracTwistor)
+    (hshell : kleinQ p + m^2 = 0) :
+    massiveSymbolMinus p m (massiveSymbolPlus p m psi) =
+      ((0,0,0,0),(0,0,0,0)) := by
+  rw [massiveSymbol_factorization]
+  rw [hshell]
+  rcases psi with ⟨⟨z0,z1,z2,z3⟩,⟨a0,a1,a2,a3⟩⟩
+  simp [scale4]
+
+/-- At zero transverse radius the eight-component symbol decouples into the two
+massless Klein chiral incidence equations. -/
+theorem massiveSymbolPlus_zero_mass
+    (p : P6) (psi : DiracTwistor) :
+    massiveSymbolPlus p 0 psi = (cMinus p psi.2, cPlus p psi.1) := by
+  rcases psi with ⟨⟨z0,z1,z2,z3⟩,⟨a0,a1,a2,a3⟩⟩
+  simp [massiveSymbolPlus, add4, scale4]
+
+
 end GppDoubledSpacetimeMassReduction
