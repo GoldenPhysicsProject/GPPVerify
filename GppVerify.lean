@@ -1564,5 +1564,8 @@ import GppVerify.CelestialHolography.TransverseNormalConnection
 -- v17: finite core of the Spin(6,2) four-lift / SU(4) color-centralizer B-L algebra.
 import GppVerify.StandardModel.Spin62BLFiniteCore
 
+-- v18: exact Pati-Salam singlet/doublet hypercharge reconstruction and Yukawa charge checks.
+import GppVerify.StandardModel.PatiSalamHypercharge
+
 -- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
 import GppVerify.CelestialHolography.MassCircleFolding
