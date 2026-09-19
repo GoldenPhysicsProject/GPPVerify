@@ -1567,5 +1567,9 @@ import GppVerify.StandardModel.Spin62BLFiniteCore
 -- v18: exact Pati-Salam singlet/doublet hypercharge reconstruction and Yukawa charge checks.
 import GppVerify.StandardModel.PatiSalamHypercharge
 
+-- Relative-orientation half flips versus exact Abelian charge conservation;
+-- particle-antiparticle pair creation preserves net charge.
+import GppVerify.StandardModel.OrientationPairProduction
+
 -- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
 import GppVerify.CelestialHolography.MassCircleFolding
