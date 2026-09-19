@@ -1560,3 +1560,9 @@ import GppVerify.StandardModel.SpinCOrientationQuotient
 -- Moving normal-plane frame: parent canonical one-form produces minimal U(1)
 -- coupling, with conditional zitter/Compton scale algebra.
 import GppVerify.CelestialHolography.TransverseNormalConnection
+
+-- v17: finite core of the Spin(6,2) four-lift / SU(4) color-centralizer B-L algebra.
+import GppVerify.StandardModel.Spin62BLFiniteCore
+
+-- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
+import GppVerify.CelestialHolography.MassCircleFolding
