@@ -1571,5 +1571,9 @@ import GppVerify.StandardModel.PatiSalamHypercharge
 -- particle-antiparticle pair creation preserves net charge.
 import GppVerify.StandardModel.OrientationPairProduction
 
+-- Exact finite intertwiner from the diagonal-even four-lift quotient to the
+-- charged CAR one-particle particle/antiparticle sector.
+import GppVerify.StandardModel.OrientationCARBridge
+
 -- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
 import GppVerify.CelestialHolography.MassCircleFolding
