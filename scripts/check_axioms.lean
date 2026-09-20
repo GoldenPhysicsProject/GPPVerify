@@ -148,6 +148,10 @@ import GppVerify
 #print axioms GppDigamma.digamma_one_half
 #print axioms GppDigamma.digamma_nat_add_one
 #print axioms GppDigamma.digamma_add_one
+#print axioms GppFirstMoment.exp_div_one_sub_exp_eq
+#print axioms GppFirstMoment.collapse
+#print axioms GppFirstMoment.integral_tanh_mul_sech_sq
+#print axioms GppFirstMoment.remainder_integral_eq_one_eighth
 
 -- Positive Gamma--Plancherel defect (v34, Theorem 62.1). Expected: Lean built-ins only.
 -- The arbitrary-real digamma integral representation is deliberately not asserted;

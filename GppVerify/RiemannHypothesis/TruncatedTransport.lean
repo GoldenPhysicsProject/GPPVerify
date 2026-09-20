@@ -40,14 +40,15 @@ open and named.
 namespace GppTransport
 
 open Finset
+open scoped ComplexOrder
 
 /-- Positive-type on an arbitrary additive commutative group: every finite Gram matrix
     `[P(x_i - x_j)]` is PSD. On `R` this is definitionally
     `GppHaarPositivityWeil.PositiveType`. -/
 def PositiveTypeOn {G : Type*} [AddCommGroup G] (P : G → ℝ) : Prop :=
   ∀ (n : ℕ) (x : Fin n → G) (c : Fin n → ℂ),
-    0 ≤ (∑ i : Fin n, ∑ j : Fin n,
-          (starRingEnd ℂ (c i)) * c j * (P (x i - x j) : ℂ)).re
+    0 ≤ ∑ i : Fin n, ∑ j : Fin n,
+          (starRingEnd ℂ (c i)) * c j * (P (x i - x j) : ℂ)
 
 /-- On `R` the group-level notion coincides definitionally with the repo's
     `PositiveType`. -/

@@ -1,4 +1,5 @@
 import GppVerify.RiemannHypothesis.AdelicL2
+import GppVerify.RHSpectralMultiplicity
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 
 /-!
@@ -42,7 +43,7 @@ def fePartner (rho : ℂ) : ℂ := 1 - (starRingEnd ℂ) rho
 /-- `ρ ↦ 1 - ρ̄` is an involution — the reason "symmetric under the functional equation"
     is a condition on unordered *pairs* of zeros. -/
 lemma fePartner_involutive (rho : ℂ) : fePartner (fePartner rho) = rho := by
-  simp only [fePartner, map_sub, map_one, RingHom.id_apply, Complex.conj_conj]
+  simp only [fePartner, map_sub, map_one, Complex.conj_conj]
   ring
 
 /-- The partner map's fixed points are exactly the critical line `Re ρ = 1/2`. This is
@@ -98,9 +99,32 @@ lemma open_spectral_sum_well_defined : True := trivial
     like a statement about a complex number, and it was not one. -/
 lemma open_digamma_series_form : True := trivial
 
-/-- Shadow symmetry of the spectral sum: if ρ is a zero, so is 1-ρ̄
-    (already proved: zeta_zero_implies_companion_zero). -/
-lemma open_spectral_sum_fe_symmetric : True := trivial
+/-- **Shadow symmetry of the spectral sum.** If `ρ` is a zero of `ζ` in the critical strip
+    then so is its functional-equation partner `fePartner ρ = 1 - ρ̄`.
+
+    Retired the stub `open_spectral_sum_fe_symmetric` here on 2026-09-03. Its own docstring
+    read "already proved: zeta_zero_implies_companion_zero" — so it was parked as an open
+    result while the statement it stood for was proved one file away, and the stub census
+    counted it against the tree for nothing. A stub whose docstring names its own proof is
+    not an open problem; it is a missing import.
+
+    Stated on the strip rather than carrying the side conditions `ρ ≠ -n` and `ρ ≠ 1` that
+    `GppRH.zeta_zero_implies_companion_zero` needs: both follow from `0 < Re ρ < 1`, and the
+    spectral sum of Weil's explicit formula ranges over exactly the non-trivial zeros, so the
+    strip is the domain this statement is actually used on. -/
+theorem fePartner_zero_of_strip (rho : ℂ) (hzero : riemannZeta rho = 0)
+    (hstrip : 0 < rho.re ∧ rho.re < 1) :
+    riemannZeta (fePartner rho) = 0 := by
+  simp only [fePartner]
+  refine GppRH.zeta_zero_implies_companion_zero rho hzero ?_ ?_
+  · intro n heq
+    have hre : rho.re = (-(n : ℂ)).re := congrArg Complex.re heq
+    simp at hre
+    linarith [hstrip.1]
+  · intro heq
+    have hre : rho.re = (1 : ℂ).re := congrArg Complex.re heq
+    simp at hre
+    linarith [hstrip.2]
 
 -- ============================================================
 -- §2  Infrastructure axioms

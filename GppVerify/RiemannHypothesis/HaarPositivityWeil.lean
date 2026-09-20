@@ -34,7 +34,7 @@ Weil's criterion (≡ RH) is axiomatized; proving it unconditionally requires
 Tate's thesis + adèlic Fourier theory (Mathlib gaps).
 -/
 
-open scoped InnerProductSpace
+open scoped InnerProductSpace ComplexOrder
 
 namespace GppHaarPositivityWeil
 
@@ -43,8 +43,119 @@ namespace GppHaarPositivityWeil
 /-- A function P: ℝ → ℝ is positive-type if the matrices [P(x_i - x_j)] are PSD -/
 def PositiveType (P : ℝ → ℝ) : Prop :=
   ∀ (n : ℕ) (x : Fin n → ℝ) (c : Fin n → ℂ),
+    0 ≤ ∑ i : Fin n, ∑ j : Fin n,
+          (starRingEnd ℂ (c i)) * c j * (P (x i - x j) : ℂ)
+
+/-- A real **symmetric** Gram matrix gives a Hermitian form, so its value is real.
+
+    This is the content the old `.re`-taking definition threw away. Without it,
+    `0 ≤ (∑ ...).re` constrains only the symmetrised matrix — equivalently, only
+    the *even part* of `P` — and says nothing about the odd part. -/
+theorem sum_conj_mul_symm_im_zero {n : ℕ} (c : Fin n → ℂ) (a : Fin n → Fin n → ℝ)
+    (hsymm : ∀ i j, a i j = a j i) :
+    (∑ i : Fin n, ∑ j : Fin n, (starRingEnd ℂ) (c i) * c j * ((a i j : ℝ) : ℂ)).im = 0 := by
+  set z : ℂ := ∑ i : Fin n, ∑ j : Fin n, (starRingEnd ℂ) (c i) * c j * ((a i j : ℝ) : ℂ) with hz
+  have hconj : (starRingEnd ℂ) z = z := by
+    rw [hz]
+    simp only [map_sum, map_mul, Complex.conj_conj, Complex.conj_ofReal]
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl (fun i _ => Finset.sum_congr rfl (fun j _ => ?_))
+    rw [hsymm j i]
+    ring
+  exact Complex.conj_eq_iff_im.mp hconj
+
+/-- **Migration route, and the exact content of the strengthening.**
+
+    Until 2026-09-05 `PositiveType` read `0 ≤ (∑ ...).re`. Taking the real part
+    symmetrises the Gram matrix, so that condition is equivalent to "the even
+    part of `P` is positive-type" and imposes nothing on the odd part. It
+    therefore admitted functions that are not positive-type in any standard
+    sense — `fun x => x` satisfies it (the form is purely imaginary), while
+    `|P 1| = 1 > 0 = P 0` violates the bound every genuine positive-type
+    function obeys.
+
+    This lemma says the new definition is exactly the old one plus evenness, and
+    it is how the existing `.re`-shaped proofs were migrated: supply the
+    evenness of `P`, keep the original real-part argument unchanged. -/
+theorem positiveType_of_even_of_re {P : ℝ → ℝ} (heven : ∀ x, P (-x) = P x)
+    (hre : ∀ (n : ℕ) (x : Fin n → ℝ) (c : Fin n → ℂ),
+      0 ≤ (∑ i : Fin n, ∑ j : Fin n,
+            (starRingEnd ℂ (c i)) * c j * (P (x i - x j) : ℂ)).re) :
+    PositiveType P := by
+  intro n x c
+  refine RCLike.nonneg_iff.mpr ⟨hre n x c, ?_⟩
+  exact sum_conj_mul_symm_im_zero c (fun i j => P (x i - x j))
+    (fun i j => by rw [← heven (x i - x j), neg_sub])
+
+/-- **A positive-type function is even** — the property the old definition could
+    not prove, and the reason it was strictly too weak.
+
+    Take the two-point configuration `x = (0, t)` with test vector `c = (1, i)`.
+    The form is `2·P 0 + i·(P (-t) - P t)`, whose imaginary part is
+    `P (-t) - P t`. Nonnegativity in `ℂ` forces that to vanish.
+
+    Under the pre-2026-09-05 definition, which required only `0 ≤ (…).re`, this
+    imaginary part was discarded and the conclusion was unavailable — indeed
+    false, since `fun x => x` satisfied that definition. -/
+theorem PositiveType.even {P : ℝ → ℝ} (hP : PositiveType P) (t : ℝ) : P (-t) = P t := by
+  have h := hP 2 ![0, t] ![1, Complex.I]
+  have him : (∑ i : Fin 2, ∑ j : Fin 2,
+      (starRingEnd ℂ) (![(1 : ℂ), Complex.I] i) * ![(1 : ℂ), Complex.I] j *
+        ((P (![(0 : ℝ), t] i - ![(0 : ℝ), t] j) : ℝ) : ℂ)).im = 0 :=
+    (RCLike.nonneg_iff.mp h).2
+  simp [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one,
+    Complex.add_im, Complex.mul_im, Complex.I_re, Complex.I_im, sub_zero, zero_sub] at him
+  linarith [him]
+
+/-- **The strengthening is strict, and here is the witness.**
+
+    `fun x => x` satisfies the *old* condition — nonnegativity of the real part
+    alone — because its quadratic form is purely imaginary:
+
+      `∑ᵢⱼ conj(cᵢ) cⱼ (xᵢ - xⱼ) = z - conj z` for `z = (∑ᵢ conj(cᵢ) xᵢ)(∑ⱼ cⱼ)`,
+
+    which has real part `0`. Taking `.re` symmetrises the Gram matrix, so the old
+    condition constrained only the *even part* of `P` and said nothing at all
+    about the odd part.
+
+    Paired with `not_positiveType_id` below, this shows the old definition
+    admitted a function that is not positive-type in any standard sense: `id`
+    violates `|P x| ≤ P 0`, since `|P 1| = 1 > 0 = P 0`. -/
+theorem re_condition_holds_for_id (n : ℕ) (x : Fin n → ℝ) (c : Fin n → ℂ) :
     0 ≤ (∑ i : Fin n, ∑ j : Fin n,
-          (starRingEnd ℂ (c i)) * c j * (P (x i - x j) : ℂ)).re
+          (starRingEnd ℂ (c i)) * c j * (((fun y : ℝ => y) (x i - x j) : ℝ) : ℂ)).re := by
+  have termwise : ∀ i j : Fin n,
+      (starRingEnd ℂ) (c i) * c j * (((x i - x j : ℝ)) : ℂ)
+        = ((starRingEnd ℂ) (c i) * ((x i : ℝ) : ℂ)) * c j
+          - (starRingEnd ℂ) (c i) * (c j * ((x j : ℝ) : ℂ)) := by
+    intro i j; push_cast; ring
+  have expand :
+      (∑ i : Fin n, ∑ j : Fin n,
+        (starRingEnd ℂ) (c i) * c j * (((fun y : ℝ => y) (x i - x j) : ℝ) : ℂ))
+        = (∑ i : Fin n, (starRingEnd ℂ) (c i) * ((x i : ℝ) : ℂ)) * (∑ j : Fin n, c j)
+          - (∑ i : Fin n, (starRingEnd ℂ) (c i)) * (∑ j : Fin n, c j * ((x j : ℝ) : ℂ)) := by
+    rw [Finset.sum_mul, Finset.sum_mul, ← Finset.sum_sub_distrib]
+    refine Finset.sum_congr rfl (fun i _ => ?_)
+    rw [Finset.mul_sum, Finset.mul_sum, ← Finset.sum_sub_distrib]
+    exact Finset.sum_congr rfl (fun j _ => termwise i j)
+  rw [expand]
+  have hconj : (∑ i : Fin n, (starRingEnd ℂ) (c i)) * (∑ j : Fin n, c j * ((x j : ℝ) : ℂ))
+      = (starRingEnd ℂ) ((∑ i : Fin n, (starRingEnd ℂ) (c i) * ((x i : ℝ) : ℂ))
+          * (∑ j : Fin n, c j)) := by
+    simp only [map_mul, map_sum, Complex.conj_conj, Complex.conj_ofReal]
+    ring
+  rw [hconj]
+  simp
+
+/-- `id` is **not** positive-type under the current definition — immediately, since
+    positive-type functions are even and `-1 ≠ 1`.
+
+    Together with `re_condition_holds_for_id`, this is the proof that dropping
+    `.re` strictly strengthened the definition rather than merely restating it. -/
+theorem not_positiveType_id : ¬ PositiveType (fun y : ℝ => y) := by
+  intro h
+  have := h.even 1
+  norm_num at this
 
 /-- The constant function 1 is positive-type -/
 theorem const_one_positive_type : PositiveType (fun _ => (1 : ℝ)) := by
@@ -55,8 +166,8 @@ theorem const_one_positive_type : PositiveType (fun _ => (1 : ℝ)) := by
       starRingEnd ℂ (∑ i : Fin n, c i) * (∑ i : Fin n, c i) := by
     rw [map_sum, Finset.sum_mul]
     simp_rw [Finset.mul_sum]
-  rw [key, mul_comm, Complex.mul_conj, Complex.ofReal_re]
-  exact Complex.normSq_nonneg _
+  rw [key, mul_comm, Complex.mul_conj]
+  exact Complex.zero_le_real.mpr (Complex.normSq_nonneg _)
 
 /-- P(0) ≥ 0 for any positive-type function -/
 theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 0 := by

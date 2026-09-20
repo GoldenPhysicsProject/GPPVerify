@@ -16,6 +16,8 @@ The infinite `tsum` passage is deliberately kept separate.
 
 namespace GppVonMangoldtCosine
 
+open scoped ComplexOrder
+
 open Complex LSeries
 open ArithmeticFunction
 open GppGlobalVonMangoldt
@@ -93,7 +95,8 @@ theorem neg_zeta_logDeriv_re_eq_vonMangoldt_cosine_tsum
 of the cosine and sine Gram squares by `cos(A-B)`. -/
 theorem cosine_frequency_positiveType (freq : ℝ) :
     PositiveType (fun t : ℝ => Real.cos (freq * t)) := by
-  intro n x c
+  -- `cos (freq * (-t)) = cos (-(freq * t)) = cos (freq * t)`.
+  refine positiveType_of_even_of_re (fun t => by rw [mul_neg, Real.cos_neg]) (fun n x c => ?_)
   rw [Complex.re_sum]
   have hterm : ∀ i : Fin n,
       (∑ j : Fin n, (starRingEnd ℂ) (c i) * c j *
@@ -124,8 +127,9 @@ theorem cosine_frequency_positiveType (freq : ℝ) :
 theorem positiveType_nonneg_scalar {f : ℝ → ℝ}
     (hf : PositiveType f) {r : ℝ} (hr : 0 ≤ r) :
     PositiveType (fun t => r * f t) := by
-  intro n x c
-  have h := hf n x c
+  -- Evenness of `r * f` reduces to evenness of `f`, which `hf.even` supplies.
+  refine positiveType_of_even_of_re (fun t => by rw [hf.even t]) (fun n x c => ?_)
+  have h := (RCLike.nonneg_iff.mp (hf n x c)).1
   let S : ℂ := ∑ i : Fin n, ∑ j : Fin n,
     (starRingEnd ℂ (c i)) * c j * (f (x i - x j) : ℂ)
   have hS : 0 ≤ S.re := by
@@ -194,7 +198,14 @@ theorem positiveType_of_pointwise_tendsto
     (hP : ∀ N, PositiveType (P N))
     (hlim : ∀ t, Filter.Tendsto (fun N => P N t) Filter.atTop (nhds (Q t))) :
     PositiveType Q := by
-  intro n x c
+  -- `Q` inherits evenness from the approximants: each `P N` is even by
+  -- `PositiveType.even`, so the two limits `Q (-t)` and `Q t` are limits of the
+  -- same sequence and coincide.
+  refine positiveType_of_even_of_re (fun t => ?_) (fun n x c => ?_)
+  · have hEq : (fun N => P N (-t)) = fun N => P N t := funext fun N => (hP N).even t
+    have h1 := hlim (-t)
+    rw [hEq] at h1
+    exact tendsto_nhds_unique h1 (hlim t)
   have hTendstoSum : Filter.Tendsto
       (fun N : ℕ => ∑ i : Fin n, ∑ j : Fin n,
         (starRingEnd ℂ (c i)) * c j * (P N (x i - x j) : ℂ))
@@ -211,7 +222,8 @@ theorem positiveType_of_pointwise_tendsto
   have hNonneg : ∀ᶠ N in Filter.atTop,
       0 ≤ (∑ i : Fin n, ∑ j : Fin n,
         (starRingEnd ℂ (c i)) * c j * (P N (x i - x j) : ℂ)).re :=
-    Filter.Eventually.of_forall (fun N => hP N n x c)
+    Filter.Eventually.of_forall (fun N => by
+      simpa using (RCLike.nonneg_iff.mp (hP N n x c)).1)
   exact ge_of_tendsto
     (Complex.continuous_re.continuousAt.tendsto.comp hTendstoSum) hNonneg
 
