@@ -92,6 +92,21 @@ theorem criticalRealStructure_fixed_iff (nu : ℂ) :
     · simp [criticalRealStructure, hre]
     · simp [criticalRealStructure]
 
+/-- The two centered half operations, linear shadow and coefficient conjugation,
+    coincide exactly on the critical real form.  This is the scalar arithmetic analogue
+    of the v21 finite theorem that the two half flips coincide on the D-fixed real form. -/
+theorem centered_shadow_eq_conj_iff_critical_real_form (nu : ℂ) :
+    centeredShadow nu = (starRingEnd ℂ) nu ↔ nu.re = 0 := by
+  constructor
+  · intro h
+    have hre := congrArg Complex.re h
+    simp [centeredShadow] at hre
+    linarith
+  · intro hre
+    apply Complex.ext
+    · simp [centeredShadow, hre]
+    · simp [centeredShadow]
+
 /-- In the original s-coordinate the fixed-locus reflection is s -> 1-conj(s). -/
 theorem centered_reflection_from_s (s : ℂ) :
     criticalRealStructure (s - (1/2 : ℂ)) =
@@ -130,4 +145,5 @@ end GppOrientationCriticalRealStructureBridge
 #print axioms GppOrientationCriticalRealStructureBridge.chi_on_physicalLift
 #print axioms GppOrientationCriticalRealStructureBridge.Iq_real_form_decomposition
 #print axioms GppOrientationCriticalRealStructureBridge.criticalRealStructure_fixed_iff
+#print axioms GppOrientationCriticalRealStructureBridge.centered_shadow_eq_conj_iff_critical_real_form
 #print axioms GppOrientationCriticalRealStructureBridge.s_fixed_iff_critical
