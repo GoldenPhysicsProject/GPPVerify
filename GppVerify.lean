@@ -1583,3 +1583,7 @@ import GppVerify.StandardModel.Spin102ChiralRealityCore
 
 -- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
 import GppVerify.CelestialHolography.MassCircleFolding
+
+
+-- v20: finite q,t and orientation-covariant entropy-rate sign core.
+import GppVerify.StandardModel.OrientationCovariantSecondLaw
