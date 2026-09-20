@@ -1,44 +1,34 @@
 import Mathlib.Tactic
 
 /-!
-# Four microscopic orientation lifts and the diagonal gauge projection
+# Four microscopic orientation lifts and the diagonal fixed carrier
 
-This file tests the strongest version of the current idea without assuming a second
-macroscopic universe.  Begin with four kinematic orientation labels
+This file contains the linear four-label algebra
 
     ++, +-, -+, --
 
-represented as amplitudes `(a,b,c,d)` in that order.  There are two independent half-flip
-permutations:
+represented by amplitudes `(a,b,c,d)`.  The two independent half flips reverse
+the microscopic q and t labels, their product is the simultaneous reversal `D`,
+and the relational grading is `χ=q*t`.
 
-* `C`: flip the microscopic gauge/charge orientation;
-* `Tmicro`: flip the microscopic temporal orientation.
-
-Their product is the simultaneous diagonal reversal `D`.  The relational matter character
-`χ=q*t` is represented by the grading
-
-    χ(a,b,c,d) = (a,-b,-c,d).
-
-If `D` is imposed as a gauge/deck identification, physical vectors satisfy `D psi = psi`.
-Exactly and exhaustively such vectors are
+The fixed space of `D` is exactly
 
     (a,b,b,a),
 
-a two-complex-dimensional subspace.  It has the natural basis
+a two-complex-dimensional subspace for the ordinary ambient scalar structure.
+The finite identities below are interpretation-neutral: they prove the fixed
+subspace and the action of χ and the two half flips.
 
-    matter     ~ |++> + |-->,
-    antimatter ~ |+-> + |-+>,
+A later refinement, `OrientationComplexStructureDoubleCover.lean` together with
+`OrientationCriticalRealStructureBridge.lean`, shows that when the underlying
+real carrier is equipped with the microscopic complex structure `I_q`, `D`
+anticommutes with `I_q` and is therefore an involutive REAL STRUCTURE.  Thus this
+file's historical name should not be read as a claim that `D` is a finite
+physical gauge group.  The label-space Haar average remains valid finite
+representation theory, while the Hilbert-carrier fixed set is more naturally
+interpreted as the real form of `D`.
 
-with `χ=+1` and `χ=-1` respectively.  Thus a four-lift kinematic doubling can reduce to
-exactly two physical relational sectors without adding particle species.
-
-Crucially, the bare `q` and bare microscopic `t` sign operators are odd under `D`; their
-product `χ` is even.  If `D` is genuinely gauge, this says bare q/t are not separately
-physical observables on the constrained sector, while their alignment is.
-
-This is finite exact algebra.  The physical step still to prove is that the relevant
-spin/gauge/CPT structure of the field theory really realizes `D` as a redundancy or
-constraint rather than merely as a global symmetry.
+The bare q and t sign operators are odd under `D`; their product χ is even.
 -/
 
 namespace GppFourOrientationGaugeProjection
@@ -108,16 +98,16 @@ theorem diag_commutes_chi (v : Orientation4) :
   rcases v with ⟨a,b,c,d⟩
   simp [diagReverse, chi]
 
-/-- Canonical parameterization of the diagonal-even/physical candidate subspace. -/
+/-- Canonical parameterization of the diagonal-fixed candidate subspace. -/
 def physicalLift (matter antimatter : ℂ) : Orientation4 :=
   (matter, antimatter, antimatter, matter)
 
-/-- Every canonical physical lift is diagonal-even. -/
+/-- Every canonical paired lift is diagonal-fixed. -/
 theorem physicalLift_diag_even (a b : ℂ) :
     diagReverse (physicalLift a b) = physicalLift a b := by
   rfl
 
-/-- Conversely every diagonal-even vector has exactly this paired form. -/
+/-- Conversely every diagonal-fixed vector has exactly this paired form. -/
 theorem diag_even_has_paired_form (v : Orientation4)
     (h : diagReverse v = v) :
     ∃ a b : ℂ, v = physicalLift a b := by
@@ -133,7 +123,7 @@ theorem diag_even_has_paired_form (v : Orientation4)
 def matterLift : Orientation4 := (1,0,0,1)
 def antimatterLift : Orientation4 := (0,1,1,0)
 
-/-- Both relational sectors are diagonal-even. -/
+/-- Both relational sectors are diagonal-fixed. -/
 theorem basis_lifts_diag_even :
     diagReverse matterLift = matterLift ∧
     diagReverse antimatterLift = antimatterLift := by
@@ -141,7 +131,7 @@ theorem basis_lifts_diag_even :
 
 /-- `χ` assigns matter eigenvalue +1. -/
 theorem chi_matter : chi matterLift = matterLift := by
-  rfl
+  norm_num [chi, matterLift]
 
 /-- `χ` assigns antimatter eigenvalue -1. -/
 theorem chi_antimatter : chi antimatterLift = -antimatterLift := by
@@ -159,27 +149,26 @@ theorem half_flips_antimatter_to_matter :
     temporalFlip antimatterLift = matterLift := by
   exact ⟨rfl,rfl⟩
 
-/-- A bare q measurement takes a diagonal-even vector to a diagonal-odd vector. -/
+/-- The bare q grading takes a diagonal-fixed vector to the diagonal-odd complement. -/
 theorem bareQ_maps_even_to_odd (v : Orientation4)
     (h : diagReverse v = v) :
     diagReverse (bareQ v) = - bareQ v := by
   rw [diag_anticommutes_bareQ, h]
 
-/-- The same is true of the bare microscopic temporal sign. -/
+/-- The same is true of the bare microscopic temporal grading. -/
 theorem bareT_maps_even_to_odd (v : Orientation4)
     (h : diagReverse v = v) :
     diagReverse (bareT v) = - bareT v := by
   rw [diag_anticommutes_bareT, h]
 
-/-- In contrast the relational character preserves the diagonal-even physical candidate
-subspace. -/
+/-- In contrast the relational character preserves the diagonal-fixed subspace. -/
 theorem chi_preserves_even (v : Orientation4)
     (h : diagReverse v = v) :
     diagReverse (chi v) = chi v := by
   rw [diag_commutes_chi, h]
 
-/-- Capstone: imposing the diagonal constraint leaves exactly two amplitudes, and `χ`
-acts on those as the ordinary matter/antimatter sign. -/
+/-- Capstone: restriction to the diagonal fixed carrier leaves exactly two amplitudes, and `χ`
+acts on those as the ordinary relational matter/antimatter sign. -/
 theorem physical_sector_capstone (v : Orientation4)
     (h : diagReverse v = v) :
     ∃ a b : ℂ,
