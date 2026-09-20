@@ -1575,5 +1575,11 @@ import GppVerify.StandardModel.OrientationPairProduction
 -- charged CAR one-particle particle/antiparticle sector.
 import GppVerify.StandardModel.OrientationCARBridge
 
+-- v19: parity exchanges weak/chiral factors rather than adding a third q,t sign.
+import GppVerify.StandardModel.ParityExchangeOrientationSeparation
+
+-- v19: finite aligned/anti-aligned and Majorana-Weyl reality-pair core for the Spin(10,2) completion.
+import GppVerify.StandardModel.Spin102ChiralRealityCore
+
 -- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
 import GppVerify.CelestialHolography.MassCircleFolding
