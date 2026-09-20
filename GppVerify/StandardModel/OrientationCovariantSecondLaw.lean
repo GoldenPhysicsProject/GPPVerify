@@ -62,7 +62,8 @@ theorem paired_oriented_rates_equal (r : ℝ) :
 theorem paired_oriented_average (r : ℝ) :
     (orientedEntropyRate (1 : ℝ) r +
       orientedEntropyRate (-1 : ℝ) (-r)) / 2 = r := by
-  simp [orientedEntropyRate]
+  unfold orientedEntropyRate
+  ring
 
 /-- If the positive lift has nonnegative coordinate entropy rate, both lifts
 have nonnegative entropy production in their own future orientation. -/
@@ -78,8 +79,10 @@ theorem time_symmetric_entropy_sign_capstone {r : ℝ} (hr : 0 ≤ r) :
       orientedEntropyRate (-1 : ℝ) (-r) ∧
     0 ≤ orientedEntropyRate (1 : ℝ) r ∧
     0 ≤ orientedEntropyRate (-1 : ℝ) (-r) := by
-  refine ⟨paired_coordinate_rates_cancel r,
-    paired_oriented_rates_equal r, ?_⟩
-  exact paired_second_law hr
+  constructor
+  · exact paired_coordinate_rates_cancel r
+  constructor
+  · exact paired_oriented_rates_equal r
+  · exact paired_second_law hr
 
 end GppOrientationCovariantSecondLaw
