@@ -84,6 +84,61 @@ theorem negative_witness_of_one_lt_norm
 
 end GppReflectionPositiveGraph
 
+
+/-! ## Abstract normed-space graph theorem -/
+
+section AbstractGraph
+
+variable {H K : Type*} [SeminormedAddCommGroup H] [SeminormedAddCommGroup K]
+
+/-- The abstract fundamental-symmetry graph form, written in norm coordinates. -/
+def abstractGraphJForm (C : H → K) (x : H) : ℝ :=
+  ‖x‖^2 - ‖C x‖^2
+
+/--
+For any map between seminormed additive groups, nonnegativity of the graph J-form is
+exactly pointwise contractivity.  Linearity is not needed for this equivalence.
+-/
+theorem abstract_graph_nonnegative_iff_contractive (C : H → K) :
+    (∀ x : H, 0 ≤ abstractGraphJForm C x) ↔
+      (∀ x : H, ‖C x‖ ≤ ‖x‖) := by
+  constructor
+  · intro h x
+    have hx := h x
+    have hnx : 0 ≤ ‖x‖ := norm_nonneg x
+    have hnc : 0 ≤ ‖C x‖ := norm_nonneg (C x)
+    dsimp [abstractGraphJForm] at hx
+    nlinarith
+  · intro h x
+    have hc := h x
+    have hnx : 0 ≤ ‖x‖ := norm_nonneg x
+    have hnc : 0 ≤ ‖C x‖ := norm_nonneg (C x)
+    dsimp [abstractGraphJForm]
+    nlinarith
+
+/-- Failure of contractivity is exactly an explicit negative graph direction. -/
+theorem abstract_negative_graph_witness_iff
+    (C : H → K) :
+    (∃ x : H, abstractGraphJForm C x < 0) ↔
+      (∃ x : H, ‖x‖ < ‖C x‖) := by
+  constructor
+  · rintro ⟨x,hx⟩
+    refine ⟨x,?_⟩
+    have hnx : 0 ≤ ‖x‖ := norm_nonneg x
+    have hnc : 0 ≤ ‖C x‖ := norm_nonneg (C x)
+    dsimp [abstractGraphJForm] at hx
+    nlinarith
+  · rintro ⟨x,hx⟩
+    refine ⟨x,?_⟩
+    have hnx : 0 ≤ ‖x‖ := norm_nonneg x
+    have hnc : 0 ≤ ‖C x‖ := norm_nonneg (C x)
+    dsimp [abstractGraphJForm]
+    nlinarith
+
+end AbstractGraph
+
 #print axioms GppReflectionPositiveGraph.graphJForm_factor
+#print axioms GppReflectionPositiveGraph.abstract_graph_nonnegative_iff_contractive
+#print axioms GppReflectionPositiveGraph.abstract_negative_graph_witness_iff
 #print axioms GppReflectionPositiveGraph.graph_nonnegative_iff_contractive
 #print axioms GppReflectionPositiveGraph.negative_witness_of_one_lt_norm
