@@ -1,6 +1,7 @@
 import Mathlib.Tactic
 import GppVerify.StandardModel.OrientationComplexStructureDoubleCover
 import GppVerify.RiemannHypothesis.L2Constraint
+import GppVerify.RiemannHypothesis.CayleyShadowAdjointBridge
 
 /-!
 # Orientation real structure and the centered critical-line reflection
@@ -104,11 +105,16 @@ theorem s_fixed_iff_critical (s : ℂ) :
   constructor
   · intro h
     have hs : (starRingEnd ℂ) s = 1 - s := by
-      linear_combination -h
+      calc
+        (starRingEnd ℂ) s = 1 - (1 - (starRingEnd ℂ) s) := by ring
+        _ = 1 - s := by rw [h]
     exact GppL2.conj_eq_shadow_iff_critical s hs
-  · intro h
-    have hs := GppCayleyShadowAdjointBridge.conj_eq_shadow_of_critical s h
-    linear_combination -hs
+  · intro hcrit
+    have hs : (starRingEnd ℂ) s = 1 - s :=
+      GppCayleyShadowAdjointBridge.conj_eq_shadow_of_critical s hcrit
+    calc
+      1 - (starRingEnd ℂ) s = 1 - (1 - s) := by rw [hs]
+      _ = s := by ring
 
 /-- On the critical line the anti-linear reflection fixes the point, while bare shadow
     reverses the spectral coordinate. -/
