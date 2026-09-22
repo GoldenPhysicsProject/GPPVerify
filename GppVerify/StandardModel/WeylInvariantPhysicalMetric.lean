@@ -52,7 +52,6 @@ theorem physical_metric_Weyl_invariant
     physicalMetricComponent phi g := by
   simp [physicalMetricComponent, rescaledScaleField, rescaledMetricComponent]
   field_simp [hO]
-  ring
 
 /-- At the scale-symmetric point the physical metric component vanishes for every conformal
     representative. -/
@@ -86,7 +85,6 @@ theorem physical_tetrad_Weyl_invariant
     physicalTetradComponent phi e := by
   simp [physicalTetradComponent, rescaledScaleField, rescaledTetradComponent]
   field_simp [hO]
-  ring
 
 /-- The same scale-field sign is invisible to the metric but visible to the oriented physical
     tetrad. -/
