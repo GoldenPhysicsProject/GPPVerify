@@ -46,6 +46,8 @@ curved local-twistor connection is external differential geometry.
 
 namespace GppPenroseLocalTwistorEinsteinQuotient
 
+noncomputable section
+
 open Complex
 
 /-- Adapted components `(x,y,p,q)` of a local twistor along a null ray. -/
