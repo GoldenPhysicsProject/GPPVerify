@@ -33,6 +33,8 @@ postulate it.
 
 namespace GppRelationalU1GaugeRepresentation
 
+noncomputable section
+
 open GppFourOrientationGaugeProjection
 
 /-- Relational U(1)/C* action on the four kinematic orientation lifts. -/
@@ -50,16 +52,7 @@ theorem relationalScale_mul (z w : ℂ) (v : Orientation4) :
     relationalScale z (relationalScale w v) =
       relationalScale (z*w) v := by
   rcases v with ⟨a,b,c,d⟩
-  simp [relationalScale, mul_assoc]
-  constructor
-  · ring
-  · constructor
-    · rw [mul_inv_rev]
-      ring
-    · constructor
-      · rw [mul_inv_rev]
-        ring
-      · ring
+  simp [relationalScale, mul_assoc, mul_comm, mul_left_comm]
 
 /-- The relational gauge action commutes with simultaneous microscopic reversal. -/
 theorem relationalScale_commutes_diag (z : ℂ) (v : Orientation4) :
