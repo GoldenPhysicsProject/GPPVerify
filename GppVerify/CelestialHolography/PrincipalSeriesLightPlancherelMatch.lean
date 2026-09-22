@@ -28,18 +28,18 @@ that the Gamma-function evaluation of either normalization has been formalized h
 namespace GppPrincipalSeriesLightPlancherelMatch
 
 /-- Real hyperbolic cotangent, defined on the nose as reciprocal tanh. -/
-def coth (x : ℝ) : ℝ := 1 / Real.tanh x
+noncomputable def coth (x : ℝ) : ℝ := 1 / Real.tanh x
 
 /-- Even `Z2` principal-series/light density. -/
-def evenLightDensity (lambda : ℝ) : ℝ :=
+noncomputable def evenLightDensity (lambda : ℝ) : ℝ :=
   lambda / (2 * Real.pi) * Real.tanh (Real.pi * lambda / 2)
 
 /-- Odd `Z2` principal-series/light density. -/
-def oddLightDensity (lambda : ℝ) : ℝ :=
+noncomputable def oddLightDensity (lambda : ℝ) : ℝ :=
   lambda / (2 * Real.pi) * coth (Real.pi * lambda / 2)
 
 /-- Closed form of the conical-block normalization squared. -/
-def conicalBlockNormSq (lambda : ℝ) : ℝ :=
+noncomputable def conicalBlockNormSq (lambda : ℝ) : ℝ :=
   2 * lambda / Real.pi * coth (Real.pi * lambda / 2)
 
 /-- Exact normalization match: the conical block carries four times the odd
