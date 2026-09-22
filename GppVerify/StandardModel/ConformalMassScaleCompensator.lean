@@ -53,7 +53,6 @@ theorem fixed_mass_breaks_constant_Weyl (Omega : ℝ) (hO : Omega ≠ 0) :
     fixedMassDensityScale Omega = Omega := by
   simp [fixedMassDensityScale]
   field_simp [hO]
-  ring
 
 /-- The scalar-compensated Yukawa density is Weyl neutral. -/
 theorem yukawa_compensator_restores_scale_invariance
