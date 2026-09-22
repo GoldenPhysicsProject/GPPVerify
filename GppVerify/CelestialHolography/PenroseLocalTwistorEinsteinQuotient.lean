@@ -56,7 +56,7 @@ structure RayLocalTwistor where
   y : ℂ
   p : ℂ
   q : ℂ
-  deriving Repr, DecidableEq
+  deriving DecidableEq
 
 /-- Coordinate generator of Penrose local-twistor transport in a parallel ray-adapted
 spin frame.  `U` is the null Schouten contraction `P(k,k)`; the other coefficients do
