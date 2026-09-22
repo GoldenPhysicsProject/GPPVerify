@@ -24,6 +24,8 @@ framework is additional physics.
 
 namespace GppHorizonOrientationDiagnostics
 
+noncomputable section
+
 /-- Schwarzschild lapse factor in units `c = 1`, with horizon radius `rs`. -/
 def lapse (rs r : ℝ) : ℝ := 1 - rs / r
 
