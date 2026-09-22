@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Notation
 import GppVerify.StandardModel.ChargedCAROrientationFock
 import GppVerify.StandardModel.ChargedCARComplexOrientationNoGo
 
