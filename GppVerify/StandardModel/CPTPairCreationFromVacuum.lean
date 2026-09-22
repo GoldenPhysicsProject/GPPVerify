@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!
 # CPT-paired matter creation from a neutral vacuum
