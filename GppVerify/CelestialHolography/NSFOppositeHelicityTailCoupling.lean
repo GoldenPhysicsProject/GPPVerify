@@ -57,7 +57,6 @@ theorem selected_fullSource_eq_mixedSource
     fullSource Z aPlus aMinus = mixedSource Z aPlus aMinus := by
   rcases hZ with ⟨hpp,hmm⟩
   simp [fullSource, mixedSource, hpp, hmm]
-  ring
 
 /-- If the positive-helicity annihilation sector is absent, the selected quadratic tail
 source vanishes. -/
