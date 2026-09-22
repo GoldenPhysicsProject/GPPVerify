@@ -4,8 +4,8 @@ import Mathlib.Tactic
 # CPT-paired sheets: conventional charge cancels, relational charge adds
 
 For a particle species choose a reference internal representation with signed charge scale
-`e`.  Let `c = +/-1` denote representation orientation (`R` versus `R*`) and let
-`t = +/-1` denote the microscopic/sheet temporal orientation relative to one external
+`e`.  Let `c = ±1` denote representation orientation (`R` versus `R*`) and let
+`t = ±1` denote the microscopic/sheet temporal orientation relative to one external
 bookkeeping convention.
 
 The conventional charge label on a fixed sheet is
