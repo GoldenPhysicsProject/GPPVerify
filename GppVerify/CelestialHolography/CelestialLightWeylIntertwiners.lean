@@ -27,6 +27,8 @@ exact weight/Weyl algebra; it does not formalize the analytic integral intertwin
 
 namespace GppCelestialLightWeylIntertwiners
 
+noncomputable section
+
 /-- Pair of chiral celestial weights `(h,hbar)`. -/
 abbrev WeightPair := ℂ × ℂ
 
