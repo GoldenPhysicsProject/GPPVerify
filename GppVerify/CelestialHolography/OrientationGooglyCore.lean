@@ -1,5 +1,4 @@
 import Mathlib.Tactic
-import Mathlib.LinearAlgebra.Basic
 import Mathlib.Data.Complex.Basic
 
 /-!
