@@ -27,6 +27,8 @@ resolution.
 
 namespace GppSplitSignatureGooglyFactorization
 
+noncomputable section
+
 structure LRLabel where
   h : ℂ
   hbar : ℂ
