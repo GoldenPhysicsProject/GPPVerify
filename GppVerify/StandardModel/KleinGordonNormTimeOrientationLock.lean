@@ -5,10 +5,10 @@ import Mathlib.Tactic
 
 For a complex Klein--Gordon plane wave with signed frequency
 
-    phi_eta(t) = exp(-i eta omega t),    eta = +/-1, omega > 0,
+    phi_eta(t) = exp(-i eta omega t),    eta = ±1, omega > 0,
 
 the conserved KG inner-product density on a Cauchy surface with oriented future normal
-sign `s=+/-1` is proportional to
+sign `s=±1` is proportional to
 
     N = 2 omega s eta.
 
