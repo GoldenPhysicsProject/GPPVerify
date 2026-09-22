@@ -16,6 +16,8 @@ modes can alter the determinant of the full kernel.
 
 namespace GppSingleOffLinePairLoewner
 
+noncomputable section
+
 /-- Positive-real-axis denominator for one conjugate folded pole pair. -/
 def pairDenom (a b u : ℝ) : ℝ := (u + a)^2 + b^2
 
