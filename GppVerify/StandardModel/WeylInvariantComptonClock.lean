@@ -31,6 +31,8 @@ was Weyl invariant or that the Standard-Model Higgs is the compensator.
 
 namespace GppWeylInvariantComptonClock
 
+noncomputable section
+
 /-- Weyl-rescaled proper-time/length increment for positive `Omega`. -/
 def rescaledInterval (Omega ds : ℝ) : ℝ := Omega * ds
 
