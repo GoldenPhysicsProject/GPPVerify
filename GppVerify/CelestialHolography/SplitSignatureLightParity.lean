@@ -50,12 +50,10 @@ theorem rightLight_preserves_parity (x : SplitLabel) :
 theorem leftLight_involutive (x : SplitLabel) : leftLight (leftLight x) = x := by
   cases x
   simp [leftLight]
-  ring
 
 theorem rightLight_involutive (x : SplitLabel) : rightLight (rightLight x) = x := by
   cases x
   simp [rightLight]
-  ring
 
 /-- The two chiral reflections commute. -/
 theorem left_right_commute (x : SplitLabel) :
@@ -74,7 +72,6 @@ theorem shadow_Delta_J (x : SplitLabel) :
     Delta (shadow x) = 2 - Delta x ∧ J (shadow x) = -J x := by
   cases x
   simp [Delta, J, shadow]
-  constructor <;> ring
 
 /-- Full shadow preserves the discrete sign-representation data. -/
 theorem shadow_preserves_parity (x : SplitLabel) :
