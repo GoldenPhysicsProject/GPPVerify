@@ -63,6 +63,27 @@ measure statement still requires the projective/correspondence theorem.
 
 namespace GppGrassmannianJacobian
 
+/-- Explicit 4×4 determinant expansion. Mathlib 4.33 provides determinant
+expansions through size three but no `det_fin_four`, so we keep the
+next Laplace case locally. -/
+private theorem det_fin_four {R : Type*} [CommRing R]
+    (M : Matrix (Fin 4) (Fin 4) R) :
+    M.det =
+      M 0 0 * (M 1 1 * (M 2 2 * M 3 3 - M 2 3 * M 3 2)
+          - M 1 2 * (M 2 1 * M 3 3 - M 2 3 * M 3 1)
+          + M 1 3 * (M 2 1 * M 3 2 - M 2 2 * M 3 1))
+    - M 0 1 * (M 1 0 * (M 2 2 * M 3 3 - M 2 3 * M 3 2)
+          - M 1 2 * (M 2 0 * M 3 3 - M 2 3 * M 3 0)
+          + M 1 3 * (M 2 0 * M 3 2 - M 2 2 * M 3 0))
+    + M 0 2 * (M 1 0 * (M 2 1 * M 3 3 - M 2 3 * M 3 1)
+          - M 1 1 * (M 2 0 * M 3 3 - M 2 3 * M 3 0)
+          + M 1 3 * (M 2 0 * M 3 1 - M 2 1 * M 3 0))
+    - M 0 3 * (M 1 0 * (M 2 1 * M 3 2 - M 2 2 * M 3 1)
+          - M 1 1 * (M 2 0 * M 3 2 - M 2 2 * M 3 0)
+          + M 1 2 * (M 2 0 * M 3 1 - M 2 1 * M 3 0)) := by
+  simp [Matrix.det_succ_row_zero, Fin.sum_univ_succ, Fin.succAbove]
+  ring
+
 /-- The Jacobian numerator matrix N(a,b,c,d): the Jacobian of the chart
     transition τ, cleared of its D² denominator (D = ad - bc). -/
 def N (a b c d : ℝ) : Matrix (Fin 4) (Fin 4) ℝ :=
