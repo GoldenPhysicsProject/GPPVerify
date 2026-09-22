@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!
 # Two-sheet paired state: finite thermofield-double orientation core
