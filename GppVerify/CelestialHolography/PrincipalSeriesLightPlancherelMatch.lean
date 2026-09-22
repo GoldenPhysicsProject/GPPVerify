@@ -56,6 +56,6 @@ theorem even_odd_closed_forms (lambda : ℝ) :
       lambda / (2 * Real.pi) * Real.tanh (Real.pi * lambda / 2) ∧
     oddLightDensity lambda =
       lambda / (2 * Real.pi) * coth (Real.pi * lambda / 2) := by
-  rfl
+  exact ⟨rfl, rfl⟩
 
 end GppPrincipalSeriesLightPlancherelMatch
