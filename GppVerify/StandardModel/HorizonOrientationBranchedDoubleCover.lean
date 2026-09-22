@@ -28,6 +28,8 @@ carrier on which such an identification can be tested.
 
 namespace GppHorizonOrientationBranchedDoubleCover
 
+noncomputable section
+
 /-- Black-mirror exterior radius in the analytic sigma coordinate. -/
 def mirrorRadius (m sigma : ℝ) : ℝ :=
   2*m + sigma^2/(8*m)
