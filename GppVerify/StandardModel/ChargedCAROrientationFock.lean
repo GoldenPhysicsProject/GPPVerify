@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!
 # Charged CAR positive-energy quantization: the finite two-mode orientation core
