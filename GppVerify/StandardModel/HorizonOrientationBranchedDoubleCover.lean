@@ -91,7 +91,6 @@ exactly, expressing zero odd/linear response under sheet exchange. -/
 theorem radial_odd_difference_zero (m sigma : ℝ) :
     mirrorRadius m sigma - mirrorRadius m (-sigma) = 0 := by
   simp [mirrorRadius]
-  ring
 
 /-- Exact secant slope against the horizon: for nonzero sigma,
     `(r(sigma)-r(0))/sigma = sigma/(8m)`, which tends to zero as the branch is approached. -/
