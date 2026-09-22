@@ -41,7 +41,6 @@ def sheetFlip (sigma : ℝ) : ℝ := -sigma
 theorem mirrorRadius_sheetFlip (m sigma : ℝ) :
     mirrorRadius m (sheetFlip sigma) = mirrorRadius m sigma := by
   simp [mirrorRadius, sheetFlip]
-  ring
 
 /-- The only fixed point of the sheet involution is the branch/horizon coordinate. -/
 theorem sheetFlip_fixed_iff (sigma : ℝ) :
@@ -55,12 +54,13 @@ theorem two_distinct_lifts_away_from_horizon (sigma : ℝ) (hs : sigma ≠ 0) :
 
 /-- At the horizon the two lifts coalesce. -/
 theorem sheets_coalesce_at_horizon : sheetFlip 0 = 0 := by
-  rfl
+  simp [sheetFlip]
 
 /-- Radial distance from the horizon is a square and therefore orientation-blind. -/
 theorem radius_minus_horizon (m sigma : ℝ) :
     mirrorRadius m sigma - 2*m = sigma^2/(8*m) := by
   simp [mirrorRadius]
+  ring
 
 /-- If m is positive, every point of the cover lies at or outside r=2m. -/
 theorem mirrorRadius_ge_horizon (m sigma : ℝ) (hm : 0 < m) :
@@ -79,7 +79,9 @@ theorem mirrorRadius_eq_horizon_iff (m sigma : ℝ) (hm : 0 < m) :
   constructor
   · intro h
     have hs : sigma^2/(8*m) = 0 := by linarith
-    have hs2 : sigma^2 = 0 := (div_eq_zero_iff).mp hs |>.1
+    have hs2 : sigma^2 = 0 := by
+      field_simp [hm0] at hs
+      exact hs
     exact sq_eq_zero_iff.mp hs2
   · rintro rfl
     simp
@@ -88,8 +90,8 @@ theorem mirrorRadius_eq_horizon_iff (m sigma : ℝ) (hm : 0 < m) :
 exactly, expressing zero odd/linear response under sheet exchange. -/
 theorem radial_odd_difference_zero (m sigma : ℝ) :
     mirrorRadius m sigma - mirrorRadius m (-sigma) = 0 := by
-  rw [mirrorRadius_sheetFlip]
-  rfl
+  simp [mirrorRadius]
+  ring
 
 /-- Exact secant slope against the horizon: for nonzero sigma,
     `(r(sigma)-r(0))/sigma = sigma/(8m)`, which tends to zero as the branch is approached. -/
@@ -98,7 +100,6 @@ theorem horizon_secant_slope
     (mirrorRadius m sigma - mirrorRadius m 0) / sigma = sigma/(8*m) := by
   simp [mirrorRadius]
   field_simp [hm, hs]
-  ring
 
 /-- The deck-invariant base coordinate is simply sigma squared. -/
 def baseSquare (sigma : ℝ) : ℝ := sigma^2
@@ -106,19 +107,10 @@ def baseSquare (sigma : ℝ) : ℝ := sigma^2
  theorem baseSquare_sheetFlip (sigma : ℝ) :
     baseSquare (sheetFlip sigma) = baseSquare sigma := by
   simp [baseSquare, sheetFlip]
-  ring
 
 /-- The fiber of the square map over a square consists exactly of the two sign lifts. -/
 theorem same_square_iff_pm (sigma tau : ℝ) :
     baseSquare tau = baseSquare sigma ↔ tau = sigma ∨ tau = -sigma := by
   simp [baseSquare]
-  constructor
-  · intro h
-    have hfac : (tau-sigma)*(tau+sigma)=0 := by
-      nlinarith
-    rcases mul_eq_zero.mp hfac with h1 | h2
-    · left; linarith
-    · right; linarith
-  · rintro (rfl | rfl) <;> ring
 
 end GppHorizonOrientationBranchedDoubleCover
