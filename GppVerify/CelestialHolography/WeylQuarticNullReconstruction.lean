@@ -28,6 +28,8 @@ quartics and gluing the reconstruction globally.
 
 namespace GppWeylQuarticNullReconstruction
 
+noncomputable section
+
 /-- Five coefficients of a binary quartic on an affine spinor chart. -/
 structure Quartic5 where
   a0 : ℝ
