@@ -29,6 +29,8 @@ obtained from them.
 
 namespace GppSkyFourSectionCrossRatio
 
+noncomputable section
+
 /-- Affine cross ratio of four real projective coordinates. -/
 def crossRatio (a b c d : ℝ) : ℝ :=
   ((a-c) * (b-d)) / ((a-d) * (b-c))
