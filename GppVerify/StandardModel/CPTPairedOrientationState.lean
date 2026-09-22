@@ -27,7 +27,7 @@ so the two sectors necessarily have equal Born weight.  If the state is normaliz
 
 then each sector has weight exactly 1/2.
 
-Thus an equal (++/--) decomposition is not an arbitrary 50-50 ansatz: it is forced in
+Thus an equal (++ / --) decomposition is not an arbitrary 50-50 ansatz: it is forced in
 this minimal model by exact anti-linear diagonal-pair symmetry.  Whether the two
 components are physically distinct, gauge-equivalent, superselected, or coherently
 interfering depends on the observable algebra and is intentionally left open.
