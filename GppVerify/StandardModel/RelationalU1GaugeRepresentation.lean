@@ -26,7 +26,7 @@ which is precisely the standard pair of conjugate one-dimensional U(1) represent
 
 This gives a concrete consistency mechanism: two hidden microscopic orientation lifts per
 relational sector need not add low-energy charge species if the diagonal reversal is gauge;
-the quotient carries exactly the usual +/- charge representation.  The remaining physical
+the quotient carries exactly the usual ± charge representation.  The remaining physical
 problem is to derive this quotient/action from the Lorentz-spin/gauge bundle rather than
 postulate it.
 -/
