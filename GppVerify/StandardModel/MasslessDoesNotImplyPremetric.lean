@@ -1,5 +1,5 @@
 import Mathlib.Tactic
-import Mathlib.Data.Matrix.Notation
+import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!
 # Masslessness does not imply metric degeneracy
