@@ -15,6 +15,8 @@ integral kernels or their Gamma-function normalization.
 
 namespace GppSplitSignatureLightParity
 
+noncomputable section
+
 structure SplitLabel where
   h : ℂ
   hbar : ℂ
