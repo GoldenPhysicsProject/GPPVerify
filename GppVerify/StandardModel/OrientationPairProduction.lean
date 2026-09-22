@@ -9,7 +9,7 @@ Daniel Toupin, "Which Way Is Forward?".
 The intended interpretation is deliberately modest:
 
 * a charged particle/antiparticle pair is represented by opposite values
-  of a relative orientation grading chi = +/-1;
+  of a relative orientation grading chi = ±1;
 * a fixed-standard half flip chi -> -chi reverses the corresponding
   Abelian charge;
 * if that Abelian charge is exactly conserved, an isolated charged
@@ -31,7 +31,7 @@ theorem halfFlip_reverses_charge (q chi : ℤ) :
     relativeCharge q (-chi) = - relativeCharge q chi := by
   simp [relativeCharge]
 
-/-- For a nonzero charge quantum and chi = +/-1, exact charge conservation
+/-- For a nonzero charge quantum and chi = ±1, exact charge conservation
 forbids an isolated transition from chi to -chi. -/
 theorem isolated_charged_halfFlip_forbidden
     (q chi : ℤ)
