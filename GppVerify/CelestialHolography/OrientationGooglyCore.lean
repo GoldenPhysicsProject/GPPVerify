@@ -20,6 +20,8 @@ an ASD↔SD googly map.  Existence of that twistor map is NOT assumed or claimed
 
 namespace GppOrientationGoogly
 
+noncomputable section
+
 variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
 /-- Abstract Hodge operator on the complexified two-form space. -/
@@ -118,7 +120,6 @@ label.  It does not act on any internal charge label because none appears here.
 structure CelestialLabel where
   Delta : ℂ
   J : ℤ
-  deriving DecidableEq
 
 noncomputable def shadowLabel (x : CelestialLabel) : CelestialLabel :=
   ⟨2 - x.Delta, -x.J⟩
@@ -127,7 +128,6 @@ theorem shadowLabel_involution (x : CelestialLabel) :
     shadowLabel (shadowLabel x) = x := by
   cases x
   simp [shadowLabel]
-  ring
 
 theorem shadowLabel_flips_helicity (x : CelestialLabel) :
     (shadowLabel x).J = -x.J := by
