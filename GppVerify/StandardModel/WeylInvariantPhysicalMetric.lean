@@ -33,6 +33,8 @@ Einstein equations and cosmological dynamics are separate.
 
 namespace GppWeylInvariantPhysicalMetric
 
+noncomputable section
+
 /-- Constant-Weyl transformation of a representative metric component. -/
 def rescaledMetricComponent (Omega g : ℝ) : ℝ := Omega^2 * g
 
