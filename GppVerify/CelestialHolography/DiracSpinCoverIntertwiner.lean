@@ -55,7 +55,6 @@ def vectorPhase (z : ℂ) : ℂ := z^2
 theorem vectorPhase_deck_invariant (z : ℂ) :
     vectorPhase (-z) = vectorPhase z := by
   simp [vectorPhase]
-  ring
 
 /-- Exchange the two relative-frequency sectors. -/
 def halfFlip (ψ : ℂ × ℂ) : ℂ × ℂ := (ψ.2, ψ.1)
