@@ -4,7 +4,7 @@ import GppVerify.StandardModel.CPTPairedOrientationState
 /-!
 # Antiunitary CPT pairing is not the same condition as diagonal gauge invariance
 
-Two structures have appeared on the (++/--) pair:
+Two structures have appeared on the (++ / --) pair:
 
 * the linear diagonal deck swap `D(a,b)=(b,a)`;
 * the anti-linear CPT-core pairing `Theta(a,b)=(conj b,conj a)`.
