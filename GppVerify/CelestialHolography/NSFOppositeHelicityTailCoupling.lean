@@ -24,6 +24,8 @@ is scoped to the quadratic cone-source `aa`/tail sector.
 
 namespace GppNSFOppositeHelicityTailCoupling
 
+noncomputable section
+
 /-- Four helicity coefficients of a generic quadratic two-annihilation source. -/
 structure HelicitySource where
   zpp : ℝ
