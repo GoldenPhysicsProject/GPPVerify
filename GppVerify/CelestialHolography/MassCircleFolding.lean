@@ -20,6 +20,8 @@ manifolds or Lie-group actions.
 
 namespace GppMassCircleFolding
 
+noncomputable section
+
 /-- First component of the explicit gauge-fixing rotation. -/
 def rotX (u v m : ℝ) : ℝ :=
   (u / m) * u + (v / m) * v
