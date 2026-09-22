@@ -40,7 +40,6 @@ theorem swappedPhysicalSpinorChartDet_eq_neg
       - physicalSpinorChartDet p00 p11 p01 := by
   simp [swappedPhysicalSpinorChartDet, physicalSpinorChartDet,
     complexChartDet]
-  ring
 
 /-- Consequently the determinant modulus is completely insensitive to root orientation. -/
 theorem swappedPhysicalSpinorChartDet_norm_eq
