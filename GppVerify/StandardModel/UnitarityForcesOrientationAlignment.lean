@@ -18,7 +18,7 @@ This file gives the exact 2-dimensional core.  Choose
     Omega = [[0,1],[-1,0]],
     J     = [[0,-1],[1,0]],
 
-so `Omega J = +I`.  Give each an independent sign `c,t = +/-1`.  Then
+so `Omega J = +I`.  Give each an independent sign `c,t = ±1`.  Then
 
     G_{c,t} = (c Omega)(t J) = (c t) I.
 
