@@ -32,7 +32,7 @@ namespace GppFourLiftHaarPeterWeyl
 
 abbrev V4 := Bool × Bool
 
-/-- Convert a binary orientation bit into the sign +1/-1. -/
+/-- Convert a binary orientation bit into the sign ±1. -/
 def sgnBit (b : Bool) : ℂ := if b then -1 else 1
 
 /-- Simultaneous reversal of both V4 factors. -/
