@@ -2,7 +2,7 @@ import Mathlib.Tactic
 import GppVerify.StandardModel.FourOrientationGaugeProjection
 
 /-!
-# Diagonal gauge averaging and the equal (++/--) representative
+# Diagonal gauge averaging and the equal (+±-) representative
 
 If the simultaneous microscopic reversal `D` is a genuine Z2 gauge/deck redundancy, the
 canonical finite-group average is
@@ -18,7 +18,7 @@ which after normalization has amplitudes `1/sqrt(2)` on the two lifts.  Likewise
 projects to the equal `|+-> + |-+>` antimatter representative.
 
 Thus the statement "I describe myself as ++, while the gauge-invariant representative is
-an equal ++/-- pair" has a precise mathematical realization if, and only if, the diagonal
+an equal +±- pair" has a precise mathematical realization if, and only if, the diagonal
 reversal is truly a redundancy/constraint.  In that case the equal pair is group averaging,
 not evidence for two independently observable species.
 -/
