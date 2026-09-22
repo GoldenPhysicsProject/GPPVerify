@@ -27,7 +27,7 @@ or the full Standard Model.
 namespace GppDiracSpinCoverIntertwiner
 
 /-- Two-sector Spin(2) action: opposite half-angle weights on the two sectors. -/
-def coverAction (z : ℂ) (ψ : ℂ × ℂ) : ℂ × ℂ :=
+noncomputable def coverAction (z : ℂ) (ψ : ℂ × ℂ) : ℂ × ℂ :=
   (z⁻¹ * ψ.1, z * ψ.2)
 
 /-- The action is multiplicative in the cover coordinate. -/
