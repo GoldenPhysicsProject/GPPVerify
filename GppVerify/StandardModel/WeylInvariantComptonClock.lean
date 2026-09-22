@@ -53,7 +53,6 @@ theorem generatedMass_Weyl_weight_minus_one
       generatedMass y phi / Omega := by
   simp [generatedMass, rescaledCompensator]
   field_simp [hO]
-  ring
 
 /-- The mass-times-interval product is exactly Weyl invariant. -/
 theorem mass_times_interval_Weyl_invariant
@@ -63,7 +62,6 @@ theorem mass_times_interval_Weyl_invariant
       generatedMass y phi * ds := by
   simp [generatedMass, rescaledCompensator, rescaledInterval]
   field_simp [hO]
-  ring
 
 /-- Therefore the full Compton phase increment is Weyl invariant as well. -/
 theorem compton_phase_Weyl_invariant
@@ -76,7 +74,6 @@ theorem compton_phase_Weyl_invariant
   simp [comptonPhaseIncrement, generatedMass, rescaledCompensator,
     rescaledInterval]
   field_simp [hO, hh]
-  ring
 
 /-- At the symmetric zero-compensator point there is no generated Compton phase. -/
 theorem zero_compensator_zero_intrinsic_phase (y c hbar ds : ℝ) :
