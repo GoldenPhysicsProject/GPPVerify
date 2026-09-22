@@ -54,13 +54,11 @@ theorem leftLight_involutive (x : LRLabel) :
     leftLight (leftLight x) = x := by
   cases x
   simp [leftLight]
-  ring
 
 theorem rightLight_involutive (x : LRLabel) :
     rightLight (rightLight x) = x := by
   cases x
   simp [rightLight]
-  ring
 
 /-- The left and right light transforms commute because they act on independent factors. -/
 theorem light_transforms_commute (x : LRLabel) :
@@ -79,7 +77,6 @@ theorem fullShadow_involutive (x : LRLabel) :
     fullShadow (fullShadow x) = x := by
   cases x
   simp [fullShadow]
-  constructor <;> ring
 
 /-- Full shadow sends conformal dimension `Delta` to `2-Delta`. -/
 theorem fullShadow_Delta (x : LRLabel) :
@@ -122,7 +119,8 @@ theorem split_shadow_factorization (x : LRLabel) :
     fullShadow x = rightLight (leftLight x) := by
   constructor
   · exact fullShadow_eq_left_right x
-  · rw [light_transforms_commute]
-    exact fullShadow_eq_left_right x
+  · calc
+      fullShadow x = leftLight (rightLight x) := fullShadow_eq_left_right x
+      _ = rightLight (leftLight x) := light_transforms_commute x
 
 end GppSplitSignatureGooglyFactorization
