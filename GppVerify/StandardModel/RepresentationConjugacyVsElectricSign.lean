@@ -8,7 +8,7 @@ both electric-charge signs (for example proton-like `+e` and electron-like `-e` 
 Therefore the microscopic sign which distinguishes a representation `R` from its conjugate
 `R*` cannot be identified universally with the numerical sign of electric charge.
 
-Instead let `c=+/-1` denote representation-conjugacy orientation for a fixed species whose
+Instead let `c=±1` denote representation-conjugacy orientation for a fixed species whose
 reference electric charge is `q0`.  The observed fixed-sheet charge is `c*q0`.  Conjugating
 the species changes `c`, while different matter species can have different `q0` signs.
 
