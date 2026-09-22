@@ -30,6 +30,8 @@ D is a gauge redundancy is assumed here.
 
 namespace GppFourLiftHaarPeterWeyl
 
+noncomputable section
+
 abbrev V4 := Bool × Bool
 
 /-- Convert a binary orientation bit into the sign ±1. -/
@@ -66,7 +68,6 @@ lemma tChar_deck (x : V4) : tChar (deckD x) = -tChar x := by
 lemma chiChar_deck (x : V4) : chiChar (deckD x) = chiChar x := by
   rcases x with ⟨q,t⟩
   simp [chiChar, qChar, tChar, deckD, sgnBit_not]
-  ring
 
 /-- The finite Haar projector is idempotent. -/
 theorem haarD_idempotent (f : V4 → ℂ) :
@@ -84,20 +85,17 @@ theorem haarD_one : haarD oneChar = oneChar := by
 /-- Haar projection kills the bare q-character. -/
 theorem haarD_q : haarD qChar = 0 := by
   funext x
-  rw [show qChar (deckD x) = -qChar x from qChar_deck x]
-  simp [haarD]
+  simp [haarD, qChar_deck]
 
 /-- Haar projection kills the bare t-character. -/
 theorem haarD_t : haarD tChar = 0 := by
   funext x
-  rw [show tChar (deckD x) = -tChar x from tChar_deck x]
-  simp [haarD]
+  simp [haarD, tChar_deck]
 
 /-- Haar projection fixes the relational character χ=q t. -/
 theorem haarD_chi : haarD chiChar = chiChar := by
   funext x
-  rw [show chiChar (deckD x) = chiChar x from chiChar_deck x]
-  simp [haarD]
+  simp [haarD, chiChar_deck]
 
 /-- The canonical V4 characters therefore split under <D>-Haar projection as 2+2. -/
 theorem canonical_character_projection :
