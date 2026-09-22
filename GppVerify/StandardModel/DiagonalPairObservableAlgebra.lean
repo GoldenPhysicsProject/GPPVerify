@@ -2,7 +2,7 @@ import Mathlib.Tactic
 import Mathlib.LinearAlgebra.Matrix.Notation
 
 /-!
-# Observable algebra of the diagonal (++/--) orientation pair
+# Observable algebra of the diagonal (++ / --) orientation pair
 
 Restrict first to the two kinematic lifts
 
