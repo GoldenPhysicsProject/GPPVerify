@@ -36,6 +36,8 @@ that a cosmological solution dynamically passes through such a point.
 
 namespace GppConformalMassScaleCompensator
 
+noncomputable section
+
 /-- Weyl factor of a fixed mass density: volume `Omega^4` times fermion bilinear
     `Omega^-3`. -/
 def fixedMassDensityScale (Omega : ℝ) : ℝ := Omega^4 / Omega^3
