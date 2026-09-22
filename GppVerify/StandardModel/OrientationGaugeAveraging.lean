@@ -25,6 +25,8 @@ not evidence for two independently observable species.
 
 namespace GppOrientationGaugeAveraging
 
+noncomputable section
+
 open GppFourOrientationGaugeProjection
 
 /-- Finite Z2 group average `(v + Dv)/2`, written coordinatewise. -/
