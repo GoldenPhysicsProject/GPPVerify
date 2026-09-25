@@ -1267,3 +1267,9 @@ import GppVerify.RiemannHypothesis.PrimeHankelGram
 -- and the abstract boundary-factorization implication. No analytic RH-strength
 -- intertwiner is assumed or claimed here.
 import GppVerify.ThreadWeilParity.RadicalBoundaryReduction
+
+
+-- ── Codex: arithmetic Hodge-index boundary core (2026-09-25) ──
+-- Formalizes primitive-hyperplane positivity, the degree-direction obstruction to a
+-- two-dimensional negative plane, and the quantitative Castelnuovo/pole closure bound.
+import GppVerify.ThreadWeilParity.HodgeIndexBoundary
