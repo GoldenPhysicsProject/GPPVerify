@@ -20,13 +20,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: axioms-physics-to-hypotheses
+      # Codex RH closure front
       MODULES: >-
-        GppVerify.CelestialHolography.Link6
-        GppVerify.StandardModel.DMAbundance
-        GppVerify.StandardModel.ThreeGenerations
-        GppVerify.GeneralRelativity.Rigidity
-        GppVerify.RHSpectralMultiplicity
+        GppVerify.ThreadWeilParity.RadicalBoundaryReduction
+        GppVerify.ThreadWeilParity.HodgeIndexBoundary
+        GppVerify.RiemannHypothesis.BPYQuadraticBulk
+        GppVerify.RiemannHypothesis.HilbertQuotientClosure
+        GppVerify.RiemannHypothesis.PrimeOccupationHodge
 
     steps:
       - uses: actions/checkout@v4
