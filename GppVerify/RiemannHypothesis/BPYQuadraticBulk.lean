@@ -70,7 +70,13 @@ theorem tendsto_finiteBulk {lam : ℝ} (hlam : lam ≠ 0) :
   have hinv :=
     hprod.inv₀ hlim_pos.ne'
   have hsq := hinv.pow 2
-  simpa [finiteBulk, bulkLimit, P, inv_div] using hsq
+  change Tendsto
+    (fun n : ℕ =>
+      ((∏ j ∈ Finset.range n,
+          ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) ^ 2)⁻¹)
+    atTop
+    (𝓝 ((Real.pi * lam / Real.sinh (Real.pi * lam)) ^ 2))
+  exact hsq
 
 /-- Every finite BPY bulk product is nonnegative. -/
 theorem finiteBulk_nonneg (lam : ℝ) (n : ℕ) :
