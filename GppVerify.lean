@@ -1273,3 +1273,8 @@ import GppVerify.ThreadWeilParity.RadicalBoundaryReduction
 -- Formalizes primitive-hyperplane positivity, the degree-direction obstruction to a
 -- two-dimensional negative plane, and the quantitative Castelnuovo/pole closure bound.
 import GppVerify.ThreadWeilParity.HodgeIndexBoundary
+
+
+-- ── Codex: BPY zero-independent quadratic bulk (2026-09-25) ──
+-- Certified sinh-product limit underlying the positive finite Gamma-sum/BPY bulk.
+import GppVerify.RiemannHypothesis.BPYQuadraticBulk
