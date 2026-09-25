@@ -62,11 +62,12 @@ jobs:
 
       - name: Unused-hypothesis gate (front modules)
         run: |
-          if grep -E "is not explicitly referenced" /tmp/fast.log; then
+          FRONT_RE='GppVerify/(ThreadWeilParity/(RadicalBoundaryReduction|HodgeIndexBoundary)|RiemannHypothesis/(BPYQuadraticBulk|HilbertQuotientClosure|KreinGraphClosure|PrimeOccupationHodge))\.lean.*is not explicitly referenced'
+          if grep -E "$FRONT_RE" /tmp/fast.log; then
             echo "::error::Unused binder(s) in RH closure front."
             exit 1
           fi
-          echo "No unused binders in RH closure front."
+          echo "No unused binders in RH closure front (dependency warnings ignored here; full-tree gate remains separate)."
 
       - name: Sorry gate (front modules)
         run: |
