@@ -26,12 +26,23 @@ open GppStefanBoltzmann
 
 /-- The finite BPY quadratic bulk product. -/
 noncomputable def finiteBulk (lam : ℝ) (n : ℕ) : ℝ :=
-  ((∏ j ∈ Finset.range n,
-      ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) ^ 2)⁻¹
+  (∏ j ∈ Finset.range n,
+      ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2))⁻¹ ^ 2
 
-/-- The limiting BPY quadratic bulk weight. -/
+/-- The limiting BPY quadratic bulk weight, in the exact reciprocal form produced by
+the sinh Weierstrass limit. -/
 noncomputable def bulkLimit (lam : ℝ) : ℝ :=
-  (P lam) ^ 2
+  (Real.sinh (Real.pi * lam) / (Real.pi * lam))⁻¹ ^ 2
+
+/-- Away from the removable origin, the reciprocal sinh form is exactly the square of
+the Planck weight already used elsewhere in the project. -/
+theorem bulkLimit_eq_planck_sq {lam : ℝ} (hlam : lam ≠ 0) :
+    bulkLimit lam = (P lam) ^ 2 := by
+  have hpi : Real.pi * lam ≠ 0 := mul_ne_zero Real.pi_ne_zero hlam
+  have hsinh : Real.sinh (Real.pi * lam) ≠ 0 :=
+    Real.sinh_ne_zero.mpr hpi
+  unfold bulkLimit P
+  field_simp
 
 /-- For nonzero spectral parameter, the finite positive Gamma-product converges exactly
 to the square of the Planck/sinh weight. -/
@@ -70,12 +81,6 @@ theorem tendsto_finiteBulk {lam : ℝ} (hlam : lam ≠ 0) :
   have hinv :=
     hprod.inv₀ hlim_pos.ne'
   have hsq := hinv.pow 2
-  change Tendsto
-    (fun n : ℕ =>
-      ((∏ j ∈ Finset.range n,
-          ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) ^ 2)⁻¹)
-    atTop
-    (𝓝 ((Real.pi * lam / Real.sinh (Real.pi * lam)) ^ 2))
   exact hsq
 
 /-- Every finite BPY bulk product is nonnegative. -/
