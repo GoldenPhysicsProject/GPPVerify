@@ -1284,3 +1284,9 @@ import GppVerify.RiemannHypothesis.BPYQuadraticBulk
 -- If the reflection-pair Weil form is realized as an actual Hilbert norm, the existing
 -- two-point criterion closes the chain to RH immediately.
 import GppVerify.RiemannHypothesis.HilbertQuotientClosure
+
+
+-- ── Codex: finite prime occupation Hodge geometry (2026-09-25) ──
+-- Poincare occupation reversal, involution, positive Hodge weight, and the one-channel
+-- Lefschetz commutator coefficient.
+import GppVerify.RiemannHypothesis.PrimeOccupationHodge
