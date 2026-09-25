@@ -115,4 +115,92 @@ theorem boundary_factorization_trace_bound
   rw [hcompat x]
   nlinarith
 
+
+/--
+If a particular radical continuation has nonnegative exterior energy, then its interior
+restriction has nonnegative energy as well.
+-/
+theorem interior_nonneg_of_radical_exterior_nonneg
+    {V : Type*} [AddCommGroup V]
+    (B : V → V → ℝ)
+    (hadd : ∀ x y z, B (x + y) z = B x z + B y z)
+    (hsymm : ∀ x y, B x y = B y x)
+    {g h : V}
+    (hg : B (g + h) g = 0)
+    (hh : B (g + h) h = 0)
+    (hext : 0 ≤ B h h) :
+    0 ≤ B g g := by
+  have heq : B g g = B h h :=
+    interior_eq_exterior_of_radical B hadd hsymm hg hh
+  rw [heq]
+  exact hext
+
+/--
+Surjective radical continuation plus exterior semiboundedness closes the localized form.
+
+This is the exact algebraic version of the proposed arithmetic Hodge principle:
+if every interior state extends to a global radical state whose exterior piece has
+nonnegative Weil energy, then the localized Weil form is nonnegative.
+-/
+theorem localized_nonneg_of_radical_extensions
+    {V : Type*} [AddCommGroup V]
+    (B : V → V → ℝ)
+    (hadd : ∀ x y z, B (x + y) z = B x z + B y z)
+    (hsymm : ∀ x y, B x y = B y x)
+    (hext :
+      ∀ g : V, ∃ h : V,
+        B (g + h) g = 0 ∧
+        B (g + h) h = 0 ∧
+        0 ≤ B h h) :
+    ∀ g : V, 0 ≤ B g g := by
+  intro g
+  obtain ⟨h, hg, hh, hpos⟩ := hext g
+  exact interior_nonneg_of_radical_exterior_nonneg B hadd hsymm hg hh hpos
+
+/--
+A real-valued energy that can be approximated arbitrarily closely by nonnegative energies
+is itself nonnegative.  This is the quantitative core needed to pass from *dense radical
+restrictions* to positivity, without silently replacing density by surjectivity.
+-/
+theorem nonneg_of_arbitrarily_close_nonneg
+    {V : Type*} (q : V → ℝ)
+    (happrox :
+      ∀ x : V, ∀ ε : ℝ, 0 < ε →
+        ∃ y : V, 0 ≤ q y ∧ |q x - q y| < ε) :
+    ∀ x : V, 0 ≤ q x := by
+  intro x
+  by_contra hx
+  have hneg : q x < 0 := lt_of_not_ge hx
+  have heps : 0 < -(q x) / 2 := by linarith
+  obtain ⟨y, hy, hclose⟩ := happrox x (-(q x) / 2) heps
+  have htwo := (abs_lt.mp hclose).2
+  linarith
+
+/--
+Approximate radical continuation is enough: it suffices that every target energy can be
+approximated arbitrarily closely by an interior piece of a radical state whose exterior
+energy is nonnegative.
+
+This is the honest finite-energy replacement for the stronger and generally false claim
+that every window function has an *exact* radical continuation.
+-/
+theorem localized_nonneg_of_approximate_radical_extensions
+    {V : Type*} [AddCommGroup V]
+    (B : V → V → ℝ)
+    (hadd : ∀ x y z, B (x + y) z = B x z + B y z)
+    (hsymm : ∀ x y, B x y = B y x)
+    (happrox :
+      ∀ g : V, ∀ ε : ℝ, 0 < ε →
+        ∃ g' h : V,
+          B (g' + h) g' = 0 ∧
+          B (g' + h) h = 0 ∧
+          0 ≤ B h h ∧
+          |B g g - B g' g'| < ε) :
+    ∀ g : V, 0 ≤ B g g := by
+  apply nonneg_of_arbitrarily_close_nonneg (fun g => B g g)
+  intro g ε hε
+  obtain ⟨g', h, hg', hh, hext, hclose⟩ := happrox g ε hε
+  refine ⟨g', ?_, hclose⟩
+  exact interior_nonneg_of_radical_exterior_nonneg B hadd hsymm hg' hh hext
+
 end GppWeilParity
