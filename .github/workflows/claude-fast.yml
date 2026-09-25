@@ -59,6 +59,14 @@ jobs:
       - name: Build front modules
         run: set -o pipefail && lake build $MODULES 2>&1 | tee /tmp/fast.log
 
+      - name: Unused-hypothesis gate (front modules)
+        run: |
+          if grep -E "is not explicitly referenced" /tmp/fast.log; then
+            echo "::error::Unused binder(s) in RH closure front."
+            exit 1
+          fi
+          echo "No unused binders in RH closure front."
+
       - name: Sorry gate (front modules)
         run: |
           if grep -F "declaration uses 'sorry'" /tmp/fast.log; then
@@ -67,11 +75,19 @@ jobs:
           fi
           echo "No sorry in front modules."
 
-      - name: Axiom gate (front modules must not gain a custom axiom)
+      - name: Source and honesty gates
         run: |
-          if grep -E "^axiom " -rn --include="*.lean" GppVerify/CelestialHolography/Link6.lean \
-               GppVerify/StandardModel/DMAbundance.lean; then
-            echo "::error::A retired-axiom file reintroduced a bare axiom."
+          python3 scripts/check_import_graph.py
+          python3 scripts/check_sorries.py
+          python3 scripts/check_stub_naming.py
+          python3 scripts/check_vacuity.py
+          python3 scripts/check_blueprint_refs.py
+          python3 scripts/check_landing_claims.py
+
+      - name: Flagship axiom audit
+        run: |
+          lake env lean scripts/check_axioms.lean | tee /tmp/axioms.log
+          if grep -F "sorryAx" /tmp/axioms.log; then
+            echo "::error::A flagship theorem depends on sorryAx."
             exit 1
           fi
-          echo "Retired-axiom files still axiom-free."
