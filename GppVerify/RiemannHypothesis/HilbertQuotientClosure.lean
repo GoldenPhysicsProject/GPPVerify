@@ -36,7 +36,7 @@ theorem rh_of_honest_twoPoint_hilbert_realization
   intro ρ hρ c
   obtain ⟨v, hv⟩ := hrealize ρ hρ c
   rw [hv]
-  exact inner_self_nonneg
+  exact inner_self_nonneg (𝕜 := ℂ)
 
 /-- Pointwise conditional-RH form of the same closure theorem. -/
 theorem critical_line_of_honest_twoPoint_hilbert_realization
