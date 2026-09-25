@@ -1259,3 +1259,11 @@ import GppVerify.RiemannHypothesis.ZetaThirdCumulantStrict
 import GppVerify.RiemannHypothesis.ZetaFisherStrictMonotonicity
 import GppVerify.RiemannHypothesis.ZetaGibbsFisherStrict
 import GppVerify.RiemannHypothesis.PrimeHankelGram
+
+
+-- ── Codex: radical/exterior boundary reduction (2026-09-25) ──
+-- Exact algebraic spine for the CCM tail-radical program: interior=exterior for a
+-- symmetric radical decomposition; rank-one pole positivity iff the sharp trace bound;
+-- and the abstract boundary-factorization implication. No analytic RH-strength
+-- intertwiner is assumed or claimed here.
+import GppVerify.ThreadWeilParity.RadicalBoundaryReduction
