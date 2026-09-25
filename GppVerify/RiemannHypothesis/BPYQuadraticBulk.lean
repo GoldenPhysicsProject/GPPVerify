@@ -26,8 +26,8 @@ open GppStefanBoltzmann
 
 /-- The finite BPY quadratic bulk product. -/
 noncomputable def finiteBulk (lam : ℝ) (n : ℕ) : ℝ :=
-  (∏ j ∈ Finset.range n,
-      ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2))⁻¹ ^ 2
+  ((∏ j ∈ Finset.range n,
+      ((1 : ℝ) + lam ^ 2 / ((j : ℝ) + 1) ^ 2)) ^ 2)⁻¹
 
 /-- The limiting BPY quadratic bulk weight. -/
 noncomputable def bulkLimit (lam : ℝ) : ℝ :=
