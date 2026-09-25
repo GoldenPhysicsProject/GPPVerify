@@ -1278,3 +1278,9 @@ import GppVerify.ThreadWeilParity.HodgeIndexBoundary
 -- ── Codex: BPY zero-independent quadratic bulk (2026-09-25) ──
 -- Certified sinh-product limit underlying the positive finite Gamma-sum/BPY bulk.
 import GppVerify.RiemannHypothesis.BPYQuadraticBulk
+
+
+-- ── Codex: honest Hilbert quotient closure (2026-09-25) ──
+-- If the reflection-pair Weil form is realized as an actual Hilbert norm, the existing
+-- two-point criterion closes the chain to RH immediately.
+import GppVerify.RiemannHypothesis.HilbertQuotientClosure
