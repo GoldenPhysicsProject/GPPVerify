@@ -26,6 +26,7 @@ jobs:
         GppVerify.ThreadWeilParity.HodgeIndexBoundary
         GppVerify.RiemannHypothesis.BPYQuadraticBulk
         GppVerify.RiemannHypothesis.HilbertQuotientClosure
+        GppVerify.RiemannHypothesis.KreinGraphClosure
         GppVerify.RiemannHypothesis.PrimeOccupationHodge
 
     steps:
