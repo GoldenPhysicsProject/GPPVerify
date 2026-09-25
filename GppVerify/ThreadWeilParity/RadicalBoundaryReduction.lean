@@ -173,7 +173,7 @@ theorem nonneg_of_arbitrarily_close_nonneg
   have hneg : q x < 0 := lt_of_not_ge hx
   have heps : 0 < -(q x) / 2 := by linarith
   obtain ⟨y, hy, hclose⟩ := happrox x (-(q x) / 2) heps
-  have htwo := (abs_lt.mp hclose).2
+  have hleft := (abs_lt.mp hclose).1
   linarith
 
 /--
