@@ -1290,3 +1290,9 @@ import GppVerify.RiemannHypothesis.HilbertQuotientClosure
 -- Poincare occupation reversal, involution, positive Hodge weight, and the one-channel
 -- Lefschetz commutator coefficient.
 import GppVerify.RiemannHypothesis.PrimeOccupationHodge
+
+
+-- ── Codex: Krein graph transfer closure (2026-09-25) ──
+-- Contractivity of the doubled boundary transfer is exactly graph-form positivity and,
+-- once the reflection-pair realization is supplied, closes through the two-point criterion.
+import GppVerify.RiemannHypothesis.KreinGraphClosure
