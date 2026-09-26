@@ -98,8 +98,8 @@ theorem qSign_eq_relative_orientation : qSign = -(phaseI * energyJ) := by
 /-- Reversing both formal complex orientations leaves the relative charge grading fixed. -/
 theorem reverse_both_preserves_q :
     -((-phaseI) * (-energyJ)) = qSign := by
-  rw [← qSign_eq_relative_orientation]
-  simp
+  rw [neg_mul_neg]
+  exact qSign_eq_relative_orientation.symm
 
 /-- Scalar `i` is central for every complex-linear matrix. -/
 theorem every_complex_matrix_commutes_phaseI (D : M2) :
@@ -116,11 +116,15 @@ theorem complex_linear_orientation_reversal_forces_zero
     D = 0 := by
   have hcomm := every_complex_matrix_commutes_phaseI D
   rw [hcomm] at hrev
+  have hscalar : phaseI * D = Complex.I • D := by
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp [phaseI, Matrix.mul_apply, Fin.sum_univ_two]
+  rw [hscalar] at hrev
   ext i j
-  have hij := congrArg (fun M : M2 => M i j) hrev
-  fin_cases i <;> fin_cases j <;>
-    simp [phaseI, Matrix.mul_apply, Fin.sum_univ_two] at hij ⊢ <;>
-    apply Complex.ext <;> norm_num at hij ⊢ <;> linarith
+  have hij : Complex.I * D i j = -(Complex.I * D i j) := by
+    simpa using congrArg (fun M : M2 => M i j) hrev
+  have h0 : Complex.I * D i j = 0 := self_eq_neg.mp hij
+  simpa [Complex.I_ne_zero] using h0
 
 /-- Componentwise conjugation is the natural anti-linear relation between opposite complex
     presentations. -/
@@ -135,7 +139,7 @@ theorem conjV_reverses_phaseI (v : V2) :
     conjV (phaseI *ᵥ v) = (-phaseI) *ᵥ conjV v := by
   ext i
   fin_cases i <;>
-    simp [conjV, phaseI, Matrix.mulVec, Fin.sum_univ_two]
+    simp [conjV, phaseI, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- It simultaneously reverses the positive-energy complex structure `J`. -/
 theorem conjV_reverses_energyJ (v : V2) :
@@ -143,14 +147,14 @@ theorem conjV_reverses_energyJ (v : V2) :
   rw [energyJ_explicit]
   ext i
   fin_cases i <;>
-    simp [conjV, Matrix.mulVec, Fin.sum_univ_two]
+    simp [conjV, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- But the relative particle/antiparticle grading is unchanged. -/
 theorem conjV_preserves_qSign (v : V2) :
     conjV (qSign *ᵥ v) = qSign *ᵥ conjV v := by
   ext i
   fin_cases i <;>
-    simp [conjV, qSign, Matrix.mulVec, Fin.sum_univ_two]
+    simp [conjV, qSign, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- Euclidean one-particle norm on the two sectors. -/
 def normSq2 (v : V2) : ℝ := Complex.normSq (v 0) + Complex.normSq (v 1)

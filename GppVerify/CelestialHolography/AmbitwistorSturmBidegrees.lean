@@ -124,40 +124,40 @@ def curvatureScale (r s U : ℂ) : ℂ := (r*s)^2 * U
 /-- Exact covariance of the left weighted first-jet system:
 `G_{U'} S = (rs) S G_U`. -/
 theorem left_sturm_biscale_covariant
-    (r s U : ℂ) (u : SturmState) :
+    (r s U : ℂ) (hr : r ≠ 0) (u : SturmState) :
     sturmGenerator (curvatureScale r s U) (leftBiScale r s u) =
       scaleSturmState (derivativeScale r s)
         (leftBiScale r s (sturmGenerator U u)) := by
   rcases u with ⟨x,p⟩
   apply Prod.ext <;>
     simp [sturmGenerator, curvatureScale, derivativeScale,
-      leftBiScale, scaleSturmState] <;> ring
+      leftBiScale, scaleSturmState] <;> field_simp <;> ring
 
 /-- Mirror covariance with the bidegrees reversed. -/
 theorem right_sturm_biscale_covariant
-    (r s U : ℂ) (u : SturmState) :
+    (r s U : ℂ) (hs : s ≠ 0) (u : SturmState) :
     sturmGenerator (curvatureScale r s U) (rightBiScale r s u) =
       scaleSturmState (derivativeScale r s)
         (rightBiScale r s (sturmGenerator U u)) := by
   rcases u with ⟨x,p⟩
   apply Prod.ext <;>
     simp [sturmGenerator, curvatureScale, derivativeScale,
-      rightBiScale, scaleSturmState] <;> ring
+      rightBiScale, scaleSturmState] <;> field_simp <;> ring
 
 /-- Anti-diagonal scaling makes both components of the left jet carry the common
 little-group character `a^{-1}`. -/
 theorem left_antidiagonal_is_common_weight
-    (a : ℂ) (ha : a ≠ 0) (u : SturmState) :
+    (a : ℂ) (u : SturmState) :
     leftBiScale a a⁻¹ u = scaleSturmState a⁻¹ u := by
   rcases u with ⟨x,p⟩
   simp [leftBiScale, scaleSturmState]
 
 /-- The mirror jet carries the opposite common anti-diagonal character `a`. -/
 theorem right_antidiagonal_is_common_weight
-    (a : ℂ) (ha : a ≠ 0) (u : SturmState) :
+    (a : ℂ) (u : SturmState) :
     rightBiScale a a⁻¹ u = scaleSturmState a u := by
   rcases u with ⟨x,p⟩
-  simp [rightBiScale, scaleSturmState, ha]
+  simp [rightBiScale, scaleSturmState]
 
 /-- Under simultaneous scaling `r=s=b`, the left jet transforms by the Cartan matrix
 `diag(b^{-1},b)`. -/
@@ -185,9 +185,7 @@ theorem diagonal_scale_preserves_wronskian
   rcases u with ⟨x,p⟩
   rcases v with ⟨y,q⟩
   simp [wronskian, leftDiagonalScale, leftBiScale]
-  have hbi : b⁻¹*b = 1 := inv_mul_cancel₀ hb
-  ring_nf
-  simp [hbi]
+  field_simp
 
 /-- Under diagonal scaling the curvature potential has weight four and the derivative has
 weight two, exactly matching null tangent rescaling. -/
@@ -195,7 +193,7 @@ theorem diagonal_geometric_weights (b U : ℂ) :
     derivativeScale b b = b^2 ∧ curvatureScale b b U = b^4*U := by
   constructor
   · simp [derivativeScale, pow_two]
-  · simp [curvatureScale]
+  · unfold curvatureScale
     ring
 
 /-! ## A finite golden/modular bridge inside the Sturm carrier
@@ -339,8 +337,8 @@ theorem goldenMobius_fixed_iff_gold {x : ℝ} (hx : 0 < x) :
 `SL(2,Z)` element formalized in `GoldenRatioHyperbolicSector`. -/
 theorem golden_cartan_trace :
     Real.goldenRatio^2 + Real.goldenRatio⁻¹^2 = 3 := by
-  rw [Real.inv_goldenRatio]
-  nlinarith [Real.goldenRatio_sq]
+  rw [Real.inv_goldenRatio, neg_sq, Real.goldenRatio_sq, Real.goldenConj_sq]
+  linarith [Real.goldenRatio_add_goldenConj]
 
 
 end

@@ -88,31 +88,22 @@ theorem epsBracket_eq_zero_iff_span
     epsBracket l pi = 0 ↔ ∃ c : ℂ, pi = scaleSpinor c l := by
   rcases l with ⟨l0,l1⟩
   rcases pi with ⟨p0,p1⟩
-  simp [epsBracket, scaleSpinor] at hl ⊢
+  simp only [epsBracket, scaleSpinor, Prod.mk.injEq]
+  have hl' : l0 ≠ 0 ∨ l1 ≠ 0 := by
+    by_contra hc
+    push_neg at hc
+    exact hl (by rw [hc.1, hc.2])
   constructor
   · intro h
-    by_cases hl0 : l0 = 0
-    · have hl1 : l1 ≠ 0 := by
-        intro hz
-        apply hl
-        exact ⟨hl0,hz⟩
-      have hp0 : p0 = 0 := by
-        rw [hl0] at h
-        simp at h
-        exact (mul_eq_zero.mp h).resolve_left hl1
-      refine ⟨p1/l1, ?_⟩
-      constructor
-      · simp [hp0, hl0]
-      · field_simp [hl1]
-    · have hp1 : p1 = (p0/l0)*l1 := by
-        field_simp [hl0]
-        nlinarith [h]
-      refine ⟨p0/l0, ?_⟩
-      constructor
-      · field_simp [hl0]
-      · exact hp1
-  · rintro ⟨c,rfl⟩
-    simp [epsBracket]
+    rcases hl' with hl0 | hl1
+    · refine ⟨p0 / l0, (div_mul_cancel₀ p0 hl0).symm, ?_⟩
+      rw [div_mul_eq_mul_div, eq_div_iff hl0]
+      linear_combination h
+    · refine ⟨p1 / l1, ?_, (div_mul_cancel₀ p1 hl1).symm⟩
+      rw [div_mul_eq_mul_div, eq_div_iff hl1]
+      linear_combination -h
+  · rintro ⟨c, h0, h1⟩
+    rw [h0, h1]
     ring
 
 /-- Reduction from the three incidence coordinates to the two quotient coordinates. -/
@@ -139,22 +130,19 @@ theorem reduce_surjective (l : Spinor2C) (hl : l ≠ (0,0)) :
   intro y
   rcases y with ⟨f,g⟩
   rcases l with ⟨l0,l1⟩
-  simp at hl
-  by_cases hl0 : l0 = 0
-  · have hl1 : l1 ≠ 0 := by
-      intro hz
-      apply hl
-      exact ⟨hl0,hz⟩
-    refine ⟨(f,(-g/l1,0)), ?_⟩
-    apply Prod.ext
-    · rfl
-    · simp [reduce, epsBracket, hl0]
-      field_simp [hl1]
+  have hl' : l0 ≠ 0 ∨ l1 ≠ 0 := by
+    by_contra hc
+    push_neg at hc
+    exact hl (by rw [hc.1, hc.2])
+  rcases hl' with hl0 | hl1
   · refine ⟨(f,(0,g/l0)), ?_⟩
-    apply Prod.ext
-    · rfl
-    · simp [reduce, epsBracket]
-      field_simp [hl0]
+    simp only [reduce, epsBracket, Prod.mk.injEq, true_and]
+    field_simp
+    try ring
+  · refine ⟨(f,(-g/l1,0)), ?_⟩
+    simp only [reduce, epsBracket, Prod.mk.injEq, true_and]
+    field_simp
+    try ring
 
 /-- Equality after reduction is exactly equality modulo the one-dimensional gauge line. -/
 theorem reduce_eq_iff_gauge
@@ -163,25 +151,21 @@ theorem reduce_eq_iff_gauge
       ∃ c : ℂ, d2 = gaugeShift l c d1 := by
   constructor
   · intro h
-    have hf : d1.1 = d2.1 := congrArg Prod.fst h
-    have hg : epsBracket l d1.2 = epsBracket l d2.2 := by
-      exact congrArg Prod.snd h
-    let delta : Spinor2C := (d2.2.1-d1.2.1,d2.2.2-d1.2.2)
-    have hdelta : epsBracket l delta = 0 := by
-      rcases l with ⟨l0,l1⟩
-      rcases d1 with ⟨f1,⟨a0,a1⟩⟩
-      rcases d2 with ⟨f2,⟨b0,b1⟩⟩
-      simp [epsBracket, delta] at hg ⊢
-      linarith
-    obtain ⟨c,hc⟩ := (epsBracket_eq_zero_iff_span l delta hl).mp hdelta
-    refine ⟨c, ?_⟩
+    rcases l with ⟨l0,l1⟩
     rcases d1 with ⟨f1,⟨a0,a1⟩⟩
     rcases d2 with ⟨f2,⟨b0,b1⟩⟩
-    simp [delta, scaleSpinor, gaugeShift, addSpinor] at hc hf ⊢
-    rcases hc with ⟨hc0,hc1⟩
-    exact ⟨hf.symm, by constructor <;> linarith⟩
-  · rintro ⟨c,rfl⟩
-    exact reduce_gaugeShift l c d1
+    simp only [reduce, epsBracket, Prod.mk.injEq] at h
+    obtain ⟨hf, hg⟩ := h
+    have hdelta : epsBracket (l0,l1) (b0 - a0, b1 - a1) = 0 := by
+      simp only [epsBracket]
+      linear_combination -hg
+    obtain ⟨c, hc⟩ := (epsBracket_eq_zero_iff_span (l0,l1) _ hl).mp hdelta
+    simp only [scaleSpinor, Prod.mk.injEq] at hc
+    refine ⟨c, ?_⟩
+    simp only [gaugeShift, addSpinor, scaleSpinor, Prod.mk.injEq]
+    exact ⟨hf.symm, by linear_combination hc.1, by linear_combination hc.2⟩
+  · rintro ⟨c, rfl⟩
+    exact (reduce_gaugeShift l c d1).symm
 
 /-- If the primed spinor representative is rescaled, the bracket coordinate has the same
 homogeneous weight as that rescaling. -/
