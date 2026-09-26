@@ -1300,3 +1300,7 @@ import GppVerify.RiemannHypothesis.KreinGraphClosure
 
 -- ── Codex: golden Möbius audit (2026-09-26) ──
 import GppVerify.RiemannHypothesis.GoldenMobiusAudit
+
+
+-- ── Codex: BPY S4 angular Cayley variance (2026-09-26) ──
+import GppVerify.RiemannHypothesis.BPYAngularCayley
