@@ -38,6 +38,8 @@ how those carriers are related.
 
 namespace GppContactWignerTimeBridge
 
+open Matrix
+
 open scoped ComplexConjugate
 open GppHalfFlip
 open GppContactCliffordWeylBridge

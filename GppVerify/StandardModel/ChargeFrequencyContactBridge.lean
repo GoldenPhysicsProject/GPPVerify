@@ -40,6 +40,8 @@ exchange; those require the full spin-gauge bundle construction.
 
 namespace GppChargeFrequencyContactBridge
 
+open Matrix
+
 open GppOrientationMassTime
 open GppRelativePhaseDiracEnergy
 open GppMassAsContactExchangeHamiltonian

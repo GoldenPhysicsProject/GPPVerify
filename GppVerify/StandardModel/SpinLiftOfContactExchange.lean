@@ -32,6 +32,8 @@ that identification is not assumed here.
 
 namespace GppSpinLiftOfContactExchange
 
+open Matrix
+
 open GppRelativePhaseDiracEnergy
 open GppGrassmannianDiracIntertwiner
 open GppMassAsContactExchangeHamiltonian
@@ -73,13 +75,13 @@ theorem Uq_on_contact_state (u : ContactVector) :
       (-Complex.I) • contactToDirac (exchangeHalves u) := by
   rw [contactToDirac_exchangeHalves]
   rw [Uq_eq_negI_smul_betaRest]
-  simp [Matrix.smul_mulVec]
+  simp [Matrix.neg_mulVec, Matrix.smul_mulVec]
 
 /-- Two lifted applications return to the same geometric factor ordering but acquire the
 central minus sign. -/
 theorem Uq_twice_on_contact_state (u : ContactVector) :
     Uq *ᵥ (Uq *ᵥ contactToDirac u) = - contactToDirac u := by
-  rw [← Matrix.mulVec_mulVec, Uq_sq_eq_neg_one]
-  simp
+  rw [Matrix.mulVec_mulVec, Uq_sq_eq_neg_one]
+  simp [Matrix.neg_mulVec]
 
 end GppSpinLiftOfContactExchange

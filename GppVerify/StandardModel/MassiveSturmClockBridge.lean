@@ -49,7 +49,6 @@ theorem massiveSturm_square (mu : ℂ) (u : SturmState) :
 /-- Mass-orientation sign is invisible to the quadratic Sturm potential. -/
 theorem massPotential_even (mu : ℂ) : massPotential (-mu) = massPotential mu := by
   simp [massPotential]
-  ring
 
 /-- Hence the generator itself depends only on the mass magnitude squared. -/
 theorem massiveSturm_orientation_even (mu : ℂ) (u : SturmState) :

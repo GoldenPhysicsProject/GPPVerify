@@ -36,6 +36,9 @@ rotations, and the antiunitary C/T operators are not identified here.
 
 namespace GppContactDiracCliffordReduction
 
+noncomputable section
+
+
 open GppContactCliffordWeylBridge
 open GppRelativePhaseDiracEnergy
 
@@ -127,4 +130,6 @@ theorem mass_exchange_is_chirality_flipping :
   exact ⟨gamma0_swaps_chiral_projectors,
     gamma0_swaps_chiral_projectors_opposite⟩
 
+
+end
 end GppContactDiracCliffordReduction

@@ -34,6 +34,8 @@ a given positive-mass-shell momentum to its null-root area, rest coupling, and c
 
 namespace GppNullPairMassContactBridge
 
+open Matrix
+
 open GppMassOrientationCoupling
 open GppMassAsContactExchangeHamiltonian
 open GppOrientationMassTime

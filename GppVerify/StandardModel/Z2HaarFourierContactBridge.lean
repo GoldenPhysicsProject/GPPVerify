@@ -37,6 +37,11 @@ Hamiltonian is proportional to `E`.
 
 namespace GppZ2HaarFourierContactBridge
 
+open Matrix
+
+noncomputable section
+
+
 open GppRelativePhaseDiracEnergy
 open GppContactDiracHadamardBridge
 open GppContactCliffordWeylBridge
@@ -86,7 +91,7 @@ theorem haarPlus_restPlus :
   ext i
   fin_cases i <;>
     norm_num [haarPlus, exchangeMatrix, restPlus, Matrix.mulVec,
-      Fin.sum_univ_two, Matrix.one_apply]
+      Fin.sum_univ_two, Matrix.one_apply, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- The positive branch is killed by the sign-character projector. -/
 theorem haarMinus_restPlus_zero :
@@ -94,7 +99,7 @@ theorem haarMinus_restPlus_zero :
   ext i
   fin_cases i <;>
     norm_num [haarMinus, exchangeMatrix, restPlus, Matrix.mulVec,
-      Fin.sum_univ_two, Matrix.one_apply]
+      Fin.sum_univ_two, Matrix.one_apply, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- The negative rest branch is the sign character. -/
 theorem haarMinus_restMinus :
@@ -102,7 +107,7 @@ theorem haarMinus_restMinus :
   ext i
   fin_cases i <;>
     norm_num [haarMinus, exchangeMatrix, restMinus, Matrix.mulVec,
-      Fin.sum_univ_two, Matrix.one_apply]
+      Fin.sum_univ_two, Matrix.one_apply, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- The negative branch is killed by the trivial-character Haar average. -/
 theorem haarPlus_restMinus_zero :
@@ -110,7 +115,7 @@ theorem haarPlus_restMinus_zero :
   ext i
   fin_cases i <;>
     norm_num [haarPlus, exchangeMatrix, restMinus, Matrix.mulVec,
-      Fin.sum_univ_two, Matrix.one_apply]
+      Fin.sum_univ_two, Matrix.one_apply, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- The Hadamard character table diagonalizes the exchange generator: Fourier transform
 turns translation/swap into the character-sign matrix. -/
@@ -141,4 +146,6 @@ theorem z2_Haar_character_resolution :
     haarPlus * haarMinus = 0 := by
   exact ⟨haarPlus_add_haarMinus_one, haarPlus_haarMinus_zero⟩
 
+
+end
 end GppZ2HaarFourierContactBridge

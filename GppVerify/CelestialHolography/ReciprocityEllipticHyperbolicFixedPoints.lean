@@ -35,6 +35,9 @@ physical; the global geometry still has to select an integral primitive shear.
 
 namespace GppReciprocityEllipticHyperbolicFixedPoints
 
+noncomputable section
+
+
 open GppReflectionSpinGoldenFork
 
 /-- Elliptic projective completion of reciprocity. -/
@@ -47,10 +50,10 @@ theorem elliptic_fixed_iff_sq_neg_one {z : ℂ} (hz : z ≠ 0) :
   constructor
   · intro h
     field_simp [hz] at h
-    nlinarith
+    linear_combination -h
   · intro h
     field_simp [hz]
-    nlinarith
+    linear_combination -h
 
 /-- `+i` is an elliptic fixed point. -/
 theorem I_is_elliptic_fixed : ellipticMobius Complex.I = Complex.I := by
@@ -61,9 +64,9 @@ theorem negI_is_elliptic_fixed : ellipticMobius (-Complex.I) = -Complex.I := by
   simp [ellipticMobius, Complex.inv_I]
 
 /-- The elliptic projective map is involutive away from zero. -/
-theorem ellipticMobius_involution (z : ℂ) (hz : z ≠ 0) :
+theorem ellipticMobius_involution (z : ℂ) :
     ellipticMobius (ellipticMobius z) = z := by
-  simp [ellipticMobius, hz]
+  simp [ellipticMobius]
 
 /-- Its linear lift nevertheless has the spinorial central sign after two applications. -/
 theorem linear_elliptic_lift_sq_central (u : GppEinsteinNullRaySL2Geometry.RayState) :
@@ -77,4 +80,6 @@ theorem hyperbolic_positive_fixed_is_phi {z : ℝ} (hz : 0 < z) :
     z = 1 + 1/z ↔ z = Real.goldenRatio := by
   exact hyperbolic_completion_positive_fixed_iff_phi hz
 
+
+end
 end GppReciprocityEllipticHyperbolicFixedPoints
