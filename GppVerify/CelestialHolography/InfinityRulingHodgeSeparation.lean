@@ -70,7 +70,7 @@ theorem det2_screenTranspose (A : M2) :
 theorem screenCofactor_involutive (A : M2) :
     screenCofactor (screenCofactor A) = A := by
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp [screenTranspose, screenCofactor, epsilonTurn2]
 
 /-- The split-Hodge screen cofactor preserves the determinant. -/
 theorem det2_screenCofactor (A : M2) :
@@ -137,11 +137,8 @@ theorem screenCofactor_nullMomentum
   rcases lambda with ⟨l0,l1⟩
   rcases lambdatilde with ⟨t0,t1⟩
   simp [screenCofactor, nullMomentum, epsilonTurn2]
-  constructor
-  · ring
-  · constructor
-    · ring
-    · constructor <;> ring
+  repeat' constructor
+  all_goals ring
 
 /-- Concrete separation witness: ruling exchange and the split-Hodge screen action are
 not the same operation. -/

@@ -51,7 +51,7 @@ noncomputable section
 open Complex
 
 /-- Adapted components `(x,y,p,q)` of a local twistor along a null ray. -/
-structure RayLocalTwistor where
+@[ext] structure RayLocalTwistor where
   x : ℂ
   y : ℂ
   p : ℂ
@@ -74,9 +74,11 @@ def RayAligned (Z : RayLocalTwistor) : Prop := Z.y = 0
 def InRayLine (Z : RayLocalTwistor) : Prop :=
   Z.x = 0 ∧ Z.y = 0 ∧ Z.p = 0
 
-/-- The aligned subspace is invariant under local-twistor transport. -/
+/-- The aligned subspace is invariant under local-twistor transport. In fact the generator
+lands in it from every starting twistor, aligned or not, so no alignment hypothesis is
+needed. -/
 theorem rayAligned_preserved
-    (U C D E : ℂ) (Z : RayLocalTwistor) (hZ : RayAligned Z) :
+    (U C D E : ℂ) (Z : RayLocalTwistor) :
     RayAligned (localTwistorGenerator U C D E Z) := by
   rfl
 
@@ -152,7 +154,7 @@ theorem einsteinRayGenerator_sq (U : ℂ) (u : EinsteinRayState) :
     einsteinRayGenerator U (einsteinRayGenerator U u) = scaleState (-U) u := by
   rcases u with ⟨x,p⟩
   simp [einsteinRayGenerator, scaleState]
-  constructor <;> ring_nf
+  constructor <;> ring_nf <;> simp [I_sq]
 
 /-- The quotient dynamics does not depend on which representative of an aligned state is
 chosen along the invariant ray line: changing only `q` leaves both the quotient state and

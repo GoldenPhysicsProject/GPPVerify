@@ -88,7 +88,6 @@ theorem chart_secondOrder_pair_eq_halfPair (u : ContactVector) :
     pair4 (chartDz u).val (chartDw u).val = halfPair u.1 u.2 := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
   simp [chartDz, chartDw, pair4, halfPair]
-  ring
 
 /-- Main local bridge: Penrose strong incidence is exactly the neutral contact-null cone. -/
 theorem strongSecondOrder_iff_neutralQ_zero (u : ContactVector) :

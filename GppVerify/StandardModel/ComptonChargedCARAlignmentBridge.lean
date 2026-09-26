@@ -32,6 +32,11 @@ charged one-particle structure specialized to the Compton scale.
 
 namespace GppComptonChargedCARAlignmentBridge
 
+open Matrix
+
+noncomputable section
+
+
 open GppOrientationMassTime
 open GppChargedKahlerRelativeOrientation
 open GppChargedKahlerDynamicalSign
@@ -87,4 +92,6 @@ theorem compton_CAR_orientation_capstone (m c hbar : ℝ) :
     (both_sectors_positive_compton_magnitude m c hbar).1,
     (both_sectors_positive_compton_magnitude m c hbar).2⟩
 
+
+end
 end GppComptonChargedCARAlignmentBridge

@@ -75,6 +75,8 @@ theorem det_hermitianVec (v : R4) :
     detC2 (hermitianVec v) = (minkowskiQ v : ℂ) := by
   rcases v with ⟨t,x,y,z⟩
   simp [detC2, hermitianVec, minkowskiQ, Complex.I_mul_I]
+  ring_nf
+  rw [Complex.I_sq]
   ring
 
 /-- 2x2 adjugate/cofactor. -/
@@ -148,7 +150,7 @@ theorem adj2_eq_eps_transpose_neg_eps (A : C2M) :
     adj2 A = eps2 * A.transpose * (-eps2) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [adj2, eps2, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [adj2, eps2, Matrix.mul_apply, Fin.sum_univ_two, Matrix.vecMul, dotProduct]
 
 /-- Therefore parity is factor/ruling exchange plus the two epsilon identifications. -/
 theorem parity_is_epsilon_dressed_transpose (v : R4) :

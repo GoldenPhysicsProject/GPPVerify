@@ -78,7 +78,7 @@ theorem chi_even_dynamics_cannot_map_matter_to_antimatter
   rw [hF, chi_antimatter] at hm
   have hzero : antimatterLift = (0 : Orientation4) := by
     have := congrArg (fun v : Orientation4 => v.2.1) hm
-    norm_num [antimatterLift] at this ⊢
+    norm_num [antimatterLift] at this
   have hc := congrArg (fun v : Orientation4 => v.2.1) hzero
   norm_num [antimatterLift] at hc
 

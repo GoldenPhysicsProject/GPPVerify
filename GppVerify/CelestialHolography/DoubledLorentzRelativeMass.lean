@@ -84,7 +84,8 @@ theorem add4_quarterTurn (u : DoubledMomentum) :
       neg4 (sub4 u.1 u.2) := by
   rcases u with ⟨⟨a,b,c,d⟩,⟨e,f,g,h⟩⟩
   simp [quarterTurn, add4, sub4, neg4]
-  ring
+  ring_nf
+  simp
 
 /-- Under the quarter-turn, the difference variable becomes the old sum. -/
 theorem sub4_quarterTurn (u : DoubledMomentum) :
@@ -92,7 +93,8 @@ theorem sub4_quarterTurn (u : DoubledMomentum) :
       add4 u.1 u.2 := by
   rcases u with ⟨⟨a,b,c,d⟩,⟨e,f,g,h⟩⟩
   simp [quarterTurn, add4, sub4, neg4]
-  ring
+  ring_nf
+  simp
 
 /-- The Lorentz norm is even under componentwise negation. -/
 theorem lorentzQ_neg4 (p : V4) :

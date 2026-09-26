@@ -91,7 +91,7 @@ theorem rayWeyl_det_one : det2 rayWeyl = 1 := by
 theorem rayWeyl_action_eq_flatWeyl (u : RayState) :
     act2 rayWeyl u = weylSpinor u := by
   rcases u with ⟨x,p⟩
-  rfl
+  simp [RayState, omega, act2, einsteinRayGenerator, rayWeyl, weylSpinor]
 
 /-- Consequently the Weyl representative preserves the Wronskian. -/
 theorem rayWeyl_preserves_omega (u v : RayState) :
@@ -115,7 +115,7 @@ theorem rayUnipotent_det_one (a : ℝ) : det2 (rayUnipotent a) = 1 := by
 theorem rayUnipotent_action (a : ℝ) (u : RayState) :
     act2 (rayUnipotent a) u = unipotentSpinor a u := by
   rcases u with ⟨x,p⟩
-  simp [act2, rayUnipotent, unipotentSpinor]
+  simp [act2, rayUnipotent, unipotentSpinor, add_comm]
 
 /-- Thus the same determinant-one geometry contains both the null-ray transport generator
 and the Weyl/unipotent data underlying the flat principal-series intertwiner. -/

@@ -80,6 +80,7 @@ def planckMassSq (xi phi : ℝ) : ℝ := xi*phi^2
 /-- Reversing the signed scale field reverses the oriented fermion mass/phase. -/
 theorem phi_flip_reverses_signed_fermion_mass (y phi : ℝ) :
     fermionSignedMass y (-phi) = -fermionSignedMass y phi := by
+  unfold fermionSignedMass
   ring
 
 /-- But the physical mass magnitude is blind to the branch sign. -/

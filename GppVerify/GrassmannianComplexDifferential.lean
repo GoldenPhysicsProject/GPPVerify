@@ -11,6 +11,9 @@ All identities are polynomial/rational identities over `ℂ`.
 
 namespace GppGrassmannianComplexDifferential
 
+noncomputable section
+
+
 open Matrix
 
 /-- Big-cell determinant. -/
@@ -142,6 +145,7 @@ theorem Japply_transport_mode (a b c d ζ : ℂ) (v : Fin 4 → ℂ)
   ext i
   simp [div_eq_mul_inv]
   field_simp [hD]
-  ring
 
+
+end
 end GppGrassmannianComplexDifferential

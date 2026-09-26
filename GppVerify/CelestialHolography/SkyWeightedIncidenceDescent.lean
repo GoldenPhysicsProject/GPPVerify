@@ -91,7 +91,6 @@ theorem transition_cocycle
     transition frame u v * transition frame v w = transition frame u w := by
   unfold transition
   field_simp [hframe u, hframe v, hframe w]
-  ring
 
 /-- The transition from a frame to itself is one. -/
 theorem transition_refl
@@ -116,6 +115,5 @@ theorem framed_values_related_by_transition
   unfold transition
   rw [huv]
   field_simp [hframe u]
-  ring
 
 end GppSkyWeightedIncidenceDescent

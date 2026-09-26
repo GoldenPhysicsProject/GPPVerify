@@ -51,7 +51,6 @@ theorem neutral_lepton_source_controls_BL
     (Ngen k ell : ℤ) :
     (deltaB Ngen k) - (deltaL Ngen k + ell) = -ell := by
   simp [deltaB, deltaL]
-  ring
 
 /-- Thus electroweak topology can redistribute B+L while an independent lepton source fixes
     the conserved B-L datum. -/

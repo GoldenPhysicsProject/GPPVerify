@@ -23,8 +23,8 @@ open GppProjectiveOrientationInvariance
 projective point.  Scale invariance is required only for nonzero real scales. -/
 structure ProjectiveObservable (Obs : Type*) where
   observe : P6 → Obs
-  scale_invariant : ∀ (λ : ℝ), λ ≠ 0 → ∀ p,
-    observe (scaleP6 λ p) = observe p
+  scale_invariant : ∀ (lam : ℝ), lam ≠ 0 → ∀ p,
+    observe (scaleP6 lam p) = observe p
 
 namespace ProjectiveObservable
 
@@ -34,8 +34,8 @@ variable {Obs : Type*} (O : ProjectiveObservable Obs)
 theorem eq_on_projectivelyEquivalent
     {p q : P6} (h : ProjectivelyEquivalent p q) :
     O.observe q = O.observe p := by
-  rcases h with ⟨λ,hλ,rfl⟩
-  exact O.scale_invariant λ hλ p
+  rcases h with ⟨lam,hlam,rfl⟩
+  exact O.scale_invariant lam hlam p
 
 /-- Orientation reversal does not change any projective observable of the Hodge
 complement: `star p` and `-star p` are observationally identical downstairs. -/

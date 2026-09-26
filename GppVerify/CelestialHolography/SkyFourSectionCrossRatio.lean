@@ -47,7 +47,9 @@ theorem mobius_sub
     mobius A B C D x - mobius A B C D y =
       (A*D-B*C) * (x-y) / ((C*x+D)*(C*y+D)) := by
   unfold mobius
-  field_simp [hx, hy]
+  have hx' : x * C + D ≠ 0 := by rwa [mul_comm]
+  have hy' : y * C + D ≠ 0 := by rwa [mul_comm]
+  field_simp [hx, hy, hx', hy']
   ring
 
 /-- The cross ratio is invariant under any nondegenerate Mobius basis change, on an affine
@@ -84,7 +86,9 @@ theorem crossRatio_swap_middle
     (had : a-d ≠ 0) (hbc : b-c ≠ 0) :
     crossRatio a c b d = 1 - crossRatio a b c d := by
   unfold crossRatio
-  field_simp [had, hbc]
+  have hcb : c - b ≠ 0 := fun h => hbc (by linarith)
+  have hcb' : -b + c ≠ 0 := fun h => hbc (by linarith)
+  field_simp [had, hbc, hcb, hcb']
   ring
 
 /-- The two elementary permutation laws therefore realize the standard crossing generators

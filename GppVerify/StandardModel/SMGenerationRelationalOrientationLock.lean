@@ -50,8 +50,7 @@ theorem full_conjugation_preserves_anomaly_freedom
   have hall := (anomalyFree_iff_all_orientations_locked q u d l e).1 hA
   rcases hall with ⟨hqu,hud,hdl,hle⟩
   apply (anomalyFree_iff_all_orientations_locked (!q) (!u) (!d) (!l) (!e)).2
-  simp only [Bool.not_eq_not]
-  exact ⟨hqu,hud,hdl,hle⟩
+  exact ⟨by rw [hqu], by rw [hud], by rw [hdl], by rw [hle]⟩
 
 /-- CPT reversal preserves the relational matter sign of every multiplet. -/
 theorem full_CPT_preserves_generation_characters

@@ -78,7 +78,7 @@ theorem commonJ_sq (u : ContactVector) :
 theorem relativeJ_sq (u : ContactVector) :
     relativeJ (relativeJ u) = negContact u := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact]
 
 /-- The two complex structures commute. -/
 theorem commonJ_relativeJ_commute (u : ContactVector) :
@@ -91,7 +91,7 @@ two commuting complex structures. -/
 theorem commonJ_relativeJ_eq_paraJ (u : ContactVector) :
     commonJ (relativeJ u) = paraJ u := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact]
 
 /-- The opposite ordering gives the same para-complex involution. -/
 theorem relativeJ_commonJ_eq_paraJ (u : ContactVector) :
@@ -113,25 +113,25 @@ theorem exchange_commutes_commonJ (u : ContactVector) :
 theorem exchange_anticommutes_relativeJ (u : ContactVector) :
     exchangeHalves (relativeJ u) = negContact (relativeJ (exchangeHalves u)) := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact]
 
 /-- Consequently factor exchange flips the para-complex/chirality sign. -/
 theorem exchange_anticommutes_paraJ (u : ContactVector) :
     exchangeHalves (paraJ u) = negContact (paraJ (exchangeHalves u)) := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact]
 
 /-- Pure left directions are `+1` eigenvectors of the relative product `K=paraJ`. -/
 theorem left_is_para_plus (x : ContactHalf) :
     paraJ (x,(0,0)) = (x,(0,0)) := by
   rcases x with ⟨x0,x1⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact]
 
 /-- Pure right directions are `-1` eigenvectors of the same relative product. -/
 theorem right_is_para_minus (y : ContactHalf) :
     paraJ ((0,0),y) = negContact ((0,0),y) := by
   rcases y with ⟨y0,y1⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact]
 
 /-- Exchange swaps the two eigenbundles of the relative-orientation involution. -/
 theorem exchange_left_to_right (x : ContactHalf) :
