@@ -113,6 +113,46 @@ theorem dyadic_margin_eq_inv_finitePlaceKernel_five_half :
   nlinarith
 
 
+
+/-! ## Uniqueness of the discriminant-five local/global match -/
+
+/--
+Suppose a hyperbolic trace t and positive square-root discriminant d satisfy
+d²=t²-4.  If the center finite-place kernel shape (d+1)/(d-1) equals the expanding
+hyperbolic eigenvalue (t+d)/2, then the trace is forced to be 3.
+
+Thus the q=5 / golden coincidence is not generic in the trace family: the matching
+equation itself singles out the minimal hyperbolic sector.
+-/
+theorem kernel_eigenvalue_match_forces_trace_three
+    {t d : ℝ}
+    (ht : 3 ≤ t) (hd : 1 < d)
+    (hdisc : d ^ 2 = t ^ 2 - 4)
+    (hmatch : (d + 1) / (d - 1) = (t + d) / 2) :
+    t = 3 := by
+  have hden : d - 1 ≠ 0 := by linarith
+  have hcross : 2 * (d + 1) = (t + d) * (d - 1) := by
+    rw [div_eq_iff hden] at hmatch
+    linarith
+  have hzero :
+      t * d + t ^ 2 - t - 3 * d - 6 = 0 := by
+    nlinarith [hcross, hdisc]
+  have hfac : (t - 3) * (d + t + 2) = 0 := by
+    calc
+      (t - 3) * (d + t + 2)
+          = t * d + t ^ 2 - t - 3 * d - 6 := by ring
+      _ = 0 := hzero
+  rcases mul_eq_zero.mp hfac with h | h
+  · linarith
+  · have : 0 < d + t + 2 := by linarith
+    exact False.elim (this.ne' h)
+
+/-- At trace 3 the discriminant equation gives d²=5. -/
+theorem trace_three_discriminant_five
+    {d : ℝ} (hdisc : d ^ 2 = (3 : ℝ) ^ 2 - 4) :
+    d ^ 2 = 5 := by
+  nlinarith
+
 /-- Any nonzero solution of x²=x+1 is a fixed point of the golden map. -/
 theorem goldenMap_fixed_of_quadratic
     {x : ℝ} (hx : x ≠ 0) (hquad : x ^ 2 = x + 1) :
