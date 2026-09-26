@@ -1304,3 +1304,6 @@ import GppVerify.RiemannHypothesis.GoldenMobiusAudit
 
 -- ── Codex: BPY S4 angular Cayley variance (2026-09-26) ──
 import GppVerify.RiemannHypothesis.BPYAngularCayley
+
+-- Corrected Suzuki/CCM Weyl boundary word; exact scalar algebra, no RH claim.
+import GppVerify.RiemannHypothesis.GoldenWeylBoundaryWord
