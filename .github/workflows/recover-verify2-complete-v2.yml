@@ -1,0 +1,72 @@
+name: Recover Verify2 corpus v2
+
+on:
+  push:
+    branches:
+      - codex/rh-boundary-closure
+    paths:
+      - .github/workflows/recover-verify2-complete-v2.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/rh-boundary-closure
+          fetch-depth: 0
+
+      - name: Clone Verify2
+        run: git clone --depth 1 https://github.com/GoldenPhysicsProject/GPPVerify2.git /tmp/GPPVerify2
+
+      - name: Copy all absent files
+        run: rsync -a --ignore-existing --exclude='.git/' /tmp/GPPVerify2/ ./
+
+      - name: Enforce active Lean 4.33.1 configuration
+        run: |
+          test "$(cat lean-toolchain)" = "leanprover/lean4:v4.33.1"
+          grep -q 'rev = "v4.33.1"' lakefile.toml
+
+      - name: Commit recovered files
+        run: |
+          git config user.name "GPP Codex Recovery"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No missing files remain."
+          else
+            git commit -m "Recover all remaining Verify2-only files"
+            git push origin HEAD:codex/rh-boundary-closure
+          fi
+
+      - name: Verify complete path coverage
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          src=Path("/tmp/GPPVerify2")
+          dst=Path(".")
+          missing=[]
+          for p in src.rglob("*"):
+              if p.is_file() and ".git" not in p.parts:
+                  rel=p.relative_to(src)
+                  if not (dst/rel).exists():
+                      missing.append(str(rel))
+          print("missing:", len(missing))
+          if missing:
+              print("\n".join(missing))
+              raise SystemExit(1)
+          PY
+
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+
+      - name: Lean version
+        run: lean --version
+
+      - name: Build all
+        run: lake build
