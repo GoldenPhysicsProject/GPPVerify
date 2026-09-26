@@ -152,6 +152,62 @@ theorem scaledWeyl_kreinFeedback_eq_oddSchur (m : ℂ) :
     field_simp [hden, hden2]
     ring
 
+/-! ## Signed pole coupling and the parity-duality defect -/
+
+/-- Raw scalar response under a signed rank-one coupling of strength `alpha`. -/
+def rawRankOneFeedback (alpha x : ℝ) : ℝ := x / (1 + alpha * x)
+
+/-- The completed even pole coefficient `+1/2` is exactly the odd Schur map. -/
+theorem halfDensity_evenPole_eq_oddSchur (x : ℝ) :
+    rawRankOneFeedback (1 / 2 : ℝ) x = oddSchur x := by
+  unfold rawRankOneFeedback oddSchur
+  by_cases h : x + 2 = 0
+  · have hx : x = -2 := by linarith
+    simp [hx]
+  · field_simp [h]
+    ring
+
+/-- The completed odd pole coefficient `-1/2` is exactly the even Schur map. -/
+theorem halfDensity_oddPole_eq_evenSchur (x : ℝ) :
+    rawRankOneFeedback (-1 / 2 : ℝ) x = evenSchur x := by
+  unfold rawRankOneFeedback evenSchur
+  by_cases h : x - 2 = 0
+  · have hx : x = 2 := by linarith
+    simp [hx]
+  · field_simp [h]
+    ring
+
+/-- Coupling-normalized reciprocal response turns every signed rank-one feedback
+    into a unit translation. -/
+theorem reciprocal_signed_rankOne_feedback
+    {alpha x : ℝ} (ha : alpha ≠ 0) (hx : x ≠ 0)
+    (hden : 1 + alpha * x ≠ 0) :
+    1 / (alpha * rawRankOneFeedback alpha x) =
+      1 / (alpha * x) + 1 := by
+  unfold rawRankOneFeedback
+  field_simp [ha, hx, hden]
+  ring
+
+/-- The involution exchanging the two half-density threshold cones. -/
+def parityDualResponse (x : ℝ) : ℝ := -4 / x
+
+/-- The exact algebraic defect from the candidate even/odd duality surface
+    `x_even * x_odd = -4`, expressed by the two threshold defects. -/
+theorem parity_duality_defect_identity (xEven xOdd : ℝ) :
+    xEven * xOdd + 4 =
+      2 * (xEven + 2) - 2 * (xOdd - 2) +
+        (xEven + 2) * (xOdd - 2) := by
+  ring
+
+/-- The candidate parity duality exchanges the two threshold points exactly. -/
+theorem parityDualResponse_neg_two :
+    parityDualResponse (-2) = 2 := by
+  norm_num [parityDualResponse]
+
+theorem parityDualResponse_two :
+    parityDualResponse 2 = -2 := by
+  norm_num [parityDualResponse]
+
 /-- The deficiency coordinate `A` has its forced normalization zero at `z=i`. -/
 theorem suzukiA_at_I_eq_zero (I : ℂ → ℂ) :
     suzukiA I Complex.I = 0 := by
