@@ -28,6 +28,9 @@ testing because the equality is unique rather than fitted.
 
 namespace GppDyadicOrientationHadamardBridge
 
+noncomputable section
+
+
 abbrev M2C := Matrix (Fin 2) (Fin 2) ℂ
 
 /-- Squared first-channel amplitude in the arithmetic local colligation. -/
@@ -75,4 +78,6 @@ theorem dyadic_equal_weight_package :
     aSq 2 = (1/2 : ℝ) ∧ bSq 2 = (1/2 : ℝ) := by
   norm_num [aSq, bSq]
 
+
+end
 end GppDyadicOrientationHadamardBridge

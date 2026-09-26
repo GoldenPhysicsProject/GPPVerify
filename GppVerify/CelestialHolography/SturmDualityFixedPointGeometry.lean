@@ -47,7 +47,6 @@ theorem Sturm_square_is_minus_potential (U : ℂ) (u : SturmState) :
     sturmGenerator U (sturmGenerator U u) = scaleSturmState (-U) u := by
   rcases u with ⟨x,p⟩
   simp [sturmGenerator, scaleSturmState]
-  constructor <;> ring
 
 /-- At the positive reciprocal fixed point the Sturm generator is the epsilon quarter-turn. -/
 theorem Sturm_at_plus_one_eq_epsilonTurn (u : SturmState) :

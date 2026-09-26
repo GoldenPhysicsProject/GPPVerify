@@ -28,7 +28,7 @@ So the quotient
 
 has an exact physical-algebra candidate: it is simultaneously
 
-* the sign of the oriented vector `p -> +/- p`, and
+* the sign of the oriented vector `p -> ± p`, and
 * the two cosets relative to the mass-coupling stabilizer.
 
 The surviving diagonal element `(-,-)` is the vector-invisible spin deck sign; it should

@@ -79,7 +79,6 @@ theorem factorSwap_reverses_twiceHelicity (w : BiWeight) :
     twiceHelicity (swapBiWeight w) = - twiceHelicity w := by
   rcases w with ⟨p,q⟩
   simp [twiceHelicity, swapBiWeight]
-  ring
 
 /-- The mixed Ricci representation has zero helicity and is therefore not the googly pair. -/
 theorem tracefreeRicci_zero_helicity :

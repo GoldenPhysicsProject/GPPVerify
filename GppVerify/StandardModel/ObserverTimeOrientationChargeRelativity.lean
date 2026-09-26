@@ -48,6 +48,8 @@ same operation.  The thermodynamic arrow does not enter this algebra.
 
 namespace GppObserverTimeOrientationChargeRelativity
 
+open Matrix
+
 open GppChargedCARComplexOrientationNoGo
 open GppChargedCARChargeTimeComplexDictionary
 
@@ -59,8 +61,7 @@ def fixedStandardReverseJ : M2 := -energyJ
 theorem fixed_standard_reverse_flips_relative_charge :
     -(phaseI * fixedStandardReverseJ) = fixedStandardReverseQ := by
   simp [fixedStandardReverseJ, fixedStandardReverseQ]
-  rw [← qSign_eq_relative_orientation]
-  simp
+  rw [qSign_eq_relative_orientation, neg_neg]
 
 /-- The positive-energy complex structure really changes sign under the fixed-standard
     orientation reversal. -/

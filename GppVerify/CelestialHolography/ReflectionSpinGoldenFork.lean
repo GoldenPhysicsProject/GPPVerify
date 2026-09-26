@@ -46,6 +46,8 @@ second reflection that gives the spin lift.
 
 namespace GppReflectionSpinGoldenFork
 
+open Matrix
+
 open GppEinsteinNullRaySL2Geometry
 open GppAmbitwistorGoldenPGL2Bridge
 open GppNullRayDiracWeylBridge

@@ -37,6 +37,8 @@ numerical value of `m`, nor identify the contact halves with electric charge sec
 
 namespace GppMassAsContactExchangeHamiltonian
 
+open Matrix
+
 open GppAmbitwistorContactNeutralCone
 open GppContactDiracHadamardBridge
 open GppRelativePhaseDiracEnergy
@@ -84,7 +86,6 @@ theorem restHamiltonian_restMinus (m c : ℝ) :
   rw [restHamiltonianAct, betaRest_restMinus]
   ext i
   simp
-  ring
 
 /-- Applying the rest Hamiltonian twice gives the scalar `m^2 c^4` action. -/
 theorem restHamiltonian_sq
@@ -93,8 +94,7 @@ theorem restHamiltonian_sq
       (restEnergyScale m c * restEnergyScale m c) • psi := by
   rw [restHamiltonianAct, restHamiltonianAct]
   rw [Matrix.mulVec_smul]
-  rw [← Matrix.mulVec_mulVec, betaRest_sq_eq_one]
-  simp [smul_smul, mul_comm, mul_left_comm, mul_assoc]
+  rw [Matrix.mulVec_mulVec, betaRest_sq_eq_one, Matrix.one_mulVec, smul_smul]
 
 /-- The two energy branches differ by exactly twice the Compton frequency after division by
 `hbar`; this imports the already-proved beat identity into the contact-exchange picture. -/

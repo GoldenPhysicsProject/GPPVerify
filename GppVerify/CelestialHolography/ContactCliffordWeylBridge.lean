@@ -4,6 +4,7 @@ import Mathlib.LinearAlgebra.Matrix.Notation
 import GppVerify.CelestialHolography.AmbitwistorBicomplexOrientation
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.StandardModel.ContactDiracHadamardBridge
+import GppVerify.StandardModel.MassAsContactExchangeHamiltonian
 
 /-!
 # Contact exchange and chirality generate the Weyl Z4 as a Clifford product
@@ -38,9 +39,12 @@ physical C, P, or T; that is a later discrete-symmetry dictionary problem.
 
 namespace GppContactCliffordWeylBridge
 
+open Matrix
+
 open GppAmbitwistorContactNeutralCone
 open GppContactDiracHadamardBridge
 open GppEinsteinNullRaySL2Geometry
+open GppMassAsContactExchangeHamiltonian (contactToDirac_exchangeHalves)
 
 /-- Matrix of canonical contact-factor exchange after complexification. -/
 def exchangeMatrix : Matrix (Fin 2) (Fin 2) ℂ :=
@@ -120,8 +124,7 @@ quarter-turn matrix on the complexified two-component carrier. -/
 theorem contact_exchange_after_chirality_is_Weyl (u : ContactVector) :
     contactToDirac (exchangeHalves (paraJ u)) =
       contactWeylMatrix *ᵥ contactToDirac u := by
-  rw [contactToDirac_exchangeHalves, contactToDirac_paraJ]
-  rw [← Matrix.mulVec_mulVec]
+  rw [contactToDirac_exchangeHalves, contactToDirac_paraJ, Matrix.mulVec_mulVec]
   rfl
 
 /-- The real `2x2` null-ray Weyl representative has the same coordinate matrix. -/

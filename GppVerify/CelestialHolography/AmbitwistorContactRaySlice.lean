@@ -92,6 +92,7 @@ theorem neutralQ_on_polarized_slice
       2 * u.1 * u.2 * screenNormSq e := by
   rw [neutralQ_eq_twice_halfPair]
   rcases u with ⟨x,p⟩
+  simp only [polarizedRaySlice]
   rw [halfPair_screenScale]
   ring
 
