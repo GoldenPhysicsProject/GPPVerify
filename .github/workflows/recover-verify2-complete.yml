@@ -1,0 +1,80 @@
+name: Recover all Verify2-only files into GPPVerify
+
+on:
+  push:
+    branches:
+      - codex/rh-boundary-closure
+    paths:
+      - .github/workflows/recover-verify2-complete.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recover-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GPPVerify
+        uses: actions/checkout@v4
+        with:
+          ref: codex/rh-boundary-closure
+          fetch-depth: 0
+
+      - name: Clone retired Verify2 source
+        run: |
+          git clone --depth 1 https://github.com/GoldenPhysicsProject/GPPVerify2.git /tmp/GPPVerify2
+
+      - name: Copy every file absent from GPPVerify
+        shell: bash
+        run: |
+          rsync -a --ignore-existing --exclude='.git/' /tmp/GPPVerify2/ ./
+
+      - name: Verify path-complete recovery
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          src = Path("/tmp/GPPVerify2")
+          dst = Path(".")
+          missing = []
+          for p in src.rglob("*"):
+              if not p.is_file() or ".git" in p.parts:
+                  continue
+              rel = p.relative_to(src)
+              if not (dst / rel).exists():
+                  missing.append(str(rel))
+          print(f"Verify2 files still absent from GPPVerify: {len(missing)}")
+          if missing:
+              print("\n".join(missing))
+              raise SystemExit(1)
+          PY
+
+      - name: Enforce Lean 4.33.1 project toolchain
+        run: |
+          test "$(cat lean-toolchain)" = "leanprover/lean4:v4.33.1"
+          grep -q 'rev = "v4.33.1"' lakefile.toml
+
+      - name: Commit recovered corpus
+        run: |
+          if git diff --quiet -- . && git diff --cached --quiet -- .; then
+            echo "No files to recover."
+            exit 0
+          fi
+          git config user.name "GPP Codex Recovery"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Recover complete Verify2-only corpus into GPPVerify"
+          git push origin HEAD:codex/rh-boundary-closure
+
+      - name: Install Lean 4.33.1
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+
+      - name: Confirm Lean version
+        run: |
+          lean --version
+          lake --version
+
+      - name: Build complete recovered GPPVerify corpus
+        run: lake build
