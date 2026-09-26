@@ -70,15 +70,21 @@ theorem angularDensity_second_moment :
 /-- Odd first moment vanishes by direct polynomial integration. -/
 theorem angularDensity_first_moment :
     (∫ z in (-1 : ℝ)..1, z * angularDensity z) = 0 := by
+  have hz : (∫ z in (-1 : ℝ)..1, z) = 0 := by
+    change (∫ z in (-1 : ℝ)..1, z ^ 1) = 0
+    rw [integral_pow]
+    norm_num
+  have hz3 : (∫ z in (-1 : ℝ)..1, z ^ 3) = 0 := by
+    rw [integral_pow]
+    norm_num
   unfold angularDensity
   rw [show (fun z : ℝ => z * ((3 / 4 : ℝ) * (1 - z ^ 2))) =
       (fun z : ℝ => (3 / 4 : ℝ) * z - (3 / 4 : ℝ) * z ^ 3) by
         funext z; ring]
   rw [intervalIntegral.integral_sub]
-  · rw [intervalIntegral.integral_const_mul, intervalIntegral.integral_const_mul,
-        integral_pow, integral_pow]
+  · rw [intervalIntegral.integral_const_mul, intervalIntegral.integral_const_mul, hz, hz3]
     norm_num
-  · exact (continuous_const.mul (continuous_pow 1)).intervalIntegrable _ _
+  · exact (continuous_const.mul continuous_id).intervalIntegrable _ _
   · exact (continuous_const.mul (continuous_pow 3)).intervalIntegrable _ _
 
 /-- Conditional on a radial factor r, the Cayley coordinate rZ has second moment r^2/5. -/
@@ -94,8 +100,10 @@ theorem scaled_angular_second_moment (r : ℝ) :
 theorem scaled_angular_second_moment_le_one_fifth
     {r : ℝ} (hr : |r| ≤ 1) :
     r ^ 2 / 5 ≤ 1 / 5 := by
-  have hrsq : r ^ 2 ≤ 1 := by
-    nlinarith [sq_nonneg r, sq_le_sq.mpr (by simpa [abs_nonneg] using hr)]
+  rcases abs_le.mp hr with ⟨hl, hu⟩
+  have hp : 0 ≤ (1 - r) * (1 + r) :=
+    mul_nonneg (sub_nonneg.mpr hu) (by linarith)
+  have hrsq : r ^ 2 ≤ 1 := by nlinarith
   nlinarith
 
 /-- The one-fifth moment is exactly the square of the radius 1/sqrt(5). -/
