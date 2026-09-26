@@ -50,7 +50,7 @@ theorem projPlus_reversed_eq_projMinus (star : V → V) (F : V) :
 /-- And conversely the generic `-` component becomes the old `+` component. -/
 theorem projMinus_reversed_eq_projPlus (star : V → V) (F : V) :
     projMinus (reversedHodge star) F = projPlus star F := by
-  simp [projPlus, projMinus, reversedHodge]
+  simp [projPlus, projMinus, reversedHodge, smul_sub, sub_eq_add_neg]
 
 /-- Ordered pair of chiral components relative to an orientation-dependent Hodge star. -/
 noncomputable def chiralComponents (star : V → V) (F : V) : V × V :=

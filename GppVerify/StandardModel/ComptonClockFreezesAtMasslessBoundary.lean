@@ -37,7 +37,6 @@ theorem arbitrarily_slow_compton_clock
   have heq : comptonTime m c hbar = 2*T := by
     simp [m, comptonTime]
     field_simp [hc0, hT0, hh0]
-    ring
   rw [heq]
   linarith
 

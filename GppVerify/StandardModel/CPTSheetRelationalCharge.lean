@@ -83,6 +83,8 @@ theorem canonical_CPT_pair_package (e : ℝ) :
   · norm_num [conventionalCharge]
   constructor
   · norm_num [relationalCharge]
-  constructor <;> norm_num [relationalCharge]
+  refine ⟨by norm_num [relationalCharge], ?_⟩
+  norm_num [relationalCharge]
+  ring
 
 end GppCPTSheetRelationalCharge

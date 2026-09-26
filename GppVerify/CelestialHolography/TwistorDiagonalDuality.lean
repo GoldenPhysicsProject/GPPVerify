@@ -37,6 +37,7 @@ theorem canonicalShiftedDualWeight_eq_serreWeight (k : ℤ) :
     canonicalShiftedDualWeight k = serreWeight k := by
   norm_num [canonicalShiftedDualWeight, chargeDualWeight, serreWeight,
     canonicalDegree, projectiveTwistorDim]
+  ring
 
 /-- The diagonal duality is involutive at the level of line-bundle degree. -/
 theorem canonicalShiftedDualWeight_involutive (k : ℤ) :

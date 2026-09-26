@@ -77,8 +77,8 @@ theorem normSq_beta_eq_one_iff_critical
     have hden : Complex.normSq s ≠ 0 :=
       ne_of_gt ((Complex.normSq_pos).2 hs)
     have hnum : 2*s.re - 1 = 0 := by
-      apply (div_eq_zero_iff).mp
-      simpa using hd.symm
+      have h0 : (2*s.re - 1) / Complex.normSq s = 0 := by rw [← hd]; ring
+      exact (div_eq_zero_iff.mp h0).resolve_right hden
     linarith
   · intro h
     have hd := cayley_radial_defect s hs

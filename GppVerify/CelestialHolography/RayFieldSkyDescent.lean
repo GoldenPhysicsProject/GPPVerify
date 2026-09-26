@@ -48,7 +48,7 @@ theorem pullback_is_skyCompatible
     (pointOf : Sample → Point) (sigma : Point → K) :
     SkyCompatible pointOf (fun s => sigma (pointOf s)) := by
   intro a b hab
-  rw [hab]
+  exact congrArg sigma hab
 
 /-- A sky-compatible ray field descends through any surjective incidence map. -/
 theorem skyCompatible_descends

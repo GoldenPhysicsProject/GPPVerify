@@ -70,6 +70,6 @@ theorem tau_four_after_orientation_lift
     exact hD
   rw [tau_sq_from_complement (tau (tau A)) hdet2, h2]
   rcases A with ⟨a,b,c,d⟩
-  rfl
+  simp
 
 end GppGrassmannianTauTimeOrientationLift

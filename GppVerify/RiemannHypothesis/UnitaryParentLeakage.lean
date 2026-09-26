@@ -32,7 +32,7 @@ namespace GppUnitaryParentLeakage
 variable {X Y Z : Type*}
   [SeminormedAddCommGroup X]
   [SeminormedAddCommGroup Y]
-  [SeminormedAddCommGroup Z]
+  [NormedAddCommGroup Z]
 
 /-- Exact lossless energy splitting. -/
 def LosslessSplit (T : X → Y) (H : X → Z) : Prop :=

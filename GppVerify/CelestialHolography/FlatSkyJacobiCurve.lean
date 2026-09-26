@@ -52,7 +52,6 @@ theorem skyState_vanishes_at_its_point (s : ℝ) (v : Spinor2) :
     jacobiValue (skyState s v) s = (0,0) := by
   rcases v with ⟨v0,v1⟩
   simp [jacobiValue, skyState]
-  constructor <;> ring
 
 /-- Conversely, every flat Jacobi field which vanishes at `s` has exactly the displayed
 sky-plane form. -/

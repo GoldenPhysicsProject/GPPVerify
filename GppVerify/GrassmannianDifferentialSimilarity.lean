@@ -71,7 +71,7 @@ theorem N_mul_P_eq_D_smul_P_mul_L (a b c d : ℝ) :
 theorem N_mulVec_P_mulVec (a b c d : ℝ) (x : Fin 4 → ℝ) :
     N a b c d *ᵥ (P a b c d *ᵥ x)
       = (a * d - b * c) • (P a b c d *ᵥ (L *ᵥ x)) := by
-  rw [← Matrix.mulVec_mulVec, N_mul_P_eq_D_smul_P_mul_L]
-  simp [Matrix.mulVec_mulVec]
+  rw [Matrix.mulVec_mulVec, N_mul_P_eq_D_smul_P_mul_L, Matrix.smul_mulVec,
+    ← Matrix.mulVec_mulVec]
 
 end GppGrassmannianDifferentialSimilarity

@@ -95,8 +95,7 @@ theorem neg_square_eq_adjoint_mul_of_critical
   have hskew :
       Matrix.conjTranspose (quarterTurnDirac s) = -quarterTurnDirac s :=
     (quarterTurnDirac_skewAdjoint_iff_critical s hs0 hs1).mpr hcrit
-  rw [hskew]
-  ring
+  rw [hskew, neg_mul]
 
 end GppCayleyShadowDirac
 

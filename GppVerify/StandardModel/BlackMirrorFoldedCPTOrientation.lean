@@ -47,7 +47,7 @@ theorem foldedCPT_preserves_embedding_time (x : FoldSigns) :
 /-- Sheet and angular orientation both reverse. -/
 theorem foldedCPT_flips_sheet_and_sphere (x : FoldSigns) :
     (foldedCPTSigns x).2.1 = !x.2.1 ∧
-    (foldedCPTSigns x).2.2 = !x.2.2 := by rfl
+    (foldedCPTSigns x).2.2 = !x.2.2 := ⟨rfl, rfl⟩
 
 /-- The folded sign map is involutive. -/
 theorem foldedCPT_sq (x : FoldSigns) : foldedCPTSigns (foldedCPTSigns x) = x := by

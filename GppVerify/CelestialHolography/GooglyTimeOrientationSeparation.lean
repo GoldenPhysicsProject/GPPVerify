@@ -80,7 +80,7 @@ theorem quarterLift_orientation_pattern (sL sR : ℝ) :
       (quarterCenterLift (sL,sR)).2 = - vectorCenterCharacter sL sR ∧
     vectorCenterCharacter (quarterCenterLift (quarterCenterLift (sL,sR))).1
       (quarterCenterLift (quarterCenterLift (sL,sR))).2 = vectorCenterCharacter sL sR := by
-  simp [quarterCenterLift, exchangeCenterSigns, relativeCenterFlip, vectorCenterCharacter]
+  simp [quarterCenterLift, exchangeCenterSigns, relativeCenterFlip, vectorCenterCharacter, mul_comm]
 
 /-- Representation-theoretic googly action: factor exchange swaps the Weyl bidegrees. -/
 theorem googly_swaps_weyl_bidegrees :

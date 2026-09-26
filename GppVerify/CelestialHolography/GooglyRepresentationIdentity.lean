@@ -81,10 +81,9 @@ momentum state reconstruct exactly the same bulk solution. -/
 theorem same_momentum_state_same_bulk
     {Mom Tw TwDual Bulk : Type*}
     (B : CommonMomentumBridge Mom Tw TwDual Bulk)
-    (hinv : ∀ m, B.fromTw (B.toTw m) = m)
     (m : Mom) :
     B.dualPenrose (B.fullFourier (B.toTw m)) = B.penrose (B.toTw m) := by
-  exact two_penrose_representations_same_bulk B hinv m
+  exact two_penrose_representations_same_bulk B m
 
 /-- Linear split-signature resolution pattern: one state, two Fourier-related twistor
 representations, same bulk tensor.  The final equality is explicitly a numerical
@@ -92,11 +91,10 @@ cross-convention identity, not a physical helicity-flip assertion. -/
 theorem one_state_two_representations
     {Mom Tw TwDual Bulk : Type*}
     (B : CommonMomentumBridge Mom Tw TwDual Bulk)
-    (hinv : ∀ m, B.fromTw (B.toTw m) = m)
     (m : Mom) (n : ℤ) :
     B.dualPenrose (B.fullFourier (B.toTw m)) = B.penrose (B.toTw m) ∧
     dualTwistorWeight n = twistorWeight (-n) := by
-  exact ⟨same_momentum_state_same_bulk B hinv m,
+  exact ⟨same_momentum_state_same_bulk B m,
     dualWeight_eq_oppositeHelicityWeight n⟩
 
 /-! ## Exact limit of same-state Fourier plus orientation reversal -/

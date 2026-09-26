@@ -67,7 +67,7 @@ def reconstruction : ReconstructionData
 the Penrose square and nonlinear compatibility equation are both satisfied. -/
 theorem dualize_plus_onShell (v : Config) :
     OnShell C.reconstruction v (C.dualize (C.plusOf v)) := by
-  unfold OnShell reconstruction
+  show C.penroseB (C.dualize (C.plusOf v)) = C.gammaOfMetric (C.metricOf v)
   rw [C.square]
   exact C.nonlinearCompatibility v
 

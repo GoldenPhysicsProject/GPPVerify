@@ -73,7 +73,7 @@ theorem weylSpinor_fourth_power (x : Spinor2) :
 /-- Weyl exchanges the two coordinate chart base directions. -/
 theorem weyl_exchanges_chart_poles :
     weylSpinor (1,0) = (0,1) ∧ weylSpinor (0,1) = (-1,0) := by
-  exact ⟨rfl,rfl⟩
+  refine ⟨?_, ?_⟩ <;> simp [weylSpinor]
 
 /-- On a nonzero affine coordinate the Weyl-transformed spinor is projectively the
 affine representative with coordinate `-1/u`. -/

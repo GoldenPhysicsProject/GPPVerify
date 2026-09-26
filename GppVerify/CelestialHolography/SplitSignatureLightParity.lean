@@ -72,6 +72,7 @@ theorem shadow_Delta_J (x : SplitLabel) :
     Delta (shadow x) = 2 - Delta x ∧ J (shadow x) = -J x := by
   cases x
   simp [Delta, J, shadow]
+  ring
 
 /-- Full shadow preserves the discrete sign-representation data. -/
 theorem shadow_preserves_parity (x : SplitLabel) :

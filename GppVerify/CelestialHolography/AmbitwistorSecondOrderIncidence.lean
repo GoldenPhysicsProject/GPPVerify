@@ -81,7 +81,8 @@ theorem weakLeft_iff_weakRight_on_tangent
     (dz : Twistor) (dw : DualTwistor)
     (hT : TangentIncidence z w dz dw) :
     WeakLeft w dz ↔ WeakRight z dw := by
-  unfold TangentIncidence WeakLeft WeakRight at hT ⊢
+  unfold TangentIncidence at hT
+  unfold WeakLeft WeakRight
   constructor <;> intro h <;> linarith
 
 /-- Exact quadratic expansion of the incidence pairing under simultaneous affine

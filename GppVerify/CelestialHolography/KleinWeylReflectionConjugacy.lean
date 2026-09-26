@@ -84,6 +84,7 @@ theorem activeReflection_det
     (Lambda : ℝ) (hLambda : Lambda ≠ 0) :
     (0:ℝ)*0 - (-Lambda)*(-1/Lambda) = -1 := by
   field_simp [hLambda]
+  norm_num
 
 
 end

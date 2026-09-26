@@ -63,7 +63,7 @@ theorem kleinQ_shiftAlongInfinity
     (t : ℝ) (p : P6) (hp : p.p01 = 0) :
     kleinQ (shiftAlongInfinity t p) = kleinQ p := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
-  simp [shiftAlongInfinity, kleinQ] at hp ⊢
+  simp only [shiftAlongInfinity, kleinQ] at hp ⊢
   rw [hp]
   ring
 

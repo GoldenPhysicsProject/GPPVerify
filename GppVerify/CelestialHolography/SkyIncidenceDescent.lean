@@ -40,7 +40,7 @@ theorem pullback_is_skyBasic
     (point : F → M) (sigma : M → A) :
     SkyBasic point (fun u => sigma (point u)) := by
   intro u v huv
-  rw [huv]
+  exact congrArg sigma huv
 
 /-- If the incidence projection is surjective, every sky-basic correspondence-space field
 descends to a spacetime field.  The definition uses a choice of one incident ray through
