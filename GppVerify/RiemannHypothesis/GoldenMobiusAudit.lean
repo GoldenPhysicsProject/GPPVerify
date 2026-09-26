@@ -255,7 +255,7 @@ theorem criticalCayley_golden_quadratic_iff
       s ^ 2 + s - 1 = 0 := by
   unfold criticalCayley
   field_simp [hs0]
-  ring
+  constructor <;> intro h <;> linear_combination -h
 
 /-- The projective half-density coordinate w=exp(2π(s-1/2)). -/
 def projectiveShadowCoord (s : ℂ) : ℂ :=
