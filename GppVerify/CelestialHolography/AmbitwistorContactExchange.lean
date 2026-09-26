@@ -143,7 +143,6 @@ theorem factor_exchange_negates_potential
     (dz : Twistor) (dw : DualTwistor) :
     exchangedPotential w z dw dz = - ambiPotential z w dz dw := by
   simp [exchangedPotential, ambiPotential, thetaLeft, thetaRight]
-  ring
 
 /-- The anti-contact sign is itself involutive: exchanging twice restores the potential. -/
 theorem factor_exchange_twice_restores_potential

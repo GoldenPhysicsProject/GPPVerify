@@ -36,6 +36,8 @@ branches.
 
 namespace GppRelativePhaseDiracEnergy
 
+open Matrix
+
 open GppGrassmannianDiracIntertwiner
 open GppGrassmannianComplexDifferential
 

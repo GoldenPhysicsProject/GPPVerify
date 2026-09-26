@@ -26,6 +26,11 @@ physical mass interpretation of `|D|` is supplied separately by
 
 namespace GppGrassmannianDiracPhysicalIntertwiner
 
+open Matrix
+
+noncomputable section
+
+
 open GppGrassmannianComplexDifferential
 open GppGrassmannianDiracIntertwiner
 
@@ -66,15 +71,14 @@ theorem Psi_Jmat_eq_invD_Uq_Psi
   ext i j
   simp [Matrix.smul_apply]
   field_simp [hD]
-  ring
 
 /-- Vector-level form of the main intertwiner. -/
 theorem Psi_Jmat_mulVec
     (a b c d : ℂ) (hD : D a b c d ≠ 0) (v : Fin 4 → ℂ) :
     Psi a b c d *ᵥ (Jmat a b c d *ᵥ v)
       = (D a b c d)⁻¹ • (Uq *ᵥ (Psi a b c d *ᵥ v)) := by
-  rw [← Matrix.mulVec_mulVec, Psi_Jmat_eq_invD_Uq_Psi a b c d hD]
-  simp [Matrix.mulVec_mulVec]
+  rw [Matrix.mulVec_mulVec, Psi_Jmat_eq_invD_Uq_Psi a b c d hD, Matrix.smul_mulVec,
+    ← Matrix.mulVec_mulVec]
 
 /-- `Psi_A` is onto whenever `D != 0`: the quotient really has two
 independent Dirac coordinates, not a smaller image. -/
@@ -83,10 +87,10 @@ theorem Psi_surjective
     ∃ v : Fin 4 → ℂ, Psi a b c d *ᵥ v = y := by
   obtain ⟨x, hx⟩ := Phi_surjective y
   refine ⟨(D a b c d)⁻¹ • (P a b c d *ᵥ x), ?_⟩
-  simp only [Psi, Matrix.mulVec_mulVec, Matrix.mulVec_smul]
-  rw [← Matrix.mulVec_mulVec, QP]
-  ext i
-  simp [hx]
-  field_simp [hD]
+  rw [Matrix.mulVec_smul, Psi, ← Matrix.mulVec_mulVec, Matrix.mulVec_mulVec x (Q a b c d), QP,
+    Matrix.smul_mulVec, Matrix.one_mulVec, Matrix.mulVec_smul, hx, smul_smul,
+    inv_mul_cancel₀ hD, one_smul]
 
+
+end
 end GppGrassmannianDiracPhysicalIntertwiner

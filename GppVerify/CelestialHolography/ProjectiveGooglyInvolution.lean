@@ -89,7 +89,9 @@ theorem descended_bijection
       (descend PB PA G.backward (backward_respects PA PB G)) hxy
     have hleft := congrFun (descended_backward_forward PA PB G) x
     have hright := congrFun (descended_backward_forward PA PB G) y
-    simpa [Function.comp_def, hleft, hright] using h
+    simp only [Function.comp_apply, id] at hleft hright
+    rw [hleft, hright] at h
+    exact h
   · intro y
     refine ⟨descend PB PA G.backward (backward_respects PA PB G) y, ?_⟩
     have h := congrFun (descended_forward_backward PA PB G) y

@@ -53,11 +53,6 @@ theorem current_diagonal_flip_invariant (q : ℝ) (u : R4) :
     current4 (-q) (scaleR4 (-1) u) = current4 q u := by
   rcases u with ⟨t,x,y,z⟩
   simp [current4, scaleR4]
-  constructor
-  · ring
-  · constructor
-    · ring
-    · constructor <;> ring
 
 /-- Gravitational quadratic source is even under worldline orientation reversal. -/
 theorem stress_orientation_even (m : ℝ) (u : R4) :
@@ -77,11 +72,6 @@ theorem charge_only_current_odd (q : ℝ) (u : R4) :
     current4 (-q) u = scaleR4 (-1) (current4 q u) := by
   rcases u with ⟨t,x,y,z⟩
   simp [current4, scaleR4]
-  constructor
-  · ring
-  · constructor
-    · ring
-    · constructor <;> ring
 
 /-- Worldline-only reversal also changes the current while leaving stress unchanged. -/
 theorem orientation_only_package (q m : ℝ) (u : R4) :
@@ -90,11 +80,6 @@ theorem orientation_only_package (q m : ℝ) (u : R4) :
   constructor
   · rcases u with ⟨t,x,y,z⟩
     simp [current4, scaleR4]
-    constructor
-    · ring
-    · constructor
-      · ring
-      · constructor <;> ring
   · exact stress_orientation_even m u
 
 end GppGaugeGravityDiagonalBlindness

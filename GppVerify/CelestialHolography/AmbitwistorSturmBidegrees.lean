@@ -58,6 +58,9 @@ copies of one `O(p,q)` line bundle.
 
 namespace GppAmbitwistorSturmBidegrees
 
+noncomputable section
+
+
 open Complex
 open GppAmbidextrousPenroseRayQuotients
 
@@ -255,7 +258,6 @@ theorem reciprocalSwap_reverses_wronskian (u v : SturmState) :
   rcases u with ⟨x,p⟩
   rcases v with ⟨y,q⟩
   simp [wronskian, reciprocalSwap]
-  ring
 
 /-- The epsilon quarter-turn `[[0,1],[-1,0]]`, the same finite `Z4` matrix appearing in
 the big-cell orientation map `tau(A)=A epsilon/det(A)`. -/
@@ -321,7 +323,6 @@ theorem goldenStep_projective_ratio (z : ℂ) (hz : z ≠ 0) :
   rw [goldenStep_apply]
   simp
   field_simp [hz]
-  ring
 
 /-- Real affine form of the projective map induced by `goldenStep`. -/
 def goldenMobius (x : ℝ) : ℝ := 1 + 1/x
@@ -341,4 +342,6 @@ theorem golden_cartan_trace :
   rw [Real.inv_goldenRatio]
   nlinarith [Real.goldenRatio_sq]
 
+
+end
 end GppAmbitwistorSturmBidegrees

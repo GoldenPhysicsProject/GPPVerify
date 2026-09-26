@@ -101,7 +101,7 @@ theorem discrete_weyl_action_package (W : WeylPair) :
     (Pweyl W).left = W.right ∧ (Pweyl W).right = W.left ∧
     (PTweyl W).left = W.left ∧ (PTweyl W).right = W.right ∧
     (Tweyl W).left = W.right ∧ (Tweyl W).right = W.left := by
-  rfl
+  simp [Pspin, PTspin, Tspin, Pweyl, PTweyl, Tweyl, exchangeWeyl]
 
 /-- Adding gauge conjugation to pure vector/worldline inversion leaves a charge-weighted
 source current unchanged: the finite `(-q)(-P)=qP` core of the proposed CPT-like diagonal
