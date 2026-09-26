@@ -270,13 +270,13 @@ theorem suzuki_golden_quadratic_of_fixed
     unfold suzukiRatio
     exact div_ne_zero hA hB
   rw [hfix] at hgold
+  have hmul := congrArg (fun w : ℂ => suzukiRatio I z * w) hgold
   calc
     (suzukiRatio I z) ^ 2
-        = (suzukiRatio I z) * (suzukiRatio I z) := by ring
-    _ = (1 + (suzukiRatio I z)⁻¹) * (suzukiRatio I z) := by
-      rw [hgold]
+        = suzukiRatio I z * suzukiRatio I z := by ring
+    _ = suzukiRatio I z * (1 + (suzukiRatio I z)⁻¹) := hmul
     _ = suzukiRatio I z + 1 := by
-      simp [add_mul, hq0]
+      simp [mul_add, hq0]
 
 
 
@@ -299,6 +299,7 @@ theorem responseFromRatio_add_one
     simpa [add_comm] using hq1
   unfold responseFromRatio oddSchurC
   field_simp [hq0, hq1, hq1']
+  ring
 
 /-- Projective swap q↦q⁻¹ becomes x↦4/x in x=2/q. -/
 theorem responseFromRatio_inv
