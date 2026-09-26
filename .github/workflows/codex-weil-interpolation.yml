@@ -1,0 +1,37 @@
+name: Codex Weil interpolation bridge
+
+on:
+  push:
+    branches:
+      - codex/lean-workbench
+  workflow_dispatch:
+
+concurrency:
+  group: codex-weil-interpolation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan
+          key: elan-${{ runner.os }}-${{ hashFiles('lean-toolchain') }}
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake/packages
+          key: lake-${{ runner.os }}-${{ hashFiles('lake-manifest.json') }}
+      - name: Get Mathlib cache
+        run: lake exe cache get
+      - name: Weil finite interpolation bridge
+        run: lake build GppVerify.RiemannHypothesis.WeilInterpolationBridge
+      - name: Weil polynomial multiplier interpolation
+        run: lake build GppVerify.RiemannHypothesis.WeilPolynomialInterpolation

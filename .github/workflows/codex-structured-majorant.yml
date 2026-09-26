@@ -1,0 +1,65 @@
+name: Codex structured scalar-box majorant
+
+on:
+  push:
+    branches: ["codex/lean-workbench"]
+  workflow_dispatch:
+
+concurrency:
+  group: codex-structured-majorant-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+      - name: Structured physical scalar-box majorant
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxStructuredPhysicalMajorant
+      - name: Physical structured scalar-box core bound
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPhysicalCoreBound
+      - name: Structured physical scalar-box convergence
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxStructuredPhysicalConvergence
+      - name: Gamma residue at zero
+        if: always()
+        run: lake build GppVerify.CelestialHolography.GammaResidueAtZero
+      - name: Raised-box pointwise simplex majorant algebra
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RaisedBoxSimplexMajorantAlgebra
+      - name: Raised-box scaled Beta integral layer
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RaisedBoxSimplexBetaLayer
+      - name: Raised-box nested simplex reduction
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RaisedBoxSimplexNestedReduction
+      - name: Raised-box Beta-to-Gamma closure
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RaisedBoxSimplexGammaClosure
+      - name: Raised-box pointwise regulator limit
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RaisedBoxPointwiseLimit
+      - name: Raised-box residue assembly
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RaisedBoxResidueAssembly
