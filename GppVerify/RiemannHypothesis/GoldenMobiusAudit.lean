@@ -1,4 +1,5 @@
 import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
+import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 import Mathlib.Tactic
 
 /-!
@@ -83,6 +84,31 @@ theorem dyadic_margin_eq_golden_inv_sq :
   have hs2 : (Real.sqrt 5) ^ 2 = (5 : ℝ) :=
     Real.sq_sqrt (by norm_num)
   rw [one_div_goldenRatio_sq]
+  field_simp [hs0, hden]
+  nlinarith
+
+
+
+/--
+The worst-cell dyadic Hardy precision is exactly the reciprocal of the independently
+defined q=5 finite-place shadow kernel at the principal-series center.
+-/
+theorem dyadic_margin_eq_inv_finitePlaceKernel_five_half :
+    (1 - 1 / Real.sqrt 5) / (1 + 1 / Real.sqrt 5)
+      = (GppGoldenHyperbolic.finitePlaceKernel 5 (1 / 2))⁻¹ := by
+  rw [GppGoldenHyperbolic.finitePlaceKernel_five_half]
+  change
+    (1 - 1 / Real.sqrt 5) / (1 + 1 / Real.sqrt 5)
+      = 1 / ((Real.goldenRatio : ℝ) ^ 2)
+  have hspos : 0 < Real.sqrt 5 := Real.sqrt_pos.2 (by norm_num)
+  have hs0 : Real.sqrt 5 ≠ 0 := ne_of_gt hspos
+  have hden : 1 + 1 / Real.sqrt 5 ≠ 0 := by positivity
+  have hs2 : (Real.sqrt 5) ^ 2 = (5 : ℝ) :=
+    Real.sq_sqrt (by norm_num)
+  rw [show 1 / ((Real.goldenRatio : ℝ) ^ 2) = (3 - Real.sqrt 5) / 2 by
+    unfold Real.goldenRatio
+    field_simp [hs0]
+    nlinarith]
   field_simp [hs0, hden]
   nlinarith
 
