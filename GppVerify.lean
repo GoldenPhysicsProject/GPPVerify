@@ -1312,6 +1312,10 @@ import GppVerify.RiemannHypothesis.PrimeFockPartition
 import GppVerify.StandardModel.TauDifferential
 import GppVerify.RiemannHypothesis.DigammaSeries
 import GppVerify.RiemannHypothesis.FiniteGNS
+-- GNS for a positive-definite function on any group: Hilbert space, unitary representation,
+-- cyclic vector with P g = ⟪ξ, π g ξ⟫. Closes the stub `open_gns_from_positive_type`
+-- (HaarPositivityWeil.lean), which was parked on the C⋆ route it did not need. 2026-09-26.
+import GppVerify.RiemannHypothesis.PositiveDefiniteGNS
 import GppVerify.RiemannHypothesis.FiniteNoGhost
 import GppVerify.RiemannHypothesis.HeatTraceModeSum
 import GppVerify.RiemannHypothesis.BernsteinEasy

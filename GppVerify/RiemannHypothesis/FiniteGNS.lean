@@ -53,6 +53,14 @@ bridge it lacks. The honest split: the algebra is here, the analysis is Mathlib'
 missing piece between them is the group C⋆-algebra.
 
 `open_gns_from_positive_type` therefore stays open. It stands for less than it did.
+
+**Superseded 2026-09-26.** The paragraph above is kept as written because it is the reasoning
+that kept the stub open, and the reasoning was wrong: the Hilbert space for a *group* does not
+come from Mathlib's C⋆ GNS one level up, and building it for `G →₀ ℂ` is not duplication —
+Mathlib has no such construction. It is `PositiveDefiniteGNS.lean`, which proves
+`gns_from_positive_definite` for an arbitrary group from this file's `PositiveDefinite` (and uses
+`PositiveDefinite.conj_symm` above for the Hermitian symmetry of the form). The group C⋆-algebra
+is needed for a representation of the *algebra*, not of the group.
 -/
 
 namespace GppFiniteGNS

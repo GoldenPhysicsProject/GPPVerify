@@ -2728,6 +2728,44 @@ Source: haar\_positivity\_weil\_wightman.tex
   \item \lean{GppHaarPositivityWeil.haar_squares_always_positive}\leanok\ \texttt{haar\_squares\_always\_positive}
 \end{itemize}
 
+\subsection{PositiveDefiniteGNS}
+Source: haar\_positivity\_weil\_wightman.tex, thm:gns-positive. Closes the stub
+\texttt{open\_gns\_from\_positive\_type} (2026-09-26).
+
+\begin{theorem}[GNS for a positive-definite function on a group]\label{thm:gns-positive-definite}
+\lean{GppPositiveDefiniteGNS.gns_from_positive_definite}\leanok
+Let $G$ be any group and $P : G \to \mathbb{C}$ positive-definite, i.e.\ every matrix
+$[P(g_j^{-1} g_i)]$ is positive semidefinite. Then there are a complex Hilbert space $H$, a
+homomorphism $\pi$ from $G$ into the unitary group of $H$ and a vector $\xi \in H$ whose orbit
+spans a dense subspace, with $P(g) = \langle \xi, \pi(g)\xi\rangle$ for every $g$.
+\end{theorem}
+
+\begin{theorem}[The case of \texttt{PositiveType} on $\mathbb{R}$]\label{thm:gns-positive-type}
+\lean{GppPositiveDefiniteGNS.gns_from_positive_type}\leanok
+\uses{thm:gns-positive-definite}
+Every $P : \mathbb{R}\to\mathbb{R}$ that is positive-type in the sense of
+\texttt{GppHaarPositivityWeil.PositiveType} is a matrix coefficient
+$P(x) = \langle \xi, \pi(x)\xi\rangle$ of a unitary representation of $(\mathbb{R},+)$ with
+cyclic vector $\xi$.
+\end{theorem}
+
+\noindent\textbf{Construction.} Kolmogorov's: the form
+$\langle \delta_x, \delta_y\rangle = P(x^{-1}y)$ on finitely supported functions
+$G \to_0 \mathbb{C}$ is a semi-inner product (Hermitian symmetry is
+\texttt{GppFiniteGNS.PositiveDefinite.conj\_symm}); Mathlib's
+\texttt{PreInnerProductSpace.Core} accepts it as is, and the Hilbert space is the completion.
+Left translation preserves the form, so it extends to unitaries on the completion.
+
+\noindent\textbf{Why this sat as a stub.} It was labelled a library gap twice: first ``GNS not in
+Mathlib'', then ``Mathlib has GNS for C$^\star$-algebras; the missing bridge is a C$^\star$-norm on
+the group algebra''. The second was true of the C$^\star$ route, and the route was not needed: a
+representation of the \emph{group} never passes through the group C$^\star$-algebra.
+
+\noindent\textbf{What this does not give.} Bochner's theorem (a continuous positive-definite
+function on $\mathbb{R}$ is the Fourier transform of a finite positive measure), which needs the
+spectral theorem for the one-parameter group $\pi$; and continuity of $\pi$, which needs
+continuity of $P$.
+
 \subsection{ZetaGibbsSummability}
 For real `β > 1` the three real series needed for the Gibbs variance,
 
@@ -4157,7 +4195,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{155} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{154} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth

@@ -25,6 +25,9 @@ Two stale labels were found on 2026-09-02 by grepping the 4.33.1 checkout for th
   `GNS`, `gnsStarAlgHom`. The actual gap is far narrower: the group-algebra C⋆-norm that would
   let a positive-definite function on a group become a state, after which Mathlib's GNS applies
   unchanged. The old label pointed a future session at building GNS from nothing.
+  (2026-09-26: the narrowed label was stale too. The group case never needed the C⋆-norm —
+  `RiemannHypothesis/PositiveDefiniteGNS.lean` builds it directly and closes the stub. A
+  corrected label can still name the wrong route.)
 * `open_digamma_series_form` described the whole Gauss series for `ψ` as unformalized. Mathlib
   4.33.1 had gained `Complex.digamma`, and most of the series turned out to be provable outright
   — see `RiemannHypothesis/DigammaSeries.lean`, which proves convergence, the functional
