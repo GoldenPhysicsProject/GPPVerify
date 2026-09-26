@@ -411,59 +411,74 @@ theorem poleCayley_neg_eq_inv
   field_simp [hp, hm]
   ring
 
-/-! ## Golden extremality among positive reciprocal-shear maps -/
+/-! ## Two-step golden contraction -/
 
-/-- A positive shear of size a followed by reciprocal duality. -/
-def weightedGoldenMap (a x : ℝ) : ℝ := a + 1 / x
+/-- Two iterations of the unit reciprocal-shear map, written without nested division. -/
+def goldenMapSq (x : ℝ) : ℝ := (2 * x + 1) / (x + 1)
 
-/-- The interval [phi,infinity) is invariant under every reciprocal-shear map with
-shear a >= 1. -/
-theorem weightedGoldenMap_ge_golden
-    {a x : ℝ} (ha : 1 ≤ a) (hx : goldenRatio ≤ x) :
-    goldenRatio ≤ weightedGoldenMap a x := by
-  have hphi0 : 0 < goldenRatio := goldenRatio_pos
-  have hx0 : 0 < x := lt_of_lt_of_le hphi0 hx
-  have hinv_nonneg : 0 ≤ 1 / x := by positivity
-  have hphi_le_two : goldenRatio ≤ 2 := by
-    have hs : Real.sqrt 5 ≤ 3 := by
-      have hs0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
-      have hs2 : (Real.sqrt 5)^2 = (5:ℝ) := Real.sq_sqrt (by norm_num)
-      nlinarith
-    unfold goldenRatio
-    linarith
-  unfold weightedGoldenMap
-  calc
-    goldenRatio ≤ 2 := hphi_le_two
-    _ ≤ a + 1 / x := by linarith
+/-- Away from the two poles, the explicit rational map is exactly two golden steps. -/
+theorem goldenMap_comp_self
+    {x : ℝ} (hx0 : x ≠ 0) (hx1 : x ≠ -1) :
+    goldenMap (goldenMap x) = goldenMapSq x := by
+  unfold goldenMap goldenMapSq
+  field_simp [hx0, hx1]
+  ring
 
-/-- On the invariant positive region, the absolute derivative factor 1/x^2 is bounded
-by the golden constant phi^{-2}. This is the weakest contraction in the unit-shear case. -/
-theorem reciprocal_derivative_factor_le_golden
+/-- The upper half-line beginning at phi is invariant under two golden steps.
+One step reverses sides of the fixed point; the square preserves the side. -/
+theorem goldenMapSq_ge_golden
     {x : ℝ} (hx : goldenRatio ≤ x) :
-    1 / (x ^ 2) ≤ 1 / (goldenRatio ^ 2) := by
+    goldenRatio ≤ goldenMapSq x := by
   have hphi0 : 0 < goldenRatio := goldenRatio_pos
-  have hx0 : 0 < x := lt_of_lt_of_le hphi0 hx
-  have hsquares : goldenRatio ^ 2 ≤ x ^ 2 := by nlinarith
-  exact one_div_le_one_div_of_le (sq_pos_of_pos hphi0) hsquares
+  have hx1 : 0 < x + 1 := by linarith
+  have hcoef : 0 < 2 - goldenRatio := by
+    have hsq := goldenRatio_sq
+    nlinarith
+  have hnum : 0 ≤ (2 - goldenRatio) * (x - goldenRatio) := by positivity
+  have hid :
+      (2 * x + 1) - goldenRatio * (x + 1)
+        = (2 - goldenRatio) * (x - goldenRatio) := by
+    nlinarith [goldenRatio_sq]
+  unfold goldenMapSq
+  apply (le_div_iff₀ hx1).2
+  rw [← sub_nonneg]
+  rw [hid]
+  exact hnum
 
-/-- Exact derivative of a reciprocal-shear map. -/
-theorem hasDerivAt_weightedGoldenMap
-    (a : ℝ) {x : ℝ} (hx : x ≠ 0) :
-    HasDerivAt (weightedGoldenMap a) (-(1 / x ^ 2)) x := by
-  unfold weightedGoldenMap
-  convert (hasDerivAt_const x a).add (hasDerivAt_inv (hasDerivAt_id x) hx) using 1 <;> ring
+/-- Exact derivative of the two-step golden map. -/
+theorem hasDerivAt_goldenMapSq
+    {x : ℝ} (hx1 : x ≠ -1) :
+    HasDerivAt goldenMapSq (1 / (x + 1) ^ 2) x := by
+  unfold goldenMapSq
+  have hden : x + 1 ≠ 0 := by linarith
+  convert
+    ((hasDerivAt_const x (2 : ℝ)).mul (hasDerivAt_id x) |>.add (hasDerivAt_const x 1)).div
+      ((hasDerivAt_id x).add (hasDerivAt_const x 1)) hden using 1 <;> ring
 
-/-- Therefore every positive reciprocal-shear step with a >= 1 is locally no less
-contractive than the golden step once the orbit lies in [phi,infinity). -/
-theorem weightedGoldenMap_deriv_norm_bound
-    (a : ℝ) {x : ℝ} (hx : goldenRatio ≤ x) :
-    |-(1 / x ^ 2)| ≤ 1 / (goldenRatio ^ 2) := by
+/-- On the invariant half-line x >= phi, two golden steps contract locally by at most
+phi^{-4}.  At the fixed point equality holds. -/
+theorem goldenMapSq_deriv_factor_le
+    {x : ℝ} (hx : goldenRatio ≤ x) :
+    1 / (x + 1) ^ 2 ≤ 1 / (goldenRatio ^ 4) := by
   have hphi0 : 0 < goldenRatio := goldenRatio_pos
-  have hx0 : 0 < x := lt_of_lt_of_le hphi0 hx
-  rw [abs_of_nonpos]
-  · simpa using reciprocal_derivative_factor_le_golden hx
-  · have : 0 ≤ 1 / x ^ 2 := by positivity
+  have hxpos : 0 < x + 1 := by linarith
+  have hphi1 : goldenRatio + 1 = goldenRatio ^ 2 := by
+    nlinarith [goldenRatio_sq]
+  have hbase : goldenRatio ^ 2 ≤ x + 1 := by
+    rw [← hphi1]
     linarith
+  have hsq : (goldenRatio ^ 2) ^ 2 ≤ (x + 1) ^ 2 := by
+    nlinarith
+  have hleft : 0 < (goldenRatio ^ 2) ^ 2 := by positivity
+  have h := one_div_le_one_div_of_le hleft hsq
+  simpa [pow_mul] using h
+
+/-- At phi the two-step multiplier is exactly phi^{-4}. -/
+theorem goldenMapSq_deriv_at_fixed :
+    1 / (goldenRatio + 1) ^ 2 = 1 / (goldenRatio ^ 4) := by
+  rw [show goldenRatio + 1 = goldenRatio ^ 2 by
+    nlinarith [goldenRatio_sq]]
+  ring
 
 
 end
