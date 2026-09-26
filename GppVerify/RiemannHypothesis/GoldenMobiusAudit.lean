@@ -382,6 +382,73 @@ theorem goldenMapC_ne_known_return_at_one :
   norm_num [goldenMapC, weylFeedback, weylReflection]
 
 
+
+/-! ## Exact change of coordinates to the physical odd Weyl variable -/
+
+/-- The Suzuki odd Weyl coordinate written directly as a Cayley transform of q=A/B.
+Up to the conventional factor i, this is the standard Schur-to-Herglotz transform. -/
+def weylFromRatio (q : ℂ) : ℂ :=
+  Complex.I * (1 + q) / (1 - q)
+
+/-- The original Suzuki expression -i(A+B)/(A-B) equals the Cayley transform of q=A/B. -/
+theorem suzuki_weyl_eq_weylFromRatio
+    (I : ℂ → ℂ) (z : ℂ)
+    (hB : suzukiB I z ≠ 0)
+    (hAB : suzukiA I z - suzukiB I z ≠ 0) :
+    -Complex.I * (suzukiA I z + suzukiB I z) /
+        (suzukiA I z - suzukiB I z)
+      = weylFromRatio (suzukiRatio I z) := by
+  unfold weylFromRatio suzukiRatio
+  field_simp [hB, hAB]
+  ring
+
+/-- Projective inversion q↦q⁻¹ is exactly sign reversal in the odd Weyl coordinate. -/
+theorem weylFromRatio_inv_eq_neg
+    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q ≠ 1) :
+    weylFromRatio q⁻¹ = -weylFromRatio q := by
+  unfold weylFromRatio
+  have hqi1 : q⁻¹ ≠ 1 := by
+    intro h
+    have hmul := congrArg (fun w : ℂ => w * q) h
+    have honeq : (1 : ℂ) = q := by
+      simpa [hq0] using hmul
+    exact hq1 honeq.symm
+  field_simp [hq0, hq1, hqi1]
+  ring
+
+/-- Reciprocal odd-Weyl response.  A constant rank-one perturbation translates this
+coordinate, whereas Suzuki reflection changes its sign. -/
+def reciprocalWeylFromRatio (q : ℂ) : ℂ :=
+  (weylFromRatio q)⁻¹
+
+theorem reciprocalWeylFromRatio_inv_eq_neg
+    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q ≠ 1)
+    (hw : weylFromRatio q ≠ 0) :
+    reciprocalWeylFromRatio q⁻¹ = -reciprocalWeylFromRatio q := by
+  unfold reciprocalWeylFromRatio
+  rw [weylFromRatio_inv_eq_neg hq0 hq1]
+  simp [hw]
+
+/-- The Suzuki frame shear q↦q+1 is not a constant translation in reciprocal-Weyl
+coordinates: its increment already differs at q=0 and q=1. -/
+theorem suzuki_shear_not_constant_weyl_feedback :
+    reciprocalWeylFromRatio (0 + 1) - reciprocalWeylFromRatio 0
+      ≠ reciprocalWeylFromRatio (1 + 1) - reciprocalWeylFromRatio 1 := by
+  norm_num [reciprocalWeylFromRatio, weylFromRatio, Complex.I_mul_I]
+
+/-- Consequently no single additive feedback constant alpha can agree with the Suzuki
+frame shear at both q=0 and q=1 in the reciprocal-Weyl coordinate. -/
+theorem no_constant_feedback_realizes_suzuki_shear :
+    ¬ ∃ α : ℂ,
+      (reciprocalWeylFromRatio (0 + 1) = reciprocalWeylFromRatio 0 + α) ∧
+      (reciprocalWeylFromRatio (1 + 1) = reciprocalWeylFromRatio 1 + α) := by
+  intro h
+  obtain ⟨α, h0, h1⟩ := h
+  apply suzuki_shear_not_constant_weyl_feedback
+  rw [h0, h1]
+  ring
+
+
 /-! ## The natural Schur/Herglotz coordinate kills the naive golden closure -/
 
 /-- Cayley/Herglotz impedance associated with a Schur variable q. -/
