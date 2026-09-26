@@ -35,6 +35,9 @@ holomorphic Einstein bundle.
 
 namespace GppPenroseRayQuotientHomogeneity
 
+noncomputable section
+
+
 open Complex
 open GppPenroseLocalTwistorEinsteinQuotient
 
@@ -61,7 +64,6 @@ theorem quotientProjectiveRatio_rescale
   rcases u with ⟨x,p⟩
   simp [quotientProjectiveRatio, rayFrameRescale] at hu ⊢
   field_simp [ha, hu]
-  ring
 
 /-- Determinant/Wronskian form on two quotient states. -/
 def quotientWronskian (u v : EinsteinRayState) : ℂ :=
@@ -96,4 +98,6 @@ theorem rayFrameRescale_eq_zero_iff
     subst u
     simp [rayFrameRescale]
 
+
+end
 end GppPenroseRayQuotientHomogeneity

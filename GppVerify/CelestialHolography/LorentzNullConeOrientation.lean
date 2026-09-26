@@ -80,11 +80,8 @@ theorem spinor_deck_sign_invisible (s : RealSpinor4) :
     spinorNullVector (negRealSpinor s) = spinorNullVector s := by
   rcases s with ⟨a,b,c,d⟩
   simp [spinorNullVector, negRealSpinor]
-  constructor
-  · ring
-  · constructor
-    · ring
-    · constructor <;> ring
+  repeat' constructor
+  all_goals ring
 
 /-- Add the genuinely independent orientation sign of the real null cone. -/
 def orientedNullVector (t : ℝ) (s : RealSpinor4) : R4 :=
@@ -98,11 +95,8 @@ theorem orientedNullVector_flip (t : ℝ) (s : RealSpinor4) :
       (-p.1,-p.2.1,-p.2.2.1,-p.2.2.2) := by
   rcases s with ⟨a,b,c,d⟩
   simp [orientedNullVector, spinorNullVector]
-  constructor
-  · ring
-  · constructor
-    · ring
-    · constructor <;> ring
+  repeat' constructor
+  all_goals ring
 
 /-- The signed lift remains null for every orientation scalar. -/
 theorem orientedNullVector_is_null (t : ℝ) (s : RealSpinor4) :
@@ -111,7 +105,7 @@ theorem orientedNullVector_is_null (t : ℝ) (s : RealSpinor4) :
   simp [orientedNullVector, spinorNullVector, minkowskiQ]
   ring
 
-/-- For the canonical signs +/-1, the time component has the corresponding sign. -/
+/-- For the canonical signs ±1, the time component has the corresponding sign. -/
 theorem future_past_time_components (s : RealSpinor4) :
     (orientedNullVector 1 s).1 = (spinorNullVector s).1 ∧
     (orientedNullVector (-1) s).1 = -(spinorNullVector s).1 := by

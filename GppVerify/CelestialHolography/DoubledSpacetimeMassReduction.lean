@@ -58,15 +58,14 @@ theorem off_quadric_mass_shell_implies_extended_null
     (hradius : u^2 + v^2 = m^2) :
     extendedQ p u v = 0 := by
   unfold extendedQ
-  rw [hQ, hradius]
-  ring
+  rw [hQ]
+  linarith
 
 /-- Componentwise scaling composes multiplicatively. -/
 theorem scale4_mul (a b : ℝ) (z : V4) :
     scale4 a (scale4 b z) = scale4 (a*b) z := by
   rcases z with ⟨z0,z1,z2,z3⟩
-  simp [scale4]
-  ring
+  simp [scale4, mul_assoc]
 
 /-- `cPlus` is homogeneous in its spinor argument. -/
 theorem cPlus_scale4 (p : P6) (a : ℝ) (z : V4) :
@@ -211,8 +210,7 @@ theorem scale4_add4 (a : ℝ) (x y : V4) :
     scale4 a (add4 x y) = add4 (scale4 a x) (scale4 a y) := by
   rcases x with ⟨x0,x1,x2,x3⟩
   rcases y with ⟨y0,y1,y2,y3⟩
-  simp [scale4, add4]
-  ring
+  simp [scale4, add4, mul_add]
 
 /-- `cPlus` distributes over addition. -/
 theorem cPlus_add4 (p : P6) (x y : V4) :

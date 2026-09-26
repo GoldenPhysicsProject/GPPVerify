@@ -39,6 +39,9 @@ normalization.  Global holomorphic gluing across different rays remains a separa
 
 namespace GppPenroseLocalTwistorRayGaugeCovariance
 
+noncomputable section
+
+
 open Complex
 open GppPenroseLocalTwistorEinsteinQuotient
 
@@ -128,4 +131,6 @@ theorem raywise_Einstein_quotient_gauge_package
   exact ⟨littleGroup_generator_covariant U a ha u,
     quotientProjection_complementChange b c Z hZ⟩
 
+
+end
 end GppPenroseLocalTwistorRayGaugeCovariance

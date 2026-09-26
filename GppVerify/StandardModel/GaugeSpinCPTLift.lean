@@ -31,6 +31,9 @@ assertion that standard CPT has order four on physical rays.
 
 namespace GppGaugeSpinCPTLift
 
+noncomputable section
+
+
 open GppGaugeSpinCenterRelationalMatter
 open GppSpinProductCenterTimeOrientation
 
@@ -91,4 +94,6 @@ theorem Xi_capstone (x : GSTLabel) :
     Xi_sq_diagonal_center x,
     Xi_four x⟩
 
+
+end
 end GppGaugeSpinCPTLift

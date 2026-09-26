@@ -46,7 +46,7 @@ theorem casimirFold_cartesian (beta gamma : ℝ) :
   unfold casimirFold
   apply Complex.ext <;>
     simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
-      Complex.sub_re, Complex.sub_im] <;>
+      Complex.sub_re, Complex.sub_im, sq] <;>
     ring
 
 /-- The real part of the folded parameter. -/
@@ -54,14 +54,14 @@ theorem casimirFold_re (beta gamma : ℝ) :
     (casimirFold ((beta : ℂ) + Complex.I * (gamma : ℂ))).re =
       beta * (1 - beta) + gamma^2 := by
   rw [casimirFold_cartesian]
-  simp
+  simp [sq]
 
 /-- The imaginary part of the folded parameter. -/
 theorem casimirFold_im (beta gamma : ℝ) :
     (casimirFold ((beta : ℂ) + Complex.I * (gamma : ℂ))).im =
       gamma * (1 - 2 * beta) := by
   rw [casimirFold_cartesian]
-  simp
+  simp [sq]
 
 /-- In the open critical strip the folded parameter has strictly positive real part. -/
 theorem casimirFold_re_pos {beta gamma : ℝ}

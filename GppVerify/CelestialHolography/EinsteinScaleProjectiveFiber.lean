@@ -29,6 +29,9 @@ No ODE existence, differentiation, or conformal-rescaling theorem is formalized 
 
 namespace GppEinsteinScaleProjectiveFiber
 
+noncomputable section
+
+
 open GppGrassmannianGooglyDecomposition
 open GppEinsteinNullRaySL2Geometry
 
@@ -58,7 +61,6 @@ theorem projectiveRatio_basisChange
     field_simp [hu]
     exact hxy
   field_simp [hu, hden, hout]
-  ring
 
 /-- An `SL(2)` basis change preserves the Wronskian/symplectic form, so the same basis
 changes that act projectively by Möbius maps preserve the natural two-solution volume. -/
@@ -98,4 +100,6 @@ theorem sl2_projective_fibre_package
   exact ⟨sl2_basisChange_preserves_omega M hM u v,
     projectiveRatio_basisChange M u hu hden⟩
 
+
+end
 end GppEinsteinScaleProjectiveFiber

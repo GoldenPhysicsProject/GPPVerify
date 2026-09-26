@@ -37,6 +37,9 @@ missing global intertwiner.
 
 namespace GppSturmSchwarzianProjectiveBridge
 
+noncomputable section
+
+
 open GppLegendreCrossingSturmConnection
 
 /-- First derivative of a projective solution ratio, expressed through Wronskian and the
@@ -81,7 +84,6 @@ theorem ratioJets_schwarzian_eq_two_potential
   have hypp : ypp = -U*y := by linarith
   rw [hypp]
   field_simp [hy]
-  ring
 
 /-- Legendre specialization: any genuine denominator period satisfying the normal-form
 Legendre equation has projective Schwarzian `2 U_Leg(z)` on its nonsingular domain.  Lean
@@ -98,4 +100,6 @@ theorem legendre_ratioJets_schwarzian
   exact ratioJets_schwarzian_eq_two_potential
     W y yp ypp (legendrePotential z) hW hy hODE
 
+
+end
 end GppSturmSchwarzianProjectiveBridge

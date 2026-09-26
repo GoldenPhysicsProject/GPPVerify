@@ -10,7 +10,7 @@ The relative center of the doubled spinor factorization sends a massive four-mom
 `P -> -P` while preserving `det P` and hence the mass magnitude.  This suggests a cleaner
 home for the project's time/worldline sign than the beta energy eigenspace itself.
 
-At rest, introduce an orientation sign `t=+/-1` and write
+At rest, introduce an orientation sign `t=±1` and write
 
   E_t     = t m c^2,
   omega_t = t m c^2 / hbar = t omega_C.
@@ -27,6 +27,8 @@ zitterbewegung is coherence between these geometric orientation lifts remains a 
 
 namespace GppOrientedComptonPhase
 
+noncomputable section
+
 open GppOrientationMassTime
 open GppComptonZitterBeatBridge
 
@@ -41,7 +43,6 @@ def orientedComptonFrequency (t m c hbar : ℝ) : ℝ :=
 theorem orientedRestEnergy_flip (t m c : ℝ) :
     orientedRestEnergy (-t) m c = - orientedRestEnergy t m c := by
   simp [orientedRestEnergy]
-  ring
 
 /-- Likewise it reverses the Compton phase direction. -/
 theorem orientedComptonFrequency_flip (t m c hbar : ℝ) :
@@ -69,9 +70,11 @@ theorem oriented_pair_beat_is_zitter (m c hbar : ℝ) :
 
 /-- The orientation sign does not alter the positive Compton ruler/clock magnitudes. -/
 theorem compton_magnitudes_independent_of_orientation
-    (t m c hbar : ℝ) :
+    (m c hbar : ℝ) :
     comptonLength m c hbar = comptonLength m c hbar ∧
     comptonFrequency m c hbar = comptonFrequency m c hbar := by
   exact ⟨rfl,rfl⟩
 
+
+end
 end GppOrientedComptonPhase

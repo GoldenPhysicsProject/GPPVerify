@@ -27,8 +27,9 @@ noncomputable def tau (a b c d : ℂ) : ℂ × ℂ × ℂ × ℂ :=
 theorem tau_det (a b c d : ℂ) (hD : D a b c d ≠ 0) :
     D (-b / D a b c d) (a / D a b c d)
       (-d / D a b c d) (c / D a b c d) = 1 / D a b c d := by
-  simp [D]
-  field_simp [D] <;> ring
+  simp only [D] at hD ⊢
+  field_simp
+  ring
 
 /-- Exact nonlinear order-four core over the complex big cell: `tau²=-id`. -/
 theorem tau_tau_eq_neg (a b c d : ℂ) (hD : D a b c d ≠ 0) :
@@ -100,7 +101,7 @@ theorem NP_eq_DPL (a b c d : ℂ) :
 theorem P_mulVec_injective (a b c d : ℂ) (hD : D a b c d ≠ 0)
     {x y : Fin 4 → ℂ} (h : P a b c d *ᵥ x = P a b c d *ᵥ y) : x = y := by
   have hQ := congrArg (fun v => Q a b c d *ᵥ v) h
-  simp only [← Matrix.mulVec_mulVec, QP] at hQ
+  simp only [Matrix.mulVec_mulVec, QP] at hQ
   ext i
   have hi := congrFun hQ i
   simp only [Matrix.smul_mulVec, Matrix.one_mulVec, Pi.smul_apply] at hi
@@ -126,11 +127,8 @@ theorem transport_mode (a b c d ζ : ℂ) (v : Fin 4 → ℂ)
     (hLv : L *ᵥ v = ζ • v) :
     N a b c d *ᵥ (P a b c d *ᵥ v)
       = (D a b c d * ζ) • (P a b c d *ᵥ v) := by
-  rw [← Matrix.mulVec_mulVec, NP_eq_DPL]
-  simp only [Matrix.smul_mulVec, Matrix.mulVec_mulVec, hLv, Matrix.mulVec_smul]
-  ext i
-  simp
-  ring
+  rw [Matrix.mulVec_mulVec, NP_eq_DPL, Matrix.smul_mulVec, ← Matrix.mulVec_mulVec, hLv,
+    Matrix.mulVec_smul, smul_smul]
 
 /-- The normalized Jacobian acting on a tangent vector. -/
 def Japply (a b c d : ℂ) (v : Fin 4 → ℂ) : Fin 4 → ℂ :=

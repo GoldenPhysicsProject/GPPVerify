@@ -43,6 +43,9 @@ applies.
 
 namespace GppRankOneWeylHaarSpine
 
+noncomputable section
+
+
 open GppEinsteinNullRaySL2Geometry
 open GppGrassmannianGooglyDecomposition
 open GppFlatNullWeylFiberGeometry
@@ -82,7 +85,6 @@ theorem cartan_preserves_omega
   rcases v with ⟨y,q⟩
   simp [omega, cartanAct, hb]
   field_simp [hb]
-  ring
 
 /-- The lower-unipotent root action in state coordinates. -/
 def lowerRootAct (t : ℝ) (u : RayState) : RayState :=
@@ -96,7 +98,6 @@ theorem Cartan_conjugates_root_weight_two
   rcases u with ⟨x,p⟩
   simp [cartanAct, lowerRootAct, act2, rayUnipotent, hb]
   field_simp [hb]
-  ring
 
 /-- The Weyl representative simultaneously exhibits the central spinorial sign. -/
 theorem Weyl_Z4_and_Haar_inversion_package
@@ -106,4 +107,6 @@ theorem Weyl_Z4_and_Haar_inversion_package
   exact ⟨rayWeyl_sq_central_sign u,
     weyl_conjugates_Cartan_to_inverse b hb u⟩
 
+
+end
 end GppRankOneWeylHaarSpine
