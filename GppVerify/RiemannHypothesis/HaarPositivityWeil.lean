@@ -253,29 +253,19 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 
 /-! ## GNS construction -/
 
-/-- Positive-type functions generate a Hilbert space via GNS construction.
-
-    SOURCE: haar_positivity_weil_wightman.tex, thm:gns-positive.
-    Sketch: form `⟨δ_{g_i}, δ_{g_j}⟩ = P(g_i⁻¹ g_j)`, quotient by the null space, complete.
-
-    LIBRARY GAP, **re-verified and narrowed against Mathlib 4.33.1 (2026-09-02).** This line
-    read "GNS construction for groups not in Mathlib", which is now wrong in the direction
-    that costs the most: it sends a future session off to build GNS from nothing.
-
-    Mathlib *has* the GNS construction — `Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`
-    (added 2025): `PositiveLinearMap.PreGNS`, `.GNS` (the Hilbert-space completion), and
-    `.gnsStarAlgHom` / `.gnsNonUnitalStarAlgHom`.
-
-    What is missing is the *bridge*, not the construction: from a positive-definite function on
-    a group to a positive linear functional on a C⋆-algebra containing that group. That needs a
-    C⋆-norm on the group algebra — `MonoidAlgebra` exists, a C⋆ structure on it does not. So the
-    remaining work is the positive-definite-function ↔ state correspondence, after which
-    Mathlib's GNS applies unchanged.
-
-    The phantom `(P : ℝ → ℝ) (_ : PositiveType P)` arguments are dropped with the same
-    correction: they made this read as a statement about a particular positive-type function,
-    and it was not one. -/
-theorem open_gns_from_positive_type : True := trivial
+-- Pointer, not a declaration. SOURCE: haar_positivity_weil_wightman.tex, thm:gns-positive.
+-- The GNS statement — a positive-type function is a matrix coefficient `P x = ⟪ξ, π x ξ⟫` of a
+-- unitary representation `π` on a Hilbert space, with `ξ` cyclic — is PROVED (2026-09-26) as
+-- `GppPositiveDefiniteGNS.gns_from_positive_type` in `PositiveDefiniteGNS.lean`, for every
+-- `PositiveType` function here, and as `gns_from_positive_definite` for an arbitrary group.
+-- It lives in its own file because it imports this one.
+--
+-- The stub that stood here, `open_gns_from_positive_type`, was labelled LIBRARY GAP: first
+-- "GNS not in Mathlib", then (2026-09-02) "Mathlib has GNS for C⋆-algebras; the missing bridge
+-- is a C⋆-norm on the group algebra". The second label was true about the C⋆ route and the
+-- route was not needed: Kolmogorov's construction — the form `⟪δ_x, δ_y⟫ = P (x⁻¹ y)` on
+-- `G →₀ ℂ`, `PreInnerProductSpace.Core`, completion — never touches a C⋆-algebra, and left
+-- translation preserving the form is the unitary representation.
 
 /-! ## Weil positivity -/
 
