@@ -9,26 +9,37 @@ Riemann-hypothesis boundary program.
 
 * `suzukiRatio = A/B` is the homogeneous deficiency/projective coordinate.
   Spectral reflection `z ↦ -z` swaps `A` and `B`, hence reciprocates this ratio.
-* The normalized physical Suzuki Weyl function is naturally
-  `m = -i (A-B)/(A+B)`.  Reflection changes its sign.
+* The normalized physical Suzuki Weyl function is
+  `m = -i (A-B)/(A+B)`.  Spectral reflection changes its sign.
 * The opposite `0/π` self-adjoint boundary condition is represented by the
-  negative reciprocal `m ↦ -1/m`.
-* A unit rank-one Krein feedback translates the reciprocal response by one.
+  canonical Herglotz automorphism `m ↦ -1/m`.
+* Scalar unit Krein feedback is `m ↦ m/(1+m)`; its reciprocal coordinate
+  `y = 1/m` is translated by one.
 
-The composite
+The important correction is that reflection alone is not the golden reciprocal
+operation in the physical Weyl coordinate.  The composite
 
-  reflection -> opposite-boundary duality -> unit feedback
+  spectral reflection -> opposite-boundary duality
 
-is therefore the golden Möbius map `m ↦ 1 + 1/m`.
+sends `m ↦ 1/m`.  Therefore, in the *same* reciprocal Weyl coordinate
+`y=1/m`, it is exactly `y ↦ 1/y`.  Unit Krein feedback is exactly
+`y ↦ y+1`.  Their composite is therefore the golden Möbius map
+`y ↦ 1+1/y`.
 
-This is an exact algebraic boundary-word theorem.  It does **not** assert that the
-completed arithmetic boundary reservoir realizes unit feedback, and it does not
-prove RH.
+Equivalently, in the scaled response `x=2m`, the two operations are the
+projective pole duality `x ↦ 4/x` and the odd Sherman--Morrison update
+`x ↦ 2x/(x+2)`.
 
-The file also records a useful no-go.  The tempting response `2B/A` cannot be
-identified with Suzuki's normalized Herglotz/Weyl function: `A(i)=0`, so the
-projective response degenerates at the normalization point, whereas the normalized
-Weyl function equals `i` when the opposite boundary coordinate is nonzero.
+This is an exact scalar boundary-word theorem.  It does **not** yet prove that
+the completed arithmetic pole channel acts on Suzuki's finite Weyl function by
+this unit Krein feedback.  That operator identification is the remaining bridge,
+and no RH proof is claimed here.
+
+The file also records a useful no-go.  The tempting projective response `2B/A`
+cannot itself be Suzuki's normalized Herglotz/Weyl function: `A(i)=0`, so that
+raw projective response degenerates at the normalization point, whereas the
+normalized Weyl function equals `i` when the opposite boundary coordinate is
+nonzero.
 -/
 
 namespace GppGoldenMobius
@@ -53,25 +64,88 @@ theorem physicalWeyl_neg (I : ℂ → ℂ) (z : ℂ) :
 /-- The canonical opposite-boundary Weyl coordinate is the negative reciprocal. -/
 def weylBoundaryDual (m : ℂ) : ℂ := -1 / m
 
-/--
-The missing operation in the naive reflection-plus-feedback word is the canonical
-opposite-boundary duality.  Reflection, then negative reciprocal duality, then unit
-feedback is exactly the golden map.
--/
-theorem weyl_reflect_dual_feedback_golden (m : ℂ) :
-    weylFeedback (weylBoundaryDual (weylReflection m)) = goldenMapC m := by
-  simp [weylFeedback, weylBoundaryDual, weylReflection, goldenMapC, add_comm]
+/-- Reflection followed by opposite-boundary duality is reciprocal inversion. -/
+def reflectDual (m : ℂ) : ℂ :=
+  weylBoundaryDual (weylReflection m)
 
-/-- Standard scalar Krein rank-one feedback. -/
-def kreinFeedback (r : ℂ) : ℂ := r / (1 + r)
+theorem reflectDual_eq_inv (m : ℂ) :
+    reflectDual m = 1 / m := by
+  simp [reflectDual, weylBoundaryDual, weylReflection]
+
+/-- Standard scalar unit Krein rank-one feedback. -/
+def kreinFeedback (m : ℂ) : ℂ := m / (1 + m)
+
+/-- The physical reciprocal-Weyl coordinate. -/
+def reciprocalWeylCoord (m : ℂ) : ℂ := 1 / m
+
+/-- The scaled physical response used by the parity Sherman--Morrison formulas. -/
+def scaledWeylResponse (m : ℂ) : ℂ := 2 * m
+
+/--
+In the reciprocal Weyl coordinate `y=1/m`, reflection followed by canonical
+opposite-boundary duality is exactly reciprocal inversion `y ↦ 1/y`.
+-/
+theorem reciprocalWeyl_reflectDual_eq_inv (m : ℂ) :
+    reciprocalWeylCoord (reflectDual m) =
+      1 / reciprocalWeylCoord m := by
+  simp [reciprocalWeylCoord, reflectDual_eq_inv]
 
 /-- Reciprocal response linearizes unit Krein feedback to translation by +1. -/
 theorem reciprocal_kreinFeedback
-    {r : ℂ} (hr : r ≠ 0) (hr1 : 1 + r ≠ 0) :
-    1 / kreinFeedback r = 1 / r + 1 := by
-  unfold kreinFeedback
-  field_simp [hr, hr1]
+    {m : ℂ} (hm : m ≠ 0) (hm1 : 1 + m ≠ 0) :
+    reciprocalWeylCoord (kreinFeedback m) =
+      reciprocalWeylCoord m + 1 := by
+  unfold reciprocalWeylCoord kreinFeedback
+  field_simp [hm, hm1]
   ring
+
+/--
+The corrected physical boundary word is golden in one and the same coordinate:
+reflection, opposite-boundary duality, and unit Krein feedback give
+`y ↦ 1 + 1/y` on `y=1/m`.
+-/
+theorem reciprocalWeyl_golden_return
+    {m : ℂ} (hm : m ≠ 0) (hfeed : 1 + 1 / m ≠ 0) :
+    reciprocalWeylCoord (kreinFeedback (reflectDual m)) =
+      goldenMapC (reciprocalWeylCoord m) := by
+  rw [reflectDual_eq_inv]
+  rw [reciprocal_kreinFeedback
+    (m := 1 / m) (div_ne_zero one_ne_zero hm) hfeed]
+  simp [reciprocalWeylCoord, goldenMapC, add_comm]
+
+/--
+In the scaled response `x=2m`, reflection plus opposite-boundary duality is
+exactly the previously isolated pole-duality map `x ↦ 4/x`.
+-/
+theorem scaledWeyl_reflectDual_eq_poleDual (m : ℂ) :
+    scaledWeylResponse (reflectDual m) =
+      poleDualC (scaledWeylResponse m) := by
+  by_cases hm : m = 0
+  · simp [hm, scaledWeylResponse, reflectDual, weylBoundaryDual,
+      weylReflection, poleDualC]
+  · rw [reflectDual_eq_inv]
+    unfold scaledWeylResponse poleDualC
+    field_simp [hm]
+    ring
+
+/--
+In the same scaled response `x=2m`, unit Krein feedback is exactly the odd
+Sherman--Morrison transformation `x ↦ 2x/(x+2)`.
+-/
+theorem scaledWeyl_kreinFeedback_eq_oddSchur (m : ℂ) :
+    scaledWeylResponse (kreinFeedback m) =
+      oddSchurC (scaledWeylResponse m) := by
+  by_cases hden : 1 + m = 0
+  · have hm : m = -1 := by
+      linear_combination hden
+    simp [hm, scaledWeylResponse, kreinFeedback, oddSchurC]
+  · unfold scaledWeylResponse kreinFeedback oddSchurC
+    have hden2 : 2 * m + 2 ≠ 0 := by
+      intro h
+      apply hden
+      linear_combination h / 2
+    field_simp [hden, hden2]
+    ring
 
 /-- The deficiency coordinate `A` has its forced normalization zero at `z=i`. -/
 theorem suzukiA_at_I_eq_zero (I : ℂ → ℂ) :
@@ -86,10 +160,8 @@ theorem suzukiRatio_at_I_eq_zero (I : ℂ → ℂ) :
   simp
 
 /--
-Hence the algebraic response coordinate `2/(A/B)`, interpreted in Lean's total
-field convention, degenerates to zero at the Suzuki normalization point.  In
-particular it cannot itself be the normalized Weyl function, whose value there is
-nonzero.
+Hence the algebraic projective response `2/(A/B)`, interpreted in Lean's total
+field convention, degenerates to zero at the Suzuki normalization point.
 -/
 theorem responseFromRatio_at_I_eq_zero (I : ℂ → ℂ) :
     responseFromRatio (suzukiRatio I Complex.I) = 0 := by
