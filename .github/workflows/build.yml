@@ -5,6 +5,13 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  # Manual trigger, added 2026-09-26. A pull request opened through the GitHub
+  # API by an app/bot token does not raise a `pull_request` event, so a seat
+  # that cannot `git push` from a shell had no way to run the full build at all
+  # — PR #189 sat with only the targeted job for a day for exactly this reason.
+  # `workflow_dispatch` gives every seat a manual path. The ref is chosen when
+  # the run is dispatched, so no input is declared here.
+  workflow_dispatch:
 
 jobs:
   build:
