@@ -238,6 +238,66 @@ theorem suzuki_golden_quadratic_of_fixed
   nlinarith
 
 
+
+/-! ## Projective conjugacy to the Sherman--Morrison response -/
+
+/-- Complex version of the odd rank-one response update. -/
+def oddSchurC (x : ℂ) : ℂ := 2 * x / (x + 2)
+
+/-- Complex version of the projective swap x↦4/x. -/
+def poleDualC (x : ℂ) : ℂ := 4 / x
+
+/-- Affine response coordinate corresponding to a projective ratio q=A/B. -/
+def responseFromRatio (q : ℂ) : ℂ := 2 / q
+
+/-- Unit shear q↦q+1 becomes the odd Sherman--Morrison update in x=2/q. -/
+theorem responseFromRatio_add_one
+    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q + 1 ≠ 0) :
+    responseFromRatio (q + 1) = oddSchurC (responseFromRatio q) := by
+  unfold responseFromRatio oddSchurC
+  field_simp [hq0, hq1]
+  ring
+
+/-- Projective swap q↦q⁻¹ becomes x↦4/x in x=2/q. -/
+theorem responseFromRatio_inv
+    {q : ℂ} (hq0 : q ≠ 0) :
+    responseFromRatio q⁻¹ = poleDualC (responseFromRatio q) := by
+  unfold responseFromRatio poleDualC
+  field_simp [hq0]
+  ring
+
+/-- Suzuki reflection therefore induces the pole-duality map on the normalized response
+coordinate x=2/(A/B). -/
+theorem suzuki_response_reflection_eq_poleDual
+    (I : ℂ → ℂ) (z : ℂ)
+    (hA : suzukiA I z ≠ 0) (hB : suzukiB I z ≠ 0) :
+    responseFromRatio (suzukiRatio I (-z))
+      = poleDualC (responseFromRatio (suzukiRatio I z)) := by
+  rw [suzukiRatio_neg_eq_inv I z hA hB]
+  apply responseFromRatio_inv
+  unfold suzukiRatio
+  exact div_ne_zero hA hB
+
+/-- The unit Suzuki boundary shear induces the odd Sherman--Morrison response update. -/
+theorem suzuki_response_shear_eq_oddSchur
+    (I : ℂ → ℂ) (z : ℂ)
+    (hA : suzukiA I z ≠ 0) (hB : suzukiB I z ≠ 0)
+    (hAB : suzukiA I z + suzukiB I z ≠ 0) :
+    responseFromRatio (suzukiShearedRatio I z)
+      = oddSchurC (responseFromRatio (suzukiRatio I z)) := by
+  have hq0 : suzukiRatio I z ≠ 0 := by
+    unfold suzukiRatio
+    exact div_ne_zero hA hB
+  have hq1 : suzukiRatio I z + 1 ≠ 0 := by
+    unfold suzukiRatio
+    intro h
+    have hmul := congrArg (fun w : ℂ => w * suzukiB I z) h
+    field_simp [hB] at hmul
+    exact hAB hmul
+  rw [suzukiShearedRatio_eq_add_one I z hB]
+  exact responseFromRatio_add_one hq0 hq1
+
+
 /-! ## The natural Schur/Herglotz coordinate kills the naive golden closure -/
 
 /-- Cayley/Herglotz impedance associated with a Schur variable q. -/
