@@ -19,6 +19,7 @@ direct sum as a real (6,2) carrier requires a separately chosen bilinear form.
 namespace GppDoubledLorentzQuarterTurn
 
 open GppKleinSpinorIncidence
+open GppTwistorAnnihilatorIncidence
 
 abbrev DoubledV4 := V4 × V4
 

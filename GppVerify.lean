@@ -1387,7 +1387,6 @@ import GppVerify.Upstream.ZeroCounting
 -- ── Orientation / mass-time / googly topic branch staging ─────────────
 -- Direct root imports are intentional: scripts/check_import_graph.py requires every
 -- module under GppVerify/ to be named here, even when another topic module imports it.
-import GppVerify.CelestialHolography.AmbientFourDualitySpine
 import GppVerify.CelestialHolography.AmbientFourPenroseIntertwiner
 import GppVerify.CelestialHolography.AmbientEpsilonProjectiveWeight
 import GppVerify.CelestialHolography.AnnihilatorComplementBridge
@@ -1398,7 +1397,6 @@ import GppVerify.CelestialHolography.GooglyCorrespondenceWeights
 import GppVerify.CelestialHolography.GooglyGeometryIntertwinerSpine
 import GppVerify.CelestialHolography.GooglyRepresentationIdentity
 import GppVerify.CelestialHolography.GooglySquareRoot
-import GppVerify.CelestialHolography.GrassmannianGooglyDecomposition
 import GppVerify.CelestialHolography.IncidenceKernelGoogly
 import GppVerify.CelestialHolography.LorentzianTwistorPolarity
 import GppVerify.CelestialHolography.NonlinearGooglyClosure
@@ -1406,28 +1404,20 @@ import GppVerify.CelestialHolography.OnShellDualReconstruction
 import GppVerify.CelestialHolography.OrientationGooglyCore
 import GppVerify.CelestialHolography.OrientationOnlyGooglyNoGo
 import GppVerify.CelestialHolography.PenroseQuotientDescent
-import GppVerify.CelestialHolography.PluckerChiralityAction
-import GppVerify.CelestialHolography.ProjectiveFourierPenroseQuotient
 import GppVerify.CelestialHolography.ProjectiveGooglyInvolution
 import GppVerify.CelestialHolography.ProjectiveObservableInvariance
 import GppVerify.CelestialHolography.ProjectiveOrientationInvariance
 import GppVerify.CelestialHolography.SplitGooglyGeometryCapstone
 import GppVerify.CelestialHolography.SplitPolarityComplementBridge
 import GppVerify.CelestialHolography.SplitSignatureGooglyFactorization
-import GppVerify.CelestialHolography.SplitSignatureHodgeGrassmannian
 import GppVerify.CelestialHolography.SplitSignatureLightParity
-import GppVerify.CelestialHolography.SplitSignaturePenroseFourierSquare
-import GppVerify.CelestialHolography.TwistorAnnihilatorIncidence
-import GppVerify.CelestialHolography.TwistorCanonicalShift
 import GppVerify.CelestialHolography.TwistorDiagonalDuality
 import GppVerify.CelestialHolography.TwistorFlagDuality
-import GppVerify.CelestialHolography.TwistorWeightDuality
 import GppVerify.StandardModel.ClockFrequency
 import GppVerify.StandardModel.GrassmannianDiracIntertwiner
 import GppVerify.StandardModel.GrassmannianDiracPhysicalIntertwiner
 import GppVerify.StandardModel.GrassmannianMassClockBridge
 import GppVerify.StandardModel.GrassmannianPhysicalMass
-import GppVerify.StandardModel.OrientationMassTime
 import GppVerify.StandardModel.OrientationMassTimeSpectral
 import GppVerify.StandardModel.SpinorMassBridge
 import GppVerify.CelestialHolography.AmbidextrousPenroseRayQuotients
@@ -1447,14 +1437,11 @@ import GppVerify.CelestialHolography.ConformalInfinityConeFactorization
 import GppVerify.CelestialHolography.ContactCliffordWeylBridge
 import GppVerify.CelestialHolography.DiscretePinGooglyDictionary
 import GppVerify.CelestialHolography.EinsteinChiralCurvatureBlocks
-import GppVerify.CelestialHolography.EinsteinInfinityTwistorFamily
 import GppVerify.CelestialHolography.EinsteinNullRaySL2Geometry
 import GppVerify.CelestialHolography.EinsteinScaleProjectiveFiber
 import GppVerify.CelestialHolography.EinsteinWeylQuarticReconstruction
 import GppVerify.CelestialHolography.EpsilonAnnihilatorDuality
 import GppVerify.CelestialHolography.FactorizedAmbitwistorEinsteinGoogly
-import GppVerify.CelestialHolography.FlatInfinityCelestialFactorization
-import GppVerify.CelestialHolography.FlatInfinityChiralComplex
 import GppVerify.CelestialHolography.FlatNullWeylFiberGeometry
 import GppVerify.CelestialHolography.FlatSkyJacobiCurve
 import GppVerify.CelestialHolography.FourierEpsilonCliffordSupport
@@ -1470,10 +1457,6 @@ import GppVerify.CelestialHolography.HorizonModularDuality
 import GppVerify.CelestialHolography.HorizonOrientationDiagnostics
 import GppVerify.CelestialHolography.InfinityLeviScreenGeometry
 import GppVerify.CelestialHolography.InfinityRulingHodgeSeparation
-import GppVerify.CelestialHolography.KleinCliffordPinConjugation
-import GppVerify.CelestialHolography.KleinNullInfinityBoundary
-import GppVerify.CelestialHolography.KleinPinReflectionDegeneration
-import GppVerify.CelestialHolography.KleinSpinorIncidence
 import GppVerify.CelestialHolography.KleinSpinorInfinityBridge
 import GppVerify.CelestialHolography.KleinWeylReflectionConjugacy
 import GppVerify.CelestialHolography.LegendreCrossingSturmConnection
@@ -1509,9 +1492,7 @@ import GppVerify.CelestialHolography.SkyIncidenceDescent
 import GppVerify.CelestialHolography.SkyProjectiveEinsteinCriterion
 import GppVerify.CelestialHolography.SkyProjectiveSpinLift
 import GppVerify.CelestialHolography.SkyWeightedIncidenceDescent
-import GppVerify.CelestialHolography.SpinCenterExchangeZ4Lift
 import GppVerify.CelestialHolography.SpinCenterRepresentationParity
-import GppVerify.CelestialHolography.SpinProductCenterTimeOrientation
 import GppVerify.CelestialHolography.SpinorEinsteinCorrespondenceSelector
 import GppVerify.CelestialHolography.SpinorWeylBidegreeGoogly
 import GppVerify.CelestialHolography.SplitFourierKernelFactorization
@@ -1525,10 +1506,8 @@ import GppVerify.CelestialHolography.TwistorRepresentationConvention
 import GppVerify.CelestialHolography.WeylQuarticNullReconstruction
 import GppVerify.GrassmannianComplexDifferential
 import GppVerify.GrassmannianDifferentialSimilarity
-import GppVerify.RiemannHypothesis.CayleyShadowAdjointBridge
 import GppVerify.RiemannHypothesis.CayleyShadowDirac
 import GppVerify.RiemannHypothesis.CayleyHaarMetricRigidity
-import GppVerify.RiemannHypothesis.OrientationCriticalRealStructureBridge
 import GppVerify.RiemannHypothesis.HaarOrientationFiber
 import GppVerify.RiemannHypothesis.CayleyRadialDefect
 import GppVerify.RiemannHypothesis.GradedIndefiniteCompletion
@@ -1553,20 +1532,15 @@ import GppVerify.StandardModel.BlackMirrorKDPhaseBridgeCriterion
 import GppVerify.StandardModel.CPTMatterOrientationSpine
 import GppVerify.StandardModel.CPTOrientedIndexPair
 import GppVerify.StandardModel.CPTPairCreationFromVacuum
-import GppVerify.StandardModel.CPTPairedOrientationState
 import GppVerify.StandardModel.CPTSheetElectroweakAnomalyBookkeeping
 import GppVerify.StandardModel.CPTSheetRelationalCharge
 import GppVerify.StandardModel.CPTSymmetryDoesNotForceAntimatter
-import GppVerify.StandardModel.CPTvsDiagonalGaugeSeparation
 import GppVerify.StandardModel.ChargeFlipGaugeObstruction
 import GppVerify.StandardModel.ChargeFlipRequiresDoubleTransfer
 import GppVerify.StandardModel.ChargeFrequencyContactBridge
 import GppVerify.StandardModel.ChargedCARChargeTimeComplexDictionary
 import GppVerify.StandardModel.ChargedCARComplexOrientationNoGo
-import GppVerify.StandardModel.ChargedCAROrientationFock
 import GppVerify.StandardModel.ChargedCARStructuralNotStateDoubling
-import GppVerify.StandardModel.ChargedKahlerDynamicalSign
-import GppVerify.StandardModel.ChargedKahlerRelativeOrientation
 import GppVerify.StandardModel.ComptonChargedCARAlignmentBridge
 import GppVerify.StandardModel.ComptonClockFreezesAtMasslessBoundary
 import GppVerify.StandardModel.ComptonHaarTimeBridge
@@ -1578,23 +1552,19 @@ import GppVerify.StandardModel.ContactDiracCliffordReduction
 import GppVerify.StandardModel.ContactDiracHadamardBridge
 import GppVerify.StandardModel.ContactTimeCarrierNoGo
 import GppVerify.StandardModel.ContactWignerTimeBridge
-import GppVerify.StandardModel.DiagonalPairObservableAlgebra
 import GppVerify.StandardModel.DoubledDiracBoundaryGluingCriterion
 import GppVerify.StandardModel.DyadicOrientationHadamardBridge
 import GppVerify.StandardModel.ElectroweakIndexBLObstruction
 import GppVerify.StandardModel.EvenHomogeneousMassFromOrientation
 import GppVerify.StandardModel.FixedCoordinateOppositeQuantumPhase
-import GppVerify.StandardModel.FourOrientationGaugeProjection
 import GppVerify.StandardModel.GaugeCurrentSpinOrientation
 import GppVerify.StandardModel.GaugeGravityDiagonalBlindness
 import GppVerify.StandardModel.GaugeSpinCPTLift
 import GppVerify.StandardModel.GaugeSpinCenterRelationalMatter
 import GppVerify.StandardModel.HorizonCPTFluxGluing
-import GppVerify.StandardModel.HorizonOrientationBranchedDoubleCover
 import GppVerify.StandardModel.KDMajoranaOrientationBridge
 import GppVerify.StandardModel.KleinGordonNormTimeOrientationLock
 import GppVerify.StandardModel.MajoranaHalfFlipNeutralPortal
-import GppVerify.StandardModel.ManyBodyOrientationRedundancyNoGo
 import GppVerify.StandardModel.MassAsContactExchangeHamiltonian
 import GppVerify.StandardModel.MassBreaksRelativeScale
 import GppVerify.StandardModel.MassCenterCosetOrientation
@@ -1608,21 +1578,15 @@ import GppVerify.StandardModel.MassiveSturmClockBridge
 import GppVerify.StandardModel.MasslessDoesNotImplyPremetric
 import GppVerify.StandardModel.NullPairMassContactBridge
 import GppVerify.StandardModel.NullRayDiracWeylBridge
-import GppVerify.StandardModel.ObservedChargeMustBeRelational
 import GppVerify.StandardModel.ObserverTimeOrientationChargeRelativity
 import GppVerify.StandardModel.OppositePolarizationShaleObstruction
-import GppVerify.StandardModel.OrientationComplexStructureDoubleCover
 import GppVerify.StandardModel.FourLiftRealFormChargeBridge
-import GppVerify.StandardModel.OrientationGaugeAveraging
 import GppVerify.StandardModel.FourLiftHaarPeterWeyl
 import GppVerify.StandardModel.Z4V4CommonQuotient
 import GppVerify.StandardModel.Spin102SignatureUniqueness
-import GppVerify.StandardModel.OrientationQuotientUniversalProperty
 import GppVerify.StandardModel.OrientationThermofieldDouble
 import GppVerify.StandardModel.OrientedComptonPhase
-import GppVerify.StandardModel.RelationalChargeFiniteFockToy
 import GppVerify.StandardModel.RelationalMatterSelectionRule
-import GppVerify.StandardModel.RelationalU1GaugeRepresentation
 import GppVerify.StandardModel.RelativeComplexOrientationSymmetryTheorem
 import GppVerify.StandardModel.RelativePhaseDiracEnergy
 import GppVerify.StandardModel.RepresentationConjugacyVsElectricSign
@@ -1651,43 +1615,31 @@ import GppVerify.CelestialHolography.DoubledLorentzRelativeMass
 
 -- Exact finite Spin(2)/Dirac cover intertwiner: opposite z^{±1} weights,
 -- central deck sign, half-flip phase inversion, and -i*SWAP quarter-turn.
-import GppVerify.CelestialHolography.DiracSpinCoverIntertwiner
 
 -- Spin^c local diagonal quotient and the exact X=3(B-L) parity/anomaly arithmetic.
-import GppVerify.StandardModel.SpinCOrientationQuotient
 
 -- Moving normal-plane frame: parent canonical one-form produces minimal U(1)
 -- coupling, with conditional zitter/Compton scale algebra.
-import GppVerify.CelestialHolography.TransverseNormalConnection
 
 -- v17: finite core of the Spin(6,2) four-lift / SU(4) color-centralizer B-L algebra.
-import GppVerify.StandardModel.Spin62BLFiniteCore
 
 -- v18: exact Pati-Salam singlet/doublet hypercharge reconstruction and Yukawa charge checks.
 import GppVerify.StandardModel.PatiSalamHypercharge
 
 -- Relative-orientation half flips versus exact Abelian charge conservation;
 -- particle-antiparticle pair creation preserves net charge.
-import GppVerify.StandardModel.OrientationPairProduction
 
 -- Exact finite intertwiner from the diagonal-even four-lift quotient to the
 -- charged CAR one-particle particle/antiparticle sector.
-import GppVerify.StandardModel.OrientationCARBridge
 
 -- v19: parity exchanges weak/chiral factors rather than adding a third q,t sign.
-import GppVerify.StandardModel.ParityExchangeOrientationSeparation
 
 -- v19: finite aligned/anti-aligned and Majorana-Weyl reality-pair core for the Spin(10,2) completion.
-import GppVerify.StandardModel.Spin102ChiralRealityCore
 
 -- v17: explicit fixed-mass transverse-circle gauge fixing (coordinate core of folding quotient).
-import GppVerify.CelestialHolography.MassCircleFolding
 
 
 -- v20: finite q,t and orientation-covariant entropy-rate sign core.
-import GppVerify.StandardModel.OrientationCovariantSecondLaw
-import GppVerify.CelestialHolography.GrassmannianKleinOrderFourLift
-import GppVerify.CelestialHolography.KleinPinOrderFourBlock
 import GppVerify.RiemannHypothesis.AbelCesaroPoleBarrier
 import GppVerify.RiemannHypothesis.CasimirFoldBoundaryIndex
 import GppVerify.RiemannHypothesis.SingleOffLinePairLoewner

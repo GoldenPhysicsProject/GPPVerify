@@ -73,7 +73,6 @@ theorem sturmGenerator_sq (U : ℂ) (u : SturmState) :
     sturmGenerator U (sturmGenerator U u) = (-U*u.1,-U*u.2) := by
   rcases u with ⟨x,p⟩
   simp [sturmGenerator]
-  constructor <;> ring
 
 /-- Convert the ordinary Penrose quotient coordinates `(x,g)` to projective momentum
 `p=-i g`. -/
@@ -87,15 +86,15 @@ theorem left_generator_intertwines_sturm (U : ℂ) (u : EinsteinRayState) :
       sturmGenerator U (leftToSturm u) := by
   rcases u with ⟨x,g⟩
   simp [leftToSturm, einsteinRayGenerator, sturmGenerator]
-  constructor <;> ring_nf
+  linear_combination (U * x) * I_mul_I
 
 /-- Adapted coordinate carrier for the mirror/dual local-twistor ray calculation. -/
-structure DualRayLocalTwistor where
+@[ext] structure DualRayLocalTwistor where
   xt : ℂ
   yt : ℂ
   pt : ℂ
   qt : ℂ
-  deriving Repr, DecidableEq
+  deriving DecidableEq
 
 /-- Phase-normalized mirror generator.  The coefficients `C,D,E` encode adapted-frame
 curvature components discarded by the aligned quotient, exactly as on the ordinary side. -/
@@ -113,9 +112,10 @@ def DualRayAligned (W : DualRayLocalTwistor) : Prop := W.yt = 0
 def InDualRayLine (W : DualRayLocalTwistor) : Prop :=
   W.xt = 0 ∧ W.yt = 0 ∧ W.pt = 0
 
-/-- Mirror aligned subspace is invariant. -/
+/-- Mirror aligned subspace is invariant. The generator lands in it from every starting
+twistor, so no alignment hypothesis is needed. -/
 theorem dualRayAligned_preserved
-    (U C D E : ℂ) (W : DualRayLocalTwistor) (hW : DualRayAligned W) :
+    (U C D E : ℂ) (W : DualRayLocalTwistor) :
     DualRayAligned (dualLocalTwistorGenerator U C D E W) := by
   rfl
 
@@ -169,7 +169,6 @@ theorem dualLocalTwistor_projects_to_sturm
   simp [DualRayAligned] at hW
   subst y
   simp [dualQuotientProjection, dualLocalTwistorGenerator, sturmGenerator]
-  constructor <;> ring
 
 /-- Common scaling on the mirror quotient. -/
 def scaleSturmState (c : ℂ) (u : SturmState) : SturmState :=
@@ -182,15 +181,15 @@ theorem sturmGenerator_scale_equivariant
       scaleSturmState c (sturmGenerator U u) := by
   rcases u with ⟨x,p⟩
   simp [sturmGenerator, scaleSturmState]
-  constructor <;> ring
+  ring
 
 /-- Ordinary quotient under anti-diagonal little group has weight `-1`, expressed in
 Sturm coordinates. -/
-def leftLittleGroup (a : ℂ) (ha : a ≠ 0) (u : SturmState) : SturmState :=
+def leftLittleGroup (a : ℂ) (_ha : a ≠ 0) (u : SturmState) : SturmState :=
   scaleSturmState a⁻¹ u
 
 /-- Mirror quotient has the opposite little-group weight `+1`. -/
-def rightLittleGroup (a : ℂ) (ha : a ≠ 0) (u : SturmState) : SturmState :=
+def rightLittleGroup (a : ℂ) (_ha : a ≠ 0) (u : SturmState) : SturmState :=
   scaleSturmState a u
 
 /-- Both chiral quotient dynamics are little-group covariant. -/
@@ -219,13 +218,7 @@ theorem left_tautological_tensor_is_littleGroup_neutral
   rcases u with ⟨x,p⟩
   simp [spinorTensorState, scaleCSpinor, leftLittleGroup, scaleSturmState]
   have hai : a * a⁻¹ = 1 := mul_inv_cancel₀ ha
-  apply Prod.ext
-  · simp [hai]
-    ring
-  · apply Prod.ext
-    · simp [hai]
-      ring
-    · apply Prod.ext <;> simp [hai] <;> ring
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> field_simp <;> ring
 
 /-- Right neutralization: the actual lambdatilde line has weight `-1`, cancelling the
 mirror quotient weight `+1`. -/
@@ -237,13 +230,7 @@ theorem right_tautological_tensor_is_littleGroup_neutral
   rcases u with ⟨x,p⟩
   simp [spinorTensorState, scaleCSpinor, rightLittleGroup, scaleSturmState]
   have hai : a⁻¹ * a = 1 := inv_mul_cancel₀ ha
-  apply Prod.ext
-  · simp [hai]
-    ring
-  · apply Prod.ext
-    · simp [hai]
-      ring
-    · apply Prod.ext <;> simp [hai] <;> ring
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> field_simp <;> ring
 
 /-- The two quotient characters are opposite: multiplying a left and right state gives a
 little-group-neutral rank-four tensor without any additional line factor. -/
@@ -259,13 +246,7 @@ theorem quotientPairTensor_littleGroup_neutral
   rcases uR with ⟨y,q⟩
   simp [quotientPairTensor, leftLittleGroup, rightLittleGroup, scaleSturmState]
   have h1 : a⁻¹*a = 1 := inv_mul_cancel₀ ha
-  apply Prod.ext
-  · simp [h1]
-    ring
-  · apply Prod.ext
-    · simp [h1]
-      ring
-    · apply Prod.ext <;> simp [h1] <;> ring
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> field_simp <;> ring
 
 /-- Finite ambidextrous package: both chiral local-twistor quotients carry one and the same
 Sturm generator, their little-group weights are opposite, and each becomes neutral after

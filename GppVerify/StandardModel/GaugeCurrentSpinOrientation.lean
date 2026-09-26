@@ -34,6 +34,7 @@ namespace GppGaugeCurrentSpinOrientation
 open GppFlatInfinityCelestialFactorization
 open GppSpinProductCenterTimeOrientation
 open GppMassiveSpinCenterOrientation
+open GppGrassmannianGooglyDecomposition (M2 det2)
 
 /-- Matrix carrier for a charge-weighted four-current/momentum source. -/
 def sourceCurrent (q : ℝ) (P : M2) : M2 := scaleM2 q P
@@ -43,36 +44,36 @@ theorem diagonal_charge_momentum_flip_invariant (q : ℝ) (P : M2) :
     sourceCurrent (-q) (scaleM2 (-1) P) = sourceCurrent q P := by
   rcases P with ⟨a,b,c,d⟩
   apply Prod.ext
-  · simp [sourceCurrent, scaleM2]; ring
+  · simp [sourceCurrent, scaleM2]
   · apply Prod.ext
-    · simp [sourceCurrent, scaleM2]; ring
+    · simp [sourceCurrent, scaleM2]
     · apply Prod.ext
-      · simp [sourceCurrent, scaleM2]; ring
-      · simp [sourceCurrent, scaleM2]; ring
+      · simp [sourceCurrent, scaleM2]
+      · simp [sourceCurrent, scaleM2]
 
 /-- Charge flip alone reverses the source current. -/
 theorem charge_flip_only_reverses_current (q : ℝ) (P : M2) :
     sourceCurrent (-q) P = scaleM2 (-1) (sourceCurrent q P) := by
   rcases P with ⟨a,b,c,d⟩
   apply Prod.ext
-  · simp [sourceCurrent, scaleM2]; ring
+  · simp [sourceCurrent, scaleM2]
   · apply Prod.ext
-    · simp [sourceCurrent, scaleM2]; ring
+    · simp [sourceCurrent, scaleM2]
     · apply Prod.ext
-      · simp [sourceCurrent, scaleM2]; ring
-      · simp [sourceCurrent, scaleM2]; ring
+      · simp [sourceCurrent, scaleM2]
+      · simp [sourceCurrent, scaleM2]
 
 /-- Orientation flip alone likewise reverses the source current. -/
 theorem momentum_flip_only_reverses_current (q : ℝ) (P : M2) :
     sourceCurrent q (scaleM2 (-1) P) = scaleM2 (-1) (sourceCurrent q P) := by
   rcases P with ⟨a,b,c,d⟩
   apply Prod.ext
-  · simp [sourceCurrent, scaleM2]; ring
+  · simp [sourceCurrent, scaleM2]
   · apply Prod.ext
-    · simp [sourceCurrent, scaleM2]; ring
+    · simp [sourceCurrent, scaleM2]
     · apply Prod.ext
-      · simp [sourceCurrent, scaleM2]; ring
-      · simp [sourceCurrent, scaleM2]; ring
+      · simp [sourceCurrent, scaleM2]
+      · simp [sourceCurrent, scaleM2]
 
 /-- On a factorized null momentum, gauge dualization together with either one-sided spin
 center flip leaves the current invariant. -/

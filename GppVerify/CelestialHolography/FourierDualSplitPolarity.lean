@@ -58,7 +58,6 @@ theorem sharp_annihilator_eq_minus_split_polarity
     splitSharp (dualLineVector a b c d t u) =
       scaleV4 (-1) (splitDualLineVector a b c d t u) := by
   simp [splitSharp, dualLineVector, splitDualLineVector, scaleV4]
-  constructor <;> ring
 
 /-- The split-dual vector is indeed orthogonal to every graph-line vector for the
 chosen split bilinear form. -/
