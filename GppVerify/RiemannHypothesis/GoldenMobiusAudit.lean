@@ -341,6 +341,47 @@ theorem suzuki_response_shear_eq_oddSchur
   exact responseFromRatio_add_one hq0 hq1
 
 
+
+/-! ## Basis-consistency no-go for the known reciprocal-Weyl feedback -/
+
+/-- Reflection in the reciprocal Weyl coordinate of an odd Herglotz function. -/
+def weylReflection (q : ℂ) : ℂ := -q
+
+/-- Unit rank-one feedback in the reciprocal Weyl coordinate. -/
+def weylFeedback (q : ℂ) : ℂ := q + 1
+
+/-- The known reflection followed by the known unit feedback is affine reflection,
+not golden dynamics. -/
+theorem weyl_feedback_after_reflection (q : ℂ) :
+    weylFeedback (weylReflection q) = 1 - q := by
+  unfold weylFeedback weylReflection
+  ring
+
+/-- Consequently that physical scalar return map is an involution. -/
+theorem weyl_feedback_reflection_involution (q : ℂ) :
+    weylFeedback (weylReflection (weylFeedback (weylReflection q))) = q := by
+  simp [weylFeedback, weylReflection]
+  ring
+
+/-- Its unique finite fixed point is 1/2. -/
+theorem weyl_feedback_reflection_fixed_iff (q : ℂ) :
+    weylFeedback (weylReflection q) = q ↔ q = (1 / 2 : ℂ) := by
+  rw [weyl_feedback_after_reflection]
+  constructor <;> intro h
+  · linarith
+  · rw [h]
+    norm_num
+
+/-- Complex golden word, for direct comparison with the physical return map. -/
+def goldenMapC (q : ℂ) : ℂ := 1 + 1 / q
+
+/-- The golden word is not the known reciprocal-Weyl reflection/feedback composite:
+already at q=1 the two outputs differ. -/
+theorem goldenMapC_ne_known_return_at_one :
+    goldenMapC 1 ≠ weylFeedback (weylReflection 1) := by
+  norm_num [goldenMapC, weylFeedback, weylReflection]
+
+
 /-! ## The natural Schur/Herglotz coordinate kills the naive golden closure -/
 
 /-- Cayley/Herglotz impedance associated with a Schur variable q. -/
