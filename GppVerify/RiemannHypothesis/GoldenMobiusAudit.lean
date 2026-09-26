@@ -50,6 +50,43 @@ theorem goldenRatio_pos : 0 < goldenRatio := by
   dsimp [goldenRatio]
   positivity
 
+
+/-- Reciprocal of the golden ratio in its standard affine form. -/
+theorem one_div_goldenRatio :
+    1 / goldenRatio = goldenRatio - 1 := by
+  have hphi0 : goldenRatio ≠ 0 := ne_of_gt goldenRatio_pos
+  have hsq := goldenRatio_sq
+  field_simp [hphi0]
+  nlinarith
+
+/-- The stable multiplier / inverse-square golden constant. -/
+theorem one_div_goldenRatio_sq :
+    1 / (goldenRatio ^ 2) = (3 - Real.sqrt 5) / 2 := by
+  have hphi0 : goldenRatio ≠ 0 := ne_of_gt goldenRatio_pos
+  calc
+    1 / (goldenRatio ^ 2) = (1 / goldenRatio) ^ 2 := by
+      field_simp [hphi0]
+    _ = (goldenRatio - 1) ^ 2 := by rw [one_div_goldenRatio]
+    _ = 2 - goldenRatio := by
+      nlinarith [goldenRatio_sq]
+    _ = (3 - Real.sqrt 5) / 2 := by
+      unfold goldenRatio
+      ring
+
+/-- The exact dyadic Hardy-atlas precision margin is φ⁻². -/
+theorem dyadic_margin_eq_golden_inv_sq :
+    (1 - 1 / Real.sqrt 5) / (1 + 1 / Real.sqrt 5)
+      = 1 / (goldenRatio ^ 2) := by
+  have hspos : 0 < Real.sqrt 5 := Real.sqrt_pos.2 (by norm_num)
+  have hs0 : Real.sqrt 5 ≠ 0 := ne_of_gt hspos
+  have hden : 1 + 1 / Real.sqrt 5 ≠ 0 := by positivity
+  have hs2 : (Real.sqrt 5) ^ 2 = (5 : ℝ) :=
+    Real.sq_sqrt (by norm_num)
+  rw [one_div_goldenRatio_sq]
+  field_simp [hs0, hden]
+  nlinarith
+
+
 /-- Any nonzero solution of x²=x+1 is a fixed point of the golden map. -/
 theorem goldenMap_fixed_of_quadratic
     {x : ℝ} (hx : x ≠ 0) (hquad : x ^ 2 = x + 1) :
