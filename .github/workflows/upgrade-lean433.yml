@@ -1,0 +1,33 @@
+name: Lean 4.33 upgrade compatibility
+
+on:
+  push:
+    branches:
+      - codex/lean-upgrade-4.33
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Update dependencies
+        run: lake update
+      - name: Get Mathlib cache
+        run: lake exe cache get
+      - name: Full build
+        run: lake build
+      - name: Zero-sorry gate
+        run: |
+          if grep -RInE '^[[:space:]]*(sorry|admit)([[:space:]]|$)' GppVerify --include='*.lean'; then
+            echo 'Executable sorry/admit found'
+            exit 1
+          fi
+      - name: Axiom audit
+        run: lake env lean scripts/check_axioms.lean
+      - name: Scaffold census
+        run: python3 scripts/audit_scaffolds.py --json scaffold_audit.json
