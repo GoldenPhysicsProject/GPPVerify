@@ -53,9 +53,17 @@ theorem unitaryCharacter_pos_iff_locked (s t : Bool) :
     unitaryCharacter s t = 1 ↔ s = t := by
   cases s <;> cases t <;> native_decide
 
-/-- Flipping only representation conjugacy preserves the Hilbert positivity character. -/
-theorem charge_flip_preserves_unitarity (s t : Bool) :
-    unitaryCharacter s t = unitaryCharacter s t := rfl
+/-- Charge flip: reverse internal conjugacy only, in `(q, s, t)` coordinates. -/
+def chargeFlip (x : Bool × Bool × Bool) : Bool × Bool × Bool :=
+  (!x.1, x.2.1, x.2.2)
+
+/-- Flipping only representation conjugacy preserves the Hilbert positivity character and
+reverses the relational matter character. -/
+theorem charge_flip_preserves_unitarity (x : Bool × Bool × Bool) :
+    unitaryCharacter (chargeFlip x).2.1 (chargeFlip x).2.2 = unitaryCharacter x.2.1 x.2.2 ∧
+      matterCharacter (chargeFlip x).1 (chargeFlip x).2.2 = -matterCharacter x.1 x.2.2 := by
+  rcases x with ⟨q, s, t⟩
+  cases q <;> cases s <;> cases t <;> native_decide
 
 /-- But the same charge flip reverses the relational matter character. -/
 theorem charge_flip_reverses_matter (q t : Bool) :

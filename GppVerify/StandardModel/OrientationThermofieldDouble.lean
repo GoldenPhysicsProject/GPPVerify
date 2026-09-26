@@ -96,9 +96,20 @@ def sheetSwap (v : V4) : V4 := ![v 0,v 2,v 1,v 3]
 def marginalWeights (a b : ℂ) : ℝ × ℝ :=
   (Complex.normSq a, Complex.normSq b)
 
-/-- The left and right factors have identical marginal weights by construction. -/
+/-- Born weights of the left factor (index `i / 2`) of a two-sheet state. -/
+def leftMarginal (v : V4) : ℝ × ℝ :=
+  (Complex.normSq (v 0) + Complex.normSq (v 1), Complex.normSq (v 2) + Complex.normSq (v 3))
+
+/-- Born weights of the right factor (index `i % 2`) of a two-sheet state. -/
+def rightMarginal (v : V4) : ℝ × ℝ :=
+  (Complex.normSq (v 0) + Complex.normSq (v 2), Complex.normSq (v 1) + Complex.normSq (v 3))
+
+/-- On a paired state the left and right factors have identical marginal weights, and both
+are `marginalWeights a b`. -/
 theorem paired_marginals_match (a b : ℂ) :
-    marginalWeights a b = marginalWeights a b := rfl
+    leftMarginal (pairedState a b) = marginalWeights a b ∧
+      rightMarginal (pairedState a b) = marginalWeights a b := by
+  simp [leftMarginal, rightMarginal, marginalWeights, pairedState]
 
 /-- Equal-amplitude CPT/Majorana pairing gives the maximally symmetric two-level marginal. -/
 theorem equal_pair_half_weights (a b : ℂ)

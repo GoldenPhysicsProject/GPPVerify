@@ -38,11 +38,12 @@ theorem diagonal_duality_invariance
   rw [hinter, hC]
 
 /-- A single output inversion is exactly equivalent, after synthesis, to a single source
-    dualization. -/
+    dualization: an output is inversion-fixed iff synthesis cannot tell `x` from `C x`. -/
 theorem half_dualities_are_intertwined
     (C : X → X) (I : Y → Y) (P : X → Y)
-    (hinter : ∀ x, I (P x) = P (C x)) :
-    ∀ x, I (P x) = P (C x) := hinter
+    (hinter : ∀ x, I (P x) = P (C x)) (x : X) :
+    I (P x) = P x ↔ P (C x) = P x := by
+  rw [hinter]
 
 /-- If the synthesis is injective, an output fixed point under inversion corresponds to a
     source fixed point under duality. -/

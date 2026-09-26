@@ -1,4 +1,5 @@
 import Mathlib.Tactic
+import Mathlib.Data.Real.Sign
 import GppVerify.StandardModel.Z2HaarFourierContactBridge
 
 /-!
@@ -82,8 +83,13 @@ theorem sign_flip_commutes_scale_inversion (t : Bool) (rho : ℝ) :
 /-- The finite orientation character is exactly the sign component, independent of rho. -/
 def orientationCharacter (t : Bool) : ℝ := signVal t
 
-/-- Haar/Mellin inversion does not alter the finite orientation character. -/
-theorem inversion_preserves_orientationCharacter (t : Bool) :
-    orientationCharacter t = orientationCharacter t := rfl
+/-- Haar/Mellin inversion does not alter the finite orientation character: for a positive
+magnitude, the sign of the inverted signed scale is still the orientation character. -/
+theorem inversion_preserves_orientationCharacter (t : Bool) {rho : ℝ} (hrho : 0 < rho) :
+    Real.sign (signedScale t rho⁻¹) = orientationCharacter t := by
+  have hi : 0 < rho⁻¹ := inv_pos.mpr hrho
+  cases t
+  · simp [signedScale, signVal, orientationCharacter, Real.sign_of_pos hi]
+  · simp [signedScale, signVal, orientationCharacter, Real.sign_of_neg (neg_neg_of_pos hi)]
 
 end GppSignedMultiplicativeHaarScale
