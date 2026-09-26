@@ -376,6 +376,96 @@ theorem affineReflection_involution (m : ℂ) :
   ring
 
 
+/-! ## Cayley background factor inside the Suzuki boundary ratio -/
+
+/-- The elementary pole/Cayley factor carried by the explicit (z-i)/(z+i) prefactor. -/
+def poleCayley (z : ℂ) : ℂ := (z - Complex.I) / (z + Complex.I)
+
+/-- The pole Cayley factor is literally the RH Cayley coordinate beta(s) after the
+centered spectral change of variable s=(z+i)/(2i). -/
+theorem poleCayley_eq_criticalCayley
+    {z : ℂ} (hzi : z + Complex.I ≠ 0) :
+    poleCayley z =
+      criticalCayley ((z + Complex.I) / (2 * Complex.I)) := by
+  have hi : (Complex.I : ℂ) ≠ 0 := Complex.I_ne_zero
+  unfold poleCayley criticalCayley
+  field_simp [hzi, hi]
+  ring
+
+/-- The canonical Suzuki ratio factors into the elementary critical Cayley background
+times one arithmetic reflection ratio I(z)/I(-z). -/
+theorem suzukiRatio_factorization
+    (I : ℂ → ℂ) {z : ℂ}
+    (hzi : z + Complex.I ≠ 0) (hIm : I (-z) ≠ 0) :
+    suzukiRatio I z =
+      poleCayley z * (I z / I (-z)) := by
+  unfold suzukiRatio suzukiA suzukiB poleCayley
+  field_simp [hzi, hIm]
+  ring
+
+/-- The elementary pole/Cayley background itself reciprocates under z -> -z. -/
+theorem poleCayley_neg_eq_inv
+    {z : ℂ} (hp : z + Complex.I ≠ 0) (hm : z - Complex.I ≠ 0) :
+    poleCayley (-z) = (poleCayley z)⁻¹ := by
+  unfold poleCayley
+  field_simp [hp, hm]
+  ring
+
+/-! ## Golden extremality among positive reciprocal-shear maps -/
+
+/-- A positive shear of size a followed by reciprocal duality. -/
+def weightedGoldenMap (a x : ℝ) : ℝ := a + 1 / x
+
+/-- The interval [phi,infinity) is invariant under every reciprocal-shear map with
+shear a >= 1. -/
+theorem weightedGoldenMap_ge_golden
+    {a x : ℝ} (ha : 1 ≤ a) (hx : goldenRatio ≤ x) :
+    goldenRatio ≤ weightedGoldenMap a x := by
+  have hphi0 : 0 < goldenRatio := goldenRatio_pos
+  have hx0 : 0 < x := lt_of_lt_of_le hphi0 hx
+  have hinv_nonneg : 0 ≤ 1 / x := by positivity
+  have hphi_le_two : goldenRatio ≤ 2 := by
+    have hs : Real.sqrt 5 ≤ 3 := by
+      have hs0 : 0 ≤ Real.sqrt 5 := Real.sqrt_nonneg 5
+      have hs2 : (Real.sqrt 5)^2 = (5:ℝ) := Real.sq_sqrt (by norm_num)
+      nlinarith
+    unfold goldenRatio
+    linarith
+  unfold weightedGoldenMap
+  calc
+    goldenRatio ≤ 2 := hphi_le_two
+    _ ≤ a + 1 / x := by linarith
+
+/-- On the invariant positive region, the absolute derivative factor 1/x^2 is bounded
+by the golden constant phi^{-2}. This is the weakest contraction in the unit-shear case. -/
+theorem reciprocal_derivative_factor_le_golden
+    {x : ℝ} (hx : goldenRatio ≤ x) :
+    1 / (x ^ 2) ≤ 1 / (goldenRatio ^ 2) := by
+  have hphi0 : 0 < goldenRatio := goldenRatio_pos
+  have hx0 : 0 < x := lt_of_lt_of_le hphi0 hx
+  have hsquares : goldenRatio ^ 2 ≤ x ^ 2 := by nlinarith
+  exact one_div_le_one_div_of_le (sq_pos_of_pos hphi0) hsquares
+
+/-- Exact derivative of a reciprocal-shear map. -/
+theorem hasDerivAt_weightedGoldenMap
+    (a : ℝ) {x : ℝ} (hx : x ≠ 0) :
+    HasDerivAt (weightedGoldenMap a) (-(1 / x ^ 2)) x := by
+  unfold weightedGoldenMap
+  convert (hasDerivAt_const x a).add (hasDerivAt_inv (hasDerivAt_id x) hx) using 1 <;> ring
+
+/-- Therefore every positive reciprocal-shear step with a >= 1 is locally no less
+contractive than the golden step once the orbit lies in [phi,infinity). -/
+theorem weightedGoldenMap_deriv_norm_bound
+    (a : ℝ) {x : ℝ} (hx : goldenRatio ≤ x) :
+    |-(1 / x ^ 2)| ≤ 1 / (goldenRatio ^ 2) := by
+  have hphi0 : 0 < goldenRatio := goldenRatio_pos
+  have hx0 : 0 < x := lt_of_lt_of_le hphi0 hx
+  rw [abs_of_nonpos]
+  · simpa using reciprocal_derivative_factor_le_golden hx
+  · have : 0 ≤ 1 / x ^ 2 := by positivity
+    linarith
+
+
 end
 
 end GppGoldenMobius
