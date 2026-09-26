@@ -1,0 +1,62 @@
+name: Codex arithmetic conformal field theory
+
+on:
+  push:
+    branches: ["codex/lean-workbench"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: codex-arithmetic-conformal-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  arithmetic-conformal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Arithmetic 1d scale kinematics
+        run: lake build GppVerify.RiemannHypothesis.ArithmeticConformalKinematics
+
+      - name: Arithmetic principal-series Casimir
+        run: lake build GppVerify.RiemannHypothesis.ArithmeticConformalCasimir
+
+      - name: Golden reciprocal scale algebra
+        run: lake build GppVerify.RiemannHypothesis.GoldenReciprocalScale
+
+      - name: Arithmetic Eisenstein scattering unitarity
+        run: lake build GppVerify.RiemannHypothesis.ArithmeticEisensteinUnitarity
+
+      - name: Local p-adic primary shell scaling
+        run: lake build GppVerify.RiemannHypothesis.PadicConformalScaling
+
+      - name: p-adic Möbius conformal covariance
+        run: lake build GppVerify.RiemannHypothesis.PadicMobiusConformal
+
+      - name: p-adic cross-ratio invariance
+        run: lake build GppVerify.RiemannHypothesis.PadicCrossRatio

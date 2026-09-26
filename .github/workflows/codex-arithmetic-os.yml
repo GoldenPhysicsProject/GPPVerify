@@ -1,0 +1,74 @@
+name: Codex arithmetic OS reflection
+
+on:
+  push:
+    branches: ["codex/lean-workbench"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: codex-arithmetic-os-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Arithmetic OS reflection algebra
+        run: lake build GppVerify.CelestialHolography.ArithmeticOSReflection
+
+      - name: General conformal shadow principal-series axis
+        run: lake build GppVerify.CelestialHolography.ConformalShadowPrincipalSeries
+
+      - name: Arithmetic OS Gram positivity
+        run: lake build GppVerify.CelestialHolography.ArithmeticOSGram
+
+      - name: Abstract AFT OS Gram factorization
+        run: lake build GppVerify.CelestialHolography.ArithmeticOSFactorization
+
+      - name: Prime-local arithmetic OS positivity
+        run: lake build GppVerify.CelestialHolography.ArithmeticPrimeLocalOS
+
+      - name: Explicit finite prime AFT factor map
+        run: lake build GppVerify.CelestialHolography.ArithmeticPrimeFactorMap
+
+      - name: Euler-log causal anomaly algebra
+        run: lake build GppVerify.CelestialHolography.ArithmeticEulerLogAnomaly
+
+      - name: Arithmetic no-ghost inertia obstruction
+        run: lake build GppVerify.CelestialHolography.ArithmeticNoGhostInertia
+
+      - name: Arithmetic no-ghost coercivity skeleton
+        run: lake build GppVerify.CelestialHolography.ArithmeticNoGhostCoercivity
+
+      - name: Arithmetic contraction defect positivity
+        run: lake build GppVerify.CelestialHolography.ArithmeticDefectPositivity
+
+      - name: Completed arithmetic defect criterion
+        run: lake build GppVerify.CelestialHolography.ArithmeticCompletedDefectCriterion

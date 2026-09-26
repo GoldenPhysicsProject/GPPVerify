@@ -1,0 +1,227 @@
+name: Codex fast gates
+
+on:
+  push:
+    branches: ["codex/lean-workbench"]
+  workflow_dispatch:
+
+concurrency:
+  group: codex-fast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Half-density Hermitian shadow law
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ScaleShadowHalfDensity
+
+      - name: Arithmetic one-dimensional conformal kinematics
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ArithmeticConformalKinematics
+
+      - name: Arithmetic conformal Casimir dispersion
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ArithmeticConformalCasimir
+
+      - name: Scalar-box endpoint linearization
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxEndpointLinearization
+
+      - name: Scalar-box lower-endpoint logarithm bounds
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxLogBounds
+
+      - name: Scalar-box product endpoint bounds
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxProductEndpointBounds
+
+      - name: Scalar-box q logarithmic scale
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxQLogScale
+
+      - name: Scalar-box pole endpoint scale
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPoleEndpointScale
+
+      - name: Scalar-box logarithmic scale bounds
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxLogScaleBounds
+
+      - name: Scalar-box pole logarithmic scale bounds
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPoleLogScaleBounds
+
+      - name: Scalar-box logarithmic square remainder
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxLogSquareRemainder
+
+      - name: Scalar-box regulator vanishing
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxRegulatorVanishing
+
+      - name: Scalar-box D0 prefactor vanishing
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxD0PrefactorVanishing
+
+      - name: Structured scalar-box remainder assembly
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxStructuredRemainder
+
+      - name: Scalar-box prefactor remainder
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPrefactorRemainder
+
+      - name: Scalar-box convergence assembly
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxConvergenceAssembly
+
+      - name: Scalar-box special-function remainder
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxSpecialFunctionRemainder
+
+      - name: Physical scalar-box special-function remainder
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPhysicalSpecialRemainder
+
+      - name: Scalar-box special-function remainder vanishing
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxSpecialRemainderVanishing
+
+      - name: Physical scalar-box core majorant vanishing
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPhysicalMajorantVanishing
+
+      - name: Physical scalar-box convergence
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxPhysicalConvergence
+
+      - name: Adjacent-MHV bubble subtraction algebra
+        if: always()
+        run: lake build GppVerify.CelestialHolography.FourPointMHVBubbleSubtractionAlgebra
+
+      - name: Massive-vector scalar state reconstruction
+        if: always()
+        run: lake build GppVerify.CelestialHolography.MassiveVectorStateSumReconstruction
+
+      - name: Sech convolution kernel
+        if: always()
+        run: lake build GppVerify.CelestialHolography.SechConvolutionKernel
+
+      - name: Real dilogarithm inversion kernel
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogInversionKernel
+
+      - name: Real dilogarithm punctured-unit-disk derivative
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogDerivativeUnitDisk
+
+      - name: Real dilogarithm signed zero continuity
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogSignedZeroContinuity
+
+      - name: Real dilogarithm negative endpoint continuity
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogNegativeEndpointContinuity
+
+      - name: Real Landen derivative cancellation
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxLandenDerivative
+
+      - name: Real Landen constancy
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxLandenConstancy
+
+      - name: Real Landen identity
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxLandenIdentity
+
+      - name: Real dilogarithm negative one value
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogNegativeOneValue
+
+      - name: Branch-free negative-axis dilogarithm extension
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogNegativeExtension
+
+      - name: Branch-free reciprocal dilogarithm identity
+        if: always()
+        run: lake build GppVerify.CelestialHolography.RegulatedBoxDilogReciprocalIdentity
+
+      - name: Gamma real-axis phase symmetry
+        if: always()
+        run: lake build GppVerify.QuantumGravity.GammaWienerHopfPhaseSymmetry
+
+      - name: Mehler-Fock Gamma collapsed weight
+        if: always()
+        run: lake build GppVerify.CelestialHolography.MehlerFockGammaCollapsedWeight
+
+      - name: Strict infinite weighted variance
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.WeightedVarianceInfiniteStrict
+
+      - name: Strict zeta Gibbs thermodynamics
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ZetaGibbsStrictThermodynamics
+
+      - name: Zeta Gibbs entropy and free energy
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ZetaGibbsFreeEnergy
+
+      - name: Zeta Gibbs differential entropy law
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ZetaGibbsEntropyDerivative
+
+      - name: Zeta Gibbs differential Legendre law
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ZetaGibbsLegendreDifferential
+
+      - name: Massive-vector 5D Ward reconstruction
+        if: always()
+        run: lake build GppVerify.CelestialHolography.MassiveVectorWardReconstruction
+
+      - name: Celestial shadow helicity reversal
+        if: always()
+        run: lake build GppVerify.CelestialHolography.CelestialShadowHelicity
+
+      - name: Discrete P T helicity algebra
+        if: always()
+        run: lake build GppVerify.CelestialHolography.DiscreteSymmetryHelicity
+
+      - name: Actual Gr24 subspace model
+        if: always()
+        run: lake build GppVerify.CelestialHolography.GrassmannianGr24
+
+      - name: Twistor googly real shadow interface
+        if: always()
+        run: lake build GppVerify.CelestialHolography.TwistorGoogly
+
+      - name: Antiunitary googly SD-ASD exchange
+        if: always()
+        run: lake build GppVerify.CelestialHolography.GooglyAntiunitaryExchange

@@ -1,0 +1,55 @@
+name: Codex focused diagnostics
+
+on:
+  push:
+    branches: ["codex/lean-workbench"]
+  workflow_dispatch:
+
+concurrency:
+  group: codex-diagnostic-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Half-density
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ScaleShadowHalfDensity
+
+      - name: Scalar-box q-log
+        if: always()
+        run: lake build GppVerify.CelestialHolography.ScalarBoxQLogScale
+
+      - name: Sech convolution
+        if: always()
+        run: lake build GppVerify.CelestialHolography.SechConvolutionKernel
+
+      - name: Zeta Gibbs free energy
+        if: always()
+        run: lake build GppVerify.RiemannHypothesis.ZetaGibbsFreeEnergy
