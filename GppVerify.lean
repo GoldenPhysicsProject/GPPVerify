@@ -1296,3 +1296,7 @@ import GppVerify.RiemannHypothesis.PrimeOccupationHodge
 -- Contractivity of the doubled boundary transfer is exactly graph-form positivity and,
 -- once the reflection-pair realization is supplied, closes through the two-point criterion.
 import GppVerify.RiemannHypothesis.KreinGraphClosure
+
+
+-- ── Codex: golden Möbius audit (2026-09-26) ──
+import GppVerify.RiemannHypothesis.GoldenMobiusAudit
