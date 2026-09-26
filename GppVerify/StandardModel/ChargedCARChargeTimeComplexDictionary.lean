@@ -70,7 +70,7 @@ theorem C_reverses_phaseI (v : V2) :
     chargeC (phaseI *ᵥ v) = (-phaseI) *ᵥ chargeC v := by
   ext i
   fin_cases i <;>
-    simp [chargeC, phaseI, Matrix.mulVec, Fin.sum_univ_two]
+    simp [chargeC, phaseI, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- CHARGE REVERSAL: linear for the positive-energy complex structure J. -/
 theorem C_preserves_energyJ (v : V2) :
@@ -78,14 +78,14 @@ theorem C_preserves_energyJ (v : V2) :
   rw [energyJ_explicit]
   ext i
   fin_cases i <;>
-    simp [chargeC, Matrix.mulVec, Fin.sum_univ_two]
+    simp [chargeC, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- Therefore charge reversal flips the relative product q=-IJ. -/
 theorem C_flips_qSign (v : V2) :
     chargeC (qSign *ᵥ v) = (-qSign) *ᵥ chargeC v := by
   ext i
   fin_cases i <;>
-    simp [chargeC, qSign, Matrix.mulVec, Fin.sum_univ_two]
+    simp [chargeC, qSign, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- TIME REVERSAL: anti-linear for the original phase-space complex structure. -/
 theorem T_reverses_phaseI (v : V2) :
@@ -107,7 +107,7 @@ theorem CT_preserves_phaseI (v : V2) :
     CT (phaseI *ᵥ v) = phaseI *ᵥ CT v := by
   ext i
   fin_cases i <;>
-    simp [CT, phaseI, Matrix.mulVec, Fin.sum_univ_two]
+    simp [CT, phaseI, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- CT reverses the positive-energy complex structure. -/
 theorem CT_reverses_energyJ (v : V2) :
@@ -115,14 +115,14 @@ theorem CT_reverses_energyJ (v : V2) :
   rw [energyJ_explicit]
   ext i
   fin_cases i <;>
-    simp [CT, Matrix.mulVec, Fin.sum_univ_two]
+    simp [CT, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- Hence CT flips charge, as expected from C while T itself preserves charge. -/
 theorem CT_flips_qSign (v : V2) :
     CT (qSign *ᵥ v) = (-qSign) *ᵥ CT v := by
   ext i
   fin_cases i <;>
-    simp [CT, qSign, Matrix.mulVec, Fin.sum_univ_two]
+    simp [CT, qSign, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
 
 /-- Both C and T preserve the one-particle probability norm. -/
 theorem C_preserves_normSq2 (v : V2) : normSq2 (chargeC v) = normSq2 v := by

@@ -35,11 +35,11 @@ def Pantiparticle : M4C := !![0,0,0,0; 0,0,0,0; 0,0,1,0; 0,0,0,0]
 /-- Both charge-sector projectors commute with the global charge operator and are therefore
     compatible with U(1) charge superselection/gauge invariance at this finite-mode level. -/
 theorem charge_projectors_commute_Q :
-    commutator Q Pparticle = 0 ∧ commutator Q Pantiparticle = 0 := by
+    GppChargedCAROrientationFock.commutator Q Pparticle = 0 ∧ GppChargedCAROrientationFock.commutator Q Pantiparticle = 0 := by
   rw [Q_explicit]
   constructor <;>
     ext i j <;> fin_cases i <;> fin_cases j <;>
-      norm_num [commutator, Pparticle, Pantiparticle,
+      norm_num [GppChargedCAROrientationFock.commutator, Pparticle, Pantiparticle,
         Matrix.mul_apply, Fin.sum_univ_succ]
 
 /-- They are nevertheless distinct observables/operators.  Gauge invariance does not identify
@@ -51,8 +51,8 @@ theorem particle_antiparticle_projectors_distinct : Pparticle ≠ Pantiparticle 
 
 /-- The local charged field still contains both opposite Heisenberg frequency signs. -/
 theorem local_field_has_both_frequency_orientations (eps : ℝ) :
-    commutator (H eps) ap = (-(eps : ℂ)) • ap ∧
-    commutator (H eps) aaDag = (eps : ℂ) • aaDag := by
+    GppChargedCAROrientationFock.commutator (H eps) ap = (-(eps : ℂ)) • ap ∧
+    GppChargedCAROrientationFock.commutator (H eps) aaDag = (eps : ℂ) • aaDag := by
   exact ⟨particle_annihilator_frequency eps, antiparticle_creator_frequency eps⟩
 
 /-- But a nonzero complex-linear deck flip of the actual scalar complex orientation does not
@@ -65,10 +65,10 @@ theorem no_nonzero_internal_absolute_orientation_flip
     frequency components and distinct physical charge sectors, while forbidding the proposed
     absolute-orientation reversal as a nontrivial complex-linear internal gauge operation. -/
 theorem standard_CAR_orientation_capstone (eps : ℝ) :
-    commutator (H eps) ap = (-(eps : ℂ)) • ap ∧
-    commutator (H eps) aaDag = (eps : ℂ) • aaDag ∧
-    commutator Q Pparticle = 0 ∧
-    commutator Q Pantiparticle = 0 ∧
+    GppChargedCAROrientationFock.commutator (H eps) ap = (-(eps : ℂ)) • ap ∧
+    GppChargedCAROrientationFock.commutator (H eps) aaDag = (eps : ℂ) • aaDag ∧
+    GppChargedCAROrientationFock.commutator Q Pparticle = 0 ∧
+    GppChargedCAROrientationFock.commutator Q Pantiparticle = 0 ∧
     Pparticle ≠ Pantiparticle := by
   rcases charge_projectors_commute_Q with ⟨hp,ha⟩
   exact ⟨particle_annihilator_frequency eps, antiparticle_creator_frequency eps,
