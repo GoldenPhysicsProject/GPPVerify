@@ -126,6 +126,11 @@ import GppVerify
 #print axioms GppStefanBoltzmann.m_one_eq
 #print axioms GppStefanBoltzmann.m_three_eq
 #print axioms GppGammaModulus.gamma_one_add_mul_gamma_one_sub
+#print axioms GppLogisticFourierPair.beta_kernel_logistic
+#print axioms GppLogisticFourierPair.weight_eq_sech_sq
+#print axioms GppLogisticFourierPair.integral_weight_mul_exp_eq_betaIntegral
+#print axioms GppLogisticFourierPair.logistic_fourier_pair
+#print axioms GppLogisticFourierPair.integral_logistic_density
 #print axioms GppAllLoopFiniteness.finiteness
 
 -- Thread QG-Blackbody round 2 (KinematicZetaBridge, SinhWeierstrassProduct) — from

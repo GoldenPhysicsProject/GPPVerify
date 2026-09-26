@@ -933,11 +933,13 @@ import GppVerify.CelestialHolography.DispersionKernelMellin
 -- the Fourier-transform characterization of the already-proved closed hyperbolic form
 -- pi*lambda/sinh(pi*lambda) (PlanckForm.lean, MatsubaraPoles.lean). The third and lowest-
 -- ranked of the three items Daniel asked to be attempted "in order of importance or
--- novelty." Genuinely attempted: re-confirmed by direct grep that Mathlib v4.19.0 has zero
--- sech/cosh-family closed-form Fourier transforms (only the Gaussian), no Poisson-kernel
--- 1/(1+x^2) closed form, and no residue-calculus API (the textbook proof needs a residue sum
--- over sech^2's double poles at x=i*pi*(2k+1)). Parked as a True-stub per this repo's own
--- documented convention, naming the precise gap -- not an axiom, not a sorry.
+-- novelty." PROVED 2026-09-26 (logistic_fourier_pair), after sitting as a True-stub whose
+-- docstring called it out of reach: Mathlib v4.19.0 had no sech Fourier transform, no
+-- Poisson-kernel pair and no residue calculus. That census was accurate (sech still has zero
+-- occurrences at 4.33.1) and irrelevant: substituting the logistic CDF u = 1/(1+e^-x) turns the
+-- integral into B(1+i*lambda, 1-i*lambda) = Gamma(1+i*lambda)Gamma(1-i*lambda), and Euler
+-- reflection gives pi*lambda/sinh(pi*lambda). The census listed the textbook residue proof's
+-- tools and never asked whether a different proof needed them. Standard axioms only.
 import GppVerify.QuantumGravity.LogisticFourierPair
 
 -- ── Thread QG-Blackbody, round 3: the cumulant law (New) ──────────────────────────────────
