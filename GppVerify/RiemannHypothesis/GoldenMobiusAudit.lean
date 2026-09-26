@@ -425,7 +425,11 @@ theorem weyl_feedback_reflection_fixed_iff (q : ℂ) :
   rw [weyl_feedback_after_reflection]
   constructor
   · intro h
-    linear_combination -h
+    have hsum : q + q = 1 := by
+      linear_combination -h
+    calc
+      q = (q + q) / 2 := by ring
+      _ = (1 : ℂ) / 2 := by rw [hsum]
   · intro h
     rw [h]
     norm_num
