@@ -1,3 +1,4 @@
+import GppVerify.ThreadWeilParity.SuzukiReflectionSymmetry
 import Mathlib.Tactic
 
 /-!
@@ -173,6 +174,69 @@ theorem shadowQuotient_neg_eq_inv
   have hminus : a + -z = a - z := by ring
   rw [hplus, hminus]
   field_simp [hp, hm]
+
+
+/-! ## Exact golden word in the Suzuki boundary pair -/
+
+open GppWeilParity
+
+/-- Projective ratio of the canonical Suzuki 0/π boundary pair. -/
+def suzukiRatio (I : ℂ → ℂ) (z : ℂ) : ℂ :=
+  suzukiA I z / suzukiB I z
+
+/-- Suzuki reflection swaps the two homogeneous boundary coordinates up to the same
+minus sign, hence the projective ratio is inverted. -/
+theorem suzukiRatio_neg_eq_inv
+    (I : ℂ → ℂ) (z : ℂ)
+    (hA : suzukiA I z ≠ 0) (hB : suzukiB I z ≠ 0) :
+    suzukiRatio I (-z) = (suzukiRatio I z)⁻¹ := by
+  unfold suzukiRatio
+  rw [suzukiA_neg_eq_neg_suzukiB, suzukiB_neg_eq_neg_suzukiA]
+  field_simp [hA, hB]
+
+/-- The unit upper-triangular boundary-frame shear A↦A+B acts by q↦q+1. -/
+def suzukiShearedRatio (I : ℂ → ℂ) (z : ℂ) : ℂ :=
+  (suzukiA I z + suzukiB I z) / suzukiB I z
+
+theorem suzukiShearedRatio_eq_add_one
+    (I : ℂ → ℂ) (z : ℂ) (hB : suzukiB I z ≠ 0) :
+    suzukiShearedRatio I z = suzukiRatio I z + 1 := by
+  unfold suzukiShearedRatio suzukiRatio
+  field_simp [hB]
+  ring
+
+/--
+**Exact golden Möbius word in the canonical Suzuki boundary pair.**
+
+Reflect z↦-z, which swaps A and B projectively, then apply the unit shear A↦A+B.
+On q=A/B this is exactly q↦1+1/q.
+-/
+theorem suzuki_reflect_then_shear_golden
+    (I : ℂ → ℂ) (z : ℂ)
+    (hA : suzukiA I z ≠ 0) (hB : suzukiB I z ≠ 0) :
+    suzukiShearedRatio I (-z) = 1 + (suzukiRatio I z)⁻¹ := by
+  have hBneg : suzukiB I (-z) ≠ 0 := by
+    rw [suzukiB_neg_eq_neg_suzukiA]
+    exact neg_ne_zero.mpr hA
+  rw [suzukiShearedRatio_eq_add_one I (-z) hBneg,
+      suzukiRatio_neg_eq_inv I z hA hB]
+  ring
+
+/-- A fixed point of the reflected-and-sheared Suzuki boundary word obeys the golden
+quadratic. This theorem is conditional: no arithmetic fixed-point claim is made. -/
+theorem suzuki_golden_quadratic_of_fixed
+    (I : ℂ → ℂ) (z : ℂ)
+    (hA : suzukiA I z ≠ 0) (hB : suzukiB I z ≠ 0)
+    (hfix : suzukiShearedRatio I (-z) = suzukiRatio I z) :
+    (suzukiRatio I z) ^ 2 = suzukiRatio I z + 1 := by
+  have hgold := suzuki_reflect_then_shear_golden I z hA hB
+  have hq0 : suzukiRatio I z ≠ 0 := by
+    unfold suzukiRatio
+    exact div_ne_zero hA hB
+  rw [hfix] at hgold
+  field_simp [hq0] at hgold
+  nlinarith
+
 
 /-! ## The natural Schur/Herglotz coordinate kills the naive golden closure -/
 
