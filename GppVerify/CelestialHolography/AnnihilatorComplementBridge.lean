@@ -53,8 +53,12 @@ theorem reducedDualRow1_from_annihilators
        (-d/D) * (annihilator1 a c).2.2.1 + (c/D) * (annihilator2 b d).2.2.1,
        (-d/D) * (annihilator1 a c).2.2.2 + (c/D) * (annihilator2 b d).2.2.2) := by
   simp only [reducedDualRow1, annihilator1, annihilator2]
-  field_simp [hD]
-  <;> ring
+  have hD1 : d*a - b*c ≠ 0 := by intro h; apply hD; linarith
+  have hD2 : -(b*c) + a*d ≠ 0 := by intro h; apply hD; linarith
+  all_goals (try trivial)
+  all_goals (try refine Prod.ext ?_ (Prod.ext ?_ (Prod.ext ?_ ?_)))
+  all_goals (try field_simp)
+  all_goals (try ring)
 
 /-- The second reduced row is the explicit linear combination with coefficients
 `(b/D,-a/D)`. -/
@@ -67,8 +71,12 @@ theorem reducedDualRow2_from_annihilators
        (b/D) * (annihilator1 a c).2.2.1 + (-a/D) * (annihilator2 b d).2.2.1,
        (b/D) * (annihilator1 a c).2.2.2 + (-a/D) * (annihilator2 b d).2.2.2) := by
   simp only [reducedDualRow2, annihilator1, annihilator2]
-  field_simp [hD]
-  <;> ring
+  have hD1 : d*a - b*c ≠ 0 := by intro h; apply hD; linarith
+  have hD2 : -(b*c) + a*d ≠ 0 := by intro h; apply hD; linarith
+  all_goals (try trivial)
+  all_goals (try refine Prod.ext ?_ (Prod.ext ?_ (Prod.ext ?_ ?_)))
+  all_goals (try field_simp)
+  all_goals (try ring)
 
 /-- The right-hand 2x2 block of the row-reduced annihilator is exactly the existing
 Euclidean complement `-A^{-T}`. -/
@@ -90,7 +98,13 @@ theorem annihilator_is_grassmannian_complement
     reducedDualRow1 a b c d = (1,0,B.1,B.2.1) ∧
     reducedDualRow2 a b c d = (0,1,B.2.2.1,B.2.2.2) := by
   simp only [reducedDualRow1, reducedDualRow2, complement, det2]
-  constructor <;> field_simp [hD] <;> ring
+  have hD1 : d*a - b*c ≠ 0 := by intro h; apply hD; linarith
+  have hD2 : -(b*c) + a*d ≠ 0 := by intro h; apply hD; linarith
+  constructor
+  all_goals (try trivial)
+  all_goals (try refine Prod.ext ?_ (Prod.ext ?_ (Prod.ext ?_ ?_)))
+  all_goals (try field_simp)
+  all_goals (try ring)
 
 
 end

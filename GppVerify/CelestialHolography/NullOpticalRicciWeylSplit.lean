@@ -88,21 +88,14 @@ theorem traceFreePart_eq_zero_iff_scalar (A : M2) :
   simp [traceFreePart, tracePart, scalar2, sub2, trace2]
   constructor
   · rintro ⟨h1,h2,h3,h4⟩
-    apply Prod.ext
-    · exact sub_eq_zero.mp h1
-    · apply Prod.ext
-      · exact h2
-      · apply Prod.ext
-        · exact h3
-        · exact sub_eq_zero.mp h4
-  · intro h
-    rcases h with rfl
-    simp [sub2]
+    exact ⟨sub_eq_zero.mp h1, h2, h3, sub_eq_zero.mp h4⟩
+  · rintro ⟨h1,h2,h3,h4⟩
+    exact ⟨sub_eq_zero.mpr h1, h2, h3, sub_eq_zero.mpr h4⟩
 
 /-- Vacuum Ricci focusing (`trace=0`) does not imply vanishing optical curvature: a
 nonzero trace-free operator remains possible. -/
 theorem zero_trace_nonzero_example :
-    trace2 (1,0,0,-1) = 0 ∧ (1,0,0,-1 : M2) ≠ (0,0,0,0) := by
+    trace2 (1,0,0,-1) = 0 ∧ ((1,0,0,-1) : M2) ≠ (0,0,0,0) := by
   constructor
   · norm_num [trace2]
   · norm_num
@@ -176,7 +169,8 @@ theorem two_component_square (u v : ℝ) :
      A.2.2.1*A.2.1 + A.2.2.2*A.2.2.2) =
       scalar2 (u*u-v*v) := by
   simp [scalar2]
-  ring
+  ring_nf
+  simp
 
 
 end

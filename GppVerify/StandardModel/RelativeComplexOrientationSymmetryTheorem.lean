@@ -42,7 +42,7 @@ theorem first_orientation_flip_anticommutes_Q
     C * (-(I * J)) = -(C * I * J) := by noncomm_ring
     _ = -((-(I * C)) * J) := by rw [hCI]
     _ = I * C * J := by noncomm_ring
-    _ = I * (J * C) := by rw [hCJ]; simp [mul_assoc]
+    _ = I * (J * C) := by rw [mul_assoc, hCJ]
     _ = -((-(I * J)) * C) := by noncomm_ring
 
 /-- Flipping only J reverses the same relative grading. -/
@@ -55,7 +55,7 @@ theorem second_orientation_flip_anticommutes_Q
   calc
     F * (-(I * J)) = -(F * I * J) := by noncomm_ring
     _ = -(I * F * J) := by rw [hFI]
-    _ = -(I * (-(J * F))) := by rw [hFJ]; simp [mul_assoc]
+    _ = -(I * (-(J * F))) := by rw [mul_assoc, hFJ]
     _ = -((-(I * J)) * F) := by noncomm_ring
 
 /-- Simultaneously flipping BOTH complex orientations preserves their relative grading. -/
@@ -69,7 +69,7 @@ theorem diagonal_orientation_flip_commutes_Q
     T * (-(I * J)) = -(T * I * J) := by noncomm_ring
     _ = -((-(I * T)) * J) := by rw [hTI]
     _ = I * T * J := by noncomm_ring
-    _ = I * (-(J * T)) := by rw [hTJ]; simp [mul_assoc]
+    _ = I * (-(J * T)) := by rw [mul_assoc, hTJ]
     _ = (-(I * J)) * T := by noncomm_ring
 
 /-- An operation preserving both absolute orientations preserves the relative grading too. -/
@@ -82,7 +82,7 @@ theorem preserve_both_commutes_Q
   calc
     U * (-(I * J)) = -(U * I * J) := by noncomm_ring
     _ = -(I * U * J) := by rw [hUI]
-    _ = -(I * (J * U)) := by rw [hUJ]; simp [mul_assoc]
+    _ = -(I * (J * U)) := by rw [mul_assoc, hUJ]
     _ = (-(I * J)) * U := by noncomm_ring
 
 /-- Capstone: the relative grading records the PARITY of the number of orientation reversals:

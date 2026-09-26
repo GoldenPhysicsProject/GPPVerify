@@ -57,13 +57,13 @@ def XiTime (x : GSTLabel) : ℝ := vectorCenterCharacter x.sL x.sR
 theorem Xi_flips_time_orientation (x : GSTLabel) :
     XiTime (Xi x) = - XiTime x := by
   cases x
-  simp [XiTime, Xi, vectorCenterCharacter]
+  simp [XiTime, Xi, vectorCenterCharacter, mul_comm]
 
 /-- Simultaneous gauge reversal compensates that flip, preserving `c*t`. -/
 theorem Xi_preserves_matter_character (x : GSTLabel) :
     XiMatter (Xi x) = XiMatter x := by
   cases x
-  simp [XiMatter, Xi, matterCharacter3, spinTimeSign, vectorCenterCharacter]
+  simp [XiMatter, Xi, matterCharacter3, spinTimeSign, vectorCenterCharacter, mul_comm]
 
 /-- Squaring Xi restores charge and gives precisely the diagonal spin center. -/
 theorem Xi_sq_diagonal_center (x : GSTLabel) :

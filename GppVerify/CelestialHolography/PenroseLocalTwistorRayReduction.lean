@@ -58,7 +58,7 @@ open Complex
 
 variable {V : Type*} [AddCommGroup V] [Module ℂ V]
 
-/-- Abstract differentiation/transport operator along one ray. -/
+/- Abstract differentiation/transport operator along one ray. -/
 variable (D : V → V)
 
 /-- Constant-complex-linearity hypothesis needed for the scalar reduction. -/
@@ -73,10 +73,9 @@ theorem penrose_pair_implies_sturm
     (h1 : D f = (-I) • g)
     (h2 : D g = (-I * kappa) • f) :
     D (D f) = (-kappa) • f := by
-  rw [h1, hD]
-  rw [h2]
-  simp [smul_smul]
-  ring_nf
+  rw [h1, hD, h2, smul_smul]
+  congr 1
+  linear_combination kappa * I_mul_I
 
 /-- Change of fibre coordinate from Penrose's contracted momentum `g` to
 `p := -i g`. -/
@@ -96,9 +95,9 @@ theorem second_equation_is_projective_state
     (f g : V) (kappa : ℂ)
     (h2 : D g = (-I * kappa) • f) :
     D (projectiveMomentum g) = (-kappa) • f := by
-  rw [projectiveMomentum, hD, h2]
-  simp [smul_smul]
-  ring_nf
+  rw [projectiveMomentum, hD, h2, smul_smul]
+  congr 1
+  linear_combination kappa * I_mul_I
 
 /-- Exact two-component package: after `p=-i g`, Penrose's incidence-restricted local
 transport is the standard rank-two projective system. -/
@@ -126,6 +125,6 @@ theorem penroseRayMatrix_sq (kappa : ℂ) :
      M.2.2.1*M.2.1 + M.2.2.2*M.2.2.2)
       = (-kappa,0,0,-kappa) := by
   simp [penroseRayMatrix]
-  ring
+  constructor <;> linear_combination kappa * I_mul_I
 
 end GppPenroseLocalTwistorRayReduction

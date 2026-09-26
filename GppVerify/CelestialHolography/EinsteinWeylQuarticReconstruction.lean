@@ -28,6 +28,10 @@ namespace GppEinsteinWeylQuarticReconstruction
 open GppWeylQuarticNullReconstruction
 open GppEinsteinChiralCurvatureBlocks
 
+instance : Zero Quartic5 := ⟨⟨0,0,0,0,0⟩⟩
+
+@[simp] theorem quartic5_zero_def : (0 : Quartic5) = ⟨0,0,0,0,0⟩ := rfl
+
 /-- Vacuum Einstein curvature carrier built from the two Weyl quartics. -/
 def vacuumCurvature (W : WeylPair) : CurvatureBlocks Quartic5 :=
   ⟨W.left, ⟨0,0,0,0,0⟩, ⟨0,0,0,0,0⟩, W.right⟩
