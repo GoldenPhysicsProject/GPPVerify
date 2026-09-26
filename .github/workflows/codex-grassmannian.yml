@@ -1,0 +1,60 @@
+name: Codex Grassmannian geometry
+
+on:
+  push:
+    branches: ["codex/lean-workbench"]
+  workflow_dispatch:
+
+concurrency:
+  group: codex-grassmannian-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Actual Gr(2,4) and shadow involution
+        run: lake build GppVerify.CelestialHolography.GrassmannianGr24
+
+      - name: Exact opposite-chart Jacobian fourth-power identity
+        run: lake build GppVerify.CelestialHolography.GrassmannianChartJacobian
+
+      - name: Projective Plucker covariance
+        run: lake build GppVerify.CelestialHolography.GrassmannianPluckerProjective
+
+      - name: Quotient-level projective Shadow
+        run: lake build GppVerify.CelestialHolography.GrassmannianProjectiveShadow
+
+      - name: Antiunitary googly exchange and Plucker quadric
+        run: lake build GppVerify.CelestialHolography.GooglyAntiunitaryExchange
+
+      - name: Twistor-space lift of googly exchange
+        run: lake build GppVerify.CelestialHolography.GooglyTwistorLift
+
+      - name: Shadow versus time-reversal helicity separation
+        run: lake build GppVerify.CelestialHolography.ShadowDiscreteSymmetrySeparation

@@ -1,0 +1,61 @@
+name: Codex finite-core closures
+
+on:
+  pull_request:
+  push:
+    branches:
+      - codex/lean-workbench
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan
+          key: ${{ runner.os }}-elan-${{ hashFiles('lean-toolchain') }}
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake/packages
+          key: ${{ runner.os }}-lake-${{ hashFiles('lake-manifest.json') }}
+      - name: Get Mathlib cache
+        run: lake exe cache get
+      - name: Unconditional Hadamard shadow pair algebra
+        run: lake build GppVerify.NumberTheory.HadamardShadowPairAlgebra
+      - name: Shadow Euler finite glueball core
+        run: lake build GppVerify.NumberTheory.ShadowEulerFiniteCore
+      - name: Causal heat prime-power anomaly core
+        run: lake build GppVerify.RiemannHypothesis.CausalHeatPrimePowerAnomaly
+      - name: Causal heat von Mangoldt reindex core
+        run: lake build GppVerify.RiemannHypothesis.CausalHeatVonMangoldtReindex
+      - name: Finite positive heat-semigroup Gram core
+        run: lake build GppVerify.RiemannHypothesis.FiniteHeatSemigroupGram
+      - name: Finite positive heat-semigroup monotonicity
+        run: lake build GppVerify.RiemannHypothesis.FiniteHeatSemigroupMonotonicity
+      - name: Local Euler shadow colligation core
+        run: lake build GppVerify.RiemannHypothesis.LocalEulerShadowColligation
+      - name: Universal-NOT qubit fidelity
+        run: lake build GppVerify.StandardModel.UniversalNotFidelity
+      - name: Half-flip scaffold integration
+        run: lake build GppVerify.StandardModel.HalfFlipProposition
+      - name: Mixed-helicity rational physical-chart closure
+        run: lake build GppVerify.CelestialHolography.MassiveVectorPhysicalChartClosure
+      - name: D-dimensional mu4 massive celestial radial weight
+        run: lake build GppVerify.CelestialHolography.MassiveCutRadialMu4Weight
+      - name: Exact D-dimensional mu4 celestial radial moment
+        run: lake build GppVerify.CelestialHolography.MassiveCutMu4RadialMoment
+      - name: Two-orientation scalar flow state sum
+        run: lake build GppVerify.CelestialHolography.TwoFlowScalarStateSum
+      - name: Positive regulator eventually small
+        run: lake build GppVerify.CelestialHolography.PositiveRegulatorEventuallySmall
+      - name: Scalar box automatic regulator convergence
+        run: lake build GppVerify.CelestialHolography.ScalarBoxAutomaticRegulatorConvergence
+      - name: Prime Fisher probability normalization
+        run: lake build GppVerify.RiemannHypothesis.PrimeFisherProbability
