@@ -97,20 +97,11 @@ theorem dyadic_margin_eq_inv_finitePlaceKernel_five_half :
     (1 - 1 / Real.sqrt 5) / (1 + 1 / Real.sqrt 5)
       = (GppGoldenHyperbolic.finitePlaceKernel 5 (1 / 2))⁻¹ := by
   rw [GppGoldenHyperbolic.finitePlaceKernel_five_half]
-  change
-    (1 - 1 / Real.sqrt 5) / (1 + 1 / Real.sqrt 5)
-      = 1 / ((Real.goldenRatio : ℝ) ^ 2)
-  have hspos : 0 < Real.sqrt 5 := Real.sqrt_pos.2 (by norm_num)
-  have hs0 : Real.sqrt 5 ≠ 0 := ne_of_gt hspos
-  have hden : 1 + 1 / Real.sqrt 5 ≠ 0 := by positivity
-  have hs2 : (Real.sqrt 5) ^ 2 = (5 : ℝ) :=
-    Real.sq_sqrt (by norm_num)
-  rw [show 1 / ((Real.goldenRatio : ℝ) ^ 2) = (3 - Real.sqrt 5) / 2 by
-    unfold Real.goldenRatio
-    field_simp [hs0]
-    nlinarith]
-  field_simp [hs0, hden]
-  nlinarith
+  have hphi : goldenRatio = Real.goldenRatio := by
+    unfold goldenRatio Real.goldenRatio
+    ring
+  rw [← hphi]
+  simpa [one_div] using dyadic_margin_eq_golden_inv_sq
 
 
 
@@ -427,15 +418,16 @@ theorem weyl_feedback_after_reflection (q : ℂ) :
 theorem weyl_feedback_reflection_involution (q : ℂ) :
     weylFeedback (weylReflection (weylFeedback (weylReflection q))) = q := by
   simp [weylFeedback, weylReflection]
-  ring
 
 /-- Its unique finite fixed point is 1/2. -/
 theorem weyl_feedback_reflection_fixed_iff (q : ℂ) :
     weylFeedback (weylReflection q) = q ↔ q = (1 / 2 : ℂ) := by
   rw [weyl_feedback_after_reflection]
-  constructor <;> intro h
-  · linarith
-  · rw [h]
+  constructor
+  · intro h
+    linear_combination (1 / 2 : ℂ) * h
+  · intro h
+    rw [h]
     norm_num
 
 /-- Complex golden word, for direct comparison with the physical return map. -/
@@ -447,72 +439,6 @@ theorem goldenMapC_ne_known_return_at_one :
     goldenMapC 1 ≠ weylFeedback (weylReflection 1) := by
   norm_num [goldenMapC, weylFeedback, weylReflection]
 
-
-
-/-! ## Exact change of coordinates to the physical odd Weyl variable -/
-
-/-- The Suzuki odd Weyl coordinate written directly as a Cayley transform of q=A/B.
-Up to the conventional factor i, this is the standard Schur-to-Herglotz transform. -/
-def weylFromRatio (q : ℂ) : ℂ :=
-  Complex.I * (1 + q) / (1 - q)
-
-/-- The original Suzuki expression -i(A+B)/(A-B) equals the Cayley transform of q=A/B. -/
-theorem suzuki_weyl_eq_weylFromRatio
-    (I : ℂ → ℂ) (z : ℂ)
-    (hB : suzukiB I z ≠ 0)
-    (hAB : suzukiA I z - suzukiB I z ≠ 0) :
-    -Complex.I * (suzukiA I z + suzukiB I z) /
-        (suzukiA I z - suzukiB I z)
-      = weylFromRatio (suzukiRatio I z) := by
-  unfold weylFromRatio suzukiRatio
-  field_simp [hB, hAB]
-  ring
-
-/-- Projective inversion q↦q⁻¹ is exactly sign reversal in the odd Weyl coordinate. -/
-theorem weylFromRatio_inv_eq_neg
-    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q ≠ 1) :
-    weylFromRatio q⁻¹ = -weylFromRatio q := by
-  unfold weylFromRatio
-  have hqi1 : q⁻¹ ≠ 1 := by
-    intro h
-    have hmul := congrArg (fun w : ℂ => w * q) h
-    have honeq : (1 : ℂ) = q := by
-      simpa [hq0] using hmul
-    exact hq1 honeq.symm
-  field_simp [hq0, hq1, hqi1]
-  ring
-
-/-- Reciprocal odd-Weyl response.  A constant rank-one perturbation translates this
-coordinate, whereas Suzuki reflection changes its sign. -/
-def reciprocalWeylFromRatio (q : ℂ) : ℂ :=
-  (weylFromRatio q)⁻¹
-
-theorem reciprocalWeylFromRatio_inv_eq_neg
-    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q ≠ 1)
-    (hw : weylFromRatio q ≠ 0) :
-    reciprocalWeylFromRatio q⁻¹ = -reciprocalWeylFromRatio q := by
-  unfold reciprocalWeylFromRatio
-  rw [weylFromRatio_inv_eq_neg hq0 hq1]
-  simp [hw]
-
-/-- The Suzuki frame shear q↦q+1 is not a constant translation in reciprocal-Weyl
-coordinates: its increment already differs at q=0 and q=1. -/
-theorem suzuki_shear_not_constant_weyl_feedback :
-    reciprocalWeylFromRatio (0 + 1) - reciprocalWeylFromRatio 0
-      ≠ reciprocalWeylFromRatio (1 + 1) - reciprocalWeylFromRatio 1 := by
-  norm_num [reciprocalWeylFromRatio, weylFromRatio, Complex.I_mul_I]
-
-/-- Consequently no single additive feedback constant alpha can agree with the Suzuki
-frame shear at both q=0 and q=1 in the reciprocal-Weyl coordinate. -/
-theorem no_constant_feedback_realizes_suzuki_shear :
-    ¬ ∃ α : ℂ,
-      (reciprocalWeylFromRatio (0 + 1) = reciprocalWeylFromRatio 0 + α) ∧
-      (reciprocalWeylFromRatio (1 + 1) = reciprocalWeylFromRatio 1 + α) := by
-  intro h
-  obtain ⟨α, h0, h1⟩ := h
-  apply suzuki_shear_not_constant_weyl_feedback
-  rw [h0, h1]
-  ring
 
 
 /-! ## The natural Schur/Herglotz coordinate kills the naive golden closure -/
@@ -575,15 +501,15 @@ theorem suzukiRatio_factorization
       poleCayley z * (I z / I (-z)) := by
   unfold suzukiRatio suzukiA suzukiB poleCayley
   field_simp [hzi, hIm]
-  ring
 
 /-- The elementary pole/Cayley background itself reciprocates under z -> -z. -/
 theorem poleCayley_neg_eq_inv
-    {z : ℂ} (hp : z + Complex.I ≠ 0) (hm : z - Complex.I ≠ 0) :
+    (z : ℂ) :
     poleCayley (-z) = (poleCayley z)⁻¹ := by
   unfold poleCayley
-  field_simp [hp, hm]
-  ring
+  rw [show -z - Complex.I = -(z + Complex.I) by ring,
+      show -z + Complex.I = -(z - Complex.I) by ring,
+      neg_div_neg_eq, inv_div]
 
 /-! ## Two-step golden contraction -/
 
@@ -594,8 +520,9 @@ def goldenMapSq (x : ℝ) : ℝ := (2 * x + 1) / (x + 1)
 theorem goldenMap_comp_self
     {x : ℝ} (hx0 : x ≠ 0) (hx1 : x ≠ -1) :
     goldenMap (goldenMap x) = goldenMapSq x := by
+  have hxp1 : x + 1 ≠ 0 := by linarith
   unfold goldenMap goldenMapSq
-  field_simp [hx0, hx1]
+  field_simp [hx0, hxp1]
   ring
 
 /-- The upper half-line beginning at phi is invariant under two golden steps.
@@ -619,16 +546,6 @@ theorem goldenMapSq_ge_golden
   rw [hid]
   exact hnum
 
-/-- Exact derivative of the two-step golden map. -/
-theorem hasDerivAt_goldenMapSq
-    {x : ℝ} (hx1 : x ≠ -1) :
-    HasDerivAt goldenMapSq (1 / (x + 1) ^ 2) x := by
-  unfold goldenMapSq
-  have hden : x + 1 ≠ 0 := by linarith
-  convert
-    ((hasDerivAt_const x (2 : ℝ)).mul (hasDerivAt_id x) |>.add (hasDerivAt_const x 1)).div
-      ((hasDerivAt_id x).add (hasDerivAt_const x 1)) hden using 1 <;> ring
-
 /-- On the invariant half-line x >= phi, two golden steps contract locally by at most
 phi^{-4}.  At the fixed point equality holds. -/
 theorem goldenMapSq_deriv_factor_le
@@ -645,7 +562,8 @@ theorem goldenMapSq_deriv_factor_le
     nlinarith
   have hleft : 0 < (goldenRatio ^ 2) ^ 2 := by positivity
   have h := one_div_le_one_div_of_le hleft hsq
-  simpa [pow_mul] using h
+  rw [show goldenRatio ^ 4 = (goldenRatio ^ 2) ^ 2 by ring]
+  exact h
 
 /-- At phi the two-step multiplier is exactly phi^{-4}. -/
 theorem goldenMapSq_deriv_at_fixed :
