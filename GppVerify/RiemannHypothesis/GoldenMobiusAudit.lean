@@ -23,6 +23,8 @@ involution with the concrete arithmetic boundary transfer is asserted here.
 
 namespace GppGoldenMobius
 
+noncomputable section
+
 noncomputable def goldenRatio : ℝ := (1 + Real.sqrt 5) / 2
 
 def cayleyShadow (x : ℝ) : ℝ := 1 - 1 / x
@@ -37,8 +39,8 @@ theorem goldenMap_eq_cayleyShadow_neg (x : ℝ) :
 /-- The golden ratio satisfies its defining quadratic equation. -/
 theorem goldenRatio_sq :
     goldenRatio ^ 2 = goldenRatio + 1 := by
-  have hs : (Real.sqrt 5) ^ 2 = (5 : ℝ) := by
-    simpa using Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 5)
+  have hs : (Real.sqrt 5) ^ 2 = (5 : ℝ) :=
+    Real.sq_sqrt (by norm_num)
   dsimp [goldenRatio]
   nlinarith
 
@@ -82,18 +84,18 @@ def reciprocalCoord (x : ℝ) : ℝ := 2 / x
 
 /-- The odd rank-one update is translation by +1 in y=2/x. -/
 theorem reciprocalCoord_oddSchur
-    {x : ℝ} (hx : x ≠ 0) (hden : x + 2 ≠ 0) :
+    {x : ℝ} (hx : x ≠ 0) :
     reciprocalCoord (oddSchur x) = reciprocalCoord x + 1 := by
   unfold reciprocalCoord oddSchur
-  field_simp [hx, hden]
+  field_simp [hx]
   ring
 
 /-- The even rank-one update is translation by -1 in y=2/x. -/
 theorem reciprocalCoord_evenSchur
-    {x : ℝ} (hx : x ≠ 0) (hden : x - 2 ≠ 0) :
+    {x : ℝ} (hx : x ≠ 0) :
     reciprocalCoord (evenSchur x) = reciprocalCoord x - 1 := by
   unfold reciprocalCoord evenSchur
-  field_simp [hx, hden]
+  field_simp [hx]
   ring
 
 /-- The two Sherman--Morrison Möbius transformations are mutual inverses away from poles. -/
@@ -121,11 +123,11 @@ This is the exact modular-looking algebraic pattern T ∘ R, but the theorem del
 does not claim that poleDual is the arithmetic reflection of the completed RH system.
 -/
 theorem schur_duality_golden
-    {x : ℝ} (hx : x ≠ 0) (hden : x + 2 ≠ 0) :
+    {x : ℝ} (hx : x ≠ 0) :
     reciprocalCoord (oddSchur (poleDual x))
       = goldenMap (reciprocalCoord x) := by
   unfold reciprocalCoord oddSchur poleDual goldenMap
-  field_simp [hx, hden]
+  field_simp [hx]
   ring
 
 end GppGoldenMobius
