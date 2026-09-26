@@ -59,7 +59,7 @@ theorem physicalWeyl_neg (I : ℂ → ℂ) (z : ℂ) :
     physicalWeyl I (-z) = -physicalWeyl I z := by
   unfold physicalWeyl
   rw [suzukiA_neg_eq_neg_suzukiB, suzukiB_neg_eq_neg_suzukiA]
-  ring
+  ring_nf
 
 /-- The canonical opposite-boundary Weyl coordinate is the negative reciprocal. -/
 def weylBoundaryDual (m : ℂ) : ℂ := -1 / m
@@ -97,7 +97,6 @@ theorem reciprocal_kreinFeedback
       reciprocalWeylCoord m + 1 := by
   unfold reciprocalWeylCoord kreinFeedback
   field_simp [hm, hm1]
-  ring
 
 /--
 The corrected physical boundary word is golden in one and the same coordinate:
@@ -150,7 +149,7 @@ theorem scaledWeyl_kreinFeedback_eq_oddSchur (m : ℂ) :
         (mul_eq_zero.mp hfac).resolve_left (by norm_num)
       exact hden hm1
     field_simp [hden, hden2]
-    ring
+    ring_nf
 
 /-! ## Signed pole coupling and the parity-duality defect -/
 
@@ -165,7 +164,7 @@ theorem halfDensity_evenPole_eq_oddSchur (x : ℝ) :
   · have hx : x = -2 := by linarith
     simp [hx]
   · field_simp [h]
-    ring
+    ring_nf
 
 /-- The completed odd pole coefficient `-1/2` is exactly the even Schur map. -/
 theorem halfDensity_oddPole_eq_evenSchur (x : ℝ) :
@@ -175,7 +174,7 @@ theorem halfDensity_oddPole_eq_evenSchur (x : ℝ) :
   · have hx : x = 2 := by linarith
     simp [hx]
   · field_simp [h]
-    ring
+    ring_nf
 
 /-- Coupling-normalized reciprocal response turns every signed rank-one feedback
     into a unit translation. -/
@@ -186,7 +185,6 @@ theorem reciprocal_signed_rankOne_feedback
       1 / (alpha * x) + 1 := by
   unfold rawRankOneFeedback
   field_simp [ha, hx, hden]
-  ring
 
 /-- The involution exchanging the two half-density threshold cones. -/
 def parityDualResponse (x : ℝ) : ℝ := -4 / x
