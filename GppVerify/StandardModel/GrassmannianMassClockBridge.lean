@@ -44,7 +44,7 @@ theorem complexD_physical_norm_eq_mass
 /-- Unit-phase divided by the physical chart determinant has exact inverse-mass
 modulus. -/
 theorem physical_inverse_mass_eigenvalue_scale
-    {D ζ : ℂ} {m : ℝ} (hm : 0 < m) (hD : ‖D‖ = m) (hζ : ‖ζ‖ = 1) :
+    {D ζ : ℂ} {m : ℝ} (hD : ‖D‖ = m) (hζ : ‖ζ‖ = 1) :
     ‖ζ / D‖ = 1 / m := by
   rw [norm_div, hζ, hD]
 
@@ -54,10 +54,9 @@ theorem comptonLength_eq_quantum_scale_mul_inverseMass
     {D ζ : ℂ} {m c hbar : ℝ}
     (hm : 0 < m) (hc : c ≠ 0) (hD : ‖D‖ = m) (hζ : ‖ζ‖ = 1) :
     comptonLength m c hbar = (hbar / c) * ‖ζ / D‖ := by
-  rw [physical_inverse_mass_eigenvalue_scale hm hD hζ]
+  rw [physical_inverse_mass_eigenvalue_scale hD hζ]
   simp [comptonLength]
   field_simp [hm.ne', hc]
-  ring
 
 /-- The reciprocal statement for the Compton clock: multiplying its frequency
 by the Grassmannian inverse-mass spectral scale gives `c^2/hbar`. -/
@@ -65,9 +64,8 @@ theorem comptonFrequency_mul_inverseMass
     {D ζ : ℂ} {m c hbar : ℝ}
     (hm : 0 < m) (hh : hbar ≠ 0) (hD : ‖D‖ = m) (hζ : ‖ζ‖ = 1) :
     comptonFrequency m c hbar * ‖ζ / D‖ = c ^ 2 / hbar := by
-  rw [physical_inverse_mass_eigenvalue_scale hm hD hζ]
+  rw [physical_inverse_mass_eigenvalue_scale hD hζ]
   simp [comptonFrequency]
   field_simp [hm.ne', hh]
-  ring
 
 end GppGrassmannianMassClockBridge

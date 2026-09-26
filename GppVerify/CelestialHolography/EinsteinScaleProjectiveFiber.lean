@@ -59,7 +59,7 @@ theorem projectiveRatio_basisChange
     intro hxy
     apply hden
     field_simp [hu]
-    exact hxy
+    linarith
   field_simp [hu, hden, hout]
 
 /-- An `SL(2)` basis change preserves the Wronskian/symplectic form, so the same basis

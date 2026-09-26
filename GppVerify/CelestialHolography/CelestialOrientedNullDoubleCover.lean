@@ -12,7 +12,7 @@ scalar multiples, in particular
 But on the Lorentzian real null cone the two representatives have opposite time orientation:
 `p` and `-p` lie on the future and past components respectively (away from the zero vector).
 Therefore an unoriented projective celestial direction forgets precisely the discrete sign
-`t=+/-1` introduced in `LorentzNullConeOrientation`.
+`t=±1` introduced in `LorentzNullConeOrientation`.
 
 This gives a geometric home for the project's hidden time/worldline sign that is independent
 of charge and independent of the left/right chirality exchange: the celestial sphere is the

@@ -20,6 +20,8 @@ dictionary developed in the companion mass/clock bridge.
 
 namespace GppGrassmannianDiracIntertwiner
 
+open Matrix
+
 open GppGrassmannianComplexDifferential
 
 /-- Rest-Dirac quarter-cycle `-i σ₁`. -/

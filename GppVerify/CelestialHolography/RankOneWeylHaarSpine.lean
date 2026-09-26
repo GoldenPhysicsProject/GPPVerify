@@ -61,21 +61,21 @@ def weylInvAct (u : RayState) : RayState := (u.2,-u.1)
 theorem weyl_weylInv (u : RayState) :
     act2 rayWeyl (weylInvAct u) = u := by
   rcases u with ⟨x,p⟩
-  rfl
+  simp [weylInvAct, act2, rayWeyl]
 
 /-- And in the other order. -/
 theorem weylInv_weyl (u : RayState) :
     weylInvAct (act2 rayWeyl u) = u := by
   rcases u with ⟨x,p⟩
-  rfl
+  simp [weylInvAct, act2, rayWeyl]
 
 /-- Main Weyl/Cartan relation: conjugation by the order-four representative inverts the
 multiplicative scale. -/
 theorem weyl_conjugates_Cartan_to_inverse
-    (b : ℝ) (hb : b ≠ 0) (u : RayState) :
+    (b : ℝ) (u : RayState) :
     act2 rayWeyl (cartanAct b (weylInvAct u)) = cartanAct b⁻¹ u := by
   rcases u with ⟨x,p⟩
-  simp [cartanAct, weylInvAct, act2, rayWeyl, hb]
+  simp [cartanAct, weylInvAct, act2, rayWeyl]
 
 /-- Cartan scaling preserves the Wronskian for nonzero scale. -/
 theorem cartan_preserves_omega
@@ -101,11 +101,11 @@ theorem Cartan_conjugates_root_weight_two
 
 /-- The Weyl representative simultaneously exhibits the central spinorial sign. -/
 theorem Weyl_Z4_and_Haar_inversion_package
-    (b : ℝ) (hb : b ≠ 0) (u : RayState) :
+    (b : ℝ) (u : RayState) :
     act2 rayWeyl (act2 rayWeyl u) = scaleSpinor (-1) u ∧
     act2 rayWeyl (cartanAct b (weylInvAct u)) = cartanAct b⁻¹ u := by
   exact ⟨rayWeyl_sq_central_sign u,
-    weyl_conjugates_Cartan_to_inverse b hb u⟩
+    weyl_conjugates_Cartan_to_inverse b u⟩
 
 
 end

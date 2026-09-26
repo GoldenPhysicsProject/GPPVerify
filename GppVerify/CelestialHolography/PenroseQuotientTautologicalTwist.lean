@@ -70,11 +70,7 @@ theorem spinorStateTensor_biscaling
   rcases lambda with ⟨l0,l1⟩
   rcases u with ⟨x,p⟩
   simp [spinorStateTensor, scaleCSpinor, scaleEinsteinState]
-  apply Prod.ext
-  · ring
-  · apply Prod.ext
-    · ring
-    · apply Prod.ext <;> ring
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> ring
 
 /-- Main twist-cancellation theorem: under the null-spinor little group, the tensor is
 strictly invariant. -/
@@ -102,7 +98,7 @@ theorem alignedPrimary_littleGroup_invariant
   rcases u with ⟨x,p⟩
   simp [alignedPrimary, scaleCSpinor, littleGroupState, scaleEinsteinState]
   have hai : a⁻¹ * a = 1 := inv_mul_cancel₀ ha
-  apply Prod.ext <;> simp [hai] <;> ring
+  refine ⟨?_, ?_⟩ <;> field_simp
 
 /-- Concrete obstruction: the raw first quotient coordinate is not little-group invariant.
 For the state `(1,0)`, rescaling the spinor frame by `2` changes it to `1/2`. -/

@@ -90,12 +90,12 @@ theorem rayFrameRescale_eq_zero_iff
     have hx := congrArg Prod.fst h
     have hp := congrArg Prod.snd h
     simp [rayFrameRescale] at hx hp
-    have hia : (1/a : ℂ) ≠ 0 := by simp [ha]
-    have : x = 0 := by exact (mul_eq_zero.mp hx).resolve_left hia
-    have : p = 0 := by exact (mul_eq_zero.mp hp).resolve_left hia
-    simp [*]
+    have hx0 : x = 0 := hx.resolve_left ha
+    have hp0 : p = 0 := hp.resolve_left ha
+    simp [hx0, hp0]
   · intro h
-    subst u
+    simp only [Prod.mk.injEq] at h
+    obtain ⟨rfl, rfl⟩ := h
     simp [rayFrameRescale]
 
 
