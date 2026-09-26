@@ -1,4 +1,6 @@
 import Mathlib.Tactic
+import Mathlib.Analysis.Calculus.Deriv.Inv
+import Mathlib.Analysis.Calculus.Deriv.Pow
 
 /-!
 # Single off-line folded pair: exact order-two Loewner obstruction
@@ -39,11 +41,23 @@ def pairPhiDivDiff (a b u v : ℝ) : ℝ :=
 theorem hasDerivAt_pairPhi {a b u : ℝ}
     (hD : pairDenom a b u ≠ 0) :
     HasDerivAt (pairPhi a b) (pairPhiPrime a b u) u := by
-  unfold pairPhi pairPhiPrime pairDenom
-  convert
-    (((hasDerivAt_id u).mul ((hasDerivAt_id u).add_const a)).const_mul 2).div
-      ((((hasDerivAt_id u).add_const a).pow 2).add_const (b^2)) hD using 1 <;>
-    field_simp <;> ring
+  have hD' : (u + a) ^ 2 + b ^ 2 ≠ 0 := hD
+  have hx : HasDerivAt (fun x : ℝ => x + a) 1 u := (hasDerivAt_id' u).add_const a
+  have hn : HasDerivAt (fun x : ℝ => 2 * x * (x + a)) (2 * u + 2 * (u + a)) u :=
+    (((hasDerivAt_id' u).const_mul 2).fun_mul hx).congr_deriv (by ring)
+  have hp : HasDerivAt (fun x : ℝ => (x + a) ^ 2) ((2 : ℕ) * (u + a) ^ (2 - 1) * 1) u :=
+    hx.fun_pow 2
+  have hq : HasDerivAt (fun x : ℝ => (x + a) ^ 2 + b ^ 2) ((2 : ℕ) * (u + a) ^ (2 - 1) * 1) u :=
+    hp.add_const (b ^ 2)
+  have hd : HasDerivAt (fun x : ℝ => (x + a) ^ 2 + b ^ 2) (2 * (u + a)) u :=
+    hq.congr_deriv (by norm_num)
+  have hf : pairPhi a b = fun x => 2 * x * (x + a) / ((x + a) ^ 2 + b ^ 2) := by
+    funext x; simp [pairPhi, pairDenom]
+  rw [hf]
+  refine (hn.fun_div hd hD').congr_deriv ?_
+  unfold pairPhiPrime pairDenom
+  field_simp
+  ring
 
 /-- For distinct sample points, the displayed off-diagonal entry really is the
 Löwner divided difference. -/
@@ -83,7 +97,8 @@ theorem pairLoewner_det_neg {a b u v : ℝ}
   have hab : 0 < a^2 + b^2 := by positivity
   have huv2 : 0 < (u-v)^2 := sq_pos_of_ne_zero (sub_ne_zero.mpr huv)
   have hden : 0 < (pairDenom a b u)^2 * (pairDenom a b v)^2 := by positivity
-  exact div_neg_of_neg_of_pos (by positivity) hden
+  have hpos : 0 < b^2 * (a^2 + b^2) * (u-v)^2 := by positivity
+  exact div_neg_of_neg_of_pos (by nlinarith [hpos]) hden
 
 /-- In the folded zeta parametrization `b = -2*delta*gamma`, nonzero horizontal
 displacement and nonzero ordinate force a nonreal folded pair. -/

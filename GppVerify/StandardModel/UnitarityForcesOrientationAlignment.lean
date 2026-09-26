@@ -68,7 +68,7 @@ theorem Omega_mul_J_one : Omega * J = (1 : M2R) := by
 theorem metric_eq_relative_sign_identity (c t : Bool) :
     oneParticleMetric c t = (sgn c * sgn t) • (1 : M2R) := by
   rw [oneParticleMetric, OmegaOrient, JOrient]
-  rw [smul_mul, mul_smul, smul_smul, Omega_mul_J_one]
+  rw [smul_mul_assoc, mul_smul_comm, smul_smul, Omega_mul_J_one]
 
 /-- Simultaneously reversing both orientations leaves the Hilbert metric unchanged. -/
 theorem diagonal_reversal_preserves_metric (c t : Bool) :

@@ -73,11 +73,13 @@ theorem abel_kernel_causal_shadow_factorization {ε α : ℝ}
   have hminus : ε - α ≠ 0 := by
     intro h
     apply hden
-    nlinarith
+    have : ε = α := by linarith
+    rw [this]; ring
   have hplus : ε + α ≠ 0 := by
     intro h
     apply hden
-    nlinarith
+    have : ε = -α := by linarith
+    rw [this]; ring
   field_simp
   ring
 

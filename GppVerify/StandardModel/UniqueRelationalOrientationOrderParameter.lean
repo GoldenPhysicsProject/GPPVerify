@@ -57,9 +57,9 @@ theorem diag_even_forces_corner_pairing
   have h1 := hD ((0:ℂ),1,0,0)
   constructor
   · have hc := congrArg (fun v : Orientation4 => v.2.2.2) h0
-    simpa [diagReverse, diagLiftOp] using hc
+    simpa [diagReverse, diagLiftOp] using hc.symm
   · have hc := congrArg (fun v : Orientation4 => v.2.2.1) h1
-    simpa [diagReverse, diagLiftOp] using hc
+    simpa [diagReverse, diagLiftOp] using hc.symm
 
 /-- Oddness under the representation half flip pairs the diagonal coefficients with
     opposite signs. -/

@@ -70,14 +70,15 @@ theorem opposite_generator_annihilates_paired
     K E0 E1 *ᵥ pairedState a b = 0 := by
   ext i
   fin_cases i <;>
-    norm_num [K, HL, HR, pairedState, Matrix.mulVec, Fin.sum_univ_succ]
+    norm_num [K, HL, HR, pairedState, Matrix.mulVec, Fin.sum_univ_succ, Matrix.vecHead,
+      Matrix.vecTail, dotProduct]
 
 /-- Each local Hamiltonian acts with the same energy on each matched component. -/
 theorem local_hamiltonians_agree_on_paired
     (E0 E1 : ℝ) (a b : ℂ) :
     HL E0 E1 *ᵥ pairedState a b = HR E0 E1 *ᵥ pairedState a b := by
   have h := opposite_generator_annihilates_paired E0 E1 a b
-  simpa [K, Matrix.sub_mulVec] using h
+  simpa [K, Matrix.sub_mulVec, sub_eq_zero] using h
 
 /-- Sheet swap exchanges |01> and |10> and leaves the matched |00>,|11> subspace fixed. -/
 def sheetSwap (v : V4) : V4 := ![v 0,v 2,v 1,v 3]

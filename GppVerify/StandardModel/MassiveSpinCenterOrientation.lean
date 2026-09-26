@@ -60,7 +60,7 @@ theorem left_center_flip_reverses_massive_momentum
       (centerScale (-1) l2) lt2 =
       scaleM2 (-1) (massiveMomentumFromTwoNull l1 lt1 l2 lt2) := by
   simp [massiveMomentumFromTwoNull, addM2,
-    left_center_flip_reverses_vector, scaleM2]
+    left_center_flip_reverses_vector, scaleM2, add_comm]
 
 /-- The right-center implementation gives the same oriented momentum reversal. -/
 theorem right_center_flip_reverses_massive_momentum
@@ -69,7 +69,7 @@ theorem right_center_flip_reverses_massive_momentum
       l2 (centerScale (-1) lt2) =
       scaleM2 (-1) (massiveMomentumFromTwoNull l1 lt1 l2 lt2) := by
   simp [massiveMomentumFromTwoNull, addM2,
-    right_center_flip_reverses_vector, scaleM2]
+    right_center_flip_reverses_vector, scaleM2, add_comm]
 
 /-- Negating a 2x2 momentum matrix leaves its determinant invariant. -/
 theorem det2_neg_invariant (P : M2) :

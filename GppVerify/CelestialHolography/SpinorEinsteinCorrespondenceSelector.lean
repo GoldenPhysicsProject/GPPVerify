@@ -40,7 +40,7 @@ theorem det_zero_factors_as_spinors
   by_cases ha : a = 0
   · subst a
     have hbc : b*c = 0 := by
-      simp [det2] at hdet
+      simp only [det2] at hdet
       linarith
     rcases mul_eq_zero.mp hbc with hb | hc
     · subst b
@@ -91,7 +91,8 @@ theorem det_zero_iff_spinor_factorization (A : M2) :
   rcases A with ⟨a,b,c,d⟩
   constructor
   · exact det_zero_factors_as_spinors a b c d
-  · rintro ⟨lambda,lambdatilde,rfl⟩
+  · rintro ⟨lambda,lambdatilde,h⟩
+    rw [← h]
     exact nullMomentum_det_zero lambda lambdatilde
 
 /-- If a quadratic tensor polynomial vanishes on every pair of split spinors, it vanishes

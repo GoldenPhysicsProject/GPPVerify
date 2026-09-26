@@ -68,12 +68,13 @@ theorem massMagnitude_even (m0 phi : ℝ) :
 /-- Signed first-order mass/phase is odd. -/
 theorem signedMass_odd (m0 phi : ℝ) :
     signedMass m0 (-phi) = -signedMass m0 phi := by
+  unfold signedMass
   ring
 
 /-- Signed and physical mass have identical squares. -/
 theorem signedMass_sq_eq_massMagnitude_sq (m0 phi : ℝ) :
     (signedMass m0 phi)^2 = (massMagnitude m0 phi)^2 := by
-  simp [signedMass, massMagnitude, sq_abs]
+  simp [signedMass, massMagnitude, mul_pow, sq_abs]
   ring
 
 /-- If the normalization is nonnegative, the resulting physical mass is nonnegative. -/

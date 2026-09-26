@@ -45,10 +45,12 @@ theorem reservoir_compensation_change (q r : ℤ) :
 theorem electron_to_positron_requires_minus_two (r : ℤ) :
     totalCharge 1 (r-2) = totalCharge (-1) r := by
   simp [totalCharge]
+  ring
 
 /-- Positive-to-negative example: +1 -> -1 requires reservoir change +2. -/
 theorem positive_to_negative_requires_plus_two (r : ℤ) :
     totalCharge (-1) (r+2) = totalCharge 1 r := by
   simp [totalCharge]
+  ring
 
 end GppChargeFlipRequiresDoubleTransfer

@@ -55,8 +55,7 @@ def signedGenerator (mu : ℂ) (v : Orientation4) : Orientation4 :=
 /-- Squaring the signed generator removes the orientation grading. -/
 theorem signedGenerator_sq (mu : ℂ) (v : Orientation4) :
     signedGenerator mu (signedGenerator mu v) = (mu*mu) • v := by
-  rw [signedGenerator, chi_smul, signedGenerator, chi_sq]
-  simp [smul_smul]
+  simp only [signedGenerator, chi_smul, chi_sq, smul_smul]
 
 /-- Multiplication by the relational grading rectifies the signed generator to a scalar
     positive-energy candidate when `mu` is a nonnegative real mass scale. -/
@@ -91,7 +90,7 @@ theorem zero_order_parameter_restores_half_flip_symmetry (v : Orientation4) :
     signedGenerator 0 (chargeFlip v) = chargeFlip (signedGenerator 0 v) ∧
     signedGenerator 0 (temporalFlip v) = temporalFlip (signedGenerator 0 v) := by
   rcases v with ⟨a,b,c,d⟩
-  simp [signedGenerator, chargeFlip, temporalFlip, chi]
+  simp [signedGenerator, chargeFlip, temporalFlip, chi, Prod.mk_zero_zero]
 
 /-- For nonzero `mu`, the representation half flip cannot commute with the generator on all
     states. -/
