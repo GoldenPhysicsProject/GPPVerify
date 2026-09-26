@@ -177,12 +177,12 @@ def criticalCayley (s : ℂ) : ℂ := (s - 1) / s
 /-- Functional-equation shadow acts by reciprocal inversion on the actual Cayley
 coordinate β(s). -/
 theorem criticalCayley_shadow_eq_inv
-    {s : ℂ} (hs0 : s ≠ 0) (hs1 : s ≠ 1) :
+    {s : ℂ} (_hs0 : s ≠ 0) (hs1 : s ≠ 1) :
     criticalCayley (1 - s) = (criticalCayley s)⁻¹ := by
   have h1s : (1 : ℂ) - s ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
   have hs1' : s - 1 ≠ 0 := sub_ne_zero.mpr hs1
   unfold criticalCayley
-  field_simp [hs0, h1s, hs1']
+  field_simp [h1s, hs1']
   ring
 
 /-- The projective half-density coordinate w=exp(2π(s-1/2)). -/
@@ -240,7 +240,6 @@ theorem suzukiShearedRatio_eq_add_one
     suzukiShearedRatio I z = suzukiRatio I z + 1 := by
   unfold suzukiShearedRatio suzukiRatio
   field_simp [hB]
-  ring
 
 /--
 **Exact golden Möbius word in the canonical Suzuki boundary pair.**
@@ -271,8 +270,13 @@ theorem suzuki_golden_quadratic_of_fixed
     unfold suzukiRatio
     exact div_ne_zero hA hB
   rw [hfix] at hgold
-  field_simp [hq0] at hgold
-  nlinarith
+  calc
+    (suzukiRatio I z) ^ 2
+        = (suzukiRatio I z) * (suzukiRatio I z) := by ring
+    _ = (1 + (suzukiRatio I z)⁻¹) * (suzukiRatio I z) := by
+      rw [hgold]
+    _ = suzukiRatio I z + 1 := by
+      simp [add_mul, hq0]
 
 
 
@@ -291,9 +295,10 @@ def responseFromRatio (q : ℂ) : ℂ := 2 / q
 theorem responseFromRatio_add_one
     {q : ℂ} (hq0 : q ≠ 0) (hq1 : q + 1 ≠ 0) :
     responseFromRatio (q + 1) = oddSchurC (responseFromRatio q) := by
+  have hq1' : 1 + q ≠ 0 := by
+    simpa [add_comm] using hq1
   unfold responseFromRatio oddSchurC
-  field_simp [hq0, hq1]
-  ring
+  field_simp [hq0, hq1, hq1']
 
 /-- Projective swap q↦q⁻¹ becomes x↦4/x in x=2/q. -/
 theorem responseFromRatio_inv
@@ -330,7 +335,7 @@ theorem suzuki_response_shear_eq_oddSchur
     intro h
     have hmul := congrArg (fun w : ℂ => w * suzukiB I z) h
     field_simp [hB] at hmul
-    exact hAB hmul
+    exact hAB (by simpa using hmul)
   rw [suzukiShearedRatio_eq_add_one I z hB]
   exact responseFromRatio_add_one hq0 hq1
 
@@ -349,10 +354,10 @@ theorem impedance_inv_eq_neg
   unfold impedance
   have hqi1 : q⁻¹ ≠ 1 := by
     intro h
-    have : q = 1 := by
-      apply inv_injective.mp
-      simpa using h
-    exact hq1 this
+    have hmul := congrArg (fun w : ℂ => w * q) h
+    have honeq : (1 : ℂ) = q := by
+      simpa [hq0] using hmul
+    exact hq1 honeq.symm
   field_simp [hq0, hq1, hqi1]
   ring
 
