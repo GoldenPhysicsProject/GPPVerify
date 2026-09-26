@@ -67,26 +67,6 @@ theorem angularDensity_second_moment :
   · exact (continuous_const.mul (continuous_pow 2)).intervalIntegrable _ _
   · exact (continuous_const.mul (continuous_pow 4)).intervalIntegrable _ _
 
-/-- Odd first moment vanishes by direct polynomial integration. -/
-theorem angularDensity_first_moment :
-    (∫ z in (-1 : ℝ)..1, z * angularDensity z) = 0 := by
-  have hz : (∫ z in (-1 : ℝ)..1, z) = 0 := by
-    change (∫ z in (-1 : ℝ)..1, z ^ 1) = 0
-    rw [integral_pow]
-    norm_num
-  have hz3 : (∫ z in (-1 : ℝ)..1, z ^ 3) = 0 := by
-    rw [integral_pow]
-    norm_num
-  unfold angularDensity
-  rw [show (fun z : ℝ => z * ((3 / 4 : ℝ) * (1 - z ^ 2))) =
-      (fun z : ℝ => (3 / 4 : ℝ) * z - (3 / 4 : ℝ) * z ^ 3) by
-        funext z; ring]
-  rw [intervalIntegral.integral_sub]
-  · rw [intervalIntegral.integral_const_mul, intervalIntegral.integral_const_mul, hz, hz3]
-    norm_num
-  · exact (continuous_const.mul continuous_id).intervalIntegrable _ _
-  · exact (continuous_const.mul (continuous_pow 3)).intervalIntegrable _ _
-
 /-- Conditional on a radial factor r, the Cayley coordinate rZ has second moment r^2/5. -/
 theorem scaled_angular_second_moment (r : ℝ) :
     (∫ z in (-1 : ℝ)..1, (r * z) ^ 2 * angularDensity z) = r ^ 2 / 5 := by
