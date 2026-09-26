@@ -36,12 +36,34 @@ Not yet formalized:
 
 ## The paper's Lean inventory
 
-Appendix "Lean verification inventory" lists 34 modules. As of 2026-09-26, 33 of them exist
-only on `codex/orientation-mass-time-formalization` (Codex's draft PR #173), which is not merged.
-A clean local build of that branch fails in 69 modules. Of the 34 listed:
+The appendix "Lean verification inventory" lists 34 modules.
 
-- 9 build: 8 on that branch, plus `TauDifferential`, which is on `main`;
-- 14 fail on their own errors;
-- 11 are blocked by a failed dependency.
+**Before 2026-09-26:** only `TauDifferential` was on `main`. The other 33 lived only on
+`codex/orientation-mass-time-formalization` (Codex's draft PR #173). A clean build of that
+branch failed in 69 modules. Of the paper's 34, 9 built, 14 failed on their own errors, and 11
+were blocked by a failed dependency.
 
-The paper's sentence "the companion formalizations cover …" is not yet true of `main`.
+**Now:** all 34 are on `main` and build. The 33 missing modules were ported from Codex's
+branch at head `780de22`, along with the 15 further modules they import, and
+`GrassmannianJacobian` gained Codex's split-complement Jacobian.
+
+The statements are Codex's. What changed:
+
+- Proofs were repaired to compile under Lean 4.33.1 / current Mathlib. The fixes were mostly
+  mechanical: missing `noncomputable`, `open Matrix`, `λ` used as an identifier, `rfl` on real
+  negation, and stale `ring` calls.
+- A few proofs were rewritten outright:
+  - the double-complement involutions, using an explicit `D`;
+  - the Klein reflection, using bilinearity;
+  - the Jordan-block eigenvalue lemma.
+- One real logic error was fixed: `bool_odd_map_id_or_not` had its two cases swapped.
+- Two hypotheses no proof used were dropped:
+  - `hD` in `row_reduced_annihilator_is_complement`;
+  - `hinv` in `two_penrose_representations_same_bulk`.
+- Two docstrings contained `+/-`. In Lean, `/-` opens a nested comment, so each became `±`.
+
+Every ported file also compiles with `autoImplicit` off. No statement silently generalized over
+a misspelled type.
+
+The rest of Codex's branch is not ported and remains hers. That is 229 further changed Lean files, many
+of which still fail to build there.
