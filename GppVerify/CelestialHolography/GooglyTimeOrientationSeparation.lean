@@ -71,7 +71,7 @@ theorem quarterCenterLift_sq (sL sR : ℝ) :
 theorem quarterCenterLift_four (sL sR : ℝ) :
     quarterCenterLift (quarterCenterLift (quarterCenterLift (quarterCenterLift (sL,sR))))
       = (sL,sR) := by
-  rfl
+  simp [exchangeCenterSigns, relativeCenterFlip, quarterCenterLift]
 
 /-- One combined quarter-lift reverses vector orientation, while its square becomes
 vector-invisible because the diagonal center has product `+1`. -/

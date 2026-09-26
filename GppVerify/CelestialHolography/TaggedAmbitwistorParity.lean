@@ -23,6 +23,9 @@ exchange is already the physical curved-space orientation reversal or CPT operat
 
 namespace GppTaggedAmbitwistorParity
 
+noncomputable section
+
+
 open GppTwistorAnnihilatorIncidence
 open GppIncidenceKernelGoogly
 
@@ -99,4 +102,6 @@ theorem projections_preserved_under_round_trip (a : Ambitwistor) :
   rw [exchangeBack_exchange]
   exact ⟨rfl,rfl⟩
 
+
+end
 end GppTaggedAmbitwistorParity

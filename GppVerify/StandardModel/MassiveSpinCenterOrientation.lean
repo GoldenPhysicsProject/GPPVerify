@@ -76,7 +76,6 @@ theorem det2_neg_invariant (P : M2) :
     det2 (scaleM2 (-1) P) = det2 P := by
   rcases P with ⟨a,b,c,d⟩
   simp [scaleM2, det2]
-  ring
 
 /-- Therefore the massive invariant `det P` is even under relative-center/time orientation
 reversal. -/

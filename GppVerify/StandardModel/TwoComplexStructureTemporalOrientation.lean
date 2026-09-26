@@ -47,44 +47,44 @@ namespace GppTwoComplexStructureTemporalOrientation
 
 variable {n : Type*} [Fintype n] [DecidableEq n]
 
-abbrev EndC := Matrix n n ℂ
+abbrev EndC (n : Type*) := Matrix n n ℂ
 
 /-- Relative `Z2` grading carried by two commuting complex structures. -/
-def relativeOrientation (I J : EndC) : EndC := -(I * J)
+def relativeOrientation (I J : EndC n) : EndC n := -(I * J)
 
 /-- The product of two commuting complex structures is an involution. -/
 theorem relativeOrientation_sq_one
-    (I J : EndC)
-    (hI : I * I = -(1 : EndC))
-    (hJ : J * J = -(1 : EndC))
+    (I J : EndC n)
+    (hI : I * I = -(1 : EndC n))
+    (hJ : J * J = -(1 : EndC n))
     (hcomm : I * J = J * I) :
-    relativeOrientation I J * relativeOrientation I J = (1 : EndC) := by
+    relativeOrientation I J * relativeOrientation I J = (1 : EndC n) := by
   unfold relativeOrientation
   calc
     (-(I * J)) * (-(I * J)) = (I * J) * (I * J) := by simp
     _ = I * (J * I) * J := by simp [Matrix.mul_assoc]
     _ = I * (I * J) * J := by rw [← hcomm]
     _ = (I * I) * (J * J) := by simp [Matrix.mul_assoc]
-    _ = (-(1 : EndC)) * (-(1 : EndC)) := by rw [hI, hJ]
-    _ = (1 : EndC) := by simp
+    _ = (-(1 : EndC n)) * (-(1 : EndC n)) := by rw [hI, hJ]
+    _ = (1 : EndC n) := by simp
 
 /-- Reversing both microscopic complex orientations leaves the relative grading fixed. -/
-theorem reverse_both_preserves_relativeOrientation (I J : EndC) :
+theorem reverse_both_preserves_relativeOrientation (I J : EndC n) :
     relativeOrientation (-I) (-J) = relativeOrientation I J := by
   simp [relativeOrientation]
 
 /-- Reversing only the first orientation flips the relative grading. -/
-theorem reverse_first_flips_relativeOrientation (I J : EndC) :
+theorem reverse_first_flips_relativeOrientation (I J : EndC n) :
     relativeOrientation (-I) J = - relativeOrientation I J := by
   simp [relativeOrientation]
 
 /-- Reversing only the second orientation flips the relative grading. -/
-theorem reverse_second_flips_relativeOrientation (I J : EndC) :
+theorem reverse_second_flips_relativeOrientation (I J : EndC n) :
     relativeOrientation I (-J) = - relativeOrientation I J := by
   simp [relativeOrientation]
 
 /-- The simultaneous reversal is an exact deck symmetry of the relative character. -/
-theorem diagonal_reversal_package (I J : EndC) :
+theorem diagonal_reversal_package (I J : EndC n) :
     relativeOrientation (-I) (-J) = relativeOrientation I J ∧
     relativeOrientation (-I) J = - relativeOrientation I J ∧
     relativeOrientation I (-J) = - relativeOrientation I J := by

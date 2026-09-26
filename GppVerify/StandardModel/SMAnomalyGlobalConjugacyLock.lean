@@ -59,7 +59,7 @@ def yCube (q u d l e : Bool) : ℤ :=
   orientSign q - 32*orientSign u + 4*orientSign d - 9*orientSign l + 36*orientSign e
 
 /-- All local perturbative anomaly coefficients considered here vanish. -/
-def AnomalyFree (q u d l e : Bool) : Prop :=
+abbrev AnomalyFree (q u d l e : Bool) : Prop :=
   su3Cube q u d = 0 ∧
   su3SqY q u d = 0 ∧
   su2SqY q l = 0 ∧

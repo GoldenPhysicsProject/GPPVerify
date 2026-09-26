@@ -26,6 +26,9 @@ annihilator and the Grassmannian googly/complement map.
 
 namespace GppAnnihilatorComplementBridge
 
+noncomputable section
+
+
 open GppTwistorAnnihilatorIncidence
 open GppGrassmannianGooglyDecomposition
 
@@ -89,4 +92,6 @@ theorem annihilator_is_grassmannian_complement
   simp only [reducedDualRow1, reducedDualRow2, complement, det2]
   constructor <;> field_simp [hD] <;> ring
 
+
+end
 end GppAnnihilatorComplementBridge

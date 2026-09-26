@@ -117,4 +117,6 @@ theorem odd_fermion_even_gravity_package (y xi phi : ℝ) :
     phi_flip_preserves_mass_magnitude y phi,
     phi_flip_preserves_planck_scale xi phi⟩
 
+
+end
 end GppConformalMassScaleCompensator

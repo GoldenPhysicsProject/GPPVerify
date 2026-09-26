@@ -99,7 +99,6 @@ theorem lorentzQ_neg4 (p : V4) :
     lorentzQ (neg4 p) = lorentzQ p := by
   rcases p with ⟨t,x,y,z⟩
   simp [lorentzQ, neg4]
-  ring
 
 /-- The quarter-turn swaps the sum and difference Lorentz norms. -/
 theorem quarterTurn_swaps_sum_difference_norms (u : DoubledMomentum) :

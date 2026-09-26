@@ -40,6 +40,9 @@ alone does not select the mass.
 
 namespace GppComptonHaarTimeBridge
 
+noncomputable section
+
+
 open GppOrientationMassTime
 
 /-- Dimensionless unwrapped Compton phase coordinate. -/
@@ -115,4 +118,6 @@ theorem recover_properTime_from_Haar_log
   rw [log_comptonHaarScale]
   simp [comptonLogCoordinate, hw]
 
+
+end
 end GppComptonHaarTimeBridge

@@ -61,14 +61,14 @@ theorem unipotent_add (a b : ℝ) (x : Spinor2) :
 theorem weylSpinor_sq (x : Spinor2) :
     weylSpinor (weylSpinor x) = scaleSpinor (-1) x := by
   rcases x with ⟨x0,x1⟩
-  rfl
+  simp [weylSpinor, unipotentSpinor, affineSpinor, scaleSpinor]
 
 /-- Hence the Weyl action is order two after projectivization, where nonzero scalar
 multiples represent the same point. -/
 theorem weylSpinor_fourth_power (x : Spinor2) :
     weylSpinor (weylSpinor (weylSpinor (weylSpinor x))) = x := by
   rcases x with ⟨x0,x1⟩
-  rfl
+  simp [weylSpinor, unipotentSpinor, affineSpinor, scaleSpinor]
 
 /-- Weyl exchanges the two coordinate chart base directions. -/
 theorem weyl_exchanges_chart_poles :

@@ -26,6 +26,9 @@ boundary.
 
 namespace GppComptonZitterBeatBridge
 
+noncomputable section
+
+
 open GppOrientationMassTime
 
 /-- Positive rest-energy phase rate. -/
@@ -68,4 +71,6 @@ theorem comptonFrequency_eq_half_restBeatRate (m c hbar : ℝ) :
   rw [restBeatRate_eq_two_comptonFrequency]
   ring
 
+
+end
 end GppComptonZitterBeatBridge

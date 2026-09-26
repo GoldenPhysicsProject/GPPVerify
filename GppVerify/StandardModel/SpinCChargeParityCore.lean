@@ -24,7 +24,7 @@ namespace GppSpinCChargeParityCore
 def zsign (b : Bool) : ℤ := if b then -1 else 1
 
 /-- Descent through the diagonal center means the product action is trivial. -/
-def descendsDiagonal (spin gauge : Bool) : Prop :=
+abbrev descendsDiagonal (spin gauge : Bool) : Prop :=
   zsign spin * zsign gauge = 1
 
 /-- The diagonal quotient condition holds exactly when the two central signs agree. -/

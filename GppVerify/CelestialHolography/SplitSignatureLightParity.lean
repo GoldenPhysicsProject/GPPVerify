@@ -86,4 +86,6 @@ theorem shadow_spin_flip_parity_fixed (x : SplitLabel) :
     (shadow x).shbar = x.shbar := by
   exact ⟨(shadow_Delta_J x).2, rfl, rfl⟩
 
+
+end
 end GppSplitSignatureLightParity

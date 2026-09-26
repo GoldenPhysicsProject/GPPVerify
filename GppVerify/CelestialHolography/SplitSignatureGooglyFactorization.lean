@@ -90,7 +90,6 @@ theorem fullShadow_spinJ (x : LRLabel) :
     spinJ (fullShadow x) = - spinJ x := by
   cases x
   simp [spinJ, fullShadow]
-  ring
 
 /-- Package form of the celestial shadow label map. -/
 theorem fullShadow_Delta_spin (x : LRLabel) :
@@ -123,4 +122,6 @@ theorem split_shadow_factorization (x : LRLabel) :
       fullShadow x = leftLight (rightLight x) := fullShadow_eq_left_right x
       _ = rightLight (leftLight x) := light_transforms_commute x
 
+
+end
 end GppSplitSignatureGooglyFactorization

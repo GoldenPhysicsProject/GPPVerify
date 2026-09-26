@@ -30,16 +30,16 @@ namespace GppDoubledDiracBoundaryGluingCriterion
 
 variable {n : Type} [Fintype n] [DecidableEq n]
 
-abbrev EndC := Matrix n n ℂ
+abbrev EndC (n : Type*) := Matrix n n ℂ
 
 /-- Effective boundary matrix after gluing two opposite-normal sheets. -/
-def gluedBoundaryMatrix (G U : EndC) : EndC :=
+def gluedBoundaryMatrix (G U : EndC n) : EndC n :=
   G - Matrix.conjTranspose U * G * U
 
 /-- If the gluing map preserves the normal Clifford/current form, the total boundary form
     cancels exactly. -/
 theorem boundary_form_cancels_of_preserves_normal_form
-    (G U : EndC)
+    (G U : EndC n)
     (hpres : Matrix.conjTranspose U * G * U = G) :
     gluedBoundaryMatrix G U = 0 := by
   rw [gluedBoundaryMatrix, hpres]
@@ -48,7 +48,7 @@ theorem boundary_form_cancels_of_preserves_normal_form
 /-- Written with the minus-sheet normal matrix `-G`, the two transported coefficients sum
     to zero under the same condition. -/
 theorem opposite_normal_coefficients_cancel
-    (G U : EndC)
+    (G U : EndC n)
     (hpres : Matrix.conjTranspose U * G * U = G) :
     G + (-(Matrix.conjTranspose U * G * U)) = 0 := by
   rw [hpres]

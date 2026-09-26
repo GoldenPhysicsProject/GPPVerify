@@ -11,6 +11,8 @@ All identities are polynomial/rational identities over `ℂ`.
 
 namespace GppGrassmannianComplexDifferential
 
+open Matrix
+
 /-- Big-cell determinant. -/
 def D (a b c d : ℂ) : ℂ := a * d - b * c
 

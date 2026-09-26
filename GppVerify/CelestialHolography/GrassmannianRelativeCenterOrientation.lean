@@ -60,7 +60,6 @@ theorem relative_center_M2_is_negation (A : M2) :
 theorem det2_negM2 (A : M2) : det2 (negM2 A) = det2 A := by
   rcases A with ⟨a,b,c,d⟩
   simp [det2, negM2]
-  ring
 
 /-- Complement/annihilator duality is equivariant with the relative orientation sign. -/
 theorem complement_negM2 (A : M2) :

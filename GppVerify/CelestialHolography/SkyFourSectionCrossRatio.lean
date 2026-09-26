@@ -68,7 +68,6 @@ theorem crossRatio_mobius_invariant
   rw [mobius_sub A B C D a d ha hd]
   rw [mobius_sub A B C D b c hb hc]
   field_simp [hdet, ha, hb, hc, hd, had, hbc]
-  ring
 
 /-- Exchanging the first two marked sections sends the cross ratio to its reciprocal. -/
 theorem crossRatio_swap_first_two
@@ -78,7 +77,6 @@ theorem crossRatio_swap_first_two
     crossRatio b a c d = 1 / crossRatio a b c d := by
   unfold crossRatio
   field_simp [hac, hbd, had, hbc]
-  ring
 
 /-- Exchanging the middle two marked sections sends the cross ratio to `1-z`. -/
 theorem crossRatio_swap_middle
@@ -100,4 +98,6 @@ theorem crossing_generators_from_section_permutations
   exact ⟨crossRatio_swap_first_two a b c d hac hbd had hbc,
     crossRatio_swap_middle a b c d had hbc⟩
 
+
+end
 end GppSkyFourSectionCrossRatio

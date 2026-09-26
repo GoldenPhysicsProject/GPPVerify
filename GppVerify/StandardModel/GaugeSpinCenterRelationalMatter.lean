@@ -41,7 +41,7 @@ def matterCharacter3 (c sL sR : ℝ) : ℝ := c * spinTimeSign sL sR
 /-- The three-sign character is simply the product `c*sL*sR`. -/
 theorem matterCharacter3_eq_product (c sL sR : ℝ) :
     matterCharacter3 c sL sR = c*sL*sR := by
-  rfl
+  simp [spinTimeSign, matterCharacter3]
 
 /-- The diagonal spin-center deck sign is invisible even before charge is considered. -/
 theorem diagonal_spin_deck_invisible (c sL sR : ℝ) :

@@ -32,6 +32,8 @@ baryon abundance.
 
 namespace GppCPTPairCreationFromVacuum
 
+open Matrix
+
 abbrev M4C := Matrix (Fin 4) (Fin 4) ℂ
 abbrev V4C := Fin 4 → ℂ
 

@@ -74,7 +74,6 @@ theorem graded_completion_sq
   rw [hD, imul_grading_sq Gamma m hGamma]
   rw [← add_smul]
   congr 1
-  ring
 
 /-- On the matching shell `E=m^2`, the completed first-order operator is nilpotent. -/
 theorem graded_completion_sq_zero_of_match

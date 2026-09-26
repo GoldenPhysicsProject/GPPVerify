@@ -47,7 +47,6 @@ theorem zitterPeriod_eq_deckInterval
     zitterPeriod omegaC = deckInterval omegaC := by
   unfold zitterPeriod zitterFrequency deckInterval
   field_simp [h]
-  ring
 
 /-- Two mass quarter-turns are exactly the central deck action on the finite
 Dirac cover carrier. -/

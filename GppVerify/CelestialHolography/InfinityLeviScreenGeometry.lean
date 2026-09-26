@@ -89,7 +89,6 @@ def leftRightAct (L R X : M2) : M2 := mul2 (mul2 L X) R
 theorem det2_leftRightAct (L R X : M2) :
     det2 (leftRightAct L R X) = det2 L * det2 X * det2 R := by
   simp [leftRightAct, det2_mul2]
-  ring
 
 /-- Consequently determinant-one left and right factors preserve the split screen metric. -/
 theorem sl2_left_right_preserves_screenQ

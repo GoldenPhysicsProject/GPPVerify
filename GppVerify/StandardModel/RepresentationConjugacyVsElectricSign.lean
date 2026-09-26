@@ -25,7 +25,6 @@ def electricCharge (q0 c : ℝ) : ℝ := c*q0
 theorem conjugation_flips_species_charge (q0 c : ℝ) :
     electricCharge q0 (-c) = -electricCharge q0 c := by
   simp [electricCharge]
-  ring
 
 /-- Two ordinary matter species may have opposite electric signs while sharing the same
     representation-orientation label `c=+1`. -/

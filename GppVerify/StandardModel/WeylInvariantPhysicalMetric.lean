@@ -95,4 +95,6 @@ theorem sign_flip_even_metric_odd_tetrad (phi g e : ℝ) :
   · exact scale_branch_sign_metric_blind phi g
   · simp [physicalTetradComponent]
 
+
+end
 end GppWeylInvariantPhysicalMetric

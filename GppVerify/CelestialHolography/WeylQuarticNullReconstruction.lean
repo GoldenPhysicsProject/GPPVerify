@@ -129,4 +129,6 @@ theorem qeval_exchange_left (W : WeylPair) (z : ℝ) :
 theorem qeval_exchange_right (W : WeylPair) (z : ℝ) :
     qeval (exchangeWeyl W).right z = qeval W.left z := by rfl
 
+
+end
 end GppWeylQuarticNullReconstruction

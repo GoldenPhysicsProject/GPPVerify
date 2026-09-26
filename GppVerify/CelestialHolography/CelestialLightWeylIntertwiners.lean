@@ -160,4 +160,6 @@ theorem light_klein_four_orbit (w : WeightPair) :
   rcases w with ⟨h,hb⟩
   simp [lightL, lightR]
 
+
+end
 end GppCelestialLightWeylIntertwiners

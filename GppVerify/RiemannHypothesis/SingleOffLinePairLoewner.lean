@@ -91,6 +91,8 @@ theorem folded_imag_ne_zero {δ γ : ℝ} (hδ : δ ≠ 0) (hγ : γ ≠ 0) :
     (-2 * δ * γ : ℝ) ≠ 0 := by
   positivity
 
+
+end
 end GppSingleOffLinePairLoewner
 
 #check @GppSingleOffLinePairLoewner.pairPhi_dividedDifference

@@ -82,7 +82,6 @@ must be. -/
 theorem annihilatorPlucker_klein_null (a b c d : ℝ) :
     kleinQ (annihilatorPlucker a b c d) = 0 := by
   simp [annihilatorPlucker, kleinQ]
-  ring
 
 /-- Epsilon dualization preserves the Klein quadratic value. -/
 theorem kleinQ_epsilonDual (p : P6) :

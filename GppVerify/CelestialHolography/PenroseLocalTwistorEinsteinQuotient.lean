@@ -190,4 +190,6 @@ theorem localTwistor_Einstein_quotient_package
   · intro Z hZ
     exact localTwistor_projects_to_EinsteinRay U C D E Z hZ
 
+
+end
 end GppPenroseLocalTwistorEinsteinQuotient

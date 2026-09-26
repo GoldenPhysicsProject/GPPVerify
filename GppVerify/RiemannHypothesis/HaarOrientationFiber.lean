@@ -24,6 +24,8 @@ the boundary value is real/even and both hold.
 
 namespace GppHaarOrientationFiber
 
+open Matrix
+
 open Complex
 
 abbrev M2C := Matrix (Fin 2) (Fin 2) ℂ
@@ -117,7 +119,7 @@ theorem critD_commutes_chi (v : V2C) :
   fin_cases i <;>
     simp [critD, Matrix.mulVec, Fin.sum_univ_two]
 
-/-- Generic multiplication-reflection boundary block on the +/-t pair. -/
+/-- Generic multiplication-reflection boundary block on the ±t pair. -/
 def reflectedBoundary (fplus fminus : ℂ) : M2C :=
   !![0,fplus;fminus,0]
 

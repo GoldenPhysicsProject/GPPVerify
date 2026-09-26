@@ -37,6 +37,9 @@ this file; that requires the four-dimensional Weyl/spinor geometry.
 
 namespace GppNullOpticalRicciWeylSplit
 
+noncomputable section
+
+
 open GppGrassmannianGooglyDecomposition
 
 /-- Trace of the explicit `2x2` carrier. -/
@@ -71,13 +74,11 @@ theorem trace_decomposition (A : M2) :
   rcases A with ⟨a,b,c,d⟩
   apply Prod.ext
   · simp [add2, tracePart, traceFreePart, scalar2, sub2, trace2]
-    ring
   · apply Prod.ext
     · simp [add2, tracePart, traceFreePart, scalar2, sub2, trace2]
     · apply Prod.ext
       · simp [add2, tracePart, traceFreePart, scalar2, sub2, trace2]
       · simp [add2, tracePart, traceFreePart, scalar2, sub2, trace2]
-        ring
 
 /-- Vanishing trace-free part is exactly the condition that the screen curvature is a
 scalar multiple of the identity. -/
@@ -164,7 +165,6 @@ theorem two_component_form_is_splitSelfAdjoint_traceFree (u v : ℝ) :
     SplitSelfAdjoint (u,v,-v,-u) ∧ trace2 (u,v,-v,-u) = 0 := by
   constructor
   · rw [splitSelfAdjoint_iff_offdiag_opposite]
-    simp
   · simp [trace2]
 
 /-- The square of the trace-free split-self-adjoint two-component curvature is scalar. -/
@@ -178,4 +178,6 @@ theorem two_component_square (u v : ℝ) :
   simp [scalar2]
   ring
 
+
+end
 end GppNullOpticalRicciWeylSplit

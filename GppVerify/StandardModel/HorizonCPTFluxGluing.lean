@@ -48,7 +48,6 @@ component invariant. -/
 theorem diagonal_C_T_preserves_current (q u : ℝ) :
     currentComponent (-q) (-u) = currentComponent q u := by
   simp [currentComponent]
-  ring
 
 /-- Reversing only charge flips the current. -/
 theorem charge_flip_flips_current (q u : ℝ) :
@@ -65,7 +64,6 @@ sign even though the current vector itself is unchanged. -/
 theorem CPT_gluing_reverses_oriented_charge_flux (q u n : ℝ) :
     chargeFlux (-q) (-u) (-n) = - chargeFlux q u n := by
   simp [chargeFlux, currentComponent]
-  ring
 
 /-- Hence the oriented charge fluxes of the paired sides cancel exactly. -/
 theorem paired_oriented_charge_flux_cancels (q u n : ℝ) :
@@ -77,14 +75,12 @@ theorem paired_oriented_charge_flux_cancels (q u n : ℝ) :
 theorem orientation_flip_preserves_stress (m u : ℝ) :
     stressComponent m (-u) = stressComponent m u := by
   simp [stressComponent]
-  ring
 
 /-- The normal-normal energy flux is even under reversal of both worldline and normal
 orientations. -/
 theorem CPT_gluing_preserves_energy_flux (m u n : ℝ) :
     energyFlux m (-u) (-n) = energyFlux m u n := by
   simp [energyFlux, stressComponent]
-  ring
 
 /-- Thus the paired sides contribute equal, not cancelling, normal-normal energy flux. -/
 theorem paired_energy_flux_adds (m u n : ℝ) :

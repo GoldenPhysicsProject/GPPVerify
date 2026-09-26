@@ -97,7 +97,6 @@ theorem cusp_zero_normalized
     z^2 * legendrePotential z = (z^2-z+1) / (4*(1-z)^2) := by
   unfold legendrePotential
   field_simp [hz, hz1]
-  ring
 
 /-- The `z=1` cusp has the same normalized coefficient by crossing reflection; again the
 rational identity is stated on the common domain away from both finite cusps. -/
@@ -106,6 +105,5 @@ theorem cusp_one_normalized
     (1-z)^2 * legendrePotential z = (z^2-z+1) / (4*z^2) := by
   unfold legendrePotential
   field_simp [hz, hz1]
-  ring
 
 end GppLegendreCrossingSturmConnection

@@ -110,7 +110,7 @@ theorem fourier_then_orientation_of_pure_plus
     (z : Tw) (a : A)
     (hsrc : B.penrose z = ChiralPair.mk a 0) :
     reverseOrientation (B.dualPenrose (B.fullFourier z)) = ChiralPair.mk 0 a := by
-  rw [B.penrose_fullFourier_commutes z, hsrc]
+  rw [GppSplitPenroseFourierSquare.penrose_fullFourier_commutes B z, hsrc]
   rfl
 
 /-- Same-state Fourier representation change plus orientation reversal cannot produce a
@@ -123,7 +123,7 @@ theorem same_state_fourier_orientation_excludes_generic
     (z : Tw) (a b : A) (ha : a ≠ 0) (hb : b ≠ 0)
     (hsrc : B.penrose z = ChiralPair.mk a 0) :
     reverseOrientation (B.dualPenrose (B.fullFourier z)) ≠ ChiralPair.mk a b := by
-  rw [B.penrose_fullFourier_commutes z, hsrc]
+  rw [GppSplitPenroseFourierSquare.penrose_fullFourier_commutes B z, hsrc]
   exact generic_pair_not_from_reversing_pure_plus a b ha hb
 
 /-- The two representatives available from a pure source through identity/Fourier and
@@ -135,7 +135,7 @@ theorem same_state_orientation_orbit_excludes_generic
     (hsrc : B.penrose z = ChiralPair.mk a 0) :
     ChiralPair.mk a b ≠ B.dualPenrose (B.fullFourier z) ∧
     ChiralPair.mk a b ≠ reverseOrientation (B.dualPenrose (B.fullFourier z)) := by
-  rw [B.penrose_fullFourier_commutes z, hsrc]
+  rw [GppSplitPenroseFourierSquare.penrose_fullFourier_commutes B z, hsrc]
   exact orientation_orbit_of_pure_excludes_generic a b ha hb
 
 end GppGooglyRepresentationIdentity

@@ -41,6 +41,8 @@ This substantially sharpens the physical dictionary:
 
 namespace GppChargedCARComplexOrientationNoGo
 
+open Matrix
+
 open scoped ComplexConjugate
 open GppChargedKahlerRelativeOrientation
 

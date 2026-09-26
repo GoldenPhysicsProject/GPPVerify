@@ -20,7 +20,7 @@ from the positive Hamiltonian `h=|L|`.  In its two-sector standard form, taking
     q = diag(+1,-1),
     h = diag(+omega_C,+omega_C).
 
-Thus the two microscopic phase/frequency orientations `+/- omega_C` are exactly the two
+Thus the two microscopic phase/frequency orientations `± omega_C` are exactly the two
 relative complex-orientation sectors, while physical excitation energy remains positive on
 both.  This is the rigorous bridge between the project's oriented Compton phase and standard
 charged positive-energy quantization.
@@ -62,7 +62,7 @@ theorem both_sectors_positive_compton_magnitude (m c hbar : ℝ) :
       (comptonFrequency m c hbar : ℂ) • minusState := by
   exact positive_hamiltonian_both_sectors (comptonFrequency m c hbar)
 
-/-- The relative complex-orientation charge grading has the same +/- labels as the signed
+/-- The relative complex-orientation charge grading has the same ± labels as the signed
     Compton-frequency generator. -/
 theorem charge_and_frequency_signs_locked (m c hbar : ℝ) :
     chargeQ *ᵥ plusState = plusState ∧

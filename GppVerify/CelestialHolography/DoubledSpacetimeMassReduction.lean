@@ -143,7 +143,6 @@ theorem cMinus_dualFromMass_eq_mass
   rw [cMinus_scale4, cMinus_cPlus_mass_shell p m z hQ, scale4_mul]
   have h : (1 / m) * (m^2) = m := by
     field_simp [hm]
-    ring
   rw [h]
 
 /-- For nonzero mass, construct the ordinary-twistor component from a dual twistor. -/
@@ -172,7 +171,6 @@ theorem cPlus_primalFromMass_eq_mass
   rw [cPlus_scale4, cPlus_cMinus_mass_shell p m alpha hQ, scale4_mul]
   have h : (1 / m) * (m^2) = m := by
     field_simp [hm]
-    ring
   rw [h]
 
 /-- Massive twistor/dual-twistor locking, packaged from the ordinary-twistor side. -/

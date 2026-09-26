@@ -35,7 +35,6 @@ def centerCharacter (a b : ℕ) (sL sR : ℝ) : ℝ := sL^a * sR^b
 theorem diagonal_center_character (a b : ℕ) :
     centerCharacter a b (-1) (-1) = (-1 : ℝ)^(a+b) := by
   simp [centerCharacter, pow_add]
-  ring
 
 /-- Factor exchange swaps the two bidegrees and the two center signs. -/
 theorem factor_exchange_character (a b : ℕ) (sL sR : ℝ) :

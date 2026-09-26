@@ -64,7 +64,6 @@ theorem future_positive_frequency_positive_norm
     (omega : ℝ) (homega : 0 < omega) :
     0 < kgNormDensity omega false false := by
   simp [kgNormDensity, sg, homega]
-  linarith
 
 /-- The CPT-related opposite sheet can use the opposite phase winding and still have the
     same positive norm when its Cauchy orientation is reversed too. -/
@@ -75,7 +74,6 @@ theorem opposite_sheet_opposite_frequency_same_positive_norm
   constructor
   · norm_num [kgNormDensity, sg]
   · simp [kgNormDensity, sg, homega]
-    linarith
 
 /-- A negative-frequency mode on the SAME oriented sheet has negative KG norm before the
     usual antiparticle/Fock reinterpretation. -/
@@ -83,6 +81,5 @@ theorem same_sheet_opposite_frequency_negative_norm
     (omega : ℝ) (homega : 0 < omega) :
     kgNormDensity omega false true < 0 := by
   simp [kgNormDensity, sg, homega]
-  linarith
 
 end GppKleinGordonNormTimeOrientationLock

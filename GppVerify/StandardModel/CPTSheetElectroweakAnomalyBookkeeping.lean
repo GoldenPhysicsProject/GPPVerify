@@ -46,7 +46,6 @@ theorem BplusL_change (Ngen k : ℤ) :
 theorem mirror_baryon_change_opposite (Ngen k : ℤ) :
     deltaB Ngen (-k) = -deltaB Ngen k := by
   simp [deltaB]
-  ring
 
 /-- Hence the two-sheet conventional baryon change cancels globally. -/
 theorem two_sheet_baryon_change_cancels (Ngen k : ℤ) :

@@ -94,4 +94,6 @@ theorem gauge_fix_positive_compensator
 theorem clock_gauge_fixes_mass (y phi0 : ℝ) :
     generatedMass y phi0 = y*phi0 := rfl
 
+
+end
 end GppWeylInvariantComptonClock

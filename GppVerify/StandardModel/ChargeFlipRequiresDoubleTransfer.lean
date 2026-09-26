@@ -40,7 +40,6 @@ theorem subsystem_flip_change (q : ℤ) :
 theorem reservoir_compensation_change (q r : ℤ) :
     compensatedReservoir q r - r = 2*q := by
   simp [compensatedReservoir]
-  ring
 
 /-- Electron-sign example in units where e=1: -1 -> +1 requires reservoir change -2. -/
 theorem electron_to_positron_requires_minus_two (r : ℤ) :

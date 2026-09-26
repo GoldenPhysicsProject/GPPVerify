@@ -23,6 +23,9 @@ question; once a nonzero mass scale exists, the reciprocal clock/ruler statement
 
 namespace GppMassScaleClockBridge
 
+noncomputable section
+
+
 open GppOrientationMassTime
 
 /-- Reduced Compton proper-time scale. -/
@@ -34,7 +37,6 @@ theorem comptonFrequency_mul_comptonTime
     comptonFrequency m c hbar * comptonTime m c hbar = 1 := by
   simp [comptonFrequency, comptonTime]
   field_simp [hm, hc, hh]
-  ring
 
 /-- The reduced Compton ruler is light speed times the reduced Compton time. -/
 theorem comptonLength_eq_c_mul_comptonTime
@@ -42,7 +44,6 @@ theorem comptonLength_eq_c_mul_comptonTime
     comptonLength m c hbar = c * comptonTime m c hbar := by
   simp [comptonLength, comptonTime]
   field_simp [hm, hc]
-  ring
 
 /-- Rest energy is Planck's constant times the Compton angular frequency. -/
 theorem restEnergy_eq_hbar_mul_comptonFrequency
@@ -50,7 +51,6 @@ theorem restEnergy_eq_hbar_mul_comptonFrequency
     m * c^2 = hbar * comptonFrequency m c hbar := by
   simp [comptonFrequency]
   field_simp [hh]
-  ring
 
 /-- Scaling the mass by a factor scales the Compton frequency by the same factor. -/
 theorem comptonFrequency_mass_scale
@@ -66,7 +66,6 @@ theorem comptonTime_mass_scale
     comptonTime (a*m) c hbar = a⁻¹ * comptonTime m c hbar := by
   simp [comptonTime]
   field_simp [ha, hm, hc]
-  ring
 
 /-- Therefore the dimensionless phase product `omega_C * tau_C` is insensitive to a
 reciprocal rescaling of clock and mass. -/
@@ -77,4 +76,6 @@ theorem reciprocal_mass_time_phase_invariant
   rw [comptonFrequency_mul_comptonTime (a*m) c hbar (mul_ne_zero ha hm) hc hh]
   rw [comptonFrequency_mul_comptonTime m c hbar hm hc hh]
 
+
+end
 end GppMassScaleClockBridge

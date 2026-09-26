@@ -20,14 +20,14 @@ open GppGrassmannianGooglyDecomposition
 open GppSplitSignatureHodgeGrassmannian
 
 /-- Coordinate scaling on Plucker six-vectors. -/
-def scaleP6 (λ : ℝ) (p : P6) : P6 :=
-  ⟨λ*p.p01, λ*p.p02, λ*p.p03, λ*p.p12, λ*p.p13, λ*p.p23⟩
+def scaleP6 (lam : ℝ) (p : P6) : P6 :=
+  ⟨lam*p.p01, lam*p.p02, lam*p.p03, lam*p.p12, lam*p.p13, lam*p.p23⟩
 
 /-- Elementary projective equivalence: two nonzero homogeneous representatives may
 differ by any nonzero real scale.  This relation is sufficient for the orientation
 comparison below; no quotient type is introduced. -/
 def ProjectivelyEquivalent (p q : P6) : Prop :=
-  ∃ λ : ℝ, λ ≠ 0 ∧ q = scaleP6 λ p
+  ∃ lam : ℝ, lam ≠ 0 ∧ q = scaleP6 lam p
 
 /-- Every Plucker vector is projectively equivalent to itself. -/
 theorem projectivelyEquivalent_refl (p : P6) : ProjectivelyEquivalent p p := by

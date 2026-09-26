@@ -109,4 +109,6 @@ theorem pure_minus_tail_sector_zero
   rw [selected_fullSource_eq_mixedSource Z hZ]
   exact mixed_tail_vanishes_without_plus Z aMinus
 
+
+end
 end GppNSFOppositeHelicityTailCoupling

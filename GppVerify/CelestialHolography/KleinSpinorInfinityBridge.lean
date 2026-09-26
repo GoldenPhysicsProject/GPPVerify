@@ -45,8 +45,8 @@ theorem cPlus_cMinus_eq_lambdaK (p : P6) (α : V4) :
   exact cPlus_cMinus p α
 
 /-- Scalar multiplication composes multiplicatively. -/
-theorem scale4_scale (λ μ : ℝ) (x : V4) :
-    scale4 λ (scale4 μ x) = scale4 (λ*μ) x := by
+theorem scale4_scale (lam μ : ℝ) (x : V4) :
+    scale4 lam (scale4 μ x) = scale4 (lam*μ) x := by
   rcases x with ⟨x0,x1,x2,x3⟩
   apply Prod.ext
   · simp [scale4]
@@ -66,8 +66,8 @@ theorem scale4_one (x : V4) : scale4 1 x = x := by
   simp [scale4]
 
 /-- `cPlus` respects scalar multiplication. -/
-theorem cPlus_scale (p : P6) (λ : ℝ) (z : V4) :
-    cPlus p (scale4 λ z) = scale4 λ (cPlus p z) := by
+theorem cPlus_scale (p : P6) (lam : ℝ) (z : V4) :
+    cPlus p (scale4 lam z) = scale4 lam (cPlus p z) := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
   rcases z with ⟨z0,z1,z2,z3⟩
   apply Prod.ext
@@ -83,8 +83,8 @@ theorem cPlus_scale (p : P6) (λ : ℝ) (z : V4) :
         ring
 
 /-- `cMinus` respects scalar multiplication. -/
-theorem cMinus_scale (p : P6) (λ : ℝ) (α : V4) :
-    cMinus p (scale4 λ α) = scale4 λ (cMinus p α) := by
+theorem cMinus_scale (p : P6) (lam : ℝ) (α : V4) :
+    cMinus p (scale4 lam α) = scale4 lam (cMinus p α) := by
   rcases p with ⟨p01,p02,p03,p12,p13,p23⟩
   rcases α with ⟨a0,a1,a2,a3⟩
   apply Prod.ext

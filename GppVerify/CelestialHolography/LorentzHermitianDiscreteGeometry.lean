@@ -130,7 +130,6 @@ theorem discrete_reflections_preserve_minkowskiQ (v : R4) :
     minkowskiQ (ptInvert4 v) = minkowskiQ v := by
   rcases v with ⟨t,x,y,z⟩
   simp [minkowskiQ, parity4, timeReflect4, ptInvert4]
-  ring
 
 /-- Canonical epsilon spinor metric. -/
 def eps2 : C2M :=

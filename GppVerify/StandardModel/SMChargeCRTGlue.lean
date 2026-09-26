@@ -44,6 +44,12 @@ def centerCompatible (t : Fin 3) (s : Bool) (q : Fin 6) : Prop :=
 def crtCompatible (t : Fin 3) (s : Bool) (q : Fin 6) : Prop :=
   q.val % 2 = weakBit s ∧ q.val % 3 = t.val
 
+instance (t : Fin 3) (s : Bool) (q : Fin 6) : Decidable (centerCompatible t s q) := by
+  unfold centerCompatible; infer_instance
+
+instance (t : Fin 3) (s : Bool) (q : Fin 6) : Decidable (crtCompatible t s q) := by
+  unfold crtCompatible; infer_instance
+
 /-- Exact equivalence between the diagonal Z6 condition and the Z2 x Z3 CRT data. -/
 theorem centerCompatible_iff_CRT
     (t : Fin 3) (s : Bool) (q : Fin 6) :
@@ -55,6 +61,7 @@ theorem centerCompatible_iff_CRT
     residue modulo six. -/
 theorem unique_hypercharge_residue (t : Fin 3) (s : Bool) :
     ∃! q : Fin 6, centerCompatible t s q := by
+  unfold ExistsUnique
   fin_cases t <;> cases s <;> native_decide
 
 /-- Explicit CRT table, ordered by `(weak parity, color triality)`. -/

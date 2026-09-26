@@ -82,7 +82,7 @@ theorem swapFirstDuality_components (F : CurvatureBlocks K) :
     (swapFirstDuality F).pm = F.mm ∧
     (swapFirstDuality F).mp = F.pp ∧
     (swapFirstDuality F).mm = F.pm := by
-  rfl
+  simp [MixedBlocksVanish, swapFirstDuality, reverseSpacetimeDuality]
 
 /-- Backward-compatible component theorem. -/
 theorem reverse_spacetime_duality_components (F : CurvatureBlocks K) :
@@ -117,13 +117,13 @@ theorem reverseRiemannHodgeOrientation_involution (F : CurvatureBlocks K) :
 theorem reverseRiemannHodgeOrientation_swaps_diagonal (F : CurvatureBlocks K) :
     (reverseRiemannHodgeOrientation F).pp = F.mm ∧
     (reverseRiemannHodgeOrientation F).mm = F.pp := by
-  rfl
+  simp [MixedBlocksVanish, swapFirstDuality, reverseSpacetimeDuality, swapBothDualities, reverseRiemannHodgeOrientation]
 
 /-- It also exchanges the two off-diagonal/mixed sectors. -/
 theorem reverseRiemannHodgeOrientation_swaps_mixed (F : CurvatureBlocks K) :
     (reverseRiemannHodgeOrientation F).pm = F.mp ∧
     (reverseRiemannHodgeOrientation F).mp = F.pm := by
-  rfl
+  simp [MixedBlocksVanish, swapFirstDuality, reverseSpacetimeDuality, swapBothDualities, reverseRiemannHodgeOrientation]
 
 /-- Therefore the mixed-block-free/Einstein block pattern is invariant under reversal of
 four-orientation.  Geometrically this corresponds to the fact that Einstein-ness is

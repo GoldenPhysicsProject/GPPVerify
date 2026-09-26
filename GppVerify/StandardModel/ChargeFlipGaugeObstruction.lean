@@ -28,6 +28,8 @@ be redistributed between a subsystem and an environment.
 
 namespace GppChargeFlipGaugeObstruction
 
+open Matrix
+
 abbrev M2C := Matrix (Fin 2) (Fin 2) ℂ
 abbrev V2C := Fin 2 → ℂ
 

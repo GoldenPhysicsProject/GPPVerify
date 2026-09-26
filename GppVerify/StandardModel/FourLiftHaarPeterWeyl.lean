@@ -173,6 +173,8 @@ theorem finite_haar_fixed_sector_capstone
         linear_combination ha - hc
       exact sub_eq_zero.mp (one_chi_independent (a-cd.1) (b-cd.2) hzero).2
 
+
+end
 end GppFourLiftHaarPeterWeyl
 
 #print axioms GppFourLiftHaarPeterWeyl.canonical_character_projection

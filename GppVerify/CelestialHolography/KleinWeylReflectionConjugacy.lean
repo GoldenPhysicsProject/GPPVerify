@@ -33,6 +33,9 @@ is external and is not formalized in this file.
 
 namespace GppKleinWeylReflectionConjugacy
 
+noncomputable section
+
+
 abbrev Active2 := ℝ × ℝ
 
 /-- Fixed order-two Weyl reflection on the hyperbolic plane. -/
@@ -48,7 +51,7 @@ def activeReflection (Lambda : ℝ) (v : Active2) : Active2 :=
 /-- The fixed Weyl element is involutive. -/
 theorem fixedWeyl_sq (v : Active2) : fixedWeyl (fixedWeyl v) = v := by
   rcases v with ⟨x,y⟩
-  rfl
+  simp [Active2, fixedWeyl, splitDilation, activeReflection]
 
 /-- Nonzero split dilation is inverted by the reciprocal parameter. -/
 theorem splitDilation_inverse
@@ -82,4 +85,6 @@ theorem activeReflection_det
     (0:ℝ)*0 - (-Lambda)*(-1/Lambda) = -1 := by
   field_simp [hLambda]
 
+
+end
 end GppKleinWeylReflectionConjugacy

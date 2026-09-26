@@ -114,4 +114,6 @@ theorem diagonal_sign_fixes_bifurcation (U V : ℝ) :
     onBifurcationSurface (-U) (-V) ↔ onBifurcationSurface U V := by
   simp [onBifurcationSurface]
 
+
+end
 end GppHorizonOrientationDiagnostics

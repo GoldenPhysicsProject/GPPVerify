@@ -70,7 +70,6 @@ def phaseIncrement (g : ℂ) (dt : ℝ) : ℂ := (dt : ℂ) * g
     phaseIncrement (minusPhaseGenerator omega) dt =
       - phaseIncrement (plusPhaseGenerator omega) dt := by
   simp [phaseIncrement, opposite_i_flips_phase_generator]
-  ring
 
 /-- Capstone: at one and the same coordinate-time increment, opposite quantum complex
     orientations yield opposite microscopic phase increments with identical magnitude. -/

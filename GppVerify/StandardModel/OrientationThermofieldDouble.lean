@@ -39,6 +39,8 @@ structure physically remains a separate hypothesis.
 
 namespace GppOrientationThermofieldDouble
 
+open Matrix
+
 abbrev M4 := Matrix (Fin 4) (Fin 4) ℂ
 abbrev V4 := Fin 4 → ℂ
 

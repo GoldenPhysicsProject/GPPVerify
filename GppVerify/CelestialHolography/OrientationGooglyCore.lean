@@ -133,4 +133,6 @@ theorem shadowLabel_flips_helicity (x : CelestialLabel) :
     (shadowLabel x).J = -x.J := by
   rfl
 
+
+end
 end GppOrientationGoogly

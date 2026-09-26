@@ -86,7 +86,6 @@ theorem hawkingBeta_mul_temperature
     hawkingBeta kappa * hawkingTemperature kappa = 1 := by
   have hpi : Real.pi ≠ 0 := ne_of_gt Real.pi_pos
   simp [hawkingBeta, hawkingTemperature, hk, hpi]
-  field_simp [hk, hpi]
   ring
 
 /-- Abstract KMS datum.  `isKMS beta` is supplied by the analytic/QFT theorem; the

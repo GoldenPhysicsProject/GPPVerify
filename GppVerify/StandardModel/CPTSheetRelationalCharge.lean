@@ -48,25 +48,21 @@ theorem mirror_flips_conventional_charge (e c : ℝ) :
 theorem mirror_preserves_relational_charge (e c t : ℝ) :
     relationalCharge e (-c) (-t) = relationalCharge e c t := by
   simp [relationalCharge]
-  ring
 
 /-- A half flip of representation orientation reverses the relational charge. -/
 theorem representation_half_flip_reverses_relational_charge (e c t : ℝ) :
     relationalCharge e (-c) t = - relationalCharge e c t := by
   simp [relationalCharge]
-  ring
 
 /-- A half flip of temporal orientation does the same. -/
 theorem temporal_half_flip_reverses_relational_charge (e c t : ℝ) :
     relationalCharge e c (-t) = - relationalCharge e c t := by
   simp [relationalCharge]
-  ring
 
 /-- A CPT-paired two-sheet excitation has zero total conventional charge. -/
 theorem CPT_pair_conventional_charge_cancels (e c : ℝ) :
     conventionalCharge e c + conventionalCharge e (-c) = 0 := by
   simp [conventionalCharge]
-  ring
 
 /-- But the same pair has two equal relational charges when the sheet orientation is also
     reversed. -/

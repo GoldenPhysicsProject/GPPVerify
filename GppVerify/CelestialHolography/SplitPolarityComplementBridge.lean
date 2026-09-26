@@ -17,6 +17,9 @@ structure, not a discrepancy in the underlying duality construction.
 
 namespace GppSplitPolarityComplementBridge
 
+noncomputable section
+
+
 open GppTwistorAnnihilatorIncidence
 open GppGrassmannianGooglyDecomposition
 open GppSplitSignatureHodgeGrassmannian
@@ -111,4 +114,6 @@ theorem split_polarity_is_hodge_complement
   simp only [splitReducedRow1, splitReducedRow2, splitComplement, det2]
   constructor <;> field_simp [hD] <;> ring
 
+
+end
 end GppSplitPolarityComplementBridge

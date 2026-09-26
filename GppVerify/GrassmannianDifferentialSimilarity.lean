@@ -5,6 +5,8 @@ import GppVerify.GrassmannianJacobian
 
 namespace GppGrassmannianDifferentialSimilarity
 
+open Matrix
+
 open GppGrassmannianJacobian
 
 /-- Row-major coordinate map for left multiplication `X -> A X`. -/
