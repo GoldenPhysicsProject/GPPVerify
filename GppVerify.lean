@@ -169,6 +169,59 @@ import GppVerify.StandardModel.MassOrientationCoupling
 -- center {±1, ±χ}, Fix(D) and the half flips, and the Cl(3,1) realization. All `decide`
 -- over ℤ[i]. Independent of the unmerged codex/orientation-mass-time-formalization branch.
 import GppVerify.StandardModel.OrientationCliffordCore
+-- Which Way Is Forward? (v26), the paper's Lean inventory: 33 modules (plus 15 dependencies)
+-- ported 2026-09-26 from Codex's unmerged branch codex/orientation-mass-time-formalization
+-- (draft #173, head 780de22), where they did not build. Fixed here to compile under Lean
+-- 4.33.1; content and statements are Codex's except where a proof had to change, and two
+-- hypotheses the proofs never used were dropped (unused-binder gate).
+import GppVerify.CelestialHolography.AmbientFourDualitySpine
+import GppVerify.CelestialHolography.DiracSpinCoverIntertwiner
+import GppVerify.CelestialHolography.EinsteinInfinityTwistorFamily
+import GppVerify.CelestialHolography.FlatInfinityCelestialFactorization
+import GppVerify.CelestialHolography.FlatInfinityChiralComplex
+import GppVerify.CelestialHolography.GrassmannianGooglyDecomposition
+import GppVerify.CelestialHolography.GrassmannianKleinOrderFourLift
+import GppVerify.CelestialHolography.KleinCliffordPinConjugation
+import GppVerify.CelestialHolography.KleinNullInfinityBoundary
+import GppVerify.CelestialHolography.KleinPinOrderFourBlock
+import GppVerify.CelestialHolography.KleinPinReflectionDegeneration
+import GppVerify.CelestialHolography.KleinSpinorIncidence
+import GppVerify.CelestialHolography.MassCircleFolding
+import GppVerify.CelestialHolography.PluckerChiralityAction
+import GppVerify.CelestialHolography.ProjectiveFourierPenroseQuotient
+import GppVerify.CelestialHolography.SpinCenterExchangeZ4Lift
+import GppVerify.CelestialHolography.SpinProductCenterTimeOrientation
+import GppVerify.CelestialHolography.SplitSignatureHodgeGrassmannian
+import GppVerify.CelestialHolography.SplitSignaturePenroseFourierSquare
+import GppVerify.CelestialHolography.TransverseNormalConnection
+import GppVerify.CelestialHolography.TwistorAnnihilatorIncidence
+import GppVerify.CelestialHolography.TwistorCanonicalShift
+import GppVerify.CelestialHolography.TwistorWeightDuality
+import GppVerify.RiemannHypothesis.CayleyShadowAdjointBridge
+import GppVerify.RiemannHypothesis.OrientationCriticalRealStructureBridge
+import GppVerify.StandardModel.CPTPairedOrientationState
+import GppVerify.StandardModel.CPTvsDiagonalGaugeSeparation
+import GppVerify.StandardModel.ChargedCAROrientationFock
+import GppVerify.StandardModel.ChargedKahlerDynamicalSign
+import GppVerify.StandardModel.ChargedKahlerRelativeOrientation
+import GppVerify.StandardModel.DiagonalPairObservableAlgebra
+import GppVerify.StandardModel.FourOrientationGaugeProjection
+import GppVerify.StandardModel.HorizonOrientationBranchedDoubleCover
+import GppVerify.StandardModel.ManyBodyOrientationRedundancyNoGo
+import GppVerify.StandardModel.ObservedChargeMustBeRelational
+import GppVerify.StandardModel.OrientationCARBridge
+import GppVerify.StandardModel.OrientationComplexStructureDoubleCover
+import GppVerify.StandardModel.OrientationCovariantSecondLaw
+import GppVerify.StandardModel.OrientationGaugeAveraging
+import GppVerify.StandardModel.OrientationMassTime
+import GppVerify.StandardModel.OrientationPairProduction
+import GppVerify.StandardModel.OrientationQuotientUniversalProperty
+import GppVerify.StandardModel.ParityExchangeOrientationSeparation
+import GppVerify.StandardModel.RelationalChargeFiniteFockToy
+import GppVerify.StandardModel.RelationalU1GaugeRepresentation
+import GppVerify.StandardModel.Spin102ChiralRealityCore
+import GppVerify.StandardModel.Spin62BLFiniteCore
+import GppVerify.StandardModel.SpinCOrientationQuotient
 
 -- ── The Half-Flip Proposition (New) ───────────────────────────
 -- Lemma 2.1: antiunitary conjugation = unitary o transpose on
