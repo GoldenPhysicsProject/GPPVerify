@@ -164,6 +164,11 @@ import GppVerify.GrassmannianMass
 -- Theorem 3.3(i): the orientation map tau(A) = A eps / det(A)
 -- satisfies tau^2 = -id, tau^4 = id
 import GppVerify.StandardModel.MassOrientationCoupling
+-- Which Way Is Forward? (v26): the exact finite core — explicit Cl(2,2) carrier, the
+-- orientation algebra, the unitary four-lift intertwiner, the order-16 carrier group with
+-- center {±1, ±χ}, Fix(D) and the half flips, and the Cl(3,1) realization. All `decide`
+-- over ℤ[i]. Independent of the unmerged codex/orientation-mass-time-formalization branch.
+import GppVerify.StandardModel.OrientationCliffordCore
 
 -- ── The Half-Flip Proposition (New) ───────────────────────────
 -- Lemma 2.1: antiunitary conjugation = unitary o transpose on

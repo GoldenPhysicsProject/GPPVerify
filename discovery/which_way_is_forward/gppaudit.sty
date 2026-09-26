@@ -1,0 +1,218 @@
+% ===================================================================
+% gppaudit.sty — house style for Golden Physics Project evidence audits
+% and Hannah Arendt Institute papers.
+% Daniel Toupin / Golden Physics Project, 2026.
+%
+% Design language: intelligence-assessment typography.
+% Rules, not boxes. Graded evidence. Key judgments forward.
+% ===================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{gppaudit}[2026/09/18 GPP evidence audit house style]
+
+\RequirePackage[T1]{fontenc}
+\RequirePackage{xcolor}
+\RequirePackage{titlesec}
+\RequirePackage{fancyhdr}
+\RequirePackage{enumitem}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{setspace}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{ragged2e}
+\pgfplotsset{compat=1.18}
+
+% ---------- palette -------------------------------------------------
+% Restrained. One accent, used structurally rather than decoratively.
+\definecolor{gppink}{HTML}{111318} % near-black body
+\definecolor{gpprule}{HTML}{1A1D24} % rules
+\definecolor{gppaccent}{HTML}{8C1D18} % oxblood accent
+\definecolor{gppgrey}{HTML}{6B6F76} % secondary text
+\definecolor{gpplight}{HTML}{D8D6D1} % hairlines
+
+\color{gppink}
+
+% ---------- measure and spacing --------------------------------------
+\setstretch{1.16}
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{1.4em}
+
+% ---------- rules ----------------------------------------------------
+\newcommand{\gppheavyrule}{\par\vspace{2pt}\noindent%
+ {\color{gpprule}\rule{\linewidth}{1.1pt}}\par\vspace{2pt}}
+\newcommand{\gpphairrule}{\par\vspace{2pt}\noindent%
+ {\color{gpplight}\rule{\linewidth}{0.4pt}}\par\vspace{2pt}}
+\newcommand{\gppaccentrule}{\par\vspace{2pt}\noindent%
+ {\color{gppaccent}\rule{\linewidth}{2pt}}\par\vspace{2pt}}
+\newcommand{\gppshortrule}{\par\vspace{4pt}\noindent%
+ {\color{gppaccent}\rule{2.2cm}{1.6pt}}\par\vspace{4pt}}
+
+% ---------- masthead -------------------------------------------------
+% \gppmasthead{EVIDENCE AUDIT}{SEPTEMBER 2026}
+\newcommand{\gppmasthead}[2]{%
+ {\footnotesize\scshape\color{gppgrey}%
+ #1\quad\textcolor{gppaccent}{$\bullet$}\quad Golden Physics Project%
+ \quad\textcolor{gppaccent}{$\bullet$}\quad #2\par}}
+
+\newcommand{\gppinstitute}[2]{%
+ {\footnotesize\scshape\color{gppgrey}%
+ #1\quad\textcolor{gppaccent}{$\bullet$}\quad Golden Physics Project%
+ \quad\textcolor{gppaccent}{$\bullet$}\quad #2\par}}
+
+% ---------- section headings ----------------------------------------
+\titleformat{\section}
+ {\normalfont\Large\bfseries\scshape\color{gppink}}
+ {\thesection}{0.7em}{}
+ [\vspace{-6pt}{\color{gppaccent}\rule{\linewidth}{1.4pt}}]
+\titlespacing*{\section}{0pt}{22pt}{9pt}
+
+\titleformat{\subsection}
+ {\normalfont\large\bfseries\color{gppink}}
+ {\thesubsection}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{14pt}{5pt}
+
+\titleformat{\subsubsection}[runin]
+ {\normalfont\bfseries\color{gppink}}
+ {}{0pt}{}[.\quad]
+
+% ---------- running heads --------------------------------------------
+% \gpprunningheads{Short Title}{Toupin, 2026}
+\newcommand{\gpprunningheads}[2]{%
+ \pagestyle{fancy}
+ \fancyhf{}
+ \fancyhead[L]{\footnotesize\scshape\color{gppgrey}#1}
+ \fancyhead[R]{\footnotesize\scshape\color{gppgrey}#2}
+ \fancyfoot[C]{\footnotesize\color{gppgrey}\thepage}
+ \renewcommand{\headrulewidth}{0.4pt}
+ \renewcommand{\headrule}{\hbox to\headwidth{\color{gpplight}\leaders\hrule height \headrulewidth\hfill}}
+}
+
+% ---------- analytic status block ------------------------------------
+\newenvironment{analyticstatus}{%
+ \par\vspace{6pt}\gpphairrule
+ \noindent{\footnotesize\bfseries\scshape\color{gppaccent}Analytic Status}\quad
+ \footnotesize\itshape\color{gppink}\ignorespaces
+}{%
+ \par\gpphairrule\vspace{4pt}\normalfont\normalsize
+}
+
+% ---------- key judgments --------------------------------------------
+\newenvironment{keyjudgments}{%
+ \par\vspace{10pt}
+ \noindent{\large\bfseries\scshape\color{gppink}Key Judgments}\par
+ \vspace{-2pt}{\color{gppaccent}\rule{\linewidth}{1.4pt}}\par\vspace{6pt}
+ \begin{list}{}{%
+ \setlength{\leftmargin}{1.5em}\setlength{\rightmargin}{0pt}
+ \setlength{\itemsep}{9pt}\setlength{\parsep}{0pt}\setlength{\topsep}{0pt}}
+}{%
+ \end{list}\vspace{-4pt}\gpphairrule\vspace{4pt}
+}
+% \judgment{One}{Text of the judgment.}
+\newcommand{\judgment}[2]{%
+ \item[]\makebox[0pt][r]{\color{gppaccent}\bfseries\footnotesize#1\hspace{0.9em}}%
+ #2}
+
+% ---------- findings: the emphasised inset ----------------------------
+% The indented italic callout used for the most probative passages.
+\newenvironment{finding}{%
+ \par\vspace{8pt}\begingroup
+ \leftskip=1.6em \rightskip=1.0em
+ \noindent\llap{\color{gppaccent}\rule[-0.1em]{2pt}{1em}\hspace{0.7em}}%
+ \itshape\ignorespaces
+}{%
+ \par\endgroup\vspace{8pt}
+}
+
+% ---------- evidence grade markers ------------------------------------
+\newcommand{\gr}[1]{%
+ \hspace{0.35em}\raisebox{0.12em}{\tikz[baseline]{
+ \node[draw=gppaccent,line width=0.6pt,inner sep=1.6pt,
+ font=\tiny\bfseries\sffamily,text=gppaccent,
+ minimum width=1.05em,minimum height=1.05em]{#1};}}}
+
+\newcommand{\gradekey}[4]{%
+ \par\vspace{4pt}
+ \begin{list}{}{\setlength{\leftmargin}{2.2em}\setlength{\itemsep}{2pt}
+ \setlength{\parsep}{0pt}\setlength{\topsep}{2pt}}
+ \item[\gr{A}]#1
+ \item[\gr{B}]#2
+ \item[\gr{C}]#3
+ \item[\gr{D}]#4
+ \end{list}\vspace{4pt}
+}
+
+% ---------- the "where this lands" opener ------------------------------
+\newenvironment{wherethislands}[1][Where this lands]{%
+ \par\vspace{4pt}
+ \noindent{\large\bfseries\scshape\color{gppink}#1}\par
+ \vspace{-4pt}\gppshortrule
+}{\par\vspace{6pt}}
+
+% ---------- assessment stamp -------------------------------------------
+\newcommand{\assessment}[1]{%
+ \par\vspace{2pt}
+ \noindent{\footnotesize\bfseries\scshape\color{gppaccent}Assessment}\quad#1
+ \par\gpphairrule\vspace{6pt}}
+
+% ---------- coded table helper -----------------------------------------
+\newcommand{\gpptablehead}{\rowcolor{white}}
+\newenvironment{codedtable}[1]{%
+ \par\vspace{6pt}\footnotesize
+ \renewcommand{\arraystretch}{1.35}
+ \begin{tabular}{#1}\toprule
+}{%
+ \bottomrule\end{tabular}\par\vspace{6pt}\normalsize
+}
+
+% ---------- directional bar figure --------------------------------------
+% \directionbars{24}{4}{14}{Benefits Russia}{Harms Russia}
+\newcommand{\directionbars}[5]{%
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+ width=0.82\linewidth, height=5.4cm,
+ ybar, bar width=1.5cm,
+ ymin=0, ymax=27,
+ ylabel={},
+ symbolic x coords={A,B},
+ xtick=data,
+ xticklabels={#4,#5},
+ xticklabel style={font=\footnotesize\scshape,text=gppink},
+ yticklabel style={font=\footnotesize,text=gppgrey},
+ axis lines=left,
+ axis line style={draw=gpplight,line width=0.5pt},
+ tick style={draw=gpplight},
+ ymajorgrids=true,
+ grid style={draw=gpplight,line width=0.3pt},
+ nodes near coords,
+ nodes near coords style={font=\bfseries\small,text=gppink},
+ enlarge x limits=0.45,
+]
+\addplot[fill=gppaccent,draw=none] coordinates {(A,#1) (B,#2)};
+\draw[dashed,gppgrey,line width=0.7pt]
+ ({rel axis cs:0,0}|-{axis cs:A,#3}) -- ({rel axis cs:1,0}|-{axis cs:A,#3})
+ node[pos=0.13,above,font=\scriptsize\itshape,text=gppgrey]{expected under $H_0$ = #3};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+}
+
+% ---------- title page --------------------------------------------------
+% \gpptitlepage{MASTHEAD LEFT}{DATE}{Title}{Subtitle}{Author block}
+\newcommand{\gpptitlepage}[5]{%
+\begin{titlepage}
+\thispagestyle{empty}
+\noindent\gppmasthead{#1}{#2}
+\vspace{-2pt}\gppaccentrule
+\vspace{2.2cm}
+
+\noindent{\fontsize{30}{34}\selectfont\bfseries\scshape\color{gppink}#3\par}
+\vspace{0.7cm}
+\noindent{\Large\itshape\color{gppgrey}#4\par}
+\vspace{2.4cm}
+\noindent#5
+\vfill
+}
+\newcommand{\gppendtitle}{\end{titlepage}}
+
+\endinput
