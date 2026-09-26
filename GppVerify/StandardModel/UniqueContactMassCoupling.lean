@@ -83,7 +83,7 @@ theorem exchangeSymmetric_offdiag_iff (b c : ℂ) :
     unfold ExchangeSymmetric at h
     have h01 := congrArg (fun M : Matrix (Fin 2) (Fin 2) ℂ => M 0 1) h
     simpa [general2, gamma0Reduced, exchangeMatrix,
-      Matrix.mul_apply, Fin.sum_univ_two] using h01
+      Matrix.mul_apply, Fin.sum_univ_two] using h01.symm
   · intro hbc
     subst c
     unfold ExchangeSymmetric
@@ -112,10 +112,11 @@ theorem unique_chiralityMixing_exchangeSymmetric
   have hbc := (exchangeSymmetric_offdiag_iff b c).1 hEx
   subst c
   refine ⟨b, ?_, ?_⟩
-  · rw [scalar_exchange_eq_general]
+  · show general2 0 b b 0 = b • exchangeMatrix
+    rw [scalar_exchange_eq_general]
   · intro mu hmu
     have h01 := congrArg (fun M : Matrix (Fin 2) (Fin 2) ℂ => M 0 1) hmu
-    simpa [general2, exchangeMatrix] using h01
+    simpa [general2, exchangeMatrix] using h01.symm
 
 /-- Conversely every scalar multiple of exchange has both defining structural properties. -/
 theorem scalar_exchange_has_mass_symmetries (mu : ℂ) :

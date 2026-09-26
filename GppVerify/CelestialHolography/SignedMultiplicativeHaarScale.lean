@@ -42,7 +42,7 @@ def signMul (a b : Bool) : Bool := xor a b
 /-- Signed scale reconstructed from sign and magnitude. -/
 def signedScale (t : Bool) (rho : ℝ) : ℝ := signVal t * rho
 
-/-- Boolean multiplication maps exactly to multiplication of +/-1 signs. -/
+/-- Boolean multiplication maps exactly to multiplication of ±1 signs. -/
 theorem signVal_mul (a b : Bool) :
     signVal (signMul a b) = signVal a * signVal b := by
   cases a <;> cases b <;> norm_num [signVal, signMul]
@@ -64,7 +64,7 @@ theorem signedScale_mul (a b : Bool) (rho sigma : ℝ) :
   ring
 
 /-- Inversion preserves the orientation bit and inverts only the magnitude. -/
-theorem signedScale_inv (t : Bool) (rho : ℝ) (hrho : rho ≠ 0) :
+theorem signedScale_inv (t : Bool) (rho : ℝ) :
     (signedScale t rho)⁻¹ = signedScale t rho⁻¹ := by
   simp [signedScale, mul_inv_rev, signVal_inv t]
   ring
@@ -75,7 +75,7 @@ theorem signedScale_flip_sign (t : Bool) (rho : ℝ) :
   cases t <;> simp [signedScale, signVal]
 
 /-- Positive-magnitude inversion and orientation reversal commute. -/
-theorem sign_flip_commutes_scale_inversion (t : Bool) (rho : ℝ) (hrho : rho ≠ 0) :
+theorem sign_flip_commutes_scale_inversion (t : Bool) (rho : ℝ) :
     signedScale (!t) rho⁻¹ = - signedScale t rho⁻¹ := by
   exact signedScale_flip_sign t rho⁻¹
 
@@ -83,7 +83,7 @@ theorem sign_flip_commutes_scale_inversion (t : Bool) (rho : ℝ) (hrho : rho �
 def orientationCharacter (t : Bool) : ℝ := signVal t
 
 /-- Haar/Mellin inversion does not alter the finite orientation character. -/
-theorem inversion_preserves_orientationCharacter (t : Bool) (rho : ℝ) :
+theorem inversion_preserves_orientationCharacter (t : Bool) :
     orientationCharacter t = orientationCharacter t := rfl
 
 end GppSignedMultiplicativeHaarScale

@@ -92,10 +92,11 @@ theorem spinTwoPi_eq_neg_one :
 /-- A `4pi` spin rotation closes. -/
 theorem spinFourPi_eq_one :
     spinRotationX (4 * Real.pi) = (1 : Matrix (Fin 2) (Fin 2) ℂ) := by
+  have h4 : (4 * (Real.pi : ℂ) / 2) = 2 * Real.pi := by ring
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
       [spinRotationX, restEvolutionPhase, betaRest, Matrix.one_apply,
-       Real.cos_two_pi, Real.sin_two_pi]
+       Real.cos_two_pi, Real.sin_two_pi, h4, Complex.cos_two_pi, Complex.sin_two_pi]
 
 end GppComptonSpinRotationLock

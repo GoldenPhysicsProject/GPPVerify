@@ -19,7 +19,7 @@ physical identification, because the two 2-component carriers have different mea
   time-reversal-even rest Hamiltonian.
 
 On the contact chiral-energy carrier, `J` anticommutes with `beta`.  Therefore the
-antiunitary `J C` exchanges the +/- beta/rest-frequency branches.  For nonzero rest-energy
+antiunitary `J C` exchanges the ± beta/rest-frequency branches.  For nonzero rest-energy
 scale this cannot simultaneously be a symmetry commuting with `H_rest`.
 
 This is an important negative result: the project's time-orientation sign must not be
@@ -62,7 +62,7 @@ theorem contact_core_rest_invariance_forces_zero (mu : ℂ)
   have h00 := congrArg (fun M : Matrix (Fin 2) (Fin 2) ℂ => M 0 1) hInv
   norm_num [contactWeylMatrix_explicit, betaRest,
     Matrix.mul_apply, Fin.sum_univ_two] at h00 ⊢
-  linarith
+  exact self_eq_neg.mp h00.symm
 
 /-- Therefore the beta character is best read here as a chiral/frequency exchange character,
 not yet as the physical Wigner-time orientation bit. -/
