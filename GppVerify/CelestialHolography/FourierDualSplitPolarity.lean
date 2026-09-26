@@ -31,6 +31,9 @@ not an epsilon-only or conformally canonical identification `V* ≅ V`.
 
 namespace GppFourierDualSplitPolarity
 
+noncomputable section
+
+
 open GppTwistorAnnihilatorIncidence
 open GppIncidenceKernelGoogly
 open GppFourierSliceSupportGeometry
@@ -45,8 +48,8 @@ def splitDualLineVector (a b c d t u : ℝ) : V4 :=
   (t*a + u*b, t*c + u*d, t, u)
 
 /-- Coordinate scaling on four-vectors. -/
-def scaleV4 (λ : ℝ) (x : V4) : V4 :=
-  (λ*x.1, λ*x.2.1, λ*x.2.2.1, λ*x.2.2.2)
+def scaleV4 (lam : ℝ) (x : V4) : V4 :=
+  (lam*x.1, lam*x.2.1, lam*x.2.2.1, lam*x.2.2.2)
 
 /-- The chosen split metric identification sends an ordinary annihilator covector to
 minus the corresponding split-orthogonal vector. -/
@@ -125,4 +128,6 @@ theorem splitSharp_diagonal_determinant_factor :
     (1 : ℝ) * 1 * (-1) * (-1) = 1 := by
   norm_num
 
+
+end
 end GppFourierDualSplitPolarity

@@ -35,6 +35,9 @@ symmetry algebra that such a reconstruction should realize.
 
 namespace GppGooglyGaugeSpinLiftCapstone
 
+noncomputable section
+
+
 open GppGaugeSpinCPTLift
 open GppWeylQuarticNullReconstruction
 
@@ -62,7 +65,7 @@ theorem fullXi_flips_time (x : FullLiftLabel) :
 theorem fullXi_swaps_weyl (x : FullLiftLabel) :
     (fullXi x).weyl.left = x.weyl.right ∧
     (fullXi x).weyl.right = x.weyl.left := by
-  rfl
+  exact ⟨rfl, rfl⟩
 
 /-- Two lifts restore the Weyl pair and leave only the diagonal spin-center sign upstairs. -/
 theorem fullXi_sq (x : FullLiftLabel) :
@@ -74,7 +77,7 @@ theorem fullXi_sq (x : FullLiftLabel) :
     | mk c sL sR =>
       cases W with
       | mk WL WR =>
-        rfl
+        simp [fullXi, Xi, exchangeWeyl]
 
 /-- Four lifts close on the complete finite carrier. -/
 theorem fullXi_four (x : FullLiftLabel) :
@@ -85,7 +88,7 @@ theorem fullXi_four (x : FullLiftLabel) :
     | mk c sL sR =>
       cases W with
       | mk WL WR =>
-        rfl
+        simp [fullXi, Xi, exchangeWeyl]
 
 /-- The complete symmetry package. -/
 theorem fullXi_capstone (x : FullLiftLabel) :
@@ -100,4 +103,6 @@ theorem fullXi_capstone (x : FullLiftLabel) :
     (fullXi_swaps_weyl x).2,
     fullXi_four x⟩
 
+
+end
 end GppGooglyGaugeSpinLiftCapstone

@@ -66,32 +66,32 @@ def negContact (u : ContactVector) : ContactVector :=
 theorem quarter2_sq (x : ContactHalf) :
     quarter2 (quarter2 x) = (-x.1,-x.2) := by
   rcases x with ⟨x0,x1⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- The common quarter-turn is a complex structure on the real contact screen. -/
 theorem commonJ_sq (u : ContactVector) :
     commonJ (commonJ u) = negContact u := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- The relative/chiral quarter-turn is also a complex structure. -/
 theorem relativeJ_sq (u : ContactVector) :
     relativeJ (relativeJ u) = negContact u := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  simp [quarter2, commonJ, relativeJ, negContact]
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- The two complex structures commute. -/
 theorem commonJ_relativeJ_commute (u : ContactVector) :
     commonJ (relativeJ u) = relativeJ (commonJ u) := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- Main factorization: the contact para-complex chirality involution is the product of the
 two commuting complex structures. -/
 theorem commonJ_relativeJ_eq_paraJ (u : ContactVector) :
     commonJ (relativeJ u) = paraJ u := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  simp [quarter2, commonJ, relativeJ, negContact]
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- The opposite ordering gives the same para-complex involution. -/
 theorem relativeJ_commonJ_eq_paraJ (u : ContactVector) :
@@ -107,31 +107,31 @@ theorem reverse_both_preserves_para_product (u : ContactVector) :
 theorem exchange_commutes_commonJ (u : ContactVector) :
     exchangeHalves (commonJ u) = commonJ (exchangeHalves u) := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  rfl
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- Factor exchange reverses the relative complex orientation. -/
 theorem exchange_anticommutes_relativeJ (u : ContactVector) :
     exchangeHalves (relativeJ u) = negContact (relativeJ (exchangeHalves u)) := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  simp [quarter2, commonJ, relativeJ, negContact]
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- Consequently factor exchange flips the para-complex/chirality sign. -/
 theorem exchange_anticommutes_paraJ (u : ContactVector) :
     exchangeHalves (paraJ u) = negContact (paraJ (exchangeHalves u)) := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  simp [quarter2, commonJ, relativeJ, negContact]
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- Pure left directions are `+1` eigenvectors of the relative product `K=paraJ`. -/
 theorem left_is_para_plus (x : ContactHalf) :
     paraJ (x,(0,0)) = (x,(0,0)) := by
   rcases x with ⟨x0,x1⟩
-  simp [quarter2, commonJ, relativeJ, negContact]
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- Pure right directions are `-1` eigenvectors of the same relative product. -/
 theorem right_is_para_minus (y : ContactHalf) :
     paraJ ((0,0),y) = negContact ((0,0),y) := by
   rcases y with ⟨y0,y1⟩
-  simp [quarter2, commonJ, relativeJ, negContact]
+  simp [quarter2, commonJ, relativeJ, negContact, paraJ, exchangeHalves]
 
 /-- Exchange swaps the two eigenbundles of the relative-orientation involution. -/
 theorem exchange_left_to_right (x : ContactHalf) :

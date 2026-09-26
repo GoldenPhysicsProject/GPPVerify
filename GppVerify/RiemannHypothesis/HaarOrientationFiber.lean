@@ -56,10 +56,11 @@ theorem Iq_explicit : Iq = !![0,-1;1,0] := by
     norm_num [Iq, refl, freqSign, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem chi_explicit : chi = !![0,Complex.I;-Complex.I,0] := by
+  unfold chi
   rw [Iq_explicit]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    norm_num [chi, It, Matrix.mul_apply, Fin.sum_univ_two]
+    norm_num [It, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem Iq_sq_neg_one : Iq * Iq = -(1 : M2C) := by
   rw [Iq_explicit]
@@ -102,14 +103,14 @@ theorem critD_anticommutes_Iq (v : V2C) :
   rw [Iq_explicit]
   ext i
   fin_cases i <;>
-    simp [critD, Matrix.mulVec, Fin.sum_univ_two]
+    simp [critD, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail, mul_comm]
 
 /-- `D` also reverses the scalar complex structure because it is anti-linear. -/
 theorem critD_anticommutes_It (v : V2C) :
     critD (It *ᵥ v) = -(It *ᵥ critD v) := by
   ext i
   fin_cases i <;>
-    simp [critD, It, Matrix.mulVec, Fin.sum_univ_two]
+    simp [critD, It, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail, mul_comm]
 
 /-- Their relative grading is D-even. -/
 theorem critD_commutes_chi (v : V2C) :
@@ -117,7 +118,7 @@ theorem critD_commutes_chi (v : V2C) :
   rw [chi_explicit]
   ext i
   fin_cases i <;>
-    simp [critD, Matrix.mulVec, Fin.sum_univ_two]
+    simp [critD, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail, mul_comm]
 
 /-- Generic multiplication-reflection boundary block on the ±t pair. -/
 def reflectedBoundary (fplus fminus : ℂ) : M2C :=
@@ -167,7 +168,7 @@ theorem real_even_boundary_sq (x : ℝ) :
     reflectedBoundary (x : ℂ) (x : ℂ) *
       reflectedBoundary (x : ℂ) (x : ℂ) =
       ((x : ℂ)^2) • (1 : M2C) := by
-  rw [reflectedBoundary_sq]
+  rw [reflectedBoundary_sq, sq]
 
 end GppHaarOrientationFiber
 

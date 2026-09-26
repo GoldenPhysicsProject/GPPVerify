@@ -54,6 +54,9 @@ little-group weight algebra; it does not construct the curved holomorphic line b
 
 namespace GppAmbidextrousPenroseRayQuotients
 
+noncomputable section
+
+
 open Complex
 open GppPenroseLocalTwistorEinsteinQuotient
 open GppPenroseLocalTwistorRayGaugeCovariance
@@ -284,4 +287,6 @@ theorem ambidextrous_ray_quotient_package
   · exact left_tautological_tensor_is_littleGroup_neutral a ha lambda uL
   · exact right_tautological_tensor_is_littleGroup_neutral a ha lambdatilde uR
 
+
+end
 end GppAmbidextrousPenroseRayQuotients

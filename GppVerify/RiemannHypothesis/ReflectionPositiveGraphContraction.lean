@@ -49,7 +49,7 @@ theorem graph_nonneg_of_norm_le_one
   apply mul_nonneg
   · exact Complex.normSq_nonneg z
   · have hsq : Complex.normSq c ≤ 1 := by
-      rw [Complex.sq_norm]
+      rw [← Complex.sq_norm]
       nlinarith [norm_nonneg c]
     linarith
 
@@ -58,9 +58,7 @@ theorem norm_le_one_of_graph_nonneg
     (c : ℂ) (hpos : ∀ z : ℂ, 0 ≤ graphJForm c z) :
     ‖c‖ ≤ 1 := by
   have h1 := hpos 1
-  rw [graphJForm_factor] at h1
-  norm_num [Complex.normSq_apply] at h1
-  rw [← Complex.sq_norm] at h1
+  rw [graphJForm_factor, Complex.normSq_one, one_mul, ← Complex.sq_norm] at h1
   nlinarith [norm_nonneg c]
 
 /--
@@ -77,15 +75,15 @@ theorem graph_nonnegative_iff_contractive (c : ℂ) :
 theorem negative_witness_of_one_lt_norm
     (c : ℂ) (hc : 1 < ‖c‖) :
     graphJForm c 1 < 0 := by
-  rw [graphJForm_factor]
-  norm_num [Complex.normSq_apply]
-  rw [← Complex.sq_norm]
+  rw [graphJForm_factor, Complex.normSq_one, one_mul, ← Complex.sq_norm]
   nlinarith [norm_nonneg c]
 
 end GppReflectionPositiveGraph
 
 
 /-! ## Abstract normed-space graph theorem -/
+
+namespace GppReflectionPositiveGraph
 
 section AbstractGraph
 
@@ -136,6 +134,8 @@ theorem abstract_negative_graph_witness_iff
     nlinarith
 
 end AbstractGraph
+
+end GppReflectionPositiveGraph
 
 #print axioms GppReflectionPositiveGraph.graphJForm_factor
 #print axioms GppReflectionPositiveGraph.abstract_graph_nonnegative_iff_contractive

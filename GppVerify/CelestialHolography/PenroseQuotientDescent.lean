@@ -41,7 +41,7 @@ def bulkOfClass (P : A →ₗ[K] BulkA) : PenroseQuotient P → BulkA :=
     exact hab)
 
 @[simp] theorem bulkOfClass_mk (P : A →ₗ[K] BulkA) (a : A) :
-    bulkOfClass P (Quotient.mk' a) = P a := rfl
+    bulkOfClass P (Quotient.mk (penroseSetoid P) a) = P a := rfl
 
 /-- The quotient removes exactly and only Penrose-invisible ambiguity: the induced
 bulk map is injective. -/
@@ -73,7 +73,8 @@ def descend
 @[simp] theorem descend_mk
     (PA : A →ₗ[K] BulkA) (PB : B →ₗ[K] BulkB) (F : A → B)
     (hF : RespectsPenrose PA PB F) (a : A) :
-    descend PA PB F hF (Quotient.mk' a) = Quotient.mk' (F a) := rfl
+    descend PA PB F hF (Quotient.mk (penroseSetoid PA) a) =
+      Quotient.mk (penroseSetoid PB) (F a) := rfl
 
 /-- If the transform intertwines the Penrose maps through a bulk map `R`, then it
 automatically respects Penrose equivalence and hence descends to physical classes. -/
@@ -94,7 +95,7 @@ theorem descended_intertwiner
     (hinter : ∀ a, PB (F a) = R (PA a)) (a : A) :
     bulkOfClass PB
       (descend PA PB F (respectsPenrose_of_intertwiner PA PB F R hinter)
-        (Quotient.mk' a))
+        (Quotient.mk (penroseSetoid PA) a))
       = R (PA a) := by
   simp [hinter]
 

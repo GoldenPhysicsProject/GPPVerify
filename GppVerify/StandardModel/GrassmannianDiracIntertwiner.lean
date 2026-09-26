@@ -65,7 +65,7 @@ theorem Phi_mul_R_eq_one :
 theorem Phi_surjective (y : Fin 2 → ℂ) :
     ∃ x : Fin 4 → ℂ, Phi *ᵥ x = y := by
   refine ⟨R *ᵥ y, ?_⟩
-  rw [← Matrix.mulVec_mulVec, Phi_mul_R_eq_one]
+  rw [Matrix.mulVec_mulVec, Phi_mul_R_eq_one]
   simp
 
 /-! ## Canonical two-plane decomposition -/
@@ -137,14 +137,14 @@ theorem Phi_vNegI :
 /-- The image of the `+i` mode is a `+i` eigenvector of the Dirac quarter-cycle. -/
 theorem Uq_Phi_vI :
     Uq *ᵥ (Phi *ᵥ vI) = Complex.I • (Phi *ᵥ vI) := by
-  rw [← Matrix.mulVec_mulVec, ← Phi_mul_L_eq_Uq_mul_Phi,
-      Matrix.mulVec_mulVec, L_vI, Matrix.mulVec_smul]
+  rw [Matrix.mulVec_mulVec, ← Phi_mul_L_eq_Uq_mul_Phi,
+      ← Matrix.mulVec_mulVec, L_vI, Matrix.mulVec_smul]
 
 /-- The image of the `-i` mode is a `-i` eigenvector of the Dirac quarter-cycle. -/
 theorem Uq_Phi_vNegI :
     Uq *ᵥ (Phi *ᵥ vNegI) = (-Complex.I) • (Phi *ᵥ vNegI) := by
-  rw [← Matrix.mulVec_mulVec, ← Phi_mul_L_eq_Uq_mul_Phi,
-      Matrix.mulVec_mulVec, L_vNegI, Matrix.mulVec_smul]
+  rw [Matrix.mulVec_mulVec, ← Phi_mul_L_eq_Uq_mul_Phi,
+      ← Matrix.mulVec_mulVec, L_vNegI, Matrix.mulVec_smul]
 
 /-- Applying two Dirac quarter-cycles gives the spinorial deck sign `-1`. -/
 theorem Uq_sq_eq_neg_one :

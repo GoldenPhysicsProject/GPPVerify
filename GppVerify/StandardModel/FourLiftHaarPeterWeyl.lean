@@ -142,7 +142,9 @@ theorem one_chi_independent
   have h0 := h (false,false)
   have h1 := h (false,true)
   norm_num [oneChar,chiChar,qChar,tChar,sgnBit] at h0 h1
-  constructor <;> linear_combination h0 + h1
+  constructor
+  · linear_combination (h0 + h1) / 2
+  · linear_combination (h0 - h1) / 2
 
 /--
 Capstone: the finite Haar-fixed sector is exactly the two-character sector {1,χ}.
@@ -163,15 +165,15 @@ theorem finite_haar_fixed_sector_capstone
         intro x
         have ha := hab x
         have hc := hcd x
-        linear_combination ha - hc
-      exact sub_eq_zero.mp (one_chi_independent (a-cd.1) (b-cd.2) hzero).1
+        linear_combination hc - ha
+      exact (sub_eq_zero.mp (one_chi_independent (a-cd.1) (b-cd.2) hzero).1).symm
     · have hzero : ∀ x,
           (a - cd.1) * oneChar x + (b - cd.2) * chiChar x = 0 := by
         intro x
         have ha := hab x
         have hc := hcd x
-        linear_combination ha - hc
-      exact sub_eq_zero.mp (one_chi_independent (a-cd.1) (b-cd.2) hzero).2
+        linear_combination hc - ha
+      exact (sub_eq_zero.mp (one_chi_independent (a-cd.1) (b-cd.2) hzero).2).symm
 
 
 end

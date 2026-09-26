@@ -32,7 +32,6 @@ def negM2 (M : M2) : M2 :=
 theorem det2_negM2 (M : M2) : det2 (negM2 M) = det2 M := by
   rcases M with ⟨a,b,c,d⟩
   simp [negM2, det2]
-  ring
 
 /-- Therefore an `SL(2)` matrix and its central negative are both determinant one. -/
 theorem negM2_det_one_of_det_one (M : M2) (hM : det2 M = 1) :
@@ -55,7 +54,6 @@ theorem projectiveRatio_negState (u : RayState) (hu : u.2 ≠ 0) :
     projectiveRatio (negState u) = projectiveRatio u := by
   rcases u with ⟨x,y⟩
   simp [projectiveRatio, negState] at hu ⊢
-  field_simp [hu]
 
 /-- Hence `M` and `-M` induce the same projective action wherever the transformed second
 component is nonzero. -/
