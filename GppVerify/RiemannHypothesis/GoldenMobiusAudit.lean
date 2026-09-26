@@ -242,6 +242,21 @@ theorem criticalCayley_shadow_eq_inv
   field_simp [h1s, hs1']
   ring
 
+/--
+A golden fixed-point equation imposed directly on the actual critical Cayley coordinate
+does **not** encode the critical line.  It is equivalent to s²+s-1=0.
+
+This is an exact no-go against identifying the bare Cayley coordinate itself with the
+physical golden fixed point.
+-/
+theorem criticalCayley_golden_quadratic_iff
+    {s : ℂ} (hs0 : s ≠ 0) :
+    (criticalCayley s) ^ 2 = criticalCayley s + 1 ↔
+      s ^ 2 + s - 1 = 0 := by
+  unfold criticalCayley
+  field_simp [hs0]
+  ring
+
 /-- The projective half-density coordinate w=exp(2π(s-1/2)). -/
 def projectiveShadowCoord (s : ℂ) : ℂ :=
   Complex.exp ((2 * Real.pi : ℂ) * (s - (1 / 2 : ℂ)))
