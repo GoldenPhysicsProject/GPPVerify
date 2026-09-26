@@ -130,6 +130,85 @@ theorem schur_duality_golden
   field_simp [hx]
   ring
 
+
+/-! ## Actual shadow coordinates from the RH program -/
+
+/-- The scalar Cayley coordinate used in the RH program: β(s)=(s-1)/s. -/
+def criticalCayley (s : ℂ) : ℂ := (s - 1) / s
+
+/-- Functional-equation shadow acts by reciprocal inversion on the actual Cayley
+coordinate β(s). -/
+theorem criticalCayley_shadow_eq_inv
+    {s : ℂ} (hs0 : s ≠ 0) (hs1 : s ≠ 1) :
+    criticalCayley (1 - s) = (criticalCayley s)⁻¹ := by
+  have h1s : (1 : ℂ) - s ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
+  have hs1' : s - 1 ≠ 0 := sub_ne_zero.mpr hs1
+  unfold criticalCayley
+  field_simp [hs0, h1s, hs1']
+  ring
+
+/-- The projective half-density coordinate w=exp(2π(s-1/2)). -/
+def projectiveShadowCoord (s : ℂ) : ℂ :=
+  Complex.exp ((2 * Real.pi : ℂ) * (s - (1 / 2 : ℂ)))
+
+/-- Shadow is reciprocal inversion also in the exponential projective coordinate. -/
+theorem projectiveShadowCoord_shadow_eq_inv (s : ℂ) :
+    projectiveShadowCoord (1 - s) = (projectiveShadowCoord s)⁻¹ := by
+  unfold projectiveShadowCoord
+  have hcenter : (1 - s) - (1 / 2 : ℂ) = -(s - (1 / 2 : ℂ)) := by ring
+  rw [hcenter, mul_neg, Complex.exp_neg]
+
+/-- Generic completed shadow quotient; the BPY/de Branges phase has this form. -/
+def shadowQuotient (F : ℂ → ℂ) (a z : ℂ) : ℂ :=
+  F (a + z) / F (a - z)
+
+/-- Reversing the spectral variable swaps numerator and denominator, hence inverts the
+completed shadow quotient. -/
+theorem shadowQuotient_neg_eq_inv
+    (F : ℂ → ℂ) (a z : ℂ)
+    (hp : F (a + z) ≠ 0) (hm : F (a - z) ≠ 0) :
+    shadowQuotient F a (-z) = (shadowQuotient F a z)⁻¹ := by
+  unfold shadowQuotient
+  have hplus : a - -z = a + z := by ring
+  have hminus : a + -z = a - z := by ring
+  rw [hplus, hminus]
+  field_simp [hp, hm]
+
+/-! ## The natural Schur/Herglotz coordinate kills the naive golden closure -/
+
+/-- Cayley/Herglotz impedance associated with a Schur variable q. -/
+def impedance (q : ℂ) : ℂ := (1 + q) / (1 - q)
+
+/-- Reciprocal shadow q↦q⁻¹ becomes a sign flip of the impedance.  Thus reciprocal
+shadow and additive rank-one feedback do not act as the golden map in the same natural
+linearized coordinate. -/
+theorem impedance_inv_eq_neg
+    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q ≠ 1) :
+    impedance q⁻¹ = -impedance q := by
+  unfold impedance
+  have hqi1 : q⁻¹ ≠ 1 := by
+    intro h
+    have : q = 1 := by
+      apply inv_injective.mp
+      simpa using h
+    exact hq1 this
+  field_simp [hq0, hq1, hqi1]
+  ring
+
+/-- If the rank-one update is unit translation in the impedance coordinate, then
+shadow followed by that update is the affine reflection m↦1-m, not golden dynamics. -/
+theorem translated_shadow_impedance
+    {q : ℂ} (hq0 : q ≠ 0) (hq1 : q ≠ 1) :
+    impedance q⁻¹ + 1 = 1 - impedance q := by
+  rw [impedance_inv_eq_neg hq0 hq1]
+  ring
+
+/-- The resulting affine reflection is an involution. -/
+theorem affineReflection_involution (m : ℂ) :
+    1 - (1 - m) = m := by
+  ring
+
+
 end
 
 end GppGoldenMobius
