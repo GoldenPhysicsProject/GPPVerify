@@ -536,20 +536,46 @@ novel link, the cut geometry itself.
   well-scoped next step.
 \end{theorem}
 
-\paragraph{Logistic Fourier pair (item 3 of 3, honestly parked).}
+\paragraph{Logistic Fourier pair (item 3 of 3).}
 \texttt{Modular\_Thermality\_of\_the\_Celestial\_Spectral\_Weight.tex} and
 \texttt{Spectral\_Weight\_from\_Principal\_Series.tex} also characterize $P(\lambda)$ (already
 proved in closed hyperbolic form, $P(\lambda)=\pi\lambda/\sinh(\pi\lambda)$, in
-Theorem~\ref{thm:planck-form}) as the Fourier transform of the logistic density
-$1/(4\cosh^2(x/2))$: $P(\lambda) = \int_{-\infty}^{\infty} e^{i\lambda x}/(4\cosh^2(x/2))\,\dd
-x$. Genuinely attempted and confirmed out of reach this session, not merely assumed hard:
-direct grep of the pinned Mathlib source (\texttt{v4.19.0}) shows zero occurrences of
-\texttt{sech} anywhere, no closed-form Fourier transform outside the Gaussian family, no
-Poisson-kernel $1/(1{+}x^2)$ closed form, and no residue-calculus API (the textbook proof is
-a residue sum over $\mathrm{sech}^2$'s double poles at $x=i\pi(2k{+}1)$). Parked as
-\texttt{GppLogisticFourierPair.logistic\_fourier\_pair : True := trivial} in
-\texttt{QuantumGravity/LogisticFourierPair.lean}, per this repository's own documented
-convention for honestly recording an open gap --- not an axiom, not a \texttt{sorry}.
+Theorem~\ref{thm:planck-form}) as the Fourier transform of the logistic density.
+
+\begin{theorem}[Logistic Fourier pair]
+  \label{thm:logistic-fourier-pair}
+  \lean{GppLogisticFourierPair.logistic_fourier_pair}
+  \leanok
+  \uses{thm:planck-form}
+  For every real $\lambda \neq 0$,
+  \[
+    \int_{-\infty}^{\infty} \frac{e^{i\lambda x}}{4\cosh^2(x/2)}\,\dd x
+    \;=\; \frac{\pi\lambda}{\sinh(\pi\lambda)} .
+  \]
+\end{theorem}
+
+\begin{theorem}[Logistic density has unit mass]
+  \label{thm:logistic-density}
+  \lean{GppLogisticFourierPair.integral_logistic_density}
+  \leanok
+  $\int_{-\infty}^{\infty} \frac{\dd x}{4\cosh^2(x/2)} = 1$, matching $P(0)=1$.
+\end{theorem}
+
+\textbf{The route.} Substituting the logistic distribution function $u = 1/(1+e^{-x})$ turns
+the weight into $\dd u$ and the character $e^{i\lambda x}$ into $u^{i\lambda}(1-u)^{-i\lambda}$,
+so the integral is the Beta integral $B(1+i\lambda,\,1-i\lambda) = \Gamma(1+i\lambda)\,
+\Gamma(1-i\lambda)$, and Euler's reflection formula gives $\pi\lambda/\sinh(\pi\lambda)$.
+
+\textbf{Why this sat as a stub.} From 2026-08 until 2026-09-26 this was a \texttt{True}-stub
+recorded as out of reach: the pinned Mathlib (\texttt{v4.19.0}) had no \texttt{sech}, no
+closed-form Fourier transform beyond the Gaussian, no Poisson-kernel pair, and no residue
+calculus. That census was accurate --- \texttt{sech} still has zero occurrences at
+\texttt{v4.33.1} --- but it listed the tools of the textbook residue proof without asking
+whether another proof needed them. The Beta route uses none of them.
+
+\textbf{What this does not give.} The First Moment Theorem needs the \emph{inverse} direction,
+$\frac{1}{2\pi}\int P(\lambda)\cos(\lambda y)\,\dd\lambda = 1/(4\cosh^2(y/2))$. That follows by
+Fourier inversion and is not proved here.
 
 \section{Dispersion Reconstruction: the Mechanism Behind \texorpdfstring{\texttt{sewing\_identity}}{sewing\_identity}}
 \label{sec:dispersion-reconstruction}
@@ -4131,7 +4157,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{156} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{155} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth

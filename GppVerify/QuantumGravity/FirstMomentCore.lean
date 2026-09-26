@@ -170,14 +170,21 @@ stated here in prose only; neither is a Lean `axiom`, a `sorry`, or a `True`-val
 neither can be mistaken for something the repository has proved.
 
 **Input 1 — the Fourier pair.**
-`(1/2π) ∫_ℝ (πλ/sinh(πλ)) cos(λy) dλ = 1/(4 cosh²(y/2))` for all real `y`, equivalently
-`∫_ℝ e^{iλx}/(4 cosh²(x/2)) dx = πλ/sinh(πλ)`. Used twice: at `y = 0` it gives
-`(1/2π)∫_ℝ P = 1/4`, hence the `(1/4)ψ(1/2)` term; at `y = t/2` inside the exchanged double
-integral it produces the remainder integrand proved above. Mathlib has the Gaussian Fourier
-transform but nothing for `sech²`; the classical routes are a residue sum over the poles of
-`1/sinh`, or the geometric expansion `1/sinh(πλ) = 2 Σ_{k≥0} e^{-(2k+1)πλ}` followed by the
-partial-fraction expansion of `sech²`. The second route is elementary and self-contained and
-is the one to try first.
+`(1/2π) ∫_ℝ (πλ/sinh(πλ)) cos(λy) dλ = 1/(4 cosh²(y/2))` for all real `y`. Used twice: at
+`y = 0` it gives `(1/2π)∫_ℝ P = 1/4`, hence the `(1/4)ψ(1/2)` term; at `y = t/2` inside the
+exchanged double integral it produces the remainder integrand proved above.
+
+The *forward* transform `∫_ℝ e^{iλx}/(4 cosh²(x/2)) dx = πλ/sinh(πλ)` is now proved, as
+`GppLogisticFourierPair.logistic_fourier_pair` (2026-09-26), by the logistic substitution to a
+Beta integral and Euler reflection. What input 1 needs is the *inverse* direction, which follows
+from it by Fourier inversion — both sides are integrable and continuous — and that step is still
+open here. The earlier text of this paragraph called the two directions "equivalent" as though that
+settled it, and recommended a geometric-series-plus-partial-fractions route; the Beta route is
+shorter than either route that was listed, and neither was needed.
+
+This paragraph was also written without citing `LogisticFourierPair.lean`, which held the forward
+pair as a registered stub at the time — a duplicated gap statement, recorded in
+`CLAUDE_CODE_CORRECTIONS.md`.
 
 **Input 2 — Gauss's integral representation of `ψ`.**
 `ψ(s) = -γ + ∫₀^∞ (e^{-t} - e^{-st})/(1 - e^{-t}) dt` for `Re s > 0`, and the consequence
