@@ -142,8 +142,13 @@ theorem scaledWeyl_kreinFeedback_eq_oddSchur (m : ℂ) :
   · unfold scaledWeylResponse kreinFeedback oddSchurC
     have hden2 : 2 * m + 2 ≠ 0 := by
       intro h
-      apply hden
-      linear_combination h / 2
+      have hfac : (2 : ℂ) * (1 + m) = 0 := by
+        calc
+          (2 : ℂ) * (1 + m) = 2 * m + 2 := by ring
+          _ = 0 := h
+      have hm1 : 1 + m = 0 :=
+        (mul_eq_zero.mp hfac).resolve_left (by norm_num)
+      exact hden hm1
     field_simp [hden, hden2]
     ring
 
