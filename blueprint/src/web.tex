@@ -3871,6 +3871,40 @@ Source: mass\_orientation\_coupling\_v3.tex
   \item \lean{GppMassOrientationCoupling.gamma0_double_commutator}\leanok\ \texttt{gamma0\_double\_commutator}
 \end{itemize}
 
+\subsection{OrientationCliffordCore}
+Source: Which\_Way\_Is\_Forward\_v26.tex (22 September 2026), section ``One time axis, two
+microscopic orientations, and the four-lift carrier'' and its subsections, with the paper's
+own check script \texttt{verify\_which\_way\_is\_forward.py}. Every statement is a finite
+identity over $\mathbb Z[i]$, checked by the kernel. The physical readings are the paper's
+dictionary and are not formalized.
+
+\noindent\textbf{Proved (17 declarations):}
+\begin{itemize}
+  \item \lean{GppOrientationCliffordCore.clifford_relations}\leanok\ \texttt{clifford\_relations}
+  \item \lean{GppOrientationCliffordCore.orientation_algebra}\leanok\ \texttt{orientation\_algebra}
+  \item \lean{GppOrientationCliffordCore.chi_eq_neg_volume}\leanok\ \texttt{chi\_eq\_neg\_volume}
+  \item \lean{GppOrientationCliffordCore.rt_eq_rq_mul_c}\leanok\ \texttt{rt\_eq\_rq\_mul\_c}
+  \item \lean{GppOrientationCliffordCore.intertwiner_unitary}\leanok\ \texttt{intertwiner\_unitary}
+  \item \lean{GppOrientationCliffordCore.intertwiner}\leanok\ \texttt{intertwiner}
+  \item \lean{GppOrientationCliffordCore.fourLift_algebra}\leanok\ \texttt{fourLift\_algebra}
+  \item \lean{GppOrientationCliffordCore.carrier_nodup}\leanok\ \texttt{carrier\_nodup}
+  \item \lean{GppOrientationCliffordCore.closure_eq_carrier}\leanok\ \texttt{closure\_eq\_carrier}
+  \item \lean{GppOrientationCliffordCore.carrier_order_counts}\leanok\ \texttt{carrier\_order\_counts}
+  \item \lean{GppOrientationCliffordCore.carrier_center}\leanok\ \texttt{carrier\_center}
+  \item \lean{GppOrientationCliffordCore.D_not_central}\leanok\ \texttt{D\_not\_central}
+  \item \lean{GppOrientationCliffordCore.fixD_iff}\leanok\ \texttt{fixD\_iff}
+  \item \lean{GppOrientationCliffordCore.halfFlips_agree_on_fixD}\leanok\ \texttt{halfFlips\_agree\_on\_fixD}
+  \item \lean{GppOrientationCliffordCore.Rt_reverses_chi}\leanok\ \texttt{Rt\_reverses\_chi}
+  \item \lean{GppOrientationCliffordCore.minkowski_clifford_relations}\leanok\ \texttt{minkowski\_clifford\_relations}
+  \item \lean{GppOrientationCliffordCore.minkowski_realization}\leanok\ \texttt{minkowski\_realization}
+\end{itemize}
+
+\noindent\textbf{Not formalized here.} The coordinate-blade signature scan, the
+$\mathrm{Spin}(6,2)$/$\mathrm{Spin}(10,2)$ charge-conjugation signs, and the determinant cover.
+The paper's Lean inventory cites 34 modules on the unmerged branch
+\texttt{codex/orientation-mass-time-formalization} (draft PR \#173); as of 2026-09-26 that
+branch does not build, and none of its modules states the intertwiner or the order-16 carrier.
+
 \subsection{KappaShadow3}
 Source: kappa\_paper.tex, "Fermion Mass Hierarchy from Division Algebra
 

@@ -136,6 +136,13 @@ import GppVerify
 #print axioms GppPositiveDefiniteGNS.apply_eq_inner_rep
 #print axioms GppPositiveDefiniteGNS.gns_from_positive_definite
 #print axioms GppPositiveDefiniteGNS.gns_from_positive_type
+#print axioms GppOrientationCliffordCore.clifford_relations
+#print axioms GppOrientationCliffordCore.intertwiner_unitary
+#print axioms GppOrientationCliffordCore.intertwiner
+#print axioms GppOrientationCliffordCore.closure_eq_carrier
+#print axioms GppOrientationCliffordCore.carrier_center
+#print axioms GppOrientationCliffordCore.halfFlips_agree_on_fixD
+#print axioms GppOrientationCliffordCore.minkowski_realization
 #print axioms GppAllLoopFiniteness.finiteness
 
 -- Thread QG-Blackbody round 2 (KinematicZetaBridge, SinhWeierstrassProduct) — from
