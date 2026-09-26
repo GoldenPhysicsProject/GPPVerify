@@ -1,0 +1,26 @@
+name: Build recovered GPPVerify on Lean 4.33.1
+
+on:
+  push:
+    branches:
+      - codex/rh-boundary-closure
+    paths:
+      - .github/workflows/build-recovered-lean433.yml
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/rh-boundary-closure
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+      - name: Confirm Lean 4.33.1
+        run: |
+          test "$(cat lean-toolchain)" = "leanprover/lean4:v4.33.1"
+          lean --version
+      - name: Build
+        run: lake build
