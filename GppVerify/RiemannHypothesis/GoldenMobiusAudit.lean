@@ -425,7 +425,7 @@ theorem weyl_feedback_reflection_fixed_iff (q : ℂ) :
   rw [weyl_feedback_after_reflection]
   constructor
   · intro h
-    linear_combination (1 / 2 : ℂ) * h
+    linear_combination -h
   · intro h
     rw [h]
     norm_num
@@ -520,7 +520,11 @@ def goldenMapSq (x : ℝ) : ℝ := (2 * x + 1) / (x + 1)
 theorem goldenMap_comp_self
     {x : ℝ} (hx0 : x ≠ 0) (hx1 : x ≠ -1) :
     goldenMap (goldenMap x) = goldenMapSq x := by
-  have hxp1 : x + 1 ≠ 0 := by linarith
+  have hxp1 : x + 1 ≠ 0 := by
+    intro h
+    apply hx1
+    have hxneg : x = -1 := by linarith
+    exact hxneg
   unfold goldenMap goldenMapSq
   field_simp [hx0, hxp1]
   ring
