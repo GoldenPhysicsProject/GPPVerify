@@ -123,7 +123,10 @@ BLUEPRINT_COUNT = re.compile(r"There are currently \\textbf\{(\d+)\} such stubs\
 # fires when they are character-for-character identical. `2 - (2 - Δ) = Δ` is not caught
 # (nor should it be -- it is a real theorem); `2 - Δ = 2 - Δ` is.
 RELATIONS = (" = ", " ↔ ", " ≤ ", " ⊆ ", " ⊇ ", " ≥ ")
-ASCRIPTION = re.compile(r"^\((.*?)\s*:\s*[^:()]*\)$")
+# The type part excludes `,` so that a parenthesized binder `(∀ x : H, P x)` is not
+# mistaken for an ascription `(x : H)` -- that collapsed `(∀ x : H, A) ↔ (∀ x : H, B)`
+# to `∀ x ↔ ∀ x` and flagged real equivalences (found 2026-09-26).
+ASCRIPTION = re.compile(r"^\((.*?)\s*:\s*[^:(),]*\)$")
 
 
 def _split_top(s: str, tok: str):
