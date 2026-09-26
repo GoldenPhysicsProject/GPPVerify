@@ -80,13 +80,14 @@ theorem chiralScale_commutes_nonzero_mass_iff
     have h01 := congrArg (fun M : Matrix (Fin 2) (Fin 2) ℂ => M 0 1) h
     simp [chiralScale, massMatrix, betaRest, Matrix.mul_apply,
       Fin.sum_univ_two] at h01
-    exact (mul_left_cancel₀ hE h01)
+    rw [mul_comm r E] at h01
+    exact mul_left_cancel₀ hE h01
   · intro hrs
     subst s
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp (config := { decide := true })
-        [chiralScale, massMatrix, betaRest, Matrix.mul_apply, Fin.sum_univ_two]
+        [chiralScale, massMatrix, betaRest, Matrix.mul_apply, Fin.sum_univ_two, mul_comm]
 
 /-- In contrast, the massless zero coupling commutes with every independent left/right scale. -/
 theorem massless_commutes_all_chiralScales (r s : ℂ) :

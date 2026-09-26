@@ -34,6 +34,8 @@ Wigner time reversal carries an additional spin factor with the familiar possibl
 
 namespace GppChargedCARChargeTimeComplexDictionary
 
+open Matrix
+
 open scoped ComplexConjugate
 open GppChargedCARComplexOrientationNoGo
 

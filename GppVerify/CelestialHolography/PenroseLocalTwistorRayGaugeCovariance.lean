@@ -61,7 +61,7 @@ theorem einsteinRayGenerator_scale_equivariant
 
 /-- Coordinate form of the quotient state under the little-group rescaling
 `lambda -> a lambda`, `lambdatilde -> a^{-1} lambdatilde`. -/
-def littleGroupState (a : ℂ) (ha : a ≠ 0) (u : EinsteinRayState) : EinsteinRayState :=
+def littleGroupState (a : ℂ) (_ha : a ≠ 0) (u : EinsteinRayState) : EinsteinRayState :=
   scaleEinsteinState (a⁻¹) u
 
 /-- Little-group covariance of the induced ray dynamics. -/

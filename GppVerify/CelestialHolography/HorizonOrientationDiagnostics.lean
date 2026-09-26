@@ -89,9 +89,9 @@ horizon) and `V=0` (past white-hole horizon).  Their intersection is the bifurca
 surface (with the angular `S^2` factors suppressed here).
 -/
 
-def onFutureHorizon (U V : ℝ) : Prop := U = 0
+def onFutureHorizon (U _V : ℝ) : Prop := U = 0
 
-def onPastHorizon (U V : ℝ) : Prop := V = 0
+def onPastHorizon (_U V : ℝ) : Prop := V = 0
 
 def onBifurcationSurface (U V : ℝ) : Prop := U = 0 ∧ V = 0
 

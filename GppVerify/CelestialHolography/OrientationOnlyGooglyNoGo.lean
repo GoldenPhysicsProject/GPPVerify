@@ -50,7 +50,7 @@ theorem pure_minus_stays_pure
 obtained by merely reversing the orientation of the purely chiral field `(a,0)`. -/
 theorem generic_pair_not_from_reversing_pure_plus
     {A : Type*} [Zero A]
-    (a b : A) (ha : a ≠ 0) (hb : b ≠ 0) :
+    (a b : A) (ha : a ≠ 0) :
     reverseOrientation (ChiralPair.mk a 0) ≠ ChiralPair.mk a b := by
   intro h
   have hp := congrArg ChiralPair.plus h
@@ -77,6 +77,6 @@ theorem orientation_orbit_of_pure_excludes_generic
     ChiralPair.mk a b ≠ reverseOrientation (ChiralPair.mk a 0) := by
   constructor
   · exact (generic_pair_not_pure_plus a b hb).symm
-  · exact (generic_pair_not_from_reversing_pure_plus a b ha hb).symm
+  · exact (generic_pair_not_from_reversing_pure_plus a b ha).symm
 
 end GppOrientationOnlyGooglyNoGo

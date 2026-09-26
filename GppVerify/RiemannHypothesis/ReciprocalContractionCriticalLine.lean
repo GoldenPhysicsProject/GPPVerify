@@ -24,7 +24,7 @@ open GppRiemannCayleyUnitarityBoundary
 
 /-- Two positive reciprocal real numbers which are both at most one must both equal one. -/
 theorem reciprocal_pair_eq_one
-    {x y : ℝ} (hx : 0 < x) (hy : 0 < y)
+    {x y : ℝ} (hx : 0 < x)
     (hxy : x * y = 1) (hx1 : x ≤ 1) (hy1 : y ≤ 1) :
     x = 1 ∧ y = 1 := by
   have hone_le_x : 1 ≤ x := by

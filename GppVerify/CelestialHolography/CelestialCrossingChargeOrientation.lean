@@ -25,11 +25,14 @@ programme:
 Thus the relation `(q,t)~(-q,-t)` is not merely a cosmological thought experiment; it is the
 same sign algebra already built into crossing between incoming particles and outgoing
 antiparticles.  What is new to investigate is whether this crossing/orientation quotient is
-also the correct global geometric language for CPT-paired matter and the I-/I+ celestial
+also the correct global geometric language for CPT-paired matter and the past/future null-infinity celestial
 state spaces.
 -/
 
 namespace GppCelestialCrossingChargeOrientation
+
+noncomputable section
+
 
 open GppLorentzHermitianDiscreteGeometry
 open GppCelestialOrientedNullDoubleCover
@@ -63,7 +66,6 @@ theorem crossing_massShell_invariant (L : OrientedChargedLeg) :
     minkowskiQ (crossLeg L).p = minkowskiQ L.p := by
   rcases L with ⟨q,⟨t,x,y,z⟩⟩
   simp [crossLeg, scaleR4, minkowskiQ]
-  ring
 
 /-- The two momentum representatives have the same projective celestial direction. -/
 theorem crossing_same_projective_direction (L : OrientedChargedLeg) :
@@ -80,4 +82,6 @@ theorem crossing_diagonal_package (L : OrientedChargedLeg) :
     minkowskiQ (crossLeg L).p = minkowskiQ L.p := by
   exact ⟨rfl,rfl,crossing_current_invariant L,crossing_massShell_invariant L⟩
 
+
+end
 end GppCelestialCrossingChargeOrientation

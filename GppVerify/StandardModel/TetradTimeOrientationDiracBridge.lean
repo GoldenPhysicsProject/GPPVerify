@@ -60,8 +60,9 @@ theorem orientedRestGenerator_sq (nu m : ℝ) :
     orientedRestGenerator nu m * orientedRestGenerator nu m =
       (((nu*m)^2 : ℝ) : ℂ) • (1 : M2C) := by
   unfold orientedRestGenerator
-  rw [smul_mul, mul_smul, smul_smul, betaRest_sq_eq_one]
-  norm_num
+  rw [smul_mul_assoc, mul_smul_comm, smul_smul, betaRest_sq_eq_one]
+  congr 1
+  push_cast
   ring
 
 /-- Opposite tetrad lifts have exactly the same squared Dirac generator. -/

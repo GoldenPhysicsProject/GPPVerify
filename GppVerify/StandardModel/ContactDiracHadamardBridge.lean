@@ -51,6 +51,8 @@ with electric charge conjugation or with Wigner time reversal.
 
 namespace GppContactDiracHadamardBridge
 
+open Matrix
+
 open GppAmbitwistorContactNeutralCone
 open GppAmbitwistorBicomplexOrientation
 open GppRelativePhaseDiracEnergy
@@ -68,6 +70,8 @@ theorem halfToComplex_quarter2 (x : ContactHalf) :
     halfToComplex (quarter2 x) = Complex.I * halfToComplex x := by
   rcases x with ⟨x0,x1⟩
   simp [halfToComplex, quarter2, Complex.I_mul_I]
+  ring_nf
+  rw [Complex.I_sq]
   ring
 
 /-- Matrix of the contact relative complex structure after complexification. -/
@@ -96,7 +100,7 @@ theorem contactToDirac_relativeJ (u : ContactVector) :
   fin_cases i <;>
     simp [contactToDirac, relativeJ, relativeJMatrix, halfToComplex,
       quarter2, Matrix.mulVec, Fin.sum_univ_two, Complex.I_mul_I] <;>
-    ring
+    ring_nf <;> simp [Complex.I_sq] <;> ring
 
 /-- The para-complex left/right sign becomes the Pauli matrix `sigma3`. -/
 theorem contactToDirac_paraJ (u : ContactVector) :
@@ -140,10 +144,9 @@ theorem scaled_hadamard_sq_one
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
       [hadamardRaw, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
-    ring_nf at ha ⊢ <;>
-    nlinarith [ha]
+    first | linear_combination ha | ring
 
-/-- Contact `+/-` basis vectors become equal left/right combinations under the raw
+/-- Contact `±` basis vectors become equal left/right combinations under the raw
 Hadamard transform.  The normalized versions therefore carry coefficients `1/sqrt(2)`. -/
 def contactPlusBasis : Fin 2 → ℂ := ![1,0]
 def contactMinusBasis : Fin 2 → ℂ := ![0,1]

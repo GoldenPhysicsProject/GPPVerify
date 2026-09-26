@@ -49,6 +49,9 @@ selection is assumed here.
 
 namespace GppAmbitwistorGoldenPGL2Bridge
 
+noncomputable section
+
+
 open GppFlatInfinityCelestialFactorization
 open GppFlatNullWeylFiberGeometry
 open GppEinsteinNullRaySL2Geometry
@@ -138,7 +141,9 @@ theorem goldenRayStep_square_trace_three :
 `phi^2 + phi^(-2) = 3`. -/
 theorem phiSq_reciprocal_trace_three :
     Real.goldenRatio^2 + Real.goldenRatio⁻¹^2 = 3 := by
-  rw [Real.inv_goldenRatio]
-  nlinarith [Real.goldenRatio_sq]
+  rw [Real.inv_goldenRatio, neg_sq, Real.goldenRatio_sq, Real.goldenConj_sq]
+  linarith [Real.goldenRatio_add_goldenConj]
 
+
+end
 end GppAmbitwistorGoldenPGL2Bridge

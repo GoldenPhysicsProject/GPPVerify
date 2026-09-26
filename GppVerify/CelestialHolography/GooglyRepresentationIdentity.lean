@@ -118,11 +118,11 @@ nonlinear googly problem. -/
 theorem same_state_fourier_orientation_excludes_generic
     {Mom Tw TwDual A : Type*} [Zero A]
     (B : CommonMomentumBridge Mom Tw TwDual (ChiralPair A))
-    (z : Tw) (a b : A) (ha : a ≠ 0) (hb : b ≠ 0)
+    (z : Tw) (a b : A) (ha : a ≠ 0)
     (hsrc : B.penrose z = ChiralPair.mk a 0) :
     reverseOrientation (B.dualPenrose (B.fullFourier z)) ≠ ChiralPair.mk a b := by
   rw [GppSplitPenroseFourierSquare.penrose_fullFourier_commutes B z, hsrc]
-  exact generic_pair_not_from_reversing_pure_plus a b ha hb
+  exact generic_pair_not_from_reversing_pure_plus a b ha
 
 /-- The two representatives available from a pure source through identity/Fourier and
 orientation relabeling exclude every genuinely two-chiral field. -/

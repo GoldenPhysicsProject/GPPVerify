@@ -76,7 +76,8 @@ theorem reciprocalSwap_conjugates_sturm_to_inverse
       scaleSturmState (-U) (sturmGenerator U⁻¹ u) := by
   rcases u with ⟨x,p⟩
   have hUi : U * U⁻¹ = 1 := mul_inv_cancel₀ hU
-  simp [reciprocalSwap, sturmGenerator, scaleSturmState, hUi]
+  simp [reciprocalSwap, sturmGenerator, scaleSturmState]
+  field_simp
 
 /-- The reciprocal potential operation is involutive at the parameter level. -/
 theorem reciprocal_potential_involution (U : ℂ) :
