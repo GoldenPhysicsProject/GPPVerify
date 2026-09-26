@@ -130,4 +130,6 @@ theorem schur_duality_golden
   field_simp [hx]
   ring
 
+end
+
 end GppGoldenMobius
