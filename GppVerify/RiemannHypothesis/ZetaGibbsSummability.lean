@@ -120,6 +120,66 @@ theorem gibbs_logEnergy_variance_nonneg {β : ℝ} (hβ : 1 < β) :
   · exact summable_gibbsWeight_mul_logEnergy_sq hβ
   · exact gibbsWeight_tsum_pos hβ
 
+
+-- Ported from GPPVerify2 (2026-09-27)
+
+/-- The cubed real logarithm coefficient sequence has the same convergence boundary. -/
+lemma real_log_cube_abscissa_le_one :
+    LSeries.abscissaOfAbsConv (fun n : ℕ => (((Real.log n) ^ 3 : ℝ) : ℂ)) ≤ 1 := by
+  calc
+    LSeries.abscissaOfAbsConv (fun n : ℕ => (((Real.log n) ^ 3 : ℝ) : ℂ)) =
+        LSeries.abscissaOfAbsConv
+          (LSeries.logMul
+            (LSeries.logMul
+              (LSeries.logMul (fun _ : ℕ => (1 : ℂ))))) := by
+      apply LSeries.abscissaOfAbsConv_congr
+      intro n hn
+      simp [LSeries.logMul, Complex.natCast_log, pow_succ, pow_two] <;> ring
+    _ = LSeries.abscissaOfAbsConv (fun _ : ℕ => (1 : ℂ)) := by
+      simp
+    _ ≤ 1 := constant_abscissa_le_one
+
+/-- The fourth real logarithm coefficient sequence has the same convergence boundary. -/
+lemma real_log_fourth_abscissa_le_one :
+    LSeries.abscissaOfAbsConv (fun n : ℕ => (((Real.log n) ^ 4 : ℝ) : ℂ)) ≤ 1 := by
+  calc
+    LSeries.abscissaOfAbsConv (fun n : ℕ => (((Real.log n) ^ 4 : ℝ) : ℂ)) =
+        LSeries.abscissaOfAbsConv
+          (LSeries.logMul
+            (LSeries.logMul
+              (LSeries.logMul
+                (LSeries.logMul (fun _ : ℕ => (1 : ℂ)))))) := by
+      apply LSeries.abscissaOfAbsConv_congr
+      intro n hn
+      simp [LSeries.logMul, Complex.natCast_log, pow_succ, pow_two] <;> ring
+    _ = LSeries.abscissaOfAbsConv (fun _ : ℕ => (1 : ℂ)) := by
+      simp
+    _ ≤ 1 := constant_abscissa_le_one
+
+/-- The third log-energy moment is absolutely summable for `β > 1`. -/
+theorem summable_gibbsWeight_mul_logEnergy_cube {β : ℝ} (hβ : 1 < β) :
+    Summable (fun n => gibbsWeight β n * (logEnergy n) ^ 3) := by
+  have habs : LSeries.abscissaOfAbsConv (fun n : ℕ => (((Real.log n) ^ 3 : ℝ) : ℂ)) < β :=
+    real_log_cube_abscissa_le_one.trans_lt (by exact_mod_cast hβ)
+  have hbase : Summable (fun n : ℕ => (Real.log n) ^ 3 / (n : ℝ) ^ β) :=
+    LSeries.summable_real_of_abscissaOfAbsConv_lt habs
+  have hshift := (_root_.summable_nat_add_iff 1).2 hbase
+  exact hshift.congr (fun n => by
+    simp [gibbsWeight, logEnergy, Nat.cast_add, Nat.cast_one, div_eq_mul_inv,
+      mul_comm])
+
+/-- The fourth log-energy moment is absolutely summable for `β > 1`. -/
+theorem summable_gibbsWeight_mul_logEnergy_fourth {β : ℝ} (hβ : 1 < β) :
+    Summable (fun n => gibbsWeight β n * (logEnergy n) ^ 4) := by
+  have habs : LSeries.abscissaOfAbsConv (fun n : ℕ => (((Real.log n) ^ 4 : ℝ) : ℂ)) < β :=
+    real_log_fourth_abscissa_le_one.trans_lt (by exact_mod_cast hβ)
+  have hbase : Summable (fun n : ℕ => (Real.log n) ^ 4 / (n : ℝ) ^ β) :=
+    LSeries.summable_real_of_abscissaOfAbsConv_lt habs
+  have hshift := (_root_.summable_nat_add_iff 1).2 hbase
+  exact hshift.congr (fun n => by
+    simp [gibbsWeight, logEnergy, Nat.cast_add, Nat.cast_one, div_eq_mul_inv,
+      mul_comm])
+
 end GppZetaGibbsSummability
 
 #print axioms GppZetaGibbsSummability.summable_gibbsWeight

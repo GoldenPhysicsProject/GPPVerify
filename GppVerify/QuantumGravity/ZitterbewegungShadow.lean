@@ -68,4 +68,14 @@ theorem mirror_dm_bound {Ωdm Ωb Ωmirror : ℝ} (hb : 0 < Ωb)
   rw [le_div_iff₀ hb]
   linarith
 
+
+-- Ported from GPPVerify2 (2026-09-27)
+
+/-- The exact Compton/zitter scale-frequency invariant:
+    `(ℏ/(2mc)) · (2mc²/ℏ) = c`. -/
+theorem zitter_scale_frequency_product {m c hbar : ℝ}
+    (hm : m ≠ 0) (hc : c ≠ 0) (hh : hbar ≠ 0) :
+    (hbar / (2 * m * c)) * (2 * m * c ^ 2 / hbar) = c := by
+  field_simp
+
 end GppZitter
