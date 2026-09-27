@@ -42,7 +42,7 @@ theorem channel_inner_intervalIntegrable
       (fun x3 : ℝ => (S * x1) ^ (-δ : ℝ) * x3 ^ (-δ : ℝ)) volume 0 L :=
     hbase.const_mul ((S * x1) ^ (-δ : ℝ))
   apply hscaled.congr
-  filter_upwards [ae_restrict_mem measurableSet_uIoc] with x3 hx3
+  intro x3 hx3
   rw [Set.uIoc_of_le hL] at hx3
   exact (channel_neg_rpow_factor hS hx1 hx3.1.le).symm
 

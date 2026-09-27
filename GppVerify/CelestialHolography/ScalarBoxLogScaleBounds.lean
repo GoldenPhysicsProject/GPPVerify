@@ -154,7 +154,7 @@ theorem abs_log_endpointA_le
     _ ≤ (289 / 192 : ℝ) * (η + (33 / 64 : ℝ) * δ) := by
       have hconst : (0 : ℝ) ≤ 289 / 192 := by norm_num
       have := mul_le_mul_of_nonneg_left hdefle hconst
-      convert this using 1 <;> ring
+      linarith
 
 /-- Full logarithmic replacement for `a`: if `a=(m/U)A`, the difference between
 `log a` and the natural scale `log(m/U)` is exactly controlled by `log A`. -/

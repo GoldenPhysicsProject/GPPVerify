@@ -45,7 +45,7 @@ theorem abs_sq_sub_sq_le_of_abs_sub_le
       |x + y| = |(x - y) + 2 * y| := by
         congr 1
         ring
-      _ ≤ |x - y| + |2 * y| := abs_add _ _
+      _ ≤ |x - y| + |2 * y| := abs_add_le _ _
       _ = |x - y| + 2 * |y| := by
         rw [abs_mul]
         norm_num

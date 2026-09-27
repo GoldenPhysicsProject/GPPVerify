@@ -38,15 +38,14 @@ theorem hasDerivAt_radialAntideriv (k : ℕ) (x : ℝ) :
         (1 - Real.tanh x ^ 2) ^ (k + 1) := by
     rw [show Real.cosh x ^ (2 * (k + 1)) =
       (Real.cosh x ^ 2) ^ (k + 1) by rw [pow_mul]]
-    rw [one_div_pow, one_div_cosh_sq]
-  convert hpow using 1
-  · rfl
-  · rw [hcosh, div_eq_mul_inv]
-    have hk : ((k : ℝ) + 1) ≠ 0 := by positivity
-    rw [pow_succ]
-    push_cast
-    field_simp [hk]
-    ring
+    rw [← one_div_pow, one_div_cosh_sq]
+  refine hpow.congr_deriv ?_
+  rw [div_eq_mul_one_div (Real.tanh x) (Real.cosh x ^ (2 * (k + 1))), hcosh]
+  simp only [Pi.sub_apply, Pi.pow_apply, Nat.add_sub_cancel]
+  have hk : ((k : ℝ) + 1) ≠ 0 := by positivity
+  push_cast
+  field_simp
+  ring
 
 /-- Threshold value. -/
 theorem radialAntideriv_zero (k : ℕ) :
@@ -60,7 +59,9 @@ theorem tendsto_radialAntideriv_zero (k : ℕ) :
   have hsub := (tendsto_const_nhds (x := (1 : ℝ)) (f := (atTop : Filter ℝ))).sub hsq
   have hpow := hsub.pow (k + 1)
   have h := hpow.const_mul (-(1 / (2 * ((k : ℝ) + 1))))
-  simpa [radialAntideriv] using h
+  have h0 : -(1 / (2 * ((k : ℝ) + 1))) * (1 - 1) ^ (k + 1) = 0 := by simp
+  rw [h0] at h
+  exact h
 
 /-- The universal shell is nonnegative above threshold. -/
 theorem radialShell_nonneg (k : ℕ) {x : ℝ} (hx : 0 < x) :
@@ -104,9 +105,10 @@ theorem integral_radialShell_tail (k : ℕ) {R : ℝ} (hR : 0 ≤ R) :
         (1 - Real.tanh R ^ 2) ^ (k + 1) := by
     rw [show Real.cosh R ^ (2 * (k + 1)) =
       (Real.cosh R ^ 2) ^ (k + 1) by rw [pow_mul]]
-    rw [one_div_pow, one_div_cosh_sq]
-  rw [hcosh]
-  simpa [radialAntideriv] using h
+    rw [← one_div_pow, one_div_cosh_sq]
+  rw [hcosh, h]
+  unfold radialAntideriv
+  ring
 
 /-- After multiplying by the normalization `2r`, the survival function is exactly
 `sech(R)^(2r)`. This is the formal content of the uniformizing variable
@@ -123,12 +125,16 @@ theorem normalized_radialTail (k : ℕ) {R : ℝ} (hR : 0 ≤ R) :
 /-- The `mu^2` bubble shell is the `k=0` member. -/
 theorem integral_mu2_shell :
     ∫ x in Set.Ioi (0 : ℝ), Real.tanh x / Real.cosh x ^ 2 = 1 / 2 := by
-  simpa using integral_radialShell 0
+  show ∫ x in Set.Ioi (0 : ℝ), Real.tanh x / Real.cosh x ^ (2 * (0 + 1)) = 1 / 2
+  rw [integral_radialShell 0]
+  norm_num
 
 /-- The `mu^8` all-plus-gravity box shell is the `k=3` member. -/
 theorem integral_mu8_shell :
     ∫ x in Set.Ioi (0 : ℝ), Real.tanh x / Real.cosh x ^ 8 = 1 / 8 := by
-  simpa using integral_radialShell 3
+  show ∫ x in Set.Ioi (0 : ℝ), Real.tanh x / Real.cosh x ^ (2 * (3 + 1)) = 1 / 8
+  rw [integral_radialShell 3]
+  norm_num
 
 end GppMu2kRadial
 

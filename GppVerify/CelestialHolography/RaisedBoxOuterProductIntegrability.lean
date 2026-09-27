@@ -114,7 +114,7 @@ theorem fullSimplexFiber_integrable
       filter_upwards [] with x3
       dsimp [f]
       rw [fullSimplexIndicator_section_factor ε S T hx1mem]
-      simp [Set.indicator_of_not_mem hx2]
+      simp [Set.indicator_of_notMem hx2]
   have hNormEq :
       (fun x2 : ℝ => ∫ x3 : ℝ, ‖f (x2, x3)‖) =
         (Set.Icc (0 : ℝ) (1 - x1)).indicator
@@ -139,12 +139,12 @@ theorem fullSimplexFiber_integrable
               integrand ε S T x1 x2 x3 :=
           strip_section_norm_integral_eq_intervalIntegral
             hS hT hx1 hx2.1 hx12
-    · rw [Set.indicator_of_not_mem hx2]
+    · rw [Set.indicator_of_notMem hx2]
       have hfzero : ∀ x3 : ℝ, f (x2, x3) = 0 := by
         intro x3
         dsimp [f]
         rw [fullSimplexIndicator_section_factor ε S T hx1mem]
-        simp [Set.indicator_of_not_mem hx2]
+        simp [Set.indicator_of_notMem hx2]
       simp_rw [hfzero]
       simp
   have hNormInt : Integrable (fun x2 : ℝ => ∫ x3 : ℝ, ‖f (x2, x3)‖) := by

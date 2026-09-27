@@ -30,7 +30,7 @@ theorem abs_core_remainder_le
         (1 / 2 : ℝ) * da ^ 2 + E| ≤
       A * (|ellS| + |ellU|) + |ellU| * B + A * B +
         (1 / 2 : ℝ) * A ^ 2 + Estar := by
-  have hsum : |ellS + ellU| ≤ |ellS| + |ellU| := abs_add _ _
+  have hsum : |ellS + ellU| ≤ |ellS| + |ellU| := abs_add_le _ _
   have h1 : |da * (ellS + ellU)| ≤ A * (|ellS| + |ellU|) := by
     rw [abs_mul]
     calc
@@ -59,19 +59,19 @@ theorem abs_core_remainder_le
             |da * (ellS + ellU) + ellU * dt + da * dt +
                 (1 / 2 : ℝ) * da ^ 2 + E| ≤
               |da * (ellS + ellU) + ellU * dt + da * dt +
-                (1 / 2 : ℝ) * da ^ 2| + |E| := abs_add _ _
+                (1 / 2 : ℝ) * da ^ 2| + |E| := abs_add_le _ _
             _ ≤ (|da * (ellS + ellU) + ellU * dt + da * dt| +
                   |(1 / 2 : ℝ) * da ^ 2|) + |E| := by
                   gcongr
-                  exact abs_add _ _
+                  exact abs_add_le _ _
             _ ≤ ((|da * (ellS + ellU) + ellU * dt| + |da * dt|) +
                   |(1 / 2 : ℝ) * da ^ 2|) + |E| := by
                   gcongr
-                  exact abs_add _ _
+                  exact abs_add_le _ _
             _ ≤ (((|da * (ellS + ellU)| + |ellU * dt|) + |da * dt|) +
                   |(1 / 2 : ℝ) * da ^ 2|) + |E| := by
                   gcongr
-                  exact abs_add _ _
+                  exact abs_add_le _ _
             _ = |da * (ellS + ellU)| + |ellU * dt| + |da * dt| +
                   |(1 / 2 : ℝ) * da ^ 2| + |E| := by ring
     _ ≤ A * (|ellS| + |ellU|) + |ellU| * B + A * B +

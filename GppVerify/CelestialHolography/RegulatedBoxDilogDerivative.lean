@@ -24,8 +24,9 @@ theorem hasDerivAt_li2_term (n : ℕ) (x : ℝ) :
       (fun y : ℝ => y ^ (n + 1) / (((n + 1 : ℕ) : ℝ) ^ 2))
       (x ^ n / ((n + 1 : ℕ) : ℝ)) x := by
   have hn : (((n + 1 : ℕ) : ℝ)) ≠ 0 := by positivity
-  convert (hasDerivAt_pow (n + 1) x).div_const ((((n + 1 : ℕ) : ℝ) ^ 2)) using 1 <;>
-    field_simp [hn] <;> ring
+  refine ((hasDerivAt_pow (n + 1) x).div_const ((((n + 1 : ℕ) : ℝ) ^ 2))).congr_deriv ?_
+  rw [Nat.add_sub_cancel]
+  field_simp
 
 /-- The defining local dilogarithm series has the classical real derivative on `0<x<1`. -/
 theorem hasDerivAt_li2Series

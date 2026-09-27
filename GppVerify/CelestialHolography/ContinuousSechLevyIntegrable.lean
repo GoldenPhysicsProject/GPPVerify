@@ -26,7 +26,7 @@ open GppContinuousSechLevyTail
 open GppContinuousSechLevyMeasurability
 
 /-- A positive constant used for a global Cauchy-kernel majorant. -/
-def cauchyMajorantConstant (c t : ℝ) : ℝ :=
+noncomputable def cauchyMajorantConstant (c t : ℝ) : ℝ :=
   2 * c * (t ^ 2 + 4) / Real.pi
 
 /-- The compensated kernel is globally dominated by an integrable Cauchy kernel. -/
@@ -51,7 +51,7 @@ theorem compensatedLevyKernel_le_cauchy {c t x : ℝ} (hc : 0 ≤ c) :
         cauchyMajorantConstant c t / (1 + x ^ 2) := by
       exact div_le_div_of_nonneg_left hC hden hden_le
     calc
-      compensatedLevyKernel c t x ≤ c * t ^ 2 / (2 * Real.pi) := hk
+      compensatedLevyKernel c t x ≤ c * t ^ 2 / (2 * Real.pi) := by rw [mul_comm c]; exact hk
       _ ≤ cauchyMajorantConstant c t / 2 := hhalf
       _ ≤ cauchyMajorantConstant c t / (1 + x ^ 2) := hdiv
       _ = cauchyMajorantConstant c t * (1 + x ^ 2)⁻¹ := by
@@ -64,8 +64,7 @@ theorem compensatedLevyKernel_le_cauchy {c t x : ℝ} (hc : 0 ≤ c) :
     have hk := compensatedLevyKernel_le_inv_sq (c := c) (t := t) (x := x) hc hx0
     have hx2 : 1 ≤ |x| ^ 2 := by nlinarith [sq_nonneg |x|]
     have hden_le : 1 + x ^ 2 ≤ 2 * |x| ^ 2 := by
-      rw [sq_abs]
-      nlinarith
+      nlinarith [sq_abs x]
     have htailconst : 2 * c / Real.pi ≤ cauchyMajorantConstant c t / 2 := by
       unfold cauchyMajorantConstant
       have hpi : 0 < Real.pi := Real.pi_pos
@@ -105,9 +104,7 @@ theorem integrable_compensatedLevyKernel {c t : ℝ} (hc : 0 ≤ c) :
   have hC : 0 ≤ cauchyMajorantConstant c t := by
     unfold cauchyMajorantConstant
     positivity
-  have hinv : 0 ≤ (1 + x ^ 2)⁻¹ := by positivity
-  rw [Real.norm_eq_abs, abs_of_nonneg hk0, Real.norm_eq_abs,
-    abs_of_nonneg (mul_nonneg hC hinv)]
+  rw [Real.norm_eq_abs, abs_of_nonneg hk0]
   exact hmaj
 
 end GppContinuousSechLevyIntegrable

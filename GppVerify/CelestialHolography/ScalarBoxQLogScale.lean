@@ -43,7 +43,6 @@ theorem q_eq_rho_mul_endpointQ
     ring
   rw [hqexact, hρ, hQ, hRsq]
   field_simp [hU.ne', hU4.ne', hRplus.ne']
-  ring
 
 /-- On `8/9 <= R <= 1`, the normalization factor is in `[256/289,1]`. -/
 theorem endpointQ_mem
@@ -110,7 +109,7 @@ theorem abs_log_endpointQ_le
       exact div_le_div_of_nonneg_right hdef (by norm_num)
     _ ≤ (81 / 32 : ℝ) * ρ := by
       have hm := mul_le_mul_of_nonneg_left hqρ (by norm_num : (0 : ℝ) ≤ 289 / 128)
-      convert hm using 1 <;> ring
+      linarith
 
 /-- Final physical logarithmic scale estimate for `q`. -/
 theorem abs_log_q_le_abs_log_rho_add
@@ -131,7 +130,7 @@ theorem abs_log_q_le_abs_log_rho_add
   have hfac := q_eq_rho_mul_endpointQ hU hm.le hRlo hq hRsq hρ
   have hlogQ := abs_log_endpointQ_le hRlo hRhi hρ0 hq0 hqρ hq
   rw [hfac, Real.log_mul hρpos.ne' hQpos.ne']
-  exact (abs_add _ _).trans (add_le_add_left hlogQ _)
+  exact (abs_add_le _ _).trans (by gcongr)
 
 end GppScalarBoxQLogScale
 

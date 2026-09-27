@@ -46,7 +46,7 @@ theorem fullSimplexFiberIntegral_eq_nestedInner_of_physical_bounds
   by_cases hx2 : x2 ∈ Set.Icc (0 : ℝ) (1 - x1)
   · rw [Set.indicator_of_mem hx2, Set.indicator_of_mem hx2]
     exact stripInnerIntegral_eq_intervalIntegral ε S T x1 x2 hx2
-  · simp only [Set.indicator_of_not_mem hx2]
+  · simp only [Set.indicator_of_notMem hx2]
 
 /-- The same physical fiber is exactly the original nested `x2`/`x3` interval
 integral.  Both indicator layers introduced for product-measure arguments are

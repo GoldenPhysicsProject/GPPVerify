@@ -76,19 +76,22 @@ theorem rhoGamma_re_strict_local_max_iff
       (rhoGamma (k + 1) x).re < (rhoGamma k x).re) ↔
       ((k : ℝ) < 2 * x ^ 2 ∧ 2 * x ^ 2 < (k : ℝ) + 1) := by
   have hkm1 : k - 1 + 1 = k := Nat.sub_add_cancel hk
+  have hcast : ((k - 1 : ℕ) : ℝ) + 1 = (k : ℝ) := by
+    rw [Nat.cast_sub hk]
+    ring
   constructor
   · rintro ⟨hleft, hright⟩
     have hleft' := (rhoGamma_re_lt_succ_iff (k - 1) x).1 (by simpa [hkm1] using hleft)
     have hright' := (rhoGamma_succ_re_lt_iff k x).1 hright
     constructor
-    · norm_num at hleft' ⊢
-      simpa [hkm1] using hleft'
+    · rw [hcast] at hleft'
+      exact hleft'
     · exact hright'
   · rintro ⟨hleft, hright⟩
     constructor
     · have h := (rhoGamma_re_lt_succ_iff (k - 1) x).2 (by
-        norm_num
-        simpa [hkm1] using hleft)
+        rw [hcast]
+        exact hleft)
       simpa [hkm1] using h
     · exact (rhoGamma_succ_re_lt_iff k x).2 hright
 

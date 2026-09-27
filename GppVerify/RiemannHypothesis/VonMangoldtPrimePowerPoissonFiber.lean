@@ -43,9 +43,10 @@ theorem cosineSummand_primePower_eq_radial_mode
         ((((p : ℕ) : ℝ) ^ (-a)) : ℝ) ^ (k + 1) *
         Real.cos (((k + 1 : ℕ) : ℝ) * (t * Real.log (p : ℕ))) := by
   rw [cosineSummand_primePower p k a t]
-  rw [exp_primePower_damping_eq_rpow_nat p a (k + 1)]
+  have hdamp := exp_primePower_damping_eq_rpow_nat p a (k + 1)
+  push_cast at hdamp
+  rw [hdamp]
   congr 2
-  congr 1
   push_cast
   ring
 
@@ -74,8 +75,9 @@ theorem two_mul_primePower_inner_tsum_eq_WpA
     rw [← tsum_mul_left]
     apply tsum_congr
     intro k
-    simpa [r, θ] using
-      cosineSummand_primePower_eq_radial_mode p k a t
+    rw [cosineSummand_primePower_eq_radial_mode p k a t]
+    simp only [r, θ]
+    ring
   rw [hrewrite]
   calc
     2 * (Real.log (p : ℕ) *
@@ -105,9 +107,9 @@ The real logarithmic derivative is exactly the countable sum of local radial
 Poisson responses. No analytic continuation into the critical strip is used. -/
 theorem two_mul_neg_zeta_logDeriv_re_eq_tsum_WpA
     {a t : ℝ} (ha : 1 < a) :
-    2 * (-(Complex.deriv Complex.riemannZeta
+    2 * (-(deriv riemannZeta
       ((a : ℂ) + (t : ℂ) * Complex.I) /
-      Complex.riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re =
+      riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re =
       ∑' p : Nat.Primes, WpA ((p : ℕ) : ℝ) a t := by
   rw [neg_zeta_logDeriv_re_eq_iterated_primePower_tsum ha]
   rw [← tsum_mul_left]

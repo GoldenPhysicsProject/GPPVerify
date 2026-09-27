@@ -163,7 +163,7 @@ theorem abs_log_poleD3_le
     |Real.log (poleD3 R)| ≤ (1 - poleD3 R) / (17 / 18 : ℝ) := hlog
     _ ≤ (9 / 34 : ℝ) * δ := by
       have hm := mul_le_mul_of_nonneg_left hdef (by norm_num : (0 : ℝ) ≤ 18 / 17)
-      convert hm using 1 <;> ring
+      linarith
 
 /-- The lower factor `1-η` contributes at most `(4/3)η` on `η≤1/4`. -/
 theorem abs_log_one_sub_eta_le

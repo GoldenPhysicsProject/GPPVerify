@@ -40,8 +40,9 @@ theorem hasDerivAt_zetaFreeEnergy
     unfold zetaEntropy
     congr 1
     ring
+  refine hF.congr_deriv ?_
   rw [← hcoef]
-  simpa only [zetaFreeEnergy, neg_neg] using hF
+  simp only [id, neg_neg, Pi.neg_apply]
 
 /-- The ordinary derivative version of the same Legendre differential identity. -/
 theorem deriv_zetaFreeEnergy

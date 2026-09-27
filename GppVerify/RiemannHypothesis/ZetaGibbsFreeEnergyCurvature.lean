@@ -41,7 +41,7 @@ theorem hasDerivAt_freeEnergyBetaDerivative
   have hβ0 : β ≠ 0 := by linarith
   have hS := hasDerivAt_zetaEntropy hβ
   have hsq : HasDerivAt (fun y : ℝ => y ^ 2) (2 * β) β := by
-    simpa [id] using (hasDerivAt_id β).pow 2
+    simpa using hasDerivAt_pow 2 β
   have hquot := hS.div hsq (pow_ne_zero 2 hβ0)
   have hcoef :
       (entropyBetaDerivative β * β ^ 2 - zetaEntropy β * (2 * β)) /
@@ -49,9 +49,7 @@ theorem hasDerivAt_freeEnergyBetaDerivative
         -logEnergyVariance β / β - 2 * zetaEntropy β / β ^ 3 := by
     unfold entropyBetaDerivative
     field_simp [hβ0]
-    ring
-  rw [← hcoef]
-  simpa only [freeEnergyBetaDerivative] using hquot
+  exact hquot.congr_deriv hcoef
 
 /-- Ordinary derivative form of the free-energy curvature law. -/
 theorem deriv_freeEnergyBetaDerivative
@@ -69,7 +67,6 @@ theorem beta_cube_mul_deriv_freeEnergyBetaDerivative
   have hβ0 : β ≠ 0 := by linarith
   rw [deriv_freeEnergyBetaDerivative hβ]
   field_simp [hβ0]
-  ring
 
 /-- If the Gibbs entropy potential is nonnegative at `β`, then the free-energy
 curvature is strictly negative there.  Strictness comes from the already-proved
@@ -100,7 +97,8 @@ theorem deriv_freeEnergyBetaDerivative_neg
 curvature was computed above. -/
 theorem deriv_zetaFreeEnergy_eq_freeEnergyBetaDerivative
     {β : ℝ} (hβ : 1 < β) :
-    deriv zetaFreeEnergy β = freeEnergyBetaDerivative β := by
+    deriv GppZetaGibbsLegendreDifferential.zetaFreeEnergy β =
+      freeEnergyBetaDerivative β := by
   rw [deriv_zetaFreeEnergy hβ]
   rfl
 

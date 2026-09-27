@@ -29,7 +29,7 @@ theorem spenceCombination_hasDerivAt_zero_of_derivatives
   have hxne : x ≠ 0 := ne_of_gt hx0
   have h1xne : 1 - x ≠ 0 := by linarith
   have hone_sub : HasDerivAt (fun y : ℝ => 1 - y) (-1) x := by
-    convert (hasDerivAt_const x (1 : ℝ)).sub (hasDerivAt_id x) using 1 <;> ring
+    exact (hasDerivAt_id x).const_sub 1
   have hL1x_comp :
       HasDerivAt (fun y : ℝ => li2Series (1 - y))
         ((-Real.log x / (1 - x)) * (-1)) x := by
@@ -55,7 +55,7 @@ theorem spenceCombination_hasDerivAt_zero_of_derivatives
     field_simp [hxne, h1xne]
     ring
   rw [hzero] at hsum
-  simpa [spenceCombination] using hsum
+  exact hsum
 
 /-- **Unconditional local Spence derivative cancellation.**  On `0<x<1`, the
 project's actual local dilogarithm series makes the Spence combination stationary. -/

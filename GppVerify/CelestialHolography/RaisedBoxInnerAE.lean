@@ -32,7 +32,7 @@ theorem integrand_tendsto_one_ae_inner
         Tendsto (fun ε : ℝ => integrand ε S T x1 x2 x3)
           (nhds 0) (nhds 1) := by
   have hne : ∀ᵐ x3 : ℝ ∂volume, x3 ≠ 1 - x1 - x2 := by
-    simpa using (Set.countable_singleton (1 - x1 - x2)).ae_not_mem volume
+    simpa using (Set.countable_singleton (1 - x1 - x2)).ae_notMem volume
   filter_upwards [hne] with x3 hx3ne
   intro hx3mem
   have hx3pos : 0 < x3 := hx3mem.1

@@ -37,8 +37,7 @@ theorem cos_positiveType : PositiveType Real.cos := by
     rw [map_sum]
     apply Finset.sum_congr rfl
     intro j hj
-    rw [map_mul]
-    simp
+    rw [map_mul, Complex.conj_ofReal]
   have hconjB :
       (∑ j : Fin N, (starRingEnd ℂ (c j)) * (Real.sin (x j) : ℂ)) =
         (starRingEnd ℂ) B := by
@@ -46,8 +45,7 @@ theorem cos_positiveType : PositiveType Real.cos := by
     rw [map_sum]
     apply Finset.sum_congr rfl
     intro j hj
-    rw [map_mul]
-    simp
+    rw [map_mul, Complex.conj_ofReal]
   have heq :
       (∑ j : Fin N, ∑ k : Fin N,
         (starRingEnd ℂ (c j)) * c k * (Real.cos (x j - x k) : ℂ)) =
@@ -59,8 +57,9 @@ theorem cos_positiveType : PositiveType Real.cos := by
     rw [mul_comm ((starRingEnd ℂ) B) B, Complex.mul_conj]
     push_cast
     ring
-  rw [heq, Complex.ofReal_re]
-  exact add_nonneg (Complex.normSq_nonneg A) (Complex.normSq_nonneg B)
+  rw [heq]
+  exact Complex.zero_le_real.mpr
+    (add_nonneg (Complex.normSq_nonneg A) (Complex.normSq_nonneg B))
 
 /-- Any real-frequency cosine kernel is positive type. -/
 theorem cos_mul_positiveType (ω : ℝ) :

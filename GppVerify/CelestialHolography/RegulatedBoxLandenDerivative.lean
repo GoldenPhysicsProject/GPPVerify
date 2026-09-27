@@ -35,60 +35,54 @@ theorem landenCombination_hasDerivAt_zero
     apply (div_lt_one hdenpos).2
     linarith
 
-  have hinner_raw :=
-    (hasDerivAt_id x).div
-      ((hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)) hden
   have hinner :
       HasDerivAt (fun t : ℝ => t / (1 + t)) (1 / (1 + x) ^ 2) x := by
-    convert hinner_raw using 1 <;> field_simp [hden] <;> ring
+    have h := (hasDerivAt_id x).fun_div
+      ((hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)) hden
+    refine h.congr_deriv ?_
+    simp only [id, Pi.add_apply]
+    ring
 
   have hpos_base := hasDerivAt_li2Series hy0 hy1
   have hpos_comp := hpos_base.comp x hinner
 
-  have hone_minus : 1 - x / (1 + x) = 1 / (1 + x) := by
-    field_simp [hden]
-  have hrecipne : (1 / (1 + x) : ℝ) ≠ 0 := one_div_ne_zero hden
-  have hlogrecip : Real.log (1 / (1 + x)) = -Real.log (1 + x) := by
-    have hm := Real.log_mul hrecipne hden
-    have hmul : (1 / (1 + x)) * (1 + x) = (1 : ℝ) := by
-      field_simp [hden]
-    rw [hmul, Real.log_one] at hm
-    linarith
+  have hone_minus : 1 - x / (1 + x) = (1 + x)⁻¹ := by
+    rw [one_sub_div hden, add_sub_cancel_right, one_div]
   have hpos :
       HasDerivAt (fun t : ℝ => li2Series (t / (1 + t)))
         (Real.log (1 + x) / (x * (1 + x))) x := by
-    rw [hone_minus, hlogrecip] at hpos_comp
-    convert hpos_comp using 1 <;> field_simp [hx0.ne', hden] <;> ring
+    refine hpos_comp.congr_deriv ?_
+    rw [hone_minus, Real.log_inv]
+    field_simp
 
-  have hneg_inner : HasDerivAt (fun t : ℝ => -t) (-1) x := by
-    simpa using (hasDerivAt_id x).neg
+  have hneg_inner : HasDerivAt (fun t : ℝ => -t) (-1) x := (hasDerivAt_id x).neg
   have hneg_base := hasDerivAt_li2Series_neg hx0 hx1
   have hneg_comp := hneg_base.comp x hneg_inner
   have hneg :
       HasDerivAt (fun t : ℝ => li2Series (-t))
         (-Real.log (1 + x) / x) x := by
-    convert hneg_comp using 1 <;> field_simp [hx0.ne'] <;> ring
+    refine hneg_comp.congr_deriv ?_
+    field_simp
 
-  have hadd : HasDerivAt (fun t : ℝ => 1 + t) 1 x := by
-    simpa using (hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)
-  have hlog_base : HasDerivAt Real.log (1 / (1 + x)) (1 + x) := by
-    simpa using Real.hasDerivAt_log hden
-  have hlog := hlog_base.comp x hadd
+  have hadd : HasDerivAt (fun t : ℝ => 1 + t) 1 x :=
+    ((hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)).congr_deriv (zero_add _)
+  have hlog : HasDerivAt (fun t : ℝ => Real.log (1 + t)) (1 / (1 + x)) x :=
+    ((Real.hasDerivAt_log hden).comp x hadd).congr_deriv (by rw [mul_one, one_div])
   have hlogsq :
       HasDerivAt (fun t : ℝ => (Real.log (1 + t)) ^ 2 / 2)
         (Real.log (1 + x) / (1 + x)) x := by
-    convert (hlog.pow 2).div_const 2 using 1 <;> field_simp [hden] <;> ring
+    refine ((hlog.pow 2).div_const 2).congr_deriv ?_
+    norm_num <;> ring
 
   have hsum := (hpos.add hneg).add hlogsq
   have hcoef :
       Real.log (1 + x) / (x * (1 + x)) +
           (-Real.log (1 + x)) / x +
           Real.log (1 + x) / (1 + x) = 0 := by
-    field_simp [hx0.ne', hden]
+    field_simp
     ring
   unfold landenCombination
-  convert hsum using 1
-  exact hcoef.symm
+  exact hsum.congr_deriv hcoef
 
 end GppRegulatedBoxLandenDerivative
 

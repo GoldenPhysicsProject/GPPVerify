@@ -31,7 +31,9 @@ open GppMu2kRadial
 /-- The universal `mu^4` shell is the `k=1` member of the `mu^(2r)` hierarchy. -/
 theorem integral_mu4_shell :
     ∫ r in Set.Ioi (0 : ℝ), Real.tanh r / Real.cosh r ^ 4 = 1 / 4 := by
-  simpa using integral_radialShell 1
+  show ∫ r in Set.Ioi (0 : ℝ), Real.tanh r / Real.cosh r ^ (2 * (1 + 1)) = 1 / 4
+  rw [integral_radialShell 1]
+  norm_num
 
 /-- Pointwise conversion of the physical `mu^4` numerator into the universal radial shell. -/
 theorem tanh_mul_muFromRadius_pow_four (M r : ℝ) :
@@ -40,7 +42,6 @@ theorem tanh_mul_muFromRadius_pow_four (M r : ℝ) :
   rw [muFromRadius_pow_four]
   have hc : Real.cosh r ≠ 0 := ne_of_gt (Real.cosh_pos r)
   field_simp [hc]
-  ring
 
 /-- Exact fixed-radius celestial moment of the D-dimensional `mu^4` numerator. -/
 theorem integral_tanh_muFromRadius_pow_four (M : ℝ) :

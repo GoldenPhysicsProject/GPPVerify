@@ -87,7 +87,7 @@ theorem abs_prefactor_remainder_le
   rw [prefactor_remainder_identity hκpos.ne']
   calc
     |(D - D0) / κ + (1 / κ - 1) * D0| ≤
-        |(D - D0) / κ| + |(1 / κ - 1) * D0| := abs_add _ _
+        |(D - D0) / κ| + |(1 / κ - 1) * D0| := abs_add_le _ _
     _ = |D - D0| / κ + |1 / κ - 1| * |D0| := by
       rw [abs_div, abs_of_pos hκpos, abs_mul]
     _ ≤ |D - D0| + (δ / 2) * |D0| := by

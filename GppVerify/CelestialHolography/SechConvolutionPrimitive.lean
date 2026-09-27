@@ -136,11 +136,11 @@ theorem hasDerivAt_log_cosh_pi_mul (x : ℝ) :
       (fun y : ℝ => Real.log (Real.cosh (Real.pi * y)))
       (Real.pi * (Real.sinh (Real.pi * x) / Real.cosh (Real.pi * x))) x := by
   have hlin : HasDerivAt (fun y : ℝ => Real.pi * y) Real.pi x := by
-    convert (hasDerivAt_const x Real.pi).mul (hasDerivAt_id x) using 1 <;> ring
+    exact ((hasDerivAt_id x).const_mul Real.pi).congr_deriv (mul_one _)
   have hc : Real.cosh (Real.pi * x) ≠ 0 := (Real.cosh_pos _).ne'
   have h := ((Real.hasDerivAt_cosh (Real.pi * x)).comp x hlin).log hc
-  convert h using 1
-  field_simp [hc]
+  refine h.congr_deriv ?_
+  simp only [Function.comp_apply]
   ring
 
 /-- The reflected log-cosh term has derivative `-pi * tanh(pi*(lambda-x))`. -/
@@ -150,18 +150,17 @@ theorem hasDerivAt_log_cosh_pi_shift (lam x : ℝ) :
       (-Real.pi *
         (Real.sinh (Real.pi * (lam - x)) / Real.cosh (Real.pi * (lam - x)))) x := by
   have hsub : HasDerivAt (fun y : ℝ => lam - y) (-1) x := by
-    convert (hasDerivAt_const x lam).sub (hasDerivAt_id x) using 1 <;> ring
+    exact (hasDerivAt_id x).const_sub lam
   have hlin : HasDerivAt (fun y : ℝ => Real.pi * (lam - y)) (-Real.pi) x := by
-    convert (hasDerivAt_const x Real.pi).mul hsub using 1 <;> ring
+    exact (hsub.const_mul Real.pi).congr_deriv (by ring)
   have hc : Real.cosh (Real.pi * (lam - x)) ≠ 0 := (Real.cosh_pos _).ne'
   have hcosh0 := (Real.hasDerivAt_cosh (Real.pi * (lam - x))).comp x hlin
   have hcosh : HasDerivAt
       (fun y : ℝ => Real.cosh (Real.pi * (lam - y)))
       (Real.sinh (Real.pi * (lam - x)) * (-Real.pi)) x := by
-    simpa only [Function.comp_apply] using hcosh0
+    exact hcosh0
   have h := hcosh.log hc
-  convert h using 1
-  field_simp [hc]
+  exact h.congr_deriv (by ring)
 
 /-- Exact primitive derivative for the shifted sech-product kernel:
 
@@ -195,7 +194,7 @@ theorem hasDerivAt_logCoshDifference (lam x : ℝ) :
     rw [hk]
     ring
   rw [hcoef] at h
-  simpa [logCoshDifference] using h
+  exact h
 
 end GppSechConvolutionPrimitive
 

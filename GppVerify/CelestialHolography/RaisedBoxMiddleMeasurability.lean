@@ -88,7 +88,11 @@ theorem intervalInnerIntegral_norm_le_integratedMajorant
     rw [Real.norm_eq_abs, abs_of_nonneg hnonneg]
     exact integrand_le_one_channel_majorant
       hS hT hx1 hx2 hx3 hxsum hε0 hεδ hδ0
-  have hAbs := intervalIntegral.norm_integral_le_of_norm_le hAE hMajInt
+  have hAE' : ∀ᵐ x3 : ℝ, x3 ∈ Set.Ioc (0 : ℝ) (1 - x1 - x2) →
+      ‖integrand ε S T x1 x2 x3‖ ≤ 1 + (S * x1 * x3) ^ (-δ : ℝ) := by
+    rw [← Set.uIoc_of_le hL]
+    exact (ae_restrict_iff' measurableSet_uIoc).mp hAE
+  have hAbs := intervalIntegral.norm_integral_le_of_norm_le hL hAE' hMajInt
   have hMajNonneg : 0 ≤
       ∫ x3 in (0 : ℝ)..(1 - x1 - x2),
         (1 + (S * x1 * x3) ^ (-δ : ℝ)) := by

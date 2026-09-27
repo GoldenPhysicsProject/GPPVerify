@@ -46,7 +46,7 @@ theorem complexConj_principalDelta (tau : ℝ) :
 principal-series parameterization, away from zeros. -/
 theorem celestialCompletedResponse_re_eq_zero_at_tau
     (tau : ℝ)
-    (hLambda : GppCompletedZetaDerivative.completedRiemannZeta
+    (hLambda : completedRiemannZeta
       (principalDelta tau / 2) ≠ 0) :
     (celestialCompletedResponse (principalDelta tau)).re = 0 := by
   exact celestialCompletedResponse_re_eq_zero (principalDelta_re tau) hLambda
@@ -55,7 +55,7 @@ theorem celestialCompletedResponse_re_eq_zero_at_tau
 axis, away from zeros. -/
 theorem celestialCompletedPhaseResponse_im_eq_zero_at_tau
     (tau : ℝ)
-    (hLambda : GppCompletedZetaDerivative.completedRiemannZeta
+    (hLambda : completedRiemannZeta
       (principalDelta tau / 2) ≠ 0) :
     (celestialCompletedPhaseResponse (principalDelta tau)).im = 0 := by
   exact celestialCompletedPhaseResponse_im_eq_zero (principalDelta_re tau) hLambda
@@ -73,18 +73,15 @@ theorem principalDelta_ne_zero (tau : ℝ) : principalDelta tau ≠ 0 := by
   simp [principalDelta] at hre
 
 /-- **Spectral oddness.**  The real phase-generator response changes sign under
-`tau -> -tau`.  The single nonvanishing hypothesis at `tau` is enough because the
-functional equation used by the inherited shadow theorem transports it to the
-reflected point. -/
+`tau -> -tau`.  No nonvanishing hypothesis is needed: the inherited shadow theorem
+holds with Lean's total division, including at zeros of `Λ`. -/
 theorem celestialCompletedPhaseResponse_odd_tau
-    (tau : ℝ)
-    (hLambda : GppCompletedZetaDerivative.completedRiemannZeta
-      (principalDelta tau / 2) ≠ 0) :
+    (tau : ℝ) :
     celestialCompletedPhaseResponse (principalDelta tau) =
       -celestialCompletedPhaseResponse (principalDelta (-tau)) := by
   rw [← celestialShadow_principalDelta tau]
   exact celestialCompletedPhaseResponse_shadow_odd
-    (principalDelta_ne_zero tau) (principalDelta_ne_two tau) hLambda
+    (principalDelta_ne_zero tau) (principalDelta_ne_two tau)
 
 end GppCompletedZetaSpectralAxis
 

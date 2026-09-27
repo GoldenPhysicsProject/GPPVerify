@@ -117,7 +117,7 @@ theorem strip_section_norm_integral_eq_intervalIntegral
           unfold integrand
           exact Real.rpow_nonneg hQ _
         simpa [Real.norm_eq_abs, abs_of_nonneg hnonneg]
-      · simp [Set.indicator_of_not_mem hx3]
+      · simp [Set.indicator_of_notMem hx3]
     _ = ∫ x3 in (0 : ℝ)..(1 - x1 - x2),
         integrand ε S T x1 x2 x3 :=
       IccIndicatorIntegral_eq_intervalIntegral ε S T x1 x2 hx2mem

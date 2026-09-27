@@ -53,7 +53,7 @@ is unitary.  Wherever the completed-zeta logarithmic derivative is defined, its
 `-i` normalization is real and odd under spectral reflection. -/
 theorem dilation_unitarity_and_completed_phase_response
     (tau : ℝ) {a : ℝ} (ha : 0 < a) (ha1 : a ≠ 1)
-    (hLambda : GppCompletedZetaDerivative.completedRiemannZeta
+    (hLambda : completedRiemannZeta
       (principalDelta tau / 2) ≠ 0) :
     ‖dilationCharacter (principalDelta tau / 2) a‖ = 1 ∧
       (celestialCompletedPhaseResponse (principalDelta tau)).im = 0 ∧
@@ -61,7 +61,7 @@ theorem dilation_unitarity_and_completed_phase_response
         -celestialCompletedPhaseResponse (principalDelta (-tau)) := by
   refine ⟨principalDelta_dilation_unitary tau ha ha1, ?_, ?_⟩
   · exact celestialCompletedPhaseResponse_im_eq_zero_at_tau tau hLambda
-  · exact celestialCompletedPhaseResponse_odd_tau tau hLambda
+  · exact celestialCompletedPhaseResponse_odd_tau tau
 
 end GppCompletedZetaDilationUnitaryBridge
 

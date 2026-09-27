@@ -64,10 +64,16 @@ theorem antisymmetric_integral_eq_reflected_local
     exact h.symm
   rw [show (∫ x in β..γ, (β + γ - 2 * x) * g x) = ∫ x in β..γ, f x by rfl]
   rw [hsplit, hleft, hright, ← intervalIntegral.integral_add]
-  apply intervalIntegral.integral_congr
-  intro y hy
-  dsimp [f, m, reflectedKernel]
-  ring
+  · apply intervalIntegral.integral_congr
+    intro y hy
+    dsimp [f, m, reflectedKernel]
+    ring
+  · have h := hiβm.comp_sub_left m
+    rw [show m - β = L by dsimp [m, L]; ring, sub_self] at h
+    exact h.symm
+  · have h := himγ.comp_add_right m
+    rw [sub_self, show γ - m = L by dsimp [m, L]; ring] at h
+    exact h
 
 /-- Local continuity makes the reflected kernel interval-integrable. -/
 theorem reflectedKernel_intervalIntegrable_local
@@ -121,10 +127,12 @@ theorem bregmanKL_gt_reverse_of_fisher_strictAnti_local
           (∫ x in β..γ, (x - β) * g x) =
         ∫ x in β..γ, (β + γ - 2 * x) * g x := by
     rw [← intervalIntegral.integral_sub]
-    apply intervalIntegral.integral_congr
-    intro x hx
-    ring
-  rw [lt_iff_sub_pos, hsub,
+    · apply intervalIntegral.integral_congr
+      intro x hx
+      ring
+    · exact ((continuous_const.sub continuous_id).continuousOn.mul hcontU).intervalIntegrable
+    · exact ((continuous_id.sub continuous_const).continuousOn.mul hcontU).intervalIntegrable
+  rw [← sub_pos, hsub,
     antisymmetric_integral_eq_reflected_local g hβγ.le hgcont]
   let m : ℝ := (β + γ) / 2
   let L : ℝ := (γ - β) / 2
@@ -132,12 +140,16 @@ theorem bregmanKL_gt_reverse_of_fisher_strictAnti_local
   have hbounds : Icc (m - L) (m + L) = Icc β γ := by
     dsimp [m, L]
     congr 1 <;> ring
+  have hm' : m = (β + γ) / 2 := rfl
+  have hL' : L = (γ - β) / 2 := rfl
   apply reflectedKernel_integral_pos_local g hL
-  · simpa [hbounds] using hgcont
+  · rw [hbounds]
+    exact hgcont
   · intro y hy
-    have hxlo : β ≤ m - y := by dsimp [m, L] at hy ⊢; linarith
-    have hyhi : m + y ≤ γ := by dsimp [m, L] at hy ⊢; linarith
-    have hxy : m - y < m + y := by linarith [hy.1]
+    obtain ⟨hy0, hyL⟩ := hy
+    have hxlo : β ≤ m - y := by linarith
+    have hyhi : m + y ≤ γ := by linarith
+    have hxy : m - y < m + y := by linarith
     exact hganti hxlo hyhi hxy
 
 end GppBregmanStrictOrientationLocal

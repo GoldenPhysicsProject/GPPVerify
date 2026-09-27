@@ -123,7 +123,7 @@ theorem hasDerivAt_integral_compensatedLevyKernel_frequency {c t : ℝ} (hc : 0 
       have huabs : |u| ≤ |u - t| + |t| := by
         calc
           |u| = |(u - t) + t| := by ring_nf
-          _ ≤ |u - t| + |t| := abs_add _ _
+          _ ≤ |u - t| + |t| := abs_add_le _ _
       dsimp [T]
       linarith
     have hmaj := abs_frequencyDerivativeKernel_le_cauchy

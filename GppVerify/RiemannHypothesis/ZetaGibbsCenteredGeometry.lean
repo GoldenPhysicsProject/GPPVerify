@@ -93,7 +93,8 @@ private theorem logEnergy_one : logEnergy 1 = Real.log (2 : ℝ) := by
 private theorem logEnergy_three : logEnergy 3 = 2 * Real.log (2 : ℝ) := by
   unfold logEnergy
   norm_num
-  simpa using (Real.log_pow (2 : ℝ) 2)
+  rw [show (4 : ℝ) = 2 ^ 2 by norm_num, Real.log_pow]
+  norm_num
 
 /-- A nonzero coefficient pair cannot make the centered quadratic score vanish
 simultaneously at the three Gibbs support points `0,1,3`. -/
@@ -137,11 +138,9 @@ theorem normalized_centered_quadratic_pos
   have hsum :=
     summable_gibbsProbability_centered_score_sq (β := β) (a := a) (b := b) hβ
   rcases exists_three_point_score_ne_zero (β := β) hab with ⟨n, hn, hscore⟩
-  apply hsum.tsum_pos
-  · intro i
-    exact mul_nonneg (gibbsProbability_pos hβ i).le (sq_nonneg _)
-  · exact n
-  · exact mul_pos (gibbsProbability_pos hβ n) (sq_pos_of_ne_zero hscore)
+  exact hsum.tsum_pos
+    (fun i => mul_nonneg (gibbsProbability_pos hβ i).le (sq_nonneg _)) n
+    (mul_pos (gibbsProbability_pos hβ n) (sq_pos_of_ne_zero hscore))
 
 end GppZetaGibbsCenteredGeometry
 

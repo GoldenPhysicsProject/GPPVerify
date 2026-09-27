@@ -29,9 +29,12 @@ theorem positiveType_tsum {ι : Type*} {F : ι → ℝ → ℝ}
     (hF : ∀ i, PositiveType (F i))
     (hs : ∀ t, Summable (fun i => F i t)) :
     PositiveType (fun t => ∑' i, F i t) := by
+  -- `PositiveType` is nonnegativity in `ℂ`: the real-part bound below plus evenness,
+  -- which each summand has (`PositiveType.even`) and so the `tsum` inherits.
+  refine positiveType_of_even_of_re (fun t => tsum_congr fun i => (hF i).even t) ?_
   intro n x c
   rw [Complex.re_sum]
-  simp_rw [Complex.re_sum, GppHaarPositivityWeil.mul_ofReal_re]
+  simp_rw [Complex.re_sum, Complex.re_mul_ofReal]
   simp_rw [← tsum_mul_left]
   have hswap :
       (∑ i : Fin n, ∑ j : Fin n,
@@ -65,9 +68,9 @@ theorem positiveType_tsum {ι : Type*} {F : ι → ℝ → ℝ}
   rw [hswap]
   apply tsum_nonneg
   intro k
-  have hk := hF k n x c
-  rw [Complex.re_sum] at hk
-  simp_rw [Complex.re_sum, GppHaarPositivityWeil.mul_ofReal_re] at hk
+  have hk := (Complex.le_def.mp (hF k n x c)).1
+  rw [Complex.zero_re, Complex.re_sum] at hk
+  simp_rw [Complex.re_sum, Complex.re_mul_ofReal] at hk
   exact hk
 
 /-- The infinite prime-Poisson response is positive type for every `a > 1`. -/
@@ -84,12 +87,18 @@ theorem global_WpA_positiveType {a : ℝ} (ha : 1 < a) :
 /-- Therefore the real logarithmic derivative response is positive type on `a > 1`. -/
 theorem neg_zeta_logDeriv_response_positiveType {a : ℝ} (ha : 1 < a) :
     PositiveType (fun t =>
-      2 * (-(Complex.deriv Complex.riemannZeta
+      2 * (-(deriv riemannZeta
         ((a : ℂ) + (t : ℂ) * Complex.I) /
-        Complex.riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re) := by
-  have h := global_WpA_positiveType ha
-  intro n x c
-  simpa [two_mul_neg_zeta_logDeriv_re_eq_tsum_WpA ha] using h n x c
+        riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re) := by
+  have hfun : (fun t : ℝ =>
+      2 * (-(deriv riemannZeta
+        ((a : ℂ) + (t : ℂ) * Complex.I) /
+        riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re) =
+      fun t => ∑' p : Nat.Primes, WpA ((p : ℕ) : ℝ) a t := by
+    funext t
+    exact two_mul_neg_zeta_logDeriv_re_eq_tsum_WpA (t := t) ha
+  rw [hfun]
+  exact global_WpA_positiveType ha
 
 end GppGlobalPrimePoissonPositiveType
 

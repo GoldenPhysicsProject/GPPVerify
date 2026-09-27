@@ -14,6 +14,8 @@ No infinite prime limit or RH claim is made here.
 
 namespace GppFinitePrimePoissonPositiveType
 
+open scoped ComplexOrder
+
 open Complex Real
 open GppHaarPositivityWeil
 open GppPrimePoissonRadialPositiveType
@@ -40,7 +42,7 @@ theorem positiveType_add {f g : ℝ → ℝ}
         (starRingEnd ℂ (c i)) * c j * (g (x i - x j) : ℂ)) := by
     push_cast
     simp_rw [mul_add, Finset.sum_add_distrib]
-  rw [heq, Complex.add_re]
+  rw [heq]
   exact add_nonneg hf' hg'
 
 /-- Any finite pointwise sum of positive-type functions is positive type. -/

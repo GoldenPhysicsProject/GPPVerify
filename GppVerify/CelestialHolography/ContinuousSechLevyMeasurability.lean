@@ -27,7 +27,7 @@ theorem measurable_levyDensity (c : ℝ) : Measurable (levyDensity c) := by
 /-- The compensated Lévy kernel is Borel measurable as a function of space. -/
 theorem measurable_compensatedLevyKernel (c t : ℝ) :
     Measurable (fun x : ℝ => compensatedLevyKernel c t x) := by
-  unfold compensatedLevyKernel
+  unfold compensatedLevyKernel GppContinuousSechLevyKernel.levyDensity
   fun_prop
 
 /-- Hence the compensated Lévy kernel is strongly measurable for Lebesgue integration. -/

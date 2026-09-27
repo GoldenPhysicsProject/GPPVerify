@@ -30,7 +30,7 @@ open GppWeightedVarianceInfiniteStrict
 
 /-- Total mass of the arithmetic Fisher measure. -/
 noncomputable def primeFisherMass (beta : ℝ) : ℝ :=
-  infiniteMoment (fisherWeight beta) Real.log 0
+  infiniteMoment (fisherWeight beta) (fun n : ℕ => Real.log n) 0
 
 /-- Probability-normalized arithmetic Fisher weight. -/
 noncomputable def primeFisherProbability (beta : ℝ) (n : ℕ) : ℝ :=
@@ -76,7 +76,7 @@ theorem summable_primeFisherProbability {beta : ℝ} (hbeta : 1 < beta) :
     Summable (primeFisherProbability beta) := by
   have hs : Summable (fun n : ℕ => fisherWeight beta n) := by
     simpa using summable_fisherWeight_mul_log_pow 0 hbeta
-  simpa only [primeFisherProbability] using hs.div_const (primeFisherMass beta)
+  exact hs.div_const (primeFisherMass beta)
 
 /-- **Normalized raw-moment bridge.** Every logarithmic expectation under the
 prime-Fisher probability distribution is exactly the corresponding unnormalized
@@ -85,7 +85,7 @@ the existing Hankel/Fisher moment hierarchy to probability expectations. -/
 theorem primeFisherExpectation_log_pow_eq_moment_div_mass
     (r : ℕ) (beta : ℝ) :
     primeFisherExpectation beta (fun n : ℕ => (Real.log n) ^ r) =
-      infiniteMoment (fisherWeight beta) Real.log r / primeFisherMass beta := by
+      infiniteMoment (fisherWeight beta) (fun n : ℕ => Real.log n) r / primeFisherMass beta := by
   unfold primeFisherExpectation primeFisherProbability infiniteMoment
   rw [← tsum_div_const]
   apply tsum_congr
@@ -98,8 +98,8 @@ The strictness is supplied by the two distinct positive prime-power support
 points `2` and `4`, through the general countable weighted-variance theorem. -/
 theorem primeFisher_normalized_log_variance_pos
     {beta : ℝ} (hbeta : 1 < beta) :
-    0 < infiniteMoment (fisherWeight beta) Real.log 2 / primeFisherMass beta -
-      (infiniteMoment (fisherWeight beta) Real.log 1 / primeFisherMass beta) ^ 2 := by
+    0 < infiniteMoment (fisherWeight beta) (fun n : ℕ => Real.log n) 2 / primeFisherMass beta -
+      (infiniteMoment (fisherWeight beta) (fun n : ℕ => Real.log n) 1 / primeFisherMass beta) ^ 2 := by
   have hW : Summable (fun n : ℕ => fisherWeight beta n) := by
     simpa using summable_fisherWeight_mul_log_pow 0 hbeta
   have hM : Summable (fun n : ℕ => fisherWeight beta n * Real.log n) := by

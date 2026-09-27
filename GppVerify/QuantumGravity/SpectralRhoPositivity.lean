@@ -33,9 +33,9 @@ theorem rhoGamma_im_eq_zero (k : ℕ) (x : ℝ) :
   by_cases hx : x = 0
   · subst x
     rw [rhoGamma_at_zero]
-    simp
+    norm_cast
   · rw [rhoGamma_eq_mehlerFock_chamber k x hx]
-    simp
+    norm_cast
 
 /-- **Strict spectral positivity**: every normalized Gamma/Mehler--Fock chamber
 weight lies on the positive real axis. -/
@@ -44,10 +44,10 @@ theorem rhoGamma_re_pos (k : ℕ) (x : ℝ) :
   by_cases hx0 : x = 0
   · subst x
     rw [rhoGamma_at_zero]
-    simp only [ofReal_re]
+    norm_cast
     positivity
   · rw [rhoGamma_eq_mehlerFock_chamber k x hx0]
-    simp only [ofReal_re]
+    norm_cast
     have hpoly : 0 < chamberPoly k x := chamberPoly_pos k x
     have hpow : 0 < (2 : ℝ) ^ (2 * k + 1) := by positivity
     have hfact : 0 < (((2 * k + 1).factorial : ℕ) : ℝ) := by positivity
@@ -55,12 +55,12 @@ theorem rhoGamma_re_pos (k : ℕ) (x : ℝ) :
     · have hsinh : Real.sinh (Real.pi * x) < 0 :=
         Real.sinh_neg_iff.mpr (mul_neg_of_pos_of_neg Real.pi_pos hx)
       have hnum :
-          (2 : ℝ) ^ (2 * k + 1) * x * chamberPoly k x < 0 := by
-        positivity
+          (2 : ℝ) ^ (2 * k + 1) * x * chamberPoly k x < 0 :=
+        mul_neg_of_neg_of_pos (mul_neg_of_pos_of_neg hpow hx) hpoly
       have hden :
-          (((2 * k + 1).factorial : ℕ) : ℝ) * Real.sinh (Real.pi * x) < 0 := by
-        positivity
-      exact div_pos_of_neg_of_neg hnum hden
+          (((2 * k + 1).factorial : ℕ) : ℝ) * Real.sinh (Real.pi * x) < 0 :=
+        mul_neg_of_pos_of_neg hfact hsinh
+      exact div_pos_of_neg_of_neg (by exact_mod_cast hnum) (by exact_mod_cast hden)
     · have hsinh : 0 < Real.sinh (Real.pi * x) :=
         Real.sinh_pos_iff.mpr (mul_pos Real.pi_pos hx)
       positivity

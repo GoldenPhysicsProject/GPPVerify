@@ -137,7 +137,7 @@ theorem abs_specialRemainder_le
             _ ≤ |-li2Series (-t) - li2Series (a * q) -
                     Real.log q * Real.log (1 - a * q) -
                     (1 / 2 : ℝ) * (Real.log (1 - a)) ^ 2 -
-                    li2Series (-(a / (1 - a)))| + |li2Series a| := abs_add _ _
+                    li2Series (-(a / (1 - a)))| + |li2Series a| := abs_add_le _ _
             _ ≤ (|-li2Series (-t) - li2Series (a * q) -
                     Real.log q * Real.log (1 - a * q) -
                     (1 / 2 : ℝ) * (Real.log (1 - a)) ^ 2| +

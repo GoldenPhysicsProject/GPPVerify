@@ -18,9 +18,9 @@ open GppPositiveTypeSecondDifference
 
 /-- Real logarithmic-derivative response on the absolute-convergence half-plane. -/
 noncomputable def zetaR (a t : ℝ) : ℝ :=
-  (-(Complex.deriv Complex.riemannZeta
+  (-(deriv riemannZeta
     ((a : ℂ) + (t : ℂ) * Complex.I) /
-    Complex.riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re
+    riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re
 
 /-- **Arithmetic three-point positive-type inequality**:
 `3 R_a(0) - 4 R_a(t) + R_a(2t) >= 0` for every `a>1`. -/

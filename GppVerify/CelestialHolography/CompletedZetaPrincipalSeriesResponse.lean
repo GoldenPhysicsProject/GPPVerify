@@ -9,8 +9,8 @@ open Complex
 open GppPositiveReal
 
 noncomputable def celestialCompletedResponse (Δ : ℂ) : ℂ :=
-  deriv GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) /
-    GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2)
+  deriv completedRiemannZeta (Δ / 2) /
+    completedRiemannZeta (Δ / 2)
 
 /-- Multiply the anti-Hermitian logarithmic response by `-i`. On the celestial
 principal axis this is the real phase-generator normalization naturally associated
@@ -24,7 +24,7 @@ theorem half_argument_re_eq_half {Δ : ℂ} (hΔ : Δ.re = 1) :
 
 theorem celestialCompletedResponse_re_eq_zero
     {Δ : ℂ} (hΔ : Δ.re = 1)
-    (hΛ : GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) ≠ 0) :
+    (hΛ : completedRiemannZeta (Δ / 2) ≠ 0) :
     (celestialCompletedResponse Δ).re = 0 := by
   unfold celestialCompletedResponse
   exact GppCompletedZetaCriticalResponse.completedRiemannZeta_logDeriv_re_eq_zero_of_re_half
@@ -34,7 +34,7 @@ theorem celestialCompletedResponse_re_eq_zero
 principal-series axis, away from zeros where the logarithmic derivative is undefined. -/
 theorem celestialCompletedPhaseResponse_im_eq_zero
     {Δ : ℂ} (hΔ : Δ.re = 1)
-    (hΛ : GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) ≠ 0) :
+    (hΛ : completedRiemannZeta (Δ / 2) ≠ 0) :
     (celestialCompletedPhaseResponse Δ).im = 0 := by
   have hR := celestialCompletedResponse_re_eq_zero hΔ hΛ
   simp [celestialCompletedPhaseResponse, Complex.mul_im, hR]
@@ -42,10 +42,10 @@ theorem celestialCompletedPhaseResponse_im_eq_zero
 /-- Under the exact dictionary `Δ = 2s`, the globally reflected logarithmic response
 of completed zeta becomes an odd response under the scalar celestial shadow
 `Δ ↦ 2 - Δ`.  The exclusions `Δ ≠ 0,2` are precisely the two completed-zeta poles,
-and `hΛ` records the domain of the logarithmic derivative. -/
+and no nonvanishing hypothesis on `Λ(Δ/2)` is needed: the reflection identity holds
+with Lean's total division, including at zeros of `Λ`. -/
 theorem celestialCompletedResponse_shadow_odd
-    {Δ : ℂ} (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2)
-    (hΛ : GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) ≠ 0) :
+    {Δ : ℂ} (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2) :
     celestialCompletedResponse Δ =
       -celestialCompletedResponse (celestialShadow Δ) := by
   have hs0 : Δ / 2 ≠ 0 := by
@@ -57,7 +57,7 @@ theorem celestialCompletedResponse_shadow_odd
       Δ = 2 * (Δ / 2) := by ring
       _ = 2 := by rw [hs]; ring
   have hreflect :=
-    GppCompletedZetaDerivative.completedRiemannZeta_logDeriv_reflection hs0 hs1 hΛ
+    GppCompletedZetaDerivative.completedRiemannZeta_logDeriv_reflection hs0 hs1
   have harg : 1 - Δ / 2 = celestialShadow Δ / 2 := by
     simp [celestialShadow]
     ring
@@ -67,12 +67,11 @@ theorem celestialCompletedResponse_shadow_odd
 
 /-- The real phase-generator normalization retains the same shadow oddness. -/
 theorem celestialCompletedPhaseResponse_shadow_odd
-    {Δ : ℂ} (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2)
-    (hΛ : GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) ≠ 0) :
+    {Δ : ℂ} (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2) :
     celestialCompletedPhaseResponse Δ =
       -celestialCompletedPhaseResponse (celestialShadow Δ) := by
   unfold celestialCompletedPhaseResponse
-  rw [celestialCompletedResponse_shadow_odd hΔ0 hΔ2 hΛ]
+  rw [celestialCompletedResponse_shadow_odd hΔ0 hΔ2]
   ring
 
 /-- **Principal-axis conjugation oddness.** On `Re Δ = 1`, scalar shadow is exactly
@@ -81,28 +80,26 @@ conjugation on the celestial principal-series axis. This is a direct combination
 of functional-equation reflection with the positive-real half-density dictionary;
 it makes no claim that a zero lies on this axis. -/
 theorem celestialCompletedResponse_conj_odd_on_principal
-    {Δ : ℂ} (hΔre : Δ.re = 1) (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2)
-    (hΛ : GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) ≠ 0) :
+    {Δ : ℂ} (hΔre : Δ.re = 1) (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2) :
     celestialCompletedResponse Δ =
       -celestialCompletedResponse (complexConj Δ) := by
   have hshadow : celestialShadow Δ = complexConj Δ :=
     GppPrincipalShadow.shadow_eq_conj_iff.mpr hΔre
   rw [← hshadow]
-  exact celestialCompletedResponse_shadow_odd hΔ0 hΔ2 hΛ
+  exact celestialCompletedResponse_shadow_odd hΔ0 hΔ2
 
 /-- The real phase-generator normalization is likewise odd under conjugation on the
 principal axis. Together with `celestialCompletedPhaseResponse_im_eq_zero`, this says
 the principal-series completed-zeta response is a real odd phase response under the
-shadow/conjugation involution, away from zeros. -/
+shadow/conjugation involution. -/
 theorem celestialCompletedPhaseResponse_conj_odd_on_principal
-    {Δ : ℂ} (hΔre : Δ.re = 1) (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2)
-    (hΛ : GppCompletedZetaDerivative.completedRiemannZeta (Δ / 2) ≠ 0) :
+    {Δ : ℂ} (hΔre : Δ.re = 1) (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2) :
     celestialCompletedPhaseResponse Δ =
       -celestialCompletedPhaseResponse (complexConj Δ) := by
   have hshadow : celestialShadow Δ = complexConj Δ :=
     GppPrincipalShadow.shadow_eq_conj_iff.mpr hΔre
   rw [← hshadow]
-  exact celestialCompletedPhaseResponse_shadow_odd hΔ0 hΔ2 hΛ
+  exact celestialCompletedPhaseResponse_shadow_odd hΔ0 hΔ2
 
 end GppCompletedZetaPrincipalSeriesResponse
 

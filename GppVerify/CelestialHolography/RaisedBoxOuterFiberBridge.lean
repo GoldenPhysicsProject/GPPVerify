@@ -75,9 +75,9 @@ theorem fullSimplexIndicator_section_factor
     · have hstrip : (x2, x3) ∉ innerSimplexStrip x1 := by
         intro hs
         exact hnot ⟨hx2, hs⟩
-      simp [Set.indicator_of_not_mem hfull,
-        Set.indicator_of_mem hx2, Set.indicator_of_not_mem hstrip]
-    · simp [Set.indicator_of_not_mem hfull, Set.indicator_of_not_mem hx2]
+      simp [Set.indicator_of_notMem hfull,
+        Set.indicator_of_mem hx2, Set.indicator_of_notMem hstrip]
+    · simp [Set.indicator_of_notMem hfull, Set.indicator_of_notMem hx2]
 
 /-- Once the full two-dimensional section is known to be integrable, Fubini
 identifies its product integral exactly with the outer closed-interval indicator
@@ -120,10 +120,10 @@ theorem fullSimplexFiberIntegral_eq_iteratedStrip
     filter_upwards [] with x3
     simpa [f, Set.indicator_of_mem hx2] using
       (fullSimplexIndicator_section_factor ε S T hx1 (x2 := x2) (x3 := x3))
-  · rw [Set.indicator_of_not_mem hx2]
+  · rw [Set.indicator_of_notMem hx2]
     have hfzero : ∀ x3 : ℝ, f (x2, x3) = 0 := by
       intro x3
-      simpa [f, Set.indicator_of_not_mem hx2] using
+      simpa [f, Set.indicator_of_notMem hx2] using
         (fullSimplexIndicator_section_factor ε S T hx1 (x2 := x2) (x3 := x3))
     simp_rw [hfzero]
     simp

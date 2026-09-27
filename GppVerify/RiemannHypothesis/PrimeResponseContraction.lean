@@ -17,9 +17,9 @@ namespace GppPrimeResponseContraction
 open GppGlobalPrimePoissonBound
 
 noncomputable def response (a t : ℝ) : ℝ :=
-  2 * (-(Complex.deriv Complex.riemannZeta
+  2 * (-(deriv riemannZeta
     ((a : ℂ) + (t : ℂ) * Complex.I) /
-    Complex.riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re
+    riemannZeta ((a : ℂ) + (t : ℂ) * Complex.I))).re
 
 /-- The zero-frequency response is nonnegative on the absolutely convergent half-plane. -/
 theorem response_zero_nonneg {a : ℝ} (ha : 1 < a) :

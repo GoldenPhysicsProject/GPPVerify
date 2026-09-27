@@ -61,7 +61,7 @@ theorem logCoshRemainder_pi_shift_tendsto_atTop (lam : ℝ) :
   have hupper :
       Tendsto (fun x : ℝ => Real.exp (-((2 * Real.pi) * (x - lam))))
         atTop (nhds 0) := by
-    simpa [mul_sub] using hupper0
+    exact hupper0.congr fun x => by ring_nf
   apply tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds hupper
   · intro x
     exact logCoshRemainder_nonneg (Real.pi * (lam - x))
@@ -117,7 +117,9 @@ theorem logCoshDifference_tendsto_atBot (lam : ℝ) :
   have hneg :
       Tendsto (fun x : ℝ => -logCoshDifference lam (lam - x))
         atBot (nhds (-Real.pi * lam)) := by
-    convert hright.neg using 1 <;> ring
+    have h := hright.neg
+    rw [show -(Real.pi * lam) = -Real.pi * lam by ring] at h
+    exact h
   exact hneg.congr' (Filter.Eventually.of_forall fun x => logCoshDifference_reflect lam x)
 
 /-- The derivative kernel from `hasDerivAt_logCoshDifference` is continuous on
@@ -164,14 +166,15 @@ theorem hasDerivAt_neg_logCoshDifference_neg (lam x : ℝ) :
       (Real.pi * Real.sinh (Real.pi * lam) /
         (Real.cosh (Real.pi * (-x)) * Real.cosh (Real.pi * (lam - (-x))))) x := by
   have hcomp := HasDerivAt.scomp x (hasDerivAt_logCoshDifference lam (-x)) (hasDerivAt_neg' x)
-  simpa [Function.comp_def] using hcomp.neg
+  exact hcomp.neg.congr_deriv (by rw [smul_eq_mul]; ring)
 
 /-- The reflected primitive has the same `+∞` limit `pi*lambda` as the original
 primitive. -/
 theorem neg_logCoshDifference_neg_tendsto_atTop (lam : ℝ) :
     Tendsto (fun x : ℝ => -logCoshDifference lam (-x)) atTop (nhds (Real.pi * lam)) := by
-  have h := (logCoshDifference_tendsto_atBot lam).comp tendsto_neg_atTop_atBot
-  convert h.neg using 1 <;> ring
+  have h := ((logCoshDifference_tendsto_atBot lam).comp tendsto_neg_atTop_atBot).neg
+  rw [show -(-Real.pi * lam) = Real.pi * lam by ring] at h
+  exact h
 
 /-- The scaled shifted-sech kernel is integrable on the whole real line. The proof
 uses its fixed sign and the finite endpoint limits of the primitive rather than an

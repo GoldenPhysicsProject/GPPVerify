@@ -29,12 +29,11 @@ theorem hasDerivAt_gravityShellAntideriv (r : ℝ) :
   have hsq := (ht.pow 2)
   have hinner := (hasDerivAt_const r (1 : ℝ)).sub hsq
   have hpow := (hinner.pow 4).const_mul (-(1 / 8 : ℝ))
-  convert hpow using 1
-  · unfold gravityShellAntideriv
-  · rw [show Real.cosh r ^ 8 = (Real.cosh r ^ 2) ^ 4 by ring]
-    rw [show 1 / (Real.cosh r ^ 2) ^ 4 = (1 / Real.cosh r ^ 2) ^ 4 by field_simp]
-    rw [one_div_cosh_sq]
-    ring
+  refine hpow.congr_deriv ?_
+  rw [div_eq_mul_one_div (Real.tanh r),
+    show 1 / Real.cosh r ^ 8 = (1 / Real.cosh r ^ 2) ^ 4 by ring, one_div_cosh_sq]
+  simp only [Pi.sub_apply, Pi.pow_apply]
+  norm_num <;> ring
 
 /-- Threshold value of the antiderivative. -/
 theorem gravityShellAntideriv_zero :
@@ -48,7 +47,9 @@ theorem tendsto_gravityShellAntideriv_zero :
   have hsub := (tendsto_const_nhds (x := (1 : ℝ)) (f := (atTop : Filter ℝ))).sub hsq
   have hpow := hsub.pow 4
   have h := hpow.const_mul (-(1 / 8 : ℝ))
-  simpa [gravityShellAntideriv] using h
+  have h0 : -(1 / 8 : ℝ) * (1 - 1) ^ 4 = 0 := by norm_num
+  rw [h0] at h
+  exact h
 
 /-- The gravity shell is nonnegative above threshold. -/
 theorem gravityShell_nonneg {r : ℝ} (hr : 0 < r) :

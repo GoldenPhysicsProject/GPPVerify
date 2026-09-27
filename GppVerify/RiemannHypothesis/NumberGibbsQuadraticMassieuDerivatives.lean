@@ -30,7 +30,9 @@ theorem hasDerivAt_logZ_beta
   have hlog : HasDerivAt Real.log (1 / Z β η) (Z β η) := by
     simpa [one_div] using Real.hasDerivAt_log hZne
   have H := hlog.comp β (hasDerivAt_Z_beta β hη)
-  simpa [Function.comp_apply, internalEnergy, div_eq_mul_inv, mul_comm] using H
+  refine H.congr_deriv ?_
+  simp only [internalEnergy]
+  ring
 
 /-- The confinement derivative of the Massieu potential is minus the normalized
 second logarithmic moment. -/
@@ -43,7 +45,9 @@ theorem hasDerivAt_logZ_eta
   have hlog : HasDerivAt Real.log (1 / Z β η) (Z β η) := by
     simpa [one_div] using Real.hasDerivAt_log hZne
   have H := hlog.comp η (hasDerivAt_Z_eta β hη)
-  simpa [Function.comp_apply, quadraticEnergy, div_eq_mul_inv, mul_comm] using H
+  refine H.congr_deriv ?_
+  simp only [quadraticEnergy]
+  ring
 
 end GppNumberGibbsQuadraticMassieuDerivatives
 

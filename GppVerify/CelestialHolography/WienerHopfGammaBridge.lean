@@ -42,7 +42,6 @@ theorem extendedWienerHopfWeight_eq_pi_half_rhoGamma_zero_re (x : ℝ) :
   · subst x
     rw [extendedWienerHopfWeight_zero, rhoGamma_zero_zero]
     simp
-    field_simp [Real.pi_ne_zero]
   · have hrho :
         (rhoGamma 0 x).re = 2 * x / Real.sinh (Real.pi * x) := by
       rw [rhoGamma_zero_eq_mehlerFock x hx]

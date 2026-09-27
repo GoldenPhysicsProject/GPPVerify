@@ -34,55 +34,52 @@ theorem landenCombination_hasDerivAt_zero
 
   have hfrac_inner :
       HasDerivAt (fun t : ℝ => t / (1 + t)) (1 / (1 + x) ^ 2) x := by
-    have hnum := hasDerivAt_id x
-    have hden := (hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)
-    have h := hnum.div hden h1x
-    convert h using 1 <;> field_simp [h1x] <;> ring
+    have h := (hasDerivAt_id x).fun_div
+      ((hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)) h1x
+    refine h.congr_deriv ?_
+    simp only [id, Pi.add_apply]
+    ring
   have hfrac_comp := hpos.comp x hfrac_inner
   have hfrac :
       HasDerivAt (fun t : ℝ => L (t / (1 + t)))
         (Real.log (1 + x) / (x * (1 + x))) x := by
     have hlogfrac :
         Real.log (1 - x / (1 + x)) = -Real.log (1 + x) := by
-      have hpos1x : 0 < 1 + x := by positivity
-      have hcalc : 1 - x / (1 + x) = 1 / (1 + x) := by
-        field_simp [h1x]
-        ring
-      rw [hcalc, Real.log_one_div hpos1x.ne']
-    convert hfrac_comp using 1
-    · field_simp [hx0, h1x]
-      ring
-    · rw [hlogfrac]
-      field_simp [hx0, h1x]
-      ring
+      have hcalc : 1 - x / (1 + x) = (1 + x)⁻¹ := by
+        rw [one_sub_div h1x, add_sub_cancel_right, one_div]
+      rw [hcalc, Real.log_inv]
+    refine hfrac_comp.congr_deriv ?_
+    rw [hlogfrac]
+    field_simp
 
-  have hneg_inner : HasDerivAt (fun t : ℝ => -t) (-1) x := by
-    simpa using (hasDerivAt_id x).neg
+  have hneg_inner : HasDerivAt (fun t : ℝ => -t) (-1) x := (hasDerivAt_id x).neg
   have hneg_comp := hneg.comp x hneg_inner
   have hneg_final :
       HasDerivAt (fun t : ℝ => L (-t))
         (-Real.log (1 + x) / x) x := by
-    convert hneg_comp using 1 <;> field_simp [hx0] <;> ring
+    refine hneg_comp.congr_deriv ?_
+    rw [sub_neg_eq_add]
+    field_simp
 
-  have hlog_inner : HasDerivAt (fun t : ℝ => 1 + t) 1 x := by
-    simpa using (hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)
-  have hlog : HasDerivAt (fun t : ℝ => Real.log (1 + t)) (1 / (1 + x)) x := by
-    simpa [h1x] using (Real.hasDerivAt_log h1x).comp x hlog_inner
+  have hlog_inner : HasDerivAt (fun t : ℝ => 1 + t) 1 x :=
+    ((hasDerivAt_const x (1 : ℝ)).add (hasDerivAt_id x)).congr_deriv (zero_add _)
+  have hlog : HasDerivAt (fun t : ℝ => Real.log (1 + t)) (1 / (1 + x)) x :=
+    ((Real.hasDerivAt_log h1x).comp x hlog_inner).congr_deriv (by rw [mul_one, one_div])
   have hlogsq :
       HasDerivAt (fun t : ℝ => (Real.log (1 + t)) ^ 2 / 2)
         (Real.log (1 + x) / (1 + x)) x := by
-    convert (hlog.pow 2).div_const 2 using 1 <;> ring
+    refine ((hlog.pow 2).div_const 2).congr_deriv ?_
+    norm_num <;> ring
 
   have hsum := (hfrac.add hneg_final).add hlogsq
   have hcancel :
       Real.log (1 + x) / (x * (1 + x)) -
           Real.log (1 + x) / x +
           Real.log (1 + x) / (1 + x) = 0 := by
-    field_simp [hx0, h1x]
+    field_simp
     ring
   unfold landenCombination
-  convert hsum using 1
-  exact hcancel.symm
+  exact hsum.congr_deriv (by rw [← hcancel]; ring)
 
 end GppRegulatedBoxLandenKernel
 

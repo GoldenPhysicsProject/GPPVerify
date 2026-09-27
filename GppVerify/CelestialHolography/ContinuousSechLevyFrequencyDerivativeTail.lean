@@ -53,7 +53,7 @@ theorem abs_frequencyDerivativeKernel_le_exp_tail {c t x : ℝ}
   have hexp_lt_one : Real.exp (-(2 * Real.pi)) < 1 := by
     exact Real.exp_lt_one_iff.mpr (by nlinarith [Real.pi_pos])
   have hgap : 0 < 1 - Real.exp (-(2 * Real.pi)) := sub_pos.mpr hexp_lt_one
-  have hsin : |Real.sin (t * x)| ≤ 1 := abs_sin_le_one (t * x)
+  have hsin : |Real.sin (t * x)| ≤ 1 := Real.abs_sin_le_one (t * x)
   have hkernel :
       |frequencyDerivativeKernel c t x| =
         c * |Real.sin (t * x)| / Real.sinh (Real.pi * |x|) := by
@@ -82,11 +82,11 @@ theorem abs_frequencyDerivativeKernel_le_exp_tail {c t x : ℝ}
     exact mul_le_mul_of_nonneg_left (by simpa [A] using htail) hB
   have hcancel : B * (A * Real.exp (Real.pi * |x|)) = c := by
     dsimp [A, B]
-    rw [← Real.exp_add]
-    have hsum : -(Real.pi * |x|) + Real.pi * |x| = 0 := by ring
-    rw [hsum, Real.exp_zero]
-    field_simp [ne_of_gt hgap]
-    ring
+    have hprod : Real.exp (-(Real.pi * |x|)) * Real.exp (Real.pi * |x|) = 1 := by
+      rw [← Real.exp_add]
+      simp
+    field_simp
+    linear_combination c * hprod
   have hsecond : c / Real.sinh (Real.pi * |x|) ≤ B := by
     apply (div_le_iff₀ hsinh).2
     calc

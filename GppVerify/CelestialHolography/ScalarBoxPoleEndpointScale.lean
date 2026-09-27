@@ -130,7 +130,7 @@ theorem abs_li2Series_etaB_le_linear_eta
       (48 / 19 : ℝ) * η * (1 - η * B) := by
     have hnon : 0 ≤ (48 / 19 : ℝ) * η := by positivity
     have hm := mul_le_mul_of_nonneg_left hdenlower hnon
-    convert hm using 1 <;> ring
+    linarith
   have hfrac : η * B / (1 - η * B) ≤ (48 / 19 : ℝ) * η := by
     apply (div_le_iff₀ hden).2
     exact hxB.trans hscaled
@@ -153,7 +153,7 @@ theorem abs_li2Series_neg_etaB_le_linear_eta
       (48 / 19 : ℝ) * η * (1 - η * B) := by
     have hnon : 0 ≤ (48 / 19 : ℝ) * η := by positivity
     have hm := mul_le_mul_of_nonneg_left hdenlower hnon
-    convert hm using 1 <;> ring
+    linarith
   have hfrac : η * B / (1 - η * B) ≤ (48 / 19 : ℝ) * η := by
     apply (div_le_iff₀ hden).2
     exact hxB.trans hscaled

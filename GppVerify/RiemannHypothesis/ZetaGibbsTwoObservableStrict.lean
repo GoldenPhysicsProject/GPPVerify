@@ -206,10 +206,10 @@ theorem normalized_centered_quadratic_eq_covariance
     (∑' n : ℕ, gibbsProbability beta n *
       (a * centeredLogEnergy beta n + b * centeredLogEnergySq beta n) ^ 2) =
         ∑' n : ℕ,
-          a ^ 2 * (gibbsProbability beta n * (centeredLogEnergy beta n) ^ 2) +
+          (a ^ 2 * (gibbsProbability beta n * (centeredLogEnergy beta n) ^ 2) +
           (2 * a * b) * (gibbsProbability beta n *
             (centeredLogEnergy beta n * centeredLogEnergySq beta n)) +
-          b ^ 2 * (gibbsProbability beta n * (centeredLogEnergySq beta n) ^ 2) := by
+          b ^ 2 * (gibbsProbability beta n * (centeredLogEnergySq beta n) ^ 2)) := by
             apply tsum_congr
             intro n
             ring
@@ -217,9 +217,9 @@ theorem normalized_centered_quadratic_eq_covariance
         a ^ 2 * centeredLogVariance beta +
           (2 * a * b) * centeredLogSquareCovariance beta +
           b ^ 2 * centeredLogSquareVariance beta := by
-            rw [tsum_add (hAa.add hBb) hCc, tsum_add hAa hBb]
+            rw [Summable.tsum_add (hAa.add hBb) hCc, Summable.tsum_add hAa hBb]
             simp [centeredLogVariance, centeredLogSquareCovariance,
-              centeredLogSquareVariance]
+              centeredLogSquareVariance, tsum_mul_left]
     _ = centeredLogVariance beta * a ^ 2 +
         2 * centeredLogSquareCovariance beta * a * b +
         centeredLogSquareVariance beta * b ^ 2 := by ring

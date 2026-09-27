@@ -143,9 +143,9 @@ theorem centeredLogVariance_eq_logEnergyVariance
   calc
     centeredLogVariance beta =
         ∑' n : ℕ,
-          gibbsProbability beta n * (logEnergy n) ^ 2 +
+          (gibbsProbability beta n * (logEnergy n) ^ 2 +
           (-2 * mu) * (gibbsProbability beta n * logEnergy n) +
-          (mu ^ 2) * gibbsProbability beta n := by
+          (mu ^ 2) * gibbsProbability beta n) := by
       unfold centeredLogVariance centeredLogEnergy
       apply tsum_congr
       intro n
@@ -155,7 +155,7 @@ theorem centeredLogVariance_eq_logEnergyVariance
         (∑' n : ℕ, gibbsProbability beta n * (logEnergy n) ^ 2) +
         (-2 * mu) * (∑' n : ℕ, gibbsProbability beta n * logEnergy n) +
         (mu ^ 2) * (∑' n : ℕ, gibbsProbability beta n) := by
-      rw [tsum_add (h2.add h1c) h0c, tsum_add h2 h1c]
+      rw [Summable.tsum_add (h2.add h1c) h0c, Summable.tsum_add h2 h1c]
       simp only [tsum_mul_left]
     _ = M2 beta / Z beta + (-2 * mu) * (M1 beta / Z beta) + mu ^ 2 := by
       rw [gibbsProbability_secondMoment, gibbsProbability_firstMoment,
@@ -182,10 +182,10 @@ theorem centeredLogSquareCovariance_eq
   calc
     centeredLogSquareCovariance beta =
         ∑' n : ℕ,
-          gibbsProbability beta n * (logEnergy n) ^ 3 +
+          (gibbsProbability beta n * (logEnergy n) ^ 3 +
           (-mu) * (gibbsProbability beta n * (logEnergy n) ^ 2) +
           (-nu) * (gibbsProbability beta n * logEnergy n) +
-          (mu * nu) * gibbsProbability beta n := by
+          (mu * nu) * gibbsProbability beta n) := by
       unfold centeredLogSquareCovariance centeredLogEnergy centeredLogEnergySq
       apply tsum_congr
       intro n
@@ -196,8 +196,8 @@ theorem centeredLogSquareCovariance_eq
         (-mu) * (∑' n : ℕ, gibbsProbability beta n * (logEnergy n) ^ 2) +
         (-nu) * (∑' n : ℕ, gibbsProbability beta n * logEnergy n) +
         (mu * nu) * (∑' n : ℕ, gibbsProbability beta n) := by
-      rw [tsum_add (((h3.add h2c).add h1c)) h0c,
-        tsum_add (h3.add h2c) h1c, tsum_add h3 h2c]
+      rw [Summable.tsum_add (((h3.add h2c).add h1c)) h0c,
+        Summable.tsum_add (h3.add h2c) h1c, Summable.tsum_add h3 h2c]
       simp only [tsum_mul_left]
     _ = M3 beta / Z beta + (-mu) * (M2 beta / Z beta) +
         (-nu) * (M1 beta / Z beta) + mu * nu := by
@@ -222,9 +222,9 @@ theorem centeredLogSquareVariance_eq
   calc
     centeredLogSquareVariance beta =
         ∑' n : ℕ,
-          gibbsProbability beta n * (logEnergy n) ^ 4 +
+          (gibbsProbability beta n * (logEnergy n) ^ 4 +
           (-2 * nu) * (gibbsProbability beta n * (logEnergy n) ^ 2) +
-          (nu ^ 2) * gibbsProbability beta n := by
+          (nu ^ 2) * gibbsProbability beta n) := by
       unfold centeredLogSquareVariance centeredLogEnergySq
       apply tsum_congr
       intro n
@@ -234,7 +234,7 @@ theorem centeredLogSquareVariance_eq
         (∑' n : ℕ, gibbsProbability beta n * (logEnergy n) ^ 4) +
         (-2 * nu) * (∑' n : ℕ, gibbsProbability beta n * (logEnergy n) ^ 2) +
         (nu ^ 2) * (∑' n : ℕ, gibbsProbability beta n) := by
-      rw [tsum_add (h4.add h2c) h0c, tsum_add h4 h2c]
+      rw [Summable.tsum_add (h4.add h2c) h0c, Summable.tsum_add h4 h2c]
       simp only [tsum_mul_left]
     _ = M4 beta / Z beta + (-2 * nu) * (M2 beta / Z beta) + nu ^ 2 := by
       rw [gibbsProbability_fourthMoment, gibbsProbability_secondMoment,

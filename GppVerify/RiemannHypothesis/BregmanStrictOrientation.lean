@@ -37,14 +37,17 @@ theorem bregmanKL_gt_reverse_of_fisher_strictAnti
           (∫ x in β..γ, (x - β) * g x) =
         ∫ x in β..γ, (β + γ - 2 * x) * g x := by
     rw [← intervalIntegral.integral_sub]
-    apply intervalIntegral.integral_congr
-    intro x hx
-    ring
-  rw [lt_iff_sub_pos, hsub,
+    · apply intervalIntegral.integral_congr
+      intro x hx
+      ring
+    · exact ((continuous_const.sub continuous_id).mul hgcont).intervalIntegrable _ _
+    · exact ((continuous_id.sub continuous_const).mul hgcont).intervalIntegrable _ _
+  rw [← sub_pos, hsub,
     antisymmetric_integral_eq_reflected g β γ hgcont]
   have hL : 0 < (γ - β) / 2 := by linarith
   apply reflectedKernel_integral_pos hL hgcont
   intro y hy
+  obtain ⟨hy0, hyL⟩ := hy
   have hxlo : β ≤ (β + γ) / 2 - y := by linarith
   have hyhi : (β + γ) / 2 + y ≤ γ := by linarith
   have hxy : (β + γ) / 2 - y < (β + γ) / 2 + y := by linarith

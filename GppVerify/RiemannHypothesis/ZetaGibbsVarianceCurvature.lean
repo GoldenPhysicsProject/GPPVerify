@@ -41,8 +41,7 @@ theorem varianceSlope_eq_deriv_variance
 theorem hasDerivAt_varianceSlope
     {β : ℝ} (hβ : 1 < β) :
     HasDerivAt varianceSlope (logEnergyFourthCumulant β) β := by
-  have h := (hasDerivAt_logEnergyThirdCumulant_eq_neg_fourth hβ).neg
-  simpa [varianceSlope] using h
+  exact (hasDerivAt_logEnergyThirdCumulant_eq_neg_fourth hβ).neg.congr_deriv (neg_neg _)
 
 /-- The fluctuation curvature is strictly positive throughout `beta > 1`. -/
 theorem deriv_varianceSlope_pos
