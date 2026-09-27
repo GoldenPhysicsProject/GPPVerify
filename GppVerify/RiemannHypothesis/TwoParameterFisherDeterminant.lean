@@ -127,6 +127,31 @@ theorem four_point_covariance_det_pos_of_three
   have hfourth : 0 ≤ q*r*s*(y-z)^2*(y-w)^2*(z-w)^2 := by positivity
   linarith
 
+
+-- Ported from GPPVerify2 (2026-09-27)
+
+/-- The full normalized four-state covariance determinant dominates any chosen
+three-state Vandermonde minor.  This is the exact finite inequality needed for
+the countable Gibbs strategy: once the remaining support has been aggregated or
+approximated by finite truncations, a single positive arithmetic triple gives a
+quantitative lower witness rather than only qualitative nondegeneracy. -/
+theorem four_point_covariance_det_ge_first_vandermonde
+    (p q r s x y z w : ℝ)
+    (hnorm : p + q + r + s = 1)
+    (hp : 0 ≤ p) (hq : 0 ≤ q) (hr : 0 ≤ r) (hs : 0 ≤ s) :
+    let m1 := p*x + q*y + r*z + s*w
+    let m2 := p*x^2 + q*y^2 + r*z^2 + s*w^2
+    let m3 := p*x^3 + q*y^3 + r*z^3 + s*w^3
+    let m4 := p*x^4 + q*y^4 + r*z^4 + s*w^4
+    p*q*r*(x-y)^2*(x-z)^2*(y-z)^2 ≤
+      (m2 - m1^2) * (m4 - m2^2) - (m3 - m1*m2)^2 := by
+  dsimp
+  rw [four_point_covariance_det_eq_vandermonde_sum p q r s x y z w hnorm]
+  have hsecond : 0 ≤ p*q*s*(x-y)^2*(x-w)^2*(y-w)^2 := by positivity
+  have hthird : 0 ≤ p*r*s*(x-z)^2*(x-w)^2*(z-w)^2 := by positivity
+  have hfourth : 0 ≤ q*r*s*(y-z)^2*(y-w)^2*(z-w)^2 := by positivity
+  linarith
+
 end GppTwoParameterFisherDeterminant
 
 #print axioms GppTwoParameterFisherDeterminant.covariance_det_eq_moment_gram_det

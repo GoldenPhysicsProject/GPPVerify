@@ -1,3 +1,4 @@
+import GppVerify.CelestialHolography.CelestialShadowHelicity
 import Mathlib.Topology.Algebra.Module.Basic
 import Mathlib.Data.Nat.Choose.Basic
 
@@ -41,6 +42,8 @@ googly theorem.
 -/
 
 namespace GppTwistorGoogly
+
+open GppCelestialShadowHelicity
 
 /-! ## Basic dimension counts (proved) -/
 
@@ -105,5 +108,36 @@ theorem open_shadow_discontinuity_one_loop : True := trivial
 theorem open_cut_shadow_correspondence : True := trivial
 
 theorem open_twistor_googly_summary : True := trivial
+
+
+-- Ported from GPPVerify2 (2026-09-27)
+
+/-- The exact representation-theoretic core of the googly/shadow proposal:
+for any celestial conformal dimension, shadow exchanges the two graviton helicity
+labels `+2` and `-2`.  This is stronger than merely observing `Delta ↦ 2-Delta`;
+it uses the full weight transformation `(h,hbar) ↦ (1-h,1-hbar)`, hence
+`J ↦ -J`. -/
+theorem googly_is_shadow_at_helicity (Delta : ℂ) :
+    Weights.spin (Weights.shadow (Weights.ofDeltaSpin Delta 2)) = -2 ∧
+    Weights.spin (Weights.shadow (Weights.ofDeltaSpin Delta (-2))) = 2 := by
+  constructor
+  · exact Weights.graviton_plus_to_minus Delta
+  · exact Weights.graviton_minus_to_plus Delta
+
+/-- For arbitrary celestial spin, shadow reverses the spin label while reflecting
+conformal dimension. -/
+theorem shadow_dimension_spin_pair (Delta J : ℂ) :
+    Weights.shadow (Weights.ofDeltaSpin Delta J) =
+      Weights.ofDeltaSpin (2 - Delta) (-J) :=
+  Weights.shadow_ofDeltaSpin Delta J
+
+/-- On the scalar principal-series axis the dimension reflection is complex
+conjugation.  Combined with `shadow_dimension_spin_pair`, this is the precise
+Hermitian-shadow structure used in the celestial representation theory. -/
+theorem principal_series_shadow_is_conjugate_dimension (nu : ℝ) :
+    let Delta : ℂ := 1 + Complex.I * nu
+    Weights.delta (Weights.shadow (Weights.ofDeltaSpin Delta 0)) =
+      starRingEnd ℂ Delta :=
+  Weights.principal_series_shadow_delta nu
 
 end GppTwistorGoogly
