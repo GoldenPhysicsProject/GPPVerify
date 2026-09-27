@@ -1972,3 +1972,10 @@ import GppVerify.RiemannHypothesis.ZetaGibbsThirdCumulantDerivative
 import GppVerify.RiemannHypothesis.ZetaGibbsTwoObservableStrict
 import GppVerify.RiemannHypothesis.ZetaGibbsVarianceCurvature
 import GppVerify.StandardModel.UniversalNotFidelity
+-- ── Formalized from GPPDiscovery2 RH discovery notes (Codex, 2026-09-24), 2026-09-27 ──
+-- Archimedean channel floor A∞ ≥ -γ - log π - π/2 - 3 log 2 (exact constant integral);
+-- finite-place KMS critical limit ‖c₁ - c_β‖ ≤ |β-1| (log N)³;
+-- half-density zeta synthesis on divisor-closed sets: MZ = ZM = I and MDZ - D = L_Λ.
+import GppVerify.RiemannHypothesis.ArchimedeanFloor
+import GppVerify.RiemannHypothesis.KMSCriticalLimit
+import GppVerify.RiemannHypothesis.HalfDensityZetaGauge
