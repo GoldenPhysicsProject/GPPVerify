@@ -1513,6 +1513,8 @@ import GppVerify.RiemannHypothesis.CayleyRadialDefect
 import GppVerify.RiemannHypothesis.GradedIndefiniteCompletion
 import GppVerify.RiemannHypothesis.ReflectionPositiveGraphContraction
 import GppVerify.RiemannHypothesis.UnitaryParentLeakage
+-- Fixed-window transform: closed form and exact zero set (Codex GPPDiscovery2 09-24; formalized 09-27)
+import GppVerify.RiemannHypothesis.FixedWindowTransform
 import GppVerify.RiemannHypothesis.DirichletLogGaugeIdentity
 import GppVerify.RiemannHypothesis.FiniteFermionicDeterminantCriticalZeros
 import GppVerify.RiemannHypothesis.FiniteFermionicMomentGram
