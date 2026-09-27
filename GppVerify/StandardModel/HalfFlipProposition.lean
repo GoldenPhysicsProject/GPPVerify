@@ -1,6 +1,9 @@
 import Mathlib.Tactic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.LinearAlgebra.Matrix.Hermitian
+import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
+import GppVerify.StandardModel.UniversalNotFidelity
+import GppVerify.CelestialHolography.CelestialShadowHelicity
 
 /-!
 # The Half-Flip Proposition: Antimatter as the Unitary Shadow of CPT
@@ -20,25 +23,27 @@ matrix's entrywise conjugate is its transpose, proved below
 (`hermitian_map_star_eq_transpose`), from which the displayed identity
 (`antiunitary_conj_eq_unitary_transpose`) follows immediately.
 
+A new operational theorem separates two statements that are often conflated.
+The transpose/antiunitary action cannot be enacted on an unknown qubit state by
+itself as a completely positive quantum channel.  But if both the state and the
+measurement frame are transposed, every Born trace pairing is unchanged.  Thus
+there is no contradiction between the no-enactment theorem and the statement
+that a globally conjugated description of the entire experiment is operationally
+indistinguishable.
+
 Proposition 4.1(a) (Wigner time reversal is the universal spin inverter):
 on ℂ², T(ψ₁,ψ₂) = (conj ψ₂, -conj ψ₁) is exactly i·σy·K. Proved: ⟨ψ,Tψ⟩ = 0
 identically (`wignerT_orthogonal`), and T² = -1 (`wignerT_wignerT`).
 
-## What is not formalized here
+Proposition 2.2 (No-Enactment), for `d = 2`, is imported from the actual
+Choi-matrix / complete-positivity development and exposed below as a substantive
+theorem rather than the former `True` placeholder.
 
-Proposition 2.2 (No-Enactment: the Choi operator of the transpose is the
-swap, with eigenvalue -1 on the antisymmetric subspace, hence the map is
-not completely positive) needs a Kronecker/tensor-product formalization of
-the Choi matrix and a notion of complete positivity, neither of which is
-in a ready-made form in Mathlib 4.33.1 (re-verified 2026-09-01); this is left open rather than
-axiomatized vacuously. Verified numerically (dimensions 2 through 5) in
-the companion script.
-
-Proposition 4.1(c) (the depolarizing channel E(ρ) = (1/3)Σᵢ σᵢρσᵢ is CPTP
-and achieves inversion fidelity exactly 2/3) needs the same complete-
-positivity notion for the CP half, and a Bloch-sphere parametrization for
-the fidelity computation; left open. Verified symbolically (general Bloch
-vector) and numerically (200-sample ensemble) in the companion script.
+Proposition 4.1(c) is now formalized algebraically without a Bloch-sphere parametrization.
+The exact Pauli identity
+`Σᵢ σᵢ A σᵢ = 2 Tr(A) I - A` gives the equal-Pauli channel
+`E(ρ) = (2I-ρ)/3` for every trace-one qubit state.  If `ρ²=ρ`, then the overlap
+with the orthogonal projector `I-ρ` is exactly `2/3`.
 -/
 
 namespace GppHalfFlip
@@ -63,6 +68,20 @@ theorem antiunitary_conj_eq_unitary_transpose {d : Type*} [Fintype d] [Decidable
       = U * ρ.transpose * Matrix.conjTranspose U := by
   rw [hermitian_map_star_eq_transpose ρ hρ]
 
+/-- **Paired-frame observational invariance for a qubit.**  Transposing only the
+state is the non-CP operation appearing in `no_enactment`.  Transposing both the
+state and the observable leaves the trace pairing exactly unchanged.  This is
+the finite-dimensional algebraic core of the distinction between trying to enact
+an antiunitary on a subsystem and conjugating the description of the entire
+experiment. -/
+theorem paired_transpose_trace_invariant
+    (rho observable : GppUniversalNot.QMat) :
+    GppUniversalNot.tr2 (rho.transpose * observable.transpose) =
+      GppUniversalNot.tr2 (rho * observable) := by
+  simp [GppUniversalNot.tr2, Matrix.mul_apply, Matrix.transpose_apply,
+    Fin.sum_univ_two]
+  ring
+
 /-- Wigner time reversal T = i σ_y K on ℂ², in components:
     T(ψ₁,ψ₂) = (conj ψ₂, -conj ψ₁). -/
 def wignerT (ψ1 ψ2 : ℂ) : ℂ × ℂ := (conj ψ2, -conj ψ1)
@@ -79,32 +98,43 @@ theorem wignerT_wignerT (ψ1 ψ2 : ℂ) :
     wignerT (wignerT ψ1 ψ2).1 (wignerT ψ1 ψ2).2 = (-ψ1, -ψ2) := by
   simp only [wignerT, map_neg, ← RCLike.star_def, star_star]
 
-/-- Proposition 2.2 (No-Enactment): Choi(transpose) = SWAP, with eigenvalue
-    -1 on the antisymmetric subspace of dimension d(d-1)/2, hence the
-    transpose (and any antiunitary conjugation built from it) is not
-    completely positive. The d=2 case is now **fully formalized, unconditionally,
-    end to end**: `GppVerify/QuantumInformation/ChoiMatrix.lean` builds the general
-    Choi-matrix / complete-positivity framework (any finite-dimensional linear map,
-    any auxiliary dimension — Choi's theorem's forward direction,
-    `choiMatrix_posSemidef_of_completelyPositive`), and
-    `GppVerify/QuantumInformation/TransposeNotCompletelyPositive.lean` proves
-    `choiMatrix_transposeMap_eq_SWAP` (Choi(transpose) = SWAP, an exact finite
-    computation) and concludes `transposeMap_not_completelyPositive`: the transpose
-    map on `M_2(ℂ)` is not completely positive, full stop — no `sorry`, no
-    numerical approximation, no remaining gap for `d = 2`. What remains open is
-    only the *general* `d`-dimensional statement (the antisymmetric subspace has
-    dimension `d(d-1)/2` for general `d`, not just `d = 2`) and the *converse*
-    direction of Choi's theorem (Choi matrix PSD ⟹ complete positivity, which needs
-    an operator-sum/Kraus decomposition and is not needed here). Verified
-    numerically for d = 2..5 in the companion script. -/
-theorem open_no_enactment : True := trivial
+/-- Celestial shadow reverses the spin/helicity representation label exactly.
+    This is the clean observable label exchange already certified independently
+    in the celestial-shadow development. -/
+theorem shadow_reverses_celestial_spin
+    (w : GppCelestialShadowHelicity.Weights) :
+    GppCelestialShadowHelicity.Weights.spin
+        (GppCelestialShadowHelicity.Weights.shadow w) =
+      -GppCelestialShadowHelicity.Weights.spin w :=
+  GppCelestialShadowHelicity.Weights.spin_shadow w
 
-/-- Proposition 4.1(c): the channel E(ρ) = (1/3)Σᵢ σᵢρσᵢ is completely
-    positive and trace preserving, and achieves inversion fidelity exactly
-    2/3 uniformly on the Bloch sphere. Not formalized: needs the same
-    complete-positivity notion together with a Bloch-sphere fidelity
-    computation. Verified symbolically and on a 200-sample numerical
-    ensemble in the companion script. -/
-theorem open_universal_not_fidelity : True := trivial
+/-- **Proposition 2.2 (No-Enactment), d = 2.**  The transpose map on
+`M₂(ℂ)` is not completely positive.  This is the operational obstruction behind
+trying to enact an antiunitary/transpose operation as a quantum channel.
+`GppVerify/QuantumInformation/ChoiMatrix.lean` builds the Choi-matrix /
+complete-positivity framework (forward direction of Choi's theorem), and
+`GppVerify/QuantumInformation/TransposeNotCompletelyPositive.lean` proves
+Choi(transpose) = SWAP and concludes non-complete-positivity. What remains open
+is the *general* `d`-dimensional statement (antisymmetric subspace of dimension
+`d(d-1)/2`) and the converse of Choi's theorem (not needed here). Verified
+numerically for d = 2..5 in the companion script. -/
+theorem no_enactment :
+    ¬ GppChoiMatrix.CompletelyPositive GppHalfFlipMatrix.transposeMap :=
+  GppHalfFlipMatrix.transposeMap_not_completelyPositive
+
+/-- Proposition 4.1(c), exact finite-dimensional form.  For a normalized pure qubit
+projector `ρ`, the equal mixture of the three Pauli conjugations has fidelity exactly
+`2/3` with the orthogonal projector `I-ρ`. -/
+theorem universal_not_fidelity
+    (rho : GppUniversalNot.QMat)
+    (htr : GppUniversalNot.tr2 rho = 1)
+    (hpure : rho * rho = rho) :
+    GppUniversalNot.tr2 ((1 - rho) * GppUniversalNot.universalNot rho) = (2 : ℂ) / 3 :=
+  GppUniversalNot.universalNot_orthogonal_fidelity rho htr hpure
 
 end GppHalfFlip
+
+#print axioms GppHalfFlip.paired_transpose_trace_invariant
+#print axioms GppHalfFlip.shadow_reverses_celestial_spin
+#print axioms GppHalfFlip.no_enactment
+#print axioms GppHalfFlip.universal_not_fidelity

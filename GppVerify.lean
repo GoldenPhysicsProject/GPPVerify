@@ -240,7 +240,7 @@ import GppVerify.QuantumInformation.ChoiMatrix
 
 -- ── Proposition 2.2, complete (New) ────────────────────────────
 -- Choi(transpose) = SWAP exactly, hence transpose map on M_2(C) is
--- not completely positive: open_no_enactment fully retired for d=2.
+-- not completely positive: HalfFlipProposition.no_enactment (d=2).
 import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
 
 -- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, ONON5213.tex) ─

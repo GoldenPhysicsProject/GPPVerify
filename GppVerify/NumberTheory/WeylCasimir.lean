@@ -17,6 +17,13 @@ The Weyl vector ρ = (3,1,-1,-3)/2 in the standard basis.
 The main result is now the actual vector/dot-product computation
 `rhoA3_dot_self`, not just arithmetic on the numerator; the bare
 numerator identities below are recorded as corollaries.
+
+Objection on record (GPPVerify2, 2026-09-02): older T-boundary manuscripts
+attached Majorana-neutrino, massless-lightest-neutrino and mirror-baryon
+conclusions to this algebraic neighbourhood. Those depend on ordinary Wigner time
+reversal flipping helicity, which it does not. They are kept below as labelled
+`open_` framework claims with that objection beside each; they are not
+consequences of the Weyl/Casimir identities, which stand on their own.
 -/
 
 namespace GppWeylCasimir
@@ -75,7 +82,11 @@ Weyl vector of D₄ = Spin(8) is ρ = (3,2,1,0); the vector, spinor, and
 cospinor weights are λᵥ=(1,0,0,0), λₛ=(½,½,½,½), λ_c=(½,½,½,-½). The
 Casimir formula C₂(λ) = ⟨λ,λ+2ρ⟩ gives the same value 7 for all three,
 the algebraic seed of Spin(8) triality. Independently verified via
-Python before being written as Lean proofs. -/
+Python before being written as Lean proofs. Equality of these quadratic
+Casimirs does not by itself identify bosonic and fermionic sectors, nor does
+it imply equality of conformal weights without an additional model-specific
+relation between C₂ and the conformal Hamiltonian (caveat ported from
+GPPVerify2). -/
 
 /-- The Weyl vector of D₄ = Spin(8), ρ = (3,2,1,0). -/
 def rhoD4 : Fin 4 → ℚ
@@ -120,10 +131,10 @@ theorem casimir_cospinor_eq_seven : casimirD4 lambdaCospinor = 7 := by
   unfold casimirD4 lambdaCospinor rhoD4 dotProduct
   norm_num [Fin.sum_univ_four]
 
-/-- **Spin(8) triality**: the three 8-dimensional representations
-    (vector, spinor, cospinor) share the same Casimir eigenvalue, hence
-    the same conformal weight -- the algebraic fact underlying
-    triality. -/
+/-- **Spin(8) triality Casimir equality**: the three 8-dimensional
+    representations (vector, spinor, cospinor) share the same quadratic Casimir
+    eigenvalue in this normalization. Equal conformal weight would need a
+    further model-specific relation between C₂ and the conformal Hamiltonian. -/
 theorem casimir_triality_equal :
     casimirD4 lambdaVector = casimirD4 lambdaSpinor ∧
       casimirD4 lambdaSpinor = casimirD4 lambdaCospinor := by
@@ -196,17 +207,23 @@ theorem gr24_middle_betti (q : ℤ) :
     theorem, and strictly less honest than the axiom it replaced, since an axiom at least
     shows up in `#print axioms`. Now an `open_` stub the gate counts. -/
 theorem open_mirror_baryon_lower_bound : True := trivial
+-- OBJECTION (GPPVerify2, 2026-09-02): the T-boundary argument assumes ordinary Wigner time
+-- reversal flips helicity; it preserves it. Not a consequence of the Weyl/Casimir algebra here.
 
 /-- Massless lightest neutrino prediction from T-boundary.
     Source: zitterbewegung paper, pred:massless.
     The lightest neutrino is massless because it cannot acquire T-boundary mass. -/
 theorem open_lightest_neutrino_massless : True := trivial
 -- NOTE: Requires spectral analysis of T-boundary Dirac operator (Mathlib gap).
+-- OBJECTION (GPPVerify2, 2026-09-02): the T-boundary argument assumes ordinary Wigner time
+-- reversal flips helicity; it preserves it. Not a consequence of the Weyl/Casimir algebra here.
 
 /-- Majorana condition from T-boundary.
     Source: zitterbewegung paper, cor:neutrino.
     Neutrinos satisfying the T-boundary condition are their own antiparticles. -/
 theorem open_majorana_from_T_boundary : True := trivial
 -- NOTE: Requires T-boundary differential geometry formalism (Mathlib gap).
+-- OBJECTION (GPPVerify2, 2026-09-02): the T-boundary argument assumes ordinary Wigner time
+-- reversal flips helicity; it preserves it. Not a consequence of the Weyl/Casimir algebra here.
 
 end GppWeylCasimir
