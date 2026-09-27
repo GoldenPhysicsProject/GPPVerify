@@ -7,7 +7,7 @@ import Mathlib.Analysis.Complex.CauchyIntegral
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `thm:shadow-discontinuity` (ONON52, cited 10×):
+This file formalizes `thm:shadow-discontinuity` (On the Nature of Nature v5.2, cited 10×):
 *The discontinuity of a celestial amplitude across the shadow cut z → z̄
 equals the loop integrand, replacing Feynman diagrams.*
 
@@ -91,7 +91,7 @@ theorem open_shadow_disc_mellin_density : True := trivial
 -- §3  Main theorem (thm:shadow-discontinuity)
 -- ============================================================
 
-/-- **thm:shadow-discontinuity** (ONON52, cited 10×).
+/-- **thm:shadow-discontinuity** (On the Nature of Nature v5.2, cited 10×).
 
     The discontinuity of a celestial amplitude across the shadow cut
     z ↦ z̄ (= Δ ↦ 2-Δ̄) equals the loop integrand:

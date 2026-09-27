@@ -7,7 +7,7 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file concerns `thm:dm-abundance` (ONON52, third-most-cited, 13×), which the
+This file concerns `thm:dm-abundance` (On the Nature of Nature v5.2, third-most-cited, 13×), which the
 framework states as: *the observed dark matter abundance Ω_{DM} h² ≈ 0.12 follows from
 the shadow symmetry breaking scale, fixed by c_{2D} = 0.*
 
@@ -127,7 +127,7 @@ theorem dm_abundance_positive {omega_DM : ℝ}
     (omega_observed : 0 < omega_DM ∧ omega_DM < 1) : 0 < omega_DM :=
   shadow_unitarity_abundance_pos omega_observed
 
-/-- **thm:dm-abundance** (ONON52, cited 13×).
+/-- **thm:dm-abundance** (On the Nature of Nature v5.2, cited 13×).
 
     Dark matter abundance is determined by shadow symmetry:
     when c_{2D} = 0, the shadow Goldstone relic abundance matches Ω_{DM} h² ≈ 0.12.

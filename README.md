@@ -87,7 +87,7 @@ keeping its name, is the one move that would make this tree dishonest.
 
 ## Open problem: `thm:link6`
 
-The theorem **`thm:link6`** (`c_{2D} = c_{4D}^{Weyl}`, ONON52 §Link 6) is explicitly open.
+The theorem **`thm:link6`** (`c_{2D} = c_{4D}^{Weyl}`, On the Nature of Nature v5.2 §Link 6) is explicitly open.
 Lean declarations that depend on it are honest `True := trivial` stubs gated in their doc
 comments on a proof of Link 6 — not `sorry`, since there is nothing left to fill in once
 Link 6 is proved; the gap is upstream mathematics, not a missing Lean argument.
@@ -126,7 +126,7 @@ leanblueprint build
 ## Dependency map
 
 See [`docs/DependencyMap.md`](docs/DependencyMap.md) for the full theorem dependency
-tree extracted from ONON52.tex (686 named results, 22 chapters).
+tree extracted from On the Nature of Nature v5.2 (686 named results, 22 chapters).
 
 ---
 

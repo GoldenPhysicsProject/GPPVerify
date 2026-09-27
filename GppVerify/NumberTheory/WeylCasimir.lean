@@ -52,7 +52,7 @@ theorem weyl_casimir_u4 : (3^2 + 1^2 + 1^2 + 3^2 : ℤ) / 4 = 5 := by decide
 
 /-! ## First eigenvalue of the Laplace-Beltrami operator on Gr(2,4)
 
-Source: ONON5213.tex, Dark Matter chapter, Theorem "First Eigenvalue of
+Source: On the Nature of Nature v5.2.1.3, Dark Matter chapter, Theorem "First Eigenvalue of
 Gr(2,4)" (thm:lambda1): λ₁(Gr(2,4)) = 8, via the Casimir formula
 λ_μ = ⟨μ+ρ_G, μ+ρ_G⟩ - ⟨ρ_G, ρ_G⟩ at the smallest non-trivial
 K-spherical weight μ = (1,0,0,-1). Reuses `rhoA3` above for ρ_G. -/

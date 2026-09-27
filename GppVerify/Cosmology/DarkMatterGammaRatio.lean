@@ -4,7 +4,7 @@ import Mathlib.Tactic
 /-!
 # Shadow kernel Gamma-function ratio for dark matter abundance
 
-Source: ONON5213.tex, "The Grassmannian Spinor Bundle: Time Reversal,
+Source: On the Nature of Nature v5.2.1.3, "The Grassmannian Spinor Bundle: Time Reversal,
 Chirality, and Dark Matter" chapter. The dark matter abundance formula
 `Ω_DM/Ω_b = 1 + N(1/2)/N(3/2) + O(m_ν) = 5.03` uses the shadow kernel
 normalization ratio `N(1/2)/N(3/2) = Γ(1/2)²/Γ(3/2)² = 4`.
@@ -46,7 +46,7 @@ theorem dm_baryon_leading_term :
   norm_num
 
 /-- The shadow kernel normalization N(Δ) = Γ(Δ)/(π·Γ(2-Δ)) at Δ = 3/2
-    (source: ONON5213.tex, Dark Matter chapter, Theorem "Shadow Kernel
+    (source: On the Nature of Nature v5.2.1.3, Dark Matter chapter, Theorem "Shadow Kernel
     at Δ = 3/2"): N(3/2) = 1/(2π), the exact normalization of the
     hidden-sector shadow kernel `K_{3/2}(z,w) = N(3/2)/|z-w|`. -/
 theorem shadow_kernel_normalization_three_half :

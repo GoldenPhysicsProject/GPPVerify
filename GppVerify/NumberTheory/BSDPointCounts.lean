@@ -4,7 +4,7 @@ import Mathlib.Tactic
 /-!
 # Point counts for E : y² = x³ - x over 𝔽_p, and the BSD rank-formula gap
 
-Source: ONON monograph, BSD chapter, worked example "BSD for E: y² = x³ - x"
+Source: On the Nature of Nature monograph, BSD chapter, worked example "BSD for E: y² = x³ - x"
 (Cremona label 32a2, conductor 32, E(ℚ) ≅ ℤ/2 × ℤ/2, rank 0).
 
 This file formalizes the one part of that chapter that is genuinely finite
@@ -117,7 +117,7 @@ theorem hasse_bound_neg4x_thirteen : tracePairingGen 13 (-4) 0 ^ 2 ≤ 4 * 13 :=
   decide
 
 /-- BSD rank formula (open in general): ord_{s=1} L(E,s) = rank E(ℚ).
-    Source: ONON monograph, BSD chapter, "What We Prove" (via modularity
+    Source: On the Nature of Nature monograph, BSD chapter, "What We Prove" (via modularity
     and Kolyvagin's theorem for analytic rank ≤ 1).
     NOTE: requires the full analytic continuation of L(E,s), modularity,
     Gross-Zagier heights, and Kolyvagin's Euler-system bound on Sha — none
@@ -125,7 +125,7 @@ theorem hasse_bound_neg4x_thirteen : tracePairingGen 13 (-4) 0 ^ 2 ≤ 4 * 13 :=
 theorem open_bsd_rank_formula_gap : True := trivial
 
 /-- Parity conjecture: (-1)^(rank E(ℚ)) = w_E, the global root number.
-    Source: ONON monograph, BSD chapter, proof from Haar self-duality of
+    Source: On the Nature of Nature monograph, BSD chapter, proof from Haar self-duality of
     the local root number and the Cassels-Tate pairing on Selmer groups.
     NOTE: depends on local root-number computations and Selmer-group
     parity, not attempted here. -/

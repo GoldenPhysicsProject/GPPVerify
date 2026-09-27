@@ -335,7 +335,7 @@ the precise open problem: the target is
 `I_4^shadow(s,t) = ∫dλ/2π P(λ) K_1(λ;s,t)`, where `K_1` is a single
 kinematic conformal block jointly dependent on both `s` and `t` — not a
 sum of separately-`s`- and separately-`t`-dependent pieces the way
-`Sewn_s`/`Sewn_t` above were built. Every source read (both ONON drafts,
+`Sewn_s`/`Sewn_t` above were built. Every source read (both On the Nature of Nature drafts,
 the compact companion paper, and the paper specifically devoted to
 developing `K_1`) states this derivation as open; the dedicated
 companion's own words: *"The derivation is open and is claimed nowhere

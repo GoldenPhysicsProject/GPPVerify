@@ -4,7 +4,7 @@ import Mathlib.Analysis.InnerProductSpace.Projection.Submodule
 /-!
 # Perfect self-duality of Gr(k,n)
 
-Source: ONON5213.tex, Chapter 7 ("The Isomorphism: From Quantum Gravity to Number Theory"),
+Source: On the Nature of Nature v5.2.1.3, Chapter 7 ("The Isomorphism: From Quantum Gravity to Number Theory"),
 Theorem "Perfect self-duality of Gr(k,n)": the orthogonal-complement map
 `Λ ↦ Λ^⊥` sends `Gr(k,n)` to `Gr(n-k,n)`, is an involution, and restricts to a
 self-map of the *same* Grassmannian `Gr(k,n)` iff `n = 2k` — the case relevant to
@@ -36,7 +36,7 @@ theorem grassmannian_orthogonal_dim (K : Submodule 𝕜 E) :
 theorem grassmannian_orthogonal_involutive (K : Submodule 𝕜 E) : Kᗮᗮ = K :=
   Submodule.orthogonal_orthogonal K
 
-/-- **Perfect self-duality of Gr(k,n)** (ONON5213.tex, Ch. 7). The orthogonal-complement
+/-- **Perfect self-duality of Gr(k,n)** (On the Nature of Nature v5.2.1.3, Ch. 7). The orthogonal-complement
 involution restricts to a self-map of `Gr(k,n)` -- i.e. sends a `k`-dimensional subspace
 to another `k`-dimensional subspace, rather than merely landing in `Gr(n-k,n)` -- if and
 only if `n = 2k`. In particular this is why `Gr(2,4)` (`k = 2`, `n = 4`) is self-dual:
@@ -55,7 +55,7 @@ theorem gr_two_four_self_dual
   have := (grassmannian_self_dual_iff K hK).mpr (by rw [hE, hk])
   exact this
 
-/-- **Gaussian binomial point count for Gr(2,4)** (ONON5213.tex, Ch. 7, `eq:point-count`):
+/-- **Gaussian binomial point count for Gr(2,4)** (On the Nature of Nature v5.2.1.3, Ch. 7, `eq:point-count`):
 the number of points of `Gr(2,4)` over 𝔽_q is `\binom{4}{2}_q = 1+q+2q^2+q^3+q^4`. We record
 the algebraic identity behind this (as a statement over any field, for `q ≠ ±1` so both
 denominators are nonzero): `(q^4-1)(q^3-1) / ((q^2-1)(q-1)) = 1+q+2q^2+q^3+q^4`. -/

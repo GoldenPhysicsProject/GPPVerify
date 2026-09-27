@@ -7,7 +7,7 @@ import GppVerify.CelestialHolography.Link6
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `thm:rigidity` (ONON52, cited 10×):
+This file formalizes `thm:rigidity` (On the Nature of Nature v5.2, cited 10×):
 *The Einstein field equations G_{μν} = 8πG T_{μν} are uniquely determined by:
 (1) Shadow symmetry (diffeomorphism covariance + shadow Δ ↦ 2-Δ)
 (2) Two-derivative truncation
@@ -91,7 +91,7 @@ theorem open_c0_eliminates_higher_curvature : True := trivial
 -- §3  Main theorem (thm:rigidity)
 -- ============================================================
 
-/-- **thm:rigidity** (ONON52, cited 10×).
+/-- **thm:rigidity** (On the Nature of Nature v5.2, cited 10×).
 
     The Einstein equations G_{μν} = 8πG T_{μν} are uniquely determined by:
     (1) Shadow symmetry Δ ↦ 2-Δ (diffeomorphism covariance)

@@ -10,7 +10,7 @@ reproduces the scalar box,
     I_4^shadow(s,t) = int dlambda/(2pi) P(lambda) K_1(lambda;s,t)
                      = I_4^box(s,t) = (2/st)[Li2(1-s/t)+Li2(1-t/s)+pi^2/6],
 
-which every source read this session (ONON v19_3, ONON5213, the compact
+which every source read this session (On the Nature of Nature v19_3, On the Nature of Nature v5.2.1.3, the compact
 haar_qg companion, and the dedicated kinematic_block companion) states as
 the target but explicitly, honestly leaves undF-derived: the kinematic
 block companion's own words are "The derivation is open and is claimed

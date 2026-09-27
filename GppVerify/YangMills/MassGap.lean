@@ -214,7 +214,7 @@ theorem central_charge_pos (k dim h_dual : ℕ) (hk : 1 ≤ k) (hdim : 1 ≤ dim
 
 /-! ## Glueball mass ratios (proved clean, unconditional)
 
-Source: ONON5213.tex, Proposition "Glueball mass ratios---unconditional"
+Source: On the Nature of Nature v5.2.1.3, Proposition "Glueball mass ratios---unconditional"
 (prop:glueball-ratios). The 0⁺⁺, 0⁻⁺, 0⁺⁺* glueball states sit at WZW
 excitation levels ℓ = 2, 3, 4 respectively, with mass m_ℓ = ℓ·Λ_QCD
 (dimensional transmutation) -- these ratios are k-independent, unlike

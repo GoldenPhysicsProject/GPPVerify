@@ -17,7 +17,7 @@ self-duality claim. `RHProofStructure.lean`'s own doc comment on `born_rule_cesa
 explicitly flagged this divergence direction as "a genuine but separate analytic fact ...
 not formalized here"; it is formalized here.
 
-Not derived from ONON52.tex — a from-scratch formalization of an auxiliary paper's lemma,
+Not derived from On the Nature of Nature v5.2 — a from-scratch formalization of an auxiliary paper's lemma,
 built against Mathlib's asymptotic-analysis library (the "polynomial beats logarithm"
 comparison `isLittleO_log_rpow_atTop`), since Mathlib does not package the ratio-tendsto
 form of that growth-rate fact directly.

@@ -9,7 +9,7 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `thm:l2-constraint` (ONON52, cited 12×):
+This file formalizes `thm:l2-constraint` (On the Nature of Nature v5.2, cited 12×):
 *If a Hecke character χ_s is square-integrable on the adèlic quotient K¹ = A¹/Q×
 and is a T-eigenfunction, then Re(s) = 1/2.*
 
@@ -101,7 +101,7 @@ theorem open_l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
 -- §3  Main theorem (thm:l2-constraint)
 -- ============================================================
 
-/-- **L² Constraint Theorem** (thm:l2-constraint, ONON52 §4.3, cited 12×).
+/-- **L² Constraint Theorem** (thm:l2-constraint, On the Nature of Nature v5.2 §4.3, cited 12×).
 
     Claim: if `χ_s ∈ L²(K¹)` is a `T`-eigenfunction, then `Re(s) = 1/2`.
 

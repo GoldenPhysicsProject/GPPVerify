@@ -5,13 +5,13 @@ import GppVerify.RiemannHypothesis.FunctionalEquation
 # Shadow Symmetry = Time Reversal (thm:shadow-cpt)
 
 ## Golden Physics Project — Shadow Framework Formalization
-## Most-cited result: 16× cross-referenced in ONON52
+## Most-cited result: 16× cross-referenced in On the Nature of Nature v5.2
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes Theorem `thm:shadow-cpt` (ONON52 L666):
+This file formalizes Theorem `thm:shadow-cpt` (On the Nature of Nature v5.2 L666):
 *Shadow symmetry Δ ↔ 2-Δ is time reversal T.*
 
-### Three-step proof (ONON52, Introduction §1.1)
+### Three-step proof (On the Nature of Nature v5.2, Introduction §1.1)
 
 **Step 1.** Hodge star on Gr(2,4):
 The orthogonal complement map Λ ↦ Λ⊥ acts on Plücker coordinates as the
@@ -84,7 +84,7 @@ theorem shadow_is_conjugation_on_principal_series (lam : ℝ) :
     (2) Penrose fibration π: ℂP³ → S⁴ with fiber S²,
     (3) Identification of the Hodge dual with antipodal on the base.
 
-    ONON52: Step 1 of thm:shadow-cpt proof, L614–631.
+    On the Nature of Nature v5.2: Step 1 of thm:shadow-cpt proof, L614–631.
     Reference: Penrose (1967), Mason-Woodhouse (1996). -/
 theorem open_penrose_antipodal_from_hodge :
     ∀ (_ : True), True := by
@@ -110,7 +110,7 @@ theorem energy_inversion_from_antipodal :
   exact inv_inv ω
 
 /-- The inversion ω ↦ ω⁻¹ preserves the Haar measure dω/ω on (ℝ⁺, ×).
-    This is a restatement of `prop:self-dual-r-times` from ONON52 L2114.
+    This is a restatement of `prop:self-dual-r-times` from On the Nature of Nature v5.2 L2114.
     It is the root of the self-duality principle. -/
 theorem haar_measure_r_plus_self_dual :
     ∀ ω : ℝ, ω > 0 → (ω⁻¹)⁻¹ = ω := energy_inversion_from_antipodal
@@ -164,7 +164,7 @@ theorem time_reversal_is_shadow (lam : ℝ) :
     (3) Mellin of ω ↦ ω⁻¹ → Δ ↦ 2-Δ          [proved: shadow_from_haar_inversion]
     T is antiunitary, so on principal series it gives exactly Δ ↦ 2-Δ  [proved: time_reversal_is_shadow]
 
-    ONON52: Theorem thm:shadow-cpt, L666. Most-cited result (16×).
+    On the Nature of Nature v5.2: Theorem thm:shadow-cpt, L666. Most-cited result (16×).
     This theorem does NOT depend on thm:link6. -/
 theorem shadow_equals_time_reversal :
     ∀ (lam : ℝ), let Δ := (1 : ℂ) + Complex.I * lam
@@ -196,8 +196,8 @@ theorem critical_lines_coincide (s : ℂ) :
 -- §7  Three generations — thm:link6 dependent
 -- ============================================================
 
-/-- The c = 0 condition (five independent proofs, ONON52 Ch.6) together with
-    Link 6 (c₂D = c₄D^Weyl, ONON52 thm:link6) gives c_4D = 0, which by
+/-- The c = 0 condition (five independent proofs, On the Nature of Nature v5.2 Ch.6) together with
+    Link 6 (c₂D = c₄D^Weyl, On the Nature of Nature v5.2 thm:link6) gives c_4D = 0, which by
     Boyle-Turok (2021) forces exactly 3 fermion generations.
 
     THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM.

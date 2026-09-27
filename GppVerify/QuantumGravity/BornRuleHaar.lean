@@ -7,7 +7,7 @@ import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `lem:born-rule-haar` (ONON52, cited 11×):
+This file formalizes `lem:born-rule-haar` (On the Nature of Nature v5.2, cited 11×):
 *The Born rule probability measure P(A) = |⟨ψ|A|ψ⟩| / ‖ψ‖² arises canonically
 from the Haar measure on the adèlic group A×/Q×.*
 
@@ -80,7 +80,7 @@ theorem open_gleason_uniqueness : True := trivial
 -- §3  Main lemma (lem:born-rule-haar)
 -- ============================================================
 
-/-- **lem:born-rule-haar** (ONON52, cited 11×).
+/-- **lem:born-rule-haar** (On the Nature of Nature v5.2, cited 11×).
 
     The Born rule probability measure arises canonically from Haar measure:
     P(A|ψ) = ‖P_A ψ‖² / ‖ψ‖² is the unique U(H)-invariant probability measure

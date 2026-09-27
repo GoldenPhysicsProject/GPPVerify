@@ -5,7 +5,7 @@ import Mathlib.Tactic
 /-!
 # Spin-statistics ratio from the Dirichlet eta function's `p = 2` Euler factor
 
-Source: `ONON5213.tex`, "Spin-Statistics from the Prime `p = 2`"
+Source: On the Nature of Nature v5.2.1.3, "Spin-Statistics from the Prime `p = 2`"
 (Theorem `thm:spin-stats-p2`). The Dirichlet eta function
 `η(s) = (1 - 2^{1-s})ζ(s)` (same convention as the `η` used implicitly in
 `GppCompletedEta`, `CompletedEtaZeros.lean`) satisfies
@@ -52,7 +52,7 @@ theorem riemannZeta_two_mul_nat_ne_zero {n : ℕ} (hn : n ≠ 0) :
   rw [hre]
   linarith
 
-/-- **Spin-statistics from arithmetic** (`ONON5213.tex`, `thm:spin-stats-p2`,
+/-- **Spin-statistics from arithmetic** (On the Nature of Nature v5.2.1.3, `thm:spin-stats-p2`,
 general form): for every `n ≥ 1`, `η(2n)/ζ(2n) = 1 - 2^{1-2n}` — the `p = 2`
 Euler factor removed by passing from `ζ` to `η`, at the even integer `2n`. -/
 theorem eta_div_zeta_two_mul_nat {n : ℕ} (hn : n ≠ 0) :

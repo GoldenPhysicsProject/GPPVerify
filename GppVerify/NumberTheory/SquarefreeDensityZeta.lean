@@ -6,7 +6,7 @@ import Mathlib.Tactic
 /-!
 # The squarefree-density Euler product `∏_p (1 - p⁻²) = 6/π²`
 
-Source: `ONON5213.tex`, "The Squarefree Coupling: `α/π²`" (Theorem
+Source: On the Nature of Nature v5.2.1.3, "The Squarefree Coupling: `α/π²`" (Theorem
 `thm:squarefree`). The manuscript's identity
 `α/π² = (α/6)·∏_p(1 - p⁻²)` reduces, after cancelling the physical
 coupling `α`, to the purely arithmetic statement `∏_p(1 - p⁻²) = 6/π²`,

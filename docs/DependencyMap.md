@@ -3,10 +3,10 @@
 > conditional is now `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
 > (`WeilPositivityCriterion.lean`). Mentions below are historical.
 
-# ONON52 — Lean 4 Formalization Dependency Map
+# On the Nature of Nature v5.2 — Lean 4 Formalization Dependency Map
 ## Golden Physics Project | GPPVerify
 
-**Source:** `ONON52.tex` — Daniel Toupin, *On the Nature of Nature* (2026)  
+**Source:** On the Nature of Nature v5.2 — Daniel Toupin, *On the Nature of Nature* (2026)  
 **Generated:** 2026-06-03  
 **Status:** Pre-formalization survey — awaiting Daniel's confirmation before writing .lean files
 

@@ -8,9 +8,9 @@ import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-Source: `ONON5213.tex` (Zenodo record 21260806, "On the Nature of Nature: Celestial
+Source: On the Nature of Nature v5.2.1.3 (Zenodo record 21260806, "On the Nature of Nature: Celestial
 Holography to the Zeta Zeros"), Theorem "Spectral–Weil Identification"
-(`thm:spectral-weil`, ONON §… around the line defining `A = i·d/d\log|a|`) and
+(`thm:spectral-weil`, On the Nature of Nature §… around the line defining `A = i·d/d\log|a|`) and
 Theorem "No-ghost constraint on zeta zeros" (`thm:no-ghosts-onon`), which is the
 final step of the paper's "Pathway 3 / Pathway 4" argument for the Riemann
 Hypothesis via celestial-holographic unitarity and the Δ = 2s dictionary.
@@ -35,17 +35,17 @@ square-integrable. Consequently `E_A({t}) = 0` for *every* real `t`, for the
 operator exactly as defined — directly contradicting the literal reading of
 Step 1.
 
-This is not a "gotcha" against celestial holography or against ONON — it is
+This is not a "gotcha" against celestial holography or against On the Nature of Nature — it is
 the precise, checked reason *why* the paper's actual proof does not rest on
 `E_A({τ₀}) ≠ 0` for the ordinary `L²` inner product at all, but on a
-separately-introduced Cesàro-regularized inner product (`N_reg(σ)`, ONON
+separately-introduced Cesàro-regularized inner product (`N_reg(σ)`, On the Nature of Nature
 `thm:no-ghosts-onon` Step 4) under which `σ = 1/2` alone gives a finite,
 positive norm. That regularization is a legitimate mathematical object — see
 `GppSechIntegral.eigenstateNorm` in `EigenstateNormStrip.lean` for the closely
 analogous (and rigorously convergent) Yakaboylu-side norm computation — but
 its status as *the* canonical, uniquely-forced regularization, rather than one
 convenient choice among many tuned to produce the critical line, is asserted
-in ONON, not derived independently of the sought conclusion. That is exactly
+in On the Nature of Nature, not derived independently of the sought conclusion. That is exactly
 the open gap already documented in `CauchyKernelPositive.lean` and
 `WeilSupportLadder.lean`: this file pins down, for the *literal* un-regularized
 operator, precisely why a further ingredient is unavoidable rather than a

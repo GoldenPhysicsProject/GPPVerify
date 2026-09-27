@@ -85,7 +85,7 @@ theorem three_gen_exact : (3 : ℕ) * 16 = 48 := by norm_num
 
 /-! ## The 16-Weyl-fermion generation structure
 
-Source: ONON5213.tex, "Counting Fermions Per Generation" /
+Source: On the Nature of Nature v5.2.1.3, "Counting Fermions Per Generation" /
 "Total Fermion Count". Unlike `three_gen_anomaly` above (which just
 divides the two boxed totals), this formalizes the internal structural
 derivation of 16 itself: 2 SU(2)-doublet states × 3 colors (left-handed
