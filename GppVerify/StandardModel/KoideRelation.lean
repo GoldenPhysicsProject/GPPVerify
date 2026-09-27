@@ -4,7 +4,7 @@ import Mathlib.Tactic
 /-!
 # The Koide relation's SU(3) phase sum, and ε = √2
 
-Source: ONON5213.tex, "The Koide Structure: √2 as a Theorem"
+Source: On the Nature of Nature v5.2.1.3, "The Koide Structure: √2 as a Theorem"
 (sec:koide). Three generations sit at phases `2πg/3` (g = 0,1,2), the
 Weyl orbit of SU(3)_F. The derivation of the Koide ratio
 `Q = (1 + ε²/2)/3` uses two trigonometric sum facts:

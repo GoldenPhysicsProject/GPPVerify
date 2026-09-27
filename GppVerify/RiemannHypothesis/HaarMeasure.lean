@@ -17,10 +17,10 @@ group A×/Q× required for Riemann Hypothesis Pathway 2.
 ### Proof chain
 
 ```
-adelic_haar_self_dual            (ONON52: lem:haar-self-duality, L16374)
-  →  FunctionalEquation.lean     (ONON52: thm:functional-equation-adelic, L16391)
-  →  Peter-Weyl discrete spectrum (ONON52: thm:peter-weyl-compact, L16592)
-  →  L² constraint Re(s) = ½    (ONON52: thm:l2-constraint, L16806)
+adelic_haar_self_dual            (On the Nature of Nature v5.2: lem:haar-self-duality, L16374)
+  →  FunctionalEquation.lean     (On the Nature of Nature v5.2: thm:functional-equation-adelic, L16391)
+  →  Peter-Weyl discrete spectrum (On the Nature of Nature v5.2: thm:peter-weyl-compact, L16592)
+  →  L² constraint Re(s) = ½    (On the Nature of Nature v5.2: thm:l2-constraint, L16806)
   →  Riemann Hypothesis
 ```
 
@@ -35,7 +35,7 @@ declaration (`adelic_quotient_locally_compact`) that does not exist here — cor
 | `adelic_haar_self_dual` | proved (CommGroup assumption) | Tate 1950 §2.4 |
 | `open_adelic_quotient_compact_factor` | open — Fujisaki's lemma, parked as a stub | Weil 1974, Ch.IV §2 |
 | `open_peter_weyl_adelic_discrete_spectrum` | open — needs Peter–Weyl + a real K¹ | Hewitt–Ross I, §27 |
-| `open_l2_constraint_forces_critical_line` | open — downstream of the two above | ONON52 L16806 |
+| `open_l2_constraint_forces_critical_line` | open — downstream of the two above | On the Nature of Nature v5.2 L16806 |
 
 ### Note on CommGroup
 
@@ -72,7 +72,7 @@ open MeasureTheory MeasureTheory.Measure
     only when `(ab)⁻¹ = a⁻¹b⁻¹`, which holds iff G is commutative.
     The adèle class group A×/Q× is abelian, so this applies.
 
-    ONON52: Lemma lem:haar-self-duality, L16374.
+    On the Nature of Nature v5.2: Lemma lem:haar-self-duality, L16374.
     Reference: Tate (1950), §2.4 — self-duality of d×a under a ↦ a⁻¹. -/
 theorem adelic_haar_self_dual
     {G : Type*}
@@ -141,7 +141,7 @@ theorem adelic_haar_self_dual
     advertises that it asserts nothing. Replacing it with an honest `open_` stub loses no
     mathematical content, because there was none to lose.
 
-    ONON52: needed by thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
+    On the Nature of Nature v5.2: needed by thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
 theorem open_adelic_quotient_compact_factor : True := trivial
 
 -- ============================================================
@@ -157,7 +157,7 @@ theorem open_adelic_quotient_compact_factor : True := trivial
     `open_adelic_quotient_compact_factor`). Once that is a real statement, this
     follows from Peter–Weyl (re-verified absent in Mathlib 4.33.1, 2026-09-01: zero hits).
 
-    ONON52: Theorem thm:peter-weyl-compact, L16592.
+    On the Nature of Nature v5.2: Theorem thm:peter-weyl-compact, L16592.
     Reference: Hewitt-Ross, Abstract Harmonic Analysis, Vol. I, §27. -/
 theorem open_peter_weyl_adelic_discrete_spectrum :
     ∀ (_ : True), True := by
@@ -181,7 +181,7 @@ theorem open_peter_weyl_adelic_discrete_spectrum :
     that off-critical zeros force multiplicity ≥ 2, closing the gap once
     the Plancherel atom weight = 1 is established.
 
-    ONON52: Theorem thm:l2-constraint, L16806. -/
+    On the Nature of Nature v5.2: Theorem thm:l2-constraint, L16806. -/
 theorem open_l2_constraint_forces_critical_line :
     ∀ (_ : True), True := by
   intro _

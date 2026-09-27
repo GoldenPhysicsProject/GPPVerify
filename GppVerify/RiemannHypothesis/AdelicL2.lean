@@ -7,7 +7,7 @@ import Mathlib.MeasureTheory.Measure.Haar.Basic
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `lem:adelic-l2-regularization` (ONON52, second-most-cited, 14×):
+This file formalizes `lem:adelic-l2-regularization` (On the Nature of Nature v5.2, second-most-cited, 14×):
 *The L²(A×/Q×) spectral decomposition is well-defined after Haar regularization,
 and the spectral expansion converges.*
 
@@ -101,7 +101,7 @@ theorem open_spectrum_discrete_K1 : True := trivial
 -- §3  Main lemma (lem:adelic-l2-regularization)
 -- ============================================================
 
-/-- **lem:adelic-l2-regularization** (ONON52, cited 14×).
+/-- **lem:adelic-l2-regularization** (On the Nature of Nature v5.2, cited 14×).
 
     The L²(A×/Q×) spectral decomposition:
     (1) is well-defined (compact K¹ → finite Haar measure)

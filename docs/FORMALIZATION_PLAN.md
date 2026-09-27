@@ -344,7 +344,7 @@ two distinct types (six Gaussian variants + compact-support Legendre-weight).
 ## Thread H — the pseudo-isothermal halo pair (Abel projection + inversion, exact)
 
 **Status: in progress — `Cosmology/AbelHaloPair.lean`, lands with the PR updating this
-line.** From ONON5213's Dark Matter chapter (`thm:surface-density-haar`,
+line.** From On the Nature of Nature v5.2.1.3's Dark Matter chapter (`thm:surface-density-haar`,
 `thm:abel-inversion`, the boxed profile): (H1) `abel_forward` — the line-of-sight
 projection `2∫_b^∞ (r_c²/(r²+r_c²))·r/√(r²−b²) dr = π r_c²/√(b²+r_c²)`, antiderivative
 `(2r_c²/A)·arctan(√(r²−b²)/A)`, `A = √(b²+r_c²)` (the `A²+u²` Cauchy-kernel soul);
@@ -1470,9 +1470,9 @@ axioms unchanged.
 
 ---
 
-## Thread ONON5213 — mining the master manuscript for unformalized content (2026-08-19)
+## Thread On the Nature of Nature v5.2.1.3 — mining the master manuscript for unformalized content (2026-08-19)
 
-**Task**: Daniel handed off `ONON5213.tex` (43,669 lines, ~682 theorem-like environments —
+**Task**: Daniel handed off On the Nature of Nature v5.2.1.3 (43,669 lines, ~682 theorem-like environments —
 the full "master book," spanning measure theory, RH, BSD, Yang–Mills, the Standard Model,
 cosmology, and quantum information) with instructions to formalize as much as genuinely
 compiles, skip dead ends without publicly cataloguing manuscript errors, and keep going.
@@ -1520,7 +1520,7 @@ from baseline)**:
 All three: `\leanok` in the blueprint's new "Arithmetic and Quantum-Information Miscellanea"
 chapter, added in the same push per the standing blueprint-sync rule.
 
-**Not yet mined, left for a future pass** (large sections of `ONON5213.tex` not yet checked
+**Not yet mined, left for a future pass** (large sections of On the Nature of Nature v5.2.1.3 not yet checked
 against the tree in detail): the T-Symmetric Cosmology chapter (narrative-heavy, few crisp
 statements), the CKM/PMNS mixing-angle and fermion-mass-hierarchy sections (Spin(8)/G₂ coset
 geometry — likely overlaps `KoideRelation.lean`/`WeylCasimir.lean`, not individually

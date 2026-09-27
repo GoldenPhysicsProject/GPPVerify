@@ -4,7 +4,7 @@ import Mathlib.Tactic
 /-!
 # Exactly three complementary-pair partitions of {0,1,2,3}
 
-Source: ONON5213.tex, "Counting Complementary Pairs" (thm:three-partitions),
+Source: On the Nature of Nature v5.2.1.3, "Counting Complementary Pairs" (thm:three-partitions),
 an independent argument for exactly three fermion generations: the number
 of ways to partition the standard basis {e₀,e₁,e₂,e₃} of ℂ⁴ into two
 complementary 2-dimensional subspaces `span(e_i,e_j) ⊕ span(e_k,e_l)`.

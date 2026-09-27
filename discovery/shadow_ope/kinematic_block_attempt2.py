@@ -4,7 +4,7 @@ kinematic_block_attempt2.py
 Second attempt at K_1(lambda; s,t), correcting a concrete bug identified by
 reading the full OPE-residue derivation across multiple source manuscripts
 this session (celestial_qg_complete_v2.tex Prop 6.1 / "Loop Measure from
-Shadow Discontinuity"; ONON521.tex sec:oneloop Proposition [shadow-residue]
+Shadow Discontinuity"; On the Nature of Nature v5.2.1 sec:oneloop Proposition [shadow-residue]
 and the explicit box derivation in sec:scalar-box-check). Both state the
 shadow-pole residue as
 

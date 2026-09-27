@@ -8,7 +8,7 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `thm:spectral-weil` (ONON52, cited 10×):
+This file formalizes `thm:spectral-weil` (On the Nature of Nature v5.2, cited 10×):
 *The zeros of ζ(s) correspond to eigenvalues of the adelic shadow operator,
 connecting the spectral interpretation to Weil's explicit formula.*
 
@@ -146,7 +146,7 @@ theorem open_weil_distribution_positivity : True := trivial
 -- §3  Main theorem (thm:spectral-weil)
 -- ============================================================
 
-/-- **thm:spectral-weil** (ONON52, cited 10×).
+/-- **thm:spectral-weil** (On the Nature of Nature v5.2, cited 10×).
 
     The zeros of ζ(s) are eigenvalues of the adelic shadow operator
     on L²(A×/Q×), and satisfy the Weil explicit formula.

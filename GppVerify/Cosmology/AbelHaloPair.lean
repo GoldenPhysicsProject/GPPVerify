@@ -5,7 +5,7 @@ import Mathlib.Analysis.SpecialFunctions.Sqrt
 /-!
 # The pseudo-isothermal halo pair: forward Abel projection and its inversion, exactly
 
-Thread H of `docs/FORMALIZATION_PLAN.md`, from ONON5213.tex Chapter "Dark Matter:
+Thread H of `docs/FORMALIZATION_PLAN.md`, from On the Nature of Nature v5.2.1.3 Chapter "Dark Matter:
 Geometric Origin from Shadow Symmetry" (`thm:surface-density-haar`, `thm:abel-inversion`,
 and the boxed pseudo-isothermal profile). The chapter's checkable analytic core is a
 matched pair of improper integrals:

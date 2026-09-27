@@ -6,7 +6,7 @@ import GppVerify.StandardModel.ThreeGenerations
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `thm:link6` (ONON52, cited 10×):
+This file formalizes `thm:link6` (On the Nature of Nature v5.2, cited 10×):
 *c_{2D} = κ₀ × c_{4D}^{Weyl}*, where κ₀ > 0 is a universal constant.
 
 ### Proof structure (from Daniel Toupin, 2026)

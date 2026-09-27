@@ -8,7 +8,7 @@ import Mathlib.FieldTheory.Finiteness
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `cor:three-generations-anomaly` (ONON52, cited 12×):
+This file formalizes `cor:three-generations-anomaly` (On the Nature of Nature v5.2, cited 12×):
 *The Cayley-Dickson doubling tower ℝ → ℂ → ℍ → 𝕆 yields exactly 3 generations
 of fermions.*
 
@@ -123,7 +123,7 @@ abbrev HurwitzDimensionHypothesis : Prop :=
 /-- **Three Generations Corollary** (cor:three-generations-anomaly, cited 12×).
 
     PROOF SKETCH (conditional on thm:link6):
-    (1) c = 0 (5 independent proofs, ONON52 Ch. 6)
+    (1) c = 0 (5 independent proofs, On the Nature of Nature v5.2 Ch. 6)
     (2) Link 6: c₂D = c₄D^Weyl  ← OPEN PROBLEM
     (3) → c₄D^Weyl = 0
     (4) Boyle-Turok (2021): 48 = 16×3 Weyl fermions → n_gen = 3

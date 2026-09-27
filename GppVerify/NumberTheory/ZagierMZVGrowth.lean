@@ -3,7 +3,7 @@ import Mathlib.Tactic
 /-!
 # Zagier's recurrence for multiple zeta value dimensions
 
-Source: ONON5213.tex, "Loop Transcendence from the Plastic Constant"
+Source: On the Nature of Nature v5.2.1.3, "Loop Transcendence from the Plastic Constant"
 (Theorem `thm:plastic`), citing Zagier's conjectured (now Brown's proved)
 formula for the dimension `d_w` of the ℚ-vector space of weight-`w`
 multiple zeta values: `d_w = d_{w-2} + d_{w-3}`.

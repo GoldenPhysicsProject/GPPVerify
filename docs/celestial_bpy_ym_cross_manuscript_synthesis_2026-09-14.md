@@ -3,7 +3,7 @@ Date: 2026-09-14. Author: Codex. Status: analytical derivations plus numerical c
 
 ## Sources actually compared
 Targeted proof-bearing sections, not a claim to have read every archived version:
-- ONON-5-2-1-3.tex: celestial thermal/blackbody section (labels sec:blackbody-law, thm:det-zeta), number-theory bridge, all five RH pathways, and YM spectral-transfer/RG passages.
+- On the Nature of Nature v5.2.1.3: celestial thermal/blackbody section (labels sec:blackbody-law, thm:det-zeta), number-theory bridge, all five RH pathways, and YM spectral-transfer/RG passages.
 - rh_cesaro_v2.tex, rh_physics-2-4_edited.tex (including its explicit conditional Bridge Claim), wightman_paper.tex, YM_PAPER-3-5.tex, haar_positivity_weil_wightman.tex.
 - Drive arithmetic-field paper: https://drive.google.com/file/d/1pBV0881IZ3BXMqscaIf85hbHQHRgx-nM/view
 - Drive patched Haar positivity paper: https://drive.google.com/file/d/19diaTG8Zqnx4OBsmbWJZpUAYgJ3Qf1uN/view
@@ -96,7 +96,7 @@ This is only a template. Taking all higher correlators by Wick's rule produces a
 
 ## 4. What survives from the other routes, and what cannot be combined into a proof
 
-- ONON Path 1: unitary multiplicative characters and invariant means are useful. The assertion that ordinary L2 fails to exist on an infinite-measure space is false; L2(R) exists. No character exp(i gamma u) lies in ordinary L2(R). Changing to an invariant-mean Hilbert space requires a new arithmetic spectral identification.
+- On the Nature of Nature Path 1: unitary multiplicative characters and invariant means are useful. The assertion that ordinary L2 fails to exist on an infinite-measure space is false; L2(R) exists. No character exp(i gamma u) lies in ordinary L2(R). Changing to an invariant-mean Hilbert space requires a new arithmetic spectral identification.
 - Path 2: the Born-rule argument puts all zeros into Hilbert spectral atoms at its first step. That is the missing bridge, not a consequence of the Born rule.
 - Path 3: the BPY scalar identity is valuable with the scaling above. Its no-ghost argument again imports the same spectral-atom identification. The manuscript's displayed alternating-series moment calculation does not equal 2xi(s); already at s=2 its intermediate expression gives 1/12 rather than pi/3.
 - Path 4: writing K=T* T using a Gram square root proves positivity of the constructed K. The unresolved question is its equality to the full Weil form. Coordinates Delta=1+i x with real x already restrict to the principal line; reflecting x does not detect a displacement off that line.
@@ -115,7 +115,7 @@ YM: combine compact gauge projection and lattice reflection positivity with a re
 ||exp(-t H_a)(I-P_vac,a)|| <= exp(-m t), m>0 independent of cutoff and volume,
 together with convergence and nontriviality of the full Schwinger family. Celestial data may constrain this map or its spectral density, but cannot replace it by a radial/conformal generator.
 
-The newer ONON passage already correctly states that the principal-series parameter is kinematic and color projection does not remove it; it also labels spectral transfer as a conjecture. Its separate strong-coupling-plus-RG argument still does not prove continuum gap survival: scale independence along an RG trajectory does not identify a fixed strong-coupling lattice model with the continuum limit.
+The newer On the Nature of Nature passage already correctly states that the principal-series parameter is kinematic and color projection does not remove it; it also labels spectral transfer as a conjecture. Its separate strong-coupling-plus-RG argument still does not prove continuum gap survival: scale independence along an RG trajectory does not identify a fixed strong-coupling lattice model with the continuum limit.
 
 A conformal-cylinder gap gives exp(-Delta tau)=r^(-Delta) when r=exp(tau), not exp(-m r). Hence conformal spectral discreteness alone is insufficient for a physical mass gap.
 

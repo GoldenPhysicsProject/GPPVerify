@@ -32,7 +32,7 @@ import GppVerify.RHSpectralMultiplicity
 import GppVerify.RiemannHypothesis.L2Constraint
 
 -- ── Momentum generator has no point spectrum ────────────────
--- Pins down exactly why ONON's thm:no-ghosts-onon Step 1 needs the Cesàro
+-- Pins down exactly why On the Nature of Nature's thm:no-ghosts-onon Step 1 needs the Cesàro
 -- regularization rather than the ordinary L² inner product.
 import GppVerify.RiemannHypothesis.MomentumGeneratorNoPointSpectrum
 
@@ -139,11 +139,11 @@ import GppVerify.CelestialHolography.HolographicChain
 -- Standard Model parameters as L-function values
 import GppVerify.NumberTheory.DecodingReality
 
--- ── Spin-Statistics Eta (New, 2026-08-19, from ONON5213.tex) ─────
+-- ── Spin-Statistics Eta (New, 2026-08-19, from On the Nature of Nature v5.2.1.3) ─────
 -- η(2n)/ζ(2n) = 1 - 2^{1-2n} for all n ≥ 1, and η(4)/ζ(4) = 7/8
 import GppVerify.NumberTheory.SpinStatisticsEta
 
--- ── Squarefree Density Euler Product (New, 2026-08-19, ONON5213.tex) ──
+-- ── Squarefree Density Euler Product (New, 2026-08-19, On the Nature of Nature v5.2.1.3) ──
 -- ∏_p (1 - p⁻²) = 6/π² = 1/ζ(2), the arithmetic content of thm:squarefree
 import GppVerify.NumberTheory.SquarefreeDensityZeta
 
@@ -243,7 +243,7 @@ import GppVerify.QuantumInformation.ChoiMatrix
 -- not completely positive: HalfFlipProposition.no_enactment (d=2).
 import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
 
--- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, ONON5213.tex) ─
+-- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, On the Nature of Nature v5.2.1.3) ─
 -- S = -1-√2 at the source's optimal angles, |S|>2, and the CKW
 -- monogamy consequence 1+x²≤y²≤1 ⟹ x=0
 import GppVerify.QuantumInformation.CHSHViolation
@@ -268,7 +268,7 @@ import GppVerify.NumberTheory.BSDPointCounts
 import GppVerify.CelestialHolography.FubiniStudyAntipodal
 
 -- ── Zagier MZV Growth Recurrence, corrected (New) ─────────────
--- ONON5213.tex's Zagier recurrence d_w = d_{w-2}+d_{w-3} is formalized
+-- On the Nature of Nature v5.2.1.3's Zagier recurrence d_w = d_{w-2}+d_{w-3} is formalized
 -- with corrected initial conditions (the source's stated d_0=1,d_1=d_2=0
 -- contradicts its own listed sequence); reproduces the listed sequence
 -- exactly. Brown's deep theorem that this equals the true MZV dimension
@@ -472,7 +472,7 @@ import GppVerify.RiemannHypothesis.PadicHaarTransfer
 -- comparison. Combined with the pre-existing born_rule_cesaro
 -- (RHProofStructure.lean, sigma = 1/2 gives exactly 1), this closes
 -- the gap that file's own doc comment had explicitly flagged as not
--- formalized. Not derived from ONON52.tex.
+-- formalized. Not derived from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.CesaroMeanDivergence
 
 -- ── Abel regularization of the Cesàro mean (New) ──────────────────
@@ -482,7 +482,7 @@ import GppVerify.RiemannHypothesis.CesaroMeanDivergence
 -- computed via two convergent exponential integrals in the log
 -- variable, omega_eps(1) = 1 exactly, and the delta-selection limit
 -- eps^2/(eps^2 + gamma^2) -> 0 (gamma != 0) driving the paper's
--- delta_{rho', 1-rho-bar} matrix-element limit. Not from ONON52.tex.
+-- delta_{rho', 1-rho-bar} matrix-element limit. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.AbelCesaroRegularization
 
 -- ── Periodic zeros of the eta factor 1 - 2^(1-s) (New) ────────────
@@ -492,7 +492,7 @@ import GppVerify.RiemannHypothesis.AbelCesaroRegularization
 -- line Re s = 1 -- outside the open critical strip, so the completed
 -- eta function's zero set decomposes cleanly as Z_D union Z_R. Plus
 -- the weight identity t e^t/(1+e^t)^2 = t/(4 cosh^2(t/2)) bridging
--- the Yakaboylu and Abel-Cesaro papers' conventions. Not from ONON52.
+-- the Yakaboylu and Abel-Cesaro papers' conventions. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.CompletedEtaZeros
 
 -- ── Yakaboylu's regularized matrix element, eq. (49) (New) ────────
@@ -502,7 +502,7 @@ import GppVerify.RiemannHypothesis.CompletedEtaZeros
 -- plus the two limit facts making it the Kronecker delta of eq. (47):
 -- exactly 1 at sigma = 1, tends to 0 for sigma != 1. This is the
 -- multiplicative-variable twin of AbelCesaroRegularization.lean's
--- log-variable character formula. Not from ONON52.tex.
+-- log-variable character formula. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
 
 -- ── Arithmetic kernel of the positivity argument (New) ────────────
@@ -512,7 +512,7 @@ import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
 -- diagonal form being a nonnegative sum of |c|^2 when every zero is
 -- self-dual. The operator-theoretic content (W well-defined and PSD
 -- via oblique-projection compression) is deep unbounded-operator
--- theory, deliberately not formalized. Not from ONON52.tex.
+-- theory, deliberately not formalized. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 
 -- ── Finite Weil-positivity criterion iff RH (New) ─────────────────
@@ -540,7 +540,7 @@ import GppVerify.RiemannHypothesis.TwoPointCriterion
 -- F(u) = u tanh u - log cosh u with F' = u/cosh^2 and F -> log 2,
 -- fed to integral_Ioi_of_hasDerivAt_of_nonneg (nonneg integrand =>
 -- integrability and value in one step). Includes hasDerivAt_tanh,
--- absent from the pinned Mathlib. Not from ONON52.tex.
+-- absent from the pinned Mathlib. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.SechSquaredIntegral
 
 -- ── N_{1/2} = log2/6 - 1/24 exactly (New) ─────────────────────────
@@ -551,7 +551,7 @@ import GppVerify.RiemannHypothesis.SechSquaredIntegral
 -- limit (2/3)log 2 reusing the sech^2 thread, the u-form integral
 -- (2/3)log2 - 1/6, the t-variable form via G(t) = 4 F4(t/2) (no
 -- change-of-variables lemma), and eigenstate_norm_half. Not from
--- ONON52.tex.
+-- On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.SechFourthIntegral
 
 -- ── N_sigma finite and positive across the strip (New) ────────────
@@ -561,7 +561,7 @@ import GppVerify.RiemannHypothesis.SechFourthIntegral
 -- integrand at s = 2sigma+1) with strictly positive value (positive
 -- integrand on a set of infinite measure). Consistency corollary:
 -- eigenstateNorm (1/2) = log2/6 - 1/24, tying threads A1 and A2
--- together on the nose. Not from ONON52.tex.
+-- together on the nose. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.EigenstateNormStrip
 
 -- ── Alternating harmonic series = log 2 (New) ─────────────────────
@@ -572,7 +572,7 @@ import GppVerify.RiemannHypothesis.EigenstateNormStrip
 -- partial sum as an explicit remainder integral, sandwiched by
 -- +-1/(n+1). With SechSquaredIntegral.lean this puts eta(1) = log 2
 -- in the repo in both its Mellin and series incarnations. Not from
--- ONON52.tex.
+-- On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.AlternatingHarmonicLog2
 
 -- ── The Planck integral = pi^4/15 (New) ───────────────────────────
@@ -582,7 +582,7 @@ import GppVerify.RiemannHypothesis.AlternatingHarmonicLog2
 -- sum-integral interchange justified by summability of the term
 -- norms (integral_tsum_of_summable_integral_norm), term integrals
 -- Gamma(4)/(n+1)^4 = 6/(n+1)^4, and zeta(4) = pi^4/90 via Mathlib's
--- Bernoulli machinery. No step assumed. Not from ONON52.tex.
+-- Bernoulli machinery. No step assumed. Not from On the Nature of Nature v5.2.
 import GppVerify.QuantumGravity.PlanckIntegral
 
 -- ── Mellin kinematics elementary layer (New) ──────────────────────
@@ -606,7 +606,7 @@ import GppVerify.CelestialHolography.MellinKinematics
 -- identity P(a-b) = int f(y+a) f(y+b) holds by right-invariance, the
 -- finite sum interchanges with the integral, and the pointwise sum is
 -- a Gram square. Plugs directly into HaarPositivityWeil's
--- PositiveType framework. Not from ONON52.tex.
+-- PositiveType framework. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.ConvolutionSquarePositive
 
 -- Thread S2: Schur product for the Weil class — positive-type times convolution
@@ -703,7 +703,7 @@ import GppVerify.RiemannHypothesis.HeatTraceCriterion
 import GppVerify.RiemannHypothesis.QuartetPerturbation
 
 -- ── The pseudo-isothermal halo pair (New) ─────────────────────────
--- Thread H (ONON5213 Dark Matter chapter): the boxed halo profile
+-- Thread H (On the Nature of Nature v5.2.1.3 Dark Matter chapter): the boxed halo profile
 -- rho_DM(r) = rho_0/(1+(r/r_c)^2) and the holographic surface density
 -- Sigma(b) = pi rho_0 r_c^2/sqrt(b^2+r_c^2) are an exact Abel-transform
 -- pair, both directions kernel-checked as improper integrals via
@@ -779,7 +779,7 @@ import GppVerify.RiemannHypothesis.LiCriterion
 -- no sorry.
 import GppVerify.RiemannHypothesis.BlackbodyMellinZeta
 
--- ONON5213.tex, Chapter 7 ("The Isomorphism"), Theorem "Perfect self-duality of
+-- On the Nature of Nature v5.2.1.3, Chapter 7 ("The Isomorphism"), Theorem "Perfect self-duality of
 -- Gr(k,n)": the orthogonal-complement map Λ ↦ Λ^⊥ on a finite-dimensional inner
 -- product space sends Gr(k,n) into Gr(n-k,n) (grassmannian_orthogonal_dim), is an
 -- involution (grassmannian_orthogonal_involutive), and restricts to a self-map of

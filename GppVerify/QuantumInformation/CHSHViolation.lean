@@ -4,7 +4,7 @@ import Mathlib.Tactic
 /-!
 # CHSH Bell violation at the optimal angle configuration, and CKW monogamy
 
-Source: `ONON5213.tex`, "Bell Inequalities from Haar Measure" (Theorem
+Source: On the Nature of Nature v5.2.1.3, "Bell Inequalities from Haar Measure" (Theorem
 `thm:bell-violation`, Steps 1–3) and "Monogamy of Entanglement" (Theorem
 `thm:monogamy`, Step 3). Both results, as isolated pieces of trigonometry
 and real-number algebra, are genuine and standard (this is textbook CHSH /
