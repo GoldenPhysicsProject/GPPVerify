@@ -1514,6 +1514,8 @@ import GppVerify.RiemannHypothesis.GradedIndefiniteCompletion
 import GppVerify.RiemannHypothesis.ReflectionPositiveGraphContraction
 import GppVerify.RiemannHypothesis.UnitaryParentLeakage
 import GppVerify.RiemannHypothesis.DirichletLogGaugeIdentity
+-- Schur bound for half-density arithmetic synthesis (Codex GPPDiscovery2, 09-24; formalized 09-27)
+import GppVerify.RiemannHypothesis.SeedSynthesisBound
 import GppVerify.RiemannHypothesis.FiniteFermionicDeterminantCriticalZeros
 import GppVerify.RiemannHypothesis.FiniteFermionicMomentGram
 import GppVerify.RiemannHypothesis.FiniteHeatGramPositive
