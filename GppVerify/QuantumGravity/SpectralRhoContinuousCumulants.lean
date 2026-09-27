@@ -10,9 +10,9 @@ characteristic-function evaluation is assumed here.
 
 namespace GppSpectralRhoContinuousCumulants
 
-/-- The second cumulant equals the variance `c/2`. -/
-theorem second_cumulant (c : ℝ) : c / 2 = c / 2 := by
-  rfl
+-- The second cumulant is the variance `c/2` itself (the density is even, so `μ₁ = 0`);
+-- GPPVerify2 stated it as the reflexivity `c / 2 = c / 2`, which asserts nothing, so it is
+-- not restated here.
 
 /-- The fourth cumulant obtained from `μ₄ - 3 μ₂²` is `c/4`. -/
 theorem fourth_cumulant (c : ℝ) :

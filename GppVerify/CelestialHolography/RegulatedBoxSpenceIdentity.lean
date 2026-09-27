@@ -33,13 +33,13 @@ theorem log_one_sub_div_tendsto_neg_one :
     Tendsto (fun x : ℝ => Real.log (1 - x) / x)
       (𝓝[Ioo (0 : ℝ) 1] 0) (𝓝 (-1 : ℝ)) := by
   have hone_sub : HasDerivAt (fun y : ℝ => 1 - y) (-1) 0 := by
-    convert (hasDerivAt_const (0 : ℝ) (1 : ℝ)).sub (hasDerivAt_id 0) using 1 <;> ring
+    exact (hasDerivAt_id 0).const_sub 1
   have hlog1 : HasDerivAt Real.log 1 1 := by
     simpa using Real.hasDerivAt_log (by norm_num : (1 : ℝ) ≠ 0)
   have hlog1' : HasDerivAt Real.log 1 ((fun y : ℝ => 1 - y) 0) := by
     simpa using hlog1
   have hlog : HasDerivAt (fun y : ℝ => Real.log (1 - y)) (-1) 0 := by
-    simpa using hlog1'.comp 0 hone_sub
+    exact (hlog1'.comp 0 hone_sub).congr_deriv (one_mul _)
   have hright :
       𝓝[Ioo (0 : ℝ) 1] 0 ≤ 𝓝[>] (0 : ℝ) := by
     rw [nhdsWithin_le_iff]
@@ -71,7 +71,6 @@ theorem log_mul_log_one_sub_tendsto_zero :
     filter_upwards [self_mem_nhdsWithin] with x hx
     have hxne : x ≠ 0 := ne_of_gt hx.1
     field_simp [hxne]
-    ring
   exact (tendsto_congr' heq).mp hraw
 
 /-- The stationary Spence combination has the Basel value on the whole open unit interval. -/
@@ -105,7 +104,8 @@ theorem spenceCombination_eq_pi_sq_div_six
     simpa [L] using log_mul_log_one_sub_tendsto_zero
   have hlimit : Tendsto spenceCombination L (𝓝 (Real.pi ^ 2 / 6)) := by
     have H := (hLx.add hL1x).add hlog
-    simpa [spenceCombination] using H
+    simp only [zero_add, add_zero] at H
+    exact H
   have hx : x ∈ Ioo (0 : ℝ) 1 := ⟨hx0, hx1⟩
   have hconst : Tendsto spenceCombination L (𝓝 (spenceCombination x)) := by
     have heq : spenceCombination =ᶠ[L] (fun _ : ℝ => spenceCombination x) := by

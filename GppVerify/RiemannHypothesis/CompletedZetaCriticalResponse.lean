@@ -66,11 +66,11 @@ theorem completedRiemannZeta_deriv_re_eq_zero_of_re_half {s : ℂ}
   simp [Complex.conj_re] at hre
   linarith
 
-/-- Wherever completed zeta is nonzero on the critical line, its logarithmic
-response has zero real part. The nonzero hypothesis records the analytic domain of
-the logarithmic derivative even though Lean's division is totalized. -/
+/-- On the critical line the logarithmic response of completed zeta has zero real part.
+No nonvanishing hypothesis is needed: at zeros of `Λ` the statement holds through Lean's
+total division (`x / 0 = 0`), where the logarithmic derivative has no analytic meaning. -/
 theorem completedRiemannZeta_logDeriv_re_eq_zero_of_re_half {s : ℂ}
-    (hs : s.re = 1 / 2) (hΛ : completedRiemannZeta s ≠ 0) :
+    (hs : s.re = 1 / 2) :
     (deriv completedRiemannZeta s / completedRiemannZeta s).re = 0 := by
   have hvalIm := GppCompletedZetaReality.completedRiemannZeta_im_eq_zero_of_re_half hs
   have hderRe := completedRiemannZeta_deriv_re_eq_zero_of_re_half hs

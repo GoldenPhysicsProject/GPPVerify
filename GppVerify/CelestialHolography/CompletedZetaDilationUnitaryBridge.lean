@@ -49,18 +49,17 @@ theorem principalDelta_dilation_unitary
 
 /-- Exact synthesis on the common spectral axis.  For every real spectral
 parameter and every nontrivial positive dilation scale, the half-density mode
-is unitary.  Wherever the completed-zeta logarithmic derivative is defined, its
-`-i` normalization is real and odd under spectral reflection. -/
+is unitary, and the `-i` normalization of the completed-zeta logarithmic derivative
+is real and odd under spectral reflection (at zeros of `Λ` only through Lean's total
+division). -/
 theorem dilation_unitarity_and_completed_phase_response
-    (tau : ℝ) {a : ℝ} (ha : 0 < a) (ha1 : a ≠ 1)
-    (hLambda : completedRiemannZeta
-      (principalDelta tau / 2) ≠ 0) :
+    (tau : ℝ) {a : ℝ} (ha : 0 < a) (ha1 : a ≠ 1) :
     ‖dilationCharacter (principalDelta tau / 2) a‖ = 1 ∧
       (celestialCompletedPhaseResponse (principalDelta tau)).im = 0 ∧
       celestialCompletedPhaseResponse (principalDelta tau) =
         -celestialCompletedPhaseResponse (principalDelta (-tau)) := by
   refine ⟨principalDelta_dilation_unitary tau ha ha1, ?_, ?_⟩
-  · exact celestialCompletedPhaseResponse_im_eq_zero_at_tau tau hLambda
+  · exact celestialCompletedPhaseResponse_im_eq_zero_at_tau tau
   · exact celestialCompletedPhaseResponse_odd_tau tau
 
 end GppCompletedZetaDilationUnitaryBridge

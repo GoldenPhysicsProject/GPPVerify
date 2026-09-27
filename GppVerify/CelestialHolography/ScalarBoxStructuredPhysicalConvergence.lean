@@ -48,7 +48,7 @@ theorem tendsto_corrected_scalarBox_core_zero_of_structured_bound
     filter_upwards [self_mem_nhdsWithin, hmS, hκ, hκsq, hcore] with
       m hm hmS' hκ' hκsq' hcore'
     exact abs_prefactor_remainder_le_of_physical_core_bound
-      hS hU hm.le hmS' hκ' hκsq' hcore'
+      hS hU hκ' hκsq' hcore'
   exact tendsto_corrected_remainder_zero_of_prefactor_bound hM hP hbound
 
 /-- Full one-sided regulator limit for the actual structured scalar-box core, assuming the

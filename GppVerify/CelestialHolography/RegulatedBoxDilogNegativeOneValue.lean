@@ -37,8 +37,8 @@ theorem landen_at_one_endpoint :
   have hfrac : Tendsto (fun y : ℝ => y / (1 + y)) L (𝓝 (1 / 2 : ℝ)) := by
     have hnum : HasDerivAt (fun y : ℝ => y) 1 1 := hasDerivAt_id 1
     have hden : HasDerivAt (fun y : ℝ => 1 + y) 1 1 := by
-      convert (hasDerivAt_const (x := (1 : ℝ)) (c := (1 : ℝ))).add (hasDerivAt_id 1) using 1 <;>
-        norm_num
+      exact ((hasDerivAt_const (x := (1 : ℝ)) (c := (1 : ℝ))).add
+        (hasDerivAt_id 1)).congr_deriv (zero_add _)
     have hc : ContinuousAt (fun y : ℝ => y / (1 + y)) 1 :=
       (hnum.div hden (by norm_num)).continuousAt
     change Tendsto (fun y : ℝ => y / (1 + y)) (𝓝[Ioo (0 : ℝ) 1] 1) (𝓝 (1 / 2 : ℝ))
@@ -69,12 +69,12 @@ theorem landen_at_one_endpoint :
       Tendsto (fun y : ℝ => (Real.log (1 + y)) ^ 2 / 2) L
         (𝓝 ((Real.log 2) ^ 2 / 2)) := by
     have hinner : HasDerivAt (fun y : ℝ => 1 + y) 1 1 := by
-      convert (hasDerivAt_const (x := (1 : ℝ)) (c := (1 : ℝ))).add (hasDerivAt_id 1) using 1 <;>
-        norm_num
+      exact ((hasDerivAt_const (x := (1 : ℝ)) (c := (1 : ℝ))).add
+        (hasDerivAt_id 1)).congr_deriv (zero_add _)
     have hlogAt : HasDerivAt Real.log ((1 + 1 : ℝ)⁻¹) (1 + 1 : ℝ) := by
       convert Real.hasDerivAt_log (by norm_num : (2 : ℝ) ≠ 0) using 1 <;> norm_num
     have hlogderiv : HasDerivAt (fun y : ℝ => Real.log (1 + y)) (1 / 2) 1 := by
-      convert hlogAt.comp 1 hinner using 1 <;> norm_num
+      exact (hlogAt.comp 1 hinner).congr_deriv (by norm_num)
     have hc : ContinuousAt (fun y : ℝ => (Real.log (1 + y)) ^ 2 / 2) 1 :=
       ((hlogderiv.pow 2).div_const 2).continuousAt
     change Tendsto (fun y : ℝ => (Real.log (1 + y)) ^ 2 / 2)
@@ -85,8 +85,7 @@ theorem landen_at_one_endpoint :
   have hlimit :
       Tendsto landenCombination L
         (𝓝 (li2Series (1 / 2 : ℝ) + li2Series (-1) + (Real.log 2) ^ 2 / 2)) := by
-    have H := (hLiFrac.add hLiNeg).add hlog
-    simpa [landenCombination] using H
+    exact (hLiFrac.add hLiNeg).add hlog
 
   have hzero : Tendsto landenCombination L (𝓝 0) := by
     have heq : landenCombination =ᶠ[L] (fun _ : ℝ => 0) := by

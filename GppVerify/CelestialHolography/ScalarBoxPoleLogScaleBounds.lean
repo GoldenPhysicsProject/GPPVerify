@@ -188,9 +188,9 @@ theorem abs_sub_sub_sub_sub_le (a b c d e : ℝ) :
 /-- Coarse but clean logarithmic normalization bound. -/
 theorem abs_log_B_le
     {δ η κ x R B : ℝ}
-    (hδ0 : 0 ≤ δ) (hδ : δ ≤ 1 / 4)
+    (hδ0 : 0 ≤ δ)
     (hη0 : 0 ≤ η) (hη : η ≤ 1 / 4)
-    (hκlo : 1 ≤ κ) (hκhi : κ ≤ 9 / 8)
+    (hκlo : 1 ≤ κ)
     (hxlo : 15 / 16 ≤ x) (hxhi : x ≤ 1)
     (hRlo : 8 / 9 ≤ R) (hRhi : R ≤ 1)
     (hκsq : κ ^ 2 = 1 + δ * (1 - η))
@@ -238,7 +238,7 @@ theorem abs_log_B_le
 theorem abs_log_t_sub_log_m_div_S_le
     {S m δ η κ x R B t : ℝ}
     (hS : 0 < S) (hm : 0 < m)
-    (hδ0 : 0 ≤ δ) (hδ : δ ≤ 1 / 4)
+    (hδ0 : 0 ≤ δ)
     (hη0 : 0 ≤ η) (hη : η ≤ 1 / 4)
     (hκlo : 1 ≤ κ) (hκhi : κ ≤ 9 / 8)
     (hxlo : 15 / 16 ≤ x) (hxhi : x ≤ 1)
@@ -253,11 +253,11 @@ theorem abs_log_t_sub_log_m_div_S_le
     |Real.log t - Real.log (m / S)| ≤
       (103 / 68 : ℝ) * δ + (1 / 3 : ℝ) * (δ * η) + (4 / 3 : ℝ) * η := by
   have hBpair := B_pos_and_le δ η κ x R B
-    hδ0 hη0 hη hκlo hκhi hxlo hRlo hB
+    hδ0 hη hκlo hκhi hxlo hRlo hB
   have hBpos : 0 < B := hBpair.1
   have hηpos : 0 < η := by rw [hηdef]; exact div_pos hm hS
   have hlog := abs_log_B_le
-    hδ0 hδ hη0 hη hκlo hκhi hxlo hxhi hRlo hRhi
+    hδ0 hη0 hη hκlo hxlo hxhi hRlo hRhi
     hκsq hxsq hRsq hB
   rw [ht, Real.log_mul hηpos.ne' hBpos.ne', hηdef]
   simp only [add_sub_cancel_left]

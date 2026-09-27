@@ -56,7 +56,6 @@ theorem massieuFisherDet_eq_normalized_fisherDet (β η : ℝ) :
   · simp [massieuFisherDet, fisherBB, fisherBE, fisherEE, fisherDet, hZ]
   · unfold massieuFisherDet fisherBB fisherBE fisherEE fisherDet
     field_simp [hZ]
-    ring
 
 /-- On the confined domain `η > 0`, the Massieu Hessian determinant is strictly
 positive.  Hence the exact two-parameter fluctuation metric is positive definite. -/

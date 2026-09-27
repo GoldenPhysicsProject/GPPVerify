@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Tactic
 
 /-!
 # Prime-local arithmetic Osterwalder--Schrader positivity

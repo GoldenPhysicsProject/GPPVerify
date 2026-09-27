@@ -22,6 +22,8 @@ open GppPositiveRegulatorEventuallySmall
 open GppScalarBoxStructuredPhysicalConvergence
 open GppScalarBoxPhysicalCoreBound
 open GppScalarBoxSpecialFunctionRemainder
+open GppScalarBoxStructuredPhysicalMajorant
+open GppScalarBoxD0PrefactorVanishing
 
 /-- Full structured scalar-box one-sided regulator convergence with the elementary
 small-`m` bounds generated automatically from `S>0` and `U>0`. -/

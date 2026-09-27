@@ -75,7 +75,7 @@ theorem inner_interval_tendsto_one
       exact integrand_le_one_channel_majorant
         hS hT hx1 hx2.le hx3 hxsum hε.1 hε.2 hδ0
     · exact hMajInt
-    · have hAE := integrand_tendsto_one_ae_inner hS hT hx1 hx2 hstrict
+    · have hAE := integrand_tendsto_one_ae_inner hS hT hx1 hx2
       filter_upwards [hAE] with x3 hx3lim
       intro hx3mem
       rw [Set.uIoc_of_le hL.le] at hx3mem

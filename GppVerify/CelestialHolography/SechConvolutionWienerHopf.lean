@@ -29,7 +29,6 @@ theorem integral_sech_convolution_eq_wienerHopfWeight
   unfold wienerHopfWeight
   have hsinh : Real.sinh (Real.pi * lam) ≠ 0 := sinh_pi_mul_ne_zero hlam
   field_simp [Real.pi_ne_zero, hsinh]
-  ring
 
 end GppSechConvolutionWienerHopf
 

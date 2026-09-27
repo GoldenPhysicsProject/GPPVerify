@@ -39,7 +39,7 @@ theorem hasDerivAt_entropy_beta
   have hβU := (hasDerivAt_id β).mul hU
   have hηQ := (hasDerivAt_const (x := β) η).mul hQ
   have H := (hlog.add hβU).add hηQ
-  convert H using 1 <;> simp [entropy] <;> ring
+  exact H.congr_deriv (by simp only [id]; ring)
 
 /-- The `η` entropy derivative is minus the second component of the Fisher matrix
 applied to the natural-parameter vector `(β,η)`. -/
@@ -54,7 +54,7 @@ theorem hasDerivAt_entropy_eta
   have hβU := (hasDerivAt_const (x := η) β).mul hU
   have hηQ := (hasDerivAt_id η).mul hQ
   have H := (hlog.add hβU).add hηQ
-  convert H using 1 <;> simp [entropy] <;> ring
+  exact H.congr_deriv (by simp only [id]; ring)
 
 /-- Algebraic radial contraction of the entropy-gradient components. -/
 theorem radial_entropy_gradient_eq_neg_fisher_quadratic

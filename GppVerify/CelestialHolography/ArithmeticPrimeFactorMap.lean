@@ -1,6 +1,6 @@
 import GppVerify.CelestialHolography.ArithmeticPrimeLocalOS
 import GppVerify.CelestialHolography.ArithmeticOSFactorization
-import Mathlib
+import Mathlib.Tactic
 
 /-!
 # Explicit finite prime-local AFT factor map

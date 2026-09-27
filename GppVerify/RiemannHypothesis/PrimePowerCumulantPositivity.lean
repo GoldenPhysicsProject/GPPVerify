@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Tactic
 
 /-!
 # Strict positivity of prime-power cumulant terms
@@ -22,7 +22,7 @@ noncomputable def primePowerCumulantTerm
 The sign is independent of `β`; the restriction `β > 1` enters only when the
 infinite sum is formed. -/
 theorem primePowerCumulantTerm_pos
-    {r : ℕ} (hr : 1 ≤ r) (p : Nat.Primes) (k : ℕ) (β : ℝ) :
+    {r : ℕ} (p : Nat.Primes) (k : ℕ) (β : ℝ) :
     0 < primePowerCumulantTerm r p k β := by
   have hp1_nat : 1 < (p : ℕ) := p.prop.one_lt
   have hp1 : (1 : ℝ) < (p : ℕ) := by exact_mod_cast hp1_nat
@@ -40,7 +40,7 @@ positive at every prime-power mode. -/
 theorem cubic_primePowerCumulantTerm_pos
     (p : Nat.Primes) (k : ℕ) (β : ℝ) :
     0 < primePowerCumulantTerm 3 p k β := by
-  exact primePowerCumulantTerm_pos (by norm_num) p k β
+  exact primePowerCumulantTerm_pos p k β
 
 end GppPrimePowerCumulantPositivity
 

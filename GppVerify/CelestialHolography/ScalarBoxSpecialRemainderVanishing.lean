@@ -19,7 +19,7 @@ open GppScalarBoxRegulatorVanishing
 /-- The dimensionless special-function majorant tends to zero for fixed positive
 kinematic scales `S,U`. -/
 theorem tendsto_specialRemainderMajorant_regulator
-    {S U : ℝ} (hS : 0 < S) (hU : 0 < U) :
+    {S U : ℝ} (hU : 0 < U) :
     Tendsto
       (fun m : ℝ => specialRemainderMajorant (m / U) (m / S))
       (𝓝[>] 0) (𝓝 0) := by

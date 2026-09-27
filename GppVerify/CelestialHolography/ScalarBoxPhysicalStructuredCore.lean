@@ -40,7 +40,7 @@ special remainder to the physical core difference. -/
 theorem abs_movingCore_sub_D0_le
     {S U m a q t A B Estar : ℝ}
     (hS : 0 < S) (hU : 0 < U) (hm : 0 < m)
-    (hA0 : 0 ≤ A) (hB0 : 0 ≤ B) (hE0 : 0 ≤ Estar)
+    (hA0 : 0 ≤ A)
     (ha : |Real.log a - Real.log (m / U)| ≤ A)
     (ht : |Real.log t - Real.log (m / S)| ≤ B)
     (hE : |specialRemainder a q t| ≤ Estar) :
@@ -55,7 +55,7 @@ theorem abs_movingCore_sub_D0_le
     (E := specialRemainder a q t)
     (A := A) (B := B) (Estar := Estar)
     (c := -Real.pi ^ 2 / 6)
-    hA0 hB0 hE0 ha ht hE
+    hA0 ha ht hE
   rw [scalarBoxD0_eq_log_scale_core hS hU hm]
   unfold scalarBoxMovingCore
   convert hbase using 1 <;> ring

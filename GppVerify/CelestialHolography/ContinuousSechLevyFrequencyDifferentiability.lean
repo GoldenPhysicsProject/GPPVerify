@@ -22,6 +22,7 @@ the actual differentiation-under-the-integral identity.
 namespace GppContinuousSechLevyFrequencyDifferentiability
 
 open MeasureTheory
+open scoped Topology
 open GppContinuousSechLevyKernel
 open GppContinuousSechLevyMeasurability
 open GppContinuousSechLevyIntegrable
@@ -36,15 +37,16 @@ theorem hasDerivAt_compensatedLevyKernel_frequency (c x t : ℝ) :
       (frequencyDerivativeKernel c t x) t := by
   unfold compensatedLevyKernel frequencyDerivativeKernel
   have hlin : HasDerivAt (fun u : ℝ => u * x) x t := by
-    simpa using (hasDerivAt_id t).mul_const x
+    exact ((hasDerivAt_id t).mul_const x).congr_deriv (one_mul _)
   have hcos : HasDerivAt (fun u : ℝ => Real.cos (u * x))
-      (-Real.sin (t * x) * x) t :=
-    (Real.hasDerivAt_cos (t * x)).comp t hlin
+      (-Real.sin (t * x) * x) t := by
+    have h := (Real.hasDerivAt_cos (t * x)).comp t hlin
+    exact h
   have hone : HasDerivAt (fun _ : ℝ => (1 : ℝ)) 0 t := hasDerivAt_const t 1
   have hsub : HasDerivAt (fun u : ℝ => 1 - Real.cos (u * x))
       (Real.sin (t * x) * x) t := by
-    convert hone.sub hcos using 1 <;> ring
-  convert hsub.mul_const (levyDensity c x) using 1 <;> ring
+    exact (hone.sub hcos).congr_deriv (by ring)
+  exact (hsub.mul_const (levyDensity c x)).congr_deriv (by ring)
 
 /-- For fixed chamber parameter and frequency, the derivative kernel is Borel measurable
 as a function of the spatial variable. -/
@@ -81,8 +83,6 @@ theorem integrable_frequencyDerivativeKernel {c t : ℝ} (hc : 0 ≤ c) :
     unfold frequencyDerivativeCauchyConstant
     positivity
   have hinv : 0 ≤ (1 + x ^ 2)⁻¹ := by positivity
-  rw [Real.norm_eq_abs, Real.norm_eq_abs,
-    abs_of_nonneg (mul_nonneg hC hinv)]
   exact hmaj
 
 /-- The spatial integral of the compensated Lévy kernel is differentiable in frequency,
@@ -139,8 +139,8 @@ theorem hasDerivAt_integral_compensatedLevyKernel_frequency {c t : ℝ} (hc : 0 
   exact (hasDerivAt_integral_of_dominated_loc_of_deriv_le
     (F := fun u : ℝ => fun x : ℝ => compensatedLevyKernel c u x)
     (F' := fun u : ℝ => fun x : ℝ => frequencyDerivativeKernel c u x)
-    (x₀ := t) (bound := bound) (μ := volume) (ε := (1 : ℝ))
-    (by norm_num) hFmeas hFint hF'meas hbound hboundInt hdiff).2
+    (x₀ := t) (bound := bound) (μ := volume) (s := Metric.ball t (1 : ℝ))
+    (Metric.ball_mem_nhds t one_pos) hFmeas hFint hF'meas hbound hboundInt hdiff).2
 
 end GppContinuousSechLevyFrequencyDifferentiability
 

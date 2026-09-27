@@ -69,7 +69,7 @@ noncomputable def oddDerivativeMajorant (T : ℝ) (n : ℕ) : ℝ :=
   2 * T / ((n : ℝ) + 1) ^ 2
 
 /-- For nonnegative `T`, the compact majorant is summable. -/
-theorem summable_oddDerivativeMajorant (T : ℝ) (hT : 0 ≤ T) :
+theorem summable_oddDerivativeMajorant (T : ℝ) :
     Summable (oddDerivativeMajorant T) := by
   have hf : Summable (fun n : ℕ => 1 / (n : ℝ) ^ 2) := hasSum_zeta_two.summable
   have hshift : Summable (fun n : ℕ => 1 / (((n + 1 : ℕ) : ℝ) ^ 2)) :=
@@ -118,7 +118,7 @@ theorem tendstoUniformlyOn_oddDerivativeTerm
       (fun x : ℝ => ∑' n : ℕ, oddDerivativeTerm n x)
       Filter.atTop (Set.Icc (-T) T) := by
   exact tendstoUniformlyOn_tsum_nat
-    (summable_oddDerivativeMajorant T hT)
+    (summable_oddDerivativeMajorant T)
     (fun n x hx => norm_oddDerivativeTerm_le_majorant T hT n x hx)
 
 end GppOddLatticeDerivativeUniform

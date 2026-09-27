@@ -1,5 +1,6 @@
 import GppVerify.CelestialHolography.ArithmeticOSGram
-import Mathlib
+import Mathlib.Tactic
+import Mathlib.LinearAlgebra.Matrix.PosDef
 
 /-!
 # Arithmetic OS factorization criterion

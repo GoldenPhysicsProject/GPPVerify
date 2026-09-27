@@ -29,7 +29,7 @@ theorem abs_WpA_le_zero {p a : ℝ} (hp : 1 < p) (ha : 0 < a) (t : ℝ) :
 theorem WpA_zero_nonneg {p a : ℝ} (hp : 1 < p) (ha : 0 < a) :
     0 ≤ WpA p a 0 := by
   have h := abs_WpA_le_zero hp ha 0
-  exact abs_le_self_iff.mp h
+  exact (abs_nonneg _).trans h
 
 /-- Canonically normalized local arithmetic transfer factor. -/
 noncomputable def localTransfer (p a t : ℝ) : ℝ :=
@@ -55,19 +55,18 @@ theorem abs_finiteLocalTransfer_le_one
     |finiteLocalTransfer S a t| ≤ 1 := by
   classical
   unfold finiteLocalTransfer
-  rw [abs_prod]
   induction S using Finset.induction_on with
   | empty => simp
   | @insert p S hp ih =>
       simp only [Finset.mem_insert, forall_eq_or_imp] at hS
-      rw [Finset.prod_insert hp]
+      rw [Finset.prod_insert hp, abs_mul]
       have hp1 : |localTransfer (p : ℝ) a t| ≤ 1 :=
         abs_localTransfer_le_one (by exact_mod_cast hS.1) ha t
       have hS1 : |∏ q ∈ S, localTransfer (q : ℝ) a t| ≤ 1 := by
         apply ih hS.2
       have hp0 : 0 ≤ |localTransfer (p : ℝ) a t| := abs_nonneg _
       have hprod0 : 0 ≤ |∏ q ∈ S, localTransfer (q : ℝ) a t| := abs_nonneg _
-      nlinarith [mul_le_mul hp1 hS1 hp0 hprod0]
+      nlinarith [mul_le_mul hp1 hS1 hprod0 zero_le_one]
 
 end GppPrimeLocalResponseContraction
 

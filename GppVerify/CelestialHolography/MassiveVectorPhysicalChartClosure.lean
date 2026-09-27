@@ -49,8 +49,8 @@ hypotheses required by the mixed-helicity positivity theorem. -/
 theorem mixedHelicityDs4Physical_chart_nonneg (r t : ℝ) :
     0 ≤ mixedHelicityDs4Physical
       (betaCoord r) (cosThetaCoord t) (mixedHelicityUCoord r t) := by
-  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨hu0, hu1⟩
-  exact mixedHelicityDs4Physical_nonneg (betaCoord r) (cosThetaCoord t) hu0 hu1
+  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨_, hu1⟩
+  exact mixedHelicityDs4Physical_nonneg (betaCoord r) (cosThetaCoord t) hu1
 
 /-- **Physical-chart strict closure.**  Away from `(r,t)=(0,0)`, the generic
 mixed-helicity `D_s=4` cut baseline is strictly positive. -/
@@ -58,8 +58,8 @@ theorem mixedHelicityDs4Physical_chart_pos
     {r t : ℝ} (hdeg : ¬ (r = 0 ∧ t = 0)) :
     0 < mixedHelicityDs4Physical
       (betaCoord r) (cosThetaCoord t) (mixedHelicityUCoord r t) := by
-  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨hu0, hu1⟩
-  apply mixedHelicityDs4Physical_pos (betaCoord r) (cosThetaCoord t) hu0 hu1
+  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨_, hu1⟩
+  apply mixedHelicityDs4Physical_pos (betaCoord r) (cosThetaCoord t) hu1
   intro hden
   exact hdeg ((physicalDenominator_eq_zero_iff r t).mp hden)
 

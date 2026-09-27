@@ -92,7 +92,6 @@ theorem one_sub_endpointQ_le_two_q
 theorem abs_log_endpointQ_le
     {R q ρ : ℝ}
     (hRlo : 8 / 9 ≤ R) (hRhi : R ≤ 1)
-    (hρ0 : 0 ≤ ρ)
     (hq0 : 0 ≤ q)
     (hqρ : q ≤ (324 / 289 : ℝ) * ρ)
     (hq : q = (1 - R) / (1 + R)) :
@@ -114,7 +113,7 @@ theorem abs_log_endpointQ_le
 /-- Final physical logarithmic scale estimate for `q`. -/
 theorem abs_log_q_le_abs_log_rho_add
     {U m R q ρ : ℝ}
-    (hU : 0 < U) (hm : 0 < m) (hmU : m ≤ U / 16)
+    (hU : 0 < U) (hm : 0 < m)
     (hRlo : 8 / 9 ≤ R) (hRhi : R ≤ 1)
     (hq : q = (1 - R) / (1 + R))
     (hRsq : R ^ 2 = U / (U + 4 * m))
@@ -128,7 +127,7 @@ theorem abs_log_q_le_abs_log_rho_add
   have hQmem := endpointQ_mem hRlo hRhi
   have hQpos : 0 < endpointQ R := lt_of_lt_of_le (by norm_num) hQmem.1
   have hfac := q_eq_rho_mul_endpointQ hU hm.le hRlo hq hRsq hρ
-  have hlogQ := abs_log_endpointQ_le hRlo hRhi hρ0 hq0 hqρ hq
+  have hlogQ := abs_log_endpointQ_le hRlo hRhi hq0 hqρ hq
   rw [hfac, Real.log_mul hρpos.ne' hQpos.ne']
   exact (abs_add_le _ _).trans (by gcongr)
 

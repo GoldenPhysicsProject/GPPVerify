@@ -97,7 +97,7 @@ estimates are independent certified interfaces; the only not-yet-physical input 
 `hqlog`, the moving-endpoint logarithmic scale estimate. -/
 theorem abs_specialRemainder_le
     {a q t ρ η : ℝ}
-    (hρ0 : 0 ≤ ρ) (hη0 : 0 ≤ η)
+    (hρ0 : 0 ≤ ρ)
     (ht : |li2Series (-t)| ≤ (48 / 19 : ℝ) * η)
     (haqLi : |li2Series (a * q)| ≤ (648 / 289 : ℝ) * ρ ^ 2)
     (hqlog : |Real.log q| ≤ |Real.log ρ| + (81 / 32 : ℝ) * ρ)

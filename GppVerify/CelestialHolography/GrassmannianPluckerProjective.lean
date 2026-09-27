@@ -46,10 +46,8 @@ theorem plucker_sl2_invariant
   rw [plucker_frameChange]
   simp [hdet]
 
-/-- For an invertible frame change, the common Plücker scale is nonzero. -/
-theorem plucker_common_scale_ne_zero
-    {a b c d : ℂ} (hdet : a * d - b * c ≠ 0) :
-    a * d - b * c ≠ 0 := hdet
+-- GPPVerify2's `plucker_common_scale_ne_zero` returned its own hypothesis
+-- (`a * d - b * c ≠ 0 → a * d - b * c ≠ 0`) and is not carried over.
 
 /-- The Plücker quadratic relation is preserved under every frame change, because
 all six coordinates acquire the same common determinant factor.  Here it is stated

@@ -34,8 +34,8 @@ theorem landenCombination_eq_zero
     apply tendsto_nhdsWithin_of_tendsto_nhds_of_eventually_within
     · have hnum : HasDerivAt (fun y : ℝ => y) 1 0 := hasDerivAt_id 0
       have hden : HasDerivAt (fun y : ℝ => 1 + y) 1 0 := by
-        convert (hasDerivAt_const (x := (0 : ℝ)) (c := (1 : ℝ))).add (hasDerivAt_id 0) using 1 <;>
-          norm_num
+        exact ((hasDerivAt_const (x := (0 : ℝ)) (c := (1 : ℝ))).add
+          (hasDerivAt_id 0)).congr_deriv (zero_add _)
       have hc : ContinuousAt (fun y : ℝ => y / (1 + y)) 0 :=
         (hnum.div hden (by norm_num)).continuousAt
       simpa [L] using hc.tendsto.mono_left (show L ≤ 𝓝 (0 : ℝ) by
@@ -69,8 +69,8 @@ theorem landenCombination_eq_zero
 
   have hlog : Tendsto (fun y : ℝ => (Real.log (1 + y)) ^ 2 / 2) L (𝓝 0) := by
     have hinner : HasDerivAt (fun y : ℝ => 1 + y) 1 0 := by
-      convert (hasDerivAt_const (x := (0 : ℝ)) (c := (1 : ℝ))).add (hasDerivAt_id 0) using 1 <;>
-        norm_num
+      exact ((hasDerivAt_const (x := (0 : ℝ)) (c := (1 : ℝ))).add
+        (hasDerivAt_id 0)).congr_deriv (zero_add _)
     have hlogAtInner :
         HasDerivAt Real.log ((1 + (0 : ℝ))⁻¹) (1 + (0 : ℝ)) := by
       exact Real.hasDerivAt_log (by norm_num : (1 + (0 : ℝ)) ≠ 0)
@@ -86,7 +86,8 @@ theorem landenCombination_eq_zero
 
   have hlimit : Tendsto landenCombination L (𝓝 0) := by
     have H := (hLiFrac.add hLiNeg).add hlog
-    simpa [landenCombination] using H
+    rw [add_zero, add_zero] at H
+    exact H
 
   have hx : x ∈ Ioo (0 : ℝ) 1 := ⟨hx0, hx1⟩
   have hconst : Tendsto landenCombination L (𝓝 (landenCombination x)) := by

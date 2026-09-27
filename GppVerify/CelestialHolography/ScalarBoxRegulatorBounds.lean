@@ -113,7 +113,7 @@ theorem Q_mem_rational_interval
 theorem B_pos_and_le
     (δ η κ x R B : ℝ)
     (hδ0 : 0 ≤ δ)
-    (hη0 : 0 ≤ η) (hη : η ≤ 1 / 4)
+    (hη : η ≤ 1 / 4)
     (hκlo : 1 ≤ κ) (hκhi : κ ≤ 9 / 8)
     (hxlo : 15 / 16 ≤ x)
     (hRlo : 8 / 9 ≤ R)
@@ -171,7 +171,7 @@ theorem q_sub_a_nonneg_and_le_m_sq
   have hRpluspos : 0 < 1 + R := by linarith
   have hκpluspos : 0 < 1 + κ := by linarith
   have hfac := q_sub_a_exact_m_sq S U m R κ q a
-    hSUpos.ne' hpluspos.ne' hRpluspos.ne' hκpluspos.ne' hq ha hsq
+    hpluspos.ne' hRpluspos.ne' hκpluspos.ne' hq ha hsq
   rw [hfac]
   have hSUstep : S * U ≤ S * (U + 4 * m) := by
     exact mul_le_mul_of_nonneg_left (by linarith) hS.le

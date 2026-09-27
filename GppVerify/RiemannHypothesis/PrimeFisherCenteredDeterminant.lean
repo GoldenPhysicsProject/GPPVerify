@@ -61,6 +61,7 @@ private theorem summable_prob_centeredLog_sq
   intro n
   unfold primeFisherProbability centeredLog
   simp [p]
+  ring
 
 private theorem summable_prob_centeredLogSq_sq
     {beta : ℝ} (hbeta : 1 < beta) :
@@ -73,6 +74,7 @@ private theorem summable_prob_centeredLogSq_sq
   intro n
   unfold primeFisherProbability centeredLogSq
   simp [p]
+  ring
 
 private theorem summable_prob_centered_cross
     {beta : ℝ} (hbeta : 1 < beta) :
@@ -118,12 +120,12 @@ theorem normalized_centered_quadratic_eq_covariance
     (∑' n : ℕ, primeFisherProbability beta n *
       (a * centeredLog beta n + b * centeredLogSq beta n) ^ 2) =
         ∑' n : ℕ,
-          a ^ 2 * (primeFisherProbability beta n * (centeredLog beta n) ^ 2) +
+          (a ^ 2 * (primeFisherProbability beta n * (centeredLog beta n) ^ 2) +
           (2 * a * b) *
             (primeFisherProbability beta n *
               (centeredLog beta n * centeredLogSq beta n)) +
           b ^ 2 *
-            (primeFisherProbability beta n * (centeredLogSq beta n) ^ 2) := by
+            (primeFisherProbability beta n * (centeredLogSq beta n) ^ 2)) := by
               apply tsum_congr
               intro n
               ring
@@ -135,7 +137,7 @@ theorem normalized_centered_quadratic_eq_covariance
             (centeredLog beta n * centeredLogSq beta n)) +
         b ^ 2 * (∑' n : ℕ,
           primeFisherProbability beta n * (centeredLogSq beta n) ^ 2) := by
-            rw [tsum_add (hAa.add hBb) hCc, tsum_add hAa hBb]
+            rw [Summable.tsum_add (hAa.add hBb) hCc, Summable.tsum_add hAa hBb]
             simp only [tsum_mul_left]
     _ =
       centeredLogVariance beta * a ^ 2 +

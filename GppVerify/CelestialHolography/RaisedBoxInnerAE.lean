@@ -25,8 +25,7 @@ The sole exceptional point in `Ioc 0 (1-x₁-x₂)` is its upper endpoint. -/
 theorem integrand_tendsto_one_ae_inner
     {S T x1 x2 : ℝ}
     (hS : 0 < S) (hT : 0 < T)
-    (hx1 : 0 < x1) (hx2 : 0 < x2)
-    (hx12 : x1 + x2 < 1) :
+    (hx1 : 0 < x1) (hx2 : 0 < x2) :
     ∀ᵐ x3 : ℝ ∂volume,
       x3 ∈ Set.Ioc (0 : ℝ) (1 - x1 - x2) →
         Tendsto (fun ε : ℝ => integrand ε S T x1 x2 x3)

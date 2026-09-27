@@ -18,6 +18,8 @@ open scoped Topology
 open GppScalarBoxStructuredPhysicalConvergence
 open GppScalarBoxPhysicalCoreBound
 open GppScalarBoxSpecialFunctionRemainder
+open GppScalarBoxStructuredPhysicalMajorant
+open GppScalarBoxD0PrefactorVanishing
 
 /-- Multiplying both the regulated object and its asymptotic/core approximation by a
 fixed external numerator multiplies the error bound by the numerator's absolute value. -/
@@ -32,7 +34,7 @@ theorem tendsto_external_mul_remainder_zero
     (N : ℝ) {J J0 : ℝ → ℝ}
     (h : Tendsto (fun m : ℝ => J m - J0 m) (𝓝[>] 0) (𝓝 0)) :
     Tendsto (fun m : ℝ => N * J m - N * J0 m) (𝓝[>] 0) (𝓝 0) := by
-  have hmul := tendsto_const_nhds.mul h
+  have hmul := (tendsto_const_nhds (x := N)).mul h
   simpa [mul_sub] using hmul
 
 /-- In the physical four-point continuation `s=-S`, `u=-U`, masslessness fixes

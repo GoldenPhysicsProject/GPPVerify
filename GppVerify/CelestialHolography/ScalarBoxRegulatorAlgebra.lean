@@ -36,7 +36,6 @@ then the small difference `1-κR` carries an exact factor `m^2`.
 -/
 theorem one_sub_kappa_mul_R_factorization
     (S U m R κ : ℝ)
-    (hSU : S * (U + 4 * m) ≠ 0)
     (hplus : 1 + κ * R ≠ 0)
     (hsq : (κ * R) ^ 2 = 1 - 4 * m ^ 2 / (S * (U + 4 * m))) :
     1 - κ * R =
@@ -56,7 +55,6 @@ No positivity is asserted here; positivity follows separately once the physical 
 -/
 theorem q_sub_a_exact_m_sq
     (S U m R κ q a : ℝ)
-    (hSU : S * (U + 4 * m) ≠ 0)
     (hplus : 1 + κ * R ≠ 0)
     (hR : 1 + R ≠ 0)
     (hκ : 1 + κ ≠ 0)
@@ -67,8 +65,8 @@ theorem q_sub_a_exact_m_sq
       8 * m ^ 2 /
         (S * (U + 4 * m) * (1 + κ * R) * (1 + R) * (1 + κ)) := by
   rw [q_sub_a_factorization R κ q a hR hκ hq ha]
-  rw [one_sub_kappa_mul_R_factorization S U m R κ hSU hplus hsq]
-  field_simp [hSU, hplus, hR, hκ]
+  rw [one_sub_kappa_mul_R_factorization S U m R κ hplus hsq]
+  field_simp [hplus, hR, hκ]
   ring
 
 /-- Squared endpoint variable of the regulated dispersive box. -/

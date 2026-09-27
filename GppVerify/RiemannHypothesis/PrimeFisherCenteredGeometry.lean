@@ -35,7 +35,7 @@ noncomputable def meanLogSq (beta : ℝ) : ℝ :=
   primeFisherExpectation beta (fun n : ℕ => (Real.log n) ^ 2)
 
 /-- Polynomial representing a centered linear combination of `x` and `x^2`. -/
-def centeredScorePolynomial (beta a b : ℝ) : ℝ[X] :=
+noncomputable def centeredScorePolynomial (beta a b : ℝ) : ℝ[X] :=
   C (-(a * meanLog beta + b * meanLogSq beta)) + C a * X + C b * X ^ 2
 
 /-- Evaluation is exactly the centered score. -/

@@ -21,8 +21,8 @@ rational physical chart, with no separately assumed range condition. -/
 theorem mixedHelicityDs4Physical_chart_nonneg (r t : ℝ) :
     0 ≤ mixedHelicityDs4Physical
       (betaCoord r) (cosThetaCoord t) (mixedHelicityUCoord r t) := by
-  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨hu0, hu1⟩
-  exact mixedHelicityDs4Physical_nonneg _ _ hu0 hu1
+  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨_, hu1⟩
+  exact mixedHelicityDs4Physical_nonneg _ _ hu1
 
 /-- Away from the exact cut denominator zero, the chart-specialized mixed-helicity
 baseline is strictly positive. -/
@@ -30,8 +30,8 @@ theorem mixedHelicityDs4Physical_chart_pos
     {r t : ℝ} (hden : 1 - betaCoord r * cosThetaCoord t ≠ 0) :
     0 < mixedHelicityDs4Physical
       (betaCoord r) (cosThetaCoord t) (mixedHelicityUCoord r t) := by
-  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨hu0, hu1⟩
-  exact mixedHelicityDs4Physical_pos _ _ hu0 hu1 hden
+  rcases mixedHelicityUCoord_mem_unitInterval r t with ⟨_, hu1⟩
+  exact mixedHelicityDs4Physical_pos _ _ hu1 hden
 
 end GppMassiveVectorMixedPhysicalChart
 

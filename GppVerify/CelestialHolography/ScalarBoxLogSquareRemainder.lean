@@ -49,7 +49,7 @@ theorem abs_sq_sub_sq_le_of_abs_sub_le
       _ = |x - y| + 2 * |y| := by
         rw [abs_mul]
         norm_num
-      _ ≤ E + 2 * |y| := add_le_add_right hxy _
+      _ ≤ E + 2 * |y| := by gcongr
   rw [show x ^ 2 - y ^ 2 = (x - y) * (x + y) by ring, abs_mul]
   calc
     |x - y| * |x + y| ≤ E * |x + y| :=

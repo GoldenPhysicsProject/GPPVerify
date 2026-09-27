@@ -91,7 +91,7 @@ theorem sameHelicityDs4Baseline_nonneg (r t : ℝ) :
 /-- On the physical interval `0 <= u <= 1`, the exact mixed-helicity polynomial
 `u^2 - 8u + 8` is uniformly at least one. -/
 theorem mixedHelicityNumerator_ge_one
-    {u : ℝ} (hu0 : 0 ≤ u) (hu1 : u ≤ 1) :
+    {u : ℝ} (hu1 : u ≤ 1) :
     1 ≤ u ^ 2 - 8 * u + 8 := by
   have h7 : 0 ≤ 7 - u := by linarith
   have hprod : 0 ≤ (1 - u) * (7 - u) :=
@@ -107,22 +107,22 @@ theorem mixedHelicityScalarPhysical_nonneg (beta c u : ℝ) :
 /-- Consequently the physical mixed-helicity `D_s=4` cut baseline is nonnegative
 throughout `0 <= u <= 1`, even using Lean's totalized division convention. -/
 theorem mixedHelicityDs4Physical_nonneg
-    (beta c : ℝ) {u : ℝ} (hu0 : 0 ≤ u) (hu1 : u ≤ 1) :
+    (beta c : ℝ) {u : ℝ} (hu1 : u ≤ 1) :
     0 ≤ mixedHelicityDs4Physical beta c u := by
   unfold mixedHelicityDs4Physical
   have hn : 0 ≤ u ^ 2 - 8 * u + 8 :=
-    le_trans zero_le_one (mixedHelicityNumerator_ge_one hu0 hu1)
+    le_trans zero_le_one (mixedHelicityNumerator_ge_one hu1)
   exact div_nonneg (mul_nonneg (by norm_num) hn) (sq_nonneg (1 - beta * c))
 
 /-- Away from the collinear denominator zero, the same physical mixed-helicity
 baseline is strictly positive. -/
 theorem mixedHelicityDs4Physical_pos
-    (beta c : ℝ) {u : ℝ} (hu0 : 0 ≤ u) (hu1 : u ≤ 1)
+    (beta c : ℝ) {u : ℝ} (hu1 : u ≤ 1)
     (hden : 1 - beta * c ≠ 0) :
     0 < mixedHelicityDs4Physical beta c u := by
   unfold mixedHelicityDs4Physical
   have hn : 0 < u ^ 2 - 8 * u + 8 :=
-    lt_of_lt_of_le zero_lt_one (mixedHelicityNumerator_ge_one hu0 hu1)
+    lt_of_lt_of_le zero_lt_one (mixedHelicityNumerator_ge_one hu1)
   exact div_pos (mul_pos (by norm_num) hn) (sq_pos_of_ne_zero hden)
 
 /-- The mixed massive-vector numerator has the exact factorization found by the
@@ -134,7 +134,7 @@ theorem mixedHelicityVectorNumerator_factor (u : ℝ) :
 /-- On physical kinematics `0 <= u <= 1`, the mixed massive-vector numerator is
 uniformly at least three. -/
 theorem mixedHelicityVectorNumerator_ge_three
-    {u : ℝ} (hu0 : 0 ≤ u) (hu1 : u ≤ 1) :
+    {u : ℝ} (hu1 : u ≤ 1) :
     3 ≤ 3 * u ^ 2 - 16 * u + 16 := by
   have h10 : 0 ≤ 13 - 3 * u := by linarith
   have hprod : 0 ≤ (1 - u) * (13 - 3 * u) :=
@@ -143,22 +143,22 @@ theorem mixedHelicityVectorNumerator_ge_three
 
 /-- The massive-vector mixed-helicity cut is nonnegative on the physical interval. -/
 theorem mixedHelicityVectorPhysical_nonneg
-    (beta c : ℝ) {u : ℝ} (hu0 : 0 ≤ u) (hu1 : u ≤ 1) :
+    (beta c : ℝ) {u : ℝ} (hu1 : u ≤ 1) :
     0 ≤ mixedHelicityVectorPhysical beta c u := by
   unfold mixedHelicityVectorPhysical
   have hn : 0 ≤ 3 * u ^ 2 - 16 * u + 16 :=
-    le_trans (by norm_num) (mixedHelicityVectorNumerator_ge_three hu0 hu1)
+    le_trans (by norm_num) (mixedHelicityVectorNumerator_ge_three hu1)
   exact div_nonneg hn (sq_nonneg (1 - beta * c))
 
 /-- Away from the collinear denominator zero, the massive-vector mixed-helicity
 cut is strictly positive on `0 <= u <= 1`. -/
 theorem mixedHelicityVectorPhysical_pos
-    (beta c : ℝ) {u : ℝ} (hu0 : 0 ≤ u) (hu1 : u ≤ 1)
+    (beta c : ℝ) {u : ℝ} (hu1 : u ≤ 1)
     (hden : 1 - beta * c ≠ 0) :
     0 < mixedHelicityVectorPhysical beta c u := by
   unfold mixedHelicityVectorPhysical
   have hn : 0 < 3 * u ^ 2 - 16 * u + 16 :=
-    lt_of_lt_of_le (by norm_num) (mixedHelicityVectorNumerator_ge_three hu0 hu1)
+    lt_of_lt_of_le (by norm_num) (mixedHelicityVectorNumerator_ge_three hu1)
   exact div_pos hn (sq_pos_of_ne_zero hden)
 
 /-- **Mixed-helicity dimensional reconstruction.** The exact massive-vector sewing

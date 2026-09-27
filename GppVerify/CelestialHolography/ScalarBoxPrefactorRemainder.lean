@@ -27,6 +27,7 @@ theorem abs_inv_kappa_sub_one_le
   have habs : |1 / κ - 1| = (κ - 1) / κ := by
     rw [abs_of_nonpos (sub_nonpos.mpr hinvle)]
     field_simp [hκpos.ne']
+    ring
   rw [habs]
   exact (div_le_self hdiff0 hκ).trans hκdiff
 
@@ -39,7 +40,6 @@ Thus no independent asymptotic hypothesis on the inverse prefactor is needed. -/
 theorem kappa_sub_one_le_two_mul_m_div_U
     {S U m κ : ℝ}
     (hS : 0 < S) (hU : 0 < U)
-    (hm0 : 0 ≤ m) (hmS : m ≤ S)
     (hκ : 1 ≤ κ)
     (hκsq : κ ^ 2 = 1 + 4 * m * (S - m) / (S * U)) :
     κ - 1 ≤ 2 * m / U := by
@@ -51,7 +51,6 @@ theorem kappa_sub_one_le_two_mul_m_div_U
     rw [div_le_iff₀ hSU]
     have hright : (4 * m / U) * (S * U) = 4 * m * S := by
       field_simp [hU.ne']
-      ring
     rw [hright]
     nlinarith [sq_nonneg m]
   have hprodlo : 2 * (κ - 1) ≤ (κ - 1) * (κ + 1) := by
@@ -65,7 +64,10 @@ theorem kappa_sub_one_le_two_mul_m_div_U
       _ ≤ 4 * m / U := hrhsle
   have htwo : 2 * (κ - 1) ≤ 4 * m / U := hprodlo.trans hprodhi
   have hhalf := (div_le_div_iff_of_pos_right (show (0 : ℝ) < 2 by norm_num)).2 htwo
-  convert hhalf using 1 <;> ring
+  calc
+    κ - 1 = 2 * (κ - 1) / 2 := by ring
+    _ ≤ 4 * m / U / 2 := hhalf
+    _ = 2 * m / U := by ring
 
 /-- Exact decomposition of the prefactor-corrected remainder. -/
 theorem prefactor_remainder_identity
@@ -102,20 +104,19 @@ theorem abs_prefactor_remainder_le_of_core_bound
     (hcore : |D - D0| ≤ M) :
     |D / κ - D0| ≤ M + (δ / 2) * |D0| := by
   exact (abs_prefactor_remainder_le hκ hκdiff).trans
-    (add_le_add_right hcore ((δ / 2) * |D0|))
+    (by gcongr)
 
 /-- Physical specialization: the quadratic definition of `κ` discharges the
 prefactor hypothesis automatically. -/
 theorem abs_prefactor_remainder_le_of_physical_core_bound
     {S U m D D0 κ M : ℝ}
     (hS : 0 < S) (hU : 0 < U)
-    (hm0 : 0 ≤ m) (hmS : m ≤ S)
     (hκ : 1 ≤ κ)
     (hκsq : κ ^ 2 = 1 + 4 * m * (S - m) / (S * U))
     (hcore : |D - D0| ≤ M) :
     |D / κ - D0| ≤ M + ((4 * m / U) / 2) * |D0| := by
   apply abs_prefactor_remainder_le_of_core_bound hκ
-  · have h := kappa_sub_one_le_two_mul_m_div_U hS hU hm0 hmS hκ hκsq
+  · have h := kappa_sub_one_le_two_mul_m_div_U hS hU hκ hκsq
     convert h using 1 <;> ring
   · exact hcore
 

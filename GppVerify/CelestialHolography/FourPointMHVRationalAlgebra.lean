@@ -45,7 +45,7 @@ theorem box_add_bubble_eq_compact
 
 /-- With `Xi = -Q`, the same remainder is `+(2 i/9)(s/t) Xi`. -/
 theorem compact_eq_Xi
-    {s t Q Xi : ℂ} (ht : t ≠ 0) (hXi : Xi = -Q) :
+    {s t Q Xi : ℂ} (hXi : Xi = -Q) :
     -(2 * Complex.I / 9) * (s / t) * Q
       = (2 * Complex.I / 9) * (s / t) * Xi := by
   rw [hXi]

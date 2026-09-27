@@ -32,8 +32,8 @@ theorem exp_neg_pi_abs_le_inv_sq {x : ℝ} (hx : 1 ≤ |x|) :
   have hy : |x| ≤ Real.pi * |x| / 2 := by
     nlinarith
   have hlin :
-      1 + Real.pi * |x| / 2 ≤ Real.exp (Real.pi * |x| / 2) :=
-    Real.add_one_le_exp _
+      1 + Real.pi * |x| / 2 ≤ Real.exp (Real.pi * |x| / 2) := by
+    linarith [Real.add_one_le_exp (Real.pi * |x| / 2)]
   have hbase : |x| ≤ Real.exp (Real.pi * |x| / 2) := by
     calc
       |x| ≤ Real.pi * |x| / 2 := hy
@@ -84,11 +84,11 @@ theorem abs_frequencyDerivativeKernel_le_inv_sq {c t x : ℝ}
     _ ≤ (2 * c / (1 - Real.exp (-(2 * Real.pi)))) * (|x| ^ 2)⁻¹ :=
       mul_le_mul_of_nonneg_left hexp hA
     _ = (2 * c / (1 - Real.exp (-(2 * Real.pi)))) / (|x| ^ 2) := by
-      rw [div_eq_mul_inv]
+      rw [div_eq_mul_inv (2 * c / (1 - Real.exp (-(2 * Real.pi))))]
 
 /-- One explicit global Cauchy-majorant coefficient, uniform on the frequency window
 `|t| <= T`. -/
-def frequencyDerivativeCauchyConstant (c T : ℝ) : ℝ :=
+noncomputable def frequencyDerivativeCauchyConstant (c T : ℝ) : ℝ :=
   2 * (c * T / Real.pi + 2 * c / (1 - Real.exp (-(2 * Real.pi))))
 
 /-- Uniform Cauchy domination of the derivative kernel on a compact frequency window. -/
@@ -135,8 +135,7 @@ theorem abs_frequencyDerivativeKernel_le_cauchy {c T t x : ℝ}
     have hx2 : 1 ≤ |x| ^ 2 := by nlinarith [sq_nonneg |x|]
     have hx2pos : 0 < |x| ^ 2 := by positivity
     have hden_le : 1 + x ^ 2 ≤ 2 * |x| ^ 2 := by
-      rw [sq_abs]
-      nlinarith
+      nlinarith [sq_abs x]
     have htailconst :
         2 * c / (1 - Real.exp (-(2 * Real.pi))) ≤
           frequencyDerivativeCauchyConstant c T / 2 := by

@@ -43,22 +43,18 @@ theorem complexConj_principalDelta (tau : ℝ) :
   apply Complex.ext <;> simp [complexConj, principalDelta] <;> ring
 
 /-- The completed-zeta logarithmic response is purely imaginary on the explicit
-principal-series parameterization, away from zeros. -/
+principal-series parameterization (at zeros of `Λ` only through Lean's total division). -/
 theorem celestialCompletedResponse_re_eq_zero_at_tau
-    (tau : ℝ)
-    (hLambda : completedRiemannZeta
-      (principalDelta tau / 2) ≠ 0) :
+    (tau : ℝ) :
     (celestialCompletedResponse (principalDelta tau)).re = 0 := by
-  exact celestialCompletedResponse_re_eq_zero (principalDelta_re tau) hLambda
+  exact celestialCompletedResponse_re_eq_zero (principalDelta_re tau)
 
 /-- The `-i` normalized completed-zeta response is real on the explicit spectral
-axis, away from zeros. -/
+axis (at zeros of `Λ` only through Lean's total division). -/
 theorem celestialCompletedPhaseResponse_im_eq_zero_at_tau
-    (tau : ℝ)
-    (hLambda : completedRiemannZeta
-      (principalDelta tau / 2) ≠ 0) :
+    (tau : ℝ) :
     (celestialCompletedPhaseResponse (principalDelta tau)).im = 0 := by
-  exact celestialCompletedPhaseResponse_im_eq_zero (principalDelta_re tau) hLambda
+  exact celestialCompletedPhaseResponse_im_eq_zero (principalDelta_re tau)
 
 /-- The parameterized principal-axis points never hit the completed-zeta poles
 `Delta = 0` or `Delta = 2`. -/

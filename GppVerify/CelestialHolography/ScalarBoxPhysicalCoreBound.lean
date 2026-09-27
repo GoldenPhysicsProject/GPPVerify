@@ -57,9 +57,9 @@ theorem abs_physical_structured_core_sub_D0_le
     apply (div_le_iff₀ hS).2
     nlinarith
   have hBpair := B_pos_and_le δ η κ x R B
-    hδ0 hη0 hηsmall hκlo hκhi hxlo hRlo hBdef
+    hδ0 hηsmall hκlo hκhi hxlo hRlo hBdef
   have haLog := abs_log_a_sub_log_m_div_U_le
-    hS hU hm hmS' hδ0 hδsmall hη0 hηsmall hκlo hκhi
+    hS hU hm hδ0 hδsmall hη0 hηsmall hκlo hκhi
     ha hκsq hη hκsqScale
   have haLog' : |Real.log a - Real.log (m / U)| ≤
       lowerLogError (4 * m / U) (m / S) := by
@@ -67,7 +67,7 @@ theorem abs_physical_structured_core_sub_D0_le
     rw [hδ, hη] at haLog
     convert haLog using 1 <;> ring
   have htLog := abs_log_t_sub_log_m_div_S_le
-    hS hm hδ0 hδsmall hη0 hηsmall hκlo hκhi
+    hS hm hδ0 hη0 hηsmall hκlo hκhi
     hxlo hxhi hRlo hRhi hκsqScale hxsq hRsqScale hBdef hη ht
   have htLog' : |Real.log t - Real.log (m / S)| ≤
       poleLogError (4 * m / U) (m / S) := by

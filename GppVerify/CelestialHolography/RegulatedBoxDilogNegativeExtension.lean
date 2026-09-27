@@ -60,49 +60,46 @@ theorem hasDerivAt_li2NegativeExtension
   have ha0 : 0 < a := by simpa [a] using ha.1
   have ha1 : a < 1 := by simpa [a] using ha.2
 
-  have hnum : HasDerivAt (fun t : ℝ => -t) (-1) y := by
-    simpa using (hasDerivAt_id y).neg
-  have hdenfun : HasDerivAt (fun t : ℝ => 1 - t) (-1) y := by
-    convert (hasDerivAt_const y (1 : ℝ)).sub (hasDerivAt_id y) using 1 <;> ring
-  have hinner_raw := hnum.div hdenfun hden
+  have hnum : HasDerivAt (fun t : ℝ => -t) (-1) y := (hasDerivAt_id y).neg
+  have hdenfun : HasDerivAt (fun t : ℝ => 1 - t) (-1) y := (hasDerivAt_id y).const_sub 1
   have hinner :
       HasDerivAt (fun t : ℝ => (-t) / (1 - t)) (-1 / (1 - y) ^ 2) y := by
-    convert hinner_raw using 1 <;> field_simp [hden] <;> ring
+    refine (hnum.fun_div hdenfun hden).congr_deriv ?_
+    ring
 
   have hLiBase := GppRegulatedBoxDilogDerivative.hasDerivAt_li2Series ha0 ha1
   have hLiComp := hLiBase.comp y hinner
 
   have hone_minus : 1 - a = 1 / (1 - y) := by
     dsimp [a]
-    field_simp [hden]
-  have hrecipne : (1 / (1 - y) : ℝ) ≠ 0 := one_div_ne_zero hden
+    field_simp
+    ring
   have hlogrecip : Real.log (1 / (1 - y)) = -Real.log (1 - y) := by
-    have hm := Real.log_mul hrecipne hden
-    have hmul : (1 / (1 - y)) * (1 - y) = (1 : ℝ) := by
-      field_simp [hden]
-    rw [hmul, Real.log_one] at hm
-    linarith
+    rw [one_div, Real.log_inv]
   have hLi :
       HasDerivAt (fun t : ℝ => -li2Series ((-t) / (1 - t)))
         (-Real.log (1 - y) / (y * (1 - y))) y := by
     rw [hone_minus, hlogrecip] at hLiComp
-    have H := hLiComp.neg
-    dsimp [a] at H
-    convert H using 1 <;> field_simp [hyne, hden] <;> ring
+    refine hLiComp.neg.congr_deriv ?_
+    dsimp [a]
+    field_simp
 
-  have hlogBase : HasDerivAt Real.log (1 / (1 - y)) (1 - y) := by
-    simpa using Real.hasDerivAt_log hden
-  have hlogComp := hlogBase.comp y hdenfun
+  have hlogComp := (Real.hasDerivAt_log hden).comp y hdenfun
   have hlogSq :
       HasDerivAt (fun t : ℝ => -((Real.log (1 - t)) ^ 2 / 2))
         (Real.log (1 - y) / (1 - y)) y := by
-    have H := (hlogComp.pow 2).div_const 2
-    have Hneg := H.neg
-    convert Hneg using 1 <;> field_simp [hden] <;> ring
+    refine ((hlogComp.pow 2).div_const 2).neg.congr_deriv ?_
+    simp only [Function.comp_apply, show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+    field_simp
+    ring
 
   unfold li2NegativeExtension
-  have H := hLi.add hlogSq
-  convert H using 1 <;> field_simp [hyne, hden] <;> ring
+  refine ((hLi.add hlogSq).congr_deriv ?_).congr_of_eventuallyEq
+    (Filter.Eventually.of_forall fun t => ?_)
+  · field_simp
+    ring
+  · simp only [Pi.add_apply]
+    ring
 
 end GppRegulatedBoxDilogNegativeExtension
 

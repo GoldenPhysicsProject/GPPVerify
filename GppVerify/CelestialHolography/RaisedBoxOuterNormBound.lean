@@ -42,7 +42,11 @@ theorem nestedInnerIntegral_norm_le_outerMajorant
       hδ0 hδ1 hε0 hεδ hS hT hx1 hx2mem.1.le hx12
   have hCint : IntervalIntegrable (fun _x2 : ℝ => C) volume 0 (1 - x1) :=
     intervalIntegrable_const
-  have hAbs := intervalIntegral.norm_integral_le_of_norm_le hAE hCint
+  have hAE' : ∀ᵐ x2 : ℝ, x2 ∈ Set.Ioc (0 : ℝ) (1 - x1) →
+      ‖∫ x3 in (0 : ℝ)..(1 - x1 - x2), integrand ε S T x1 x2 x3‖ ≤ C := by
+    rw [← Set.uIoc_of_le hL.le]
+    exact (ae_restrict_iff' measurableSet_uIoc).mp hAE
+  have hAbs := intervalIntegral.norm_integral_le_of_norm_le hL.le hAE' hCint
   have hCnonneg : 0 ≤ C := by
     dsimp [C]
     have hden : 0 < 1 - δ := by linarith
@@ -53,7 +57,6 @@ theorem nestedInnerIntegral_norm_le_outerMajorant
       ∫ _x2 in (0 : ℝ)..(1 - x1), C = (1 - x1) * C := by
     simp
   rw [hEval] at hAbs
-  rw [abs_of_nonneg (mul_nonneg hLen hCnonneg)] at hAbs
   calc
     ‖∫ x2 in (0 : ℝ)..(1 - x1),
         ∫ x3 in (0 : ℝ)..(1 - x1 - x2),

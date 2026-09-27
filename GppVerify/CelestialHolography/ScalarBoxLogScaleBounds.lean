@@ -68,7 +68,6 @@ theorem kappa_sub_one_mem
 theorem a_eq_m_div_U_mul_endpointA
     {S U m κ a η : ℝ}
     (hS : 0 < S) (hU : 0 < U)
-    (hm : 0 ≤ m) (hmS : m ≤ S)
     (hκlo : 1 ≤ κ)
     (ha : a = (κ - 1) / (κ + 1))
     (hκsq : κ ^ 2 = 1 + 4 * m * (S - m) / (S * U))
@@ -160,7 +159,7 @@ theorem abs_log_endpointA_le
 `log a` and the natural scale `log(m/U)` is exactly controlled by `log A`. -/
 theorem abs_log_a_sub_log_m_div_U_le
     {S U m κ a δ η : ℝ}
-    (hS : 0 < S) (hU : 0 < U) (hm : 0 < m) (hmS : m ≤ S)
+    (hS : 0 < S) (hU : 0 < U) (hm : 0 < m)
     (hδ0 : 0 ≤ δ) (hδ : δ ≤ 1 / 4)
     (hη0 : 0 ≤ η) (hηsmall : η ≤ 1 / 4)
     (hκlo : 1 ≤ κ) (hκhi : κ ≤ 9 / 8)
@@ -171,7 +170,7 @@ theorem abs_log_a_sub_log_m_div_U_le
     |Real.log a - Real.log (m / U)| ≤
       (289 / 192 : ℝ) * (η + (33 / 64 : ℝ) * δ) := by
   have hfac := a_eq_m_div_U_mul_endpointA
-    hS hU hm.le hmS hκlo ha hκsq hηdef
+    hS hU hκlo ha hκsq hηdef
   have hscale : 0 < m / U := div_pos hm hU
   have hAint := A_mem_rational_interval η κ (endpointA η κ)
     hη0 hηsmall hκlo hκhi rfl

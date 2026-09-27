@@ -24,19 +24,20 @@ theorem half_argument_re_eq_half {Δ : ℂ} (hΔ : Δ.re = 1) :
 
 theorem celestialCompletedResponse_re_eq_zero
     {Δ : ℂ} (hΔ : Δ.re = 1)
-    (hΛ : completedRiemannZeta (Δ / 2) ≠ 0) :
+    :
     (celestialCompletedResponse Δ).re = 0 := by
   unfold celestialCompletedResponse
   exact GppCompletedZetaCriticalResponse.completedRiemannZeta_logDeriv_re_eq_zero_of_re_half
-    (half_argument_re_eq_half hΔ) hΛ
+    (half_argument_re_eq_half hΔ)
 
 /-- The `-i` normalized completed-zeta response is genuinely real on the celestial
-principal-series axis, away from zeros where the logarithmic derivative is undefined. -/
+principal-series axis. At zeros of `Λ` the logarithmic derivative is not analytically
+defined; there the statement holds only through Lean's total division (`x / 0 = 0`). -/
 theorem celestialCompletedPhaseResponse_im_eq_zero
     {Δ : ℂ} (hΔ : Δ.re = 1)
-    (hΛ : completedRiemannZeta (Δ / 2) ≠ 0) :
+    :
     (celestialCompletedPhaseResponse Δ).im = 0 := by
-  have hR := celestialCompletedResponse_re_eq_zero hΔ hΛ
+  have hR := celestialCompletedResponse_re_eq_zero hΔ
   simp [celestialCompletedPhaseResponse, Complex.mul_im, hR]
 
 /-- Under the exact dictionary `Δ = 2s`, the globally reflected logarithmic response

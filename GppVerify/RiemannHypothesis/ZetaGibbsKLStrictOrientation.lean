@@ -43,7 +43,7 @@ theorem zetaGibbsKL_gt_reverse
       simpa [uIcc_of_le hβγ.le] using hx
     exact hasDerivAt_zetaMeanEnergy (lt_of_lt_of_le hβ hxI.1)
   have hgcont : ContinuousOn logEnergyVariance (Icc β γ) :=
-    logEnergyVariance_continuousOn_Icc hβ hβγ.le
+    logEnergyVariance_continuousOn_Icc hβ
   have hganti : ∀ ⦃x y : ℝ⦄,
       β ≤ x → y ≤ γ → x < y → logEnergyVariance y < logEnergyVariance x := by
     intro x y hx hy hxy

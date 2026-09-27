@@ -1,5 +1,5 @@
 import GppVerify.CelestialHolography.ArithmeticSplitSignature
-import Mathlib
+import Mathlib.Tactic
 
 /-!
 # Arithmetic principal-series selection criterion

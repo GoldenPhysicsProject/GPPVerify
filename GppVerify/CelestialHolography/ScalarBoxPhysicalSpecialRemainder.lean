@@ -66,7 +66,7 @@ theorem abs_specialRemainder_le_physical
 
   have hqlog : |Real.log q| ≤ |Real.log ρ| + (81 / 32 : ℝ) * ρ := by
     exact abs_log_q_le_abs_log_rho_add
-      hU hm hmU hRlo hRhi hq hRsq hρ
+      hU hm hRlo hRhi hq hRsq hρ
 
   have haqLog : |Real.log (1 - a * q)| ≤ (486 / 289 : ℝ) * ρ ^ 2 := by
     have h := abs_log_one_sub_aq_le_quadratic_m
@@ -87,7 +87,7 @@ theorem abs_specialRemainder_le_physical
   have haPos : |li2Series a| ≤ (16 / 15 : ℝ) * ρ :=
     abs_li2Series_a_le_rho hρ0 hρsmall ha0 haρ
 
-  exact abs_specialRemainder_le hρ0 hη0 hat haqLi hqlog haqLog haLog haNeg haPos
+  exact abs_specialRemainder_le hρ0 hat haqLi hqlog haqLog haLog haNeg haPos
 
 end GppScalarBoxPhysicalSpecialRemainder
 

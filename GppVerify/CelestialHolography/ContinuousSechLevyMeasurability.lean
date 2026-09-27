@@ -1,4 +1,7 @@
 import GppVerify.CelestialHolography.ContinuousSechLevyTail
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.MeasureTheory.Function.SpecialFunctions.Basic
+import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 
 /-!
 # Continuous sech Lévy measurability

@@ -1,4 +1,4 @@
-import Mathlib
+import Mathlib.Tactic
 
 /-!
 # Finite weighted covariance symmetrization
@@ -87,7 +87,6 @@ continuous Gamma-chamber lift. -/
 theorem normalizedCovariance_nonneg_of_pairwise_alignment
     (w g y : Fin n → ℝ)
     (hw : ∀ i, 0 ≤ w i)
-    (hW : 0 < totalWeight w)
     (halign : ∀ i j, 0 ≤ (g i - g j) * (y i - y j)) :
     0 ≤ normalizedCovariance w g y := by
   unfold normalizedCovariance

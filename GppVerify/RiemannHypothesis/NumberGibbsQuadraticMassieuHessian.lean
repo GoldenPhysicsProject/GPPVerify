@@ -41,7 +41,6 @@ theorem fisherBB_eq_covariance (β η : ℝ) :
   · simp [fisherBB, hZ]
   · unfold fisherBB
     field_simp [hZ]
-    ring
 
 /-- The common-denominator mixed entry agrees with the usual normalized
 covariance formula. -/
@@ -51,7 +50,6 @@ theorem fisherBE_eq_covariance (β η : ℝ) :
   · simp [fisherBE, hZ]
   · unfold fisherBE
     field_simp [hZ]
-    ring
 
 /-- The common-denominator definition agrees with the normalized `L^2`
 variance formula. -/
@@ -61,7 +59,6 @@ theorem fisherEE_eq_covariance (β η : ℝ) :
   · simp [fisherEE, hZ]
   · unfold fisherEE
     field_simp [hZ]
-    ring
 
 /-- `∂β ⟨L⟩ = -Var(L)`. -/
 theorem hasDerivAt_internalEnergy_beta
@@ -69,7 +66,10 @@ theorem hasDerivAt_internalEnergy_beta
     HasDerivAt (fun b : ℝ => internalEnergy b η) (-fisherBB β η) β := by
   have hZne : Z β η ≠ 0 := ne_of_gt (Z_pos β hη)
   have H := (hasDerivAt_M1_beta β hη).div (hasDerivAt_Z_beta β hη) hZne
-  convert H using 1 <;> simp [internalEnergy, fisherBB] <;> ring
+  refine H.congr_deriv ?_
+  simp only [fisherBB]
+  field_simp
+  ring
 
 /-- `∂η ⟨L⟩ = -Cov(L,L²)`. -/
 theorem hasDerivAt_internalEnergy_eta
@@ -77,7 +77,10 @@ theorem hasDerivAt_internalEnergy_eta
     HasDerivAt (fun e : ℝ => internalEnergy β e) (-fisherBE β η) η := by
   have hZne : Z β η ≠ 0 := ne_of_gt (Z_pos β hη)
   have H := (hasDerivAt_M1_eta β hη).div (hasDerivAt_Z_eta β hη) hZne
-  convert H using 1 <;> simp [internalEnergy, fisherBE] <;> ring
+  refine H.congr_deriv ?_
+  simp only [fisherBE]
+  field_simp
+  ring
 
 /-- `∂β ⟨L²⟩ = -Cov(L,L²)`. -/
 theorem hasDerivAt_quadraticEnergy_beta
@@ -85,7 +88,10 @@ theorem hasDerivAt_quadraticEnergy_beta
     HasDerivAt (fun b : ℝ => quadraticEnergy b η) (-fisherBE β η) β := by
   have hZne : Z β η ≠ 0 := ne_of_gt (Z_pos β hη)
   have H := (hasDerivAt_M2_beta β hη).div (hasDerivAt_Z_beta β hη) hZne
-  convert H using 1 <;> simp [quadraticEnergy, fisherBE] <;> ring
+  refine H.congr_deriv ?_
+  simp only [fisherBE]
+  field_simp
+  ring
 
 /-- `∂η ⟨L²⟩ = -Var(L²)`. -/
 theorem hasDerivAt_quadraticEnergy_eta
@@ -93,31 +99,34 @@ theorem hasDerivAt_quadraticEnergy_eta
     HasDerivAt (fun e : ℝ => quadraticEnergy β e) (-fisherEE β η) η := by
   have hZne : Z β η ≠ 0 := ne_of_gt (Z_pos β hη)
   have H := (hasDerivAt_M2_eta β hη).div (hasDerivAt_Z_eta β hη) hZne
-  convert H using 1 <;> simp [quadraticEnergy, fisherEE] <;> ring
+  refine H.congr_deriv ?_
+  simp only [fisherEE]
+  field_simp
+  ring
 
 /-- The inverse-temperature second derivative of `log Z` is `Var(L)`. -/
 theorem hasDerivAt_negInternalEnergy_beta
     (β : ℝ) {η : ℝ} (hη : 0 < η) :
     HasDerivAt (fun b : ℝ => -internalEnergy b η) (fisherBB β η) β := by
-  simpa using (hasDerivAt_internalEnergy_beta β hη).neg
+  exact (hasDerivAt_internalEnergy_beta β hη).neg.congr_deriv (neg_neg _)
 
 /-- The mixed Massieu response is `Cov(L,L²)`. -/
 theorem hasDerivAt_negInternalEnergy_eta
     (β : ℝ) {η : ℝ} (hη : 0 < η) :
     HasDerivAt (fun e : ℝ => -internalEnergy β e) (fisherBE β η) η := by
-  simpa using (hasDerivAt_internalEnergy_eta β hη).neg
+  exact (hasDerivAt_internalEnergy_eta β hη).neg.congr_deriv (neg_neg _)
 
 /-- The other mixed Massieu response agrees with the same covariance entry. -/
 theorem hasDerivAt_negQuadraticEnergy_beta
     (β : ℝ) {η : ℝ} (hη : 0 < η) :
     HasDerivAt (fun b : ℝ => -quadraticEnergy b η) (fisherBE β η) β := by
-  simpa using (hasDerivAt_quadraticEnergy_beta β hη).neg
+  exact (hasDerivAt_quadraticEnergy_beta β hη).neg.congr_deriv (neg_neg _)
 
 /-- The confinement second derivative of `log Z` is `Var(L²)`. -/
 theorem hasDerivAt_negQuadraticEnergy_eta
     (β : ℝ) {η : ℝ} (hη : 0 < η) :
     HasDerivAt (fun e : ℝ => -quadraticEnergy β e) (fisherEE β η) η := by
-  simpa using (hasDerivAt_quadraticEnergy_eta β hη).neg
+  exact (hasDerivAt_quadraticEnergy_eta β hη).neg.congr_deriv (neg_neg _)
 
 end GppNumberGibbsQuadraticMassieuHessian
 

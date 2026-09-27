@@ -38,7 +38,6 @@ theorem tanh_eq_exp_neg_two (u : ℝ) :
   rw [Real.tanh_eq_sinh_div_cosh, Real.sinh_eq, Real.cosh_eq, hsplit]
   have hd : Real.exp u + Real.exp u * Real.exp (-(2 * u)) ≠ 0 := by positivity
   field_simp
-  ring
 
 /-- `tanh x -> 1` at the right endpoint. -/
 theorem tendsto_tanh_atTop :
@@ -55,7 +54,8 @@ theorem tendsto_tanh_atTop :
     have h := (tendsto_const_nhds (x := (1 : ℝ)) (f := (atTop : Filter ℝ))).add hexp
     simpa using h
   have h := hnum.div hden one_ne_zero
-  simpa using h
+  rw [div_one] at h
+  exact h
 
 /-- `tanh x -> -1` at the left endpoint, by oddness. -/
 theorem tendsto_tanh_atBot :
@@ -69,11 +69,13 @@ theorem tendsto_tanh_atBot :
 theorem hasDerivAt_scaledTanh (x : ℝ) :
     HasDerivAt scaledTanh (1 / Real.cosh (Real.pi * x) ^ 2) x := by
   have hinner : HasDerivAt (fun y : ℝ => Real.pi * y) Real.pi x := by
-    simpa using (hasDerivAt_id x).const_mul Real.pi
+    exact ((hasDerivAt_id x).const_mul Real.pi).congr_deriv (mul_one _)
   have hcomp := HasDerivAt.scomp x
     (GppSechIntegral.hasDerivAt_tanh (Real.pi * x)) hinner
   have h := hcomp.div_const Real.pi
-  simpa [scaledTanh, Function.comp_def, Real.pi_ne_zero] using h
+  refine h.congr_deriv ?_
+  simp only [smul_eq_mul]
+  field_simp
 
 /-- Right endpoint of the scaled primitive. -/
 theorem scaledTanh_tendsto_atTop :
@@ -84,7 +86,7 @@ theorem scaledTanh_tendsto_atTop :
     tendsto_tanh_atTop.comp hpi
   have h := ht.div
     (tendsto_const_nhds (x := Real.pi) (f := (atTop : Filter ℝ))) Real.pi_ne_zero
-  simpa [scaledTanh] using h
+  exact h
 
 /-- Left endpoint of the scaled primitive. -/
 theorem scaledTanh_tendsto_atBot :

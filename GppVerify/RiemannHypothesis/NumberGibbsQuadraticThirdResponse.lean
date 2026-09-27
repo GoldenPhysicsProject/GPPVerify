@@ -51,7 +51,11 @@ theorem hasDerivAt_fisherBB_beta
       ((hasDerivAt_M1_beta β hη).mul (hasDerivAt_M1_beta β hη))
   have hden := (hasDerivAt_Z_beta β hη).pow 2
   have H := hnum.div hden (pow_ne_zero 2 hZne)
-  convert H using 1 <;> simp [fisherBB, kappa111] <;> field_simp [hZne] <;> ring
+  refine H.congr_deriv ?_
+  simp only [kappa111, Pi.pow_apply, Pi.sub_apply, Pi.mul_apply,
+    show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+  field_simp
+  ring
 
 /-- `∂η g_{ββ} = -κ(L,L,L²)`, equivalently the `ββη` Massieu response. -/
 theorem hasDerivAt_fisherBB_eta
@@ -63,7 +67,11 @@ theorem hasDerivAt_fisherBB_eta
       ((hasDerivAt_M1_eta β hη).mul (hasDerivAt_M1_eta β hη))
   have hden := (hasDerivAt_Z_eta β hη).pow 2
   have H := hnum.div hden (pow_ne_zero 2 hZne)
-  convert H using 1 <;> simp [fisherBB, kappa112] <;> field_simp [hZne] <;> ring
+  refine H.congr_deriv ?_
+  simp only [kappa112, Pi.pow_apply, Pi.sub_apply, Pi.mul_apply,
+    show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+  field_simp
+  ring
 
 /-- `∂β g_{βη} = -κ(L,L,L²)`.  This makes the `ββη` permutation symmetry
 explicit at the Fisher-matrix level. -/
@@ -76,7 +84,11 @@ theorem hasDerivAt_fisherBE_beta
       ((hasDerivAt_M1_beta β hη).mul (hasDerivAt_M2_beta β hη))
   have hden := (hasDerivAt_Z_beta β hη).pow 2
   have H := hnum.div hden (pow_ne_zero 2 hZne)
-  convert H using 1 <;> simp [fisherBE, kappa112] <;> field_simp [hZne] <;> ring
+  refine H.congr_deriv ?_
+  simp only [kappa112, Pi.pow_apply, Pi.sub_apply, Pi.mul_apply,
+    show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+  field_simp
+  ring
 
 /-- `∂η g_{βη} = -κ(L,L²,L²)`.  This makes the `βηη` permutation symmetry
 explicit at the Fisher-matrix level. -/
@@ -89,7 +101,11 @@ theorem hasDerivAt_fisherBE_eta
       ((hasDerivAt_M1_eta β hη).mul (hasDerivAt_M2_eta β hη))
   have hden := (hasDerivAt_Z_eta β hη).pow 2
   have H := hnum.div hden (pow_ne_zero 2 hZne)
-  convert H using 1 <;> simp [fisherBE, kappa122] <;> field_simp [hZne] <;> ring
+  refine H.congr_deriv ?_
+  simp only [kappa122, Pi.pow_apply, Pi.sub_apply, Pi.mul_apply,
+    show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+  field_simp
+  ring
 
 /-- `∂β g_{ηη} = -κ(L,L²,L²)`, equivalently the `βηη` Massieu response. -/
 theorem hasDerivAt_fisherEE_beta
@@ -101,7 +117,11 @@ theorem hasDerivAt_fisherEE_beta
       ((hasDerivAt_M2_beta β hη).mul (hasDerivAt_M2_beta β hη))
   have hden := (hasDerivAt_Z_beta β hη).pow 2
   have H := hnum.div hden (pow_ne_zero 2 hZne)
-  convert H using 1 <;> simp [fisherEE, kappa122] <;> field_simp [hZne] <;> ring
+  refine H.congr_deriv ?_
+  simp only [kappa122, Pi.pow_apply, Pi.sub_apply, Pi.mul_apply,
+    show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+  field_simp
+  ring
 
 /-- `∂η g_{ηη} = -κ(L²,L²,L²)`, equivalently the `ηηη` Massieu response. -/
 theorem hasDerivAt_fisherEE_eta
@@ -113,7 +133,11 @@ theorem hasDerivAt_fisherEE_eta
       ((hasDerivAt_M2_eta β hη).mul (hasDerivAt_M2_eta β hη))
   have hden := (hasDerivAt_Z_eta β hη).pow 2
   have H := hnum.div hden (pow_ne_zero 2 hZne)
-  convert H using 1 <;> simp [fisherEE, kappa222] <;> field_simp [hZne] <;> ring
+  refine H.congr_deriv ?_
+  simp only [kappa222, Pi.pow_apply, Pi.sub_apply, Pi.mul_apply,
+    show (2 : ℕ) - 1 = 1 from rfl, pow_one]
+  field_simp
+  ring
 
 #print axioms hasDerivAt_fisherBB_beta
 #print axioms hasDerivAt_fisherBB_eta

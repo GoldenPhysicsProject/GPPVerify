@@ -1,5 +1,5 @@
 import GppVerify.CelestialHolography.ArithmeticOSReflection
-import Mathlib
+import Mathlib.Tactic
 
 /-!
 # Arithmetic OS Gram positivity: finite spectral atoms

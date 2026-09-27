@@ -79,7 +79,7 @@ theorem abs_structuredScalarBoxCore_sub_D0_le
     (B := poleLogError (4 * m / U) (m / S))
     (Estar := specialRemainderMajorant (m / U) (m / S))
     (c := -Real.pi ^ 2 / 6)
-    hEa0 hEt0 hEstar0 ha ht hE
+    hEa0 ha ht hE
   rw [scalarBoxD0_eq_scale_core hS hU hm]
   unfold structuredScalarBoxCore structuredPhysicalCoreMajorant
   dsimp
@@ -130,7 +130,7 @@ theorem tendsto_structuredPhysicalCoreMajorant_nhdsGT_zero
   have hEaSq : Tendsto (fun x : ℝ => (A * x) ^ 2) (𝓝[>] 0) (𝓝 0) := by
     simpa using hEa.pow 2
   have hspecial :=
-    GppScalarBoxSpecialRemainderVanishing.tendsto_specialRemainderMajorant_regulator hS hU
+    GppScalarBoxSpecialRemainderVanishing.tendsto_specialRemainderMajorant_regulator (S := S) hU
   have hsum : Tendsto
       (fun x : ℝ =>
         A * x * |Real.log (x / S)| + A * x * |Real.log (x / U)| +

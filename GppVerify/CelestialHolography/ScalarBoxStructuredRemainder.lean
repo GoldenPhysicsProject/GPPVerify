@@ -24,7 +24,7 @@ theorem core_remainder_identity
 is bounded by the structured five-term majorant used in the scalar-box limit. -/
 theorem abs_core_remainder_le
     {ellU ellS da dt E A B Estar : ℝ}
-    (hA0 : 0 ≤ A) (hB0 : 0 ≤ B) (hE0 : 0 ≤ Estar)
+    (hA0 : 0 ≤ A)
     (hda : |da| ≤ A) (hdt : |dt| ≤ B) (hE : |E| ≤ Estar) :
     |da * (ellS + ellU) + ellU * dt + da * dt +
         (1 / 2 : ℝ) * da ^ 2 + E| ≤
@@ -82,7 +82,7 @@ theorem abs_core_remainder_le
 scale model. The common constant term (e.g. `-π²/6`) cancels automatically. -/
 theorem abs_structured_core_difference_le
     {ellU ellS da dt E A B Estar c : ℝ}
-    (hA0 : 0 ≤ A) (hB0 : 0 ≤ B) (hE0 : 0 ≤ Estar)
+    (hA0 : 0 ≤ A)
     (hda : |da| ≤ A) (hdt : |dt| ≤ B) (hE : |E| ≤ Estar) :
     |((ellU + da) * (ellS + dt) + (1 / 2 : ℝ) * (ellU + da) ^ 2 + c + E) -
       (ellU * ellS + (1 / 2 : ℝ) * ellU ^ 2 + c)| ≤
@@ -92,7 +92,7 @@ theorem abs_structured_core_difference_le
       (ellU * ellS + (1 / 2 : ℝ) * ellU ^ 2 + c) =
       da * (ellS + ellU) + ellU * dt + da * dt +
         (1 / 2 : ℝ) * da ^ 2 + E by ring]
-  exact abs_core_remainder_le hA0 hB0 hE0 hda hdt hE
+  exact abs_core_remainder_le hA0 hda hdt hE
 
 end GppScalarBoxStructuredRemainder
 

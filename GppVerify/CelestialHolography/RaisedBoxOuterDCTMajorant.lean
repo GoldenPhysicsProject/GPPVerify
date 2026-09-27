@@ -31,14 +31,14 @@ theorem scaled_neg_rpow_unit_intervalIntegrable
       (fun x : ℝ => S ^ (-δ : ℝ) * x ^ (-δ : ℝ)) volume 0 1 :=
     hbase.const_mul (S ^ (-δ : ℝ))
   apply hscaled.congr
-  filter_upwards [ae_restrict_mem measurableSet_uIoc] with x hx
+  intro x hx
   rw [Set.uIoc_of_le (show (0 : ℝ) ≤ 1 by norm_num)] at hx
   exact (Real.mul_rpow hS hx.1.le).symm
 
 /-- The explicit fixed-`x1` bound used after the middle DCT is itself
 interval-integrable in the outer simplex coordinate. -/
 theorem middleConstant_outer_intervalIntegrable
-    {δ S : ℝ} (hδ0 : 0 < δ) (hδ1 : δ < 1) (hS : 0 < S) :
+    {δ S : ℝ} (hδ1 : δ < 1) (hS : 0 < S) :
     IntervalIntegrable
       (fun x : ℝ => 1 + (S * x) ^ (-δ : ℝ) / (1 - δ))
       volume 0 1 := by

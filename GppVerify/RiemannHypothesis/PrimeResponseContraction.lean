@@ -24,9 +24,8 @@ noncomputable def response (a t : ℝ) : ℝ :=
 /-- The zero-frequency response is nonnegative on the absolutely convergent half-plane. -/
 theorem response_zero_nonneg {a : ℝ} (ha : 1 < a) :
     0 ≤ response a 0 := by
-  have h := abs_zetaResponse_le_zero ha 0
-  change |response a 0| ≤ response a 0 at h
-  exact (abs_le_self_iff.mp h)
+  have h := le_trans (abs_nonneg _) (abs_zetaResponse_le_zero ha 0)
+  simpa [response] using h
 
 /-- A normalization that is always strictly positive in the denominator. -/
 noncomputable def transfer (a t : ℝ) : ℝ :=

@@ -35,9 +35,10 @@ theorem tendsto_physicalCoreMajorant_nhdsGT_zero
     Tendsto (physicalCoreMajorant S U) (𝓝[>] 0) (𝓝 0) := by
   have hlower := tendsto_lower_log_square_majorant hS hU
   have hpole := tendsto_pole_log_square_majorant hS hU
-  have hspecial := tendsto_specialRemainderMajorant_regulator hS hU
+  have hspecial := tendsto_specialRemainderMajorant_regulator (S := S) hU
   have h := (hlower.add hpole).add hspecial
-  simpa [physicalCoreMajorant] using h
+  simp only [add_zero] at h
+  exact h
 
 end GppScalarBoxPhysicalMajorantVanishing
 

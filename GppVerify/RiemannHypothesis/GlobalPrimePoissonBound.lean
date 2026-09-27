@@ -76,6 +76,7 @@ theorem abs_neg_zeta_logDeriv_re_le_real_axis {a : ℝ} (ha : 1 < a) (t : ℝ) :
   have h := abs_zetaResponse_le_zero ha t
   rw [abs_mul] at h
   norm_num at h
+  simp only [Complex.neg_re, abs_neg]
   linarith
 
 end GppGlobalPrimePoissonBound

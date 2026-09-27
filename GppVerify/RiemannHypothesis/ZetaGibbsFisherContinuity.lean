@@ -49,7 +49,7 @@ theorem continuousAt_zetaVarianceResponse_re
 /-- The actual Gibbs Fisher metric is continuous on every compact interval contained
 in the honest Gibbs half-line. -/
 theorem logEnergyVariance_continuousOn_Icc
-    {β γ : ℝ} (hβ : 1 < β) (hβγ : β ≤ γ) :
+    {β γ : ℝ} (hβ : 1 < β) :
     ContinuousOn logEnergyVariance (Icc β γ) := by
   let f : ℝ → ℝ := fun x => (zetaVarianceResponse x).re
   have hf : ContinuousOn f (Icc β γ) := by

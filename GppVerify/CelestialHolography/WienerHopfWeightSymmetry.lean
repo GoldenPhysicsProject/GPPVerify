@@ -19,7 +19,7 @@ open GppMehlerFockSpectral
 open GppWienerHopfWeightExtension
 
 /-- The raw Wiener--Hopf weight is even away from the removable singularity. -/
-theorem wienerHopfWeight_neg {lam : ℝ} (hlam : lam ≠ 0) :
+theorem wienerHopfWeight_neg {lam : ℝ} :
     wienerHopfWeight (-lam) = wienerHopfWeight lam := by
   unfold wienerHopfWeight
   rw [show Real.pi * (-lam) = -(Real.pi * lam) by ring, Real.sinh_neg]
@@ -34,7 +34,7 @@ theorem extendedWienerHopfWeight_neg (lam : ℝ) :
     simp
   · have hneg : -lam ≠ 0 := neg_ne_zero.mpr hlam
     rw [extendedWienerHopfWeight_eq hneg, extendedWienerHopfWeight_eq hlam]
-    exact wienerHopfWeight_neg hlam
+    exact wienerHopfWeight_neg
 
 /-- Equivalent absolute-value reduction of the spectral density. -/
 theorem extendedWienerHopfWeight_abs (lam : ℝ) :

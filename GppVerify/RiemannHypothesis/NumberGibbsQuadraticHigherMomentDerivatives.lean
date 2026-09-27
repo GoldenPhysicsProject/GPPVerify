@@ -46,7 +46,7 @@ theorem hasDerivAt_M3_beta
   have hderiv : ∀ n b, b ∈ U → HasDerivAt (g n) (g' n b) b := by
     intro n b hb
     have h := (numberGibbsWeight_hasDerivAt_beta b η n).mul_const (numberLogEnergy n ^ 3)
-    convert h using 1 <;> simp [g, g'] <;> ring
+    exact h.congr_deriv (by simp only [g']; ring)
   have hbound : ∀ n b, b ∈ U → ‖g' n b‖ ≤ d n := by
     intro n b hb
     have hβlower : -B ≤ b := by
@@ -94,7 +94,7 @@ theorem hasDerivAt_M3_eta
   have hderiv : ∀ n e, e ∈ U → HasDerivAt (g n) (g' n e) e := by
     intro n e he
     have h := (numberGibbsWeight_hasDerivAt_eta β e n).mul_const (numberLogEnergy n ^ 3)
-    convert h using 1 <;> simp [g, g'] <;> ring
+    exact h.congr_deriv (by simp only [g']; ring)
   have hbound : ∀ n e, e ∈ U → ‖g' n e‖ ≤ d n := by
     intro n e he
     have hβlower : -B ≤ β := by dsimp [B]; exact neg_abs_le β
@@ -137,7 +137,7 @@ theorem hasDerivAt_M4_beta
   have hderiv : ∀ n b, b ∈ U → HasDerivAt (g n) (g' n b) b := by
     intro n b hb
     have h := (numberGibbsWeight_hasDerivAt_beta b η n).mul_const (numberLogEnergy n ^ 4)
-    convert h using 1 <;> simp [g, g'] <;> ring
+    exact h.congr_deriv (by simp only [g']; ring)
   have hbound : ∀ n b, b ∈ U → ‖g' n b‖ ≤ d n := by
     intro n b hb
     have hβlower : -B ≤ b := by
@@ -185,7 +185,7 @@ theorem hasDerivAt_M4_eta
   have hderiv : ∀ n e, e ∈ U → HasDerivAt (g n) (g' n e) e := by
     intro n e he
     have h := (numberGibbsWeight_hasDerivAt_eta β e n).mul_const (numberLogEnergy n ^ 4)
-    convert h using 1 <;> simp [g, g'] <;> ring
+    exact h.congr_deriv (by simp only [g']; ring)
   have hbound : ∀ n e, e ∈ U → ‖g' n e‖ ≤ d n := by
     intro n e he
     have hβlower : -B ≤ β := by dsimp [B]; exact neg_abs_le β
