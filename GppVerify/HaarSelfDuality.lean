@@ -4,7 +4,7 @@ import Mathlib.MeasureTheory.Group.Measure
 import Mathlib.Topology.Algebra.Group.Compact
 
 /-!
-# Haar Self-Duality on Gr(2,4)
+# Haar invariance under compact-group automorphisms
 # Lean 4 Kernel | Zero Sorries | Zero Errors
 # Author: Daniel Toupin | Golden Physics Project | goldenphysics.org
 # ORCID: 0009-0003-7682-9579
@@ -12,7 +12,24 @@ import Mathlib.Topology.Algebra.Group.Compact
 
 ## Theorems verified:
 ## 1. haar_invariant_under_automorphism — bicontinuous automorphism preserves Haar measure
-## 2. grassmannian_haar_self_duality    — Haar self-duality on compact group (Gr(2,4) instance)
+## 2. grassmannian_haar_self_duality    — legacy API alias of the same compact-group theorem
+
+## Chronology/provenance correction (2026-09-03)
+
+The original manuscript and comments described theorem 2 as a direct theorem about
+`Gr(2,4)`.  That was too strong.  The complex Grassmannian `Gr(2,4)` is the homogeneous
+space `U(4)/(U(2) × U(2))`; it is not itself a group.  Consequently the theorem below,
+whose hypotheses contain `[Group G]` and a multiplicative equivalence `φ : G ≃* G`,
+does not instantiate `Gr(2,4)` without additional homogeneous-space measure machinery.
+
+Likewise, inversion `g ↦ g⁻¹` is a group automorphism only in the commutative case; on a
+general nonabelian group it is an anti-automorphism.  The arithmetic idèle-class use is valid
+because that group is abelian and is formalized separately in
+`RiemannHypothesis/HaarMeasure.lean`.
+
+The legacy theorem name is retained for API stability.  Read its statement literally: it is
+a compact-group automorphism-invariance theorem, not a formal proof of Grassmannian shadow
+self-duality or of the celestial shadow transform.
 
 ## Axioms used beyond Lean kernel defaults:
 ##   None beyond propext, Classical.choice, Quot.sound, funext
@@ -80,9 +97,13 @@ theorem haar_invariant_under_automorphism
       _ = 1 := ENNReal.div_self hne htop
   exact_mod_cast hc_enn
 
-/-- Haar self-duality for Gr(2,4): the shadow involution φ: g ↦ g⁻¹ is a bicontinuous
-    automorphism of any compact group, and therefore preserves the Haar measure.
-    This is the machine-verified backbone of the GPP celestial holography framework. -/
+/-- Legacy name retained for API stability.
+
+    This theorem is exactly `haar_invariant_under_automorphism`: a bicontinuous
+    automorphism of a compact second-countable group preserves Haar measure.
+    It does not by itself instantiate `Gr(2,4)`, because `Gr(2,4)` is a homogeneous
+    space rather than a group, and it does not identify the automorphism with the
+    celestial shadow transform. -/
 theorem grassmannian_haar_self_duality
     {G : Type*}
     [Group G] [TopologicalSpace G] [IsTopologicalGroup G]

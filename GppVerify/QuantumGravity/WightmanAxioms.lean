@@ -9,21 +9,27 @@ Source: wightman_paper.tex
 
 ## Summary
 
-Each of the 6 Wightman axioms is derived from three inputs:
+The framework derives each of the 6 Wightman axioms from three inputs:
 1. Haar measure on Gr(2,4) = SU(4)/(S(U(2)×U(2)))
 2. Penrose twistor correspondence
 3. Peter-Weyl decomposition of L²(Gr(2,4))
 
-No physical postulate enters; the axioms are geometric theorems.
+The framework's claim is that no physical postulate enters. Here only the
+arithmetic geometry checks are proved; the Wightman/QFT statements remain labelled
+`open_` stubs until the homogeneous-space, twistor, spectral and operator
+infrastructure exists.
 
 ## Provable arithmetic facts (proved below)
 - Gr(2,4) = SU(4)/S(U(2)×U(2)) has complex dimension 4
-- dim(SU(4)) = 15, dim(S(U(2)×U(2))) = 9, codim = 6
+- dim(SU(4)) = 15, dim(S(U(2)×U(2))) = 7, real quotient dimension = 8
+  (header previously said 9 and 6; the theorems below always had 7 and 8 —
+  corrected per GPPVerify2)
 - Plücker: Gr(2,4) ↪ P^5
 
 ## Axioms (QFT formalism; re-verified absent in Mathlib 4.33.1, 2026-09-01)
 - W1: Hilbert space from L²(Gr(2,4), dμ_Haar)
-- W2: Poincaré covariance from P ↪ SU(2,2) ⊂ SU(4)
+- W2: Poincaré covariance from P ↪ SU(2,2), acting through the conformal/twistor
+  construction (SU(2,2) and SU(4) are different real forms, not nested)
 - W3: Spectrum condition from forward-tube analyticity
 - W4: Locality from twistor non-incidence
 - W5: Cyclicity from Peter-Weyl irreducibility
@@ -75,7 +81,8 @@ theorem dim_su_four : 4^2 - 1 = (15 : ℕ) := by norm_num
     LIBRARY GAP (known mathematics, absent from Mathlib): Gr(2,4) as a Lean type with Haar measure not formalized. -/
 theorem open_wightman_w1 : True := trivial
 
-/-- W2: Poincaré covariance from P ↪ SU(2,2) ↪ SU(4) acting on Gr(2,4)
+/-- W2: Poincaré covariance from P ↪ SU(2,2) acting through the conformal/twistor
+    construction on (a real form of) Gr(2,4)
     SOURCE: wightman_paper.tex, thm:w2
     PROOF: Penrose transform intertwines SU(2,2) action with conformal action on fields.
     LIBRARY GAP (known mathematics, absent from Mathlib): Penrose transform / twistor spaces not in Mathlib. -/
@@ -116,7 +123,8 @@ theorem open_wightman_all_six : True := trivial
     The self-duality μ_Gr(Λ) = μ_Gr(Λ^⊥) is simultaneously:
     - the shadow symmetry Δ ↔ 2-Δ (for W-axioms)
     - the functional equation ξ(s) = ξ(1-s) (for RH)
-    Both are consequences of Haar self-duality on Gr(2,4). -/
+    The framework states both are consequences of Haar self-duality on Gr(2,4).
+    Functional-equation symmetry alone is not RH. -/
 theorem open_haar_selfduality_unifies_rh_and_wightman : True := trivial
 
 /-- OS reconstruction: Wightman ← Osterwalder-Schrader axioms -/
@@ -148,5 +156,14 @@ theorem open_spin_statistics : True := trivial
 -- SOURCE: Streater-Wightman, PCT, Spin and Statistics, and All That, Thm 4-10.
 
 theorem open_wightman_summary : True := trivial
+
+/-- Exact arithmetic geometry actually proved in this module (ported from GPPVerify2). -/
+theorem wightman_arithmetic_summary :
+    4^2 - 1 = (15 : ℕ) ∧
+    2^2 + 2^2 - 1 = (7 : ℕ) ∧
+    4^2 - 1 - (2^2 + 2^2 - 1) = (8 : ℕ) ∧
+    (4^2 - 1 - (2^2 + 2^2 - 1)) / 2 = (4 : ℕ) ∧
+    Nat.choose 4 2 - 1 = (5 : ℕ) :=
+  ⟨dim_su4, dim_stab, dim_gr24_real, dim_gr24_complex, plucker_target_dim⟩
 
 end GppWightmanAxioms

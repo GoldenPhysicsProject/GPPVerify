@@ -7,9 +7,16 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 ## Golden Physics Project — Shadow Framework Formalization
 ## Lean 4 / Mathlib v4.33.1
 
-This file formalizes `thm:dm-abundance` (ONON52, third-most-cited, 13×):
-*The observed dark matter abundance Ω_{DM} h² ≈ 0.12 follows from the shadow
-symmetry breaking scale, fixed by c_{2D} = 0.*
+This file concerns `thm:dm-abundance` (ONON52, third-most-cited, 13×), which the
+framework states as: *the observed dark matter abundance Ω_{DM} h² ≈ 0.12 follows from
+the shadow symmetry breaking scale, fixed by c_{2D} = 0.*
+
+**Formalized scope.** That claim is not proved here. What is formalized is only that the
+observational input `0 < Ω_DM < 1` gives `0 < Ω_DM`; the observed value enters as a
+hypothesis, not as a prediction. The Boltzmann / shadow-breaking derivation is
+`open_shadow_breaking_gives_abundance` and is open. (GPPVerify2 states the same scope,
+encoding `Ω_DM h² ≈ 0.12` as the rational proxy `3/25` by convention; that encoding is not
+carried over, because here the observation is a hypothesis rather than a definition.)
 
 ### Physical content
 
