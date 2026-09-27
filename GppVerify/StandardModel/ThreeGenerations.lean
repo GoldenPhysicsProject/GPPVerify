@@ -65,7 +65,9 @@ theorem nda_doubling_set_card :
     next stage's dimension, 16, is exactly `cdDim 4`, and it lies outside
     the dimension set {1,2,4,8} realized by the four Cayley-Dickson stages
     that stay in the division-algebra category. Sedenions (dim 16) lose
-    associativity AND the division property, matching this dimension gap. -/
+    associativity AND the division property, matching this dimension gap.
+    This is finite Cayley-Dickson bookkeeping only; it is not a formal proof of the
+    full Hurwitz classification theorem (see `HurwitzDimensionHypothesis`). -/
 theorem sedenion_dim_outside_nda_set :
     cdDim 4 = 16 ∧ (16 : ℕ) ∉ cdStages.image cdDim := by decide
 
@@ -143,6 +145,51 @@ theorem open_anomaly_cancellation_forces_three_generations :
     ∀ (_ : True), True := by
   -- depends on thm:link6 — open problem
   intro; trivial
+
+-- ============================================================
+-- §4  Conditional interface (ported from GPPVerify2, 2026-09-27)
+-- ============================================================
+-- These state the exact logical shape of the Link-6 / anomaly argument with every
+-- missing physics input as an explicit hypothesis. They do not discharge the open
+-- problems above; the `open_` stubs remain the record of what is unproved. The names
+-- say "of" on purpose: GPPVerify2 called the second one `three_generations`, the name
+-- that audit #137 retired because it read as the headline prediction itself.
+
+/-- If a nonzero Link-6 normalization identifies the celestial central charge with
+the four-dimensional Weyl-anomaly coefficient, then vanishing celestial charge forces
+vanishing Weyl anomaly. -/
+theorem link6_zero_transfer
+    {c2 c4 kappa : ℝ}
+    (hkappa : 0 < kappa)
+    (hlink : c2 = kappa * c4)
+    (hc2 : c2 = 0) :
+    c4 = 0 := by
+  have hkappa0 : kappa ≠ 0 := ne_of_gt hkappa
+  have hprod : kappa * c4 = 0 := by
+    rw [← hlink, hc2]
+  exact (mul_eq_zero.mp hprod).resolve_left hkappa0
+
+/-- Link 6 (as `hlink`), `c₂D = 0`, and an anomaly-counting theorem (as `hanomaly`)
+together give `n_gen = 3`. Every physics input is a hypothesis. -/
+theorem three_generations_of_link6_and_anomaly
+    {nGen : ℕ} {c2 c4 kappa : ℝ}
+    (hkappa : 0 < kappa)
+    (hlink : c2 = kappa * c4)
+    (hc2 : c2 = 0)
+    (hanomaly : c4 = 0 → nGen = 3) :
+    nGen = 3 :=
+  hanomaly (link6_zero_transfer hkappa hlink hc2)
+
+/-- If anomaly cancellation forces a vanishing Weyl coefficient, and that forces the
+generation count, then anomaly cancellation gives `n_gen = 3`. The QFT/anomaly theorem is
+an explicit hypothesis, not a theorem-shaped `True`. -/
+theorem three_generations_of_anomaly_cancellation
+    {nGen : ℕ} {c4 : ℝ} {AnomalyCancellation : Prop}
+    (hcanc : AnomalyCancellation)
+    (hc4 : AnomalyCancellation → c4 = 0)
+    (hcount : c4 = 0 → nGen = 3) :
+    nGen = 3 :=
+  hcount (hc4 hcanc)
 
 end GppSM
 

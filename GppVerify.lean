@@ -240,7 +240,7 @@ import GppVerify.QuantumInformation.ChoiMatrix
 
 -- ── Proposition 2.2, complete (New) ────────────────────────────
 -- Choi(transpose) = SWAP exactly, hence transpose map on M_2(C) is
--- not completely positive: open_no_enactment fully retired for d=2.
+-- not completely positive: HalfFlipProposition.no_enactment (d=2).
 import GppVerify.QuantumInformation.TransposeNotCompletelyPositive
 
 -- ── CHSH Bell violation + CKW monogamy (New, 2026-08-19, ONON5213.tex) ─
@@ -1974,3 +1974,10 @@ import GppVerify.RiemannHypothesis.ZetaGibbsThirdCumulantDerivative
 import GppVerify.RiemannHypothesis.ZetaGibbsTwoObservableStrict
 import GppVerify.RiemannHypothesis.ZetaGibbsVarianceCurvature
 import GppVerify.StandardModel.UniversalNotFidelity
+-- ── Formalized from GPPDiscovery2 RH discovery notes (Codex, 2026-09-24), 2026-09-27 ──
+-- Archimedean channel floor A∞ ≥ -γ - log π - π/2 - 3 log 2 (exact constant integral);
+-- finite-place KMS critical limit ‖c₁ - c_β‖ ≤ |β-1| (log N)³;
+-- half-density zeta synthesis on divisor-closed sets: MZ = ZM = I and MDZ - D = L_Λ.
+import GppVerify.RiemannHypothesis.ArchimedeanFloor
+import GppVerify.RiemannHypothesis.KMSCriticalLimit
+import GppVerify.RiemannHypothesis.HalfDensityZetaGauge
