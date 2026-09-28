@@ -3796,6 +3796,41 @@ The exact steps of the critical BPY coercivity argument: the Neumann lower bound
   \item \lean{GppCriticalBPYCoercivity.xi_ratio}\leanok\ \texttt{xi\_ratio}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The Conformal Casimir and the TFD GCD Kernel (2026-09-28)}
+Exact results from Codex's 2026-09-28 \texttt{GPPDiscovery2} notes. Neither uses or implies information about zeros.
+
+\subsection{CasimirCriticalLine}
+In the $PSL(2,\mathbb{R})$ Casimir variable $c=s(1-s)$: $\xi$ factors through $c$; $\operatorname{Im}\rho(1-\rho)=\gamma(1-2\beta)$, so $\rho(1-\rho)\in\mathbb{R}$ iff $\operatorname{Re}\rho=\tfrac12$ or $\rho$ is real; $\rho(1-\rho)$ is real and $\ge\tfrac14$ iff $\operatorname{Re}\rho=\tfrac12$; and, for invertible $A$ with $C=\tfrac14I+A^{-1}$, $\det(I+(\tfrac14-c)A)=\det(C-cI)\det A$. Constructing a self-adjoint $C_{\mathrm{phys}}\ge\tfrac14$ with spectral determinant $\xi$ is the open, RH-strength step.
+
+\noindent\textbf{Proved (12 declarations):}
+\begin{itemize}
+  \item \lean{GppCasimirCriticalLine.casimir_im}\leanok\ \texttt{casimir\_im}
+  \item \lean{GppCasimirCriticalLine.casimir_re}\leanok\ \texttt{casimir\_re}
+  \item \lean{GppCasimirCriticalLine.casimir_real_iff}\leanok\ \texttt{casimir\_real\_iff}
+  \item \lean{GppCasimirCriticalLine.real_casimir_forces_half}\leanok\ \texttt{real\_casimir\_forces\_half}
+  \item \lean{GppCasimirCriticalLine.casimir_half_add}\leanok\ \texttt{casimir\_half\_add}
+  \item \lean{GppCasimirCriticalLine.casimir_ge_quarter_iff}\leanok\ \texttt{casimir\_ge\_quarter\_iff}
+  \item \lean{GppCasimirCriticalLine.casimir_eq_iff}\leanok\ \texttt{casimir\_eq\_iff}
+  \item \lean{GppCasimirCriticalLine.xi_one_sub}\leanok\ \texttt{xi\_one\_sub}
+  \item \lean{GppCasimirCriticalLine.casimir_root}\leanok\ \texttt{casimir\_root}
+  \item \lean{GppCasimirCriticalLine.xi_factors_through_casimir}\leanok\ \texttt{xi\_factors\_through\_casimir}
+  \item \lean{GppCasimirCriticalLine.fredholm_casimir_matrix}\leanok\ \texttt{fredholm\_casimir\_matrix}
+  \item \lean{GppCasimirCriticalLine.fredholm_casimir_det}\leanok\ \texttt{fredholm\_casimir\_det}
+\end{itemize}
+
+\subsection{TFDGCDMobiusWhitening}
+The combinatorial core of the GCD Gram kernel ($mk=nj$ iff $(k,j)=(bt,at)$ with $m=ga$, $n=gb$), the value $(ab)^{-\beta/2}=(g/\sqrt{mn})^\beta$, local M\"obius whitening $(I-rS)\omega=e_0$ for $\omega_k=r^k$, the Gram determinant $1-r^2$, and the prime-power current $\frac{d}{d\beta}\log(1-p^{-\beta})=\sum_{k\ge1}(\log p)p^{-k\beta}=\log p/(p^\beta-1)$. The Hilbert-space and global limits are not formalized.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppTFDGCDMobius.mul_eq_mul_iff}\leanok\ \texttt{mul\_eq\_mul\_iff}
+  \item \lean{GppTFDGCDMobius.gcd_kernel_eq}\leanok\ \texttt{gcd\_kernel\_eq}
+  \item \lean{GppTFDGCDMobius.whitening_local}\leanok\ \texttt{whitening\_local}
+  \item \lean{GppTFDGCDMobius.gram_det}\leanok\ \texttt{gram\_det}
+  \item \lean{GppTFDGCDMobius.hasDerivAt_log_one_sub}\leanok\ \texttt{hasDerivAt\_log\_one\_sub}
+  \item \lean{GppTFDGCDMobius.hasSum_prime_power_current}\leanok\ \texttt{hasSum\_prime\_power\_current}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
