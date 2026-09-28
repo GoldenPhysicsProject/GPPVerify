@@ -1511,6 +1511,9 @@ import GppVerify.RiemannHypothesis.CayleyShadowDirac
 -- averaged operator-valued Koszul contracting homotopy and its abstract inverse bound.
 import GppVerify.RiemannHypothesis.CayleyLiHiggs
 import GppVerify.RiemannHypothesis.OperatorValuedKoszulHomotopy
+-- Ported and upgraded from Codex's GPPDiscovery2 DiscoveryLean sandbox (09-27): positive finite
+-- Fredholm determinants det(I + z²A) vanish only on the imaginary axis.
+import GppVerify.RiemannHypothesis.PositiveFredholmFactor
 import GppVerify.RiemannHypothesis.CayleyHaarMetricRigidity
 import GppVerify.RiemannHypothesis.HaarOrientationFiber
 import GppVerify.RiemannHypothesis.CayleyRadialDefect
