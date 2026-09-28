@@ -3845,6 +3845,17 @@ The critical line is singled out twice, independently: on the prime torus by squ
   \item \lean{GppArithmeticUnitaryDual.casimir_trichotomy}\leanok\ \texttt{casimir\_trichotomy}
 \end{itemize}
 
+\section{Thread Weil-Parity --- Metric Positivity of the Cross-Resolvent}
+From Codex's KMS-metric note: with $\eta=Ge_0$ and $y=(A-z)^{-1}e_0$, the parity cross-resolvent is a $G$-energy, $f(z)=\eta^{\mathsf T}y=y^{\mathsf T}G(A-z)y$, for any matrix $G$. Hence positivity of that single form gives $f(z)>0$, and conversely a nonpositive $f(z)$ rules out every such $G$ (the exact form of the earlier negative finding in the raw CCM basis). Symmetry of $G$ and $GA=A^{\mathsf T}G$ are needed only to read the positivity as ``$z$ below the $G$-spectrum''. Whether the Bost--Connes KMS Gram supplies such a $G$ for the actual Weil block is open.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppKMSMetricWeyl.cross_resolvent_eq_energy}\leanok\ \texttt{cross\_resolvent\_eq\_energy}
+  \item \lean{GppKMSMetricWeyl.cross_resolvent_pos_of_energy_pos}\leanok\ \texttt{cross\_resolvent\_pos\_of\_energy\_pos}
+  \item \lean{GppKMSMetricWeyl.no_metric_of_cross_resolvent_nonpos}\leanok\ \texttt{no\_metric\_of\_cross\_resolvent\_nonpos}
+  \item \lean{GppKMSMetricWeyl.energy_pos_of_rayleigh}\leanok\ \texttt{energy\_pos\_of\_rayleigh}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
