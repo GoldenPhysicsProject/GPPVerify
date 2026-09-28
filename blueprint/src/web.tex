@@ -18,7 +18,7 @@
 \newtheorem{definition}[theorem]{Definition}
 
 \title{GPPVerify: Lean 4 Formalization of the Shadow Framework}
-\subtitle{Riemann Hypothesis via Haar Measure Self-Duality}
+\subtitle{Shadow Holography, Kernel-Checked}
 \author{Daniel Toupin}
 \institute{Golden Physics Project}
 \home{https://goldenphysics.org}
@@ -62,6 +62,33 @@ Because the involution is shared, so are its consequences. That is what makes th
 correspondence worth formalizing rather than merely asserting: each transfer either
 survives kernel-checking or fails in a specific, nameable place.
 
+\section{Shadow holography}
+
+The framework reads the shared involution holographically, at three nested levels, each a
+Mellin or Pontryagin duality and therefore an exact dictionary rather than an analogy.
+\begin{enumerate}
+  \item \textbf{Line and sphere.} The multiplicative line $\mathbb{R}_+$, split at its fixed
+    point $x=1$, is the boundary. The spectral sphere, split by the critical line (the
+    \emph{equator}) into two hemispheres, is its hologram. Inversion $x\mapsto 1/x$ becomes
+    the reflection $s\mapsto 1-\overline{s}$, and support on a half-line becomes analyticity
+    on a hemisphere.
+  \item \textbf{Integers as modes.} The integers are the Fourier modes of a circle, and
+    Poisson self-duality of that lattice becomes the functional equation.
+  \item \textbf{Primes as a torus.} By unique factorization the primes span a compact torus
+    $\prod_p S^1$ dual to $\mathbb{Q}_+^\times$, and the critical line embeds in it densely:
+    a hologram inside a hologram.
+\end{enumerate}
+On the celestial side the same equator is the scale sector, since boosts act on energy by
+dilation. This is an exact structural parallel. It is not a claim that $\xi$ is a
+correlator of a physical theory.
+
+In this language the functional equation says the hologram is \emph{symmetric}; the Riemann
+Hypothesis says it is also \emph{positive} (reflection-positive across the equator). The
+finite core of that statement is proved
+(\texttt{GppHolographicRP.reflectionForm\_nonneg\_iff}: positivity across the equator
+holds exactly when there are no off-equator mirror pairs). Constructing that positivity for
+the actual arithmetic distribution is equivalent to RH and remains open.
+
 \section{Goals, in order of ambition}
 
 \begin{enumerate}
@@ -69,10 +96,10 @@ survives kernel-checking or fails in a specific, nameable place.
     counterpart on the other, and prove the transfer or name exactly what blocks it.
   \item \textbf{Understand the shadow involution as a single mathematical object} rather
     than as two coincidentally similar symmetries.
-  \item \textbf{The Riemann Hypothesis} is a major target, and RH Pathway~2
-    (Spectral/Meyer) is the route developed furthest here --- but it is one goal among
-    several, not the thesis of the project. The surrounding tower has value whether or
-    not that pathway closes.
+  \item \textbf{The Riemann Hypothesis} as one open question inside the framework: the
+    positivity half of the hologram. Several routes to it have been developed here and
+    several recorded as dead ends; none is the thesis of the project, and the tower has
+    value whether or not any of them closes.
   \item \textbf{Physical consequences} of the same involution: CPT and time reversal,
     complete positivity, three fermion generations, the Einstein equations as a rigidity
     statement.
@@ -102,11 +129,9 @@ failed, the failure is recorded rather than quietly dropped.
 \section{Coverage caveat}
 
 This blueprint is hand-authored; it does not regenerate itself from the Lean source.
-Substantial proved material therefore exists in the repository without appearing in the
-chapters below. An audit on 2026-08-31 found 122 of 183 modules with no blueprint
-reference at all. Chapters are being added as that backlog is worked through, starting
-with the half-flip/CPT thread below. Absence from this document is not evidence that
-something is unproved --- check the Lean source.
+Proved material can therefore exist in the repository before it appears in the chapters
+below. Absence from this document is not evidence that something is unproved --- check
+the Lean source.
 
 \chapter{Haar Measure Foundation}
 
@@ -259,7 +284,7 @@ something is unproved --- check the Lean source.
   $\mathrm{Re}(\Delta) = 1$ under $\Delta = 2s$ gives $\mathrm{Re}(s) = \tfrac{1}{2}$.
 \end{theorem}
 
-\chapter{Riemann Hypothesis (Pathway 2)}
+\chapter{Riemann Hypothesis: Zero Pairing and the Spectral Route}
 
 \section{Two-Zeros Argument}
 
@@ -3495,6 +3520,178 @@ This file packages the root-escape theorem into the exact positivity statement
 \noindent\textbf{Proved (1 declaration):}
 \begin{itemize}
   \item \lean{GppPrimeHankelFiniteGramStrict.weighted_eval_sq_sum_pos}\leanok\ \texttt{weighted\_eval\_sq\_sum\_pos}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Codex Workbench Formalizations (2026-09-28)}
+Exact results from Codex's \texttt{GPPDiscovery2} workbench and queue, formalized here. None of these proves or assumes RH; each entry states its scope.
+
+\subsection{ArchimedeanFloor}
+An unconditional lower bound on the archimedean term of Weil's explicit formula: for every test profile $r$ with $r(0)=1$ and $r\le 1$ on $(0,\infty)$, $A_\infty(r)\ \ge\ -\gamma-\log\pi-\pi/2-3\log 2$.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppArchimedeanFloor.antideriv_zero}\leanok\ \texttt{antideriv\_zero}
+  \item \lean{GppArchimedeanFloor.continuous_antideriv}\leanok\ \texttt{continuous\_antideriv}
+  \item \lean{GppArchimedeanFloor.hasDerivAt_antideriv}\leanok\ \texttt{hasDerivAt\_antideriv}
+  \item \lean{GppArchimedeanFloor.constKernel_nonpos}\leanok\ \texttt{constKernel\_nonpos}
+  \item \lean{GppArchimedeanFloor.tendsto_antideriv}\leanok\ \texttt{tendsto\_antideriv}
+  \item \lean{GppArchimedeanFloor.archimedean_constant_integral}\leanok\ \texttt{archimedean\_constant\_integral}
+  \item \lean{GppArchimedeanFloor.integrableOn_constKernel}\leanok\ \texttt{integrableOn\_constKernel}
+  \item \lean{GppArchimedeanFloor.archimedeanIntegrand_split}\leanok\ \texttt{archimedeanIntegrand\_split}
+  \item \lean{GppArchimedeanFloor.archimedean_decomposition}\leanok\ \texttt{archimedean\_decomposition}
+  \item \lean{GppArchimedeanFloor.archimedean_floor}\leanok\ \texttt{archimedean\_floor}
+\end{itemize}
+
+\subsection{KMSCriticalLimit}
+The KMS state at inverse temperature $\beta$ converges to the critical one quantitatively: $\|c_1-c_\beta\|^2\le(\beta-1)^2(\log N)^6$ for every $N\ge 3$.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppKMSCriticalLimit.kmsDual_primePow}\leanok\ \texttt{kmsDual\_primePow}
+  \item \lean{GppKMSCriticalLimit.midpoint_diff_bounds}\leanok\ \texttt{midpoint\_diff\_bounds}
+  \item \lean{GppKMSCriticalLimit.kms_term_bound}\leanok\ \texttt{kms\_term\_bound}
+  \item \lean{GppKMSCriticalLimit.kms_critical_limit}\leanok\ \texttt{kms\_critical\_limit}
+  \item \lean{GppKMSCriticalLimit.kms_critical_limit_clean}\leanok\ \texttt{kms\_critical\_limit\_clean}
+\end{itemize}
+
+\subsection{HalfDensityZetaGauge}
+The half-density gauge on a divisor-closed set $S$: the conjugated zeta and M\"obius operators are mutually inverse ($MZ=ZM=I$), and $MDZ-D=L_\Lambda$, i.e.\ conjugating the log-dilation $D$ by the zeta gauge produces exactly the von Mangoldt operator.
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppHalfDensityZetaGauge.filter_dvd_eq}\leanok\ \texttt{filter\_dvd\_eq}
+  \item \lean{GppHalfDensityZetaGauge.conv_apply}\leanok\ \texttt{conv\_apply}
+  \item \lean{GppHalfDensityZetaGauge.halfConv_eq}\leanok\ \texttt{halfConv\_eq}
+  \item \lean{GppHalfDensityZetaGauge.halfZeta_eq}\leanok\ \texttt{halfZeta\_eq}
+  \item \lean{GppHalfDensityZetaGauge.halfMobius_eq}\leanok\ \texttt{halfMobius\_eq}
+  \item \lean{GppHalfDensityZetaGauge.halfVonMangoldt_eq}\leanok\ \texttt{halfVonMangoldt\_eq}
+  \item \lean{GppHalfDensityZetaGauge.conv_lift_congr}\leanok\ \texttt{conv\_lift\_congr}
+  \item \lean{GppHalfDensityZetaGauge.lift_halfZeta}\leanok\ \texttt{lift\_halfZeta}
+  \item \lean{GppHalfDensityZetaGauge.lift_halfMobius}\leanok\ \texttt{lift\_halfMobius}
+  \item \lean{GppHalfDensityZetaGauge.inv_sqrt_mul_lift}\leanok\ \texttt{inv\_sqrt\_mul\_lift}
+  \item \lean{GppHalfDensityZetaGauge.halfMobius_halfZeta}\leanok\ \texttt{halfMobius\_halfZeta}
+  \item \lean{GppHalfDensityZetaGauge.halfZeta_halfMobius}\leanok\ \texttt{halfZeta\_halfMobius}
+  \item \lean{GppHalfDensityZetaGauge.half_density_gauge}\leanok\ \texttt{half\_density\_gauge}
+\end{itemize}
+
+\subsection{SeedSynthesisBound}
+A Schur-test synthesis bound: if $\langle v_m,v_n\rangle=(mn)^{-1/2}K(\log n-\log m)$ with $|K(a)|\le Ae^{-q|a|}$ and $q>\tfrac12$, then $\|\sum c_n v_n\|^2\le A\bigl(2+\tfrac1{q-1/2}+\tfrac1{q+1/2}\bigr)\sum c_n^2$.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppSeedSynthesisBound.schurWeight_nonneg}\leanok\ \texttt{schurWeight\_nonneg}
+  \item \lean{GppSeedSynthesisBound.schurWeight_symm}\leanok\ \texttt{schurWeight\_symm}
+  \item \lean{GppSeedSynthesisBound.schurWeight_eq}\leanok\ \texttt{schurWeight\_eq}
+  \item \lean{GppSeedSynthesisBound.tail_sum_le}\leanok\ \texttt{tail\_sum\_le}
+  \item \lean{GppSeedSynthesisBound.head_sum_le}\leanok\ \texttt{head\_sum\_le}
+  \item \lean{GppSeedSynthesisBound.rpow_pair}\leanok\ \texttt{rpow\_pair}
+  \item \lean{GppSeedSynthesisBound.schurWeight_row_sum}\leanok\ \texttt{schurWeight\_row\_sum}
+  \item \lean{GppSeedSynthesisBound.schur_quadratic}\leanok\ \texttt{schur\_quadratic}
+  \item \lean{GppSeedSynthesisBound.synthesis_bound}\leanok\ \texttt{synthesis\_bound}
+\end{itemize}
+
+\subsection{FixedWindowTransform}
+Closed form of the fixed-window transform $H_\ell$ and its exact zero set: $H_\ell(z)=0$ iff $z=2\pi ik/\ell$ with $k\ne0$. \textbf{Correction:} the source note's claim that $H_\ell$ never vanishes at zeta exponents is false as stated; it vanishes exactly on that purely imaginary lattice (and never off the imaginary axis).
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppFixedWindowTransform.integral_right}\leanok\ \texttt{integral\_right}
+  \item \lean{GppFixedWindowTransform.integral_left}\leanok\ \texttt{integral\_left}
+  \item \lean{GppFixedWindowTransform.integrable_window}\leanok\ \texttt{integrable\_window}
+  \item \lean{GppFixedWindowTransform.windowTransform_eq}\leanok\ \texttt{windowTransform\_eq}
+  \item \lean{GppFixedWindowTransform.windowTransform_eq_sinh}\leanok\ \texttt{windowTransform\_eq\_sinh}
+  \item \lean{GppFixedWindowTransform.windowTransform_zero}\leanok\ \texttt{windowTransform\_zero}
+  \item \lean{GppFixedWindowTransform.windowTransform_eq_zero_iff}\leanok\ \texttt{windowTransform\_eq\_zero\_iff}
+  \item \lean{GppFixedWindowTransform.windowTransform_ne_zero_of_re_ne_zero}\leanok\ \texttt{windowTransform\_ne\_zero\_of\_re\_ne\_zero}
+\end{itemize}
+
+\subsection{CayleyLiHiggs}
+The Cayley variable $u(t)=(t+i/2)/(t-i/2)=1-1/\rho$ for $\rho=\tfrac12+it$, and the two-sided bound $0\le 1-\operatorname{Re}u^n\le n^2/(2(t^2+\tfrac14))$, summed over any finite set of ordinates. Finite sums only; no statement about Li's full criterion.
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppCayleyLiHiggs.denom_ne_zero}\leanok\ \texttt{denom\_ne\_zero}
+  \item \lean{GppCayleyLiHiggs.cayley_eq_li_ratio}\leanok\ \texttt{cayley\_eq\_li\_ratio}
+  \item \lean{GppCayleyLiHiggs.normSq_num}\leanok\ \texttt{normSq\_num}
+  \item \lean{GppCayleyLiHiggs.normSq_den}\leanok\ \texttt{normSq\_den}
+  \item \lean{GppCayleyLiHiggs.norm_cayley}\leanok\ \texttt{norm\_cayley}
+  \item \lean{GppCayleyLiHiggs.norm_one_sub_sq}\leanok\ \texttt{norm\_one\_sub\_sq}
+  \item \lean{GppCayleyLiHiggs.one_sub_re_cayley}\leanok\ \texttt{one\_sub\_re\_cayley}
+  \item \lean{GppCayleyLiHiggs.one_sub_re_pow_nonneg}\leanok\ \texttt{one\_sub\_re\_pow\_nonneg}
+  \item \lean{GppCayleyLiHiggs.one_sub_re_pow_le_of_norm_one}\leanok\ \texttt{one\_sub\_re\_pow\_le\_of\_norm\_one}
+  \item \lean{GppCayleyLiHiggs.one_sub_re_pow_le}\leanok\ \texttt{one\_sub\_re\_pow\_le}
+  \item \lean{GppCayleyLiHiggs.finite_li_sum_bounds}\leanok\ \texttt{finite\_li\_sum\_bounds}
+\end{itemize}
+
+\subsection{OperatorValuedKoszulHomotopy}
+Operator-valued Koszul complex: with commuting inverses and CAR generators, $dh+hd=1$ and $d^2=0$; for any bounded contracting homotopy, $\|\psi\|\le\sqrt2\,\|h\|\,\|(d+d^*)\psi\|$.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppKoszulHomotopy.koszul_homotopy}\leanok\ \texttt{koszul\_homotopy}
+  \item \lean{GppKoszulHomotopy.koszul_sq_zero}\leanok\ \texttt{koszul\_sq\_zero}
+  \item \lean{GppKoszulHomotopy.norm_le_of_contracting_homotopy}\leanok\ \texttt{norm\_le\_of\_contracting\_homotopy}
+\end{itemize}
+
+\subsection{PositiveFredholmFactor}
+For Hermitian $A$, $\det(I+cA)=\prod_i(1+c\lambda_i)$; if $A\succeq0$ then $\det(I+z^2A)$ has zeros only on the imaginary axis. A negative eigenvalue produces a real zero.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppPositiveFredholmFactor.positive_factor_zero}\leanok\ \texttt{positive\_factor\_zero}
+  \item \lean{GppPositiveFredholmFactor.det_one_add_smul_eq_prod}\leanok\ \texttt{det\_one\_add\_smul\_eq\_prod}
+  \item \lean{GppPositiveFredholmFactor.fredholm_zero_on_imaginary_axis}\leanok\ \texttt{fredholm\_zero\_on\_imaginary\_axis}
+  \item \lean{GppPositiveFredholmFactor.fredholm_ne_zero_off_axis}\leanok\ \texttt{fredholm\_ne\_zero\_off\_axis}
+  \item \lean{GppPositiveFredholmFactor.negative_factor_real_zero}\leanok\ \texttt{negative\_factor\_real\_zero}
+\end{itemize}
+
+\subsection{TFDParitySewing}
+Thermofield-double parity sewing: $Q(I+xS)=I-xS$, the Cayley identity, parity currents, the Schur complement $\tfrac1{2q}\tfrac{1-x^2}{1+x^2}$, $\det(I-\bigoplus_p x_pS)=\prod_p(1-x_p^2)$, and traces of $(xS)^m$.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppTFDParitySewing.coth_eq}\leanok\ \texttt{coth\_eq}
+  \item \lean{GppTFDParitySewing.csch_eq}\leanok\ \texttt{csch\_eq}
+  \item \lean{GppTFDParitySewing.tanh_eq}\leanok\ \texttt{tanh\_eq}
+  \item \lean{GppTFDParitySewing.one_sub_sq_ne}\leanok\ \texttt{one\_sub\_sq\_ne}
+  \item \lean{GppTFDParitySewing.Q_mul}\leanok\ \texttt{Q\_mul}
+  \item \lean{GppTFDParitySewing.cayley_Q}\leanok\ \texttt{cayley\_Q}
+  \item \lean{GppTFDParitySewing.Q_inv}\leanok\ \texttt{Q\_inv}
+  \item \lean{GppTFDParitySewing.Γ_symm}\leanok\ \texttt{$\Gamma$\_symm}
+  \item \lean{GppTFDParitySewing.Γ_anti}\leanok\ \texttt{$\Gamma$\_anti}
+  \item \lean{GppTFDParitySewing.parity_currents}\leanok\ \texttt{parity\_currents}
+  \item \lean{GppTFDParitySewing.schur_complement}\leanok\ \texttt{schur\_complement}
+  \item \lean{GppTFDParitySewing.det_one_sub_exchange}\leanok\ \texttt{det\_one\_sub\_exchange}
+  \item \lean{GppTFDParitySewing.det_block_exchange}\leanok\ \texttt{det\_block\_exchange}
+  \item \lean{GppTFDParitySewing.trace_exchange_pow}\leanok\ \texttt{trace\_exchange\_pow}
+\end{itemize}
+
+\subsection{FisherZeroLogConcavityNoGo}
+A no-go: a log-concave density ($(\log q)''\le -A+\varepsilon b^2/(1-\varepsilon)$) whose characteristic function nevertheless has the explicit off-axis zero $t_0=(A/b)\bigl(\log(C_0+\sqrt{C_0^2-1})+i\pi\bigr)$. Log-concavity alone does not force real zeros.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppFisherZeroNoGo.density_pos}\leanok\ \texttt{density\_pos}
+  \item \lean{GppFisherZeroNoGo.gauss}\leanok\ \texttt{gauss}
+  \item \lean{GppFisherZeroNoGo.charFun_eq}\leanok\ \texttt{charFun\_eq}
+  \item \lean{GppFisherZeroNoGo.cosh_add_pi_I}\leanok\ \texttt{cosh\_add\_pi\_I}
+  \item \lean{GppFisherZeroNoGo.real_cosh_log}\leanok\ \texttt{real\_cosh\_log}
+  \item \lean{GppFisherZeroNoGo.charFun_zero}\leanok\ \texttt{charFun\_zero}
+  \item \lean{GppFisherZeroNoGo.one_add_pos}\leanok\ \texttt{one\_add\_pos}
+  \item \lean{GppFisherZeroNoGo.hasDerivAt_log_density}\leanok\ \texttt{hasDerivAt\_log\_density}
+  \item \lean{GppFisherZeroNoGo.hasDerivAt_logDeriv1}\leanok\ \texttt{hasDerivAt\_logDeriv1}
+  \item \lean{GppFisherZeroNoGo.logDeriv2_le}\leanok\ \texttt{logDeriv2\_le}
+\end{itemize}
+
+\subsection{HolographicReflectionPositivity}
+The finite core of arithmetic holography. For an involution $\tau$ with positive $\tau$-invariant weights, the form $Q(v)=\sum_z m_z v_z\overline{v_{\tau z}}$ is real, each mirror pair $z\ne\tau z$ spans a hyperbolic plane ($Q=\pm(m_z+m_{\tau z})$), and $Q\ge0$ for all $v$ iff $\tau$ fixes every point. Finite algebra only; the passage to Weil's criterion (explicit formula, independent prescribability of $F(\rho)$) is not formalized and is RH-strength.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppHolographicRP.reflectionForm_im}\leanok\ \texttt{reflectionForm\_im}
+  \item \lean{GppHolographicRP.reflectionForm_nonneg_of_fixed}\leanok\ \texttt{reflectionForm\_nonneg\_of\_fixed}
+  \item \lean{GppHolographicRP.mirror_pair_indefinite}\leanok\ \texttt{mirror\_pair\_indefinite}
+  \item \lean{GppHolographicRP.reflectionForm_nonneg_iff}\leanok\ \texttt{reflectionForm\_nonneg\_iff}
 \end{itemize}
 
 \section{Thread Weil-Parity}

@@ -10,7 +10,10 @@ on:
   pull_request:
     paths:
       - 'blueprint/**'
+      - 'index.html'
       - 'scripts/patch_mobile.py'
+      - 'scripts/landing_status.py'
+      - 'scripts/assemble_site.py'
       - '.github/workflows/blueprint.yml'
   workflow_dispatch:
 
@@ -43,17 +46,21 @@ jobs:
       - name: Build blueprint
         run: leanblueprint web
 
-      - name: Apply GPP theme and write CNAME
+      - name: Apply GPP theme
         run: |
           cp blueprint/gpp-theme.css blueprint/src/web/styles/gpp-theme.css
           python3 scripts/patch_mobile.py
-          echo "lean.goldenphysics.org" > blueprint/src/web/CNAME
+
+      # The site root is the plain-language landing page (index.html); the technical
+      # blueprint lives under /blueprint/. Old root-level blueprint URLs redirect there.
+      - name: Assemble site
+        run: python3 scripts/assemble_site.py _site
 
       - name: Upload Pages artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: blueprint/src/web
+          path: _site
 
   deploy:
     name: Deploy to GitHub Pages

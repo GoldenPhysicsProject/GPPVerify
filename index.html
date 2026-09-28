@@ -3,135 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GPPVerify | Formal Proof Dashboard — Golden Physics Project</title>
-<meta name="description" content="Live Lean 4 formal verification of the Golden Physics Project. Machine-checked proofs of shadow=CPT, L² forces Re(s)=½, and three fermion generations.">
-<meta property="og:title" content="GPPVerify | Formal Proof Dashboard">
-<meta property="og:description" content="Machine-verified Lean 4 proofs from the shadow framework. Zero sorries, zero axioms, 150 open stubs — all labelled.">
+<title>One Mirror, Two Worlds — GPPVerify</title>
+<meta name="description" content="The Golden Physics Project's shadow holography framework, explained plainly, with every result checked by the Lean proof assistant. What is proved, what is open, and what has been ruled out.">
+<meta property="og:title" content="One Mirror, Two Worlds — GPPVerify">
+<meta property="og:description" content="Shadow holography, machine-checked in Lean 4. Zero sorries, zero axioms, 150 open stubs — all labelled.">
 <meta property="og:image" content="https://goldenphysics.org/gpp1a.jpg">
 <meta property="og:url" content="https://lean.goldenphysics.org">
 <link rel="canonical" href="https://lean.goldenphysics.org">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap');
 *,*::before,*::after{box-sizing:border-box}
-:root{
-  --gpp-black:#050505;
-  --gpp-dark-green:#0a140a;
-  --gpp-gold:#d4af37;
-  --gpp-gold-light:#f1d374;
-  --gpp-gold-dark:#aa8c2c;
-  --gpp-text:#e0e0e0;
-  --green:#2d6a2d;
-  --green-light:#4caf50;
-  --yellow:#7a6a00;
-  --yellow-light:#ffd600;
-  --red:#6a2d2d;
-  --red-light:#ef5350;
-}
 *{margin:0;padding:0}
-body{background:var(--gpp-black);color:var(--gpp-text);font-family:'Lato',sans-serif;line-height:1.6}
-h1,h2,h3,h4{font-family:'Cinzel',serif;color:var(--gpp-gold);text-transform:uppercase;letter-spacing:1px}
-a{text-decoration:none;transition:0.3s;color:var(--gpp-gold)}
-a:hover{color:var(--gpp-gold-light)}
+:root{
+  --ink:#050505;
+  --panel:#0c0d0b;
+  --rule:#1f211b;
+  --green-deep:#0a140a;
+  --gold:#d4af37;
+  --gold-light:#f1d374;
+  --gold-dark:#aa8c2c;
+  --text:#e4e1d8;
+  --muted:#a09d92;
+  --faint:#6f6c63;
+  --ok:#5fbf63;
+  --ok-deep:#2d6a2d;
+  --open:#ef6a5f;
+  --open-deep:#6a2d2d;
+  --dead:#8fa3c9;
+  --dead-deep:#2e3a52;
+  --serif:'Cinzel',Georgia,serif;
+  --sans:'Lato',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+html{background:var(--ink)}
+body{background:var(--ink);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.65}
+h1,h2,h3,h4{font-family:var(--serif);color:var(--gold);letter-spacing:.04em;font-weight:700;text-wrap:balance}
+a{color:var(--gold);text-decoration:none}
+a:hover{color:var(--gold-light)}
+a:focus-visible,button:focus-visible,canvas:focus-visible{outline:2px solid var(--gold-light);outline-offset:3px}
+code{font-family:var(--mono);font-size:.88em;color:var(--gold-light)}
+em{color:var(--gold-light);font-style:italic}
 
-/* NAV */
-nav{border-bottom:1px solid rgba(212,175,55,0.2);padding:18px 0;background:#000;text-align:center}
-nav a{color:var(--gpp-gold);margin:0 12px;font-family:'Cinzel',serif;font-size:0.85rem;letter-spacing:1px}
-nav a:hover{color:var(--gpp-gold-light)}
-nav a.active{color:var(--gpp-gold-light);border-bottom:1px solid var(--gpp-gold)}
+/* NAV (matches goldenphysics.org) */
+nav{border-bottom:1px solid rgba(212,175,55,.2);padding:16px 12px;background:#000;display:flex;flex-wrap:wrap;justify-content:center;gap:4px 22px}
+nav a{font-family:var(--serif);font-size:.82rem;letter-spacing:.06em}
+nav a.active{color:var(--gold-light);border-bottom:1px solid var(--gold)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.prose{max-width:66ch}
+.prose p+p{margin-top:1em}
+section{padding:80px 0;border-bottom:1px solid var(--rule)}
+.eyebrow{font-family:var(--serif);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px}
+h2{font-size:clamp(1.5rem,3.2vw,2.1rem);margin-bottom:22px}
+h3{font-size:1.05rem;margin-bottom:8px}
+.lede{font-size:1.12rem;color:var(--muted)}
 
 /* HERO */
-.page-header{
-  background:radial-gradient(circle at center,var(--gpp-dark-green),var(--gpp-black));
-  padding:70px 20px 60px;border-bottom:1px solid var(--gpp-gold-dark);text-align:center
-}
-.page-header h1{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:16px}
-.page-header p{color:#aaa;max-width:700px;margin:0 auto 24px;font-style:italic;font-size:1.05rem}
-.gold-gradient-text{
-  background:linear-gradient(to right,var(--gpp-gold),var(--gpp-gold-light),var(--gpp-gold));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-size:200% auto;animation:shine 5s linear infinite
-}
+.hero{background:radial-gradient(ellipse at 50% 0%,var(--green-deep),var(--ink) 70%);padding:84px 0 70px;border-bottom:1px solid var(--gold-dark)}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);line-height:1.1;margin-bottom:22px;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));background-size:200% auto;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shine 6s linear infinite}
 @keyframes shine{to{background-position:200% center}}
+.hero .lede{max-width:62ch;font-size:1.18rem}
+.hero .lede strong{color:var(--text);font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-block;font-family:var(--serif);font-size:.85rem;letter-spacing:.06em;padding:11px 20px;border:1px solid var(--gold-dark);color:var(--gold)}
+.btn.primary{background:rgba(212,175,55,.14);border-color:var(--gold)}
+.btn:hover{background:rgba(212,175,55,.2)}
+
+/* MIRROR DEMO */
+.mirror-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:start}
+.plane{background:var(--panel);border:1px solid var(--rule);padding:14px}
+.plane canvas{display:block;width:100%;aspect-ratio:4/5;cursor:crosshair;touch-action:none}
+.readout{font-family:var(--mono);font-size:.84rem;color:var(--muted);padding:10px 4px 2px;min-height:4.8em}
+.readout b{color:var(--gold-light);font-weight:400}
+.keyline{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.82rem;color:var(--faint);padding:6px 4px 0}
+.keyline span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.toggle{margin-top:18px;font-family:var(--serif);font-size:.82rem;letter-spacing:.05em;background:transparent;color:var(--gold);border:1px solid var(--gold-dark);padding:9px 16px;cursor:pointer}
+.toggle[aria-pressed="true"]{background:rgba(239,106,95,.12);border-color:var(--open);color:var(--open)}
+
+/* HOLOGRAM LEVELS */
+.levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:40px}
+.level{background:var(--panel);border:1px solid var(--rule);padding:26px 24px}
+.level .n{font-family:var(--serif);color:var(--gold-dark);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase}
+.level h3{margin:6px 0 12px;font-size:1.08rem}
+.level p{color:var(--muted);font-size:.95rem}
+.level .pair{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);font-size:.86rem;color:var(--faint)}
+.level .pair b{color:var(--text);font-weight:400}
+
+/* RH */
+.twocol{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start}
+.verdict{border:1px solid var(--rule);background:var(--panel)}
+.verdict div{display:grid;grid-template-columns:7.5em 1fr;gap:14px;padding:16px 20px;border-top:1px solid var(--rule);font-size:.95rem}
+.verdict div:first-child{border-top:0}
+.verdict .k{font-family:var(--serif);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;padding-top:3px}
+.k.ok{color:var(--ok)} .k.open{color:var(--open)} .k.dead{color:var(--dead)}
 
 /* STATS */
-.stat-strip{background:#080808;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:36px 20px}
-.stat-row{display:flex;justify-content:center;gap:60px;flex-wrap:wrap}
-.stat-item{text-align:center}
-.stat-num{display:block;font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gpp-gold);font-weight:700}
-.stat-label{font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;color:#666}
+.stat-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--rule);margin:36px 0 14px;background:var(--panel)}
+.stat-item{padding:22px 12px;text-align:center;border-left:1px solid var(--rule)}
+.stat-item:first-child{border-left:0}
+.stat-num{display:block;font-family:var(--serif);font-size:2rem;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.2}
+.stat-num.good{color:var(--ok)} .stat-num.warn{color:var(--open)}
+.stat-label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);margin-top:4px}
+.stat-note{font-size:.9rem;color:var(--faint);max-width:80ch}
+.checks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:36px}
+.checks div{border-top:2px solid var(--gold-dark);padding-top:14px}
+.checks h3{font-size:.92rem}
+.checks p{color:var(--muted);font-size:.93rem}
 
-/* CONTAINER */
-.container{max-width:1100px;margin:0 auto;padding:0 30px}
-.section-padding{padding:70px 0}
-.section-heading{border-left:3px solid var(--gpp-gold);padding-left:15px;margin-bottom:36px}
+/* AREA BARS */
+.areas{margin-top:44px}
+.areas h3{margin-bottom:14px}
+.area{display:grid;grid-template-columns:minmax(0,15em) minmax(0,1fr) 13em;gap:14px;align-items:center;padding:7px 0;font-size:.9rem;border-bottom:1px solid var(--rule)}
+.area .bar{height:10px;background:#15170f;display:flex;overflow:hidden}
+.area .bar i{display:block;height:100%}
+.area .bar i.p{background:var(--ok-deep);border-right:1px solid var(--ok)}
+.area .bar i.o{background:var(--open-deep)}
+.area .nums{font-family:var(--mono);font-size:.8rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.area .nums .o{color:var(--open)}
+.areas .meta{font-size:.8rem;color:var(--faint);margin-top:12px;font-family:var(--mono)}
 
-/* STATUS LEGEND */
-.legend{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:40px;justify-content:center}
-.legend-item{display:flex;align-items:center;gap:8px;font-size:0.85rem}
-.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
-.dot-green{background:var(--green-light)}
-.dot-yellow{background:var(--yellow-light)}
-.dot-red{background:var(--red-light)}
+/* DEPENDENCY MAP */
+.map{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;margin-top:36px}
+.chain{list-style:none}
+.chain li{position:relative;padding:0 0 22px 30px}
+.chain li::before{content:"";position:absolute;left:6px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ink)}
+.chain li::after{content:"";position:absolute;left:11px;top:20px;bottom:-4px;width:1px;background:var(--rule)}
+.chain li:last-child::after{display:none}
+.chain li.open::before{background:var(--open)}
+.chain li.dead::before{background:var(--dead)}
+.chain .t{color:var(--text);font-weight:700;font-size:.95rem}
+.chain .d{color:var(--muted);font-size:.88rem}
+.chain .src{font-family:var(--mono);font-size:.74rem;color:var(--faint);word-break:break-all}
+.map h3{margin-bottom:18px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:.84rem;color:var(--muted);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;background:var(--c);vertical-align:-1px}
 
-/* THEOREM CARDS */
-.grid-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-.thm-card{
-  background:#0d0d0d;border:1px solid #1e1e1e;padding:24px;
-  transition:0.3s;position:relative;overflow:hidden
+/* THEOREM CARDS (names, paths and badges are gated by scripts/check_landing_claims.py) */
+.card-group{margin-top:44px}
+.card-group>h3{margin-bottom:14px}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.thm-card{background:var(--panel);border:1px solid var(--rule);border-top:2px solid var(--ok-deep);padding:20px 20px 18px;display:flex;flex-direction:column}
+.thm-card.open{border-top-color:var(--open-deep)}
+.thm-card.ruled{border-top-color:var(--dead-deep)}
+.status-badge{align-self:flex-start;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:2px 8px;margin-bottom:12px;border:1px solid}
+.badge-proved{color:var(--ok);border-color:var(--ok-deep);background:rgba(95,191,99,.08)}
+.badge-open{color:var(--open);border-color:var(--open-deep);background:rgba(239,106,95,.08)}
+.ruled .badge-proved{color:var(--dead);border-color:var(--dead-deep);background:rgba(143,163,201,.08)}
+.thm-title{font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.35}
+.thm-desc{font-size:.9rem;color:var(--muted);margin-bottom:14px;flex:1}
+.thm-name{font-family:var(--mono);font-size:.76rem;color:var(--gold-dark);word-break:break-all}
+.thm-meta{font-family:var(--mono);font-size:.72rem;color:var(--faint);word-break:break-all}
+.thm-link{font-size:.78rem;margin-top:8px}
+
+/* VERIFY */
+.shell{background:#000;border:1px solid var(--rule);border-left:2px solid var(--gold-dark);padding:16px 20px;font-family:var(--mono);font-size:.86rem;color:var(--gold-light);overflow-x:auto;white-space:pre;margin:18px 0}
+.ci{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--mono);font-size:.82rem;color:var(--faint);margin-top:12px}
+#ci-state{color:var(--muted)}
+#ci-state.ok{color:var(--ok)} #ci-state.bad{color:var(--open)}
+
+footer{text-align:center;padding:44px 20px;font-size:.8rem;color:var(--faint)}
+footer a{color:var(--muted)}
+.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:14px}
+
+@media (max-width:860px){
+  .mirror-grid,.twocol,.map{grid-template-columns:1fr;gap:32px}
+  .levels,.checks{grid-template-columns:1fr}
+  .stat-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat-item{border-left:0;border-top:1px solid var(--rule)}
+  .stat-item:nth-child(-n+2){border-top:0}
+  .stat-item:nth-child(even){border-left:1px solid var(--rule)}
+  .area{grid-template-columns:minmax(0,1fr) auto}
+  .area .bar{grid-column:1 / -1;order:3}
 }
-.thm-card:hover{transform:translateY(-3px)}
-.thm-card.proved{border-color:var(--green);box-shadow:0 0 12px rgba(76,175,80,0.1)}
-.thm-card.proved:hover{border-color:var(--green-light)}
-.thm-card.axiom{border-color:var(--yellow);box-shadow:0 0 12px rgba(255,214,0,0.08)}
-.thm-card.axiom:hover{border-color:var(--yellow-light)}
-.thm-card.open{border-color:var(--red);box-shadow:0 0 12px rgba(239,83,80,0.08)}
-.status-badge{
-  display:inline-block;font-size:0.7rem;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;padding:3px 10px;border-radius:3px;margin-bottom:12px
+@media (max-width:520px){
+  body{font-size:16px}
+  .wrap{padding:0 16px}
+  section{padding:60px 0}
+  .verdict div{grid-template-columns:1fr;gap:4px}
 }
-.badge-proved{background:rgba(76,175,80,0.15);color:var(--green-light);border:1px solid var(--green)}
-.badge-axiom{background:rgba(255,214,0,0.1);color:var(--yellow-light);border:1px solid var(--yellow)}
-.badge-open{background:rgba(239,83,80,0.1);color:var(--red-light);border:1px solid var(--red)}
-.thm-name{font-family:monospace;font-size:0.95rem;color:var(--gpp-gold-light);margin-bottom:8px;word-break:break-all}
-.thm-desc{font-size:0.88rem;color:#888;margin-bottom:12px;line-height:1.5}
-.thm-meta{font-size:0.78rem;color:#555;font-family:monospace}
-.thm-link{font-size:0.8rem;color:var(--gpp-gold-dark);margin-top:10px;display:inline-block}
-.thm-link:hover{color:var(--gpp-gold)}
-.cited-badge{
-  position:absolute;top:12px;right:12px;
-  background:rgba(212,175,55,0.1);border:1px solid var(--gpp-gold-dark);
-  font-size:0.7rem;color:var(--gpp-gold);padding:2px 7px;border-radius:3px
-}
-
-/* DEPENDENCY GRAPH */
-.dep-section{background:#070707;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:60px 0}
-.dep-tree{font-family:monospace;font-size:0.88rem;line-height:2;color:#888;max-width:800px;margin:0 auto;padding:0 20px}
-.dep-tree .proved{color:var(--green-light)}
-.dep-tree .axiom{color:var(--yellow-light)}
-.dep-tree .open{color:var(--red-light)}
-
-/* GAPS */
-.gap-card{background:#0d0d0d;border:1px solid #222;border-left:3px solid var(--gpp-gold-dark);padding:20px 24px;margin-bottom:16px}
-.gap-card h4{color:var(--gpp-gold);font-size:0.9rem;margin-bottom:8px}
-.gap-card p{color:#777;font-size:0.88rem}
-.gap-card code{color:var(--yellow-light);font-size:0.85rem}
-
-/* FOOTER */
-footer{text-align:center;padding:44px 20px;border-top:1px solid #1e1e1e;font-size:0.8rem;color:#555}
-footer a{color:#777}
-footer a:hover{color:var(--gpp-gold)}
-.footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:16px}
-
-@media(max-width:768px){
-  .container{padding:0 18px}
-  .stat-row{gap:30px}
-  nav a{margin:0 6px;font-size:0.75rem}
-}
+@media (prefers-reduced-motion:reduce){.hero h1{animation:none}}
 </style>
 </head>
 <body>
 
-<nav>
+<nav aria-label="Golden Physics Project">
   <a href="https://goldenphysics.org">Home</a>
   <a href="https://goldenphysics.org/papers.html">Research</a>
   <a href="https://goldenphysics.org/blogs.html">Insights</a>
@@ -139,394 +197,595 @@ footer a:hover{color:var(--gpp-gold)}
   <a href="https://goldenphysics.org/riemann-hypothesis.html">Riemann</a>
   <a href="https://goldenphysics.org/simulation.html">Sim</a>
   <a href="https://goldenphysics.org/echoes.html">Echoes</a>
-  <a href="https://shop.goldenphysics.org" target="_blank">Shop</a>
-  <a href="https://lean.goldenphysics.org" class="active">Verify</a>
+  <a href="https://shop.goldenphysics.org">Shop</a>
+  <a href="https://lean.goldenphysics.org" class="active" aria-current="page">Verify</a>
 </nav>
 
-<div class="page-header">
-  <h1 class="gold-gradient-text">GPPVerify</h1>
-  <p>Lean 4 + Mathlib formal verification of the shadow framework.<br>
-  Every green theorem has been checked by a machine that does not accept hand-waving.
-  Everything else is labelled open.</p>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-    <a href="https://lean.goldenphysics.org/"
-       style="background:rgba(212,175,55,0.16);border:1px solid var(--gpp-gold);padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
-      Read the Blueprint
-    </a>
-    <a href="https://github.com/GoldenPhysicsProject/GPPVerify" target="_blank"
-       style="background:rgba(212,175,55,0.1);border:1px solid var(--gpp-gold-dark);padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
-      View on GitHub &#8599;
-    </a>
-    <a href="https://goldenphysics.org/papers.html"
-       style="background:transparent;border:1px solid #333;color:#888;padding:10px 22px;font-family:Cinzel,serif;font-size:0.85rem;letter-spacing:1px">
-      View Papers
-    </a>
-  </div>
-</div>
-
-<div class="stat-strip">
-  <div class="stat-row">
-    <div class="stat-item">
-      <span class="stat-num">813</span>
-      <span class="stat-label">Lean Modules</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" style="color:var(--green-light)">0</span>
-      <span class="stat-label">Sorries</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" style="color:var(--green-light)">0</span>
-      <span class="stat-label">Axioms</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num" style="color:var(--red-light)">150</span>
-      <span class="stat-label">Open Stubs</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num stat-ci">&mdash;</span>
-      <span class="stat-label">CI Builds</span>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Golden Physics Project · Verified mathematics</p>
+    <h1>One mirror,<br>two worlds</h1>
+    <p class="lede">Physicists who study how particles scatter across the sky found a symmetry
+    they call the <em>shadow</em>. Mathematicians have had the same symmetry for more than 160 years,
+    in Riemann's work on the prime numbers. The Golden Physics Project treats the two as
+    <strong>one mirror</strong>, and asks how much each world can explain about the other.</p>
+    <p class="lede" style="margin-top:14px">This site is where that is checked, by a computer, one
+    logical step at a time, with nothing taken on trust. It also says plainly what has
+    <strong>not</strong> been shown.</p>
+    <div class="actions">
+      <a class="btn primary" href="#mirror">Start with the mirror</a>
+      <a class="btn" href="#checked">What's been checked</a>
+      <a class="btn" href="blueprint/">Technical blueprint</a>
     </div>
   </div>
-  <p style="text-align:center;color:#666;font-size:0.82rem;max-width:720px;margin:22px auto 0;line-height:1.6">
-    Read those four numbers together. Zero sorries and zero axioms is a clean bill of health
-    only for what is <em>stated</em>; the 157 open stubs are results deliberately parked as
-    <code style="color:var(--yellow-light)">theorem open_&hellip; : True := trivial</code>, which
-    assert nothing and so report zero sorries and zero axioms themselves. Every one of them is
-    named <code style="color:var(--yellow-light)">open_</code>&hellip; and CI rejects any that
-    is not.
-  </p>
-</div>
+</header>
 
-<div style="background:#050505;border-bottom:1px solid #1a1a1a;padding:10px 20px;text-align:center;font-family:monospace;font-size:0.82rem">
-  <span id="build-status" style="color:var(--green-light)">&#10003; BUILD GREEN</span>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <span style="color:#555">commit: </span><span id="latest-commit" style="color:#666">loading...</span>
-  &nbsp;&nbsp;|&nbsp;&nbsp;
-  <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions" target="_blank" style="color:#555;font-size:0.78rem">CI History &#8599;</a>
-</div>
-<div id="open-prs" style="display:none;background:#0a0800;border-bottom:1px solid #2a2000;padding:8px 20px;text-align:center;font-family:monospace;font-size:0.8rem"></div>
+<main>
 
-<div class="container section-padding">
-
-  <div class="legend">
-    <div class="legend-item"><span class="dot dot-green"></span> Proved &mdash; a real statement, machine-checked</div>
-    <div class="legend-item"><span class="dot dot-yellow"></span> Rests on a labelled axiom</div>
-    <div class="legend-item"><span class="dot dot-red"></span> Open &mdash; a <code>True</code>-stub, asserts nothing</div>
+<section id="mirror">
+  <div class="wrap mirror-grid">
+    <div>
+      <p class="eyebrow">The idea</p>
+      <h2>A mirror with a gold line down the middle</h2>
+      <div class="prose">
+        <p>Picture a plane of numbers with a gold line running through it. Every point has a
+        partner on the other side of the line, at the same height and the same distance away.
+        Points <em>on</em> the line are their own partners.</p>
+        <p>On the physics side, this reflection is the <em>shadow</em> map, which pairs each
+        way a particle can spread across the celestial sphere with a partner. On the
+        mathematics side, it is the symmetry of Riemann's zeta function, the function that
+        encodes the prime numbers.</p>
+        <p>Riemann's zeta function has special points called <em>zeros</em>, and they always
+        come in mirror pairs. Every zero found so far, trillions of them, sits exactly on the
+        gold line. The <strong>Riemann Hypothesis</strong> says they all do. It has been open
+        since 1859.</p>
+        <p style="color:var(--faint);font-size:.92rem">Tap or click the plane to place a point
+        and see its mirror. With the keyboard, focus the plane and use the arrow keys.</p>
+      </div>
+      <button class="toggle" id="ghost" type="button" aria-pressed="false">What would an off-line zero look like?</button>
+    </div>
+    <figure class="plane">
+      <canvas id="plane" width="480" height="600" tabindex="0" role="img"
+        aria-label="The critical strip of the zeta function, with the gold critical line down the middle and the first zeros marked on it. Placing a point shows its mirror image across the line."></canvas>
+      <figcaption>
+        <div class="readout" id="readout" aria-live="polite">Place a point to see its mirror.</div>
+        <div class="keyline">
+          <span style="--c:var(--gold)">the gold line (Re s = ½)</span>
+          <span style="--c:var(--ok)">the first zeros of zeta</span>
+          <span style="--c:var(--gold-light)">your point &amp; its mirror</span>
+        </div>
+      </figcaption>
+    </figure>
   </div>
+</section>
 
-  <p style="color:#666;font-size:0.9rem;margin:-16px 0 40px;text-align:center;max-width:760px;margin-left:auto;margin-right:auto;line-height:1.6">
-    A representative selection, not a catalogue. The blueprint covers all 184 modules and
-    every declaration in them; <code style="color:var(--yellow-light)">scripts/check_landing_claims.py</code>
-    fails the build if any name, file path or number on this page stops being true of the tree.
-  </p>
-
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Shadow Symmetry &mdash; the shared object</h2>
+<section id="hologram">
+  <div class="wrap">
+    <p class="eyebrow">Why "holography"</p>
+    <h2>Shadow holography, in three levels</h2>
+    <div class="prose">
+      <p class="lede">A hologram is a flat film that stores a whole three-dimensional scene.
+      Mathematics has exact versions of the same trick: two descriptions of one thing, where
+      everything on one side is encoded on the other. Here the lens between them is the
+      <em>Mellin transform</em>, which turns sizes into frequencies. The framework finds the
+      mirror at three nested levels.</p>
+    </div>
+    <div class="levels">
+      <article class="level">
+        <span class="n">Level one</span>
+        <h3>A line becomes a sphere</h3>
+        <p>Take all positive sizes and fold them at 1, with big on one side and small on the
+        other. Seen through the lens, this becomes a sphere of frequencies cut in half by the
+        gold line. Folding at 1 turns into the mirror across the line.</p>
+        <p class="pair"><b>Boundary:</b> sizes, folded at 1 · <b>Hologram:</b> the two halves of
+        the sphere and the line between them</p>
+      </article>
+      <article class="level">
+        <span class="n">Level two</span>
+        <h3>Whole numbers are notes</h3>
+        <p>The whole numbers behave like the harmonics of a vibrating string, and that pattern
+        looks the same whether you zoom in or out. Through the lens, that sameness is exactly
+        Riemann's mirror symmetry of the zeta function.</p>
+        <p class="pair"><b>Boundary:</b> harmonics of a circle · <b>Hologram:</b> the functional
+        equation ξ(s) = ξ(1−s)</p>
+      </article>
+      <article class="level">
+        <span class="n">Level three</span>
+        <h3>Primes are dials</h3>
+        <p>Every whole number is built from primes in exactly one way, so think of each prime as
+        its own dial. Walking up the gold line turns every dial at once, at speeds that never
+        fall into step. The walk passes arbitrarily close to every setting, so the line is
+        written densely into the dials: <em>a hologram inside a hologram</em>.</p>
+        <p class="pair"><b>Boundary:</b> one dial per prime · <b>Hologram:</b> the gold line,
+        wound densely through them</p>
+      </article>
+    </div>
   </div>
+</section>
 
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">shadow_equals_time_reversal</div>
-      <div class="thm-desc">The celestial shadow map &Delta; &#8614; 2&minus;&Delta; equals CPT time reversal on the principal series. The identification the whole framework turns on.</div>
-      <div class="thm-meta">File: RiemannHypothesis/ShadowSymmetry.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/ShadowSymmetry.lean" target="_blank">View source &#8599;</a>
+<section id="rh">
+  <div class="wrap twocol">
+    <div class="prose">
+      <p class="eyebrow">Where the Riemann Hypothesis sits</p>
+      <h2>Symmetric is proved. Positive is the question.</h2>
+      <p>In hologram language, the mirror symmetry says the picture is <em>symmetric</em>. That
+      part is known (Riemann proved it), and it is checked here.</p>
+      <p>The Riemann Hypothesis asks for more: that the picture is also <em>positive</em>, like a
+      physical system with no negative energies. Every zero on the gold line behaves like a
+      stable, positive mode. A zero off the line would come with its mirror twin, and the pair
+      together always contains one negative "ghost" direction. You can see this in the mirror
+      demo above.</p>
+      <p>The finite version of that statement is proved here exactly: <strong>positivity holds
+      if and only if there are no mirror pairs</strong>. What nobody has done, here or
+      anywhere, is prove the positivity for the real primes. That step is equivalent to the
+      Riemann Hypothesis itself, and this project does not claim it.</p>
     </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">critical_line_is_fixed_locus</div>
-      <div class="thm-desc">conj(s) = 1&minus;s &#8660; Re(s) = &frac12;. The critical line <em>is</em> the fixed locus of the shadow involution &mdash; an iff, both directions checked.</div>
-      <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean" target="_blank">View source &#8599;</a>
+    <div class="verdict" role="list" aria-label="Status summary">
+      <div role="listitem"><span class="k ok">Proved</span><span>The shadow map and the zeta symmetry are the same mirror, and the gold line is exactly its fixed line.</span></div>
+      <div role="listitem"><span class="k ok">Proved</span><span>Zeta's zeros come in mirror pairs.</span></div>
+      <div role="listitem"><span class="k ok">Proved</span><span>RH is equivalent to a positivity statement (Weil's criterion).</span></div>
+      <div role="listitem"><span class="k ok">Proved</span><span>In any finite model, positivity ⟺ no mirror pairs.</span></div>
+      <div role="listitem"><span class="k open">Open</span><span>Positivity for the actual primes. This is the Riemann Hypothesis.</span></div>
+      <div role="listitem"><span class="k dead">Ruled out</span><span>Several tempting shortcuts, each shown not to work: by proof, or by numerical counterexample (see below).</span></div>
     </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">shadow_involution_C</div>
-      <div class="thm-desc">The shadow map is an involution on &#8450;: applying it twice is the identity.</div>
-      <div class="thm-meta">File: CelestialHolography/ShadowDiscontinuity.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/ShadowDiscontinuity.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card open">
-      <div class="status-badge badge-open">Open</div>
-      <div class="thm-name">open_shadow_discontinuity</div>
-      <div class="thm-desc">That the discontinuity across the shadow cut <em>equals</em> the loop integrand is the conjecture, not a theorem. Blocked on celestial amplitude theory and unitarity cuts, neither in Mathlib. The supporting identities in the same file are proved.</div>
-      <div class="thm-meta">File: CelestialHolography/ShadowDiscontinuity.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/ShadowDiscontinuity.lean" target="_blank">View source &#8599;</a>
-    </div>
-
   </div>
+</section>
 
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">The Half-Flip &mdash; CPT, time reversal, complete positivity</h2>
+<section id="checked">
+  <div class="wrap">
+    <p class="eyebrow">What's been checked, and by whom</p>
+    <h2>Checked by a machine that can't be argued with</h2>
+    <div class="prose">
+      <p class="lede">Every result on this site is written in <strong>Lean</strong>, a proof
+      checker. Lean accepts a proof only if every step follows from the rules of logic. It
+      doesn't care who wrote the proof or how convincing it sounds.</p>
+    </div>
+    <div class="checks">
+      <div><h3>Independent tools</h3><p>Lean is built by the Lean Focused Research Organization.
+      Our proofs lean on <strong>Mathlib</strong>, a shared library written by hundreds of
+      mathematicians. Neither was written by this project.</p></div>
+      <div><h3>No hidden assumptions</h3><p>Every proof uses only Lean's three standard logical
+      axioms, the same ones all of Mathlib uses. Nothing of our own is assumed, and an audit
+      script checks this.</p></div>
+      <div><h3>Checked in public</h3><p>Every change is rebuilt from scratch on GitHub's servers,
+      and the full history of those runs is public. Anyone can rerun it on their own computer
+      in four commands.</p></div>
+    </div>
+
+    <div class="stat-strip" role="group" aria-label="Current counts">
+      <div class="stat-item"><span class="stat-num">813</span><span class="stat-label">Lean Modules</span></div>
+      <div class="stat-item"><span class="stat-num" id="proved-count">&mdash;</span><span class="stat-label">Proved Theorems</span></div>
+      <div class="stat-item"><span class="stat-num good">0</span><span class="stat-label">Sorries</span></div>
+      <div class="stat-item"><span class="stat-num good">0</span><span class="stat-label">Axioms</span></div>
+      <div class="stat-item"><span class="stat-num warn">150</span><span class="stat-label">Open Stubs</span></div>
+    </div>
+    <p class="stat-note"><code>sorry</code> is Lean's word for "trust me, skip this step". There
+    are none. <strong>Open stubs</strong> are results we want but have not proved. Each is named
+    <code>open_…</code> and asserts nothing, so it can never be mistaken for a proof. CI rejects
+    any that are named otherwise, and it fails the build if a number on this page stops matching
+    the code.</p>
+
+    <div class="areas" id="areas" hidden>
+      <h3>Where the proved results are</h3>
+      <div id="area-rows"></div>
+      <p class="meta" id="area-meta"></p>
+    </div>
+
+    <p class="stat-note" style="margin-top:28px"><strong style="color:var(--text)">What "checked" does and does not mean.</strong>
+    A checked theorem is true <em>given its stated assumptions</em>. Where a result depends on
+    physics (for example, a value from quantum field theory), that input appears as an explicit
+    assumption in the statement, never as a hidden axiom. The link between celestial physics and
+    the zeta function is an exact structural match. It is not an experimental result, and nothing
+    here claims that the zeta function is literally a physical quantity.</p>
   </div>
+</section>
 
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">wignerT_wignerT</div>
-      <div class="thm-desc">Wigner time reversal squares to &minus;1 on a spin-&frac12; state: T&sup2;&psi; = &minus;&psi;. The half-flip, stated exactly.</div>
-      <div class="thm-meta">File: StandardModel/HalfFlipProposition.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/HalfFlipProposition.lean" target="_blank">View source &#8599;</a>
+<section id="map">
+  <div class="wrap">
+    <p class="eyebrow">How the pieces depend on each other</p>
+    <h2>The map</h2>
+    <div class="prose"><p>Read each column from top to bottom. Each step builds on the ideas
+    above it. Green steps are proved and checked, and red steps are open. The exact Lean
+    dependencies can branch, and they are all drawn out in the
+    <a href="blueprint/dep_graph_document.html">interactive dependency graph</a>, which
+    covers every result and every arrow.</p></div>
+    <div class="legend">
+      <span style="--c:var(--ok)">proved</span>
+      <span style="--c:var(--open)">open</span>
+      <span style="--c:var(--dead)">ruled out</span>
     </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">antiunitary_conj_eq_unitary_transpose</div>
-      <div class="thm-desc">Antiunitary conjugation of a Hermitian &rho; is unitary conjugation of its transpose &mdash; the bridge from time reversal to the transpose map.</div>
-      <div class="thm-meta">File: StandardModel/HalfFlipProposition.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/HalfFlipProposition.lean" target="_blank">View source &#8599;</a>
+    <div class="map">
+      <div>
+        <h3>From the mirror to the Riemann Hypothesis</h3>
+        <ol class="chain">
+          <li><div class="t">Folding sizes at 1 preserves measure</div><div class="d">The "fold" is a genuine symmetry of the underlying space.</div><div class="src">adelic_haar_self_dual</div></li>
+          <li><div class="t">Shadow = the mirror, fixed line = the gold line</div><div class="d">Physics' Re Δ = 1 and the zeta line Re s = ½ are the same line.</div><div class="src">critical_lines_coincide · critical_line_is_fixed_locus</div></li>
+          <li><div class="t">Zeta is mirror-symmetric</div><div class="d">Riemann's functional equation ξ(s) = ξ(1−s).</div><div class="src">completed_zeta_functional_eq</div></li>
+          <li><div class="t">Zeros come in mirror pairs</div><div class="d">A zero off the line always has a distinct twin.</div><div class="src">fePartner_zero_of_strip</div></li>
+          <li><div class="t">RH ⟺ positivity</div><div class="d">Weil's criterion, as an exact equivalence.</div><div class="src">rh_iff_weil_pairedForm_nonneg</div></li>
+          <li><div class="t">Finite positivity ⟺ no mirror pairs</div><div class="d">Each mirror pair carries one ghost direction.</div><div class="src">reflectionForm_nonneg_iff</div></li>
+          <li class="open"><div class="t">Positivity for the actual primes</div><div class="d">Equivalent to the Riemann Hypothesis. Open.</div><div class="src">not claimed anywhere in the tree</div></li>
+        </ol>
+      </div>
+      <div>
+        <h3>The same mirror in physics</h3>
+        <ol class="chain">
+          <li><div class="t">Time reversal acts as the shadow</div><div class="d">On the principal series, conjugation is exactly Δ ↦ 2 − Δ.</div><div class="src">shadow_equals_time_reversal</div></li>
+          <li><div class="t">The half-flip: T² = −1 on spin-½</div><div class="d">Turning time around twice flips a fermion's sign.</div><div class="src">wignerT_wignerT</div></li>
+          <li><div class="t">Time reversal is positive but not completely positive</div><div class="d">Via the SWAP matrix and Choi's criterion.</div><div class="src">not_completelyPositive_of_not_posSemidef_choiMatrix</div></li>
+          <li><div class="t">Exactly three doublings: ℝ → ℂ → ℍ → 𝕆</div><div class="d">A finite fact about number systems.</div><div class="src">exactly_three_doublings</div></li>
+          <li class="open"><div class="t">…therefore three generations of matter</div><div class="d">The physical bridge is open.</div><div class="src">open_anomaly_cancellation_forces_three_generations</div></li>
+        </ol>
+        <h3 style="margin-top:26px">Shortcuts shown not to work</h3>
+        <ol class="chain">
+          <li class="dead"><div class="t">"Smooth, single-peaked weights force real zeros"</div><div class="d">False: an explicit counterexample with a zero off the line.</div><div class="src">charFun_zero</div></li>
+          <li class="dead"><div class="t">"One half of the sphere always dominates"</div><div class="d">Tested numerically and killed. It fails at over half the points sampled (GPPDiscovery).</div><div class="src">discovery/arithmetic_holography</div></li>
+        </ol>
+      </div>
     </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">swap_not_posSemidef</div>
-      <div class="thm-desc">The SWAP matrix has a negative eigenvector, exhibited explicitly &mdash; so it is not positive semidefinite.</div>
-      <div class="thm-meta">File: QuantumInformation/HalfFlipMatrix.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumInformation/HalfFlipMatrix.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">not_completelyPositive_of_not_posSemidef_choiMatrix</div>
-      <div class="thm-desc">Choi&rsquo;s criterion, one direction: a map whose Choi matrix is not PSD is not completely positive. With the SWAP result above, this is why transposition &mdash; hence time reversal &mdash; is positive but not completely positive.</div>
-      <div class="thm-meta">File: QuantumInformation/ChoiMatrix.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumInformation/ChoiMatrix.lean" target="_blank">View source &#8599;</a>
-    </div>
-
   </div>
+</section>
 
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Riemann Hypothesis &mdash; what is actually proved</h2>
+<section id="results">
+  <div class="wrap">
+    <p class="eyebrow">A representative selection</p>
+    <h2>Results, in plain words</h2>
+    <div class="prose"><p>Each card gives a plain summary, the exact Lean name, and a link to the
+    source. A script checks every name, file and badge on this page against the code on every
+    build. The <a href="blueprint/">blueprint</a> covers everything else.</p></div>
+
+    <div class="card-group">
+      <h3>The mirror</h3>
+      <div class="grid-auto">
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">The gold line is exactly the mirror's fixed line</div>
+          <div class="thm-desc">A point equals its own mirror image if and only if it lies on the line Re s = ½. Both directions are checked.</div>
+          <div class="thm-name">critical_line_is_fixed_locus</div>
+          <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Physics' line and Riemann's line are the same line</div>
+          <div class="thm-desc">With the translation Δ = 2s, the physicists' condition Re Δ = 1 becomes exactly Re s = ½.</div>
+          <div class="thm-name">critical_lines_coincide</div>
+          <div class="thm-meta">File: RiemannHypothesis/ShadowSymmetry.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/ShadowSymmetry.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Zeta is mirror-symmetric</div>
+          <div class="thm-desc">Riemann's functional equation ξ(s) = ξ(1−s), everywhere, derived from Mathlib's completed zeta function.</div>
+          <div class="thm-name">completed_zeta_functional_eq</div>
+          <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean">View source &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <h3>The hologram</h3>
+      <div class="grid-auto">
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Folding preserves measure</div>
+          <div class="thm-desc">On a compact commutative group, "flip everything" (x ↦ 1/x) leaves the natural measure unchanged. This is the fold at level one, in its general form.</div>
+          <div class="thm-name">adelic_haar_self_dual</div>
+          <div class="thm-meta">File: RiemannHypothesis/HaarMeasure.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/HaarMeasure.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Every physics mode on the line is a pure frequency</div>
+          <div class="thm-desc">Each celestial principal-series mode, read through the lens, has size exactly 1 at every scale. The gold line is where scaling acts without growth or decay.</div>
+          <div class="thm-name">principalDelta_dilation_unitary</div>
+          <div class="thm-meta">File: CelestialHolography/CompletedZetaDilationUnitaryBridge.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/CompletedZetaDilationUnitaryBridge.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">The prime dials never fall into step</div>
+          <div class="thm-desc">The logarithms of distinct primes are independent: no whole-number combination of them cancels. This is the fact behind the dense winding at level three. The winding theorem itself is classical (Kronecker) and is not re-proved here.</div>
+          <div class="thm-name">logPrime_lattice_injective</div>
+          <div class="thm-meta">File: RiemannHypothesis/TruncatedTransport.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/TruncatedTransport.lean">View source &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <h3>Where the Riemann Hypothesis sits</h3>
+      <div class="grid-auto">
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">RH is exactly a positivity question</div>
+          <div class="thm-desc">RH holds if and only if Weil's paired form is never negative on any finite set of zeros. This reduces RH to positivity. It proves neither side.</div>
+          <div class="thm-name">rh_iff_weil_pairedForm_nonneg</div>
+          <div class="thm-meta">File: RiemannHypothesis/WeilPositivityCriterion.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/WeilPositivityCriterion.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">A mirror pair always carries a ghost</div>
+          <div class="thm-desc">For any point off the line paired with its twin, one combination has positive energy and the other has exactly the negative of it.</div>
+          <div class="thm-name">mirror_pair_indefinite</div>
+          <div class="thm-meta">File: RiemannHypothesis/HolographicReflectionPositivity.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/HolographicReflectionPositivity.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Positive across the mirror ⟺ no mirror pairs</div>
+          <div class="thm-desc">The finite core of the holographic picture. This is finite algebra only. Proving the same positivity for the real primes would be the Riemann Hypothesis.</div>
+          <div class="thm-name">reflectionForm_nonneg_iff</div>
+          <div class="thm-meta">File: RiemannHypothesis/HolographicReflectionPositivity.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/HolographicReflectionPositivity.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card open">
+          <div class="status-badge badge-open">Open</div>
+          <div class="thm-title">The adelic route to the line</div>
+          <div class="thm-desc">That a square-integrability condition on the idèle class group forces zeros onto the line. It needs Tate's thesis, Fujisaki's lemma and Peter–Weyl theory, none of which are in Mathlib yet. It is one of several routes explored, not the thesis of the project.</div>
+          <div class="thm-name">open_l2_constraint_implies_rh</div>
+          <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean">View source &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <h3>Ruled out</h3>
+      <div class="grid-auto">
+        <div class="thm-card ruled">
+          <div class="status-badge badge-proved">&#10003; Proved · rules out a route</div>
+          <div class="thm-title">Smooth, single-peaked is not enough</div>
+          <div class="thm-desc">An explicit weight that is strictly log-concave but whose transform has a zero off the axis, located exactly. So log-concavity alone can never force the zeros onto the line.</div>
+          <div class="thm-name">charFun_zero</div>
+          <div class="thm-meta">File: RiemannHypothesis/FisherZeroLogConcavityNoGo.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FisherZeroLogConcavityNoGo.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card ruled">
+          <div class="status-badge badge-proved">&#10003; Proved · corrects a claim</div>
+          <div class="thm-title">A window transform does vanish</div>
+          <div class="thm-desc">A working note claimed this transform never vanishes at the relevant points. The exact zero set is proved here, and the claim was corrected.</div>
+          <div class="thm-name">windowTransform_eq_zero_iff</div>
+          <div class="thm-meta">File: RiemannHypothesis/FixedWindowTransform.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FixedWindowTransform.lean">View source &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-group">
+      <h3>The same mirror in physics</h3>
+      <div class="grid-auto">
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Time reversal acts as the shadow</div>
+          <div class="thm-desc">On the principal series Δ = 1 + iλ, complex conjugation (which is what time reversal does to these labels) is exactly the shadow map Δ ↦ 2 − Δ.</div>
+          <div class="thm-name">shadow_equals_time_reversal</div>
+          <div class="thm-meta">File: RiemannHypothesis/ShadowSymmetry.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/ShadowSymmetry.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">The half-flip</div>
+          <div class="thm-desc">Reversing time twice on a spin-½ particle flips its sign: T²ψ = −ψ.</div>
+          <div class="thm-name">wignerT_wignerT</div>
+          <div class="thm-meta">File: StandardModel/HalfFlipProposition.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/HalfFlipProposition.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Time reversal is not completely positive</div>
+          <div class="thm-desc">One direction of Choi's criterion. Combined with the SWAP matrix's explicit negative direction, this shows why the transpose, and hence time reversal, is positive but not completely positive.</div>
+          <div class="thm-name">not_completelyPositive_of_not_posSemidef_choiMatrix</div>
+          <div class="thm-meta">File: QuantumInformation/ChoiMatrix.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumInformation/ChoiMatrix.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">Exactly three doublings</div>
+          <div class="thm-desc">Starting from the real numbers, the doubling construction gives the complex numbers, the quaternions and the octonions, and then stops being a division algebra. That is exactly three proper steps.</div>
+          <div class="thm-name">exactly_three_doublings</div>
+          <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card open">
+          <div class="status-badge badge-open">Open</div>
+          <div class="thm-title">…and so three generations of matter?</div>
+          <div class="thm-desc">That this forces the three generations of particles seen in nature is a physical claim. It depends on an open link in the framework. The count above is proved; the bridge to particles is not.</div>
+          <div class="thm-name">open_anomaly_cancellation_forces_three_generations</div>
+          <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card proved">
+          <div class="status-badge badge-proved">&#10003; Proved</div>
+          <div class="thm-title">The golden ratio, from the modular group</div>
+          <div class="thm-desc">φ² is a root of the characteristic polynomial of the smallest hyperbolic element of PSL₂(ℤ). This is proved, not asserted.</div>
+          <div class="thm-name">A_charpoly_root_goldSq</div>
+          <div class="thm-meta">File: NumberTheory/GoldenRatioHyperbolicSector.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/NumberTheory/GoldenRatioHyperbolicSector.lean">View source &#8599;</a>
+        </div>
+        <div class="thm-card open">
+          <div class="status-badge badge-open">Open</div>
+          <div class="thm-title">The Yang–Mills mass gap</div>
+          <div class="thm-desc">A Millennium Prize problem, listed so it cannot be mistaken for anything else. The Casimir and Sugawara arithmetic in the same file is proved. This statement is not, and it is open mathematics everywhere.</div>
+          <div class="thm-name">open_yang_mills_mass_gap</div>
+          <div class="thm-meta">File: YangMills/MassGap.lean</div>
+          <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/YangMills/MassGap.lean">View source &#8599;</a>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">completed_zeta_functional_eq</div>
-      <div class="thm-desc">&xi;(s) = &xi;(1&minus;s) everywhere on &#8450;, from Mathlib&rsquo;s completed zeta. The `s &ne; 1` and no-pole hypotheses were dropped 2026-09-02: the proof never used them.</div>
-      <div class="thm-meta">File: RiemannHypothesis/FunctionalEquation.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/FunctionalEquation.lean" target="_blank">View source &#8599;</a>
+<section id="yourself" style="border-bottom:0">
+  <div class="wrap prose">
+    <p class="eyebrow">Don't take our word for it</p>
+    <h2>Check it yourself</h2>
+    <p>With <a href="https://lean-lang.org/install/">Lean installed</a>, these four commands download
+    the project and re-check every proof on your own machine. A green build means every stated
+    theorem follows from its stated assumptions. It does not mean the framework as a whole is
+    established.</p>
+    <div class="shell">git clone https://github.com/GoldenPhysicsProject/GPPVerify
+cd GPPVerify
+lake exe cache get
+lake build</div>
+    <div class="ci">
+      <span>Latest public build on main: <span id="ci-state">checking…</span></span>
+      <a href="https://github.com/GoldenPhysicsProject/GPPVerify/actions/workflows/build.yml">Full build history &#8599;</a>
+      <a href="blueprint/">Technical blueprint</a>
+      <a href="blueprint/dep_graph_document.html">Dependency graph</a>
     </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">rh_iff_weil_pairedForm_nonneg</div>
-      <div class="thm-desc">RH holds <em>if and only if</em> the Weil paired form is nonnegative on every finite set of zeros. A genuine equivalence &mdash; it reduces RH to a positivity statement, it does not prove either side.</div>
-      <div class="thm-meta">File: RiemannHypothesis/WeilPositivityCriterion.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/WeilPositivityCriterion.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">conj_eq_shadow_iff_critical</div>
-      <div class="thm-desc">A zero fixed by the shadow involution lies on the critical line.</div>
-      <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card open">
-      <div class="status-badge badge-open">Open</div>
-      <div class="thm-name">open_l2_constraint_implies_rh</div>
-      <div class="thm-desc">That the L&sup2;(A&times;/Q&times;) constraint forces Re(s) = &frac12; is the load-bearing step of Pathway 2, and it is <em>not</em> proved. It needs Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma and Peter&ndash;Weyl over the id&egrave;le class group &mdash; none of them in Mathlib.</div>
-      <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source &#8599;</a>
-    </div>
-
+    <p style="margin-top:22px;color:var(--faint);font-size:.9rem">The ideas come from Daniel
+    Toupin's <em>On the Nature of Nature</em>. Exploratory numerics live in
+    <a href="https://github.com/GoldenPhysicsProject/GPPDiscovery">GPPDiscovery</a>, where nothing
+    counts as proved until it arrives here.</p>
   </div>
+</section>
 
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Number Theory &amp; Standard Model</h2>
-  </div>
-
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">A_charpoly_root_goldSq</div>
-      <div class="thm-desc">&phi;&sup2; is a root of the characteristic polynomial of the minimal hyperbolic element of PSL&#8322;(&#8484;) &mdash; the golden ratio as the minimal hyperbolic sector, proved rather than asserted.</div>
-      <div class="thm-meta">File: NumberTheory/GoldenRatioHyperbolicSector.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/NumberTheory/GoldenRatioHyperbolicSector.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">exactly_three_doublings</div>
-      <div class="thm-desc">The Cayley&ndash;Dickson tower &#8477;&rarr;&#8450;&rarr;&#8461;&rarr;&#120134; admits exactly three proper doublings. A finite combinatorial fact, decided by the kernel.</div>
-      <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card open">
-      <div class="status-badge badge-open">Open</div>
-      <div class="thm-name">open_anomaly_cancellation_forces_three_generations</div>
-      <div class="thm-desc">That anomaly cancellation with the SM gauge group <em>forces</em> three generations is the physical claim, and it is parked as a stub depending on the open thm:link6. The combinatorics above is proved; the bridge to particle content is not.</div>
-      <div class="thm-meta">File: StandardModel/ThreeGenerations.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/StandardModel/ThreeGenerations.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">link6_corollary</div>
-      <div class="thm-desc">Given c&#8322;<sub>D</sub> = &kappa;&#8320;&middot;c&#8324;<sub>D</sub><sup>Weyl</sup> with &kappa;&#8320; &gt; 0, one vanishes iff the other does. The physics input is an explicit hypothesis here, not an axiom &mdash; 12 of the project&rsquo;s 13 custom axioms were retired this way.</div>
-      <div class="thm-meta">File: CelestialHolography/Link6.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/CelestialHolography/Link6.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-  </div>
-
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">Yang&ndash;Mills &amp; Quantum Gravity</h2>
-  </div>
-
-  <div class="grid-auto" style="margin-bottom:48px">
-
-    <div class="thm-card proved">
-      <div class="status-badge badge-proved">&#10003; Proved</div>
-      <div class="thm-name">mass_gap_ratio_su3_k1</div>
-      <div class="thm-desc">The Sugawara mass-gap ratio for SU(3) at level 1 is exactly 3/2, together with Casimir eigenvalues and central charges. Finite algebra, fully checked.</div>
-      <div class="thm-meta">File: YangMills/MassGap.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/YangMills/MassGap.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card open">
-      <div class="status-badge badge-open">Open</div>
-      <div class="thm-name">open_yang_mills_mass_gap</div>
-      <div class="thm-desc">The Millennium Prize problem itself. A stub, and named so it cannot be mistaken for anything else. The Casimir and Sugawara arithmetic in that file is real and checkable; this is not. It is <em>open mathematics</em> &mdash; formalizing the QFT foundations Mathlib lacks would leave it exactly as far away.</div>
-      <div class="thm-meta">File: YangMills/MassGap.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/YangMills/MassGap.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-    <div class="thm-card open">
-      <div class="status-badge badge-open">Open</div>
-      <div class="thm-name">open_born_rule_from_haar</div>
-      <div class="thm-desc">That the Born rule follows from Haar measure on the id&egrave;le class group. The normalization lemmas in the same file are proved; the derivation itself is parked.</div>
-      <div class="thm-meta">File: QuantumGravity/BornRuleHaar.lean</div>
-      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/QuantumGravity/BornRuleHaar.lean" target="_blank">View source &#8599;</a>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="container section-padding" style="padding-top:0">
-  <div class="section-heading">
-    <h2 style="font-size:1.1rem">No Remaining Axioms</h2>
-  </div>
-  <p style="color:#666;margin-bottom:28px;font-size:0.9rem">
-    The project had 13 custom axioms. All thirteen are now retired. Twelve became explicit
-    hypotheses on the theorems that use them, which is why <code style="color:var(--yellow-light)">link6_corollary</code>
-    above takes its input as an argument. The last one is now proved.
-  </p>
-
-  <div class="gap-card">
-    <h4>exp_growth_not_tempered &mdash; proved 2026-08-31</h4>
-    <p>That a function of exponential growth is not a tempered distribution. A bump translated
-    to <code>sign(a)&middot;n</code> and scaled by <code>e^(-|a|n)</code> tends to zero in the
-    Schwartz space &mdash; the shift costs only polynomial growth in the seminorms while the
-    scalar decays exponentially &mdash; yet its weighted integral is exactly
-    translation-invariant, so continuity of the functional forces a nonzero constant to be zero.
-    It could not have been proved before the move to Mathlib 4.33:
-    <code>HasCompactSupport.toSchwartzMap</code>, which supplies the concrete nonzero Schwartz
-    witness, does not exist in 4.19. Everything in the tree is now either proved outright or
-    parked as a named <code>open_</code> stub &mdash; nothing rests on an assumption.</p>
-  </div>
-
-  <div class="gap-card">
-    <h4>What the 156 stubs are waiting on</h4>
-    <p>Overwhelmingly one thing: ad&egrave;lic analysis. Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma,
-    L&sup2; on the id&egrave;le class group, and Peter&ndash;Weyl for compact groups are not in
-    Mathlib, and Pathway 2 to RH cannot be stated &mdash; let alone proved &mdash; without them.
-    A smaller group waits on Schatten/trace-class operators. Mathlib 4.33 did unblock some of
-    this: <code>HasCompactSupport.toSchwartzMap</code> and the <code>AdeleRing</code> files are new.</p>
-  </div>
-</div>
-
-<div style="background:#070707;border-top:1px solid #1a1a1a;padding:50px 20px;text-align:center">
-  <h2 style="font-size:1rem;margin-bottom:16px">How to Verify Yourself</h2>
-  <p style="color:#666;font-size:0.9rem;max-width:600px;margin:0 auto 24px">
-    Every proof in this repository can be independently checked by anyone with Lean 4 installed.
-    The machine does not accept arguments from authority.
-  </p>
-  <div style="background:#0d0d0d;border:1px solid #222;border-left:3px solid var(--gpp-gold-dark);padding:16px 24px;max-width:600px;margin:0 auto;font-family:monospace;color:var(--gpp-gold-light);font-size:0.88rem;text-align:left">
-    git clone https://github.com/GoldenPhysicsProject/GPPVerify<br>
-    cd GPPVerify<br>
-    lake exe cache get<br>
-    lake build
-  </div>
-  <p style="color:#444;font-size:0.8rem;margin-top:16px">
-    A green build means every stated theorem is correct. It does <em>not</em> mean the framework
-    is established &mdash; read the four numbers at the top of this page together.
-  </p>
-</div>
+</main>
 
 <footer>
   <div class="footer-links">
-    <a href="https://youtube.com/@toupingpp" target="_blank">YouTube</a>
-    <a href="https://www.facebook.com/share/18hGMkP6bV/" target="_blank">Facebook</a>
-    <a href="https://www.tiktok.com/@goldenphysics.org" target="_blank">TikTok</a>
-    <a href="https://www.linkedin.com/in/danieltoupin1985" target="_blank">LinkedIn</a>
-    <a href="https://open.substack.com/pub/goldenphysicsproject" target="_blank">Substack</a>
-    <a href="https://zenodo.org/communities/gpp" target="_blank">Zenodo</a>
-    <a href="https://github.com/GoldenPhysicsProject/GPPVerify" target="_blank">GitHub</a>
+    <a href="https://goldenphysics.org">goldenphysics.org</a>
+    <a href="https://github.com/GoldenPhysicsProject/GPPVerify">GitHub</a>
+    <a href="https://zenodo.org/communities/gpp">Zenodo</a>
+    <a href="https://orcid.org/0009-0003-7682-9579">ORCID</a>
+    <a href="https://www.youtube.com/@ToupinGPP">YouTube</a>
+    <a href="https://open.substack.com/pub/goldenphysicsproject">Substack</a>
   </div>
   &copy; 2026 Daniel Toupin &middot; Golden Physics Project &middot; Cardinal, Ontario
 </footer>
 
-<script data-goatcounter="https://goldenphysics.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://goldenphysics.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 <script>
-// Live stats from GitHub API
-async function updateStats() {
-  try {
-    // Get CI runs count
-    const runsResp = await fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/actions/runs?per_page=1');
-    const runsData = await runsResp.json();
-    const totalRuns = runsData.total_count || 0;
-    document.querySelectorAll('.stat-ci').forEach(el => el.textContent = totalRuns);
+(function () {
+  // ---------- The mirror ----------
+  var canvas = document.getElementById('plane');
+  var readout = document.getElementById('readout');
+  var ghostBtn = document.getElementById('ghost');
+  var ctx = canvas.getContext('2d');
+  // Plotted region: Re s in [-0.5, 1.5], Im s in [0, 40].
+  var X0 = -0.5, X1 = 1.5, Y0 = 0, Y1 = 40;
+  // Ordinates of the first nontrivial zeros of zeta (all on Re s = 1/2).
+  var ZEROS = [14.134725, 21.022040, 25.010858, 30.424876, 32.935062, 37.586178];
+  var point = null, ghost = false;
+  var css = getComputedStyle(document.documentElement);
+  function c(name) { return css.getPropertyValue(name).trim(); }
+  function dpr() { return window.devicePixelRatio || 1; }
 
-    // Get latest build status
-    const latestRun = runsData.workflow_runs?.[0];
-    const buildEl = document.getElementById('build-status');
-    if (buildEl && latestRun) {
-      const isGreen = latestRun.conclusion === 'success';
-      buildEl.textContent = isGreen ? '✓ BUILD GREEN' : '⚠ BUILD ' + (latestRun.conclusion || 'RUNNING').toUpperCase();
-      buildEl.style.color = isGreen ? 'var(--green-light)' : 'var(--yellow-light)';
-    }
-
-    // Get open PRs
-    const prsResp = await fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/pulls?state=open');
-    const prs = await prsResp.json();
-    const prEl = document.getElementById('open-prs');
-    if (prEl) {
-      if (prs.length > 0) {
-        prEl.style.display = 'block';
-        prEl.innerHTML = prs.map(pr => 
-          `<span style="color:var(--yellow-light)">⟳ PR #${pr.number}: ${pr.title.substring(0,60)}</span>`
-        ).join('<br>');
-      }
-    }
-
-    // Get latest commit
-    const commitsResp = await fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/commits?per_page=1');
-    const commits = await commitsResp.json();
-    const commitEl = document.getElementById('latest-commit');
-    if (commitEl && commits[0]) {
-      const c = commits[0];
-      commitEl.textContent = c.sha.substring(0,8) + ' — ' + c.commit.message.split('\n')[0].substring(0,60);
-    }
-  } catch(e) {
-    console.log('Stats update failed:', e);
+  function size() {
+    var w = canvas.getBoundingClientRect().width, d = dpr();
+    canvas.width = Math.round(w * d);
+    canvas.height = Math.round(w * 1.25 * d);
+    draw();
   }
-}
-updateStats();
-</script>
+  function px(x) { return (x - X0) / (X1 - X0) * canvas.width; }
+  function py(y) { return canvas.height - (y - Y0) / (Y1 - Y0) * canvas.height; }
+  function fmt(x, y) { return x.toFixed(2) + ' + ' + y.toFixed(2) + 'i'; }
+  function dot(x, y, r, fill, ring) {
+    ctx.beginPath(); ctx.arc(px(x), py(y), r, 0, Math.PI * 2);
+    ctx.fillStyle = fill; ctx.fill();
+    if (ring) { ctx.lineWidth = 2 * dpr(); ctx.strokeStyle = ring; ctx.stroke(); }
+  }
+  function draw() {
+    var d = dpr(), w = canvas.width, h = canvas.height;
+    ctx.fillStyle = c('--panel'); ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = 'rgba(212,175,55,0.05)';
+    ctx.fillRect(px(0), 0, px(1) - px(0), h);
+    ctx.strokeStyle = c('--rule'); ctx.lineWidth = d;
+    for (var y = 10; y < Y1; y += 10) { ctx.beginPath(); ctx.moveTo(0, py(y)); ctx.lineTo(w, py(y)); ctx.stroke(); }
+    [0, 1].forEach(function (x) { ctx.beginPath(); ctx.moveTo(px(x), 0); ctx.lineTo(px(x), h); ctx.stroke(); });
+    ctx.fillStyle = c('--faint'); ctx.font = (11 * d) + 'px ' + c('--mono');
+    ctx.fillText('Re s = 0', px(0) + 4 * d, h - 6 * d);
+    ctx.fillText('Re s = 1', px(1) + 4 * d, h - 6 * d);
+    for (var t = 10; t < Y1; t += 10) ctx.fillText(t + 'i', 4 * d, py(t) - 4 * d);
+    ctx.strokeStyle = c('--gold'); ctx.lineWidth = 2 * d;
+    ctx.beginPath(); ctx.moveTo(px(0.5), 0); ctx.lineTo(px(0.5), h); ctx.stroke();
+    ZEROS.forEach(function (z) { dot(0.5, z, 5 * d, c('--ok')); });
+    if (ghost) {
+      var gx = 0.78, gy = 27.6;
+      ctx.setLineDash([5 * d, 5 * d]); ctx.strokeStyle = c('--open'); ctx.lineWidth = 1.5 * d;
+      ctx.beginPath(); ctx.moveTo(px(gx), py(gy)); ctx.lineTo(px(1 - gx), py(gy)); ctx.stroke(); ctx.setLineDash([]);
+      dot(gx, gy, 6 * d, c('--ink'), c('--open')); dot(1 - gx, gy, 6 * d, c('--ink'), c('--open'));
+      ctx.fillStyle = c('--open'); ctx.textAlign = 'center';
+      ctx.fillText('hypothetical pair', px(0.5), py(gy) - 14 * d); ctx.textAlign = 'start';
+    }
+    if (point) {
+      var mx = 1 - point.x;
+      if (point.x !== 0.5) {
+        ctx.setLineDash([3 * d, 4 * d]); ctx.strokeStyle = c('--gold-light'); ctx.lineWidth = d;
+        ctx.beginPath(); ctx.moveTo(px(point.x), py(point.y)); ctx.lineTo(px(mx), py(point.y)); ctx.stroke(); ctx.setLineDash([]);
+        dot(mx, point.y, 6 * d, c('--ink'), c('--gold-light'));
+      }
+      dot(point.x, point.y, 6 * d, c('--gold-light'));
+    }
+  }
+  function place(x, y) {
+    x = Math.min(X1, Math.max(X0, x)); y = Math.min(Y1, Math.max(Y0, y));
+    if (Math.abs(x - 0.5) < 0.02) x = 0.5;
+    point = { x: x, y: y };
+    if (x === 0.5) {
+      readout.innerHTML = 'Your point <b>' + fmt(x, y) + '</b> is on the gold line, so it is its own mirror.';
+    } else {
+      readout.innerHTML = 'Your point <b>' + fmt(x, y) + '</b> reflects to <b>' + fmt(1 - x, y) +
+        '</b>. Same height, mirrored across Re s = ½.';
+    }
+    draw();
+  }
+  canvas.addEventListener('pointerdown', function (e) {
+    var r = canvas.getBoundingClientRect();
+    place(X0 + (e.clientX - r.left) / r.width * (X1 - X0), Y1 - (e.clientY - r.top) / r.height * (Y1 - Y0));
+  });
+  canvas.addEventListener('keydown', function (e) {
+    var p = point || { x: 0.8, y: 20 }, dx = 0, dy = 0;
+    if (e.key === 'ArrowLeft') dx = -0.05; else if (e.key === 'ArrowRight') dx = 0.05;
+    else if (e.key === 'ArrowUp') dy = 1; else if (e.key === 'ArrowDown') dy = -1; else return;
+    e.preventDefault(); place(p.x + dx, p.y + dy);
+  });
+  ghostBtn.addEventListener('click', function () {
+    ghost = !ghost; ghostBtn.setAttribute('aria-pressed', String(ghost));
+    readout.innerHTML = ghost
+      ? 'A zero off the line would come with a mirror twin (red). Together the pair always contains one negative "ghost" direction. The Riemann Hypothesis says no such pair exists.'
+      : 'Place a point to see its mirror.';
+    draw();
+  });
+  window.addEventListener('resize', size);
+  size();
 
+  // ---------- Live numbers, generated from the Lean tree at deploy ----------
+  fetch('status.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (s) {
+    if (!s) return;
+    var n = function (v) { return v.toLocaleString('en-US'); };
+    document.getElementById('proved-count').textContent = n(s.totals.proved);
+    var max = Math.max.apply(null, s.areas.map(function (a) { return a.proved + a.stubs; }));
+    var rows = document.getElementById('area-rows');
+    s.areas.forEach(function (a) {
+      var row = document.createElement('div'); row.className = 'area';
+      var name = document.createElement('span'); name.textContent = a.name;
+      var bar = document.createElement('span'); bar.className = 'bar';
+      bar.innerHTML = '<i class="p" style="width:' + (a.proved / max * 100) + '%"></i><i class="o" style="width:' + (a.stubs / max * 100) + '%"></i>';
+      var nums = document.createElement('span'); nums.className = 'nums';
+      nums.innerHTML = n(a.proved) + ' proved' + (a.stubs ? ' · <span class="o">' + a.stubs + ' open</span>' : '');
+      row.appendChild(name); row.appendChild(bar); row.appendChild(nums); rows.appendChild(row);
+    });
+    document.getElementById('area-meta').textContent = 'Counted from the Lean source at deploy' +
+      (s.commit ? ', commit ' + s.commit.slice(0, 8) : '') + ' (' + s.generated + ').';
+    document.getElementById('areas').hidden = false;
+  }).catch(function () {});
+
+  // ---------- Latest public build ----------
+  fetch('https://api.github.com/repos/GoldenPhysicsProject/GPPVerify/actions/workflows/build.yml/runs?branch=main&per_page=1')
+    .then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      var el = document.getElementById('ci-state'), run = d && d.workflow_runs && d.workflow_runs[0];
+      if (!run) { el.textContent = 'see build history'; return; }
+      if (run.status !== 'completed') { el.textContent = 'running now'; return; }
+      el.textContent = (run.conclusion === 'success' ? '✓ passed' : '✗ ' + run.conclusion) + ' · ' +
+        run.head_sha.slice(0, 8) + ' · ' + run.updated_at.slice(0, 10);
+      el.className = run.conclusion === 'success' ? 'ok' : 'bad';
+    }).catch(function () { document.getElementById('ci-state').textContent = 'see build history'; });
+})();
+</script>
 </body>
 </html>

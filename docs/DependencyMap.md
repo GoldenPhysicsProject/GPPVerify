@@ -1,3 +1,9 @@
+> **Historical document (2026-06-03).** This was the pre-formalization survey of the
+> manuscript. Its "Pathway 2 / current Lean focus" framing and its sorry/axiom counts are
+> long out of date. The project is now organized around shadow holography, with RH as one
+> open question inside it; see `README.md` and https://lean.goldenphysics.org for current
+> status.
+
 > **Update 2026-07-17:** the `arithmetic_admissibility` axiom and the
 > `GppRH.riemann_hypothesis` alias referenced below are **retired**. The flagship
 > conditional is now `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
