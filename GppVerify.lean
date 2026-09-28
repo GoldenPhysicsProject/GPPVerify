@@ -1509,6 +1509,8 @@ import GppVerify.GrassmannianDifferentialSimilarity
 import GppVerify.RiemannHypothesis.CayleyShadowDirac
 -- Arithmetic holography, finite core (09-28): reflection positivity across the equator ⟺ no mirror pairs.
 import GppVerify.RiemannHypothesis.HolographicReflectionPositivity
+import GppVerify.RiemannHypothesis.FourComponentRigidity
+import GppVerify.RiemannHypothesis.CayleyHardyKernel
 -- No-go (Codex GPPDiscovery2 workbench 09-27, formalized 09-28): a positive, arbitrarily strongly
 -- log-concave density whose characteristic function has an explicit off-axis complex zero.
 import GppVerify.RiemannHypothesis.FisherZeroLogConcavityNoGo

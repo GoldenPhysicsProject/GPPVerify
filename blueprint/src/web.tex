@@ -3539,6 +3539,39 @@ From `public.formalization\_queue` (Supabase project `dunrgpupddbmzffntwph`), se
   \item \lean{parity_crossing_obstruction}\leanok\ \texttt{parity\_crossing\_obstruction}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Gaussian Rigidity and the Hardy Kernel (2026-09-28)}
+Exact results from Codex's 2026-09-27 \texttt{GPPDiscovery2} notes, proved here in stronger form than her disposable checkers (which assumed the zeta constants and worked over $\mathbb{R}$). Neither uses or implies information about zeros.
+
+\subsection{FourComponentRigidity}
+In the number-circle Gaussian family $Q_d=\frac1{2\pi}\sum_{a\le d}\sum_{n}G_{n,a}^2/n^2$, the mean $\frac{d}{2\pi}\zeta(2)=\frac{d\pi}{12}$ equals $2\xi(2)=\frac{\pi}{3}$ iff $d=4$, with $\Lambda(2)=\pi/6$ derived from Mathlib. The Laplace-transform product $\prod_n(1+t/(\pi n^2))^{-d/2}$ converges to $(\sqrt{\pi t}/\sinh\sqrt{\pi t})^{d/2}$, which is $P(\lambda)^{d/2}$ at $t=\pi\lambda^2$. The probabilistic steps and the full BPY identity are not formalized, and the count $4$ is a property of the ansatz, not a spacetime dimension.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppFourComponentRigidity.Gammaℝ_two}\leanok\ \texttt{Gammaℝ\_two}
+  \item \lean{GppFourComponentRigidity.completedRiemannZeta_two}\leanok\ \texttt{completedRiemannZeta\_two}
+  \item \lean{GppFourComponentRigidity.two_xi_two}\leanok\ \texttt{two\_xi\_two}
+  \item \lean{GppFourComponentRigidity.mean_radius}\leanok\ \texttt{mean\_radius}
+  \item \lean{GppFourComponentRigidity.component_count_forced}\leanok\ \texttt{component\_count\_forced}
+  \item \lean{GppFourComponentRigidity.sqrt_pi_mul}\leanok\ \texttt{sqrt\_pi\_mul}
+  \item \lean{GppFourComponentRigidity.tendsto_laplace_product}\leanok\ \texttt{tendsto\_laplace\_product}
+  \item \lean{GppFourComponentRigidity.sinh_div_pos}\leanok\ \texttt{sinh\_div\_pos}
+  \item \lean{GppFourComponentRigidity.tendsto_laplace_product_rpow}\leanok\ \texttt{tendsto\_laplace\_product\_rpow}
+  \item \lean{GppFourComponentRigidity.laplace_at_pi_sq}\leanok\ \texttt{laplace\_at\_pi\_sq}
+\end{itemize}
+
+\subsection{CayleyHardyKernel}
+Over $\mathbb{C}$: the Cayley map $u\mapsto(1+u)/(1-u)$ sends the open disc exactly onto the right half-plane ($\operatorname{Re}z=(1-|u|^2)/|1-u|^2$); $z+\bar\eta=2(1-u\bar v)/((1-u)(1-\bar v))$, so the half-plane Hardy kernel is a gauge factor times the disc kernel $(1-u\bar v)^{-1}$; and $\zeta(1+q)-1/q\to\gamma$, so the Dirichlet--Hardy kernel $\zeta(1+z+\bar\eta)$ is that Hardy kernel plus a part bounded at the boundary. The $SU(1,1)$, $k=\tfrac12$ reading is a match of kernel shapes and is not formalized.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppCayleyHardyKernel.re_cayley}\leanok\ \texttt{re\_cayley}
+  \item \lean{GppCayleyHardyKernel.re_cayley_pos_iff}\leanok\ \texttt{re\_cayley\_pos\_iff}
+  \item \lean{GppCayleyHardyKernel.cayley_add_conj}\leanok\ \texttt{cayley\_add\_conj}
+  \item \lean{GppCayleyHardyKernel.cayley_kernel}\leanok\ \texttt{cayley\_kernel}
+  \item \lean{GppCayleyHardyKernel.one_sub_mul_conj_ne_zero}\leanok\ \texttt{one\_sub\_mul\_conj\_ne\_zero}
+  \item \lean{GppCayleyHardyKernel.tendsto_zeta_one_add_sub_inv}\leanok\ \texttt{tendsto\_zeta\_one\_add\_sub\_inv}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
