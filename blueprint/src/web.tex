@@ -3769,6 +3769,33 @@ Over $\mathbb{C}$: the Cayley map $u\mapsto(1+u)/(1-u)$ sends the open disc exac
   \item \lean{GppCayleyHardyKernel.tendsto_zeta_one_add_sub_inv}\leanok\ \texttt{tendsto\_zeta\_one\_add\_sub\_inv}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Schur Gap Transfer and BPY Coercivity (2026-09-28)}
+Exact steps from Codex's 2026-09-28 \texttt{GPPDiscovery2} notes. Neither uses or implies information about zeros.
+
+\subsection{SchurGapTransfer}
+For a block matrix $H=\begin{pmatrix}A&B\\B^{\mathsf H}&C\end{pmatrix}$ with $A\succ0$: $H-\mathrm{diag}(0,\mu I)\succeq0$ iff the Schur complement satisfies $C-B^{\mathsf H}A^{-1}B\succeq\mu I$, so $\langle(x,y),H(x,y)\rangle\ge\mu\|y\|^2$. A massive bulk block transfers no gap by itself; the physical gap is decided entirely by the Schur complement. The identification of the blocks with arithmetic objects, and the Yang--Mills programme, are not formalized.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppSchurGapTransfer.fromBlocks_sub_gap}\leanok\ \texttt{fromBlocks\_sub\_gap}
+  \item \lean{GppSchurGapTransfer.schur_gap_iff}\leanok\ \texttt{schur\_gap\_iff}
+  \item \lean{GppSchurGapTransfer.schur_gap_quadratic}\leanok\ \texttt{schur\_gap\_quadratic}
+  \item \lean{GppSchurGapTransfer.scalar_schur_gap}\leanok\ \texttt{scalar\_schur\_gap}
+\end{itemize}
+
+\subsection{CriticalBPYCoercivity}
+The exact steps of the critical BPY coercivity argument: the Neumann lower bound $\|b_0x+\sum b_iU_ix\|\ge(|b_0|-\sum|b_i|)\|x\|$ for isometries $U_i$; $(\pi^2/6-1)(1+63/(16\pi^2))<1$; and $\xi(9/2)\,\zeta(5/2)=\frac{21}{4\pi}\,\zeta(9/2)\,\xi(5/2)$, derived from Mathlib's completed zeta. The BPY field, the chaos coefficients and the Mellin identity are not formalized.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppCriticalBPYCoercivity.norm_isometry_sum_ge}\leanok\ \texttt{norm\_isometry\_sum\_ge}
+  \item \lean{GppCriticalBPYCoercivity.pi_sq_bounds}\leanok\ \texttt{pi\_sq\_bounds}
+  \item \lean{GppCriticalBPYCoercivity.tail_constant_lt_one}\leanok\ \texttt{tail\_constant\_lt\_one}
+  \item \lean{GppCriticalBPYCoercivity.Gammaℝ_nine_halves}\leanok\ \texttt{Gammaℝ\_nine\_halves}
+  \item \lean{GppCriticalBPYCoercivity.completed_eq_Gammaℝ_mul}\leanok\ \texttt{completed\_eq\_Gammaℝ\_mul}
+  \item \lean{GppCriticalBPYCoercivity.xi_ratio}\leanok\ \texttt{xi\_ratio}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
