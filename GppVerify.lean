@@ -1507,6 +1507,13 @@ import GppVerify.CelestialHolography.WeylQuarticNullReconstruction
 import GppVerify.GrassmannianComplexDifferential
 import GppVerify.GrassmannianDifferentialSimilarity
 import GppVerify.RiemannHypothesis.CayleyShadowDirac
+-- Codex formalization queue, 2026-09-25 items (formalized 09-27): Cayley–Li finite positivity;
+-- averaged operator-valued Koszul contracting homotopy and its abstract inverse bound.
+import GppVerify.RiemannHypothesis.CayleyLiHiggs
+import GppVerify.RiemannHypothesis.OperatorValuedKoszulHomotopy
+-- Ported and upgraded from Codex's GPPDiscovery2 DiscoveryLean sandbox (09-27): positive finite
+-- Fredholm determinants det(I + z²A) vanish only on the imaginary axis.
+import GppVerify.RiemannHypothesis.PositiveFredholmFactor
 import GppVerify.RiemannHypothesis.CayleyHaarMetricRigidity
 import GppVerify.RiemannHypothesis.HaarOrientationFiber
 import GppVerify.RiemannHypothesis.CayleyRadialDefect
