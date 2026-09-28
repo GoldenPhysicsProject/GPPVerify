@@ -1507,6 +1507,9 @@ import GppVerify.CelestialHolography.WeylQuarticNullReconstruction
 import GppVerify.GrassmannianComplexDifferential
 import GppVerify.GrassmannianDifferentialSimilarity
 import GppVerify.RiemannHypothesis.CayleyShadowDirac
+-- No-go (Codex GPPDiscovery2 workbench 09-27, formalized 09-28): a positive, arbitrarily strongly
+-- log-concave density whose characteristic function has an explicit off-axis complex zero.
+import GppVerify.RiemannHypothesis.FisherZeroLogConcavityNoGo
 -- Codex formalization queue, 2026-09-25 items (formalized 09-27): Cayley–Li finite positivity;
 -- averaged operator-valued Koszul contracting homotopy and its abstract inverse bound.
 import GppVerify.RiemannHypothesis.CayleyLiHiggs
