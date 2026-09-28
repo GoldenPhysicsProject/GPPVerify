@@ -145,7 +145,7 @@ footer a:hover{color:var(--gpp-gold)}
 
 <div class="page-header">
   <h1 class="gold-gradient-text">GPPVerify</h1>
-  <p>Lean 4 + Mathlib formal verification of the shadow framework.<br>
+  <p>Lean 4 + Mathlib formalization of shadow holography: one involution, <em>s &#8614; 1&minus;s&#772;</em> &harr; <em>&Delta; &#8614; 2&minus;&Delta;</em>, read as a nested holographic dictionary between arithmetic and celestial scattering.<br>
   Every green theorem has been checked by a machine that does not accept hand-waving.
   Everything else is labelled open.</p>
   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
@@ -301,7 +301,7 @@ footer a:hover{color:var(--gpp-gold)}
   </div>
 
   <div class="section-heading">
-    <h2 style="font-size:1.1rem">Riemann Hypothesis &mdash; what is actually proved</h2>
+    <h2 style="font-size:1.1rem">Riemann Hypothesis &mdash; one open question inside the hologram</h2>
   </div>
 
   <div class="grid-auto" style="margin-bottom:48px">
@@ -330,10 +330,18 @@ footer a:hover{color:var(--gpp-gold)}
       <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source &#8599;</a>
     </div>
 
+    <div class="thm-card proved">
+      <div class="status-badge badge-proved">&#10003; Proved</div>
+      <div class="thm-name">reflectionForm_nonneg_iff</div>
+      <div class="thm-desc">The finite core of holographic reflection positivity: positivity across the equator holds <em>if and only if</em> there are no off-equator mirror pairs. Finite algebra only &mdash; constructing that positivity for the actual arithmetic distribution is equivalent to RH and is open.</div>
+      <div class="thm-meta">File: RiemannHypothesis/HolographicReflectionPositivity.lean</div>
+      <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/HolographicReflectionPositivity.lean" target="_blank">View source &#8599;</a>
+    </div>
+
     <div class="thm-card open">
       <div class="status-badge badge-open">Open</div>
       <div class="thm-name">open_l2_constraint_implies_rh</div>
-      <div class="thm-desc">That the L&sup2;(A&times;/Q&times;) constraint forces Re(s) = &frac12; is the load-bearing step of Pathway 2, and it is <em>not</em> proved. It needs Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma and Peter&ndash;Weyl over the id&egrave;le class group &mdash; none of them in Mathlib.</div>
+      <div class="thm-desc">That the L&sup2;(A&times;/Q&times;) constraint forces Re(s) = &frac12; is the load-bearing step of the adelic spectral route, one of several routes explored here, and it is <em>not</em> proved. It needs Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma and Peter&ndash;Weyl over the id&egrave;le class group &mdash; none of them in Mathlib.</div>
       <div class="thm-meta">File: RiemannHypothesis/L2Constraint.lean</div>
       <a class="thm-link" href="https://github.com/GoldenPhysicsProject/GPPVerify/blob/main/GppVerify/RiemannHypothesis/L2Constraint.lean" target="_blank">View source &#8599;</a>
     </div>
@@ -438,10 +446,10 @@ footer a:hover{color:var(--gpp-gold)}
   </div>
 
   <div class="gap-card">
-    <h4>What the 156 stubs are waiting on</h4>
+    <h4>What the open stubs are waiting on</h4>
     <p>Overwhelmingly one thing: ad&egrave;lic analysis. Tate&rsquo;s thesis, Fujisaki&rsquo;s lemma,
     L&sup2; on the id&egrave;le class group, and Peter&ndash;Weyl for compact groups are not in
-    Mathlib, and Pathway 2 to RH cannot be stated &mdash; let alone proved &mdash; without them.
+    Mathlib, and the adelic side of the dictionary cannot be fully stated without them.
     A smaller group waits on Schatten/trace-class operators. Mathlib 4.33 did unblock some of
     this: <code>HasCompactSupport.toSchwartzMap</code> and the <code>AdeleRing</code> files are new.</p>
   </div>

@@ -18,7 +18,7 @@
 \newtheorem{definition}[theorem]{Definition}
 
 \title{GPPVerify: Lean 4 Formalization of the Shadow Framework}
-\subtitle{Riemann Hypothesis via Haar Measure Self-Duality}
+\subtitle{Shadow Holography, Kernel-Checked}
 \author{Daniel Toupin}
 \institute{Golden Physics Project}
 \home{https://goldenphysics.org}
@@ -62,6 +62,33 @@ Because the involution is shared, so are its consequences. That is what makes th
 correspondence worth formalizing rather than merely asserting: each transfer either
 survives kernel-checking or fails in a specific, nameable place.
 
+\section{Shadow holography}
+
+The framework reads the shared involution holographically, at three nested levels, each a
+Mellin or Pontryagin duality and therefore an exact dictionary rather than an analogy.
+\begin{enumerate}
+  \item \textbf{Line and sphere.} The multiplicative line $\mathbb{R}_+$, split at its fixed
+    point $x=1$, is the boundary. The spectral sphere, split by the critical line (the
+    \emph{equator}) into two hemispheres, is its hologram. Inversion $x\mapsto 1/x$ becomes
+    the reflection $s\mapsto 1-\overline{s}$, and support on a half-line becomes analyticity
+    on a hemisphere.
+  \item \textbf{Integers as modes.} The integers are the Fourier modes of a circle, and
+    Poisson self-duality of that lattice becomes the functional equation.
+  \item \textbf{Primes as a torus.} By unique factorization the primes span a compact torus
+    $\prod_p S^1$ dual to $\mathbb{Q}_+^\times$, and the critical line embeds in it densely:
+    a hologram inside a hologram.
+\end{enumerate}
+On the celestial side the same equator is the scale sector, since boosts act on energy by
+dilation. This is an exact structural parallel. It is not a claim that $\xi$ is a
+correlator of a physical theory.
+
+In this language the functional equation says the hologram is \emph{symmetric}; the Riemann
+Hypothesis says it is also \emph{positive} (reflection-positive across the equator). The
+finite core of that statement is proved
+(\texttt{GppHolographicRP.reflectionForm\_nonneg\_iff}: positivity across the equator
+holds exactly when there are no off-equator mirror pairs). Constructing that positivity for
+the actual arithmetic distribution is equivalent to RH and remains open.
+
 \section{Goals, in order of ambition}
 
 \begin{enumerate}
@@ -69,10 +96,10 @@ survives kernel-checking or fails in a specific, nameable place.
     counterpart on the other, and prove the transfer or name exactly what blocks it.
   \item \textbf{Understand the shadow involution as a single mathematical object} rather
     than as two coincidentally similar symmetries.
-  \item \textbf{The Riemann Hypothesis} is a major target, and RH Pathway~2
-    (Spectral/Meyer) is the route developed furthest here --- but it is one goal among
-    several, not the thesis of the project. The surrounding tower has value whether or
-    not that pathway closes.
+  \item \textbf{The Riemann Hypothesis} as one open question inside the framework: the
+    positivity half of the hologram. Several routes to it have been developed here and
+    several recorded as dead ends; none is the thesis of the project, and the tower has
+    value whether or not any of them closes.
   \item \textbf{Physical consequences} of the same involution: CPT and time reversal,
     complete positivity, three fermion generations, the Einstein equations as a rigidity
     statement.
@@ -102,11 +129,9 @@ failed, the failure is recorded rather than quietly dropped.
 \section{Coverage caveat}
 
 This blueprint is hand-authored; it does not regenerate itself from the Lean source.
-Substantial proved material therefore exists in the repository without appearing in the
-chapters below. An audit on 2026-08-31 found 122 of 183 modules with no blueprint
-reference at all. Chapters are being added as that backlog is worked through, starting
-with the half-flip/CPT thread below. Absence from this document is not evidence that
-something is unproved --- check the Lean source.
+Proved material can therefore exist in the repository before it appears in the chapters
+below. Absence from this document is not evidence that something is unproved --- check
+the Lean source.
 
 \chapter{Haar Measure Foundation}
 
@@ -259,7 +284,7 @@ something is unproved --- check the Lean source.
   $\mathrm{Re}(\Delta) = 1$ under $\Delta = 2s$ gives $\mathrm{Re}(s) = \tfrac{1}{2}$.
 \end{theorem}
 
-\chapter{Riemann Hypothesis (Pathway 2)}
+\chapter{Riemann Hypothesis: Zero Pairing and the Spectral Route}
 
 \section{Two-Zeros Argument}
 
