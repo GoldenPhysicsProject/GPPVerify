@@ -3831,6 +3831,20 @@ The combinatorial core of the GCD Gram kernel ($mk=nj$ iff $(k,j)=(bt,at)$ with 
   \item \lean{GppTFDGCDMobius.hasSum_prime_power_current}\leanok\ \texttt{hasSum\_prime\_power\_current}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Why One Half: the Prime-Torus Edge and the Casimir Trichotomy}
+The critical line is singled out twice, independently: on the prime torus by square summability ($\|Z_s\|^2=\sum_n n^{-2\sigma}=\zeta(2\sigma)$ and $\sum_p p^{-2\sigma}$ are both finite iff $\sigma>\tfrac12$), and at the Archimedean place as the unitary dual of scaling. In the Casimir variable $c=\rho(1-\rho)$ every $\rho$ is either off-line with non-real $c$, on the line with real $c\ge\tfrac14$ (principal-series range), or real with $c\le\tfrac14$; real $\rho\in(0,1)$ give the complementary-series range, and trivial zeros match discrete-series Casimir values only. Nothing here locates a zero: realizing the nontrivial zeros as the Casimir spectrum of a unitary representation built without zero data is equivalent to RH.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppArithmeticUnitaryDual.full_lift_summable_iff}\leanok\ \texttt{full\_lift\_summable\_iff}
+  \item \lean{GppArithmeticUnitaryDual.prime_sector_summable_iff}\leanok\ \texttt{prime\_sector\_summable\_iff}
+  \item \lean{GppArithmeticUnitaryDual.full_lift_norm_sq}\leanok\ \texttt{full\_lift\_norm\_sq}
+  \item \lean{GppArithmeticUnitaryDual.off_line_nonreal_casimir}\leanok\ \texttt{off\_line\_nonreal\_casimir}
+  \item \lean{GppArithmeticUnitaryDual.real_strip_casimir}\leanok\ \texttt{real\_strip\_casimir}
+  \item \lean{GppArithmeticUnitaryDual.trivial_zero_casimir}\leanok\ \texttt{trivial\_zero\_casimir}
+  \item \lean{GppArithmeticUnitaryDual.casimir_trichotomy}\leanok\ \texttt{casimir\_trichotomy}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}

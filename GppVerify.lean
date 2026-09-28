@@ -1515,6 +1515,7 @@ import GppVerify.RiemannHypothesis.SchurGapTransfer
 import GppVerify.RiemannHypothesis.CriticalBPYCoercivity
 import GppVerify.RiemannHypothesis.CasimirCriticalLine
 import GppVerify.RiemannHypothesis.TFDGCDMobiusWhitening
+import GppVerify.RiemannHypothesis.ArithmeticUnitaryDual
 -- No-go (Codex GPPDiscovery2 workbench 09-27, formalized 09-28): a positive, arbitrarily strongly
 -- log-concave density whose characteristic function has an explicit off-axis complex zero.
 import GppVerify.RiemannHypothesis.FisherZeroLogConcavityNoGo
