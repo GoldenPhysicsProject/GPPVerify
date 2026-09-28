@@ -1,144 +1,108 @@
-# GPPVerify — Golden Physics Project Lean 4 Formalization
+# GPPVerify
 
-Formal verification of the shadow framework in Lean 4 + Mathlib.
+Lean 4 + Mathlib formalization of **shadow holography**, the organizing idea of the Golden
+Physics Project. It is a library of kernel-checked theorems, with every open step named
+explicitly. It is not a proof of any famous conjecture.
 
-**Blueprint (live proof progress):** https://lean.goldenphysics.org  
-**Paper:** Daniel Toupin, *On the Nature of Nature* (2026) — https://goldenphysics.org  
-**Author:** Daniel Toupin | ORCID: 0009-0003-7682-9579
-
----
-
-## Primary target: RH Pathway 2 (Spectral / Meyer)
-
-The most self-contained proof of the Riemann Hypothesis in the shadow framework:
-
-```
-Haar self-duality on A×/Q×          [HaarSelfDuality.lean — CLEAN ✓]
-  → functional equation ξ(s) = ξ(1-s)  [FunctionalEquation.lean — CLEAN ✓]
-  → Peter-Weyl discrete spectrum        [HaarMeasure.lean — mostly clean, 2 Mathlib-gap axioms]
-  → L² constraint forces Re(s) = ½     [RHSpectralMultiplicity.lean — improved]
-  → Riemann Hypothesis
-```
-
-**Flagship conditional statement:** `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
-(`WeilPositivityCriterion.lean`) — RH from finite Weil-pairing positivity, no axioms
-beyond Mathlib's built-ins. The former `arithmetic_admissibility` axiom (RH restated)
-is retired as of 2026-07-17.
-
-**Also complete:** `GppVerify/GrassmannianMass.lean` — the Jacobian Mass relation is now a
-real theorem (`transition_transition_eq_neg`, τ∘τ = -id exactly), replacing an earlier
-axiom-based version; see the file's own doc comment for what changed and why.
+**Public site:** https://lean.goldenphysics.org (plain-language overview) · technical blueprint at https://lean.goldenphysics.org/blueprint/  
+**Source text:** Daniel Toupin, *On the Nature of Nature* — https://goldenphysics.org  
+**Author:** Daniel Toupin | ORCID: 0009-0003-7682-9579  
+**Exploratory companion:** [GPPDiscovery](https://github.com/GoldenPhysicsProject/GPPDiscovery) (numerics; nothing there is proved)
 
 ---
 
-## File status
+## What shadow holography is
 
-*Sorry/axiom counts below are `grep`-verified against the current tree, not hand-maintained
-— re-run `grep -rn "^\s*sorry\s*$" --include="*.lean" .` and
-`grep -rn "^axiom " --include="*.lean" .` to reproduce.*
+One involution appears in two places.
 
-| File | Sorries | Axioms | Status |
-|------|---------|--------|--------|
-| `GppVerify/HaarSelfDuality.lean` | 0 | 0 | **CLEAN** |
-| `GppVerify/CoreTheorems.lean` | 0 | 0 | Clean |
-| `GppVerify/RHSpectralMultiplicity.lean` | 0 | 1 | `riemannZeta_conj` proved (Mellin/HurwitzZeta); `arithmetic_admissibility` axiom + `riemann_hypothesis` alias **retired 2026-07-17** (they restated RH verbatim — superseded by `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`); `schwartz_integral_clm_exists` **retired 2026-08-14** — now a theorem via Mathlib's `SchwartzMap.integralCLM`, kernel-verified to depend on no custom axiom. Sole remaining axiom: `exp_growth_not_tempered` (see `docs/FORMALIZATION_PLAN.md` Phase 4 — the Lean statement is subtler than the mathematics, because Mathlib's integral takes a junk value on non-integrable integrands) |
-| `GppVerify/RiemannHypothesis/TwoPointCriterion.lean` | 0 | 0 | Thread D2: RH iff pair positivity on the reflection pairs `{rho, 1-conj(rho)}` — kernel-checked record that the zero side of the Weil criterion carries no analytic content |
-| `GppVerify/RiemannHypothesis/SchurWeilClass.lean` | 0 | 0 | Thread S2: positive-type x convolution square is positive-type (translates as Gram vectors, no spectral theorem); corollary: the epsilon-regularized Cauchy-kernel datum is positive-type |
-| `GppVerify/RiemannHypothesis/TruncatedTransport.lean` | 0 | 0 | Thread T: rung-level transport onto the S-truncated chart `R x Z^S` — one pullback, no adeles. `logPrime_lattice_injective` is now **PROVED** (this row previously claimed 1 sorry; stale — kernel-verified clean 2026-08-14) |
-| `GppVerify/GrassmannianMass.lean` | 0 | 0 | **CLEAN** — `τ∘τ = -id` proved directly, no axioms |
-| `GppVerify/RiemannHypothesis/HaarMeasure.lean` | 0 | 0 | Mostly clean; two results are honest `True := trivial` stubs pending Fujisaki's lemma / adelic compactness (not in Mathlib 4.19.0) — no `sorry`, no axiom smuggling the actual claim |
-| `GppVerify/RiemannHypothesis/FunctionalEquation.lean` | 0 | 0 | **CLEAN** |
-| `GppVerify/RiemannHypothesis/ShadowSymmetry.lean` | 0 | 0 | Clean; one result honestly stubbed pending the Penrose correspondence, one explicitly gated on the open `thm:link6` below |
+- **Celestial holography.** Scattering amplitudes are Mellin-transformed in energy. They
+  are labelled by conformal dimensions `Δ`, with the principal series at `Re Δ = 1`. The
+  *shadow* map `Δ ↦ 2 − Δ` pairs each dimension with its partner.
+- **Arithmetic.** The completed zeta function `ξ(s)` has a functional equation
+  `s ↦ 1 − s`, and its critical line sits at `Re s = ½`.
 
-Whole-repo sweep (this session): **zero `sorry` tactics anywhere in the tree**, and no
-axiom whose hypotheses are vacuous while its conclusion is a substantive unconditional
-claim (that exact bug shape was found and fixed once, in `L2Constraint.lean` — see git
-history). Genuinely open results are `theorem foo : True := trivial` stubs with a doc
-comment naming the precise Mathlib gap, never a bare `axiom` asserting the open claim
-itself.
+Under `Δ = 2s` these are the same map. The version that matters is the antiholomorphic
+reflection `τ(s) = 1 − s̄`. Its fixed set is exactly the critical line
+(`GppFE.critical_line_is_fixed_locus`), and `ξ ∘ τ = conj ∘ ξ`.
 
-### Three categories, always quoted together
+The framework reads this holographically, at three nested levels. All three are Mellin or
+Pontryagin dualities, so each is a precise dictionary rather than an analogy:
 
-Sorry and axiom counts alone overstate how much is proved, because the `True := trivial`
-convention is invisible to both. **Any status claim about this repo should quote all three
-numbers.** As of 2026-08-23, `grep`-verified against the tree:
+| Boundary | Bulk |
+|---|---|
+| multiplicative line `ℝ₊`, split at its fixed point `x = 1` | spectral sphere, split by the critical line (the *equator*) into two hemispheres |
+| inversion `x ↦ 1/x` | reflection `s ↦ 1 − s̄` |
+| support on a half-line | analyticity on a hemisphere (Paley–Wiener) |
+| the integers as Fourier modes of a circle (theta, Poisson) | the functional equation |
+| primes as a compact torus `∏ S¹`, dual to `ℚ₊^×` | the critical line embedded densely in that torus (Kronecker): *a hologram inside a hologram* |
 
-| Category | Count | Meaning |
-|---|---|---|
-| `sorry` | **0** | Enforced discipline. Never commit one. |
-| `axiom` | **13** | Mostly named physics parameters (`omega_DM`, `c_2D`, `kappa_0`) and explicitly-open physics inputs (`link6_from_physics`, `boyle_turok_2021`). One analytic axiom remains: `exp_growth_not_tempered`. |
-| `theorem _ : True := trivial` | **134** in 25 files | Open results parked honestly, each with a doc comment naming the upstream gap. **Not a proof of anything.** |
+The same equator appears in celestial scattering as the scale sector: boosts act on energy
+by dilation. That part is an exact structural parallel. It is **not** a claim that `ξ` is a
+correlator of any physical theory.
 
-Densest stub files: `RiemannHypothesis/HaarPositivityWeil`, `QuantumGravity/WightmanAxioms`,
-`NumberTheory/ShadowEulerIdentity` (12 each), `CelestialHolography/TwistorGoogly` (11),
-`YangMills/MassGap`, `StandardModel/MajoranaCondition` (10 each).
+What the framework asks is how far this dictionary goes and where it breaks. Each transfer
+either survives kernel-checking or fails at a specific, nameable place. Both outcomes are
+recorded here.
 
-Reproduce:
+## What is proved, and what is open
+
+- **The dictionary itself.** Shadow/functional-equation identification, dilation-unitarity
+  bridges between principal series and completed zeta, Haar self-duality, and the zero
+  pairing `ρ ↦ 1 − ρ̄`. Most of the tree is in `CelestialHolography/` and
+  `RiemannHypothesis/`.
+- **Physics on the same involution.** Half-flip / CPT and time reversal, Majorana
+  conditions, complete positivity, Grassmannian `Gr(2,4)` geometry, and a
+  Standard Model sector. Physics inputs enter as explicit hypotheses, never as axioms.
+- **RH, as one open question inside the framework.** Holographically, the functional
+  equation says the hologram is *symmetric*, and RH says it is also *positive*
+  (reflection-positive across the equator). The finite core is proved:
+  `GppHolographicRP.reflectionForm_nonneg_iff` shows that positivity across the equator
+  holds **iff** there are no off-equator mirror pairs. `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
+  reduces RH to Weil positivity. The missing step is constructing that positivity for the
+  actual arithmetic distribution. That step is equivalent to RH, it is not proved, and
+  nothing in this repo assumes it.
+- **Recorded dead ends.** Several routes were tried and shown not to work, for example the
+  Fisher-zero log-concavity no-go (`FisherZeroLogConcavityNoGo.lean`). They stay in the tree
+  as theorems about why they fail.
+
+## Honesty rules (enforced by CI)
+
+- **No `sorry`.** CI fails on one.
+- **No custom `axiom`.** The count is zero, and `scripts/check_axioms.lean` audits it.
+- **Open results are `open_…` stubs.** They are `theorem open_foo : True := trivial`, with a
+  doc comment naming the exact missing mathematics. A file full of them still reports
+  "0 sorry, 0 axiom", so the `open_` prefix (CI-checked) is what keeps that honest. A stub
+  is retired only by proving it.
+
+The current module, stub, and axiom counts are published on the
+[blueprint](https://lean.goldenphysics.org) and kept in sync by `scripts/sync_published_counts.py`.
+To reproduce them:
+
 ```bash
 grep -rn "^\s*sorry\s*$" --include="*.lean" GppVerify/ | wc -l
 grep -rn "^axiom " --include="*.lean" GppVerify/ | wc -l
 grep -rn ": True := trivial" --include="*.lean" GppVerify/ | wc -l
 ```
 
-A stub is retired only by **proving** it. Deleting it, or weakening its statement while
-keeping its name, is the one move that would make this tree dishonest.
-
----
-
-## Open problem: `thm:link6`
-
-The theorem **`thm:link6`** (`c_{2D} = c_{4D}^{Weyl}`, On the Nature of Nature v5.2 §Link 6) is explicitly open.
-Lean declarations that depend on it are honest `True := trivial` stubs gated in their doc
-comments on a proof of Link 6 — not `sorry`, since there is nothing left to fill in once
-Link 6 is proved; the gap is upstream mathematics, not a missing Lean argument.
-
-Do **not** weaken these stubs into an unconditional claim without a proof of Link 6.
-
----
-
 ## Build
 
 ```bash
-# Install elan (if needed)
 curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
 ./elan-init -y
-
-# Get Mathlib cache (fast)
 lake exe cache get
-
-# Build everything
 lake build
 ```
 
----
+Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. The output is
+`blueprint/web/index.html`.
 
-## Blueprint
+## Layout
 
-```bash
-pip install leanblueprint
-cd blueprint
-leanblueprint build
-# Output at blueprint/web/index.html
-```
-
----
-
-## Dependency map
-
-See [`docs/DependencyMap.md`](docs/DependencyMap.md) for the full theorem dependency
-tree extracted from On the Nature of Nature v5.2 (686 named results, 22 chapters).
-
----
-
-**Status:** Haar self-duality, the functional equation, and the Grassmannian mass relation
-are all fully proved with no axioms. The zeta conjugate-symmetry fact in the multiplicity
-path is a proved theorem rather than an axiom. Genuinely open steps (Fujisaki's lemma,
-the Penrose correspondence, `thm:link6`, and the L² adelic constraint) are honestly
-recorded as `True := trivial` stubs naming the exact missing infrastructure, never
-smuggled in as an axiom asserting the open claim itself, and the whole tree has been
-independently swept for both `sorry` and for axioms with vacuous hypotheses masking a
-substantive conclusion. A parallel thread is formalizing Tate's-thesis local zeta
-integrals (p-adic and archimedean places, an Euler-product bridge to Mathlib's own
-`riemannZeta_eulerProduct`) as real, from-scratch measure-theoretic infrastructure —
-not derived from the paper, built to support it. Work continues toward closing the
-remaining gaps.
+| Directory | Contents |
+|---|---|
+| `GppVerify/CelestialHolography/` | shadow transform, principal series, Mellin/dilation bridges |
+| `GppVerify/RiemannHypothesis/` | functional equation, explicit-formula and Weil-positivity reductions, holographic reflection positivity |
+| `GppVerify/StandardModel/`, `QuantumGravity/`, `QuantumInformation/`, … | physics sectors of the same involution |
+| `GppVerify/Thread*/` | self-contained research threads |
+| `discovery/` | exploratory notes that sit next to the Lean threads they feed |
+| `docs/` | dated working notes; historical, not a status report |
