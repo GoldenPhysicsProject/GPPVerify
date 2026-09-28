@@ -22,8 +22,11 @@ permissions:
   pages: write
   id-token: write
 
+# One group per ref. With a single shared "pages" group, a pull-request validation run
+# cancelled the in-progress deploy from main (2026-09-28: the #207 merge never deployed
+# because a push to #208 started a PR run in the same group).
 concurrency:
-  group: "pages"
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
