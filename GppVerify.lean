@@ -2005,3 +2005,6 @@ import GppVerify.StandardModel.UniversalNotFidelity
 import GppVerify.RiemannHypothesis.ArchimedeanFloor
 import GppVerify.RiemannHypothesis.KMSCriticalLimit
 import GppVerify.RiemannHypothesis.HalfDensityZetaGauge
+
+-- Connected Euler-current L2/L1 threshold (Codex, 2026-09-28)
+import GppVerify.RiemannHypothesis.ConnectedEulerCurrent
