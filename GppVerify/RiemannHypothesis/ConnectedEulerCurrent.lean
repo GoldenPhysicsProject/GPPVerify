@@ -59,7 +59,65 @@ theorem summable_log_halfDensity_scalar
     simp [GppZetaGibbsSummability.gibbsWeight,
       GppZetaGibbsSummability.logEnergy, div_eq_mul_inv, mul_comm])
 
+
+/--
+Finite logarithmic-current budget.
+
+For every positive cutoff N, the harmonic-weighted logarithmic second moment
+on 1,...,N is bounded by (log N)^2 times the harmonic mass:
+sum_{n=1}^N (log n)^2/n <= (log N)^2 sum_{n=1}^N 1/n.
+
+After normalizing by the harmonic mass, this is exactly the elementary
+||j_N|| <= log N estimate for the finite zeta-graph current once the gauge
+identity has converted the von Mangoldt current to log n / sqrt n.
+No prime-distribution input is used.
+-/
+theorem finite_log_sq_harmonic_budget
+    {N : ℕ} (hN : 1 ≤ N) :
+    (∑ n ∈ Finset.Icc 1 N,
+        (Real.log (n : ℝ)) ^ 2 / (n : ℝ))
+      ≤
+    (Real.log (N : ℝ)) ^ 2 *
+      (∑ n ∈ Finset.Icc 1 N, (1 : ℝ) / (n : ℝ)) := by
+  have hterm :
+      ∀ n ∈ Finset.Icc 1 N,
+        (Real.log (n : ℝ)) ^ 2 / (n : ℝ)
+          ≤ (Real.log (N : ℝ)) ^ 2 * ((1 : ℝ) / (n : ℝ)) := by
+    intro n hn
+    rcases Finset.mem_Icc.mp hn with ⟨hn1, hnN⟩
+    have hn_pos : (0 : ℝ) < (n : ℝ) := by
+      exact_mod_cast (lt_of_lt_of_le Nat.zero_lt_one hn1)
+    have hN_pos : (0 : ℝ) < (N : ℝ) := by
+      exact_mod_cast (lt_of_lt_of_le Nat.zero_lt_one hN)
+    have hn_mem : (n : ℝ) ∈ Set.Ioi (0 : ℝ) := hn_pos
+    have hN_mem : (N : ℝ) ∈ Set.Ioi (0 : ℝ) := hN_pos
+    have hnN_real : (n : ℝ) ≤ (N : ℝ) := by exact_mod_cast hnN
+    have hlog_le : Real.log (n : ℝ) ≤ Real.log (N : ℝ) :=
+      Real.strictMonoOn_log.monotoneOn hn_mem hN_mem hnN_real
+    have hlog_n_nonneg : 0 ≤ Real.log (n : ℝ) :=
+      Real.log_nonneg (by exact_mod_cast hn1)
+    have hlog_N_nonneg : 0 ≤ Real.log (N : ℝ) :=
+      Real.log_nonneg (by exact_mod_cast hN)
+    have hsq :
+        (Real.log (n : ℝ)) ^ 2 ≤ (Real.log (N : ℝ)) ^ 2 := by
+      nlinarith
+    calc
+      (Real.log (n : ℝ)) ^ 2 / (n : ℝ)
+          ≤ (Real.log (N : ℝ)) ^ 2 / (n : ℝ) :=
+            div_le_div_of_nonneg_right hsq hn_pos.le
+      _ = (Real.log (N : ℝ)) ^ 2 * ((1 : ℝ) / (n : ℝ)) := by ring
+  calc
+    (∑ n ∈ Finset.Icc 1 N,
+        (Real.log (n : ℝ)) ^ 2 / (n : ℝ))
+      ≤ ∑ n ∈ Finset.Icc 1 N,
+          (Real.log (N : ℝ)) ^ 2 * ((1 : ℝ) / (n : ℝ)) := by
+            exact Finset.sum_le_sum fun n hn => hterm n hn
+    _ = (Real.log (N : ℝ)) ^ 2 *
+        (∑ n ∈ Finset.Icc 1 N, (1 : ℝ) / (n : ℝ)) := by
+          rw [Finset.mul_sum]
+
 end GppConnectedEulerCurrent
 
 #print axioms GppConnectedEulerCurrent.summable_log_sq_halfDensity
 #print axioms GppConnectedEulerCurrent.summable_log_halfDensity_scalar
+#print axioms GppConnectedEulerCurrent.finite_log_sq_harmonic_budget
