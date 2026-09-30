@@ -2005,3 +2005,6 @@ import GppVerify.StandardModel.UniversalNotFidelity
 import GppVerify.RiemannHypothesis.ArchimedeanFloor
 import GppVerify.RiemannHypothesis.KMSCriticalLimit
 import GppVerify.RiemannHypothesis.HalfDensityZetaGauge
+
+-- Prime-square-root Cayley reciprocal-pair algebra (Codex, 2026-09-29)
+import GppVerify.RiemannHypothesis.PrimeSqrtCayley
