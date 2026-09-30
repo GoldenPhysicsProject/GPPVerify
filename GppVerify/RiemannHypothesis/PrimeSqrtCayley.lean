@@ -75,7 +75,6 @@ theorem lower_eq_half_cayley
   rw [diag_sub_off_eq hq1 hqm1]
   unfold cayleyBeta
   field_simp [hp]
-  ring
 
 /-- Inversion q -> q^{-1} flips the Cayley coordinate. -/
 theorem cayleyBeta_inv
@@ -86,8 +85,10 @@ theorem cayleyBeta_inv
     apply hqm1
     linarith
   unfold cayleyBeta
-  field_simp [hq0, hp]
-  ring
+  calc
+    (q⁻¹ - 1) / (q⁻¹ + 1) = (1 - q) / (1 + q) := by
+      field_simp [hq0, hp]
+    _ = -((q - 1) / (q + 1)) := by ring
 
 end GppPrimeSqrtCayley
 
