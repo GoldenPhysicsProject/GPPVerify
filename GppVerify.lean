@@ -2008,3 +2008,6 @@ import GppVerify.RiemannHypothesis.HalfDensityZetaGauge
 
 -- Prime-square-root Cayley reciprocal-pair algebra (Codex, 2026-09-29)
 import GppVerify.RiemannHypothesis.PrimeSqrtCayley
+
+-- Finite-Haar quotient principal-series norm law (Codex, 2026-09-29)
+import GppVerify.RiemannHypothesis.FiniteHaarQuotientPrincipalSeries
