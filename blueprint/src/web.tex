@@ -3856,6 +3856,20 @@ From Codex's KMS-metric note: with $\eta=Ge_0$ and $y=(A-z)^{-1}e_0$, the parity
   \item \lean{GppKMSMetricWeyl.energy_pos_of_rayleigh}\leanok\ \texttt{energy\_pos\_of\_rayleigh}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Mathlib's Statement in the Casimir Variable}
+Mathlib's own \texttt{RiemannHypothesis} (all nontrivial zeros) is equivalent to: every nontrivial zero has real Casimir $s(1-s)\ge\tfrac14$, the principal-series range; equivalently, a real non-positive centered square $(s-\tfrac12)^2$ (Codex's criterion). These are equivalences of statements, not a proof. Also included: the parallel-sum identity $\min\{kx^2+Ny^2: x+y=z\}=\frac{kN}{k+N}z^2$, the scalar Schur core of the Shadow Euler bridge (ported from Codex).
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppCasimirRH.casimir_eq_quarter_sub_centeredSq}\leanok\ \texttt{casimir\_eq\_quarter\_sub\_centeredSq}
+  \item \lean{GppCasimirRH.centeredSq_nonpos_real_iff}\leanok\ \texttt{centeredSq\_nonpos\_real\_iff}
+  \item \lean{GppCasimirRH.riemannHypothesis_iff_casimir}\leanok\ \texttt{riemannHypothesis\_iff\_casimir}
+  \item \lean{GppCasimirRH.riemannHypothesis_iff_centeredSq}\leanok\ \texttt{riemannHypothesis\_iff\_centeredSq}
+  \item \lean{GppCasimirRH.parallel_sum_energy_identity}\leanok\ \texttt{parallel\_sum\_energy\_identity}
+  \item \lean{GppCasimirRH.parallel_sum_lower_bound}\leanok\ \texttt{parallel\_sum\_lower\_bound}
+  \item \lean{GppCasimirRH.parallel_sum_attained}\leanok\ \texttt{parallel\_sum\_attained}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
