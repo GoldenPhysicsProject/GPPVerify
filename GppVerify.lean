@@ -2017,3 +2017,23 @@ import GppVerify.RiemannHypothesis.PrimeSqrtCayley
 
 -- Finite-Haar quotient principal-series norm law (Codex, 2026-09-29)
 import GppVerify.RiemannHypothesis.FiniteHaarQuotientPrincipalSeries
+-- Ported from Codex branches (unmerged on codex/*), 2026-10-03; see CLAUDE_CODE_RESEARCH_NOTES.md
+import GppVerify.QuantumGravity.SpectralRhoChamberSelection
+import GppVerify.RiemannHypothesis.BPYAngularCayley
+import GppVerify.RiemannHypothesis.BPYQuadraticBulk
+import GppVerify.RiemannHypothesis.CasimirShadowDictionary
+import GppVerify.RiemannHypothesis.ConnectedEulerCurrent
+import GppVerify.RiemannHypothesis.GoldenMobiusAudit
+import GppVerify.RiemannHypothesis.GoldenWeylBoundaryWord
+import GppVerify.RiemannHypothesis.GradedHiggsCompletion
+import GppVerify.RiemannHypothesis.HeatSemigroupGram
+import GppVerify.RiemannHypothesis.HilbertQuotientClosure
+import GppVerify.RiemannHypothesis.KreinGraphClosure
+import GppVerify.RiemannHypothesis.PoleBoundaryDirac
+import GppVerify.RiemannHypothesis.PrimeModularCovariance
+import GppVerify.RiemannHypothesis.PrimeOccupationHodge
+import GppVerify.RiemannHypothesis.ShadowKMSRigidity
+import GppVerify.RiemannHypothesis.ZetaGibbsLegendre
+import GppVerify.ThreadWeilParity.CausalDirichletDefect
+import GppVerify.ThreadWeilParity.HodgeIndexBoundary
+import GppVerify.ThreadWeilParity.RadicalBoundaryReduction
