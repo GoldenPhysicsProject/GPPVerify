@@ -8,7 +8,7 @@ import GppVerify.RiemannHypothesis.HaarMeasure
 # Functional Equation ξ(s) = ξ(1-s) from Haar Self-Duality
 
 ## Golden Physics Project — Shadow Framework Formalization
-## RH Pathway 2 (Spectral/Meyer) — Functional Equation Layer
+## Spectral foundation layer (functional equation; RH is not claimed here)
 ## Lean 4 / Mathlib v4.33.1
 
 This file derives the functional equation of the completed Riemann zeta
