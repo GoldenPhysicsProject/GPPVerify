@@ -4547,6 +4547,15 @@ From Codex's phase-geometry note: $\operatorname{Re}\frac{1+z}{1-z}$ at $z=re^{i
   \item \lean{GppPrimeTfdPhase.negativity_eq}\leanok\ \texttt{negativity\_eq}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime-Power Valuation Chains: Gram Matrix and Euler Green Function}
+From Codex's valuation-chain note: on $\mathbb{Z}/p^K\mathbb{Z}$ the normalized subgroup states $v_a$ have Gram matrix $\langle v_a,v_b\rangle=p^{-|a-b|/2}$, so the prime-power tower is a one-dimensional Markov covariance chain in the valuation coordinate, and the one-sided Green function of the chain is the Euler factor $\sum_{k\ge0}p^{-k/2}e^{-ikt\log p}=1/(1-p^{-1/2-it})$. Scope: the tridiagonal precision matrix, CRT tensor factorization, and the product-formula sewing are not formalized. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppValuationChain.valuation_gram}\leanok\ \texttt{valuation\_gram}
+  \item \lean{GppValuationChain.euler_green}\leanok\ \texttt{euler\_green}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
