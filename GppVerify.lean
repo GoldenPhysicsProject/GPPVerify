@@ -2037,3 +2037,8 @@ import GppVerify.RiemannHypothesis.ZetaGibbsLegendre
 import GppVerify.ThreadWeilParity.CausalDirichletDefect
 import GppVerify.ThreadWeilParity.HodgeIndexBoundary
 import GppVerify.ThreadWeilParity.RadicalBoundaryReduction
+-- Codex SU(1,1)/TFD cluster (2026-09-27 notes), formalized 2026-10-03
+import GppVerify.RiemannHypothesis.SU11PrimeBlaschke
+import GppVerify.RiemannHypothesis.SU11CharacterDefect
+import GppVerify.RiemannHypothesis.SU11LightconeTail
+import GppVerify.RiemannHypothesis.SU11LocalCovariance
