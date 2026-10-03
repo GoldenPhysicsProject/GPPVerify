@@ -4074,6 +4074,70 @@ From Codex's antipodal, trivial-zero and $K_0/K_1$ notes: $A=\tfrac14[P(0)-P(\pi
   \item \lean{GppSU11LocalCovariance.plancherel_density}\leanok\ \texttt{plancherel\_density}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite Zeta-Graph Metric and Its Dual Norm}
+From Codex's finite zeta-graph and half-density M\"obius notes: on $\{1,\dots,N\}$ the Gram kernel of the half-density zeta synthesis is exactly $G_N(d,e)=\frac{\gcd(d,e)}{\sqrt{de}}H_{\lfloor N/\operatorname{lcm}(d,e)\rfloor}$, the critical GCD kernel times a harmonic boundary taper; the prime-supported current $\Lambda(n)/\sqrt n$ synthesizes to the smooth $\log n/\sqrt n$; with $c=M^Ta$ one has $a=Z^Tc$, $\langle a,b\rangle^2\le\|M^Ta\|^2\|Zb\|^2$ with equality at $b=Mc$ (so $\|M^Ta\|^2=a^TG^{-1}a$, the variational form of the dual norm); and for a profile $a(n)=n^{-1/2}h(\log n-t)$ the dual vector is $d^{-1/2}\sum_{m\le N/d}\frac{\mu(m)}{m}h(\log m-(t-\log d))$. Finite identities only; the boundary Fourier theory is open. No RH claim.
+
+\noindent\textbf{Proved (17 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteZetaGraph.S}\leanok\ \texttt{S}
+  \item \lean{GppFiniteZetaGraph.divisorClosed}\leanok\ \texttt{divisorClosed}
+  \item \lean{GppFiniteZetaGraph.zEntry}\leanok\ \texttt{zEntry}
+  \item \lean{GppFiniteZetaGraph.gram}\leanok\ \texttt{gram}
+  \item \lean{GppFiniteZetaGraph.harm}\leanok\ \texttt{harm}
+  \item \lean{GppFiniteZetaGraph.gram_eq}\leanok\ \texttt{gram\_eq}
+  \item \lean{GppFiniteZetaGraph.e1}\leanok\ \texttt{e1}
+  \item \lean{GppFiniteZetaGraph.jN}\leanok\ \texttt{jN}
+  \item \lean{GppFiniteZetaGraph.synth_current}\leanok\ \texttt{synth\_current}
+  \item \lean{GppFiniteZetaGraph.halfZetaT}\leanok\ \texttt{halfZetaT}
+  \item \lean{GppFiniteZetaGraph.halfMobiusT}\leanok\ \texttt{halfMobiusT}
+  \item \lean{GppFiniteZetaGraph.halfZeta_adjoint}\leanok\ \texttt{halfZeta\_adjoint}
+  \item \lean{GppFiniteZetaGraph.halfMobius_adjoint}\leanok\ \texttt{halfMobius\_adjoint}
+  \item \lean{GppFiniteZetaGraph.halfZetaT_halfMobiusT}\leanok\ \texttt{halfZetaT\_halfMobiusT}
+  \item \lean{GppFiniteZetaGraph.dual_norm_le}\leanok\ \texttt{dual\_norm\_le}
+  \item \lean{GppFiniteZetaGraph.dual_norm_attained}\leanok\ \texttt{dual\_norm\_attained}
+  \item \lean{GppFiniteZetaGraph.mobiusT_profile}\leanok\ \texttt{mobiusT\_profile}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime Powers as Schur-Composed Massive Edges}
+From Codex's massive-edge notes: the Dirichlet-to-Neumann matrix $\Lambda(\ell)$ of an interval has inverse $[[\coth,\operatorname{csch}],[\operatorname{csch},\coth]]$; Schur elimination of a shared boundary adds lengths, $\Lambda(\ell_1)\star\Lambda(\ell_2)=\Lambda(\ell_1+\ell_2)$; the hyperbolic transfer matrices satisfy $M(\ell_1)M(\ell_2)=M(\ell_1+\ell_2)$ and $M(\tfrac12\log n)=\prod_{p\mid n}M(\tfrac12\log p)$ over prime factors with multiplicity; at a prime the entries are the covariances $C_p+\tfrac12$ and $A_p$, the smaller eigenvalue gives the Cayley coordinate $q_p=(\sqrt p-1)/(\sqrt p+1)$, and $(\log p)p^{-m/2}=2\ell_pe^{-m\ell_p}$; and the Archimedean weight $w_\infty(x)$ closed form. Finite $2\times2$ algebra. No RH claim.
+
+\noindent\textbf{Proved (18 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeEdgeDtn.coth}\leanok\ \texttt{coth}
+  \item \lean{GppPrimeEdgeDtn.csch}\leanok\ \texttt{csch}
+  \item \lean{GppPrimeEdgeDtn.dtn}\leanok\ \texttt{dtn}
+  \item \lean{GppPrimeEdgeDtn.hyp}\leanok\ \texttt{hyp}
+  \item \lean{GppPrimeEdgeDtn.schurStar}\leanok\ \texttt{schurStar}
+  \item \lean{GppPrimeEdgeDtn.dtn_inverse}\leanok\ \texttt{dtn\_inverse}
+  \item \lean{GppPrimeEdgeDtn.schur_dtn}\leanok\ \texttt{schur\_dtn}
+  \item \lean{GppPrimeEdgeDtn.M_add}\leanok\ \texttt{M\_add}
+  \item \lean{GppPrimeEdgeDtn.M_zero}\leanok\ \texttt{M\_zero}
+  \item \lean{GppPrimeEdgeDtn.M_pow}\leanok\ \texttt{M\_pow}
+  \item \lean{GppPrimeEdgeDtn.M_list_prod}\leanok\ \texttt{M\_list\_prod}
+  \item \lean{GppPrimeEdgeDtn.M_primeFactorsList}\leanok\ \texttt{M\_primeFactorsList}
+  \item \lean{GppPrimeEdgeDtn.coth_prime}\leanok\ \texttt{coth\_prime}
+  \item \lean{GppPrimeEdgeDtn.dtn_eigen_tanh}\leanok\ \texttt{dtn\_eigen\_tanh}
+  \item \lean{GppPrimeEdgeDtn.dtn_eigen_prime}\leanok\ \texttt{dtn\_eigen\_prime}
+  \item \lean{GppPrimeEdgeDtn.gamma_prime}\leanok\ \texttt{gamma\_prime}
+  \item \lean{GppPrimeEdgeDtn.edge_amplitude}\leanok\ \texttt{edge\_amplitude}
+  \item \lean{GppPrimeEdgeDtn.w_infty_eq}\leanok\ \texttt{w\_infty\_eq}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime Defect as a TFD-Dressed Delay Line}
+From Codex's causal-delay note: the bare prime $\phi(z)=e^{iz\log p}$ has defect kernel $\int_0^{\log p}e^{itz}\overline{e^{itw}}dt$, a causal delay line; the Blaschke dressing identity $D_{B_a\circ\phi}=f_a(\phi z)\overline{f_a(\phi w)}D_\phi$ (the TFD factor multiplicatively dresses the delay line); the feature-map Gram representation; the real-axis diagonal $L\,P_a(Lx)$; and the free-delay-subtracted prime-power current $\sum_{m\ge1}2La^m\cos(mLx)=L(P_a(Lx)-1)$. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppHalfPlaneDelay.phi}\leanok\ \texttt{phi}
+  \item \lean{GppHalfPlaneDelay.defectH}\leanok\ \texttt{defectH}
+  \item \lean{GppHalfPlaneDelay.delay_defect}\leanok\ \texttt{delay\_defect}
+  \item \lean{GppHalfPlaneDelay.blaschke_one_sub}\leanok\ \texttt{blaschke\_one\_sub}
+  \item \lean{GppHalfPlaneDelay.dressing}\leanok\ \texttt{dressing}
+  \item \lean{GppHalfPlaneDelay.feature_gram}\leanok\ \texttt{feature\_gram}
+  \item \lean{GppHalfPlaneDelay.diagonal_delay}\leanok\ \texttt{diagonal\_delay}
+  \item \lean{GppHalfPlaneDelay.excess_delay_series}\leanok\ \texttt{excess\_delay\_series}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
