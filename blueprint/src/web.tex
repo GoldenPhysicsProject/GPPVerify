@@ -4494,6 +4494,59 @@ From Codex's Cayley/parity note: $I-Q=(xS)(I+Q)$ with $x=e^{-u}$, so the Cayley 
   \item \lean{GppTfdCayley.neglog_decomp}\leanok\ \texttt{neglog\_decomp}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Centered Divisor Coordinate and Hodge Reflection}
+From Codex's centered-divisor note: the centered logarithmic divisor coordinate $\ell_N(d)=\log d-\tfrac12\log N$ equals $\sum_{p\mid N}(v_p(d)-K_p/2)\log p$, divisor complementation $d\mapsto N/d$ acts by $\ell\mapsto-\ell$, and the centered scaling character satisfies $\chi_t(N/d)=\chi_{-t}(d)=\overline{\chi_t(d)}$, the unitary reflection law of the principal series. Scope: spectral quantization is the note's open target and is not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppCenteredDivisor.centered}\leanok\ \texttt{centered}
+  \item \lean{GppCenteredDivisor.centered_complement}\leanok\ \texttt{centered\_complement}
+  \item \lean{GppCenteredDivisor.centered_eq_sum}\leanok\ \texttt{centered\_eq\_sum}
+  \item \lean{GppCenteredDivisor.chi}\leanok\ \texttt{chi}
+  \item \lean{GppCenteredDivisor.character_complement}\leanok\ \texttt{character\_complement}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Finite Fourier Duality Exchanges Subgroup States}
+From Codex's self-dual divisor note: on $\mathbb{Z}/dM\mathbb{Z}$ the discrete Fourier transform of the indicator of the multiples of $d$ is $M$ times the indicator of the multiples of $M$, and for the normalized states $N^{-1/2}\mathcal{F}v_d=v_{N/d}$, which forces the half-density normalization. Scope: the Hodge/Koszul reading is not formalized. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteSubgroupFourier.ind}\leanok\ \texttt{ind}
+  \item \lean{GppFiniteSubgroupFourier.dft_indicator}\leanok\ \texttt{dft\_indicator}
+  \item \lean{GppFiniteSubgroupFourier.fourier_subgroup_state}\leanok\ \texttt{fourier\_subgroup\_state}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Pullback Metric from an Ambient Self-Adjoint Intertwiner}
+From Codex's pullback-metric note: for an injective $B$ and a Hermitian $\tilde A$ with $BA=\tilde AB$, the metric $G=B^*B$ is positive definite and satisfies $GA=A^*G$ automatically, and if the displacement vector is $\eta=B^*(Be_0)$ then $\eta=Ge_0$. Scope: the concrete arithmetic embedding is left open by the note. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppPullbackMetric.pullback_symmetrizes}\leanok\ \texttt{pullback\_symmetrizes}
+  \item \lean{GppPullbackMetric.pullback_posDef}\leanok\ \texttt{pullback\_posDef}
+  \item \lean{GppPullbackMetric.pullback_displacement}\leanok\ \texttt{pullback\_displacement}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No Diagonal Reweighting of the Prime Hilbert Space}
+From Codex's scalarization note: no positive weights $w_p$ on the primes can make both $\sum w_p(\log p)^2/p<\infty$ (the primitive current is a vector) and $\sum 1/w_p<\infty$ (all-ones evaluation is bounded), by AM--GM and Euler's divergence of $\sum 1/p$. Scope: temperedness of the vector-valued current is not formalized. No RH claim.
+
+\noindent\textbf{Proved (1 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeWeightNoGo.no_diagonal_fix}\leanok\ \texttt{no\_diagonal\_fix}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime TFD Phase: Caratheodory Function, Local Variance, Fisher Distance}
+From Codex's phase-geometry note: $\operatorname{Re}\frac{1+z}{1-z}$ at $z=re^{i\theta}$ is the Poisson kernel (so $H$ is Caratheodory), $L\,z/(1-z)=\tfrac L2H-\tfrac L2$, each prime contributes $L^2/(2(p-1))$ to the variance of the centered current, the radial Fisher distance is $\int_0^r\sqrt2/(1-u^2)\,du=\sqrt2\operatorname{artanh}r$, and the logarithmic negativity is $\sqrt2$ times it. Scope: the Fisher information integrals, torus equidistribution and the ergodic averages are not formalized. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeTfdPhase.caratheodory_re}\leanok\ \texttt{caratheodory\_re}
+  \item \lean{GppPrimeTfdPhase.caratheodory_pos}\leanok\ \texttt{caratheodory\_pos}
+  \item \lean{GppPrimeTfdPhase.euler_log_deriv}\leanok\ \texttt{euler\_log\_deriv}
+  \item \lean{GppPrimeTfdPhase.local_variance}\leanok\ \texttt{local\_variance}
+  \item \lean{GppPrimeTfdPhase.fisher_radial_distance}\leanok\ \texttt{fisher\_radial\_distance}
+  \item \lean{GppPrimeTfdPhase.negativity_eq}\leanok\ \texttt{negativity\_eq}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
