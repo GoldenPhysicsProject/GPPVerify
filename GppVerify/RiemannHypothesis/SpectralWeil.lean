@@ -139,7 +139,7 @@ theorem open_weil_explicit_formula : True := trivial
 theorem open_meyer_spectral_weil_identity : True := trivial
 
 /-- Positivity of Weil distribution: the explicit formula has non-negative contributions.
-    Gap: this is the key positivity step in Pathway 2, related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
+    Gap: this is an open positivity step on the spectral route to RH (RH is not claimed), related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
 theorem open_weil_distribution_positivity : True := trivial
 
 -- ============================================================

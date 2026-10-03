@@ -8,11 +8,11 @@ import GppVerify.HaarSelfDuality
 # Haar Measure on the Adèlic Quotient A×/Q×
 
 ## Golden Physics Project — Shadow Framework Formalization
-## RH Pathway 2 (Spectral/Meyer) — Foundation Layer
+## Spectral foundation layer (Haar measure; RH is not claimed here)
 ## Lean 4 / Mathlib v4.33.1
 
 This file formalizes the Haar measure infrastructure for the idèle class
-group A×/Q× required for Riemann Hypothesis Pathway 2.
+group A×/Q×, used by the spectral route to the functional equation (RH is not claimed here).
 
 ### Proof chain
 

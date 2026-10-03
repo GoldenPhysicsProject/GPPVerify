@@ -284,7 +284,7 @@ the Lean source.
   $\mathrm{Re}(\Delta) = 1$ under $\Delta = 2s$ gives $\mathrm{Re}(s) = \tfrac{1}{2}$.
 \end{theorem}
 
-\chapter{Riemann Hypothesis: Zero Pairing and the Spectral Route}
+\chapter{Zero Pairing and the Positivity Reduction (RH is not proved here)}
 
 \section{Two-Zeros Argument}
 
@@ -313,17 +313,20 @@ the Lean source.
   \emph{(Zero sorries, zero axioms.)}
 \end{theorem}
 
-\section{Spectral Multiplicity}
+\section{Temperedness}
 
 \begin{theorem}[Temperedness $\Leftrightarrow$ Critical Line]
   \label{thm:temperedness}
   \lean{GppRH.temperedness_iff_critical_line}
+  \leanok
   \uses{thm:two-zeros}
   $e^{au}$ defines a tempered distribution on $\mathbb{R}$ iff $a=0$.
-  Two sorries: requires \texttt{SchwartzMap.tsum} not yet in Mathlib.
+  Fully proved, no \texttt{sorry} and no axiom (the growth direction is
+  \texttt{ExpNotTempered.exp\_growth\_not\_tempered}). This is a fact about a single
+  exponential; it says nothing by itself about the zeros of $\zeta$.
 \end{theorem}
 
-\begin{theorem}[Riemann Hypothesis, conditional on Weil-pairing positivity]
+\begin{theorem}[RH reduces to Weil-pairing positivity (a conditional; RH is not claimed)]
   \label{thm:rh}
   \lean{GppWeilCriterion.rh_of_weil_pairedForm_nonneg}
   \uses{thm:two-zeros, thm:temperedness, thm:peter-weyl-adelic}
@@ -334,10 +337,11 @@ the Lean source.
   \emph{Status:} the former \texttt{arithmetic\_admissibility} axiom (which
   asserted RH verbatim) is retired. The conditional above is proved with no
   axioms beyond Mathlib's built-ins; the open analytic content is the
-  positivity hypothesis (explicit formula / operator compression).
+  positivity hypothesis (explicit formula / operator compression). That hypothesis is
+  open and is not established anywhere in this tree, so this theorem does not prove RH.
 \end{theorem}
 
-\chapter{thm:link6 Formalized}
+\chapter{Link 6 as a Named Hypothesis}
 
 \begin{theorem}[Link 6: $c_{2D} = \kappa_0 \cdot c_{4D}^{\mathrm{Weyl}}$]
   \label{thm:link6}
@@ -797,7 +801,7 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
 
 \chapter{L\textsuperscript{2} Constraint}
 
-\section{\texorpdfstring{$L^2(K^1)$}{L²(K¹)} Forces $\mathrm{Re}(s) = \tfrac{1}{2}$}
+\section{\texorpdfstring{$L^2(K^1)$}{L²(K¹)} Unitarity and the Critical Line: what is proved and what is open}
 
 \begin{lemma}[Shadow Fixed Points are Critical]
   \label{lem:shadow-fixed-critical}
@@ -823,7 +827,7 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   has absolute value $1$.
 \end{lemma}
 
-\begin{theorem}[$L^2$ Constraint Theorem]
+\begin{theorem}[$L^2$ Constraint Theorem (open: a \texttt{True}-stub, not proved)]
   \label{thm:l2-constraint}
   \lean{GppL2.open_l2_constraint}
   \uses{lem:l2-unitarity, lem:fujisaki, thm:peter-weyl-adelic}
@@ -835,15 +839,21 @@ hypothesis) is recorded in the module docs and deliberately \emph{not} claimed.
   unitarity $\Rightarrow$ $\mathrm{Re}(s) = \tfrac{1}{2}$.
 
   Ad\`elic infrastructure (Hecke characters, Peter--Weyl on $K^1$)
-  awaits \texttt{Mathlib.NumberTheory.NumberField.Adeles}.
+  awaits \texttt{Mathlib.NumberTheory.NumberField.Adeles}. The Lean declaration is
+  \texttt{open\_l2\_constraint : True}, a named placeholder with no content; only the
+  elementary lemmas above (fixed locus, unitarity of principal-series characters) are proved.
 \end{theorem}
 
-\begin{corollary}[$L^2$-Admissible Zeros on Critical Line]
+\begin{corollary}[Open: if a zero were $L^2$-admissible it would lie on the critical line]
   \label{cor:l2-rh}
   \lean{GppL2.open_l2_constraint_implies_rh}
   \uses{thm:l2-constraint}
   Every $L^2$-admissible non-trivial zero $\rho$ of $\zeta(s)$ satisfies
   $\mathrm{Re}(\rho) = \tfrac{1}{2}$.
+
+  \textbf{Status: open, and not a proof of RH.} The Lean declaration is
+  \texttt{open\_l2\_constraint\_implies\_rh : True}. No argument is given that the
+  non-trivial zeros are $L^2$-admissible; supplying one is exactly the missing step.
 \end{corollary}
 
 \chapter{The Half-Flip: CPT, Time Reversal, and Complete Positivity}

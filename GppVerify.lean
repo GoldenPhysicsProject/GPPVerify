@@ -9,7 +9,7 @@ import GppVerify.HaarSelfDuality
 -- Shadow involution, T-symmetry, googly resolution (zero sorries, one standard axiom)
 import GppVerify.CoreTheorems
 
--- ── RH Pathway 2: Spectral / Meyer ──────────────────────────
+-- ── Spectral foundation layer (one route among several; RH is not claimed) ──
 -- Adèlic Haar measure infrastructure
 import GppVerify.RiemannHypothesis.HaarMeasure
 
