@@ -74,6 +74,32 @@ recorded here.
   "0 sorry, 0 axiom", so the `open_` prefix (CI-checked) is what keeps that honest. A stub
   is retired only by proving it.
 
+## What a sceptical reader can check in ten minutes
+
+Nothing here asks for trust. Each point below is a command or a file.
+
+- **The epistemics are mechanical, not rhetorical.** `scripts/` holds the gates CI runs:
+  `check_sorries.py`, `check_stub_naming.py` and `check_vacuity.py` (catch declarations that
+  assert nothing: `True` stubs, `X = X` tautologies, theorems whose conclusion is just a
+  hypothesis), `check_blueprint_refs.py` (every `\lean{}` in the blueprint must name a real
+  declaration), `check_landing_claims.py` (the public page may not say more than the tree
+  proves), `check_import_graph.py`, and `check_axioms.lean` (`#print axioms` on the flagship
+  theorems). Most of these gates exist because an audit found a real overstatement (stubs badged
+  "Proved", cards naming declarations that did not exist). The audit and the fix are in each
+  script's header.
+- **The central question is stated as an exact equivalence, not claimed as a result.**
+  `rh_iff_weil_pairedForm_nonneg` (RH iff a positivity statement) and
+  `GppHolographicRP.reflectionForm_nonneg_iff` (positivity across the equator holds iff there are
+  no off-equator mirror pairs) are proved. The positivity itself is the open step and is named as such.
+- **Failure is a first-class output.** Routes that do not work are kept as theorems about why,
+  e.g. `FisherZeroLogConcavityNoGo.lean`. A proposed route that turns out to be an
+  Archimedean-factor deformation rather than a real constraint is recorded as exactly that.
+- **Open means open.** The `True := trivial` stubs are counted and named `open_…`, so the
+  "0 sorry, 0 axiom" line cannot be read as "everything is proved".
+- **Older material is labelled as older.** `docs/` is dated working notes. In particular,
+  `docs/DependencyMap.md` is a June 2026 pre-formalization survey whose "Pathway 2" framing is
+  retired; the current status is this file and the blueprint.
+
 The current module, stub, and axiom counts are published on the
 [blueprint](https://lean.goldenphysics.org) and kept in sync by `scripts/sync_published_counts.py`.
 To reproduce them:
