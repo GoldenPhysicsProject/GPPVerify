@@ -4407,6 +4407,167 @@ From Codex's logistic/Mellin note: with the Bose trace $h(y)=1/(e^y-1)$, the clo
   \item \lean{GppLogisticBose.logistic_conv_eq_ward}\leanok\ \texttt{logistic\_conv\_eq\_ward}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime-Power Current as Excess Group Delay}
+From Codex's group-delay note: the Fourier series of the Poisson kernel gives $\sum_{m\ge1}(\log p)p^{-m/2}\cos(mt\log p)=\tfrac12(\tau_p(t)-\log p)$ with $\tau_p(t)=\log p\cdot P_{p^{-1/2}}(t\log p)$, so the von Mangoldt half-density current is the excess of the local Wigner--Smith delay above the free baseline; phase derivatives add over a finite prime set; the raw delay is strictly positive while the vacuum-subtracted excess is positive at $\theta=0$ and negative at $\theta=\pi$. Scope: the global statements (divergent baseline, Archimedean background, zero density) are not formalized. No RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeExcessDelay.poisson_series}\leanok\ \texttt{poisson\_series}
+  \item \lean{GppPrimeExcessDelay.vonMangoldt_current}\leanok\ \texttt{vonMangoldt\_current}
+  \item \lean{GppPrimeExcessDelay.vonMangoldt_current_prime}\leanok\ \texttt{vonMangoldt\_current\_prime}
+  \item \lean{GppPrimeExcessDelay.vonMangoldt_current_finite}\leanok\ \texttt{vonMangoldt\_current\_finite}
+  \item \lean{GppPrimeExcessDelay.delay_pos}\leanok\ \texttt{delay\_pos}
+  \item \lean{GppPrimeExcessDelay.excess_pos_at_zero}\leanok\ \texttt{excess\_pos\_at\_zero}
+  \item \lean{GppPrimeExcessDelay.excess_neg_at_pi}\leanok\ \texttt{excess\_neg\_at\_pi}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Primitive Renormalization and Finite Half-Derivative Energy}
+From Codex's half-derivative energy note: the prime-power frequencies $m\log p$ are pairwise distinct; the local energy series is $-\log(1-1/p)$; after removing the primitive harmonic the tail is at most $p^{-2}$, so $\sum_p(\log p)(-\log(1-p^{-1})-p^{-1})<\infty$, whereas the raw primitive sum $\sum_p(\log p)/p$ diverges. Scope: the identification of the phase with this Fourier series and the Bohr setting are not formalized. No RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimitivePhaseEnergy.freq_injective}\leanok\ \texttt{freq\_injective}
+  \item \lean{GppPrimitivePhaseEnergy.local_energy}\leanok\ \texttt{local\_energy}
+  \item \lean{GppPrimitivePhaseEnergy.tail_energy}\leanok\ \texttt{tail\_energy}
+  \item \lean{GppPrimitivePhaseEnergy.tail_le}\leanok\ \texttt{tail\_le}
+  \item \lean{GppPrimitivePhaseEnergy.tail_nonneg}\leanok\ \texttt{tail\_nonneg}
+  \item \lean{GppPrimitivePhaseEnergy.summable_tail}\leanok\ \texttt{summable\_tail}
+  \item \lean{GppPrimitivePhaseEnergy.not_summable_primitive}\leanok\ \texttt{not\_summable\_primitive}
+\end{itemize}
+
+\section{Riemann Hypothesis --- SU(1,1) Transfer Discriminant as the Finite-Place Mass Coordinate}
+From Codex's mass-discriminant note: the hyperbolic transfer matrix $G(\kappa)$ has $\det G=1$ and $G(\kappa)G(\kappa')=G(\kappa+\kappa')$; $(\operatorname{Tr}G)^2-4=4\sinh^2\kappa$, equal to $4/(p-1)$ for $a=p^{-1/2}$; the TFD covariance is $\tfrac12G^{-2}$ with determinant $\tfrac14$; the Cayley coordinate is the squeezed eigenvalue ratio; orientation reversal preserves the discriminant while the sewn two-sheet holonomy has discriminant exactly $0$; and at $p=5$ the discriminant is $1$ with $e^\kappa=\varphi$. Scope: the conditional horizon interpretation and the global renormalized boost are not formalized, and nothing is claimed about observed masses. No RH claim.
+
+\noindent\textbf{Proved (15 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeTransferDiscriminant.Gk}\leanok\ \texttt{Gk}
+  \item \lean{GppPrimeTransferDiscriminant.Gk_det}\leanok\ \texttt{Gk\_det}
+  \item \lean{GppPrimeTransferDiscriminant.Gk_trace}\leanok\ \texttt{Gk\_trace}
+  \item \lean{GppPrimeTransferDiscriminant.Gk_mul}\leanok\ \texttt{Gk\_mul}
+  \item \lean{GppPrimeTransferDiscriminant.Gk_zero}\leanok\ \texttt{Gk\_zero}
+  \item \lean{GppPrimeTransferDiscriminant.Gk_neg_mul}\leanok\ \texttt{Gk\_neg\_mul}
+  \item \lean{GppPrimeTransferDiscriminant.disc_eq}\leanok\ \texttt{disc\_eq}
+  \item \lean{GppPrimeTransferDiscriminant.disc_prime}\leanok\ \texttt{disc\_prime}
+  \item \lean{GppPrimeTransferDiscriminant.Cov}\leanok\ \texttt{Cov}
+  \item \lean{GppPrimeTransferDiscriminant.cov_eq}\leanok\ \texttt{cov\_eq}
+  \item \lean{GppPrimeTransferDiscriminant.cov_det}\leanok\ \texttt{cov\_det}
+  \item \lean{GppPrimeTransferDiscriminant.cayley_ratio}\leanok\ \texttt{cayley\_ratio}
+  \item \lean{GppPrimeTransferDiscriminant.inversion_disc}\leanok\ \texttt{inversion\_disc}
+  \item \lean{GppPrimeTransferDiscriminant.pair_disc_zero}\leanok\ \texttt{pair\_disc\_zero}
+  \item \lean{GppPrimeTransferDiscriminant.golden_prime}\leanok\ \texttt{golden\_prime}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Regularized Prime Scattering and the Schatten Strip Hierarchy}
+From Codex's strip-hierarchy note: with $|\sin w|\le e^{|\operatorname{Im}w|}$, the $m$-th term of the regularized local log-phase is bounded by $p^{-m(1/2-|y|)}$; if $k(1/2-|y|)>1$ the prime majorant converges (normal convergence), the leading term is summable over primes iff $k\sigma>1$, and $k\sigma>1\iff|y|<\tfrac12-\tfrac1k$, which for $k=3$ is $|\operatorname{Im}T|<\tfrac16$. Scope: the identification with the analytic product and the real-axis phase derivative are not formalized. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppStripHierarchy.norm_sin_le}\leanok\ \texttt{norm\_sin\_le}
+  \item \lean{GppStripHierarchy.weight_eq}\leanok\ \texttt{weight\_eq}
+  \item \lean{GppStripHierarchy.prime_tail_summable}\leanok\ \texttt{prime\_tail\_summable}
+  \item \lean{GppStripHierarchy.leading_summable_iff}\leanok\ \texttt{leading\_summable\_iff}
+  \item \lean{GppStripHierarchy.strip_iff}\leanok\ \texttt{strip\_iff}
+  \item \lean{GppStripHierarchy.strip_three}\leanok\ \texttt{strip\_three}
+\end{itemize}
+
+\section{Riemann Hypothesis --- TFD Boundary Cayley Transform, Parity Determinants, Schur Complement}
+From Codex's Cayley/parity note: $I-Q=(xS)(I+Q)$ with $x=e^{-u}$, so the Cayley transform of the normalized TFD precision is the attenuated sheet exchange; the parity eigenvalues, the determinants $(1-x)(1+x)=1-x^2$, trace parity of powers of $xS$, the parity covariances $x/(1-x)$ and $-x/(1+x)$ with normal and anomalous sectors, the Schur complement $\tanh(u)/(2q)$, and the even/odd split $-\log(1-x)=-\tfrac12\log(1-x^2)+\operatorname{artanh}x$. Scope: the interval DtN matrix, the positive spectral expansion, and the determinant Euler products are not formalized. No RH claim.
+
+\noindent\textbf{Proved (17 declarations):}
+\begin{itemize}
+  \item \lean{GppTfdCayley.Qmat}\leanok\ \texttt{Qmat}
+  \item \lean{GppTfdCayley.Smat}\leanok\ \texttt{Smat}
+  \item \lean{GppTfdCayley.cayley_Q}\leanok\ \texttt{cayley\_Q}
+  \item \lean{GppTfdCayley.det_one_add_Q_ne}\leanok\ \texttt{det\_one\_add\_Q\_ne}
+  \item \lean{GppTfdCayley.parity_eigen_plus}\leanok\ \texttt{parity\_eigen\_plus}
+  \item \lean{GppTfdCayley.parity_eigen_minus}\leanok\ \texttt{parity\_eigen\_minus}
+  \item \lean{GppTfdCayley.det_full}\leanok\ \texttt{det\_full}
+  \item \lean{GppTfdCayley.prod_parity}\leanok\ \texttt{prod\_parity}
+  \item \lean{GppTfdCayley.trace_pow}\leanok\ \texttt{trace\_pow}
+  \item \lean{GppTfdCayley.cov_plus}\leanok\ \texttt{cov\_plus}
+  \item \lean{GppTfdCayley.cov_minus}\leanok\ \texttt{cov\_minus}
+  \item \lean{GppTfdCayley.cov_plus_exp}\leanok\ \texttt{cov\_plus\_exp}
+  \item \lean{GppTfdCayley.cov_minus_exp}\leanok\ \texttt{cov\_minus\_exp}
+  \item \lean{GppTfdCayley.normal_sector}\leanok\ \texttt{normal\_sector}
+  \item \lean{GppTfdCayley.anomalous_sector}\leanok\ \texttt{anomalous\_sector}
+  \item \lean{GppTfdCayley.schur_complement}\leanok\ \texttt{schur\_complement}
+  \item \lean{GppTfdCayley.neglog_decomp}\leanok\ \texttt{neglog\_decomp}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Centered Divisor Coordinate and Hodge Reflection}
+From Codex's centered-divisor note: the centered logarithmic divisor coordinate $\ell_N(d)=\log d-\tfrac12\log N$ equals $\sum_{p\mid N}(v_p(d)-K_p/2)\log p$, divisor complementation $d\mapsto N/d$ acts by $\ell\mapsto-\ell$, and the centered scaling character satisfies $\chi_t(N/d)=\chi_{-t}(d)=\overline{\chi_t(d)}$, the unitary reflection law of the principal series. Scope: spectral quantization is the note's open target and is not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppCenteredDivisor.centered}\leanok\ \texttt{centered}
+  \item \lean{GppCenteredDivisor.centered_complement}\leanok\ \texttt{centered\_complement}
+  \item \lean{GppCenteredDivisor.centered_eq_sum}\leanok\ \texttt{centered\_eq\_sum}
+  \item \lean{GppCenteredDivisor.chi}\leanok\ \texttt{chi}
+  \item \lean{GppCenteredDivisor.character_complement}\leanok\ \texttt{character\_complement}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Finite Fourier Duality Exchanges Subgroup States}
+From Codex's self-dual divisor note: on $\mathbb{Z}/dM\mathbb{Z}$ the discrete Fourier transform of the indicator of the multiples of $d$ is $M$ times the indicator of the multiples of $M$, and for the normalized states $N^{-1/2}\mathcal{F}v_d=v_{N/d}$, which forces the half-density normalization. Scope: the Hodge/Koszul reading is not formalized. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppFiniteSubgroupFourier.ind}\leanok\ \texttt{ind}
+  \item \lean{GppFiniteSubgroupFourier.dft_indicator}\leanok\ \texttt{dft\_indicator}
+  \item \lean{GppFiniteSubgroupFourier.fourier_subgroup_state}\leanok\ \texttt{fourier\_subgroup\_state}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Pullback Metric from an Ambient Self-Adjoint Intertwiner}
+From Codex's pullback-metric note: for an injective $B$ and a Hermitian $\tilde A$ with $BA=\tilde AB$, the metric $G=B^*B$ is positive definite and satisfies $GA=A^*G$ automatically, and if the displacement vector is $\eta=B^*(Be_0)$ then $\eta=Ge_0$. Scope: the concrete arithmetic embedding is left open by the note. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppPullbackMetric.pullback_symmetrizes}\leanok\ \texttt{pullback\_symmetrizes}
+  \item \lean{GppPullbackMetric.pullback_posDef}\leanok\ \texttt{pullback\_posDef}
+  \item \lean{GppPullbackMetric.pullback_displacement}\leanok\ \texttt{pullback\_displacement}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No Diagonal Reweighting of the Prime Hilbert Space}
+From Codex's scalarization note: no positive weights $w_p$ on the primes can make both $\sum w_p(\log p)^2/p<\infty$ (the primitive current is a vector) and $\sum 1/w_p<\infty$ (all-ones evaluation is bounded), by AM--GM and Euler's divergence of $\sum 1/p$. Scope: temperedness of the vector-valued current is not formalized. No RH claim.
+
+\noindent\textbf{Proved (1 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeWeightNoGo.no_diagonal_fix}\leanok\ \texttt{no\_diagonal\_fix}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime TFD Phase: Caratheodory Function, Local Variance, Fisher Distance}
+From Codex's phase-geometry note: $\operatorname{Re}\frac{1+z}{1-z}$ at $z=re^{i\theta}$ is the Poisson kernel (so $H$ is Caratheodory), $L\,z/(1-z)=\tfrac L2H-\tfrac L2$, each prime contributes $L^2/(2(p-1))$ to the variance of the centered current, the radial Fisher distance is $\int_0^r\sqrt2/(1-u^2)\,du=\sqrt2\operatorname{artanh}r$, and the logarithmic negativity is $\sqrt2$ times it. Scope: the Fisher information integrals, torus equidistribution and the ergodic averages are not formalized. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeTfdPhase.caratheodory_re}\leanok\ \texttt{caratheodory\_re}
+  \item \lean{GppPrimeTfdPhase.caratheodory_pos}\leanok\ \texttt{caratheodory\_pos}
+  \item \lean{GppPrimeTfdPhase.euler_log_deriv}\leanok\ \texttt{euler\_log\_deriv}
+  \item \lean{GppPrimeTfdPhase.local_variance}\leanok\ \texttt{local\_variance}
+  \item \lean{GppPrimeTfdPhase.fisher_radial_distance}\leanok\ \texttt{fisher\_radial\_distance}
+  \item \lean{GppPrimeTfdPhase.negativity_eq}\leanok\ \texttt{negativity\_eq}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime-Power Valuation Chains: Gram Matrix and Euler Green Function}
+From Codex's valuation-chain note: on $\mathbb{Z}/p^K\mathbb{Z}$ the normalized subgroup states $v_a$ have Gram matrix $\langle v_a,v_b\rangle=p^{-|a-b|/2}$, so the prime-power tower is a one-dimensional Markov covariance chain in the valuation coordinate, and the one-sided Green function of the chain is the Euler factor $\sum_{k\ge0}p^{-k/2}e^{-ikt\log p}=1/(1-p^{-1/2-it})$. Scope: the tridiagonal precision matrix, CRT tensor factorization, and the product-formula sewing are not formalized. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppValuationChain.valuation_gram}\leanok\ \texttt{valuation\_gram}
+  \item \lean{GppValuationChain.euler_green}\leanok\ \texttt{euler\_green}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Haar Valuation Law and the Mean Mass Series}
+From Codex's profinite mass-law note: the geometric valuation law $\Pr(N_p=a)=(1-p^{-1})p^{-a}$ is normalized, has mean $1/(p-1)$ and single-prime Laplace transform $(1-q)/(1-qe^{-s})$, and the mean total mass $\sum_p 2/(p-1)^{3/2}$ of the Casimir-weighted sum converges. Scope: Haar measure on $\widehat{\mathbb Z}$, independence, Borel--Cantelli, the variance and the dark-matter reading are not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppHaarValuation.geometric_normalization}\leanok\ \texttt{geometric\_normalization}
+  \item \lean{GppHaarValuation.geometric_mean}\leanok\ \texttt{geometric\_mean}
+  \item \lean{GppHaarValuation.mean_prime}\leanok\ \texttt{mean\_prime}
+  \item \lean{GppHaarValuation.geometric_laplace}\leanok\ \texttt{geometric\_laplace}
+  \item \lean{GppHaarValuation.mean_mass_summable}\leanok\ \texttt{mean\_mass\_summable}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
