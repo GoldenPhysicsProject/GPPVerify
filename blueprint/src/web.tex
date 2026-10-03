@@ -3886,6 +3886,49 @@ From Codex's prime-energy Cayley note: the local Cayley parameter $c_p=(\sqrt p-
   \item \lean{GppPrimeCayley.repeated_returns_summable}\leanok\ \texttt{repeated\_returns\_summable}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Centered Principal-Series Casimir for Self-Dual L-Functions}
+From Codex's universal centered principal-series note: for a completed L-function with symmetry center $c$, put $\Delta=1+(s-c)$; then $s\mapsto 2c-s$ is $\Delta\mapsto2-\Delta$, and $\mathcal C_{\rm ps}=\Delta(2-\Delta)=1-(s-c)^2$ is real and $\ge1$ iff $\Re s=c$. For zeta ($c=\tfrac12$), $\mathcal C_{\rm ps}=s(1-s)+\tfrac34$. Also the off-axis quartet $Q(z)=((z-\delta)^2+\gamma^2)((z+\delta)^2+\gamma^2)$: even, conjugation-symmetric, $Q(0)>0$, vanishing at $\pm\delta\pm i\gamma$. Correction recorded: the deformation $\Xi Q/Q(0)$ can equally be read as a change of Archimedean factor, so what excludes it is the exact $\Gamma_\mathbb R$ factor with the Dirichlet series (Hamburger), not merely the presence of some Archimedean term. No GRH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppCenteredPS.delta}\leanok\ \texttt{delta}
+  \item \lean{GppCenteredPS.psCasimir}\leanok\ \texttt{psCasimir}
+  \item \lean{GppCenteredPS.reflect_iff}\leanok\ \texttt{reflect\_iff}
+  \item \lean{GppCenteredPS.re_delta_eq_one_iff}\leanok\ \texttt{re\_delta\_eq\_one\_iff}
+  \item \lean{GppCenteredPS.psCasimir_eq}\leanok\ \texttt{psCasimir\_eq}
+  \item \lean{GppCenteredPS.psCasimir_line}\leanok\ \texttt{psCasimir\_line}
+  \item \lean{GppCenteredPS.psCasimir_ge_one_iff}\leanok\ \texttt{psCasimir\_ge\_one\_iff}
+  \item \lean{GppCenteredPS.psCasimir_half}\leanok\ \texttt{psCasimir\_half}
+  \item \lean{GppCenteredPS.quartet}\leanok\ \texttt{quartet}
+  \item \lean{GppCenteredPS.quartet_even}\leanok\ \texttt{quartet\_even}
+  \item \lean{GppCenteredPS.quartet_conj}\leanok\ \texttt{quartet\_conj}
+  \item \lean{GppCenteredPS.quartet_zero}\leanok\ \texttt{quartet\_zero}
+  \item \lean{GppCenteredPS.quartet_zero_pos}\leanok\ \texttt{quartet\_zero\_pos}
+  \item \lean{GppCenteredPS.quartet_vanishes}\leanok\ \texttt{quartet\_vanishes}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Wall/Krylov Coefficients and the Local Prime Poisson Identity}
+From Codex's Wall/Krylov shell test and endpoint-BPY notes: the $3\times3$ Hankel determinant; invariance of $\Delta_2,\Delta_3$ (hence of the Jacobi hoppings $\beta_1,\beta_2$) under translation of the spectral variable, so the Casimir shift $K\mapsto e^{-t}K$ moves only the diagonal coefficients; $\beta_1=(\log K)''$; the Poisson series $1+2\sum_{m\ge1}q^m\cos m\theta=(1-q^2)/(1-2q\cos\theta+q^2)>0$ for $0\le q<1$, which makes each prime tower half a positive local delay minus the vacuum; and the Dirichlet Green kernel $e^{-|x-y|/2}-e^{-(x+y)/2}$ (symmetric, zero on the boundary, nonnegative). No RH claim.
+
+\noindent\textbf{Proved (15 declarations):}
+\begin{itemize}
+  \item \lean{GppWallKrylov.hankel2}\leanok\ \texttt{hankel2}
+  \item \lean{GppWallKrylov.hankel3}\leanok\ \texttt{hankel3}
+  \item \lean{GppWallKrylov.hankel_three_det}\leanok\ \texttt{hankel\_three\_det}
+  \item \lean{GppWallKrylov.hankel_two_shift}\leanok\ \texttt{hankel\_two\_shift}
+  \item \lean{GppWallKrylov.hankel_three_shift}\leanok\ \texttt{hankel\_three\_shift}
+  \item \lean{GppWallKrylov.beta_one_eq_log_second}\leanok\ \texttt{beta\_one\_eq\_log\_second}
+  \item \lean{GppWallKrylov.hasSum_poisson_cos}\leanok\ \texttt{hasSum\_poisson\_cos}
+  \item \lean{GppWallKrylov.poisson_series}\leanok\ \texttt{poisson\_series}
+  \item \lean{GppWallKrylov.poisson_pos}\leanok\ \texttt{poisson\_pos}
+  \item \lean{GppWallKrylov.greenD}\leanok\ \texttt{greenD}
+  \item \lean{GppWallKrylov.greenD_symm}\leanok\ \texttt{greenD\_symm}
+  \item \lean{GppWallKrylov.greenD_zero_left}\leanok\ \texttt{greenD\_zero\_left}
+  \item \lean{GppWallKrylov.greenD_nonneg}\leanok\ \texttt{greenD\_nonneg}
+  \item \lean{GppWallKrylov.exp_half_second_deriv}\leanok\ \texttt{exp\_half\_second\_deriv}
+  \item \lean{GppWallKrylov.neumann_correction}\leanok\ \texttt{neumann\_correction}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
