@@ -3929,6 +3929,27 @@ From Codex's Wall/Krylov shell test and endpoint-BPY notes: the $3\times3$ Hanke
   \item \lean{GppWallKrylov.neumann_correction}\leanok\ \texttt{neumann\_correction}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime TFD Weights and the Weighted Lax--Phillips Target}
+From Codex's prime-TFD/primitive-lattice, critical half-density Lax--Phillips, and one-correlator notes: $\varphi(n)/n=\prod_{p\mid n}(1-p^{-1})$, a product of local critical-TFD vacuum probabilities; the primitive-lattice embedding has $\|V|n\rangle\|^2=\varphi(n)/n$; the $\omega$-family weights $c_\omega(n)=n^{\omega-1/2}\prod_{p\mid n}(1-p^{-2\omega})$ with $c_{1/2}=\varphi/n$, $c_\omega>0$ for $\omega>0$, $c_0(n)=0$ for $n>1$; the zero/pole pair $c_\rho\pm\omega/2$; the weighted conjugation $M_a(A_c+a)M_a^{-1}=-d/d\tau$; the finite-interval boundary-flux identity; and the finite-dimensional core of the positive-metric criterion (a metric with $C^\dagger\eta+\eta C=0$ forces imaginary spectrum). Precision notes recorded: the Beta-integral Laplace form needs $\Re(s+\tfrac14-\tfrac\omega2)>0$; the forms (A)--(D) of the number-hologram note are sufficient for RH, not equivalent. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeTFDLax.totient_div_eq_prod}\leanok\ \texttt{totient\_div\_eq\_prod}
+  \item \lean{GppPrimeTFDLax.embedding_norm_sq}\leanok\ \texttt{embedding\_norm\_sq}
+  \item \lean{GppPrimeTFDLax.local_coeff}\leanok\ \texttt{local\_coeff}
+  \item \lean{GppPrimeTFDLax.hasSum_local_ratio}\leanok\ \texttt{hasSum\_local\_ratio}
+  \item \lean{GppPrimeTFDLax.cOmega}\leanok\ \texttt{cOmega}
+  \item \lean{GppPrimeTFDLax.c_omega_half}\leanok\ \texttt{c\_omega\_half}
+  \item \lean{GppPrimeTFDLax.c_omega_pos}\leanok\ \texttt{c\_omega\_pos}
+  \item \lean{GppPrimeTFDLax.c_omega_zero}\leanok\ \texttt{c\_omega\_zero}
+  \item \lean{GppPrimeTFDLax.zero_pole_pair}\leanok\ \texttt{zero\_pole\_pair}
+  \item \lean{GppPrimeTFDLax.weighted_conjugation}\leanok\ \texttt{weighted\_conjugation}
+  \item \lean{GppPrimeTFDLax.boundary_flux}\leanok\ \texttt{boundary\_flux}
+  \item \lean{GppPrimeTFDLax.re_eq_zero_of_metric}\leanok\ \texttt{re\_eq\_zero\_of\_metric}
+  \item \lean{GppPrimeTFDLax.metric_shift_iff}\leanok\ \texttt{metric\_shift\_iff}
+  \item \lean{GppPrimeTFDLax.re_eq_half_of_forall_omega}\leanok\ \texttt{re\_eq\_half\_of\_forall\_omega}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
