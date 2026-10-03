@@ -2046,3 +2046,11 @@ import GppVerify.RiemannHypothesis.SU11LocalCovariance
 import GppVerify.RiemannHypothesis.FiniteZetaGraphMetric
 import GppVerify.RiemannHypothesis.PrimeEdgeDtn
 import GppVerify.RiemannHypothesis.HalfPlaneDelayLine
+-- Codex queue rows and Oct 2-3 notes, formalized 2026-10-03
+import GppVerify.RiemannHypothesis.ThetaWhiteningOperator
+import GppVerify.RiemannHypothesis.UnitaryCausalAlgebra
+import GppVerify.RiemannHypothesis.PrimeHouseholder
+import GppVerify.RiemannHypothesis.RankOneThresholdControls
+import GppVerify.RiemannHypothesis.ZeroQuartetHalfFlip
+import GppVerify.RiemannHypothesis.TomitaRatioFlow
+import GppVerify.RiemannHypothesis.StieltjesMellinKernel
