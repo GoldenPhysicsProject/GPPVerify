@@ -4255,6 +4255,158 @@ The Mellin transform of the Stieltjes kernel: for $0<\Re\sigma<1$, $\int_0^\inft
   \item \lean{GppStieltjesMellin.dispersion_factor}\leanok\ \texttt{dispersion\_factor}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite Bost--Connes Divisibility Projections: Two No-Go Results}
+From Codex's two Bost--Connes no-go notes: on $\mathbb{Z}/N\mathbb{Z}$ in the additive-character index basis the range projections $P_d\chi_k=\mathbf 1_{d\mid k}\chi_k$ give a diagonal operator $\sum_d w_dP_d$ that kills every index coprime to $N$ (eigenvalue $\log\gcd(k,N)$ for the von Mangoldt weights), and for $N=p^K$ the vector $\delta_1-\delta_{1+p^{K-1}}$ is annihilated by every $\sum_j w_j(P_{p^j}+F^{-1}P_{p^j}F)$, for every choice of weights. Scope: static projections only; this does not invalidate the Bost--Connes architecture, and no RH claim is made.
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppBostConnesNoGo.Pproj}\leanok\ \texttt{Pproj}
+  \item \lean{GppBostConnesNoGo.H}\leanok\ \texttt{H}
+  \item \lean{GppBostConnesNoGo.H_apply}\leanok\ \texttt{H\_apply}
+  \item \lean{GppBostConnesNoGo.eigenvalue_eq_zero_of_coprime}\leanok\ \texttt{eigenvalue\_eq\_zero\_of\_coprime}
+  \item \lean{GppBostConnesNoGo.H_apply_eq_zero_of_coprime}\leanok\ \texttt{H\_apply\_eq\_zero\_of\_coprime}
+  \item \lean{GppBostConnesNoGo.vonMangoldt_eigenvalue}\leanok\ \texttt{vonMangoldt\_eigenvalue}
+  \item \lean{GppBostConnesNoGo.expectation_weighted_kernel}\leanok\ \texttt{expectation\_weighted\_kernel}
+  \item \lean{GppBostConnesNoGo.bpt}\leanok\ \texttt{bpt}
+  \item \lean{GppBostConnesNoGo.nullVec}\leanok\ \texttt{nullVec}
+  \item \lean{GppBostConnesNoGo.lt_pow_of_hyp}\leanok\ \texttt{lt\_pow\_of\_hyp}
+  \item \lean{GppBostConnesNoGo.not_dvd_bpt}\leanok\ \texttt{not\_dvd\_bpt}
+  \item \lean{GppBostConnesNoGo.val_one}\leanok\ \texttt{val\_one}
+  \item \lean{GppBostConnesNoGo.val_bpt}\leanok\ \texttt{val\_bpt}
+  \item \lean{GppBostConnesNoGo.one_ne_bpt}\leanok\ \texttt{one\_ne\_bpt}
+  \item \lean{GppBostConnesNoGo.nullVec_ne_zero}\leanok\ \texttt{nullVec\_ne\_zero}
+  \item \lean{GppBostConnesNoGo.Pproj_nullVec}\leanok\ \texttt{Pproj\_nullVec}
+  \item \lean{GppBostConnesNoGo.dft_nullVec}\leanok\ \texttt{dft\_nullVec}
+  \item \lean{GppBostConnesNoGo.Pproj_dft_nullVec}\leanok\ \texttt{Pproj\_dft\_nullVec}
+  \item \lean{GppBostConnesNoGo.selfDual_frame_annihilates}\leanok\ \texttt{selfDual\_frame\_annihilates}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Bost--Connes Midpoint Algebra: Torsion Average, Two-Point Function, Jump Energy}
+From Codex's Bost--Connes $ax+b$ midpoint note: the range projection acts on the additive character of index $k$ as $\mathbf 1_{n\mid k}$ (a torsion average); abstractly, if $\omega(\mu_m^*\mu_n)=\delta_{mn}$ then the prime current $J_N=\sum\sqrt{\Lambda(n)}\mu_n$ has midpoint two-point function $\sum\Lambda(n)n^{-1/2}e^{iu\log n}$; and for norm-preserving $T_n$, $\sum c_n\|f-T_nf\|^2=2\sum c_n(\|f\|^2-\operatorname{Re}\langle f,T_nf\rangle)$. Scope: the Bost--Connes $C^*$-algebra and its KMS states are not formalized, and the orthonormality is a stated hypothesis. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppBostConnesKms.torsion_average}\leanok\ \texttt{torsion\_average}
+  \item \lean{GppBostConnesKms.modFactor}\leanok\ \texttt{modFactor}
+  \item \lean{GppBostConnesKms.half_shift}\leanok\ \texttt{half\_shift}
+  \item \lean{GppBostConnesKms.midpoint_two_point}\leanok\ \texttt{midpoint\_two\_point}
+  \item \lean{GppBostConnesKms.jump_energy}\leanok\ \texttt{jump\_energy}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Prime Inner Channels Have a Non-Globalizable Zero Divisor}
+From Codex's zero-accumulation note: the prime channel $\Theta_p(z)=B_{p^{-1/2}}(e^{iz\log p})$ has the exact zero lattice $z=2\pi k/\log p+i/2$ in the upper half-plane; every prime shares the zero $i/2$; the $k=1$ zeros are pairwise distinct and accumulate at $i/2$, so by the identity theorem no nonzero analytic function vanishes at all of them; and the Blaschke terms at the common zero are $2/5$ for every prime, so the Blaschke sum over primes diverges. Scope: the infinite-product statement itself is not formalized. No RH claim.
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeInnerCascade.B}\leanok\ \texttt{B}
+  \item \lean{GppPrimeInnerCascade.theta}\leanok\ \texttt{theta}
+  \item \lean{GppPrimeInnerCascade.zpk}\leanok\ \texttt{zpk}
+  \item \lean{GppPrimeInnerCascade.zpk_re}\leanok\ \texttt{zpk\_re}
+  \item \lean{GppPrimeInnerCascade.exp_neg_half_log}\leanok\ \texttt{exp\_neg\_half\_log}
+  \item \lean{GppPrimeInnerCascade.exp_eq_iff}\leanok\ \texttt{exp\_eq\_iff}
+  \item \lean{GppPrimeInnerCascade.denom_ne_zero_aux}\leanok\ \texttt{denom\_ne\_zero\_aux}
+  \item \lean{GppPrimeInnerCascade.denom_ne_zero}\leanok\ \texttt{denom\_ne\_zero}
+  \item \lean{GppPrimeInnerCascade.theta_eq_zero_iff}\leanok\ \texttt{theta\_eq\_zero\_iff}
+  \item \lean{GppPrimeInnerCascade.theta_zero_at_half_I}\leanok\ \texttt{theta\_zero\_at\_half\_I}
+  \item \lean{GppPrimeInnerCascade.prod_theta_zero}\leanok\ \texttt{prod\_theta\_zero}
+  \item \lean{GppPrimeInnerCascade.zk_dist_half_I}\leanok\ \texttt{zk\_dist\_half\_I}
+  \item \lean{GppPrimeInnerCascade.zk_ne_half_I}\leanok\ \texttt{zk\_ne\_half\_I}
+  \item \lean{GppPrimeInnerCascade.zk_injOn}\leanok\ \texttt{zk\_injOn}
+  \item \lean{GppPrimeInnerCascade.tendsto_zk}\leanok\ \texttt{tendsto\_zk}
+  \item \lean{GppPrimeInnerCascade.no_analytic_with_prime_zeros}\leanok\ \texttt{no\_analytic\_with\_prime\_zeros}
+  \item \lean{GppPrimeInnerCascade.blaschkeTerm}\leanok\ \texttt{blaschkeTerm}
+  \item \lean{GppPrimeInnerCascade.blaschke_term_half_I}\leanok\ \texttt{blaschke\_term\_half\_I}
+  \item \lean{GppPrimeInnerCascade.not_summable_blaschke}\leanok\ \texttt{not\_summable\_blaschke}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Critical Zeta Gibbs Ensemble: The Escaping Energy is Exponential}
+From Codex's critical Gibbs-escape note: the Laplace transform of the scaled energy $\epsilon\log N$ under the zeta Gibbs law is exactly $\zeta(1+\epsilon(1+s))/\zeta(1+\epsilon)$, and it converges to $1/(1+s)$ as $\epsilon\downarrow0$, the transform of an $\mathrm{Exp}(1)$ law; the only analytic input is the residue of $\zeta$ at $1$. Scope: convergence of transforms is proved pointwise in $s$; the passage to convergence in distribution and the joint limit with prime occupations are not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaGibbs.laplace_term}\leanok\ \texttt{laplace\_term}
+  \item \lean{GppZetaGibbs.laplace_tsum}\leanok\ \texttt{laplace\_tsum}
+  \item \lean{GppZetaGibbs.tendsto_path}\leanok\ \texttt{tendsto\_path}
+  \item \lean{GppZetaGibbs.tendsto_residue_path}\leanok\ \texttt{tendsto\_residue\_path}
+  \item \lean{GppZetaGibbs.tendsto_laplace}\leanok\ \texttt{tendsto\_laplace}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Self-Dual Divisor Geometry: Subgroup Gram Matrix and Mobius Parity}
+From Codex's finite self-dual divisor note: the normalized subgroup states $v_d$ on $\mathbb{Z}/N\mathbb{Z}$ have Gram matrix $\langle v_d,v_e\rangle=\gcd(d,e)/\sqrt{de}$ (so $\langle v_d,v_{dp}\rangle=p^{-1/2}$), and on the squarefree divisor cube the kernel is $\prod_{p\in T\triangle S}p^{-1/2}$ with the Mobius parity vector an eigenvector of eigenvalue $\prod_{p\in P}(1-p^{-1/2})$ for arbitrary weights. Scope: the unitary Fourier duality $v_d\mapsto v_{N/d}$, the Hodge/Koszul reading, and the limit of the eigenvalue are not formalized. No RH claim.
+
+\noindent\textbf{Proved (15 declarations):}
+\begin{itemize}
+  \item \lean{GppSelfDualDivisor.Hset}\leanok\ \texttt{Hset}
+  \item \lean{GppSelfDualDivisor.card_Hset}\leanok\ \texttt{card\_Hset}
+  \item \lean{GppSelfDualDivisor.Hset_inter}\leanok\ \texttt{Hset\_inter}
+  \item \lean{GppSelfDualDivisor.vstate}\leanok\ \texttt{vstate}
+  \item \lean{GppSelfDualDivisor.gram}\leanok\ \texttt{gram}
+  \item \lean{GppSelfDualDivisor.gram_eq_card}\leanok\ \texttt{gram\_eq\_card}
+  \item \lean{GppSelfDualDivisor.gram_eq}\leanok\ \texttt{gram\_eq}
+  \item \lean{GppSelfDualDivisor.overlap_prime}\leanok\ \texttt{overlap\_prime}
+  \item \lean{GppSelfDualDivisor.kern}\leanok\ \texttt{kern}
+  \item \lean{GppSelfDualDivisor.symmDiff_insert_left}\leanok\ \texttt{symmDiff\_insert\_left}
+  \item \lean{GppSelfDualDivisor.symmDiff_insert_right}\leanok\ \texttt{symmDiff\_insert\_right}
+  \item \lean{GppSelfDualDivisor.symmDiff_insert_both}\leanok\ \texttt{symmDiff\_insert\_both}
+  \item \lean{GppSelfDualDivisor.q_notMem_symmDiff}\leanok\ \texttt{q\_notMem\_symmDiff}
+  \item \lean{GppSelfDualDivisor.mobius_eigen_weighted}\leanok\ \texttt{mobius\_eigen\_weighted}
+  \item \lean{GppSelfDualDivisor.mobius_eigen}\leanok\ \texttt{mobius\_eigen}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Dual Mobius Obstruction in the Finite Zeta-Graph Metric}
+From Codex's dual-Mobius note: the inverse-transpose of the half-density zeta matrix sends the raw character $n^{-z}$ to the truncated reciprocal-zeta sum, $b_{N,z}(d)=d^{-z}\sum_{m\le N/d}\mu(m)m^{-1/2-z}$, and the $d=1$ coordinate bounds the dual norm below by the weighted Mobius partial sum. Scope: the partial-summation equivalence with the Mertens bound is not formalized. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppDualMobius.dualCoord}\leanok\ \texttt{dualCoord}
+  \item \lean{GppDualMobius.dual_coord_eq}\leanok\ \texttt{dual\_coord\_eq}
+  \item \lean{GppDualMobius.dualNormSq}\leanok\ \texttt{dualNormSq}
+  \item \lean{GppDualMobius.dual_norm_ge}\leanok\ \texttt{dual\_norm\_ge}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Half-Line Resolvent Commutator: Rank-One Kernel}
+From Codex's rank-one resolvent note: the commutator of the Dirichlet half-line resolvent kernel with unilateral translation is exactly $u_{a,\kappa}(x)e^{-\kappa y}$, rank one with the same right vector $e^{-\kappa y}$ for every $a$, and $\|e_\kappa\|^2=1/(2\kappa)$. Scope: pointwise kernels only; the operator-level statements, the trace, the contact limit, and the AFT Feshbach collapse are not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppResolventCommutator.G}\leanok\ \texttt{G}
+  \item \lean{GppResolventCommutator.u}\leanok\ \texttt{u}
+  \item \lean{GppResolventCommutator.commKernel}\leanok\ \texttt{commKernel}
+  \item \lean{GppResolventCommutator.commutator_kernel}\leanok\ \texttt{commutator\_kernel}
+  \item \lean{GppResolventCommutator.norm_sq_expVec}\leanok\ \texttt{norm\_sq\_expVec}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Local Odd-Transfer Contraction and the Cross-Mode Krein Obstruction}
+From Codex's odd-transfer note: for the SU(1,1) coherent state $\Omega_r$ and occupation parity $J$, $\langle\Omega_r,J\Omega_s\rangle=\sqrt{(1-r^2)(1-s^2)}/(1+rs)$, the parity components satisfy $\|P_+\Omega_r\|^2=1/(1+r^2)$ and $\|P_-\Omega_r\|^2=r^2/(1+r^2)$ so $\|P_-\Omega_r\|/\|P_+\Omega_r\|=|r|$ (a strict contraction for every single prime mode), but for two distinct parameters the reflection Gram determinant is $-(1-r^2)(1-s^2)(r-s)^2/((1+r^2)(1+s^2)(1+rs)^2)<0$, so the raw reflection form is indefinite. Scope: the Archimedean Jacobi-transform picture and the sharpened positive-frame target are not formalized. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11Reflection.reflected_overlap}\leanok\ \texttt{reflected\_overlap}
+  \item \lean{GppSU11Reflection.reflected_purity}\leanok\ \texttt{reflected\_purity}
+  \item \lean{GppSU11Reflection.plus_sq_hasSum}\leanok\ \texttt{plus\_sq\_hasSum}
+  \item \lean{GppSU11Reflection.minus_sq_hasSum}\leanok\ \texttt{minus\_sq\_hasSum}
+  \item \lean{GppSU11Reflection.odd_even_ratio}\leanok\ \texttt{odd\_even\_ratio}
+  \item \lean{GppSU11Reflection.krein}\leanok\ \texttt{krein}
+  \item \lean{GppSU11Reflection.krein_symm}\leanok\ \texttt{krein\_symm}
+  \item \lean{GppSU11Reflection.krein_diag}\leanok\ \texttt{krein\_diag}
+  \item \lean{GppSU11Reflection.krein_det_neg}\leanok\ \texttt{krein\_det\_neg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Two-Logistic Density as a Ward Operator on the Bose Trace}
+From Codex's logistic/Mellin note: with the Bose trace $h(y)=1/(e^y-1)$, the closed form $(y\coth(y/2)-2)/(4\sinh^2(y/2))$ of the two-logistic density equals $yh''(y)+2h'(y)$ for $y\ne0$, with $h'$ and $h''$ computed explicitly. Scope: that the convolution of two logistic densities is this closed form, the logistic characteristic function, and the Mellin identity $\int y^sg=s(s-1)\Gamma(s)\zeta(s)$ are not formalized. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppLogisticBose.bose}\leanok\ \texttt{bose}
+  \item \lean{GppLogisticBose.bose1}\leanok\ \texttt{bose1}
+  \item \lean{GppLogisticBose.bose2}\leanok\ \texttt{bose2}
+  \item \lean{GppLogisticBose.twoLogistic}\leanok\ \texttt{twoLogistic}
+  \item \lean{GppLogisticBose.exp_sub_one_ne}\leanok\ \texttt{exp\_sub\_one\_ne}
+  \item \lean{GppLogisticBose.hasDerivAt_bose}\leanok\ \texttt{hasDerivAt\_bose}
+  \item \lean{GppLogisticBose.hasDerivAt_bose'}\leanok\ \texttt{hasDerivAt\_bose'}
+  \item \lean{GppLogisticBose.logistic_conv_eq_ward}\leanok\ \texttt{logistic\_conv\_eq\_ward}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
