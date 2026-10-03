@@ -4556,6 +4556,18 @@ From Codex's valuation-chain note: on $\mathbb{Z}/p^K\mathbb{Z}$ the normalized 
   \item \lean{GppValuationChain.euler_green}\leanok\ \texttt{euler\_green}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Haar Valuation Law and the Mean Mass Series}
+From Codex's profinite mass-law note: the geometric valuation law $\Pr(N_p=a)=(1-p^{-1})p^{-a}$ is normalized, has mean $1/(p-1)$ and single-prime Laplace transform $(1-q)/(1-qe^{-s})$, and the mean total mass $\sum_p 2/(p-1)^{3/2}$ of the Casimir-weighted sum converges. Scope: Haar measure on $\widehat{\mathbb Z}$, independence, Borel--Cantelli, the variance and the dark-matter reading are not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppHaarValuation.geometric_normalization}\leanok\ \texttt{geometric\_normalization}
+  \item \lean{GppHaarValuation.geometric_mean}\leanok\ \texttt{geometric\_mean}
+  \item \lean{GppHaarValuation.mean_prime}\leanok\ \texttt{mean\_prime}
+  \item \lean{GppHaarValuation.geometric_laplace}\leanok\ \texttt{geometric\_laplace}
+  \item \lean{GppHaarValuation.mean_mass_summable}\leanok\ \texttt{mean\_mass\_summable}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}

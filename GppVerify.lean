@@ -2073,4 +2073,5 @@ import GppVerify.RiemannHypothesis.PullbackMetric
 import GppVerify.RiemannHypothesis.PrimeWeightNoGo
 import GppVerify.RiemannHypothesis.PrimeTfdPhaseFisher
 import GppVerify.RiemannHypothesis.ValuationChain
+import GppVerify.RiemannHypothesis.HaarValuationLaw
 import GppVerify.RiemannHypothesis.StieltjesMellinKernel
