@@ -4568,6 +4568,45 @@ From Codex's profinite mass-law note: the geometric valuation law $\Pr(N_p=a)=(1
   \item \lean{GppHaarValuation.mean_mass_summable}\leanok\ \texttt{mean\_mass\_summable}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The totient Volterra kernel: exact zero mean and divisor regrouping}
+The totient density $\varphi(n)/n=\sum_{d\mid n}\mu(d)/d$, the smoothing kernel $G(y)=4y\arccos y-2\sqrt{1-y^2}$ with $\int_0^1G=0$, its ODE form $g'=a-g/2$, and the exact regrouping $K(x)=\sum_{d\le x}\mu(d)/d\,A_G(x/d)$. Finite and exact; the Volterra/Mertens asymptotic analysis is not formalized. No RH claim.
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppTotientVolterra.totient_div}\leanok\ \texttt{totient\_div}
+  \item \lean{GppTotientVolterra.G}\leanok\ \texttt{G}
+  \item \lean{GppTotientVolterra.G_zero}\leanok\ \texttt{G\_zero}
+  \item \lean{GppTotientVolterra.G_one}\leanok\ \texttt{G\_one}
+  \item \lean{GppTotientVolterra.continuous_G}\leanok\ \texttt{continuous\_G}
+  \item \lean{GppTotientVolterra.hasDerivAt_G}\leanok\ \texttt{hasDerivAt\_G}
+  \item \lean{GppTotientVolterra.F}\leanok\ \texttt{F}
+  \item \lean{GppTotientVolterra.continuous_F}\leanok\ \texttt{continuous\_F}
+  \item \lean{GppTotientVolterra.hasDerivAt_F}\leanok\ \texttt{hasDerivAt\_F}
+  \item \lean{GppTotientVolterra.integral_y_arccos}\leanok\ \texttt{integral\_y\_arccos}
+  \item \lean{GppTotientVolterra.integral_sqrt_quarter}\leanok\ \texttt{integral\_sqrt\_quarter}
+  \item \lean{GppTotientVolterra.integral_G}\leanok\ \texttt{integral\_G}
+  \item \lean{GppTotientVolterra.a}\leanok\ \texttt{a}
+  \item \lean{GppTotientVolterra.g}\leanok\ \texttt{g}
+  \item \lean{GppTotientVolterra.hasDerivAt_g}\leanok\ \texttt{hasDerivAt\_g}
+  \item \lean{GppTotientVolterra.tendsto_g_zero}\leanok\ \texttt{tendsto\_g\_zero}
+  \item \lean{GppTotientVolterra.AG}\leanok\ \texttt{AG}
+  \item \lean{GppTotientVolterra.K}\leanok\ \texttt{K}
+  \item \lean{GppTotientVolterra.sum_regroup}\leanok\ \texttt{sum\_regroup}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The logistic density, the $\tanh(x/2)$ substitution and M\"obius boosts}
+The logistic density $p(x)=1/(4\cosh^2(x/2))=e^x/(1+e^x)^2$, $d\tanh(x/2)/dx=2p(x)$, and the boost $x\mapsto x-t$ acting on $r=\tanh(x/2)$ by the M\"obius map $(r-a)/(1-ar)$ with derivative $(1-a^2)/(1-ar)^2$. Calculus identities only. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppLogisticBoost.p}\leanok\ \texttt{p}
+  \item \lean{GppLogisticBoost.logistic_density_eq}\leanok\ \texttt{logistic\_density\_eq}
+  \item \lean{GppLogisticBoost.p_pos}\leanok\ \texttt{p\_pos}
+  \item \lean{GppLogisticBoost.hasDerivAt_tanh_half}\leanok\ \texttt{hasDerivAt\_tanh\_half}
+  \item \lean{GppLogisticBoost.tanh_half_sub}\leanok\ \texttt{tanh\_half\_sub}
+  \item \lean{GppLogisticBoost.hasDerivAt_mobius}\leanok\ \texttt{hasDerivAt\_mobius}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
