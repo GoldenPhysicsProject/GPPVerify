@@ -3950,6 +3950,21 @@ From Codex's prime-TFD/primitive-lattice, critical half-density Lax--Phillips, a
   \item \lean{GppPrimeTFDLax.re_eq_half_of_forall_omega}\leanok\ \texttt{re\_eq\_half\_of\_forall\_omega}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime Cayley Channel: Golden Point and Cayley Inversion}
+Completing Codex's formalization-queue rows of 2026-10-02 (the rest is in the Prime Cayley section): $S(\mu)$ anticommutes with $\tau=\begin{psmallmatrix}0&-1\\1&0\end{psmallmatrix}$; $c_5=(\sqrt5-1)/(\sqrt5+1)=\varphi^{-2}$; $(\varphi,1)$ is the $+1$ eigenline of $S_5$; and scalar/finite-diagonal Cayley inversion $A=(1-C)/(1+C)$. The point $p=5$ is singled out by the normalization $\mu=2/\sqrt{p-1}$. No RH content.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeCayleyGolden.tau}\leanok\ \texttt{tau}
+  \item \lean{GppPrimeCayleyGolden.channel_anticomm}\leanok\ \texttt{channel\_anticomm}
+  \item \lean{GppPrimeCayleyGolden.phi}\leanok\ \texttt{phi}
+  \item \lean{GppPrimeCayleyGolden.sqrt5_sq}\leanok\ \texttt{sqrt5\_sq}
+  \item \lean{GppPrimeCayleyGolden.cayley_five}\leanok\ \texttt{cayley\_five}
+  \item \lean{GppPrimeCayleyGolden.channel_five_golden_eigen}\leanok\ \texttt{channel\_five\_golden\_eigen}
+  \item \lean{GppPrimeCayleyGolden.cayley_inv}\leanok\ \texttt{cayley\_inv}
+  \item \lean{GppPrimeCayleyGolden.cayley_diag_inv}\leanok\ \texttt{cayley\_diag\_inv}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
