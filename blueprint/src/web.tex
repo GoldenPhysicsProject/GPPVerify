@@ -4138,6 +4138,113 @@ From Codex's causal-delay note: the bare prime $\phi(z)=e^{iz\log p}$ has defect
   \item \lean{GppHalfPlaneDelay.excess_delay_series}\leanok\ \texttt{excess\_delay\_series}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Local M\"obius Whitening Operator and Its Symbol}
+From Codex's theta-whitening note: for $u^*u=1$ and real $r$, $(1-ru)^*(1-ru)=(1+r^2)-r(u+u^*)$, whose symbol is $|1-re^{-i\theta}|^2=1-2r\cos\theta+r^2>0$ for $|r|<1$. Abstract $*$-algebra; the Hilbert-space action and the theta-kernel bookkeeping identity are not formalized. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppThetaWhitening.whitening_gram}\leanok\ \texttt{whitening\_gram}
+  \item \lean{GppThetaWhitening.whitening_symbol}\leanok\ \texttt{whitening\_symbol}
+  \item \lean{GppThetaWhitening.whitening_symbol_pos}\leanok\ \texttt{whitening\_symbol\_pos}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Hilbert--P\'olya Lemma, Growth Bounds and Unitary Defect Identities}
+From Codex's unitary-causal-completion notes and queue rows: the one-line Hilbert--P\'olya lemma (a nonzero bounded functional with $\ell(U_tf)=e^{(\rho-1/2)t}\ell(f)$ under isometries forces $\Re\rho=\tfrac12$); the norm-independent spectral-growth lower bound $\|V_t\|\ge e^{(1/2-\Re\rho)t}$ and the exponential-type bound $\omega\ge|\Re\rho-\tfrac12|$ (why strip-norm engineering cannot itself prove RH); the Blaschke transform of an isometry is an isometry; the exact defect $B^*XB-X=\ell(1-r^2)V^*V$ and its additivity; the optical identity $D^*D-D_0^*D_0=(GD)^*(GD)$; contraction $\iff$ defect positivity; and the translation-energy identity $2\Re\langle f,Tf\rangle=2\|f\|^2-\|f-Tf\|^2$. Abstract algebra and normed-space estimates; the Hardy-space realizations are not formalized. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppUnitaryCausal.hilbert_polya_lemma}\leanok\ \texttt{hilbert\_polya\_lemma}
+  \item \lean{GppUnitaryCausal.growth_lower_bound}\leanok\ \texttt{growth\_lower\_bound}
+  \item \lean{GppUnitaryCausal.type_lower_bound}\leanok\ \texttt{type\_lower\_bound}
+  \item \lean{GppUnitaryCausal.blaschke_isometry}\leanok\ \texttt{blaschke\_isometry}
+  \item \lean{GppUnitaryCausal.blaschke_defect}\leanok\ \texttt{blaschke\_defect}
+  \item \lean{GppUnitaryCausal.defect_mul}\leanok\ \texttt{defect\_mul}
+  \item \lean{GppUnitaryCausal.optical_identity}\leanok\ \texttt{optical\_identity}
+  \item \lean{GppUnitaryCausal.contraction_defect}\leanok\ \texttt{contraction\_defect}
+  \item \lean{GppUnitaryCausal.contraction_iff_defect_nonneg}\leanok\ \texttt{contraction\_iff\_defect\_nonneg}
+  \item \lean{GppUnitaryCausal.isometry_energy_identity}\leanok\ \texttt{isometry\_energy\_identity}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime Channel as a Householder Reflection and the Julia Colligation}
+From Codex's golden-Householder, Julia-colligation and Feshbach notes: $S(c)=2uu^T-I$ with $u=(1,\sqrt c)/\sqrt{1+c}$ and $S(\mu_p)=S(c_p)$ at the Cayley coordinate $c_p=(\sqrt p-1)/(\sqrt p+1)$; $S\tau S=-\tau$; the Julia matrix $[[r,b],[b,-r]]$ is a reflection with $\det=-1$ and transfer function the Blaschke map; and the Feshbach projection-norm identity and Gram nonnegativity. Finite algebra. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHouseholder.sOfC}\leanok\ \texttt{sOfC}
+  \item \lean{GppPrimeHouseholder.householder_form}\leanok\ \texttt{householder\_form}
+  \item \lean{GppPrimeHouseholder.channel_eq_householder}\leanok\ \texttt{channel\_eq\_householder}
+  \item \lean{GppPrimeHouseholder.reflection_conj}\leanok\ \texttt{reflection\_conj}
+  \item \lean{GppPrimeHouseholder.julia}\leanok\ \texttt{julia}
+  \item \lean{GppPrimeHouseholder.julia_sq}\leanok\ \texttt{julia\_sq}
+  \item \lean{GppPrimeHouseholder.julia_det}\leanok\ \texttt{julia\_det}
+  \item \lean{GppPrimeHouseholder.julia_transfer}\leanok\ \texttt{julia\_transfer}
+  \item \lean{GppPrimeHouseholder.projection_norm_sq}\leanok\ \texttt{projection\_norm\_sq}
+  \item \lean{GppPrimeHouseholder.wedge_norm_nonneg}\leanok\ \texttt{wedge\_norm\_nonneg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Rank-One Pole Thresholds, Sobolev-Trace DtN, Midpoint Uniqueness, Theta Whitening}
+From four rows of Codex's formalization queue: for symmetric invertible $A$ with $c^TA^{-1}c=-2$ and $A$ positive definite on $c^\perp$, $A+\tfrac12cc^T$ is positive semidefinite with kernel exactly $\mathbb RA^{-1}c$ (the hypothesis is the Haynsworth form of ``exactly one negative eigenvalue''); for positive definite $A$ with $s^TA^{-1}s=2$, $A-\tfrac12ss^T$ is positive semidefinite and singular; the interval DtN matrix equals $2\kappa[[C+\tfrac12,-A],[-A,C+\tfrac12]]$; $(a_L-ra_R^\dagger)\Omega_r=0$ and a nonzero vector cannot satisfy this for two radii; and the shifted-radius whitening $(1-rau)(1-ra^{-1}u)=1-2r\cosh(\theta\log p)u+r^2u^2$. Finite algebra. No RH claim.
+
+\noindent\textbf{Proved (12 declarations):}
+\begin{itemize}
+  \item \lean{GppRankOneControls.pole_threshold_neg}\leanok\ \texttt{pole\_threshold\_neg}
+  \item \lean{GppRankOneControls.pole_threshold_pos}\leanok\ \texttt{pole\_threshold\_pos}
+  \item \lean{GppRankOneControls.dtn_tfd_identity}\leanok\ \texttt{dtn\_tfd\_identity}
+  \item \lean{GppRankOneControls.dtn_tfd_prime}\leanok\ \texttt{dtn\_tfd\_prime}
+  \item \lean{GppRankOneControls.aL}\leanok\ \texttt{aL}
+  \item \lean{GppRankOneControls.aRdag}\leanok\ \texttt{aRdag}
+  \item \lean{GppRankOneControls.omega}\leanok\ \texttt{omega}
+  \item \lean{GppRankOneControls.midpoint_annihilation}\leanok\ \texttt{midpoint\_annihilation}
+  \item \lean{GppRankOneControls.aRdag_injective}\leanok\ \texttt{aRdag\_injective}
+  \item \lean{GppRankOneControls.unique_radius}\leanok\ \texttt{unique\_radius}
+  \item \lean{GppRankOneControls.theta_whitening}\leanok\ \texttt{theta\_whitening}
+  \item \lean{GppRankOneControls.weights_cosh}\leanok\ \texttt{weights\_cosh}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Zero Quartet and the Two Spectral Half-Flips}
+From Codex's $q,t$ half-flip note: in the centered coordinate $z=s-\tfrac12$ the flips $z\mapsto-z$ and $z\mapsto\bar z$ generate the zero quartet $\{\pm\delta\pm i\gamma\}$; their product $z\mapsto-\bar z$ fixes exactly $\Re z=0$; they agree exactly on the critical line; the odd part $P_-z=\Re z$ is the off-line displacement; and Mathlib's \texttt{RiemannHypothesis} is equivalent to $P_-(\rho-\tfrac12)=0$ for every nontrivial zero. Statement-level; the physical-quotient target is open. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppZeroQuartet.Rsh}\leanok\ \texttt{Rsh}
+  \item \lean{GppZeroQuartet.Rc}\leanok\ \texttt{Rc}
+  \item \lean{GppZeroQuartet.Dspec}\leanok\ \texttt{Dspec}
+  \item \lean{GppZeroQuartet.Pplus}\leanok\ \texttt{Pplus}
+  \item \lean{GppZeroQuartet.Pminus}\leanok\ \texttt{Pminus}
+  \item \lean{GppZeroQuartet.Rsh_Rc_comm}\leanok\ \texttt{Rsh\_Rc\_comm}
+  \item \lean{GppZeroQuartet.Rsh_invol}\leanok\ \texttt{Rsh\_invol}
+  \item \lean{GppZeroQuartet.Rc_invol}\leanok\ \texttt{Rc\_invol}
+  \item \lean{GppZeroQuartet.D_spec_apply}\leanok\ \texttt{D\_spec\_apply}
+  \item \lean{GppZeroQuartet.quartet_orbit}\leanok\ \texttt{quartet\_orbit}
+  \item \lean{GppZeroQuartet.D_fixed_iff}\leanok\ \texttt{D\_fixed\_iff}
+  \item \lean{GppZeroQuartet.halfflip_agree_iff}\leanok\ \texttt{halfflip\_agree\_iff}
+  \item \lean{GppZeroQuartet.one_sub_eq_conj_iff}\leanok\ \texttt{one\_sub\_eq\_conj\_iff}
+  \item \lean{GppZeroQuartet.split_apply}\leanok\ \texttt{split\_apply}
+  \item \lean{GppZeroQuartet.P_minus_eq_zero_iff}\leanok\ \texttt{P\_minus\_eq\_zero\_iff}
+  \item \lean{GppZeroQuartet.riemannHypothesis_iff_P_minus}\leanok\ \texttt{riemannHypothesis\_iff\_P\_minus}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Tomita Modular Flow on Ratio States}
+From Codex's Tomita ratio note: on a basis vector with ratio $n/m$, $(n/m)^{it}=(m/n)^{-it}$ is the principal-series exponent $r^{1/2-s}$ at $s=\tfrac12+it$, has unit modulus, and the swap reverses the ratio. Pointwise identities; the state and its thermodynamic limit are not formalized. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppTomitaRatio.modular_flow_inv}\leanok\ \texttt{modular\_flow\_inv}
+  \item \lean{GppTomitaRatio.principal_exponent}\leanok\ \texttt{principal\_exponent}
+  \item \lean{GppTomitaRatio.tomita_reverses_ratio}\leanok\ \texttt{tomita\_reverses\_ratio}
+  \item \lean{GppTomitaRatio.unit_modulus}\leanok\ \texttt{unit\_modulus}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Stieltjes--Mellin Dispersion Kernel}
+The Mellin transform of the Stieltjes kernel: for $0<\Re\sigma<1$, $\int_0^\infty x^{\sigma-1}/(1+x)\,dx=\pi/\sin(\pi\sigma)$, proved by the substitution $x=t/(1-t)$ onto the Beta integral, and the combined dispersion factor $8\pi^2/\sin(\pi\sigma)$ with the Cutkosky normalization. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppStieltjesMellin.beta_one_sub}\leanok\ \texttt{beta\_one\_sub}
+  \item \lean{GppStieltjesMellin.stieltjes_mellin}\leanok\ \texttt{stieltjes\_mellin}
+  \item \lean{GppStieltjesMellin.dispersion_factor}\leanok\ \texttt{dispersion\_factor}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
