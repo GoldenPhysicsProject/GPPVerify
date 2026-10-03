@@ -1522,6 +1522,7 @@ import GppVerify.RiemannHypothesis.PrimeCayleyChannel
 import GppVerify.RiemannHypothesis.CenteredPrincipalSeries
 import GppVerify.RiemannHypothesis.WallKrylovPoisson
 import GppVerify.RiemannHypothesis.PrimeTFDLaxCompletion
+import GppVerify.RiemannHypothesis.PrimeCayleyGolden
 -- No-go (Codex GPPDiscovery2 workbench 09-27, formalized 09-28): a positive, arbitrarily strongly
 -- log-concave density whose characteristic function has an explicit off-axis complex zero.
 import GppVerify.RiemannHypothesis.FisherZeroLogConcavityNoGo
