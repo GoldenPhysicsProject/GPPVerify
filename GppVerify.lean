@@ -2042,3 +2042,7 @@ import GppVerify.RiemannHypothesis.SU11PrimeBlaschke
 import GppVerify.RiemannHypothesis.SU11CharacterDefect
 import GppVerify.RiemannHypothesis.SU11LightconeTail
 import GppVerify.RiemannHypothesis.SU11LocalCovariance
+-- Codex finite zeta-graph, Schur-edge and delay-line notes, formalized 2026-10-03
+import GppVerify.RiemannHypothesis.FiniteZetaGraphMetric
+import GppVerify.RiemannHypothesis.PrimeEdgeDtn
+import GppVerify.RiemannHypothesis.HalfPlaneDelayLine
