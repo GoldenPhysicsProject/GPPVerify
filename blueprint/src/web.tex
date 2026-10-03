@@ -3965,6 +3965,115 @@ Completing Codex's formalization-queue rows of 2026-10-02 (the rest is in the Pr
   \item \lean{GppPrimeCayleyGolden.cayley_diag_inv}\leanok\ \texttt{cayley\_diag\_inv}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime TFD as an SU(1,1) Coherent State: Euler Factor, Blaschke Channel, Mass}
+From Codex's local SU(1,1) closure notes: the paired coherent state is normalized ($\sum(1-r^2)r^{2m}=1$) with overlap $\sqrt{(1-r^2)(1-s^2)}/(1-rs)$ and purity $(1-r^2)/(1+r^2)$, i.e.\ $(p-1)/(p+1)$ at $r^2=1/p$; the Euler factor is the Poisson kernel, $(1-p^{-2\sigma})|\zeta_p(\sigma+it)|^2=P_{p^{-\sigma}}(t\log p)$; the local functional-equation transfer is a Blaschke automorphism, $p^{1/2-s}\zeta_p(s)/\zeta_p(1-s)=B_{p^{-1/2}}(p^{1/2-s})$, unitary on the circle, with group delay equal to the Poisson kernel; the shadow is inversion $z\mapsto z^{-1}$ and $w\mapsto 1/\bar w$ in the disk coordinate; with $\kappa=\operatorname{artanh}a$, $P_a(0)=e^{2\kappa}$, $P_a(\pi)=e^{-2\kappa}$ and $\mu^2=P_a(0)+P_a(\pi)-2$ for $\mu=2\sinh\kappa$; and the algebraic part of the Archimedean exponential tilt. Local identities only; the global adelic sewing is open. No RH claim.
+
+\noindent\textbf{Proved (32 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11Prime.poisson}\leanok\ \texttt{poisson}
+  \item \lean{GppSU11Prime.blaschke}\leanok\ \texttt{blaschke}
+  \item \lean{GppSU11Prime.coherent_normalization}\leanok\ \texttt{coherent\_normalization}
+  \item \lean{GppSU11Prime.coherent_overlap}\leanok\ \texttt{coherent\_overlap}
+  \item \lean{GppSU11Prime.purity_hasSum}\leanok\ \texttt{purity\_hasSum}
+  \item \lean{GppSU11Prime.purity_prime}\leanok\ \texttt{purity\_prime}
+  \item \lean{GppSU11Prime.euler_factor_intensity}\leanok\ \texttt{euler\_factor\_intensity}
+  \item \lean{GppSU11Prime.cpow_polar}\leanok\ \texttt{cpow\_polar}
+  \item \lean{GppSU11Prime.blaschke_euler_transfer}\leanok\ \texttt{blaschke\_euler\_transfer}
+  \item \lean{GppSU11Prime.blaschke_zero}\leanok\ \texttt{blaschke\_zero}
+  \item \lean{GppSU11Prime.blaschke_inv}\leanok\ \texttt{blaschke\_inv}
+  \item \lean{GppSU11Prime.blaschke_norm_one}\leanok\ \texttt{blaschke\_norm\_one}
+  \item \lean{GppSU11Prime.blaschke_hasDerivAt}\leanok\ \texttt{blaschke\_hasDerivAt}
+  \item \lean{GppSU11Prime.blaschke_boundary_delay}\leanok\ \texttt{blaschke\_boundary\_delay}
+  \item \lean{GppSU11Prime.zp}\leanok\ \texttt{zp}
+  \item \lean{GppSU11Prime.shadow_inv}\leanok\ \texttt{shadow\_inv}
+  \item \lean{GppSU11Prime.norm_zp}\leanok\ \texttt{norm\_zp}
+  \item \lean{GppSU11Prime.norm_zp_eq_one_iff}\leanok\ \texttt{norm\_zp\_eq\_one\_iff}
+  \item \lean{GppSU11Prime.shadow_conj_disk}\leanok\ \texttt{shadow\_conj\_disk}
+  \item \lean{GppSU11Prime.poisson_zero}\leanok\ \texttt{poisson\_zero}
+  \item \lean{GppSU11Prime.poisson_pi}\leanok\ \texttt{poisson\_pi}
+  \item \lean{GppSU11Prime.poisson_zero_mul_pi}\leanok\ \texttt{poisson\_zero\_mul\_pi}
+  \item \lean{GppSU11Prime.exp_two_artanh}\leanok\ \texttt{exp\_two\_artanh}
+  \item \lean{GppSU11Prime.cayley_eq_exp}\leanok\ \texttt{cayley\_eq\_exp}
+  \item \lean{GppSU11Prime.poisson_zero_eq_exp}\leanok\ \texttt{poisson\_zero\_eq\_exp}
+  \item \lean{GppSU11Prime.poisson_pi_eq_exp}\leanok\ \texttt{poisson\_pi\_eq\_exp}
+  \item \lean{GppSU11Prime.mass_anisotropy}\leanok\ \texttt{mass\_anisotropy}
+  \item \lean{GppSU11Prime.cos_two_arctan}\leanok\ \texttt{cos\_two\_arctan}
+  \item \lean{GppSU11Prime.overlap_trig}\leanok\ \texttt{overlap\_trig}
+  \item \lean{GppSU11Prime.mean_eq_tan}\leanok\ \texttt{mean\_eq\_tan}
+  \item \lean{GppSU11Prime.var_sub_mean_sq}\leanok\ \texttt{var\_sub\_mean\_sq}
+  \item \lean{GppSU11Prime.var_eq_sec}\leanok\ \texttt{var\_eq\_sec}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The $k=\tfrac12$ Character and Blaschke Defect Kernels}
+From Codex's SU(1,1) character and de Branges defect notes: the heat character $\sum_n e^{-2\ell(n+1/2)}=1/(2\sinh\ell)$ gives the prime covariances $A_p=\sqrt p/(p-1)$, $C_p=1/(p-1)$ and the Plancherel weight $\ell/\sinh\ell=2\ell\chi(\ell)$; the Euler factor is a shifted character; the Schur defect kernel of a Blaschke factor is rank one with vector the TFD amplitude; the product rule $D_{B_1B_2}=D_{B_1}+B_1\bar B_1D_{B_2}$ and quotient rule $D_{A/B}=(D_A-D_B)/(B\bar B)$; finite cascades have an explicit positive Gram factorization; and positive semidefiniteness is invariant under congruence, so $D_{A/B}\succeq0\iff D_A-D_B\succeq0$ on the disk. The last is an equivalence of statements, the kernel-domination form of the prime-versus-Archimedean problem, not a proof of either side. No RH claim.
+
+\noindent\textbf{Proved (23 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11CharacterDefect.heat_character}\leanok\ \texttt{heat\_character}
+  \item \lean{GppSU11CharacterDefect.prime_anomalous}\leanok\ \texttt{prime\_anomalous}
+  \item \lean{GppSU11CharacterDefect.prime_normal}\leanok\ \texttt{prime\_normal}
+  \item \lean{GppSU11CharacterDefect.celestial_weight}\leanok\ \texttt{celestial\_weight}
+  \item \lean{GppSU11CharacterDefect.euler_shifted_character}\leanok\ \texttt{euler\_shifted\_character}
+  \item \lean{GppSU11CharacterDefect.casimir_half}\leanok\ \texttt{casimir\_half}
+  \item \lean{GppSU11CharacterDefect.casimir_principal}\leanok\ \texttt{casimir\_principal}
+  \item \lean{GppSU11CharacterDefect.defect}\leanok\ \texttt{defect}
+  \item \lean{GppSU11CharacterDefect.conj_blaschke}\leanok\ \texttt{conj\_blaschke}
+  \item \lean{GppSU11CharacterDefect.defect_blaschke}\leanok\ \texttt{defect\_blaschke}
+  \item \lean{GppSU11CharacterDefect.tfdAmp}\leanok\ \texttt{tfdAmp}
+  \item \lean{GppSU11CharacterDefect.defect_blaschke_rank_one}\leanok\ \texttt{defect\_blaschke\_rank\_one}
+  \item \lean{GppSU11CharacterDefect.tfdAmp_boundary}\leanok\ \texttt{tfdAmp\_boundary}
+  \item \lean{GppSU11CharacterDefect.defect_mul}\leanok\ \texttt{defect\_mul}
+  \item \lean{GppSU11CharacterDefect.defect_quotient}\leanok\ \texttt{defect\_quotient}
+  \item \lean{GppSU11CharacterDefect.IsPSD}\leanok\ \texttt{IsPSD}
+  \item \lean{GppSU11CharacterDefect.gram_psd}\leanok\ \texttt{gram\_psd}
+  \item \lean{GppSU11CharacterDefect.psd_congruence_mp}\leanok\ \texttt{psd\_congruence\_mp}
+  \item \lean{GppSU11CharacterDefect.psd_congruence}\leanok\ \texttt{psd\_congruence}
+  \item \lean{GppSU11CharacterDefect.defect_quotient_psd_iff}\leanok\ \texttt{defect\_quotient\_psd\_iff}
+  \item \lean{GppSU11CharacterDefect.blaschke_defect_psd}\leanok\ \texttt{blaschke\_defect\_psd}
+  \item \lean{GppSU11CharacterDefect.defect_cascade}\leanok\ \texttt{defect\_cascade}
+  \item \lean{GppSU11CharacterDefect.cascade_defect_psd}\leanok\ \texttt{cascade\_defect\_psd}
+\end{itemize}
+
+\section{Riemann Hypothesis --- SU(1,1) Lightcone Excess and Prime Tail Thresholds}
+From Codex's von Mangoldt lightcone and $\det_3$ tail notes: $\langle K_0\rangle=(1+r^2)/(2(1-r^2))$, $\langle K_1\rangle=r/(1-r^2)$, the hyperboloid $(2\langle K_0\rangle)^2-(2\langle K_1\rangle)^2=1$, forward and backward null excesses, the anomalous/normal covariance split, mass on the lightcone, the exact tail norm $\|(I-\Pi_{<m})\Omega_r\|=r^m$, and the Schatten threshold $\sum_pp^{-m\sigma}<\infty\iff m\sigma>1$ (so $\det_2$ fails and $\det_3$ succeeds at $\sigma=\tfrac12$). Scalar series only. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11LightconeTail.K0_expectation}\leanok\ \texttt{K0\_expectation}
+  \item \lean{GppSU11LightconeTail.K1_expectation}\leanok\ \texttt{K1\_expectation}
+  \item \lean{GppSU11LightconeTail.two_K0_eq_cosh}\leanok\ \texttt{two\_K0\_eq\_cosh}
+  \item \lean{GppSU11LightconeTail.two_K1_eq_sinh}\leanok\ \texttt{two\_K1\_eq\_sinh}
+  \item \lean{GppSU11LightconeTail.hyperboloid}\leanok\ \texttt{hyperboloid}
+  \item \lean{GppSU11LightconeTail.null_sum_pos}\leanok\ \texttt{null\_sum\_pos}
+  \item \lean{GppSU11LightconeTail.null_sum_neg}\leanok\ \texttt{null\_sum\_neg}
+  \item \lean{GppSU11LightconeTail.anomalous_split}\leanok\ \texttt{anomalous\_split}
+  \item \lean{GppSU11LightconeTail.normal_split}\leanok\ \texttt{normal\_split}
+  \item \lean{GppSU11LightconeTail.mass_lightcone}\leanok\ \texttt{mass\_lightcone}
+  \item \lean{GppSU11LightconeTail.tail_norm_sq}\leanok\ \texttt{tail\_norm\_sq}
+  \item \lean{GppSU11LightconeTail.prime_tail_summable_iff}\leanok\ \texttt{prime\_tail\_summable\_iff}
+  \item \lean{GppSU11LightconeTail.det2_fails}\leanok\ \texttt{det2\_fails}
+  \item \lean{GppSU11LightconeTail.det3_works}\leanok\ \texttt{det3\_works}
+  \item \lean{GppSU11LightconeTail.jacobi_P1}\leanok\ \texttt{jacobi\_P1}
+  \item \lean{GppSU11LightconeTail.jacobi_P2}\leanok\ \texttt{jacobi\_P2}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Antipodal Phases, Trivial-Zero Ladder, Heat Trace}
+From Codex's antipodal, trivial-zero and $K_0/K_1$ notes: $A=\tfrac14[P(0)-P(\pi)]$, $C=\tfrac14[P(0)+P(\pi)-2]$, $\ell/\sinh\ell=(\ell/2)[P(0)-P(\pi)]$, the antipodal ratio $q^2$ and negativity $2\operatorname{artanh}r$; the trivial-zero ladder $2K_0+\tfrac32$ with spectrum $2n+\tfrac52$ matching the poles of $\Gamma(\tfrac54+\tfrac z2)$; the completed function $\xi(s)=(s-1)\pi^{-s/2}\Gamma(1+s/2)\zeta(s)$; and the heat-trace/Plancherel density identities. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11LocalCovariance.anomalous_antipodal}\leanok\ \texttt{anomalous\_antipodal}
+  \item \lean{GppSU11LocalCovariance.normal_antipodal}\leanok\ \texttt{normal\_antipodal}
+  \item \lean{GppSU11LocalCovariance.sinh_weight_antipodal}\leanok\ \texttt{sinh\_weight\_antipodal}
+  \item \lean{GppSU11LocalCovariance.antipodal_ratio}\leanok\ \texttt{antipodal\_ratio}
+  \item \lean{GppSU11LocalCovariance.negativity_log}\leanok\ \texttt{negativity\_log}
+  \item \lean{GppSU11LocalCovariance.triv_spec}\leanok\ \texttt{triv\_spec}
+  \item \lean{GppSU11LocalCovariance.triv_pole}\leanok\ \texttt{triv\_pole}
+  \item \lean{GppSU11LocalCovariance.xi_eq_gamma}\leanok\ \texttt{xi\_eq\_gamma}
+  \item \lean{GppSU11LocalCovariance.heat_trace_plancherel}\leanok\ \texttt{heat\_trace\_plancherel}
+  \item \lean{GppSU11LocalCovariance.plancherel_density}\leanok\ \texttt{plancherel\_density}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
