@@ -3870,6 +3870,22 @@ Mathlib's own \texttt{RiemannHypothesis} (all nontrivial zeros) is equivalent to
   \item \lean{GppCasimirRH.parallel_sum_attained}\leanok\ \texttt{parallel\_sum\_attained}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime Cayley Two-Channel Identities}
+From Codex's prime-energy Cayley note: the local Cayley parameter $c_p=(\sqrt p-1)/(\sqrt p+1)=\tanh(\tfrac14\log p)$; the coupling $\mu_p=2/\sqrt{p-1}$, equal to $1$ exactly at $p=5$; the two-channel matrix $S(\mu)=D(\mu)/\sqrt{\mu^2+4}$ with $D=\mu\sigma_z+2\sigma_x$, $D^2=(\mu^2+4)I$, so $S$ is a symmetric reflection with entries $q=p^{-1/2}$, $b=\sqrt{1-1/p}$ at $\mu=\mu_p$. From the primitive-channel note: the repeated prime returns $\sum_p\sum_{m\ge3}(\log p)p^{-m/2}$ converge, so $R_{\ge3}(L)=O(1)$. Local algebra and one convergent sum; no RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeCayley.cayley_eq_tanh}\leanok\ \texttt{cayley\_eq\_tanh}
+  \item \lean{GppPrimeCayley.coupling_eq_one_iff}\leanok\ \texttt{coupling\_eq\_one\_iff}
+  \item \lean{GppPrimeCayley.channel_entries}\leanok\ \texttt{channel\_entries}
+  \item \lean{GppPrimeCayley.dirac_sq}\leanok\ \texttt{dirac\_sq}
+  \item \lean{GppPrimeCayley.channel_symm}\leanok\ \texttt{channel\_symm}
+  \item \lean{GppPrimeCayley.channel_sq}\leanok\ \texttt{channel\_sq}
+  \item \lean{GppPrimeCayley.channel_five}\leanok\ \texttt{channel\_five}
+  \item \lean{GppPrimeCayley.repeated_returns_hasSum}\leanok\ \texttt{repeated\_returns\_hasSum}
+  \item \lean{GppPrimeCayley.repeated_returns_summable}\leanok\ \texttt{repeated\_returns\_summable}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
