@@ -13,25 +13,26 @@ namespace GppArrowDictionaryFinite
 open Complex
 
 /-- Arithmetic complete reversal: rho ↦ 1 - conjugate rho. -/
-def D (rho : ℂ) : ℂ := 1 - conj rho
+def D (rho : ℂ) : ℂ := 1 - starRingEnd ℂ rho
 
 /-- The fixed locus of arithmetic complete reversal is exactly Re rho = 1/2. -/
 theorem D_fixed_iff_re_half (rho : ℂ) :
     D rho = rho ↔ rho.re = (1 : ℝ) / 2 := by
   constructor
   · intro h
-    have hre := congrArg Complex.re h
-    simp [D, Complex.sub_re] at hre
+    have hre : (1 - starRingEnd ℂ rho).re = rho.re := congrArg Complex.re h
+    simp [Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re] at hre
     linarith
   · intro h
     apply Complex.ext
-    · simp [D, Complex.sub_re, h]
-    · simp [D, Complex.sub_im]
+    · simp [D, Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re]
+      linarith
+    · simp [D, Complex.sub_im, Complex.one_im, RCLike.star_def, Complex.conj_im]
 
 /-- Centered real displacement changes sign under complete reversal. -/
 theorem centered_bias_reversal (rho : ℂ) :
     (D rho).re - (1 : ℝ) / 2 = -(rho.re - (1 : ℝ) / 2) := by
-  simp [D, Complex.sub_re]
+  simp [D, Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re]
   ring
 
 /-- The two members of a reversal orbit have exactly zero signed mean bias. -/
