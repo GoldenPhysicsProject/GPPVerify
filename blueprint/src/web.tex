@@ -4683,6 +4683,17 @@ The normalized overlap $\zeta(1+\varepsilon(1+iy))/\zeta(1+\varepsilon)\to 1/(1+
   \item \lean{GppZetaCoherentBoundary.fixed_frequency_orthogonal}\leanok\ \texttt{fixed\_frequency\_orthogonal}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The prime Laplacian split}
+For an isometry $T$ and weight $c\ge0$, $-2c\,\Re\langle Tf,f\rangle=c\|f-Tf\|^2-2c\|f\|^2$; summed over prime-power translations the prime part of the semilocal form is a positive Laplacian minus the scalar mass $2S\|f\|^2$, hence bounded below by $-2S\|f\|^2$. The absorption of the negative mass is the note's open problem and is not claimed. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeLaplacianSplit.norm_sub_isometry}\leanok\ \texttt{norm\_sub\_isometry}
+  \item \lean{GppPrimeLaplacianSplit.translation_split}\leanok\ \texttt{translation\_split}
+  \item \lean{GppPrimeLaplacianSplit.prime_sum_split}\leanok\ \texttt{prime\_sum\_split}
+  \item \lean{GppPrimeLaplacianSplit.prime_sum_lower_bound}\leanok\ \texttt{prime\_sum\_lower\_bound}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
