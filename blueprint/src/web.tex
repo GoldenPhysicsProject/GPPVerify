@@ -4694,6 +4694,30 @@ For an isometry $T$ and weight $c\ge0$, $-2c\,\Re\langle Tf,f\rangle=c\|f-Tf\|^2
   \item \lean{GppPrimeLaplacianSplit.prime_sum_lower_bound}\leanok\ \texttt{prime\_sum\_lower\_bound}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The elementary M\"obius bound}
+$\sum_{d\le N}\mu(d)\lfloor N/d\rfloor=1$ and, for real $x\ge1$, $|\sum_{d\le x}\mu(d)/d|\le2$, by the classical argument with no prime number theorem. The Bessel-series bound and Hardy-space energy identities of the source note are not formalized. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppMertensMu.mu_floor_sum}\leanok\ \texttt{mu\_floor\_sum}
+  \item \lean{GppMertensMu.mu_inv_sum_bound}\leanok\ \texttt{mu\_inv\_sum\_bound}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Two Gram kernels on the integers}
+The real-dilation kernel $\sqrt{\min/\max}$ and the independent-prime kernel $\gcd/\sqrt{mn}$ differ by the ratio $\min/\gcd$ and agree exactly on divisibility chains; at $(2,3)$ they differ by a factor $2$. Also the algebra $B_a(s)B_a(-s)=1$, $B_a(0)=1$ of the real-symmetric Blaschke factor. The Hardy-space arguments are not formalized. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppCrossPrimeGram.creal}\leanok\ \texttt{creal}
+  \item \lean{GppCrossPrimeGram.cprime}\leanok\ \texttt{cprime}
+  \item \lean{GppCrossPrimeGram.creal_eq_cprime_mul}\leanok\ \texttt{creal\_eq\_cprime\_mul}
+  \item \lean{GppCrossPrimeGram.creal_eq_cprime_iff}\leanok\ \texttt{creal\_eq\_cprime\_iff}
+  \item \lean{GppCrossPrimeGram.example_two_three}\leanok\ \texttt{example\_two\_three}
+  \item \lean{GppCrossPrimeGram.blaschke}\leanok\ \texttt{blaschke}
+  \item \lean{GppCrossPrimeGram.blaschke_mul_neg}\leanok\ \texttt{blaschke\_mul\_neg}
+  \item \lean{GppCrossPrimeGram.blaschke_zero}\leanok\ \texttt{blaschke\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
