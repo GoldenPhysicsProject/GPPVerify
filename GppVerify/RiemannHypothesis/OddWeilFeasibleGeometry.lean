@@ -1,4 +1,9 @@
-import Mathlib
+import Mathlib.Data.Matrix.Mul
+import Mathlib.Data.Real.Basic
+import Mathlib.Algebra.BigOperators.Ring.Finset
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.Positivity
+import Mathlib.Algebra.Module.LinearMap.Defs
 
 /-!
 # Feasible-set geometry for the odd semilocal Weil form: finite cores
