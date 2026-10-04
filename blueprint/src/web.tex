@@ -4674,6 +4674,15 @@ For $x>0$, $w_\infty(x)=e^{x/2}-\sum_{k\ge1}e^{-(2k+1/2)x}$, with the ladder pol
   \item \lean{GppArchimedeanLadder.growing_pole}\leanok\ \texttt{growing\_pole}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Normalized zeta coherent states at the boundary}
+The normalized overlap $\zeta(1+\varepsilon(1+iy))/\zeta(1+\varepsilon)\to 1/(1+iy)$ as $\varepsilon\downarrow0$ (the $\mathrm{Exp}(1)$ characteristic function), and fixed-frequency orthogonality $\zeta(1+\varepsilon+i\Delta)/\zeta(1+\varepsilon)\to0$ for $\Delta\ne0$. The Hardy-space and $SU(1,1)$ readings are not formalized. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaCoherentBoundary.overlap_scaling_limit}\leanok\ \texttt{overlap\_scaling\_limit}
+  \item \lean{GppZetaCoherentBoundary.fixed_frequency_orthogonal}\leanok\ \texttt{fixed\_frequency\_orthogonal}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
