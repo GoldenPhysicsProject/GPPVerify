@@ -4607,6 +4607,19 @@ The logistic density $p(x)=1/(4\cosh^2(x/2))=e^x/(1+e^x)^2$, $d\tanh(x/2)/dx=2p(
   \item \lean{GppLogisticBoost.hasDerivAt_mobius}\leanok\ \texttt{hasDerivAt\_mobius}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Fourier leakage, the spectral-angle bound and the Poisson support transfer}
+The exact mismatch identity $\|Uf-f\|^2=2\sum|a_j|^2(1-\Re\chi_j)$ for an isometry and an orthonormal compressed-eigenvector combination, the spectral-angle bound $(\epsilon_1-\epsilon_0)(1-|\langle\xi,k\rangle|^2)\le\mu-\epsilon_0$, the pointwise strip bound $|u^{-iz}|\le\lambda^\eta$, and vanishing of the E-map sum above the support. The Poisson identity, the Cauchy--Schwarz integral estimate and the conditional Step-2 claim are not formalized. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPoissonMismatch.inner_expand}\leanok\ \texttt{inner\_expand}
+  \item \lean{GppPoissonMismatch.gram_diag}\leanok\ \texttt{gram\_diag}
+  \item \lean{GppPoissonMismatch.unitary_mismatch}\leanok\ \texttt{unitary\_mismatch}
+  \item \lean{GppPoissonMismatch.spectral_angle}\leanok\ \texttt{spectral\_angle}
+  \item \lean{GppPoissonMismatch.strip_kernel_bound}\leanok\ \texttt{strip\_kernel\_bound}
+  \item \lean{GppPoissonMismatch.emap_support}\leanok\ \texttt{emap\_support}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
