@@ -39,7 +39,10 @@ lemma qf_sub (A B : Matrix m m ℝ) (x : m → ℝ) : qf (A - B) x = qf A x - qf
   simp [qf, Matrix.sub_mulVec, dotProduct_sub]
 
 lemma qf_smul (t : ℝ) (A : Matrix m m ℝ) (x : m → ℝ) : qf (t • A) x = t * qf A x := by
-  simp [qf, Matrix.smul_mulVec_assoc, dotProduct_smul, smul_eq_mul]
+  have h : (t • A) *ᵥ x = t • (A *ᵥ x) := by
+    ext i
+    simp [Matrix.mulVec, dotProduct, Finset.mul_sum, mul_assoc]
+  simp [qf, h, dotProduct_smul, smul_eq_mul]
 
 /-- `A ↦ qf A x` as a linear map, so finite sums pass through it. -/
 def qfLin (x : m → ℝ) : Matrix m m ℝ →ₗ[ℝ] ℝ where
