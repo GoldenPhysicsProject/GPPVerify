@@ -4648,6 +4648,32 @@ The identity $\rho_{\mathrm{KL}}(\lambda)P(\lambda)=(2/\pi)\lambda^2$ between th
   \item \lean{GppModularNormalization.eta_G_relation}\leanok\ \texttt{eta\_G\_relation}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The semilocal Weil matrix as a confluent Loewner matrix}
+For $S=\Psi[\sin(xy)]$, $C=\Psi[\cos(xy)]$ and the phase $f_\theta=-(2/L)S+(2/L)\sin(Lx-2\pi\theta)C$: off-diagonal entries are divided differences of $f_\theta$ on the lattice $x_{n,\theta}=2\pi(n+\theta)/L$, the diagonal is $f_\theta'$ (the differentiation under $\Psi$ is a stated hypothesis), and $f_0$ is odd. Positivity is not claimed. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppLoewnerNormalForm.node}\leanok\ \texttt{node}
+  \item \lean{GppLoewnerNormalForm.phase}\leanok\ \texttt{phase}
+  \item \lean{GppLoewnerNormalForm.sin_node}\leanok\ \texttt{sin\_node}
+  \item \lean{GppLoewnerNormalForm.cos_node}\leanok\ \texttt{cos\_node}
+  \item \lean{GppLoewnerNormalForm.value_on_lattice}\leanok\ \texttt{value\_on\_lattice}
+  \item \lean{GppLoewnerNormalForm.offdiag_loewner}\leanok\ \texttt{offdiag\_loewner}
+  \item \lean{GppLoewnerNormalForm.diag_loewner}\leanok\ \texttt{diag\_loewner}
+  \item \lean{GppLoewnerNormalForm.odd_phase}\leanok\ \texttt{odd\_phase}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The real-place density as pole mode minus the trivial-zero ladder}
+For $x>0$, $w_\infty(x)=e^{x/2}-\sum_{k\ge1}e^{-(2k+1/2)x}$, with the ladder poles at $s=-2k$ (the trivial zeros) and the growing mode's pole at $s=1$. The full completed $\xi$ has no pole at $s=1$. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppArchimedeanLadder.wInfty}\leanok\ \texttt{wInfty}
+  \item \lean{GppArchimedeanLadder.w_infty_ladder}\leanok\ \texttt{w\_infty\_ladder}
+  \item \lean{GppArchimedeanLadder.ladder_pole}\leanok\ \texttt{ladder\_pole}
+  \item \lean{GppArchimedeanLadder.growing_pole}\leanok\ \texttt{growing\_pole}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
