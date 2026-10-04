@@ -4620,6 +4620,34 @@ The exact mismatch identity $\|Uf-f\|^2=2\sum|a_j|^2(1-\Re\chi_j)$ for an isomet
   \item \lean{GppPoissonMismatch.emap_support}\leanok\ \texttt{emap\_support}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The real-place Gamma factor: paired magnitude, oriented scattering ratio, logarithmic derivative}
+With $\gamma_\mathbb{R}(s)=\pi^{-s/2}\Gamma(s/2)$: $\gamma_\mathbb{R}(s)\gamma_\mathbb{R}(1-s)=\pi^{-1/2}\Gamma(s/2)\Gamma((1-s)/2)$, $S_\infty(1-s)=S_\infty(s)^{-1}$, $|S_\infty(1/2+it)|=1$, the functional equation $\zeta(1-s)\gamma_\mathbb{R}(1-s)=\zeta(s)\gamma_\mathbb{R}(s)$, and $\gamma_\mathbb{R}'/\gamma_\mathbb{R}=-\tfrac12\log\pi+\tfrac12\psi(s/2)$. The Beta-integral and resolvent readings are not formalized. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppArchimedeanScattering.S}\leanok\ \texttt{S}
+  \item \lean{GppArchimedeanScattering.gamma_pair}\leanok\ \texttt{gamma\_pair}
+  \item \lean{GppArchimedeanScattering.scattering_inv}\leanok\ \texttt{scattering\_inv}
+  \item \lean{GppArchimedeanScattering.scattering_unimodular}\leanok\ \texttt{scattering\_unimodular}
+  \item \lean{GppArchimedeanScattering.functional_equation_ratio}\leanok\ \texttt{functional\_equation\_ratio}
+  \item \lean{GppArchimedeanScattering.zeta_ratio}\leanok\ \texttt{zeta\_ratio}
+  \item \lean{GppArchimedeanScattering.gInf}\leanok\ \texttt{gInf}
+  \item \lean{GppArchimedeanScattering.logDeriv_gammaR}\leanok\ \texttt{logDeriv\_gammaR}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Exact modular normalization identities}
+The identity $\rho_{\mathrm{KL}}(\lambda)P(\lambda)=(2/\pi)\lambda^2$ between the Kontorovich--Lebedev density and the celestial modular weight, the Lorentzian determinant of a Hermitian $2\times2$ matrix, and the rearrangement $\eta=c^3/(4G\hbar)\Leftrightarrow G=c^3/(4\hbar\eta)$. The assignment of these slots to $\hbar,c,G$ is conjectural and not claimed. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppModularNormalization.P}\leanok\ \texttt{P}
+  \item \lean{GppModularNormalization.rhoKL}\leanok\ \texttt{rhoKL}
+  \item \lean{GppModularNormalization.kl_times_celestial}\leanok\ \texttt{kl\_times\_celestial}
+  \item \lean{GppModularNormalization.celestial_eq_div}\leanok\ \texttt{celestial\_eq\_div}
+  \item \lean{GppModularNormalization.det_hermitian}\leanok\ \texttt{det\_hermitian}
+  \item \lean{GppModularNormalization.eta_G_relation}\leanok\ \texttt{eta\_G\_relation}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
