@@ -40,21 +40,21 @@ theorem halfZeta_covariantLog
     {S : Finset ℕ} (hS : DivisorClosed S) (f : ℕ → ℝ)
     {n : ℕ} (hn : n ∈ S) :
     halfZeta S (covariantLog S f) n = logMul (halfZeta S f) n := by
-  unfold halfZeta
-  refine Finset.sum_congr rfl ?_
-  intro d hd
-  have hdS : d ∈ S := (Finset.mem_filter.mp hd).1
-  have hg := half_density_gauge hS f hdS
-  have hm :
-      halfMobius S (logMul (halfZeta S f)) d = covariantLog S f d := by
-    unfold covariantLog
-    linarith
-  rw [← hm]
-  -- Reassemble the zeta synthesis after pointwise Möbius inversion.
-  change ∑ x ∈ S.filter (fun x => x ∣ n),
-      Real.sqrt (↑x / ↑n) * halfMobius S (logMul (halfZeta S f)) x =
-    logMul (halfZeta S f) n
-  exact halfZeta_halfMobius hS _ hn
+  calc
+    halfZeta S (covariantLog S f) n
+        = halfZeta S (halfMobius S (logMul (halfZeta S f))) n := by
+            unfold halfZeta
+            refine Finset.sum_congr rfl ?_
+            intro d hd
+            have hdS : d ∈ S := (Finset.mem_filter.mp hd).1
+            have hg := half_density_gauge hS f hdS
+            have hm :
+                covariantLog S f d =
+                  halfMobius S (logMul (halfZeta S f)) d := by
+              unfold covariantLog
+              linarith
+            rw [hm]
+    _ = logMul (halfZeta S f) n := halfZeta_halfMobius hS _ hn
 
 /-- The zeta-graph quadratic form of the covariant generator is exactly a
 sum of nonnegative logarithmic energies:
