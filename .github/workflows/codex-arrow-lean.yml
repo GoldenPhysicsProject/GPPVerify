@@ -1,0 +1,25 @@
+name: Codex Arrow Lean
+
+on:
+  push:
+    branches: ["codex/arrow-weil-hodge-closure"]
+  workflow_dispatch:
+
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+      - name: Build new RH modules
+        run: |
+          lake build GppVerify.RiemannHypothesis.ZetaGaugePositiveConnection
+          lake build GppVerify.RiemannHypothesis.ArrowWeilHodgeClosure
+      - name: Build root
+        run: lake build GppVerify
