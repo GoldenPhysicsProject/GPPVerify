@@ -4749,6 +4749,20 @@ For $B(\alpha,\beta)=\alpha u+\beta v$ the Gram form $\|\alpha u+\beta v\|^2$ is
   \item \lean{GppFeshbachPolarization.shifted_factor}\leanok\ \texttt{shifted\_factor}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The local energy defect of a prime Euler channel}
+For $\Theta_r(w)=(w-r)/(1-rw)$: $1-|\Theta_r(w)|^2=(1-r^2)(1-|w|^2)/|1-rw|^2$, hence $|\Theta_r|$ is $<1$, $=1$, $>1$ according as $|w|$ is; for $w=p^{1/2-s}$ this is $\Re s>1/2$, $=1/2$, $<1/2$. Also $(1-p^{-s})(1-p^{-(1-s)})=1+p^{-1}-2p^{-1/2}\cosh(z\log p)$ for $s=1/2+z$. The no-leakage zero theorem is a conjectural target and is not claimed. No RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppLocalEulerDefect.theta}\leanok\ \texttt{theta}
+  \item \lean{GppLocalEulerDefect.defect_identity}\leanok\ \texttt{defect\_identity}
+  \item \lean{GppLocalEulerDefect.theta_lt_one}\leanok\ \texttt{theta\_lt\_one}
+  \item \lean{GppLocalEulerDefect.theta_eq_one}\leanok\ \texttt{theta\_eq\_one}
+  \item \lean{GppLocalEulerDefect.theta_gt_one}\leanok\ \texttt{theta\_gt\_one}
+  \item \lean{GppLocalEulerDefect.norm_w_prime}\leanok\ \texttt{norm\_w\_prime}
+  \item \lean{GppLocalEulerDefect.shadow_paired_denominator}\leanok\ \texttt{shadow\_paired\_denominator}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
