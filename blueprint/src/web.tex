@@ -4718,6 +4718,25 @@ The real-dilation kernel $\sqrt{\min/\max}$ and the independent-prime kernel $\g
   \item \lean{GppCrossPrimeGram.blaschke_zero}\leanok\ \texttt{blaschke\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The signed prime multiplier as a radial Euler score}
+For $r=p^{-\sigma}$, $D=1-2r\cos\theta+r^2=|1-re^{-i\theta}|^2$ and the Poisson kernel $P=(1-r^2)/D$: $\partial_\sigma(-\log D)=\log p\,(1-P)$ (the local score $-W_p$), and $\partial_\sigma\log P=\log p\,(1-P)+2\log p\,r^2/(1-r^2)$ with counterterm $2\log p/(p-1)$ at $\sigma=1/2$. The Paley--Wiener inequality the source note reduces to is open and not claimed. No RH claim.
+
+\noindent\textbf{Proved (12 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeRadialScore.rr}\leanok\ \texttt{rr}
+  \item \lean{GppPrimeRadialScore.DD}\leanok\ \texttt{DD}
+  \item \lean{GppPrimeRadialScore.PP}\leanok\ \texttt{PP}
+  \item \lean{GppPrimeRadialScore.rr_pos}\leanok\ \texttt{rr\_pos}
+  \item \lean{GppPrimeRadialScore.rr_lt_one}\leanok\ \texttt{rr\_lt\_one}
+  \item \lean{GppPrimeRadialScore.DD_pos}\leanok\ \texttt{DD\_pos}
+  \item \lean{GppPrimeRadialScore.hasDerivAt_rr}\leanok\ \texttt{hasDerivAt\_rr}
+  \item \lean{GppPrimeRadialScore.normSq_euler_denominator}\leanok\ \texttt{normSq\_euler\_denominator}
+  \item \lean{GppPrimeRadialScore.hasDerivAt_DD}\leanok\ \texttt{hasDerivAt\_DD}
+  \item \lean{GppPrimeRadialScore.hasDerivAt_neg_log_D}\leanok\ \texttt{hasDerivAt\_neg\_log\_D}
+  \item \lean{GppPrimeRadialScore.hasDerivAt_log_poisson}\leanok\ \texttt{hasDerivAt\_log\_poisson}
+  \item \lean{GppPrimeRadialScore.counterterm_half}\leanok\ \texttt{counterterm\_half}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
