@@ -4763,6 +4763,22 @@ For $\Theta_r(w)=(w-r)/(1-rw)$: $1-|\Theta_r(w)|^2=(1-r^2)(1-|w|^2)/|1-rw|^2$, h
   \item \lean{GppLocalEulerDefect.shadow_paired_denominator}\leanok\ \texttt{shadow\_paired\_denominator}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Elementary bridging lemmas from the RH map}
+Small exact facts used by several routes: the Fej\'er weight $\ell(\sin(\ell\gamma/2)/(\ell\gamma/2))^2\ge0$, the dyadic tail form of $H_\ell$, the two-box energy $\|f-g\|^2=2(\|f\|^2-\langle f,g\rangle)$ for $\|g\|=\|f\|$, the bound $\sum a_k\cos(\gamma_kt)\le\sum a_k$ for $a_k\ge0$, the primes $p$ with $(p-1)\mid4$ (namely $2,3,5$), the one-sided Landau step for a finite positive exponential sum, the residue-weight identity $(L/\pi^2)\sin^2(\pi t)=t^2\,L(\sin(L\gamma/2)/(L\gamma/2))^2$ with $\gamma=2\pi t/L$, and the Schur product theorem for real positive semidefinite matrices. Elementary algebra and analysis only; no RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppRHMapBridge.fejer_nonneg}\leanok\ \texttt{fejer\_nonneg}
+  \item \lean{GppRHMapBridge.H_tail_identity}\leanok\ \texttt{H\_tail\_identity}
+  \item \lean{GppRHMapBridge.two_box_algebra}\leanok\ \texttt{two\_box\_algebra}
+  \item \lean{GppRHMapBridge.cos_sum_le}\leanok\ \texttt{cos\_sum\_le}
+  \item \lean{GppRHMapBridge.unit_norm_one}\leanok\ \texttt{unit\_norm\_one}
+  \item \lean{GppRHMapBridge.unit_primes_235}\leanok\ \texttt{unit\_primes\_235}
+  \item \lean{GppRHMapBridge.growth_real_positive_coeffs}\leanok\ \texttt{growth\_real\_positive\_coeffs}
+  \item \lean{GppRHMapBridge.residue_weight_identity}\leanok\ \texttt{residue\_weight\_identity}
+  \item \lean{GppRHMapBridge.hadamard_psd}\leanok\ \texttt{hadamard\_psd}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
