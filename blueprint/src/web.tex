@@ -4737,6 +4737,18 @@ For $r=p^{-\sigma}$, $D=1-2r\cos\theta+r^2=|1-re^{-i\theta}|^2$ and the Poisson 
   \item \lean{GppPrimeRadialScore.counterterm_half}\leanok\ \texttt{counterterm\_half}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Two-boundary polarization and the shifted Euler factor}
+For $B(\alpha,\beta)=\alpha u+\beta v$ the Gram form $\|\alpha u+\beta v\|^2$ is nonnegative with nonnegative determinant, and a signed cross response is the polarization $4\Re\langle v,u\rangle=\|u+v\|^2-\|u-v\|^2$; also the algebra of the two-species factor $(1-p^{-1/2+\theta}z)(1-p^{-1/2-\theta}z)$. The Gram completion exists for any real phase, so it does not distinguish zeta from the shifted control. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppFeshbachPolarization.gram_form}\leanok\ \texttt{gram\_form}
+  \item \lean{GppFeshbachPolarization.gram_form_nonneg}\leanok\ \texttt{gram\_form\_nonneg}
+  \item \lean{GppFeshbachPolarization.abs_inner_sq_le}\leanok\ \texttt{abs\_inner\_sq\_le}
+  \item \lean{GppFeshbachPolarization.polarization}\leanok\ \texttt{polarization}
+  \item \lean{GppFeshbachPolarization.shifted_factor}\leanok\ \texttt{shifted\_factor}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
