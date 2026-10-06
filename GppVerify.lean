@@ -1657,6 +1657,8 @@ import GppVerify.CelestialHolography.DoubledLorentzRelativeMass
 
 -- v18: exact Pati-Salam singlet/doublet hypercharge reconstruction and Yukawa charge checks.
 import GppVerify.StandardModel.PatiSalamHypercharge
+-- 2026-10-06: exact 3--5--7 family-incidence and 2--3 Dirichlet boundary algebra.
+import GppVerify.StandardModel.PrimeFamilyIncidence
 
 -- Relative-orientation half flips versus exact Abelian charge conservation;
 -- particle-antiparticle pair creation preserves net charge.
