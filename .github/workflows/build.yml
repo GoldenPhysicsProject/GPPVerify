@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "codex/semilocal-arrow-factorization"]
   pull_request:
     branches: ["main"]
   # Manual trigger, added 2026-09-26. A pull request opened through the GitHub
