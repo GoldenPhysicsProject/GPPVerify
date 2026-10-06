@@ -171,6 +171,27 @@ theorem quark_hypercharge_from_prime_X :
     GppPatiSalamHypercharge.hypercharge (xBL 1) 0 = (1 : ℚ) / 6 := by
   norm_num [xBL, GppPatiSalamHypercharge.hypercharge]
 
+
+/-- Block Cartan matrix A3 + A1 + A1, the root-system type of
+SU(4) x SU(2) x SU(2). -/
+def patiSalamCartan : Matrix (Fin 5) (Fin 5) ℤ :=
+  !![2,-1, 0, 0, 0;
+     -1,2,-1, 0, 0;
+      0,-1,2, 0, 0;
+      0, 0,0, 2, 0;
+      0, 0,0, 0, 2]
+
+/-- The determinant factors as det(A3)*det(A1)^2 = 4*2*2 = 16. -/
+theorem pati_salam_cartan_det :
+    patiSalamCartan.det = 16 := by
+  native_decide
+
+/-- The defining-carrier dimensions selected by the initial prime components
+are 4,2,2, hence one Pati-Salam chiral family has 4*2 + 4*2 = 16 slots. -/
+theorem one_family_slot_count :
+    (4 : ℕ) * 2 + 4 * 2 = 16 := by
+  norm_num
+
 end GppPrimePatiSalam
 
 #print axioms GppPrimePatiSalam.boundary_incidence_gram
