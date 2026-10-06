@@ -1665,6 +1665,8 @@ import GppVerify.StandardModel.PrimeFamilyIncidence
 import GppVerify.StandardModel.PrimePatiSalamCartan
 -- 2026-10-06: F2 bridge: complementary pairings = orientation flips = crossing cusp cycle.
 import GppVerify.StandardModel.OrientationCrossingF2
+-- 2026-10-06: prime-carrier Pati-Salam spectrum, charges, and anomaly arithmetic.
+import GppVerify.StandardModel.PrimePatiSalamSpectrum
 
 -- Relative-orientation half flips versus exact Abelian charge conservation;
 -- particle-antiparticle pair creation preserves net charge.
