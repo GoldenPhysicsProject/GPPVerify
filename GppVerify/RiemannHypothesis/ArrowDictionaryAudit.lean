@@ -32,11 +32,11 @@ theorem orbit_centered_real_sum_zero (rho : ℂ) :
 
 /-- If a point is not fixed by the zeta involution, the two-point Weil block
     already has an explicit negative direction. -/
-open Classical in
 theorem off_fixed_pair_has_negative_direction
     {rho : ℂ} (hne : zetaInvolution rho ≠ rho) :
     ∃ c : ℂ → ℂ,
       (pairedForm zetaInvolution {rho, zetaInvolution rho} c).re = -2 := by
+  classical
   let sigma := zetaInvolution rho
   have hrs : rho ≠ sigma := by
     intro h
