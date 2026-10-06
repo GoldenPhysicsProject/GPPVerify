@@ -86,9 +86,12 @@ theorem centered_current_identity {q theta : ℝ}
 /-- At zero phase the Poisson kernel attains the valuation-chain endpoint value. -/
 theorem poissonKernel_zero {q : ℝ} (hq : q ≠ 1) :
     poissonKernel q 0 = (1 + q) / (1 - q) := by
+  have h1 : 1 - q ≠ 0 := sub_ne_zero.mpr hq.symm
   unfold poissonKernel poissonDenom
-  simp only [Real.cos_zero]
-  field_simp [hq]
+  simp only [Real.cos_zero, mul_one]
+  have hden : 1 - 2 * q + q ^ 2 = (1 - q) ^ 2 := by ring
+  rw [hden]
+  field_simp [h1]
   ring
 
 /-- Consequently the positive local Laplacian has its exact zero mode at zero phase. -/
