@@ -28,7 +28,7 @@ open GppOrientationCriticalRealStructureBridge
 def reversal (s : ℂ) : ℂ := 1 - starRingEnd ℂ s
 
 /-- Signed displacement from the critical line. -/
-def orientationBias (s : ℂ) : ℝ := s.re - (1 / 2 : ℝ)
+noncomputable def orientationBias (s : ℂ) : ℝ := s.re - (1 / 2 : ℝ)
 
 /-- Complete reversal changes the sign of the centered orientation bias. -/
 theorem orientationBias_reversal (s : ℂ) :
