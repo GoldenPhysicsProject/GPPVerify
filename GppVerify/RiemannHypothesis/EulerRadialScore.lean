@@ -1,5 +1,5 @@
 import GppVerify.RiemannHypothesis.EulerFactorLogDeriv
-import Mathlib.Analysis.Calculus.Deriv.Log
+import Mathlib.Analysis.SpecialFunctions.Log.Deriv
 
 /-!
 # The signed local Weil multiplier is an Euler radial score
