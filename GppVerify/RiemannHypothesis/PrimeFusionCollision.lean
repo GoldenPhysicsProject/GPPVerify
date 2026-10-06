@@ -24,7 +24,7 @@ namespace GppPrimeFusionGas
 open GppPrimeFock
 
 /-- Fusion of two prime occupations: add every prime occupation number. -/
-def fuse (f g : PrimeOccupation) : PrimeOccupation :=
+noncomputable def fuse (f g : PrimeOccupation) : PrimeOccupation :=
   ⟨f.1 + g.1, by
     intro p hp
     by_contra hprime
@@ -57,7 +57,7 @@ theorem primeCountR_fuse (p : ℕ) (f g : PrimeOccupation) :
   simp [primeCountR, primeCount, primeCount_fuse]
 
 /-- Collision defect of an arbitrary scalar observable. -/
-def collisionDefect (H : PrimeOccupation → ℝ) (f g : PrimeOccupation) : ℝ :=
+noncomputable def collisionDefect (H : PrimeOccupation → ℝ) (f g : PrimeOccupation) : ℝ :=
   H f + H g - H (fuse f g)
 
 /-- Prime counts have identically zero collision defect. -/
@@ -67,7 +67,7 @@ theorem primeCount_collisionDefect_zero (p : ℕ) (f g : PrimeOccupation) :
   ring
 
 /-- A finite weighted collision energy: a sum of squared fusion defects. -/
-def collisionEnergy
+noncomputable def collisionEnergy
     (S : Finset (PrimeOccupation × PrimeOccupation))
     (w : PrimeOccupation × PrimeOccupation → ℝ)
     (H : PrimeOccupation → ℝ) : ℝ :=
