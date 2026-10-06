@@ -1659,6 +1659,8 @@ import GppVerify.CelestialHolography.DoubledLorentzRelativeMass
 import GppVerify.StandardModel.PatiSalamHypercharge
 -- 2026-10-06: exact 3--5--7 family-incidence and 2--3 Dirichlet boundary algebra.
 import GppVerify.StandardModel.PrimeFamilyIncidence
+-- 2026-10-06: low-prime A3 -> A2 Cartan geometry and X=3(B-L) arithmetic.
+import GppVerify.StandardModel.PrimePatiSalamCartan
 
 -- Relative-orientation half flips versus exact Abelian charge conservation;
 -- particle-antiparticle pair creation preserves net charge.
