@@ -96,24 +96,24 @@ theorem neutral_energy_eq_zero_iff {a b x₁ x₂ x₃ : ℝ}
     simp [neutralEnergy]
 
 /-- Characteristic matrix λI-L for the neutral path. -/
-def neutralSpectralMatrix (λ a b : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
-  !![λ - a, a, 0;
-     a, λ - a - b, b;
-     0, b, λ - b]
+def neutralSpectralMatrix (lam a b : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![lam - a, a, 0;
+     a, lam - a - b, b;
+     0, b, lam - b]
 
 /-- Exact characteristic determinant of the weighted neutral path. -/
-theorem neutral_characteristic (λ a b : ℝ) :
-    (neutralSpectralMatrix λ a b).det =
-      λ * (λ ^ 2 - 2 * (a + b) * λ + 3 * a * b) := by
+theorem neutral_characteristic (lam a b : ℝ) :
+    (neutralSpectralMatrix lam a b).det =
+      lam * (lam ^ 2 - 2 * (a + b) * lam + 3 * a * b) := by
   rw [neutralSpectralMatrix, Matrix.det_fin_three]
   simp
   ring
 
 /-- At equal edge weights g, the characteristic polynomial is
 λ(λ-g)(λ-3g), i.e. eigenvalues 0,g,3g. -/
-theorem equal_weight_characteristic (λ g : ℝ) :
-    (neutralSpectralMatrix λ g g).det =
-      λ * (λ - g) * (λ - 3 * g) := by
+theorem equal_weight_characteristic (lam g : ℝ) :
+    (neutralSpectralMatrix lam g g).det =
+      lam * (lam - g) * (lam - 3 * g) := by
   rw [neutral_characteristic]
   ring
 
@@ -132,16 +132,16 @@ theorem covariance_det_zero (a b x : ℝ) :
   ring
 
 /-- Characteristic matrix λI-M for the general edge covariance. -/
-def covarianceSpectralMatrix (λ a b x : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
-  !![λ - a, a - x, x;
-     a - x, λ - a - b + 2 * x, b - x;
-     x, b - x, λ - b]
+def covarianceSpectralMatrix (lam a b x : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![lam - a, a - x, x;
+     a - x, lam - a - b + 2 * x, b - x;
+     x, b - x, lam - b]
 
 /-- The two nonzero spectral invariants are controlled by
 trace' = 2(a+b-x) and product' = 3(ab-x²). -/
-theorem covariance_characteristic (λ a b x : ℝ) :
-    (covarianceSpectralMatrix λ a b x).det =
-      λ * (λ ^ 2 - 2 * (a + b - x) * λ + 3 * (a * b - x ^ 2)) := by
+theorem covariance_characteristic (lam a b x : ℝ) :
+    (covarianceSpectralMatrix lam a b x).det =
+      lam * (lam ^ 2 - 2 * (a + b - x) * lam + 3 * (a * b - x ^ 2)) := by
   rw [covarianceSpectralMatrix, Matrix.det_fin_three]
   simp
   ring
