@@ -1658,6 +1658,8 @@ import GppVerify.CelestialHolography.DoubledLorentzRelativeMass
 -- v18: exact Pati-Salam singlet/doublet hypercharge reconstruction and Yukawa charge checks.
 import GppVerify.StandardModel.PatiSalamHypercharge
 -- 2026-10-06: exact 3--5--7 family-incidence and 2--3 Dirichlet boundary algebra.
+-- 2026-10-06: uniqueness of the exceptional 2--3--5--7 minimal-gap cluster.
+import GppVerify.StandardModel.PrimeGapBoundary
 import GppVerify.StandardModel.PrimeFamilyIncidence
 -- 2026-10-06: low-prime A3 -> A2 Cartan geometry and X=3(B-L) arithmetic.
 import GppVerify.StandardModel.PrimePatiSalamCartan
