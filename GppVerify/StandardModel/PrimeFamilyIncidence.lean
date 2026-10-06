@@ -146,6 +146,40 @@ theorem covariance_characteristic (λ a b x : ℝ) :
   simp
   ring
 
+
+/-- Charge-selected boundary lift: the exceptional p=2 boundary channel couples
+through q², so neutral sectors retain the incidence null mode while charged sectors
+can become full rank without distinguishing particle from antiparticle. -/
+def chargeSelectedLaplacian (c q a b : ℝ) : Matrix (Fin 3) (Fin 3) ℝ :=
+  !![c * q ^ 2 + a, -a, 0;
+     -a, a + b, -b;
+     0, -b, b]
+
+/-- Exact determinant of the charge-selected family operator. -/
+theorem charge_selected_det (c q a b : ℝ) :
+    (chargeSelectedLaplacian c q a b).det = a * b * c * q ^ 2 := by
+  rw [chargeSelectedLaplacian, Matrix.det_fin_three]
+  simp
+  ring
+
+/-- The charge-selected operator is invariant under charge conjugation q -> -q. -/
+theorem charge_selected_even (c q a b : ℝ) :
+    chargeSelectedLaplacian c (-q) a b = chargeSelectedLaplacian c q a b := by
+  simp [chargeSelectedLaplacian]
+
+/-- At zero electric charge the boundary lift reduces exactly to the neutral path. -/
+theorem charge_selected_neutral (c a b : ℝ) :
+    chargeSelectedLaplacian c 0 a b = neutralLaplacian a b := by
+  simp [chargeSelectedLaplacian, neutralLaplacian]
+
+/-- Positive conductances and nonzero charge give positive determinant. -/
+theorem charge_selected_det_pos {c q a b : ℝ}
+    (hc : 0 < c) (hq : q ≠ 0) (ha : 0 < a) (hb : 0 < b) :
+    0 < (chargeSelectedLaplacian c q a b).det := by
+  rw [charge_selected_det]
+  have hq2 : 0 < q ^ 2 := sq_pos_of_ne_zero hq
+  positivity
+
 end GppPrimeFamilyIncidence
 
 #print axioms GppPrimeFamilyIncidence.neutral_det_zero
