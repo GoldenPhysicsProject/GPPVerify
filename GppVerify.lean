@@ -1663,6 +1663,8 @@ import GppVerify.StandardModel.PrimeGapBoundary
 import GppVerify.StandardModel.PrimeFamilyIncidence
 -- 2026-10-06: low-prime A3 -> A2 Cartan geometry and X=3(B-L) arithmetic.
 import GppVerify.StandardModel.PrimePatiSalamCartan
+-- 2026-10-06: F2 bridge: complementary pairings = orientation flips = crossing cusp cycle.
+import GppVerify.StandardModel.OrientationCrossingF2
 
 -- Relative-orientation half flips versus exact Abelian charge conservation;
 -- particle-antiparticle pair creation preserves net charge.
