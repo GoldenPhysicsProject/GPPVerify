@@ -101,7 +101,7 @@ pattern explicit without asserting that later twin components do not exist. -/
 theorem primes_between_seven_and_twenty_three {p : ℕ}
     (hp : p.Prime) (h7 : 7 < p) (h23 : p < 23) :
     p = 11 ∨ p = 13 ∨ p = 17 ∨ p = 19 := by
-  interval_cases p <;> norm_num at hp ⊢
+  interval_cases p <;> norm_num_all
 
 end GppPrimeGapBoundary
 
