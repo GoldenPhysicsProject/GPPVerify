@@ -192,6 +192,39 @@ theorem one_family_slot_count :
     (4 : ℕ) * 2 + 4 * 2 = 16 := by
   norm_num
 
+
+/-- Incidence matrix of the two disjoint twin pairs 11--13 and 17--19. -/
+def weakPrimeIncidence : Matrix (Fin 4) (Fin 2) ℤ :=
+  !![ 1, 0;
+     -1, 0;
+      0, 1;
+      0,-1]
+
+/-- The post-color prime quadruplet has D2 = A1 + A1 Cartan Gram. -/
+theorem weak_prime_incidence_gram :
+    weakPrimeIncidence.transpose * weakPrimeIncidence =
+      !![(2 : ℤ),0;0,2] := by
+  native_decide
+
+/-- The selected eight-prime carrier
+(2,3,5,7,11,13,17,19) with five simple incidence roots. -/
+def primePatiSalamIncidence : Matrix (Fin 8) (Fin 5) ℤ :=
+  !![ 1, 0, 0, 0, 0;
+     -1, 1, 0, 0, 0;
+      0,-1, 1, 0, 0;
+      0, 0,-1, 0, 0;
+      0, 0, 0, 1, 0;
+      0, 0, 0,-1, 0;
+      0, 0, 0, 0, 1;
+      0, 0, 0, 0,-1]
+
+/-- The full selected prime incidence Gram is exactly the Pati-Salam
+A3 + A1 + A1 Cartan matrix. -/
+theorem prime_pati_salam_incidence_gram :
+    primePatiSalamIncidence.transpose * primePatiSalamIncidence =
+      patiSalamCartan := by
+  native_decide
+
 end GppPrimePatiSalam
 
 #print axioms GppPrimePatiSalam.boundary_incidence_gram
