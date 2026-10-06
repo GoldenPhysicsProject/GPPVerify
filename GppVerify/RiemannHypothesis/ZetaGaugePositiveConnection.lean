@@ -54,6 +54,7 @@ theorem halfZeta_covariantLog
               unfold covariantLog
               linarith
             rw [hm]
+            rfl
     _ = logMul (halfZeta S f) n := halfZeta_halfMobius hS _ hn
 
 /-- The zeta-graph quadratic form of the covariant generator is exactly a
