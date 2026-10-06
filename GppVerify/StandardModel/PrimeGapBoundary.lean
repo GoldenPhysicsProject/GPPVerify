@@ -80,6 +80,29 @@ theorem boundary_vertices_prime :
     Nat.Prime 2 ∧ Nat.Prime 3 ∧ Nat.Prime 5 ∧ Nat.Prime 7 := by
   norm_num
 
+
+/-- The next two nontrivial gap-two components after 3--5--7 are the
+explicit twin pairs 11--13 and 17--19. -/
+theorem next_two_twin_components :
+    Nat.Prime 11 ∧ Nat.Prime 13 ∧
+    Nat.Prime 17 ∧ Nat.Prime 19 ∧
+    13 - 11 = 2 ∧ 19 - 17 = 2 := by
+  norm_num
+
+/-- The prime 23 is the first displayed post-19 singleton for the gap-two
+relation: both neighbors 21 and 25 are composite. -/
+theorem twenty_three_gap_two_singleton :
+    Nat.Prime 23 ∧ ¬Nat.Prime 21 ∧ ¬Nat.Prime 25 := by
+  norm_num
+
+/-- There are no additional primes strictly between 7 and 23 beyond
+11,13,17,19.  This finite statement makes the initial 4+2+2 component
+pattern explicit without asserting that later twin components do not exist. -/
+theorem primes_between_seven_and_twenty_three {p : ℕ}
+    (hp : p.Prime) (h7 : 7 < p) (h23 : p < 23) :
+    p = 11 ∨ p = 13 ∨ p = 17 ∨ p = 19 := by
+  interval_cases p <;> norm_num at hp ⊢
+
 end GppPrimeGapBoundary
 
 #print axioms GppPrimeGapBoundary.consecutive_primes_unique
