@@ -96,9 +96,9 @@ Nothing here asks for trust. Each point below is a command or a file.
   Archimedean-factor deformation rather than a real constraint is recorded as exactly that.
 - **Open means open.** The `True := trivial` stubs are counted and named `open_…`, so the
   "0 sorry, 0 axiom" line cannot be read as "everything is proved".
-- **Older material is labelled as older.** `docs/` is dated working notes. In particular,
-  `docs/DependencyMap.md` is a June 2026 pre-formalization survey whose "Pathway 2" framing is
-  retired; the current status is this file and the blueprint.
+- **Older material is labelled as older.** `docs/` is dated working notes, and retired material lives
+  in `archive/`. In particular, `archive/DependencyMap.md` is a June 2026 pre-formalization survey
+  whose "Pathway 2" framing is retired; the current status is this file and the blueprint.
 
 The current module, stub, and axiom counts are published on the
 [blueprint](https://lean.goldenphysics.org) and kept in sync by `scripts/sync_published_counts.py`.
