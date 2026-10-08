@@ -281,6 +281,7 @@ theorem off_line_zero_pair_and_observer_obstruction
   · intro hobs
     exact hoff ((observerPositivePair_iff_critical hk).1 hobs)
 
+end
 end GppObserverPrincipalSeries
 
 #print axioms GppObserverPrincipalSeries.reflected_norm_product_eq_one
