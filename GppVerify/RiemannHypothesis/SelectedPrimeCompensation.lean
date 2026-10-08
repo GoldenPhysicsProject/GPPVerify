@@ -157,11 +157,12 @@ lemma mul_radius_inv_ne
     r * a ≠ r * a⁻¹ := by
   intro h
   have haeq : a = a⁻¹ := by
-    exact mul_left_cancel₀ hr.ne' h
-  have hsq : a ^ 2 = 1 := by
-    have hmul := congrArg (fun x : ℝ => x * a) haeq
-    field_simp [ha.ne'] at hmul
-    nlinarith
+    apply mul_left_cancel₀ hr.ne'
+    exact h
+  have hsq : a * a = 1 := by
+    calc
+      a * a = a⁻¹ * a := by rw [haeq]
+      _ = 1 := inv_mul_cancel₀ ha.ne'
   nlinarith
 
 /-- For p>1 and theta != 0, the two complementary shifted-product radii
