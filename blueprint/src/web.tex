@@ -5424,6 +5424,60 @@ One table of the machine-checked reductions of RH in this library, ordered by st
   \item \lean{GppRHAtlas.rhz_of_hermitian_survival}\leanok\ \texttt{rhz\_of\_hermitian\_survival}
 \end{itemize}
 
+\section{Celestial Holography --- Raised box: inner dominated-convergence layer, right-sided regulator}
+Ported from Codex's codex/raised-box-integrate (reconciliation of the raised-box DCT chain). The innermost $x_3$ dominated-convergence step: for a nonnegative affine simplex slice the physical inner integral tends to the slice length as the regulator tends to $0^+$. One layer of the nested proof; the three-simplex limit is not claimed. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppRaisedBoxInnerSliceDCT.inner_majorant_intervalIntegrable}\leanok\ \texttt{inner\_majorant\_intervalIntegrable}
+  \item \lean{GppRaisedBoxInnerSliceDCT.inner_integrand_aestronglyMeasurable}\leanok\ \texttt{inner\_integrand\_aestronglyMeasurable}
+  \item \lean{GppRaisedBoxInnerSliceDCT.eventually_inner_integrand_aestronglyMeasurable}\leanok\ \texttt{eventually\_inner\_integrand\_aestronglyMeasurable}
+  \item \lean{GppRaisedBoxInnerSliceDCT.inner_integrand_tendsto_one_on_interval}\leanok\ \texttt{inner\_integrand\_tendsto\_one\_on\_interval}
+  \item \lean{GppRaisedBoxInnerSliceDCT.ae_inner_integrand_tendsto_one}\leanok\ \texttt{ae\_inner\_integrand\_tendsto\_one}
+  \item \lean{GppRaisedBoxInnerSliceDCT.inner_integrand_norm_le_majorant}\leanok\ \texttt{inner\_integrand\_norm\_le\_majorant}
+  \item \lean{GppRaisedBoxInnerSliceDCT.eventually_inner_integrand_norm_le_majorant}\leanok\ \texttt{eventually\_inner\_integrand\_norm\_le\_majorant}
+  \item \lean{GppRaisedBoxInnerSliceDCT.inner_integral_tendsto_of_domination}\leanok\ \texttt{inner\_integral\_tendsto\_of\_domination}
+  \item \lean{GppRaisedBoxInnerSliceDCT.inner_integral_tendsto_slice_length}\leanok\ \texttt{inner\_integral\_tendsto\_slice\_length}
+\end{itemize}
+
+\section{Celestial Holography --- Raised box: middle DCT preparation}
+Ported from Codex (raised-box chain). A simple $x_2$-constant majorant $1+(Sx_1)^{-\delta}/(1-\delta)$ for the integrated $x_3$ slice, the pointwise middle-slice limit and the exact affine limit integral $(1-x_1)^2/2$. Preparation only. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.middleMajorant}\leanok\ \texttt{middleMajorant}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.middleMajorant_nonneg}\leanok\ \texttt{middleMajorant\_nonneg}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.middleMajorant_intervalIntegrable}\leanok\ \texttt{middleMajorant\_intervalIntegrable}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.inner_majorant_integral_eq}\leanok\ \texttt{inner\_majorant\_integral\_eq}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.inner_majorant_integral_le_middleMajorant}\leanok\ \texttt{inner\_majorant\_integral\_le\_middleMajorant}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.inner_integral_norm_le_middleMajorant}\leanok\ \texttt{inner\_integral\_norm\_le\_middleMajorant}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.inner_slice_tendsto_affine_length}\leanok\ \texttt{inner\_slice\_tendsto\_affine\_length}
+  \item \lean{GppRaisedBoxMiddleDCTPrep.affine_middle_limit_integral}\leanok\ \texttt{affine\_middle\_limit\_integral}
+\end{itemize}
+
+\section{Celestial Holography --- Raised box: middle dominated convergence}
+Ported from Codex (raised-box chain). The $x_2$ dominated-convergence step: the $x_2$-integrated inner slice converges to the area $(1-x_1)^2/2$ of the affine triangle as the regulator tends to $0^+$. The measurability input is taken from the merged RaisedBoxMiddleMeasurability. The final outer step is not claimed. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppRaisedBoxMiddleDCT.eventually_middle_inner_norm_le_majorant}\leanok\ \texttt{eventually\_middle\_inner\_norm\_le\_majorant}
+  \item \lean{GppRaisedBoxMiddleDCT.ae_middle_inner_tendsto_affine_length}\leanok\ \texttt{ae\_middle\_inner\_tendsto\_affine\_length}
+  \item \lean{GppRaisedBoxMiddleDCT.middle_inner_aestronglyMeasurable}\leanok\ \texttt{middle\_inner\_aestronglyMeasurable}
+  \item \lean{GppRaisedBoxMiddleDCT.middle_integral_tendsto}\leanok\ \texttt{middle\_integral\_tendsto}
+\end{itemize}
+
+\section{Celestial Holography --- Raised box: outer DCT preparation}
+Ported from Codex (raised-box chain). The middle-integral norm is bounded by an outer majorant, which is interval-integrable and nonnegative. Preparation for the final $x_1$ step; $\mathrm{simplexMoment}\to1/6$ is not claimed here. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppRaisedBoxOuterDCTPrep.outerMajorant}\leanok\ \texttt{outerMajorant}
+  \item \lean{GppRaisedBoxOuterDCTPrep.middleMajorant_eq_outerMajorant}\leanok\ \texttt{middleMajorant\_eq\_outerMajorant}
+  \item \lean{GppRaisedBoxOuterDCTPrep.outerMajorant_intervalIntegrable}\leanok\ \texttt{outerMajorant\_intervalIntegrable}
+  \item \lean{GppRaisedBoxOuterDCTPrep.outerMajorant_nonneg}\leanok\ \texttt{outerMajorant\_nonneg}
+  \item \lean{GppRaisedBoxOuterDCTPrep.middle_integral_norm_le_outerMajorant}\leanok\ \texttt{middle\_integral\_norm\_le\_outerMajorant}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
