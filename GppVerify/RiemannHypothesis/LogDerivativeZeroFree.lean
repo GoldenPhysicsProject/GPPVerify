@@ -182,4 +182,37 @@ theorem rh_of_slit_log_derivative {M : ℂ → ℂ} (hM : AnalyticOnNhd ℂ M sl
   exact zero_free_of_log_deriv isOpen_slitPlane (starConvex_one_slitPlane.isPathConnected (by simp)).isConnected.isPreconnected
     analyticOnNhd_slitF hM hode hz1 hF1 _ hu hF0
 
+/-- Nontrivial zeros of `ζ` are zeros of `ξ`. -/
+theorem xi_eq_zero_of_zeta_zero {s : ℂ} (hz : riemannZeta s = 0) (hs0 : s ≠ 0) (hs1 : s ≠ 1)
+    (hg : Gammaℝ s ≠ 0) : xi s = 0 := by
+  have hL : completedRiemannZeta s = 0 := by
+    have := riemannZeta_def_of_ne_zero hs0
+    rw [hz] at this
+    exact (div_eq_zero_iff.mp this.symm).resolve_right hg
+  have e := completedRiemannZeta_eq s
+  have h1s : (1 - s) ≠ 0 := sub_ne_zero.mpr (Ne.symm hs1)
+  unfold xi
+  have : completedRiemannZeta₀ s = 1 / s + 1 / (1 - s) := by
+    rw [hL] at e; linear_combination -e
+  rw [this]
+  field_simp
+  ring
+
+/-- **The Riemann Hypothesis from a holomorphic logarithmic derivative on the slit plane.** -/
+theorem riemannHypothesis_of_slit_log_derivative {M : ℂ → ℂ} (hM : AnalyticOnNhd ℂ M slitPlane)
+    (hode : ∀ u ∈ slitPlane, deriv slitF u = M u * slitF u) : RiemannHypothesis := by
+  intro s hz htriv h1
+  have hs0 : s ≠ 0 := by
+    rintro rfl
+    rw [riemannZeta_zero] at hz
+    norm_num at hz
+  have hg : Gammaℝ s ≠ 0 := by
+    rw [Ne, Gammaℝ_eq_zero_iff]
+    rintro ⟨n, hn⟩
+    rcases Nat.eq_zero_or_pos n with rfl | hpos
+    · exact hs0 (by simpa using hn)
+    · obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+      exact htriv ⟨m, by rw [hn]; push_cast; ring⟩
+  exact rh_of_slit_log_derivative hM hode s (xi_eq_zero_of_zeta_zero hz hs0 h1 hg)
+
 end GppLogDerivZeroFree
