@@ -5478,6 +5478,50 @@ Ported from Codex (raised-box chain). The middle-integral norm is bounded by an 
   \item \lean{GppRaisedBoxOuterDCTPrep.middle_integral_norm_le_outerMajorant}\leanok\ \texttt{middle\_integral\_norm\_le\_outerMajorant}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The half-density Möbius action is unitary on the compact logistic line}
+Source: Codex 2026-10-03 logistic compact principal-series bridge, §§2–4 and 6. For $|a|<1$ the Möbius boost $\varphi_a$ is a bijection of $(-1,1)$, the change of variables $\int\varphi_a' g(\varphi_a)=\int g$ holds, the half-density action $\sqrt{\varphi_a'}F\circ\varphi_a$ is isometric on $L^2(-1,1)$, the matrix coefficient is $\langle1,U_t1\rangle=t/(2\sinh(t/2))$, and the logistic density is the law of $\log(X/Y)$ for independent exponentials. The one-parameter group law and the identification with the $SL(2,\mathbb R)$ principal series are not formalized. No RH claim.
+
+\noindent\textbf{Proved (17 declarations):}
+\begin{itemize}
+  \item \lean{GppLogisticPS.phi}\leanok\ \texttt{phi}
+  \item \lean{GppLogisticPS.dphi}\leanok\ \texttt{dphi}
+  \item \lean{GppLogisticPS.one_sub_mul_pos}\leanok\ \texttt{one\_sub\_mul\_pos}
+  \item \lean{GppLogisticPS.phi_mapsTo}\leanok\ \texttt{phi\_mapsTo}
+  \item \lean{GppLogisticPS.phi_phi_neg}\leanok\ \texttt{phi\_phi\_neg}
+  \item \lean{GppLogisticPS.phi_image}\leanok\ \texttt{phi\_image}
+  \item \lean{GppLogisticPS.phi_injOn}\leanok\ \texttt{phi\_injOn}
+  \item \lean{GppLogisticPS.hasDerivAt_phi}\leanok\ \texttt{hasDerivAt\_phi}
+  \item \lean{GppLogisticPS.dphi_pos}\leanok\ \texttt{dphi\_pos}
+  \item \lean{GppLogisticPS.change_of_variables}\leanok\ \texttt{change\_of\_variables}
+  \item \lean{GppLogisticPS.unitary_half_density}\leanok\ \texttt{unitary\_half\_density}
+  \item \lean{GppLogisticPS.ratio_density}\leanok\ \texttt{ratio\_density}
+  \item \lean{GppLogisticPS.ratio_density_eq_p}\leanok\ \texttt{ratio\_density\_eq\_p}
+  \item \lean{GppLogisticPS.one_sub_mul_pos_closed}\leanok\ \texttt{one\_sub\_mul\_pos\_closed}
+  \item \lean{GppLogisticPS.tanh_half_lt_one}\leanok\ \texttt{tanh\_half\_lt\_one}
+  \item \lean{GppLogisticPS.one_add_div_one_sub_tanh}\leanok\ \texttt{one\_add\_div\_one\_sub\_tanh}
+  \item \lean{GppLogisticPS.matrix_coefficient}\leanok\ \texttt{matrix\_coefficient}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Off-line displacement as the mean orientation bias}
+Source: Codex 2026-10-03 logistic compact principal-series bridge, §5. For $|\delta|<1/2$, $\int\tanh(x/2)\,p(x)e^{2\delta x}dx=2\delta\int p(x)e^{2\delta x}dx$ with $p$ the logistic density, i.e. $E[\tanh(x/2)]=2\delta$ under the tilted law. An exact identity about the tilted family; it does not say the arithmetic zero states are balanced, which is RH. No RH claim.
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppOrientationBias.p}\leanok\ \texttt{p}
+  \item \lean{GppOrientationBias.tilt}\leanok\ \texttt{tilt}
+  \item \lean{GppOrientationBias.hasDerivAt_p}\leanok\ \texttt{hasDerivAt\_p}
+  \item \lean{GppOrientationBias.p_le_exp_neg_abs}\leanok\ \texttt{p\_le\_exp\_neg\_abs}
+  \item \lean{GppOrientationBias.integrable_exp_neg_mul_abs}\leanok\ \texttt{integrable\_exp\_neg\_mul\_abs}
+  \item \lean{GppOrientationBias.continuous_p}\leanok\ \texttt{continuous\_p}
+  \item \lean{GppOrientationBias.tilt_nonneg}\leanok\ \texttt{tilt\_nonneg}
+  \item \lean{GppOrientationBias.continuous_tilt}\leanok\ \texttt{continuous\_tilt}
+  \item \lean{GppOrientationBias.integrable_tilt}\leanok\ \texttt{integrable\_tilt}
+  \item \lean{GppOrientationBias.continuous_tanh_half}\leanok\ \texttt{continuous\_tanh\_half}
+  \item \lean{GppOrientationBias.hasDerivAt_tilt}\leanok\ \texttt{hasDerivAt\_tilt}
+  \item \lean{GppOrientationBias.tilt_integral_tanh}\leanok\ \texttt{tilt\_integral\_tanh}
+  \item \lean{GppOrientationBias.mean_tanh_eq}\leanok\ \texttt{mean\_tanh\_eq}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
