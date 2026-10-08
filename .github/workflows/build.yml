@@ -177,6 +177,17 @@ jobs:
         # declaration's own hypotheses, and `∃ x, x = e` for `e` free of `x`.
         run: python3 scripts/check_vacuity.py
 
+      - name: Native stub audit (FAILS the build)
+        # Environment-level check on the elaborated theorem types, independent of source formatting:
+        # no reflexivity stubs (`a = a`), and the number of `True`-conclusion theorems must equal the
+        # stub count the text gate (`check_stub_naming.py`) reports for the same tree.
+        run: |
+          lake env lean scripts/check_native_stubs.lean | tee /tmp/native_stubs.log
+          native=$(grep -oP 'true-stubs \(conclusion True\): \K[0-9]+' /tmp/native_stubs.log)
+          text=$(python3 scripts/check_stub_naming.py | grep -oP 'agrees with the tree \(\K[0-9]+')
+          echo "native=$native text=$text"
+          test -n "$native" && test "$native" = "$text"
+
       - name: Blueprint reference gate (FAILS the build)
         run: python3 scripts/check_blueprint_refs.py
 
