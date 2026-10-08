@@ -2112,6 +2112,10 @@ import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
 import GppVerify.RiemannHypothesis.ExponentialSumGrowth
 import GppVerify.RiemannHypothesis.PoleNeutralFilter
 import GppVerify.RiemannHypothesis.RHCriteriaAtlas
+import GppVerify.CelestialHolography.RaisedBoxInnerSliceDCT
+import GppVerify.CelestialHolography.RaisedBoxMiddleDCTPrep
+import GppVerify.CelestialHolography.RaisedBoxMiddleDCT
+import GppVerify.CelestialHolography.RaisedBoxOuterDCTPrep
 import GppVerify.RiemannHypothesis.MultiPrimeSupersymmetry
 import GppVerify.StandardModel.OrientationCrossingF2
 import GppVerify.StandardModel.PrimeFamilyIncidence
