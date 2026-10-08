@@ -17,6 +17,8 @@ This file proves:
 * `unitary_half_density`: with `(U_a F)(r) = √(φ_a'(r)) F(φ_a(r))`,
   `∫_{(−1,1)} (U_a F)² dr = ∫_{(−1,1)} F² dr` — the half-density Möbius action is isometric on
   `L²((−1, 1), dr/2)`, the compact picture of the one-dimensional principal series;
+* `matrix_coefficient`: for `a = tanh(t/2)`, `t ≠ 0`, `½ ∫_{(−1,1)} √(φ_a'(r)) dr = t/(2 sinh(t/2))`, the matrix
+  coefficient `⟨1, U_t 1⟩` of the unitary orbit (`= πv/sinh πv` at `t = 2πv`, the critical zero Gram kernel);
 * `ratio_density`: `∫_0^∞ e^{−(1+e^u) y} e^u y dy = e^u/(1+e^u)² = p(u)`, the logistic density as the law of
   `log(X/Y)` for independent unit exponentials `X, Y`.
 
@@ -146,5 +148,89 @@ theorem ratio_density (u : ℝ) :
 theorem ratio_density_eq_p (u : ℝ) :
     ∫ y in Ioi (0 : ℝ), Real.exp (-((1 + Real.exp u) * y)) * Real.exp u * y = GppLogisticBoost.p u := by
   rw [ratio_density, GppLogisticBoost.logistic_density_eq]
+
+/-! ### The matrix coefficient `⟨1, U_t 1⟩ = t/(2 sinh(t/2))` -/
+
+lemma one_sub_mul_pos_closed {a r : ℝ} (ha : |a| < 1) (hr : r ∈ Icc (-1 : ℝ) 1) : 0 < 1 - a * r := by
+  have hr' : |r| ≤ 1 := abs_le.mpr hr
+  have hab : |a * r| ≤ |a| := by
+    rw [abs_mul]; calc |a| * |r| ≤ |a| * 1 := by gcongr
+      _ = |a| := mul_one _
+  have := (abs_le.mp hab).2
+  have := (abs_lt.mp ha).2
+  have h3 : a * r ≤ |a| := (abs_le.mp hab).2
+  linarith [le_abs_self a, abs_nonneg a]
+
+lemma tanh_half_lt_one (t : ℝ) : |Real.tanh (t / 2)| < 1 := by
+  rw [abs_lt]
+  exact ⟨Real.neg_one_lt_tanh _, Real.tanh_lt_one _⟩
+
+lemma one_add_div_one_sub_tanh (x : ℝ) :
+    (1 + Real.tanh x) / (1 - Real.tanh x) = Real.exp (2 * x) := by
+  have hc := (Real.cosh_pos x).ne'
+  have h1 : 1 + Real.tanh x = Real.exp x / Real.cosh x := by
+    rw [Real.tanh_eq_sinh_div_cosh]; field_simp; rw [← Real.cosh_add_sinh]
+  have h2 : 1 - Real.tanh x = Real.exp (-x) / Real.cosh x := by
+    rw [Real.tanh_eq_sinh_div_cosh]; field_simp; rw [← Real.cosh_sub_sinh]
+  rw [h1, h2, div_div_div_cancel_right₀ hc, ← Real.exp_sub]; congr 1; ring
+
+theorem matrix_coefficient {t : ℝ} (ht : t ≠ 0) :
+    (1 / 2 : ℝ) * ∫ r in Ioo (-1 : ℝ) 1, Real.sqrt (dphi (Real.tanh (t / 2)) r) =
+      t / (2 * Real.sinh (t / 2)) := by
+  set a := Real.tanh (t / 2) with ha
+  have hab : |a| < 1 := tanh_half_lt_one t
+  have hc : 0 < Real.cosh (t / 2) := Real.cosh_pos _
+  have hsh : Real.sinh (t / 2) ≠ 0 := by
+    intro h
+    apply ht
+    have := Real.sinh_eq_zero.mp h
+    linarith
+  have ha0 : a ≠ 0 := by
+    rw [ha, Real.tanh_eq_sinh_div_cosh]; exact div_ne_zero hsh hc.ne'
+  have h1a : 0 < 1 - a ^ 2 := by nlinarith [abs_lt.mp hab]
+  have hsq : Real.sqrt (1 - a ^ 2) = 1 / Real.cosh (t / 2) := by
+    rw [ha, Real.tanh_eq_sinh_div_cosh]
+    have : 1 - (Real.sinh (t / 2) / Real.cosh (t / 2)) ^ 2 = (1 / Real.cosh (t / 2)) ^ 2 := by
+      field_simp; nlinarith [Real.cosh_sq (t / 2)]
+    rw [this, Real.sqrt_sq (by positivity)]
+  -- pointwise: √(φ') = √(1−a²)/(1−a r)
+  have hpt : ∀ r ∈ Ioo (-1 : ℝ) 1, Real.sqrt (dphi a r) = Real.sqrt (1 - a ^ 2) * (1 - a * r)⁻¹ := by
+    intro r hr
+    have hd := one_sub_mul_pos hab hr
+    unfold dphi
+    rw [Real.sqrt_div h1a.le, Real.sqrt_sq hd.le, div_eq_mul_inv]
+  rw [setIntegral_congr_fun measurableSet_Ioo hpt, integral_const_mul]
+  -- ∫_{(−1,1)} (1 − a r)⁻¹ = (1/a) log((1+a)/(1−a))
+  have hF : ∀ r ∈ Set.uIcc (-1 : ℝ) 1, HasDerivAt (fun r => -Real.log (1 - a * r) / a) ((1 - a * r)⁻¹) r := by
+    intro r hr
+    have hr' : r ∈ Icc (-1 : ℝ) 1 := by rwa [Set.uIcc_of_le (by norm_num)] at hr
+    have hpos : 0 < 1 - a * r := one_sub_mul_pos_closed hab hr'
+    have h2 : HasDerivAt (fun r : ℝ => 1 - a * r) (-a) r := by
+      simpa using ((hasDerivAt_id r).const_mul a).const_sub 1
+    have h3 := (h2.log hpos.ne').neg.div_const a
+    refine h3.congr_deriv ?_
+    field_simp
+  have hint : IntervalIntegrable (fun r : ℝ => (1 - a * r)⁻¹) volume (-1) 1 := by
+    apply ContinuousOn.intervalIntegrable
+    intro r hr
+    have hr' : r ∈ Icc (-1 : ℝ) 1 := by rwa [Set.uIcc_of_le (by norm_num)] at hr
+    have hpos : 0 < 1 - a * r := one_sub_mul_pos_closed hab hr'
+    exact (continuousAt_const.sub (continuousAt_const.mul continuousAt_id)).inv₀ hpos.ne' |>.continuousWithinAt
+  have hFTC := intervalIntegral.integral_eq_sub_of_hasDerivAt hF hint
+  rw [← integral_Ioc_eq_integral_Ioo, ← intervalIntegral.integral_of_le (by norm_num : (-1 : ℝ) ≤ 1), hFTC]
+  have hlog : -Real.log (1 - a * 1) / a - (-Real.log (1 - a * -1) / a) = t / a := by
+    have h1 : 0 < 1 - a := by have := (abs_lt.mp hab).2; linarith
+    have h2 : 0 < 1 + a := by have := (abs_lt.mp hab).1; linarith
+    have : Real.log (1 + a) - Real.log (1 - a) = t := by
+      rw [← Real.log_div h2.ne' h1.ne', ha, one_add_div_one_sub_tanh]
+      rw [Real.log_exp]; ring
+    simp only [mul_one, mul_neg]
+    rw [sub_neg_eq_add, show 1 + a = 1 - -a by ring] at *
+    field_simp
+    linarith
+  rw [hlog, hsq]
+  have : a = Real.sinh (t / 2) / Real.cosh (t / 2) := by rw [ha, Real.tanh_eq_sinh_div_cosh]
+  rw [this]
+  field_simp
 
 end GppLogisticPS
