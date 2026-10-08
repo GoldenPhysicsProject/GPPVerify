@@ -82,6 +82,31 @@ theorem reflected_norm_product_eq_one (s : ℂ) (k : ℝ) :
   ring_nf
   simp
 
+/-- Away from the critical line, the complete-reversal pair is necessarily
+a strict contraction/expansion pair in the same observer norm.  This is the
+finite-Haar version of the statement that a common record orientation cannot
+make both off-line lifts non-amplifying. -/
+theorem off_critical_reflected_pair_splits
+    {s : ℂ} {k : ℝ} (hk : 1 < k)
+    (hoff : s.re ≠ (1 : ℝ) / 2) :
+    (1 < ‖haarQuotientCharacter s k‖ ∧
+        ‖haarQuotientCharacter (reversal s) k‖ < 1) ∨
+      (‖haarQuotientCharacter s k‖ < 1 ∧
+        1 < ‖haarQuotientCharacter (reversal s) k‖) := by
+  rcases lt_or_gt_of_ne hoff with hs | hs
+  · left
+    constructor
+    · exact GppFiniteHaarQuotientPrincipalSeries.subcritical_haar_quotient_expands hk hs
+    · apply GppFiniteHaarQuotientPrincipalSeries.supercritical_haar_quotient_contracts hk
+      simp [reversal, GppRHArrowDictionary.reversal]
+      linarith
+  · right
+    constructor
+    · exact GppFiniteHaarQuotientPrincipalSeries.supercritical_haar_quotient_contracts hk hs
+    · apply GppFiniteHaarQuotientPrincipalSeries.subcritical_haar_quotient_expands hk
+      simp [reversal, GppRHArrowDictionary.reversal]
+      linarith
+
 /-- **Two-sided observer positivity selects the principal line.**
 For any nontrivial finite Haar quotient `k > 1`, simultaneous contractivity of
 a parameter and its complete-reversal companion is equivalent to
@@ -256,6 +281,7 @@ theorem off_line_zero_pair_and_observer_obstruction
 end GppObserverPrincipalSeries
 
 #print axioms GppObserverPrincipalSeries.reflected_norm_product_eq_one
+#print axioms GppObserverPrincipalSeries.off_critical_reflected_pair_splits
 #print axioms GppObserverPrincipalSeries.observerPositivePair_iff_critical
 #print axioms GppObserverPrincipalSeries.tomita_principal_label_observer_positive
 #print axioms GppObserverPrincipalSeries.tomita_principal_label_celestial
