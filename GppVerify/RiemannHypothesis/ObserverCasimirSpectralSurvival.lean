@@ -14,16 +14,16 @@ Let
 
 If a nonreal arithmetic label `s` survives faithfully as an eigencharacter of
 a Hermitian observer operator with eigenvalue `c(s)`, then `c(s)` must be
-real.  Since
+real. Since
 
   Im c(s) = Im(s) * (1 - 2 Re(s)),
 
 a nonreal label is forced to `Re(s)=1/2`.
 
-This theorem is deliberately finite-dimensional.  It proves the algebraic
+This theorem is deliberately finite-dimensional. It proves the algebraic
 spectral implication without pretending to construct the zero-independent
 infinite-dimensional arithmetic operator whose spectrum contains every zeta
-zero.  That construction remains the global Hilbert--Polya/observer-survival
+zero. That construction remains the global Hilbert--Polya/observer-survival
 target.
 -/
 
@@ -32,12 +32,10 @@ namespace GppObserverCasimirSpectralSurvival
 open Complex
 open scoped ComplexOrder
 
-/-- A nonzero complex vector has nonzero Hermitian norm-square.  Kept local so
-the spectral theorem below does not depend on a choice between Mathlib's two
-complex order instances. -/
+/-- A nonzero complex vector has nonzero Hermitian norm-square. -/
 lemma star_dot_self_ne_zero {n : Type*} [Fintype n]
     (v : n → ℂ) (hv : v ≠ 0) :
-    star v ⬝ᵥ v ≠ 0 := by
+    dotProduct (star v) v ≠ 0 := by
   intro h
   apply hv
   have hflat : ∑ j, star (v j) * v j = 0 := by
@@ -59,16 +57,18 @@ theorem hermitian_eigenvalue_star_fixed
     {n : Type*} [Fintype n] [DecidableEq n]
     (M : Matrix n n ℂ) (hM : M.IsHermitian)
     (mu : ℂ) (v : n → ℂ) (hv : v ≠ 0)
-    (heig : M *ᵥ v = mu • v) :
+    (heig : M.mulVec v = mu • v) :
     star mu = mu := by
-  have hvv : star v ⬝ᵥ v ≠ 0 := star_dot_self_ne_zero v hv
-  have h1 : star v ⬝ᵥ (M *ᵥ v) = mu * (star v ⬝ᵥ v) := by
+  have hvv : dotProduct (star v) v ≠ 0 := star_dot_self_ne_zero v hv
+  have h1 : dotProduct (star v) (M.mulVec v) =
+      mu * dotProduct (star v) v := by
     rw [heig, dotProduct_smul, smul_eq_mul]
-  have h2 : star v ⬝ᵥ (M *ᵥ v) =
-      star mu * (star v ⬝ᵥ v) :=
-    hermitian_dotProduct_mulVec M hM mu v v heig
-  have heq : mu * (star v ⬝ᵥ v) =
-      star mu * (star v ⬝ᵥ v) := h1.symm.trans h2
+  have h2 : dotProduct (star v) (M.mulVec v) =
+      star mu * dotProduct (star v) v := by
+    simpa only using
+      GppThreadWeilParity.hermitian_dotProduct_mulVec M hM mu v v heig
+  have heq : mu * dotProduct (star v) v =
+      star mu * dotProduct (star v) v := h1.symm.trans h2
   exact mul_right_cancel₀ hvv heq.symm
 
 /-- A nonreal arithmetic label whose Casimir survives as a Hermitian eigenvalue
@@ -77,7 +77,7 @@ theorem critical_of_hermitian_casimir_eigenvector
     {n : Type*} [Fintype n] [DecidableEq n]
     (M : Matrix n n ℂ) (hM : M.IsHermitian)
     (s : ℂ) (v : n → ℂ) (hv : v ≠ 0)
-    (heig : M *ᵥ v = GppCasimirCriticalLine.casimir s • v)
+    (heig : M.mulVec v = GppCasimirCriticalLine.casimir s • v)
     (him : s.im ≠ 0) :
     s.re = (1 : ℝ) / 2 := by
   have hstar :
@@ -96,7 +96,7 @@ theorem hermitian_casimir_eigenvector_forces_principal_range
     {n : Type*} [Fintype n] [DecidableEq n]
     (M : Matrix n n ℂ) (hM : M.IsHermitian)
     (s : ℂ) (v : n → ℂ) (hv : v ≠ 0)
-    (heig : M *ᵥ v = GppCasimirCriticalLine.casimir s • v)
+    (heig : M.mulVec v = GppCasimirCriticalLine.casimir s • v)
     (him : s.im ≠ 0) :
     (GppCasimirCriticalLine.casimir s).im = 0 ∧
       (1 : ℝ) / 4 ≤ (GppCasimirCriticalLine.casimir s).re := by
