@@ -4868,6 +4868,16 @@ For the bilateral Laplace transform $\hat g(z)=\int g(u)e^{zu}\,du$: parity $u\m
   \item \lean{GppLogScaleParity.laplace_even_real_line}\leanok\ \texttt{laplace\_even\_real\_line}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Euler factorization of the coherent vectors}
+The coherent vector $e_z(n)=n^{-1/2-z}$ is completely multiplicative, the squared norm of the single-prime coherent vector $\sum_k(p^{-1/2-z})^k|k\rangle$ is $(1-p^{-1-2\sigma})^{-1}$, and $\|e_z\|^2=\prod_p(1-p^{-1-2\sigma})^{-1}$: the global norm is the product of the local norms. The infinite tensor-product isomorphism itself is not formalized. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppEulerFactorization.coh_mul}\leanok\ \texttt{coh\_mul}
+  \item \lean{GppEulerFactorization.local_norm_sq}\leanok\ \texttt{local\_norm\_sq}
+  \item \lean{GppEulerFactorization.norm_sq_euler}\leanok\ \texttt{norm\_sq\_euler}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
