@@ -25,13 +25,15 @@ All are instances of: "convolution square of a function on a group is positive-t
 
 The base algebraic case (the constant function is positive-type, and any
 positive-type function is nonnegative at 0) is proved clean. The general
-convolution-square case is documented (see `open_convolution_square_positive_type_statement`)
-but left open pending the L² integrability bookkeeping it needs.
+convolution-square case (bounded integrable `f`, Lebesgue = Haar measure on `ℝ`) is proved in
+`ConvolutionSquarePositive.lean` (`convolution_square_positive_type`); the former stub
+`open_convolution_square_positive_type_statement` was retired 2026-10-08.
 
-## Key axioms
+## Weil's criterion
 
-Weil's criterion (≡ RH) is axiomatized; proving it unconditionally requires
-Tate's thesis + adèlic Fourier theory (Mathlib gaps).
+Weil's criterion (≡ RH) is not asserted anywhere: its zero-side form is the proved equivalence
+`GppStubRegistry.weil_criterion_iff`; the explicit-formula side needs Tate's thesis + adèlic
+Fourier theory (Mathlib gaps).
 -/
 
 open scoped InnerProductSpace ComplexOrder
@@ -175,7 +177,7 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
   simp at this
   exact_mod_cast this
 
-/-- If P = f̄ * f (convolution) then P is positive-type, for `f` bounded and
+/- If P = f̄ * f (convolution) then P is positive-type, for `f` bounded and
     integrable (so that every pairwise translated product `f(·+a)·f(·+b)` is
     itself integrable and the argument below goes through cleanly).
 
@@ -198,8 +200,9 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
     `sum_conj_mul_real_re_nonneg` below. Only steps 1–2 — the translation identity and the
     ∑/∫ interchange — remain, so what is missing here is *analytic bookkeeping*, not
     algebra. Worth stating precisely: the outline reads as three equally-open steps and it
-    is one third that size. -/
-theorem open_convolution_square_positive_type_statement : True := trivial
+    is one third that size.
+
+    **Closed 2026-10-08**: the stub `open_convolution_square_positive_type_statement` is retired. The statement is proved in full for Lebesgue (= Haar) measure on `ℝ` as `GppHaarPositivityWeil.convolution_square_positive_type` in `ConvolutionSquarePositive.lean` (this file cannot import it: that module imports this one). -/
 
 /-! ### Step 3 of the convolution-square argument, proved
 
