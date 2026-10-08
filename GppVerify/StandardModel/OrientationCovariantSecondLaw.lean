@@ -1,25 +1,37 @@
 import Mathlib.Tactic
 
 /-!
-# Orientation-covariant second-law sign core
+# Record-oriented entropy with two microscopic time arrows
 
-Finite algebra accompanying Daniel Toupin,
-"Which Way Is Forward?", v20.
+Finite sign algebra accompanying Daniel Toupin,
+"Which Way Is Forward?", October 2026 correction.
 
-The paper distinguishes an arbitrary external coordinate orientation from the
-future orientation selected by a lifted history. If t in {+1,-1} is the
-temporal-orientation sign and r = dS/dlambda is the coordinate entropy rate,
-the internal/oriented rate is
+This module records the convention used by the current orientation picture.
 
-  D_t S = t*r.
+There is one coarse-grained record direction in the shared history.  Let
+`r = dS/dlambda` be the entropy rate in that record coordinate, with `r >= 0`.
+The microscopic time arrow `t in {+1,-1}` does **not** flip that shared
+coarse-grained history.  Instead it says whether a constituent's intrinsic
+clock is aligned or anti-aligned with the record coordinate.
 
-Complete reversal sends (t,r) -> (-t,-r), so t*r is invariant although the
-coordinate rate changes sign. A paired orientation-symmetric state therefore
-has zero signed coordinate rate while the two internal rates agree.
+Thus
 
-This file formalizes only that finite sign algebra. It does not derive
-thermodynamic entropy, a low-entropy boundary condition, decoherence, or the
-many-body origin of the macroscopic record arrow.
+  dS/dtau_t = t * r.
+
+For `t=+1`, entropy rises toward the constituent's microscopic future.
+For `t=-1`, entropy falls when followed toward that constituent's microscopic
+future, equivalently entropy rises toward its microscopic past.  Both lifts
+occupy the same record history and therefore have the same coordinate entropy
+rate `r`.
+
+The signed/oriented entropy variable `t*S` cancels between an equally weighted
+pair.  This is the precise finite statement behind the notation
+`S_oriented,total = 0`; it does not say that ordinary thermodynamic or
+von Neumann entropy is negative.
+
+This file formalizes only this sign algebra.  It does not derive the second law,
+the low-entropy boundary condition, decoherence, record formation, or an equal
+population law.
 -/
 
 namespace GppOrientationCovariantSecondLaw
@@ -27,8 +39,15 @@ namespace GppOrientationCovariantSecondLaw
 /-- Relational particle/antiparticle grading. -/
 def relationalChi (q t : ℝ) : ℝ := q * t
 
-/-- Internal entropy-production rate relative to temporal orientation t. -/
-def orientedEntropyRate (t r : ℝ) : ℝ := t * r
+/-- Coarse-grained entropy rate in the observer's shared record coordinate. -/
+def recordEntropyRate (r : ℝ) : ℝ := r
+
+/-- Entropy derivative with respect to a constituent clock whose microscopic
+orientation relative to the record coordinate is `t`. -/
+def intrinsicEntropyRate (t r : ℝ) : ℝ := t * r
+
+/-- Signed/oriented entropy used only to compare the two microscopic lifts. -/
+def orientedEntropy (t S : ℝ) : ℝ := t * S
 
 /-- Complete q,t reversal preserves the relational grading. -/
 theorem diagonal_reversal_preserves_chi (q t : ℝ) :
@@ -41,48 +60,69 @@ theorem either_half_flip_reverses_chi (q t : ℝ) :
     relationalChi q (-t) = - relationalChi q t := by
   constructor <;> simp [relationalChi]
 
-/-- Complete temporal reversal changes both orientation and coordinate rate,
-leaving the internal/oriented entropy rate unchanged. -/
-theorem complete_reversal_preserves_oriented_rate (t r : ℝ) :
-    orientedEntropyRate (-t) (-r) = orientedEntropyRate t r := by
-  simp [orientedEntropyRate]
+/-- The shared record-coordinate entropy rate is independent of microscopic
+orientation.  Both lifts inhabit the same coarse-grained history. -/
+theorem shared_record_rate (r : ℝ) :
+    recordEntropyRate r = r := rfl
 
-/-- Opposite coordinate entropy rates cancel in an equally weighted pair. -/
-theorem paired_coordinate_rates_cancel (r : ℝ) :
-    (r + (-r)) / 2 = 0 := by
-  ring
+/-- The backward microscopic lift has the opposite entropy derivative with
+respect to its own intrinsic clock. -/
+theorem backward_intrinsic_rate_is_negative_of_forward (r : ℝ) :
+    intrinsicEntropyRate (-1 : ℝ) r = - intrinsicEntropyRate (1 : ℝ) r := by
+  simp [intrinsicEntropyRate]
 
-/-- The two opposite lifts assign the same internal entropy-production rate. -/
-theorem paired_oriented_rates_equal (r : ℝ) :
-    orientedEntropyRate (1 : ℝ) r =
-      orientedEntropyRate (-1 : ℝ) (-r) := by
-  simp [orientedEntropyRate]
+/-- The two intrinsic-clock entropy derivatives cancel as an oriented pair. -/
+theorem paired_intrinsic_rates_cancel (r : ℝ) :
+    intrinsicEntropyRate (1 : ℝ) r +
+      intrinsicEntropyRate (-1 : ℝ) r = 0 := by
+  simp [intrinsicEntropyRate]
 
-/-- Their equally weighted oriented average equals the positive-side rate. -/
-theorem paired_oriented_average (r : ℝ) :
-    (orientedEntropyRate (1 : ℝ) r +
-      orientedEntropyRate (-1 : ℝ) (-r)) / 2 = r := by
-  unfold orientedEntropyRate
-  ring
+/-- Equal-magnitude opposite microscopic orientations give zero total signed
+entropy, while leaving the ordinary entropy magnitude `S` untouched. -/
+theorem paired_oriented_entropy_cancel (S : ℝ) :
+    orientedEntropy (1 : ℝ) S + orientedEntropy (-1 : ℝ) S = 0 := by
+  simp [orientedEntropy]
 
-/-- If the positive lift has nonnegative coordinate entropy rate, both lifts
-have nonnegative entropy production in their own future orientation. -/
-theorem paired_second_law {r : ℝ} (hr : 0 ≤ r) :
-    0 ≤ orientedEntropyRate (1 : ℝ) r ∧
-    0 ≤ orientedEntropyRate (-1 : ℝ) (-r) := by
-  simpa [orientedEntropyRate] using And.intro hr hr
+/-- If entropy increases in the shared record direction, the forward microscopic
+lift sees nonnegative entropy change toward its own future. -/
+theorem forward_entropy_increases_toward_intrinsic_future {r : ℝ} (hr : 0 ≤ r) :
+    0 ≤ intrinsicEntropyRate (1 : ℝ) r := by
+  simpa [intrinsicEntropyRate] using hr
 
-/-- Package the exact sign content used in the time-symmetric entropy argument. -/
-theorem time_symmetric_entropy_sign_capstone {r : ℝ} (hr : 0 ≤ r) :
-    (r + (-r)) / 2 = 0 ∧
-    orientedEntropyRate (1 : ℝ) r =
-      orientedEntropyRate (-1 : ℝ) (-r) ∧
-    0 ≤ orientedEntropyRate (1 : ℝ) r ∧
-    0 ≤ orientedEntropyRate (-1 : ℝ) (-r) := by
+/-- If entropy increases in the shared record direction, the backward microscopic
+lift sees nonpositive entropy change toward its own future.  Equivalently, its
+entropy increases toward its microscopic past. -/
+theorem backward_entropy_increases_toward_intrinsic_past {r : ℝ} (hr : 0 ≤ r) :
+    intrinsicEntropyRate (-1 : ℝ) r ≤ 0 := by
+  simp [intrinsicEntropyRate]
+  exact hr
+
+/-- Both microscopic lifts share the same nonnegative record-coordinate entropy
+rate even though their intrinsic-clock derivatives have opposite signs. -/
+theorem shared_record_arrow_capstone {r : ℝ} (hr : 0 ≤ r) :
+    0 ≤ recordEntropyRate r ∧
+    0 ≤ recordEntropyRate r ∧
+    intrinsicEntropyRate (1 : ℝ) r =
+      - intrinsicEntropyRate (-1 : ℝ) r := by
   constructor
-  · exact paired_coordinate_rates_cancel r
+  · simpa [recordEntropyRate] using hr
   constructor
-  · exact paired_oriented_rates_equal r
-  · exact paired_second_law hr
+  · simpa [recordEntropyRate] using hr
+  · simp [intrinsicEntropyRate]
+
+/-- Package the corrected finite sign content: common record arrow, opposite
+microscopic clock derivatives, and cancellation only of the signed entropy. -/
+theorem record_oriented_entropy_capstone {r S : ℝ} (hr : 0 ≤ r) :
+    0 ≤ recordEntropyRate r ∧
+    0 ≤ intrinsicEntropyRate (1 : ℝ) r ∧
+    intrinsicEntropyRate (-1 : ℝ) r ≤ 0 ∧
+    orientedEntropy (1 : ℝ) S + orientedEntropy (-1 : ℝ) S = 0 := by
+  constructor
+  · simpa [recordEntropyRate] using hr
+  constructor
+  · exact forward_entropy_increases_toward_intrinsic_future hr
+  constructor
+  · exact backward_entropy_increases_toward_intrinsic_past hr
+  · exact paired_oriented_entropy_cancel S
 
 end GppOrientationCovariantSecondLaw
