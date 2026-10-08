@@ -92,6 +92,7 @@ import GppVerify.GeneralRelativity.Rigidity
 -- ── Number Theory (New) ──────────────────────────────────────
 -- Shadow Euler Identity and Hadamard product stubs
 import GppVerify.NumberTheory.ShadowEulerIdentity
+import GppVerify.NumberTheory.Gr24LocalZeta
 
 -- Weyl vector Casimir ⟨ρ_G,ρ_G⟩ = 5 for U(4) (proved clean)
 import GppVerify.NumberTheory.WeylCasimir

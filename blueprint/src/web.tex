@@ -5560,6 +5560,17 @@ Exact finite algebra behind the Hecke-boundary leakage inequality: the symmetric
   \item \lean{GppHeckeJacobiLeakage.leakage_label}\leanok\ \texttt{leakage\_label}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Local Zeta Factor of Gr(2,4)}
+The local Euler factor identity behind the Gr(2,4) zeta factorization, proved from the point-count polynomial $1+q+2q^2+q^3+q^4$: for $\\mathrm{Re}\\,s>4$, $\\exp\\sum_n N(p^n)T^n/n = 1/((1-T)(1-pT)(1-p^2T)^2(1-p^3T)(1-p^4T))$. That the polynomial is the $\\mathbb{F}_q$-point count and the global Euler product are not proved here.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppGr24LocalZeta.exp_tsum_pow_div}\leanok\ \texttt{exp\_tsum\_pow\_div}
+  \item \lean{GppGr24LocalZeta.hasSum_log_aux}\leanok\ \texttt{hasSum\_log\_aux}
+  \item \lean{GppGr24LocalZeta.exp_neg_log_aux}\leanok\ \texttt{exp\_neg\_log\_aux}
+  \item \lean{GppGr24LocalZeta.gr24_local_zeta}\leanok\ \texttt{gr24\_local\_zeta}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
@@ -6263,7 +6274,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{126} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{125} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
