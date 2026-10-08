@@ -55,6 +55,8 @@ No RH claim is made.
 
 namespace GppObserverPrincipalSeries
 
+noncomputable section
+
 open Complex
 
 abbrev reversal := GppRHArrowDictionary.reversal
@@ -129,7 +131,7 @@ theorem observerPositivePair_iff_critical
       exact le_of_eq hnorm
     · have href : (reversal s).re = (1 : ℝ) / 2 := by
         simp [reversal, GppRHArrowDictionary.reversal, hs]
-      norm_num
+        norm_num
       have hnorm :=
         (GppFiniteHaarQuotientPrincipalSeries.critical_line_iff_haar_quotient_isometry
           (s := reversal s) (k := k) hk0 hk1).1 href
