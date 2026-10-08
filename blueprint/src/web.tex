@@ -4963,6 +4963,39 @@ The parity $f\mapsto f(-\cdot)$ is an isometry of $L^2(\mathbb R)$; the even and
   \item \lean{GppSheetParity.pole_pairing_odd_only}\leanok\ \texttt{pole\_pairing\_odd\_only}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Multi-prime supersymmetric pairing with Klein factors}
+For $m$ modes with boson occupations $k_i$ and fermion occupations $b_i$ and the Klein factor $\prod_{j<i}(-1)^{b_j}$: $Q_iQ_j+Q_jQ_i=0$, $Q_i^\dagger Q_j^\dagger+Q_j^\dagger Q_i^\dagger=0$, $Q_iQ_j^\dagger+Q_j^\dagger Q_i=0$ for $i\ne j$, $Q_i^2=0$ and $\{Q_i,Q_i^\dagger\}=N_i$; hence the total supercharge has $Q^2=0$ and $\{Q,Q^\dagger\}=\sum_iN_i$. Finite-mode algebra only: no claim that primes are physical modes, no annihilation dynamics, no zero location. No RH claim.
+
+\noindent\textbf{Proved (26 declarations):}
+\begin{itemize}
+  \item \lean{GppMultiPrimeSusy.Cfg}\leanok\ \texttt{Cfg}
+  \item \lean{GppMultiPrimeSusy.kl}\leanok\ \texttt{kl}
+  \item \lean{GppMultiPrimeSusy.Q}\leanok\ \texttt{Q}
+  \item \lean{GppMultiPrimeSusy.Qd}\leanok\ \texttt{Qd}
+  \item \lean{GppMultiPrimeSusy.N}\leanok\ \texttt{N}
+  \item \lean{GppMultiPrimeSusy.kl_update_self}\leanok\ \texttt{kl\_update\_self}
+  \item \lean{GppMultiPrimeSusy.kl_update_gt}\leanok\ \texttt{kl\_update\_gt}
+  \item \lean{GppMultiPrimeSusy.kl_update_lt}\leanok\ \texttt{kl\_update\_lt}
+  \item \lean{GppMultiPrimeSusy.kl_update_lt'}\leanok\ \texttt{kl\_update\_lt'}
+  \item \lean{GppMultiPrimeSusy.kl_sq}\leanok\ \texttt{kl\_sq}
+  \item \lean{GppMultiPrimeSusy.Q_cross_lt}\leanok\ \texttt{Q\_cross\_lt}
+  \item \lean{GppMultiPrimeSusy.Q_cross}\leanok\ \texttt{Q\_cross}
+  \item \lean{GppMultiPrimeSusy.Qd_cross_lt}\leanok\ \texttt{Qd\_cross\_lt}
+  \item \lean{GppMultiPrimeSusy.Qd_cross}\leanok\ \texttt{Qd\_cross}
+  \item \lean{GppMultiPrimeSusy.anticomm_cross_lt}\leanok\ \texttt{anticomm\_cross\_lt}
+  \item \lean{GppMultiPrimeSusy.anticomm_cross_gt}\leanok\ \texttt{anticomm\_cross\_gt}
+  \item \lean{GppMultiPrimeSusy.anticomm_cross}\leanok\ \texttt{anticomm\_cross}
+  \item \lean{GppMultiPrimeSusy.Q_sq}\leanok\ \texttt{Q\_sq}
+  \item \lean{GppMultiPrimeSusy.Qd_sq}\leanok\ \texttt{Qd\_sq}
+  \item \lean{GppMultiPrimeSusy.anticomm_self}\leanok\ \texttt{anticomm\_self}
+  \item \lean{GppMultiPrimeSusy.Qt}\leanok\ \texttt{Qt}
+  \item \lean{GppMultiPrimeSusy.Qdt}\leanok\ \texttt{Qdt}
+  \item \lean{GppMultiPrimeSusy.Q_sum}\leanok\ \texttt{Q\_sum}
+  \item \lean{GppMultiPrimeSusy.Qd_sum}\leanok\ \texttt{Qd\_sum}
+  \item \lean{GppMultiPrimeSusy.Qt_sq}\leanok\ \texttt{Qt\_sq}
+  \item \lean{GppMultiPrimeSusy.anticomm_total}\leanok\ \texttt{anticomm\_total}
+\end{itemize}
+
 \section{Standard Model --- Orientation crossing over $\mathbb F_2$}
 Ported from Codex branch codex/orientation-mass-time-formalization (PR 255): exact finite $\mathbb F_2$ orientation-crossing layer of the 2026-10-06 low-prime investigation. Physical identifications are not Lean claims.
 
