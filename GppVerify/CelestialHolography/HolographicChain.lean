@@ -257,11 +257,12 @@ theorem null_cone_quadric (t x y z : ℝ) :
 
 /-! ## Axioms (deep: Hasse–Weil, Bost–Connes) -/
 
-/-- ζ_Gr(s) = ζ(s)·ζ(s-1)·ζ(s-2)²·ζ(s-3)·ζ(s-4) (5 Riemann zeta shifts)
+/- ζ_Gr(s) = ζ(s)·ζ(s-1)·ζ(s-2)²·ζ(s-3)·ζ(s-4) (5 Riemann zeta shifts)
     Proof requires Hasse–Weil theorem and Weil conjectures (Deligne 1974). Not
     an axiom: the statement is content-free (`True`); left as a documented
-    stub rather than adding an unnecessary axiom to the trust base. -/
-theorem open_hasse_weil_gr24_factorization : True := trivial
+    stub rather than adding an unnecessary axiom to the trust base.
+
+    **Closed 2026-10-08**: the stub `open_hasse_weil_gr24_factorization` is retired. The analytic content — the local Euler factor `exp(∑ N(pⁿ)Tⁿ/n) = 1/((1−T)(1−pT)(1−p²T)²(1−p³T)(1−p⁴T))` for `Re s > 4` — is proved as `GppGr24LocalZeta.gr24_local_zeta` from the point-count polynomial. Still a library gap: that the polynomial is `#Gr(2,4)(𝔽_q)` and the global Euler product over all primes. -/
 
 /-- Bost–Connes system is the restriction of the celestial Hilbert space
     to the prime sublattice; Z_BC(β) = ζ(β). -/
