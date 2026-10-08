@@ -323,6 +323,6 @@ theorem open_arithmetic_ward_identity : True := trivial
 -- (LIBRARY GAP as well: Hecke L-functions re-verified absent in Mathlib 4.33.1, 2026-09-01
 --  — needed to state the claim, not to prove it.)
 
-theorem open_rh_summary : True := trivial
+-- Stub `open_rh_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 end GppRHProofStructure

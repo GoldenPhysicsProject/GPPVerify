@@ -871,7 +871,7 @@ theorem open_cor_li_criterion : True := trivial
 -- §5  MAIN THEOREM ASSEMBLY
 -- ============================================================
 
-/-- **Summary**: The Shadow Euler Identity sits at the intersection of the
+/- **Summary**: The Shadow Euler Identity sits at the intersection of the
     Hadamard product theory of ξ and the Shadow framework's physically
     distinguished evaluation points kN/(k+N).
 
@@ -884,7 +884,7 @@ theorem open_cor_li_criterion : True := trivial
     Δ-form, main identity, SU(3) case, critical-line form, minimum and geometric-mean inequality
     are proved *given* it (`*_of_formula`). Still open stubs: `open_thm_logconcave`,
     `open_thm_spectral_moment_inversion`, `open_cor_s2_xi_derivative`, `open_cor_li_criterion`. -/
-theorem open_shadow_euler_summary : True := trivial
+-- Stub `open_shadow_euler_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 end GppShadowEuler
 

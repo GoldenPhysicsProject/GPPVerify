@@ -107,7 +107,7 @@ theorem open_shadow_discontinuity_one_loop : True := trivial
 /-- Cut-shadow correspondence: open research claim. -/
 theorem open_cut_shadow_correspondence : True := trivial
 
-theorem open_twistor_googly_summary : True := trivial
+-- Stub `open_twistor_googly_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 
 -- Ported from GPPVerify2 (2026-09-27)
