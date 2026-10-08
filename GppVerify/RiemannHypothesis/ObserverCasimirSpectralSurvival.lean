@@ -66,7 +66,7 @@ theorem hermitian_eigenvalue_star_fixed
     rw [heig, dotProduct_smul, smul_eq_mul]
   have h2 : star v ⬝ᵥ (M *ᵥ v) =
       star mu * (star v ⬝ᵥ v) :=
-    GppThreadWeilParity.hermitian_dotProduct_mulVec M hM mu v v heig
+    hermitian_dotProduct_mulVec M hM mu v v heig
   have heq : mu * (star v ⬝ᵥ v) =
       star mu * (star v ⬝ᵥ v) := h1.symm.trans h2
   exact mul_right_cancel₀ hvv heq.symm
