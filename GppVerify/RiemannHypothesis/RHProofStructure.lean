@@ -106,8 +106,9 @@ theorem open_scaling_eigenspace_ode (_ : ℝ) :
 -- for each zero ordinate is the key content (rh_physics24_edited, lem:eigenspace).
 -- This requires adèlic L² theory; axiomatized in AdelicL2.lean.
 
-/-- Multiplicity constraint: spectral atom at γ equals 1 = dim(eigenspace) -/
-theorem open_spectral_atom_weight_one (γ : ℝ) (_ : 0 < γ) : True := trivial
+/- Multiplicity constraint: spectral atom at γ equals 1 = dim(eigenspace)
+
+    **Closed 2026-10-08**: the stub `open_spectral_atom_weight_one` is retired. The precise statement is `GppRH.AtomWeightOne`, equivalent to RH (`GppStubRegistry.atom_weight_one_iff_rh`). -/
 -- SOURCE: rh_physics24_edited.tex, prop:atom
 -- PROOF SKETCH: Meyer spectral-Weil gives μ_A = μ_W; eigenspace is 1D;
 -- Weil atom weight = total analytic multiplicity; hence mult = 1.
@@ -138,8 +139,9 @@ theorem off_line_exponential_growth (σ : ℝ) (hσ : σ ≠ 0) :
     `GppVerify/RiemannHypothesis/StubRegistry.lean`. -/
 -- NOTE: This is in CoreTheorems.lean as haar_self_duality (proved clean).
 
-/-- J maps evaluation functionals: l_{s₀} ∘ J = l_{1-s₀} -/
-theorem open_j_maps_functionals : True := trivial
+/- J maps evaluation functionals: l_{s₀} ∘ J = l_{1-s₀}
+
+    **Closed 2026-10-08**: the stub `open_j_maps_functionals` is retired. Proved as `GppStubRegistry.mellin_inversion`. -/
 -- SOURCE: rh_physics24_edited.tex, lem:j-on-functionals
 -- PROOF: (Jf)^(s₀) = f(1-s₀) by Mellin transform under inversion.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Requires Mellin transform theory for spaces H₋.
