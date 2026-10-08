@@ -5161,6 +5161,160 @@ Ported from Codex (PR 243): the one-prime coherent Euler/Poisson algebra, positi
   \item \lean{GppEulerLocalPoisson.laplacian_gap_zero}\leanok\ \texttt{laplacian\_gap\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Observer Casimir spectral survival}
+Ported from Codex draft PR 257: a nonreal label whose Casimir survives as an eigenvalue of a Hermitian observer operator is forced to the critical line. The global arithmetic operator is not constructed. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppObserverCasimirSpectralSurvival.star_dot_self_ne_zero}\leanok\ \texttt{star\_dot\_self\_ne\_zero}
+  \item \lean{GppObserverCasimirSpectralSurvival.hermitian_eigenvalue_star_fixed}\leanok\ \texttt{hermitian\_eigenvalue\_star\_fixed}
+  \item \lean{GppObserverCasimirSpectralSurvival.critical_of_hermitian_casimir_eigenvector}\leanok\ \texttt{critical\_of\_hermitian\_casimir\_eigenvector}
+  \item \lean{GppObserverCasimirSpectralSurvival.hermitian_casimir_eigenvector_forces_principal_range}\leanok\ \texttt{hermitian\_casimir\_eigenvector\_forces\_principal\_range}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Observer principal-series positivity}
+Ported from Codex draft PR 257: the complete-reversal pair has reciprocal finite-Haar transport norms; non-amplification of both members in one common observer norm is equivalent to $\operatorname{Re}s=1/2$. The global bridge (observer-positive survival of every zero) is stated as the equivalent of RH, not proved. No RH claim.
+
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{GppObserverPrincipalSeries.reversal}\leanok\ \texttt{reversal}
+  \item \lean{GppObserverPrincipalSeries.haarQuotientCharacter}\leanok\ \texttt{haarQuotientCharacter}
+  \item \lean{GppObserverPrincipalSeries.ObserverPositivePair}\leanok\ \texttt{ObserverPositivePair}
+  \item \lean{GppObserverPrincipalSeries.reflected_norm_product_eq_one}\leanok\ \texttt{reflected\_norm\_product\_eq\_one}
+  \item \lean{GppObserverPrincipalSeries.off_critical_reflected_pair_splits}\leanok\ \texttt{off\_critical\_reflected\_pair\_splits}
+  \item \lean{GppObserverPrincipalSeries.observerPositivePair_iff_critical}\leanok\ \texttt{observerPositivePair\_iff\_critical}
+  \item \lean{GppObserverPrincipalSeries.tomita_principal_label_observer_positive}\leanok\ \texttt{tomita\_principal\_label\_observer\_positive}
+  \item \lean{GppObserverPrincipalSeries.tomita_principal_label_celestial}\leanok\ \texttt{tomita\_principal\_label\_celestial}
+  \item \lean{GppObserverPrincipalSeries.observerPositivePair_forces_reversal_fixed}\leanok\ \texttt{observerPositivePair\_forces\_reversal\_fixed}
+  \item \lean{GppObserverPrincipalSeries.casimir_reversal_eq_conj}\leanok\ \texttt{casimir\_reversal\_eq\_conj}
+  \item \lean{GppObserverPrincipalSeries.casimir_reversal_collapse_iff_critical}\leanok\ \texttt{casimir\_reversal\_collapse\_iff\_critical}
+  \item \lean{GppObserverPrincipalSeries.observerPositivePair_forces_casimir_positive}\leanok\ \texttt{observerPositivePair\_forces\_casimir\_positive}
+  \item \lean{GppObserverPrincipalSeries.observerPositivePair_forces_celestial_principal}\leanok\ \texttt{observerPositivePair\_forces\_celestial\_principal}
+  \item \lean{GppObserverPrincipalSeries.ObserverPositiveZeroSurvival}\leanok\ \texttt{ObserverPositiveZeroSurvival}
+  \item \lean{GppObserverPrincipalSeries.rh_of_observerPositiveZeroSurvival}\leanok\ \texttt{rh\_of\_observerPositiveZeroSurvival}
+  \item \lean{GppObserverPrincipalSeries.observerPositiveZeroSurvival_of_rh}\leanok\ \texttt{observerPositiveZeroSurvival\_of\_rh}
+  \item \lean{GppObserverPrincipalSeries.observerPositiveZeroSurvival_iff_rh}\leanok\ \texttt{observerPositiveZeroSurvival\_iff\_rh}
+  \item \lean{GppObserverPrincipalSeries.CelestialPrincipalZeroSurvival}\leanok\ \texttt{CelestialPrincipalZeroSurvival}
+  \item \lean{GppObserverPrincipalSeries.celestialPrincipalZeroSurvival_iff_rh}\leanok\ \texttt{celestialPrincipalZeroSurvival\_iff\_rh}
+  \item \lean{GppObserverPrincipalSeries.off_line_zero_pair_and_observer_obstruction}\leanok\ \texttt{off\_line\_zero\_pair\_and\_observer\_obstruction}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime TFD observer geometry}
+Ported from Codex draft PR 257: the local TFD susceptibility $p/(p-1)^2$ against the finite-place mass-square coordinate $4/(p-1)$, with exact golden-prime values. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeTFDObserverGeometry.observerSusceptibility}\leanok\ \texttt{observerSusceptibility}
+  \item \lean{GppPrimeTFDObserverGeometry.massSq}\leanok\ \texttt{massSq}
+  \item \lean{GppPrimeTFDObserverGeometry.observerSusceptibility_eq_covariance}\leanok\ \texttt{observerSusceptibility\_eq\_covariance}
+  \item \lean{GppPrimeTFDObserverGeometry.observerSusceptibility_eq_massSq}\leanok\ \texttt{observerSusceptibility\_eq\_massSq}
+  \item \lean{GppPrimeTFDObserverGeometry.massSq_eq_four_thermalCov}\leanok\ \texttt{massSq\_eq\_four\_thermalCov}
+  \item \lean{GppPrimeTFDObserverGeometry.golden_massSq}\leanok\ \texttt{golden\_massSq}
+  \item \lean{GppPrimeTFDObserverGeometry.golden_observerSusceptibility}\leanok\ \texttt{golden\_observerSusceptibility}
+  \item \lean{GppPrimeTFDObserverGeometry.golden_mass_susceptibility_relation}\leanok\ \texttt{golden\_mass\_susceptibility\_relation}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Selected-prime compensation}
+Ported from Codex draft PR 257: the finite selected-prime compensation identity. Whether it controls the fixed-window Euler term is not proved. No RH claim.
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppSelectedPrimeCompensation.compensatedOccupation}\leanok\ \texttt{compensatedOccupation}
+  \item \lean{GppSelectedPrimeCompensation.compensatedOccupation_eq}\leanok\ \texttt{compensatedOccupation\_eq}
+  \item \lean{GppSelectedPrimeCompensation.singleWhitening}\leanok\ \texttt{singleWhitening}
+  \item \lean{GppSelectedPrimeCompensation.doubleWhitening}\leanok\ \texttt{doubleWhitening}
+  \item \lean{GppSelectedPrimeCompensation.single_radial_compensation}\leanok\ \texttt{single\_radial\_compensation}
+  \item \lean{GppSelectedPrimeCompensation.double_radial_compensation}\leanok\ \texttt{double\_radial\_compensation}
+  \item \lean{GppSelectedPrimeCompensation.quadraticResidualCoeff}\leanok\ \texttt{quadraticResidualCoeff}
+  \item \lean{GppSelectedPrimeCompensation.quadraticResidualCoeff_ne_zero}\leanok\ \texttt{quadraticResidualCoeff\_ne\_zero}
+  \item \lean{GppSelectedPrimeCompensation.criticalRadius}\leanok\ \texttt{criticalRadius}
+  \item \lean{GppSelectedPrimeCompensation.complementaryMultiplier}\leanok\ \texttt{complementaryMultiplier}
+  \item \lean{GppSelectedPrimeCompensation.shiftedRadiusPlus}\leanok\ \texttt{shiftedRadiusPlus}
+  \item \lean{GppSelectedPrimeCompensation.shiftedRadiusMinus}\leanok\ \texttt{shiftedRadiusMinus}
+  \item \lean{GppSelectedPrimeCompensation.mul_radius_inv_ne}\leanok\ \texttt{mul\_radius\_inv\_ne}
+  \item \lean{GppSelectedPrimeCompensation.shifted_radii_ne}\leanok\ \texttt{shifted\_radii\_ne}
+  \item \lean{GppSelectedPrimeCompensation.prime_radial_scale_bounds}\leanok\ \texttt{prime\_radial\_scale\_bounds}
+  \item \lean{GppSelectedPrimeCompensation.shifted_product_quadratic_residual_ne_zero}\leanok\ \texttt{shifted\_product\_quadratic\_residual\_ne\_zero}
+  \item \lean{GppSelectedPrimeCompensation.shifted_two_radius_tfd_no_nonzero}\leanok\ \texttt{shifted\_two\_radius\_tfd\_no\_nonzero}
+  \item \lean{GppSelectedPrimeCompensation.twoBox_jump_energy}\leanok\ \texttt{twoBox\_jump\_energy}
+  \item \lean{GppSelectedPrimeCompensation.twoBox_collision_nonneg}\leanok\ \texttt{twoBox\_collision\_nonneg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Nyquist two-arrow kernel factorization}
+Ported from Codex draft PR 250: the folded prime-power/Nyquist kernel factors pointwise into even and odd channels over one common band kernel, with an explicit $(+,-)$ signature check. Finite trigonometric algebra; no RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppNyquistArrow.bandKernel}\leanok\ \texttt{bandKernel}
+  \item \lean{GppNyquistArrow.foldedKernel}\leanok\ \texttt{foldedKernel}
+  \item \lean{GppNyquistArrow.evenChannel}\leanok\ \texttt{evenChannel}
+  \item \lean{GppNyquistArrow.oddChannel}\leanok\ \texttt{oddChannel}
+  \item \lean{GppNyquistArrow.two_sin_sub_mul_cos_add}\leanok\ \texttt{two\_sin\_sub\_mul\_cos\_add}
+  \item \lean{GppNyquistArrow.foldedKernel_factor}\leanok\ \texttt{foldedKernel\_factor}
+  \item \lean{GppNyquistArrow.half_turn_signature}\leanok\ \texttt{half\_turn\_signature}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime fusion collision}
+Ported from Codex draft PR 250: exact finite prime-fusion collision algebra. No RH claim.
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFusionGas.fuse}\leanok\ \texttt{fuse}
+  \item \lean{GppPrimeFusionGas.fuse_apply}\leanok\ \texttt{fuse\_apply}
+  \item \lean{GppPrimeFusionGas.primeCount}\leanok\ \texttt{primeCount}
+  \item \lean{GppPrimeFusionGas.primeCount_fuse}\leanok\ \texttt{primeCount\_fuse}
+  \item \lean{GppPrimeFusionGas.primeCountR}\leanok\ \texttt{primeCountR}
+  \item \lean{GppPrimeFusionGas.primeCountR_fuse}\leanok\ \texttt{primeCountR\_fuse}
+  \item \lean{GppPrimeFusionGas.collisionDefect}\leanok\ \texttt{collisionDefect}
+  \item \lean{GppPrimeFusionGas.primeCount_collisionDefect_zero}\leanok\ \texttt{primeCount\_collisionDefect\_zero}
+  \item \lean{GppPrimeFusionGas.collisionEnergy}\leanok\ \texttt{collisionEnergy}
+  \item \lean{GppPrimeFusionGas.collisionEnergy_nonneg}\leanok\ \texttt{collisionEnergy\_nonneg}
+  \item \lean{GppPrimeFusionGas.primeCount_collisionEnergy_zero}\leanok\ \texttt{primeCount\_collisionEnergy\_zero}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Parity threshold closure for the semilocal Weil form}
+Ported from Codex draft PR 245: if the even block satisfies the exact $-2$ threshold identity and is positive on $c^\perp$, and the odd block is positive definite with the $+2$ threshold identity, the two rank-one pole corrections make the parity-split form nonnegative. The arithmetic hypotheses are not proved. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppArrowWeilHodgeClosure.paired_threshold_quadratic_nonneg}\leanok\ \texttt{paired\_threshold\_quadratic\_nonneg}
+  \item \lean{GppArrowWeilHodgeClosure.paired_threshold_channels_nonneg}\leanok\ \texttt{paired\_threshold\_channels\_nonneg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Zeta gauge positive connection}
+Ported from Codex draft PR 245: finite algebra of the zeta-gauge positive connection. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaGaugePositiveConnection.covariantLog}\leanok\ \texttt{covariantLog}
+  \item \lean{GppZetaGaugePositiveConnection.halfZeta_covariantLog}\leanok\ \texttt{halfZeta\_covariantLog}
+  \item \lean{GppZetaGaugePositiveConnection.covariantLog_energy_eq}\leanok\ \texttt{covariantLog\_energy\_eq}
+  \item \lean{GppZetaGaugePositiveConnection.covariantLog_energy_nonneg}\leanok\ \texttt{covariantLog\_energy\_nonneg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Passive Kron reduction and prime DtN energy}
+Ported from Codex draft PR 236: PSD parent with PD interior gives PSD Kron/Schur reduction; the prime massive interval DtN block has strictly positive even/odd channel energies, nonnegative quadratic energy, and $\det\Lambda(\ell)=1$. No arithmetic Weil-form identification; no RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPassiveNetwork.kron_reduction_posSemidef}\leanok\ \texttt{kron\_reduction\_posSemidef}
+  \item \lean{GppPassiveNetwork.dtn_even_channel_pos}\leanok\ \texttt{dtn\_even\_channel\_pos}
+  \item \lean{GppPassiveNetwork.dtn_odd_channel_pos}\leanok\ \texttt{dtn\_odd\_channel\_pos}
+  \item \lean{GppPassiveNetwork.dtn_energy_decomposition}\leanok\ \texttt{dtn\_energy\_decomposition}
+  \item \lean{GppPassiveNetwork.dtn_energy_nonneg}\leanok\ \texttt{dtn\_energy\_nonneg}
+  \item \lean{GppPassiveNetwork.dtn_det_one}\leanok\ \texttt{dtn\_det\_one}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Arrow-dictionary audit lemmas}
+Ported from Codex draft PR 232: reversal-paired centered real parts cancel without forcing fixed points; linear gauge conjugation preserves eigencharacters; the explicit negative direction of an off-fixed two-point Weil block. An audit, not an RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppArrowDictionaryAudit.orbit_centered_real_sum_zero}\leanok\ \texttt{orbit\_centered\_real\_sum\_zero}
+  \item \lean{GppArrowDictionaryAudit.off_fixed_pair_has_negative_direction}\leanok\ \texttt{off\_fixed\_pair\_has\_negative\_direction}
+  \item \lean{GppArrowDictionaryAudit.linear_gauge_preserves_eigencharacter}\leanok\ \texttt{linear\_gauge\_preserves\_eigencharacter}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
