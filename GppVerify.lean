@@ -2112,6 +2112,7 @@ import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
 import GppVerify.RiemannHypothesis.ExponentialSumGrowth
 import GppVerify.RiemannHypothesis.PoleNeutralFilter
 import GppVerify.RiemannHypothesis.RHCriteriaAtlas
+import GppVerify.RiemannHypothesis.StubRegistry
 import GppVerify.RiemannHypothesis.LogisticPrincipalSeriesUnitary
 import GppVerify.RiemannHypothesis.OrientationBiasExpectation
 import GppVerify.CelestialHolography.RaisedBoxInnerSliceDCT

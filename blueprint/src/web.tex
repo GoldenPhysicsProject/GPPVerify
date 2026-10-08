@@ -5522,6 +5522,21 @@ Source: Codex 2026-10-03 logistic compact principal-series bridge, §5. For $|\d
   \item \lean{GppOrientationBias.mean_tanh_eq}\leanok\ \texttt{mean\_tanh\_eq}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Stub Registry}
+Retired \texttt{open\_*} stubs and the precise statements that replace them: Haar inversion on $(\mathbb{R}^+,dr/r)$, the RH pathway target, simplicity of zeros, Dirichlet GRH as a \texttt{Prop}, and Weil's criterion in zero-side form. Nothing here claims RH or any open conjecture.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppStubRegistry.haar_inversion_integral}\leanok\ \texttt{haar\_inversion\_integral}
+  \item \lean{GppStubRegistry.rh_pathway_target_iff}\leanok\ \texttt{rh\_pathway\_target\_iff}
+  \item \lean{GppStubRegistry.zero_simplicity_iff_deriv_ne_zero}\leanok\ \texttt{zero\_simplicity\_iff\_deriv\_ne\_zero}
+  \item \lean{GppStubRegistry.GeneralisedRH}\leanok\ \texttt{GeneralisedRH}
+  \item \lean{GppStubRegistry.rh_of_generalisedRH}\leanok\ \texttt{rh\_of\_generalisedRH}
+  \item \lean{GppStubRegistry.WeilPositivityAll}\leanok\ \texttt{WeilPositivityAll}
+  \item \lean{GppStubRegistry.weil_criterion_iff}\leanok\ \texttt{weil\_criterion\_iff}
+  \item \lean{GppStubRegistry.weil_positivity_hilbert_imp_rh}\leanok\ \texttt{weil\_positivity\_hilbert\_imp\_rh}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
@@ -6225,7 +6240,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{143} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{136} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth

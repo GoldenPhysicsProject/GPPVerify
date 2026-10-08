@@ -275,8 +275,10 @@ theorem open_adelic_haar_square_positive_type : True := trivial
 -- PROOF: Same abstract proof as open_convolution_square_positive_type_statement, applied to C_k.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Idèle class groups not in Mathlib.
 
-/-- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P -/
-theorem open_weil_criterion : True := trivial
+/- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P
+
+    **Closed 2026-10-08**: the stub `open_weil_criterion` is retired; see `weil_criterion_iff` in
+    `GppVerify/RiemannHypothesis/StubRegistry.lean`. -/
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:weil
 -- FORWARD: RH → all zeros on critical line → spectral sum = Σ|Ω̂(1/2+it)|² ≥ 0.
 -- CONVERSE: off-line zero ρ₀ → construct Ω₀ making D_k(Ω₀*Ω₀^∨) < 0.
@@ -285,8 +287,10 @@ theorem open_weil_criterion : True := trivial
 --   (b) Weil explicit formula: D_k = Σ_ρ Ω̂(ρ) + local terms
 --   (c) Mellin transform theory for idèle class group
 
-/-- Weil positivity as Hilbert admissibility: D_k gives the inner product -/
-theorem open_weil_positivity_hilbert : True := trivial
+/- Weil positivity as Hilbert admissibility: D_k gives the inner product
+
+    **Closed 2026-10-08**: the stub `open_weil_positivity_hilbert` is retired; see `weil_positivity_hilbert_imp_rh` in
+    `GppVerify/RiemannHypothesis/StubRegistry.lean`. -/
 -- SOURCE: haar_positivity_weil_wightman.tex, prop:weil-hilbert
 -- The Weil distribution D_k, if positive, is the inner product of a Hilbert space
 -- of admissible arithmetic states.
