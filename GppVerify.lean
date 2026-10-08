@@ -2077,6 +2077,8 @@ import GppVerify.RiemannHypothesis.HaarValuationLaw
 import GppVerify.RiemannHypothesis.TotientVolterraKernel
 import GppVerify.RiemannHypothesis.LogisticMobiusBoost
 import GppVerify.RiemannHypothesis.PoissonHalfFlipMismatch
+import GppVerify.RiemannHypothesis.FixedWindowCurvature
+import GppVerify.RiemannHypothesis.TwinPrimeDoublets
 import GppVerify.RiemannHypothesis.LocalEulerDefect
 import GppVerify.RiemannHypothesis.FeshbachPolarization
 import GppVerify.RiemannHypothesis.PrimeRadialScore

@@ -4779,6 +4779,33 @@ Small exact facts used by several routes: the Fej\'er weight $\ell(\sin(\ell\gam
   \item \lean{GppRHMapBridge.hadamard_psd}\leanok\ \texttt{hadamard\_psd}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The fixed-window prime source as a discrete curvature}
+The centered second difference of the hinge sum $B(t)=\sum a_n(t-\log n)_+$ is the triangular window $S_\ell(t)$; $(4e^{(t+\ell)/2}-8e^{t/2}+4e^{(t-\ell)/2})/\ell=A_\ell e^{t/2}$ with $A_\ell=8(\cosh(\ell/2)-1)/\ell$; hence $C_\ell+D_\ell$ is the discrete curvature of $R=4e^{t/2}-B$; and the coefficient split $\Lambda/\sqrt n=\Lambda(1-1/n)/\sqrt n+\Lambda/n^{3/2}$. The arithmetic bound $C_\ell=e^{o(t)}$ is the open step and is not claimed. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppFixedWindowCurvature.hinge_second_diff}\leanok\ \texttt{hinge\_second\_diff}
+  \item \lean{GppFixedWindowCurvature.hingeSum}\leanok\ \texttt{hingeSum}
+  \item \lean{GppFixedWindowCurvature.triSum}\leanok\ \texttt{triSum}
+  \item \lean{GppFixedWindowCurvature.curvature_hinge_sum}\leanok\ \texttt{curvature\_hinge\_sum}
+  \item \lean{GppFixedWindowCurvature.AA}\leanok\ \texttt{AA}
+  \item \lean{GppFixedWindowCurvature.curvature_exp}\leanok\ \texttt{curvature\_exp}
+  \item \lean{GppFixedWindowCurvature.curvature_discrepancy}\leanok\ \texttt{curvature\_discrepancy}
+  \item \lean{GppFixedWindowCurvature.fixed_window_identity}\leanok\ \texttt{fixed\_window\_identity}
+  \item \lean{GppFixedWindowCurvature.coefficient_split}\leanok\ \texttt{coefficient\_split}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Twin-prime doublets and the unique $p=5$ junction}
+If $p-2,p,p+2$ are all prime then $p=5$; a twin pair is a log-scale doublet $\log p=\mu-h$, $\log(p+2)=\mu+h$ with $h=\operatorname{artanh}(1/(p+1))$; and the translation-collision symbol of a doublet is $2(a_p+a_q)(1-\cos k\mu\cos kh)-2(a_p-a_q)\sin k\mu\sin kh$. The note's global-gap diagnostic is not formalized. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppTwinPrime.unique_junction}\leanok\ \texttt{unique\_junction}
+  \item \lean{GppTwinPrime.twin_log_form}\leanok\ \texttt{twin\_log\_form}
+  \item \lean{GppTwinPrime.twin_symbol}\leanok\ \texttt{twin\_symbol}
+  \item \lean{GppTwinPrime.twin_symbol_equal}\leanok\ \texttt{twin\_symbol\_equal}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
