@@ -137,7 +137,7 @@ theorem ratio_density (u : ℝ) :
     intro y; norm_num [Real.rpow_one]; ring
   simp_rw [e]
   rw [integral_const_mul, h]
-  have hg : Real.Gamma 2 = 1 := by simp [Real.Gamma_two]
+  have hg : Real.Gamma 2 = 1 := by simpa using Real.Gamma_nat_eq_factorial 1
   rw [hg]
   norm_num [Real.rpow_two]
   field_simp
