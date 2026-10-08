@@ -5614,6 +5614,19 @@ Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
   \item \emph{\ldots and 3 further results in this module.}
 \end{itemize}
 
+\noindent\textbf{Closed from stubs, 2026-10-08 (conditional on the RH-strength product formula):}
+\texttt{ShadowProductFormula} is a precise \texttt{Prop}, never asserted. Given it as a hypothesis:
+\begin{itemize}
+  \item \lean{GppShadowEuler.ShadowProductFormula}\leanok\ \texttt{ShadowProductFormula}
+  \item \lean{GppShadowEuler.hadamard_shadow_of_formula}\leanok\ \texttt{hadamard\_shadow\_of\_formula}
+  \item \lean{GppShadowEuler.shadow_euler_of_formula}\leanok\ \texttt{shadow\_euler\_of\_formula}
+  \item \lean{GppShadowEuler.su3_master_of_formula}\leanok\ \texttt{su3\_master\_of\_formula}
+  \item \lean{GppShadowEuler.critical_line_product_of_formula}\leanok\ \texttt{critical\_line\_product\_of\_formula}
+  \item \lean{GppShadowEuler.one_le_shadow_ratio_of_formula}\leanok\ \texttt{one\_le\_shadow\_ratio\_of\_formula}
+  \item \lean{GppShadowEuler.geomean_of_formula}\leanok\ \texttt{geomean\_of\_formula}
+  \item \lean{GppShadowEuler.real_hasProd_limit}\leanok\ \texttt{real\_hasProd\_limit}
+\end{itemize}
+
 \subsection{ZetaProperties}
 This file collects provable properties of the Riemann zeta function
 
@@ -6212,7 +6225,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{150} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{143} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
