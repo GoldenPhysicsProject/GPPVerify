@@ -4903,6 +4903,29 @@ On the Boolean cube of a finite set of primes (squarefree integers $n_S=\prod_{p
   \item \lean{GppFermionSector.fermi_global_supertrace}\leanok\ \texttt{fermi\_global\_supertrace}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The completed odd collision form: Galerkin criterion and two-box quantities}
+Exact parts of the astra completed-odd-collision note: the full iff $B-2vv^{\top}\succeq0\iff 2v^{\top}B^{-1}v\le1$ for positive definite $B$ (the negative rank-one pole term), the exact pairing $\langle\sinh(\cdot/2),f_t\rangle=-8\ell^{-1/2}\sinh(\ell/4)\sinh(t/4)$ with $\langle v,f_t\rangle^2=4A_\ell\sinh^2(t/4)$, the two-box norm $\|f_t\|^2=2(1-h_\ell(t))$, and the energy defect $E_y=2(N-h(y))$. The completed explicit formula and the positivity of $Q_L$ (equivalent to RH) are not proved. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppOddCollision.galerkin_criterion}\leanok\ \texttt{galerkin\_criterion}
+  \item \lean{GppOddCollision.box}\leanok\ \texttt{box}
+  \item \lean{GppOddCollision.twoBox}\leanok\ \texttt{twoBox}
+  \item \lean{GppOddCollision.poleV}\leanok\ \texttt{poleV}
+  \item \lean{GppOddCollision.integral_poleV}\leanok\ \texttt{integral\_poleV}
+  \item \lean{GppOddCollision.poleV_mul_box}\leanok\ \texttt{poleV\_mul\_box}
+  \item \lean{GppOddCollision.poleV_continuous}\leanok\ \texttt{poleV\_continuous}
+  \item \lean{GppOddCollision.integrable_poleV_box}\leanok\ \texttt{integrable\_poleV\_box}
+  \item \lean{GppOddCollision.pair_box}\leanok\ \texttt{pair\_box}
+  \item \lean{GppOddCollision.box_pairing}\leanok\ \texttt{box\_pairing}
+  \item \lean{GppOddCollision.pole_term_two_box}\leanok\ \texttt{pole\_term\_two\_box}
+  \item \lean{GppOddCollision.box_sq_integral}\leanok\ \texttt{box\_sq\_integral}
+  \item \lean{GppOddCollision.box_cross_integral}\leanok\ \texttt{box\_cross\_integral}
+  \item \lean{GppOddCollision.norm_sq_two_box}\leanok\ \texttt{norm\_sq\_two\_box}
+  \item \lean{GppOddCollision.energy_defect}\leanok\ \texttt{energy\_defect}
+  \item \lean{GppOddCollision.energy_defect_translate}\leanok\ \texttt{energy\_defect\_translate}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
