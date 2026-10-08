@@ -85,9 +85,11 @@ theorem compensatedOccupation_eq
     {q z : ℂ} (hz : 1 - z ≠ 0) (hqz : 1 - q * z ≠ 0) :
     compensatedOccupation q z =
       (1 - q) * z / ((1 - z) * (1 - q * z)) := by
+  have hqz' : 1 - z * q ≠ 0 := by
+    simpa [mul_comm] using hqz
   unfold compensatedOccupation occupation
-  field_simp [hz, hqz]
-  ring_nf
+  field_simp [hz, hqz, hqz']
+  ring
 
 /-! ## Whitening-polynomial compensation -/
 
