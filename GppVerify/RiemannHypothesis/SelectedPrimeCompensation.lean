@@ -87,7 +87,7 @@ theorem compensatedOccupation_eq
       (1 - q) * z / ((1 - z) * (1 - q * z)) := by
   unfold compensatedOccupation occupation
   field_simp [hz, hqz]
-  ring
+  ring_nf
 
 /-! ## Whitening-polynomial compensation -/
 
@@ -159,11 +159,12 @@ lemma mul_radius_inv_ne
   have haeq : a = a⁻¹ := by
     apply mul_left_cancel₀ hr.ne'
     exact h
+  have hsq0 := congrArg (fun x : ℝ => x * a) haeq
   have hsq : a * a = 1 := by
-    calc
-      a * a = a⁻¹ * a := by rw [haeq]
-      _ = 1 := inv_mul_cancel₀ ha.ne'
-  nlinarith
+    simpa [inv_mul_cancel₀ ha.ne'] using hsq0
+  have haeq1 : a = 1 := by
+    nlinarith [sq_nonneg (a - 1)]
+  exact ha1 haeq1
 
 /-- For p>1 and theta != 0, the two complementary shifted-product radii
 are genuinely distinct. -/
