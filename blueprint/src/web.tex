@@ -4806,6 +4806,68 @@ If $p-2,p,p+2$ are all prime then $p=5$; a twin pair is a log-scale doublet $\lo
   \item \lean{GppTwinPrime.twin_symbol_equal}\leanok\ \texttt{twin\_symbol\_equal}
 \end{itemize}
 
+\section{Riemann Hypothesis --- $SU(1,1)$ covariance of the weight-$k$ Hardy kernels}
+The kernels $(1-u\bar v)^{-2k}$ on the unit disc are covariant under the disc automorphisms $\varphi_a(u)=(u-a)/(1-\bar a u)$ with multiplier $\varphi_a'(u)^k$: $1-\varphi(u)\overline{\varphi(v)}=(1-|a|^2)(1-u\bar v)/((1-\bar au)(1-a\bar v))$, $\varphi_a'=(1-|a|^2)/(1-\bar au)^2$, and the weight-$1/2$ (Szeg\H{o}) and weight-$1$ (Bergman) covariance identities. These are the reproducing kernels of lowest-weight representations of $SU(1,1)$. No statement about the arithmetic kernel or zeros. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11Covariance.aut}\leanok\ \texttt{aut}
+  \item \lean{GppSU11Covariance.one_sub_conj_mul_ne_zero}\leanok\ \texttt{one\_sub\_conj\_mul\_ne\_zero}
+  \item \lean{GppSU11Covariance.conj_aut}\leanok\ \texttt{conj\_aut}
+  \item \lean{GppSU11Covariance.kernel_alg}\leanok\ \texttt{kernel\_alg}
+  \item \lean{GppSU11Covariance.one_sub_aut_mul_conj_aut}\leanok\ \texttt{one\_sub\_aut\_mul\_conj\_aut}
+  \item \lean{GppSU11Covariance.hasDerivAt_aut}\leanok\ \texttt{hasDerivAt\_aut}
+  \item \lean{GppSU11Covariance.szegoMultiplier}\leanok\ \texttt{szegoMultiplier}
+  \item \lean{GppSU11Covariance.szegoMultiplier_sq}\leanok\ \texttt{szegoMultiplier\_sq}
+  \item \lean{GppSU11Covariance.szego_covariance}\leanok\ \texttt{szego\_covariance}
+  \item \lean{GppSU11Covariance.bergman_covariance}\leanok\ \texttt{bergman\_covariance}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The arithmetic Hardy space and the prime annihilation operators}
+The coherent vectors $e_z(n)=n^{-1/2-z}$ ($\operatorname{Re}z>0$) lie in $\ell^2(\mathbb N)$ and their Gram kernel is $\langle e_w,e_z\rangle=\zeta(1+z+\bar w)$, so the Dirichlet--Hardy kernel is positive semidefinite, dilation invariant, with $\|e_z\|^2=\zeta(1+2\operatorname{Re}z)$. The operators $(A_pf)(n)=f(pn)$ commute, have right inverse $S_p$, satisfy $A_pe_z=p^{-1/2-z}e_z$ (coherent states for every prime at once), and $A_pD_t=p^{-it}D_tA_p$. Right sheet only; nothing about the location of zeros. No RH claim.
+
+\noindent\textbf{Proved (23 declarations):}
+\begin{itemize}
+  \item \lean{GppArithmeticHardy.logC}\leanok\ \texttt{logC}
+  \item \lean{GppArithmeticHardy.coh}\leanok\ \texttt{coh}
+  \item \lean{GppArithmeticHardy.coh_zero}\leanok\ \texttt{coh\_zero}
+  \item \lean{GppArithmeticHardy.norm_sq_coh}\leanok\ \texttt{norm\_sq\_coh}
+  \item \lean{GppArithmeticHardy.norm_sq_coh'}\leanok\ \texttt{norm\_sq\_coh'}
+  \item \lean{GppArithmeticHardy.summable_norm_sq}\leanok\ \texttt{summable\_norm\_sq}
+  \item \lean{GppArithmeticHardy.cohLp}\leanok\ \texttt{cohLp}
+  \item \lean{GppArithmeticHardy.coh_mul_conj}\leanok\ \texttt{coh\_mul\_conj}
+  \item \lean{GppArithmeticHardy.coh_mul_conj_all}\leanok\ \texttt{coh\_mul\_conj\_all}
+  \item \lean{GppArithmeticHardy.coherent_inner}\leanok\ \texttt{coherent\_inner}
+  \item \lean{GppArithmeticHardy.kernel_hermitian}\leanok\ \texttt{kernel\_hermitian}
+  \item \lean{GppArithmeticHardy.gram_nonneg}\leanok\ \texttt{gram\_nonneg}
+  \item \lean{GppArithmeticHardy.norm_sq_cohLp}\leanok\ \texttt{norm\_sq\_cohLp}
+  \item \lean{GppArithmeticHardy.kernel_dilation_invariant}\leanok\ \texttt{kernel\_dilation\_invariant}
+  \item \lean{GppArithmeticHardy.annihilate}\leanok\ \texttt{annihilate}
+  \item \lean{GppArithmeticHardy.create}\leanok\ \texttt{create}
+  \item \lean{GppArithmeticHardy.dilate}\leanok\ \texttt{dilate}
+  \item \lean{GppArithmeticHardy.annihilate_create}\leanok\ \texttt{annihilate\_create}
+  \item \lean{GppArithmeticHardy.annihilate_comm}\leanok\ \texttt{annihilate\_comm}
+  \item \lean{GppArithmeticHardy.eigenvalue}\leanok\ \texttt{eigenvalue}
+  \item \lean{GppArithmeticHardy.annihilate_coherent}\leanok\ \texttt{annihilate\_coherent}
+  \item \lean{GppArithmeticHardy.dilate_coherent}\leanok\ \texttt{dilate\_coherent}
+  \item \lean{GppArithmeticHardy.dilate_annihilate}\leanok\ \texttt{dilate\_annihilate}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Parity, conjugation and the two half-planes on the log-scale line}
+For the bilateral Laplace transform $\hat g(z)=\int g(u)e^{zu}\,du$: parity $u\mapsto-u$ acts as the functional-equation flip $z\mapsto-z$, reality is $z\mapsto\bar z$, and for odd real $g$ one has $\hat g(-\bar z)=-\overline{\hat g(z)}$, so $\hat g$ is purely imaginary on the critical line (real for even $g$). Exact and unconditional; this is the sector of the odd Weil form. No claim about the Weil distribution or zeros. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppLogScaleParity.laplace}\leanok\ \texttt{laplace}
+  \item \lean{GppLogScaleParity.laplace_comp_neg}\leanok\ \texttt{laplace\_comp\_neg}
+  \item \lean{GppLogScaleParity.laplace_conj}\leanok\ \texttt{laplace\_conj}
+  \item \lean{GppLogScaleParity.laplace_odd}\leanok\ \texttt{laplace\_odd}
+  \item \lean{GppLogScaleParity.laplace_even}\leanok\ \texttt{laplace\_even}
+  \item \lean{GppLogScaleParity.laplace_odd_real_reversal}\leanok\ \texttt{laplace\_odd\_real\_reversal}
+  \item \lean{GppLogScaleParity.laplace_odd_real_line}\leanok\ \texttt{laplace\_odd\_real\_line}
+  \item \lean{GppLogScaleParity.laplace_even_real_line}\leanok\ \texttt{laplace\_even\_real\_line}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
