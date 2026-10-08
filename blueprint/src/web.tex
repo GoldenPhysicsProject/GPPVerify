@@ -4878,6 +4878,31 @@ The coherent vector $e_z(n)=n^{-1/2-z}$ is completely multiplicative, the square
   \item \lean{GppEulerFactorization.norm_sq_euler}\leanok\ \texttt{norm\_sq\_euler}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The arithmetic fermion sector}
+On the Boolean cube of a finite set of primes (squarefree integers $n_S=\prod_{p\in S}p$, with $(-1)^{|S|}=\mu(n_S)$): the ordinary fermionic trace $\prod(1+x_p)$ and the supertrace $\prod(1-x_p)$ separately; globally, for $\operatorname{Re}s>1$, $\prod_p(1+p^{-s})=\zeta(s)/\zeta(2s)$, $\prod_p(1-p^{-s})=1/\zeta(s)$, $\sum\mu(n)n^{-s}=1/\zeta(s)$. An explicit single-prime supersymmetric pairing: $Q^2=0$, $\{Q,Q^\dagger\}=N_b+N_f$, with the paired spectrum telescoping to the vacuum (index 1). No multi-prime supersymmetry, no annihilation dynamics, and no claim that zeros are Majorana or horizon modes. No RH claim.
+
+\noindent\textbf{Proved (18 declarations):}
+\begin{itemize}
+  \item \lean{GppFermionSector.fermi_trace}\leanok\ \texttt{fermi\_trace}
+  \item \lean{GppFermionSector.fermi_supertrace}\leanok\ \texttt{fermi\_supertrace}
+  \item \lean{GppFermionSector.fermi_trace_eq}\leanok\ \texttt{fermi\_trace\_eq}
+  \item \lean{GppFermionSector.boson_mul_supertrace}\leanok\ \texttt{boson\_mul\_supertrace}
+  \item \lean{GppFermionSector.moebius_lseries_eq_inv_zeta}\leanok\ \texttt{moebius\_lseries\_eq\_inv\_zeta}
+  \item \lean{GppFermionSector.prodPrimes_injective}\leanok\ \texttt{prodPrimes\_injective}
+  \item \lean{GppFermionSector.moebius_prodPrimes}\leanok\ \texttt{moebius\_prodPrimes}
+  \item \lean{GppFermionSector.St}\leanok\ \texttt{St}
+  \item \lean{GppFermionSector.Q}\leanok\ \texttt{Q}
+  \item \lean{GppFermionSector.Qd}\leanok\ \texttt{Qd}
+  \item \lean{GppFermionSector.N}\leanok\ \texttt{N}
+  \item \lean{GppFermionSector.Q_sq}\leanok\ \texttt{Q\_sq}
+  \item \lean{GppFermionSector.Qd_sq}\leanok\ \texttt{Qd\_sq}
+  \item \lean{GppFermionSector.anticomm}\leanok\ \texttt{anticomm}
+  \item \lean{GppFermionSector.telescope}\leanok\ \texttt{telescope}
+  \item \lean{GppFermionSector.norm_prime_cpow_lt_one}\leanok\ \texttt{norm\_prime\_cpow\_lt\_one}
+  \item \lean{GppFermionSector.fermi_global_trace}\leanok\ \texttt{fermi\_global\_trace}
+  \item \lean{GppFermionSector.fermi_global_supertrace}\leanok\ \texttt{fermi\_global\_supertrace}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
