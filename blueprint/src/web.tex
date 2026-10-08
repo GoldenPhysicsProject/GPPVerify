@@ -4996,6 +4996,171 @@ For $m$ modes with boson occupations $k_i$ and fermion occupations $b_i$ and the
   \item \lean{GppMultiPrimeSusy.anticomm_total}\leanok\ \texttt{anticomm\_total}
 \end{itemize}
 
+\section{Standard Model --- Orientation crossing over $\mathbb F_2$}
+Ported from Codex branch codex/orientation-mass-time-formalization (PR 255): exact finite $\mathbb F_2$ orientation-crossing layer of the 2026-10-06 low-prime investigation. Physical identifications are not Lean claims.
+
+\noindent\textbf{Proved (21 declarations):}
+\begin{itemize}
+  \item \lean{GppOrientationCrossingF2.rqPartner}\leanok\ \texttt{rqPartner}
+  \item \lean{GppOrientationCrossingF2.rtPartner}\leanok\ \texttt{rtPartner}
+  \item \lean{GppOrientationCrossingF2.dPartner}\leanok\ \texttt{dPartner}
+  \item \lean{GppOrientationCrossingF2.complementary_pairings_are_orientation_flips}\leanok\ \texttt{complementary\_pairings\_are\_orientation\_flips}
+  \item \lean{GppOrientationCrossingF2.orientation_partner_maps_distinct}\leanok\ \texttt{orientation\_partner\_maps\_distinct}
+  \item \lean{GppOrientationCrossingF2.orientation_partner_involutions}\leanok\ \texttt{orientation\_partner\_involutions}
+  \item \lean{GppOrientationCrossingF2.pairingOfCusp}\leanok\ \texttt{pairingOfCusp}
+  \item \lean{GppOrientationCrossingF2.crossing_cycle_is_orientation_cycle}\leanok\ \texttt{crossing\_cycle\_is\_orientation\_cycle}
+  \item \lean{GppOrientationCrossingF2.P}\leanok\ \texttt{P}
+  \item \lean{GppOrientationCrossingF2.S}\leanok\ \texttt{S}
+  \item \lean{GppOrientationCrossingF2.P_order_three}\leanok\ \texttt{P\_order\_three}
+  \item \lean{GppOrientationCrossingF2.S_order_two}\leanok\ \texttt{S\_order\_two}
+  \item \lean{GppOrientationCrossingF2.S_P_S_eq_P_sq}\leanok\ \texttt{S\_P\_S\_eq\_P\_sq}
+  \item \lean{GppOrientationCrossingF2.orientation_translation_V4}\leanok\ \texttt{orientation\_translation\_V4}
+  \item \lean{GppOrientationCrossingF2.P_conjugation_cycle}\leanok\ \texttt{P\_conjugation\_cycle}
+  \item \lean{GppOrientationCrossingF2.S_conjugation_stabilizes_D}\leanok\ \texttt{S\_conjugation\_stabilizes\_D}
+  \item \lean{GppOrientationCrossingF2.basisLift}\leanok\ \texttt{basisLift}
+  \item \lean{GppOrientationCrossingF2.Rq_basis_action}\leanok\ \texttt{Rq\_basis\_action}
+  \item \lean{GppOrientationCrossingF2.Rt_basis_action}\leanok\ \texttt{Rt\_basis\_action}
+  \item \lean{GppOrientationCrossingF2.D_basis_action}\leanok\ \texttt{D\_basis\_action}
+  \item \lean{GppOrientationCrossingF2.P_basis_cycle}\leanok\ \texttt{P\_basis\_cycle}
+\end{itemize}
+
+\section{Standard Model --- The 3-5-7 prime-family incidence algebra}
+Ported from Codex (PR 255): the 3-5-7 path incidence/Dirichlet algebra, neutral rank-two mechanism and charge-even boundary lift. Finite algebra; no particle identification is claimed.
+
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFamilyIncidence.neutralLaplacian}\leanok\ \texttt{neutralLaplacian}
+  \item \lean{GppPrimeFamilyIncidence.chargedDirichletLaplacian}\leanok\ \texttt{chargedDirichletLaplacian}
+  \item \lean{GppPrimeFamilyIncidence.neutral_det_zero}\leanok\ \texttt{neutral\_det\_zero}
+  \item \lean{GppPrimeFamilyIncidence.charged_dirichlet_det}\leanok\ \texttt{charged\_dirichlet\_det}
+  \item \lean{GppPrimeFamilyIncidence.charged_dirichlet_det_pos}\leanok\ \texttt{charged\_dirichlet\_det\_pos}
+  \item \lean{GppPrimeFamilyIncidence.neutralEnergy}\leanok\ \texttt{neutralEnergy}
+  \item \lean{GppPrimeFamilyIncidence.neutral_energy_nonneg}\leanok\ \texttt{neutral\_energy\_nonneg}
+  \item \lean{GppPrimeFamilyIncidence.neutral_energy_eq_zero_iff}\leanok\ \texttt{neutral\_energy\_eq\_zero\_iff}
+  \item \lean{GppPrimeFamilyIncidence.neutralSpectralMatrix}\leanok\ \texttt{neutralSpectralMatrix}
+  \item \lean{GppPrimeFamilyIncidence.neutral_characteristic}\leanok\ \texttt{neutral\_characteristic}
+  \item \lean{GppPrimeFamilyIncidence.equal_weight_characteristic}\leanok\ \texttt{equal\_weight\_characteristic}
+  \item \lean{GppPrimeFamilyIncidence.covarianceMass}\leanok\ \texttt{covarianceMass}
+  \item \lean{GppPrimeFamilyIncidence.covariance_det_zero}\leanok\ \texttt{covariance\_det\_zero}
+  \item \lean{GppPrimeFamilyIncidence.covarianceSpectralMatrix}\leanok\ \texttt{covarianceSpectralMatrix}
+  \item \lean{GppPrimeFamilyIncidence.covariance_characteristic}\leanok\ \texttt{covariance\_characteristic}
+  \item \lean{GppPrimeFamilyIncidence.chargeSelectedLaplacian}\leanok\ \texttt{chargeSelectedLaplacian}
+  \item \lean{GppPrimeFamilyIncidence.charge_selected_det}\leanok\ \texttt{charge\_selected\_det}
+  \item \lean{GppPrimeFamilyIncidence.charge_selected_even}\leanok\ \texttt{charge\_selected\_even}
+  \item \lean{GppPrimeFamilyIncidence.charge_selected_neutral}\leanok\ \texttt{charge\_selected\_neutral}
+  \item \lean{GppPrimeFamilyIncidence.charge_selected_det_pos}\leanok\ \texttt{charge\_selected\_det\_pos}
+\end{itemize}
+
+\section{Standard Model --- Prime-gap boundary}
+Ported from Codex (PR 255): the exact finite prime-gap boundary layer of the low-prime investigation. No physical identification is claimed.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeGapBoundary.one_of_three_gap_two_mod_three}\leanok\ \texttt{one\_of\_three\_gap\_two\_mod\_three}
+  \item \lean{GppPrimeGapBoundary.consecutive_primes_unique}\leanok\ \texttt{consecutive\_primes\_unique}
+  \item \lean{GppPrimeGapBoundary.gap_two_prime_triple_unique}\leanok\ \texttt{gap\_two\_prime\_triple\_unique}
+  \item \lean{GppPrimeGapBoundary.no_four_prime_gap_two_chain}\leanok\ \texttt{no\_four\_prime\_gap\_two\_chain}
+  \item \lean{GppPrimeGapBoundary.no_prime_one_or_two_above_seven}\leanok\ \texttt{no\_prime\_one\_or\_two\_above\_seven}
+  \item \lean{GppPrimeGapBoundary.boundary_vertices_prime}\leanok\ \texttt{boundary\_vertices\_prime}
+  \item \lean{GppPrimeGapBoundary.next_two_twin_components}\leanok\ \texttt{next\_two\_twin\_components}
+  \item \lean{GppPrimeGapBoundary.twenty_three_gap_two_singleton}\leanok\ \texttt{twenty\_three\_gap\_two\_singleton}
+  \item \lean{GppPrimeGapBoundary.primes_between_seven_and_twenty_three}\leanok\ \texttt{primes\_between\_seven\_and\_twenty\_three}
+\end{itemize}
+
+\section{Standard Model --- Low-prime incidence Gram as the $A_3$ Cartan matrix}
+Ported from Codex (PR 255): the incidence Gram of the unique 2-3-5-7 path is the $A_3$ Cartan matrix, the gap-two 3-5-7 subpath is $A_2$, and the trace-zero color centralizer shape is $3(B-L)$. Physical particle identifications remain outside the Lean claims.
+
+\noindent\textbf{Proved (32 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimePatiSalam.boundaryIncidence}\leanok\ \texttt{boundaryIncidence}
+  \item \lean{GppPrimePatiSalam.cartanA3}\leanok\ \texttt{cartanA3}
+  \item \lean{GppPrimePatiSalam.boundary_incidence_gram}\leanok\ \texttt{boundary\_incidence\_gram}
+  \item \lean{GppPrimePatiSalam.colorIncidence}\leanok\ \texttt{colorIncidence}
+  \item \lean{GppPrimePatiSalam.cartanA2}\leanok\ \texttt{cartanA2}
+  \item \lean{GppPrimePatiSalam.color_incidence_gram}\leanok\ \texttt{color\_incidence\_gram}
+  \item \lean{GppPrimePatiSalam.cartan_determinants}\leanok\ \texttt{cartan\_determinants}
+  \item \lean{GppPrimePatiSalam.xBL}\leanok\ \texttt{xBL}
+  \item \lean{GppPrimePatiSalam.xBL_values}\leanok\ \texttt{xBL\_values}
+  \item \lean{GppPrimePatiSalam.xBL_trace_zero}\leanok\ \texttt{xBL\_trace\_zero}
+  \item \lean{GppPrimePatiSalam.xBL_color_roots_zero}\leanok\ \texttt{xBL\_color\_roots\_zero}
+  \item \lean{GppPrimePatiSalam.xBL_leptoquark_root}\leanok\ \texttt{xBL\_leptoquark\_root}
+  \item \lean{GppPrimePatiSalam.color_centralizer_shape}\leanok\ \texttt{color\_centralizer\_shape}
+  \item \lean{GppPrimePatiSalam.su4_adjoint_branching_dimension}\leanok\ \texttt{su4\_adjoint\_branching\_dimension}
+  \item \lean{GppPrimePatiSalam.E12}\leanok\ \texttt{E12}
+  \item \lean{GppPrimePatiSalam.E23}\leanok\ \texttt{E23}
+  \item \lean{GppPrimePatiSalam.E13}\leanok\ \texttt{E13}
+  \item \lean{GppPrimePatiSalam.color_composite_root}\leanok\ \texttt{color\_composite\_root}
+  \item \lean{GppPrimePatiSalam.E01}\leanok\ \texttt{E01}
+  \item \lean{GppPrimePatiSalam.E02}\leanok\ \texttt{E02}
+  \item \lean{GppPrimePatiSalam.E03}\leanok\ \texttt{E03}
+  \item \lean{GppPrimePatiSalam.leptoquark_second_color}\leanok\ \texttt{leptoquark\_second\_color}
+  \item \lean{GppPrimePatiSalam.leptoquark_third_color}\leanok\ \texttt{leptoquark\_third\_color}
+  \item \lean{GppPrimePatiSalam.lepton_hypercharge_from_prime_X}\leanok\ \texttt{lepton\_hypercharge\_from\_prime\_X}
+  \item \lean{GppPrimePatiSalam.quark_hypercharge_from_prime_X}\leanok\ \texttt{quark\_hypercharge\_from\_prime\_X}
+  \item \lean{GppPrimePatiSalam.patiSalamCartan}\leanok\ \texttt{patiSalamCartan}
+  \item \lean{GppPrimePatiSalam.pati_salam_cartan_det}\leanok\ \texttt{pati\_salam\_cartan\_det}
+  \item \lean{GppPrimePatiSalam.one_family_slot_count}\leanok\ \texttt{one\_family\_slot\_count}
+  \item \lean{GppPrimePatiSalam.weakPrimeIncidence}\leanok\ \texttt{weakPrimeIncidence}
+  \item \lean{GppPrimePatiSalam.weak_prime_incidence_gram}\leanok\ \texttt{weak\_prime\_incidence\_gram}
+  \item \lean{GppPrimePatiSalam.primePatiSalamIncidence}\leanok\ \texttt{primePatiSalamIncidence}
+  \item \lean{GppPrimePatiSalam.prime_pati_salam_incidence_gram}\leanok\ \texttt{prime\_pati\_salam\_incidence\_gram}
+\end{itemize}
+
+\section{Standard Model --- Prime-carrier Pati--Salam spectrum and anomaly counts}
+Ported from Codex (PR 255): finite spectrum and anomaly counting for the prime-carrier Pati--Salam layer. Physical identifications are not Lean claims.
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimePatiSalamSpectrum.chiral_family_dimension}\leanok\ \texttt{chiral\_family\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.vector_ten_dimension}\leanok\ \texttt{vector\_ten\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.spin10_adjoint_dimension}\leanok\ \texttt{spin10\_adjoint\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.mixed_sector_dimension}\leanok\ \texttt{mixed\_sector\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.e6_fundamental_dimension}\leanok\ \texttt{e6\_fundamental\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.e6_adjoint_dimension}\leanok\ \texttt{e6\_adjoint\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.e8_e6_su3_dimension}\leanok\ \texttt{e8\_e6\_su3\_dimension}
+  \item \lean{GppPrimePatiSalamSpectrum.electricCharge}\leanok\ \texttt{electricCharge}
+  \item \lean{GppPrimePatiSalamSpectrum.left_lepton_charges}\leanok\ \texttt{left\_lepton\_charges}
+  \item \lean{GppPrimePatiSalamSpectrum.left_quark_charges}\leanok\ \texttt{left\_quark\_charges}
+  \item \lean{GppPrimePatiSalamSpectrum.right_lepton_charges}\leanok\ \texttt{right\_lepton\_charges}
+  \item \lean{GppPrimePatiSalamSpectrum.right_quark_charges}\leanok\ \texttt{right\_quark\_charges}
+  \item \lean{GppPrimePatiSalamSpectrum.neutrino_charge_cancellation}\leanok\ \texttt{neutrino\_charge\_cancellation}
+  \item \lean{GppPrimePatiSalamSpectrum.su2_sq_hypercharge_anomaly_zero}\leanok\ \texttt{su2\_sq\_hypercharge\_anomaly\_zero}
+  \item \lean{GppPrimePatiSalamSpectrum.su3_sq_hypercharge_anomaly_zero}\leanok\ \texttt{su3\_sq\_hypercharge\_anomaly\_zero}
+  \item \lean{GppPrimePatiSalamSpectrum.gravitational_hypercharge_anomaly_zero}\leanok\ \texttt{gravitational\_hypercharge\_anomaly\_zero}
+  \item \lean{GppPrimePatiSalamSpectrum.cubic_hypercharge_anomaly_zero}\leanok\ \texttt{cubic\_hypercharge\_anomaly\_zero}
+  \item \lean{GppPrimePatiSalamSpectrum.su4_cubic_family_count}\leanok\ \texttt{su4\_cubic\_family\_count}
+  \item \lean{GppPrimePatiSalamSpectrum.su2_doublet_count_even}\leanok\ \texttt{su2\_doublet\_count\_even}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Semilocal two-arrow factorization}
+Ported from Codex (PR 252): exact identities for the Nyquist-fold two-arrow factorization and the elementary pole rank-two $(+,-)$ factorization. No positivity or RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppSemilocalArrowFactorization.nyquist_two_arrow_offdiag}\leanok\ \texttt{nyquist\_two\_arrow\_offdiag}
+  \item \lean{GppSemilocalArrowFactorization.nyquist_two_arrow_diag}\leanok\ \texttt{nyquist\_two\_arrow\_diag}
+  \item \lean{GppSemilocalArrowFactorization.pole_numerator_two_arrow}\leanok\ \texttt{pole\_numerator\_two\_arrow}
+  \item \lean{GppSemilocalArrowFactorization.pole_entry_two_arrow}\leanok\ \texttt{pole\_entry\_two\_arrow}
+  \item \lean{GppSemilocalArrowFactorization.arch_collision_mass_split}\leanok\ \texttt{arch\_collision\_mass\_split}
+  \item \lean{GppSemilocalArrowFactorization.finite_collision_mass_split}\leanok\ \texttt{finite\_collision\_mass\_split}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Euler-local Poisson kernel and positive valuation-chain Laplacian}
+Ported from Codex (PR 243): the one-prime coherent Euler/Poisson algebra, positive Poisson denominator, nonnegative local valuation-chain Laplacian and the sign-indefinite centered current identity. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppEulerLocalPoisson.poissonDenom}\leanok\ \texttt{poissonDenom}
+  \item \lean{GppEulerLocalPoisson.poissonKernel}\leanok\ \texttt{poissonKernel}
+  \item \lean{GppEulerLocalPoisson.poissonDenom_square}\leanok\ \texttt{poissonDenom\_square}
+  \item \lean{GppEulerLocalPoisson.poissonDenom_pos}\leanok\ \texttt{poissonDenom\_pos}
+  \item \lean{GppEulerLocalPoisson.laplacian_gap_identity}\leanok\ \texttt{laplacian\_gap\_identity}
+  \item \lean{GppEulerLocalPoisson.laplacian_gap_nonneg}\leanok\ \texttt{laplacian\_gap\_nonneg}
+  \item \lean{GppEulerLocalPoisson.centered_current_identity}\leanok\ \texttt{centered\_current\_identity}
+  \item \lean{GppEulerLocalPoisson.poissonKernel_zero}\leanok\ \texttt{poissonKernel\_zero}
+  \item \lean{GppEulerLocalPoisson.laplacian_gap_zero}\leanok\ \texttt{laplacian\_gap\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
