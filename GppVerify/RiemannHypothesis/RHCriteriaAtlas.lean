@@ -9,6 +9,8 @@ import GppVerify.RiemannHypothesis.ZeroQuartetHalfFlip
 import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
 import GppVerify.RiemannHypothesis.ExponentialSumGrowth
 import GppVerify.RHSpectralMultiplicity
+import GppVerify.RiemannHypothesis.ObserverPrincipalSeriesPositivity
+import GppVerify.RiemannHypothesis.ObserverCasimirSpectralSurvival
 
 /-!
 # The RH criteria atlas
@@ -34,6 +36,9 @@ i.e. on the principal series `Re Δ = 1`, `Δ = 2ρ`).
 | 9 | The half-flip invariant `P₋(ρ−1/2)` vanishes at every zero | `X ↔ RH` | `riemannHypothesis_iff_P_minus` |
 | 10 | **Hermitian survival**: every non-real zero's Casimir is an eigenvalue of some symmetric operator | `X → (non-real zeros on the line)` | `rh_nonreal_of_hermitian_survival` (new) |
 | 11 | **Slit-plane log-derivative**: `ξ(1/2+√u)` has a holomorphic logarithmic derivative on `ℂ∖(−∞,0]` | `X → RH` | `riemannHypothesis_of_slit_log_derivative` (new) |
+| 13 | **Observer-positive survival**: every strip zero is a reflected pair non-amplifying in one common finite-Haar norm (`k > 1`) | `X ↔ RH_strip` | `observerPositiveZeroSurvival_iff_rh` |
+| 14 | **Celestial principal-series survival**: `Re(2ρ) = 1` for every strip zero | `X ↔ RH_strip` | `celestialPrincipalZeroSurvival_iff_rh` |
+| 15 | Hermitian Casimir eigenvector (single zero) | `X → Re ρ = 1/2` | `critical_of_hermitian_casimir_eigenvector` |
 | 12 | Bounded finite exponential sum ⇒ no growing exponent (the abstract growth lemma behind fixed-window, cutoff-growth and Gaussian-orbit routes) | lemma | `bounded_exp_sum_re_nonpos` (new) |
 
 Row 3 is the formal shape of "it is enough to realise the zeros in a positive Hilbert space": no positivity
@@ -115,5 +120,11 @@ example := @GppWeilInterpolationBridge.rh_of_testPos_pairSupportInterpolation
 example := @GppWeilPolynomialInterpolation.rh_of_testPos_seed_polynomialClosure
 example := @GppLogDerivZeroFree.riemannHypothesis_of_slit_log_derivative
 example := @GppExpSumGrowth.bounded_exp_sum_re_nonpos
+example {k : ℝ} (hk : 1 < k) :
+    GppObserverPrincipalSeries.ObserverPositiveZeroSurvival k ↔ GppRH.RiemannHypothesisStrip :=
+  GppObserverPrincipalSeries.observerPositiveZeroSurvival_iff_rh hk
+example : GppObserverPrincipalSeries.CelestialPrincipalZeroSurvival ↔ GppRH.RiemannHypothesisStrip :=
+  GppObserverPrincipalSeries.celestialPrincipalZeroSurvival_iff_rh
+example := @GppObserverCasimirSpectralSurvival.critical_of_hermitian_casimir_eigenvector
 
 end GppRHAtlas

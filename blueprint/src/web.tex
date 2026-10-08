@@ -5315,6 +5315,115 @@ Ported from Codex draft PR 232: reversal-paired centered real parts cancel witho
   \item \lean{GppArrowDictionaryAudit.linear_gauge_preserves_eigencharacter}\leanok\ \texttt{linear\_gauge\_preserves\_eigencharacter}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Archimedean tail mass of the completed odd collision form}
+Source: Astra 2026-10-08 completed odd collision trace. $\int_L^\infty e^{y/2}/(e^y-e^{-y})\,dy=\operatorname{artanh}r+\arctan r$ with $r=e^{-L/2}$, hence $2\int_L^\infty a=-\log\frac{1-r}{1+r}+2\arctan r$, the form in which the tail enters $M_\infty(L)$. One-variable calculus; positivity of the completed odd form is not addressed. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppArchimedeanTail.a}\leanok\ \texttt{a}
+  \item \lean{GppArchimedeanTail.tailPrim}\leanok\ \texttt{tailPrim}
+  \item \lean{GppArchimedeanTail.a_eq}\leanok\ \texttt{a\_eq}
+  \item \lean{GppArchimedeanTail.hasDerivAt_tailPrim}\leanok\ \texttt{hasDerivAt\_tailPrim}
+  \item \lean{GppArchimedeanTail.a_nonneg}\leanok\ \texttt{a\_nonneg}
+  \item \lean{GppArchimedeanTail.tendsto_tailPrim}\leanok\ \texttt{tendsto\_tailPrim}
+  \item \lean{GppArchimedeanTail.tail_integral}\leanok\ \texttt{tail\_integral}
+  \item \lean{GppArchimedeanTail.tail_mass}\leanok\ \texttt{tail\_mass}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Three-line logistic Poisson form: exact bookkeeping}
+Source: Codex 2026-10-01. $4\cosh^2(x/2)=e^x+2+e^{-x}$ and the three-boundary norm decomposition, translation scaling $e^{-\sigma t}$, reflection exchanging the $\pm1$ lines, the conjugated cocycle $\cosh(x/2)/\cosh((x+t)/2)\to e^{-t/2}$, and the reflection factor $(1+u)S_1=(1+u^{-1})S_2$ given the Poisson relation. The simultaneous endpoint estimate (TV) is open. No RH claim.
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppThreeLineLogistic.wInv}\leanok\ \texttt{wInv}
+  \item \lean{GppThreeLineLogistic.wInv_eq}\leanok\ \texttt{wInv\_eq}
+  \item \lean{GppThreeLineLogistic.normSq}\leanok\ \texttt{normSq}
+  \item \lean{GppThreeLineLogistic.weight_split}\leanok\ \texttt{weight\_split}
+  \item \lean{GppThreeLineLogistic.normSq_translate}\leanok\ \texttt{normSq\_translate}
+  \item \lean{GppThreeLineLogistic.normSq_swap}\leanok\ \texttt{normSq\_swap}
+  \item \lean{GppThreeLineLogistic.W}\leanok\ \texttt{W}
+  \item \lean{GppThreeLineLogistic.W_translate}\leanok\ \texttt{W\_translate}
+  \item \lean{GppThreeLineLogistic.tendsto_cocycle}\leanok\ \texttt{tendsto\_cocycle}
+  \item \lean{GppThreeLineLogistic.W_kernel}\leanok\ \texttt{W\_kernel}
+  \item \lean{GppThreeLineLogistic.poisson_reflection_factor}\leanok\ \texttt{poisson\_reflection\_factor}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The von Mangoldt weight as a cross-sheet TFD correlator}
+Source: Codex 2026-10-01 synthesis. For the purified critical Gibbs state of one prime: unit norm, $\langle\Omega,(S^m\otimes S^m)\Omega\rangle=p^{-m/2}$, $(\log p)p^{-m/2}=\Lambda(p^m)/\sqrt{p^m}$, and the Rindler normalisation $\omega_p=\log p/(2\pi)$. One prime; no global assembly. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeTFD.q}\leanok\ \texttt{q}
+  \item \lean{GppPrimeTFD.amp}\leanok\ \texttt{amp}
+  \item \lean{GppPrimeTFD.q_pos}\leanok\ \texttt{q\_pos}
+  \item \lean{GppPrimeTFD.q_lt_one}\leanok\ \texttt{q\_lt\_one}
+  \item \lean{GppPrimeTFD.amp_sq}\leanok\ \texttt{amp\_sq}
+  \item \lean{GppPrimeTFD.amp_norm}\leanok\ \texttt{amp\_norm}
+  \item \lean{GppPrimeTFD.amp_mul}\leanok\ \texttt{amp\_mul}
+  \item \lean{GppPrimeTFD.tfd_correlator}\leanok\ \texttt{tfd\_correlator}
+  \item \lean{GppPrimeTFD.weight_eq}\leanok\ \texttt{weight\_eq}
+  \item \lean{GppPrimeTFD.rindler_amplitude}\leanok\ \texttt{rindler\_amplitude}
+\end{itemize}
+
+\section{Riemann Hypothesis --- A holomorphic logarithmic derivative forbids zeros}
+If $F'=MF$ with $F,M$ analytic on a preconnected open set and $F\not\equiv0$, then $F$ has no zeros there; applied to $\xi(1/2+\sqrt u)$ on the slit plane this gives the Riemann Hypothesis from a holomorphic $M$ (Codex's slit-resolvent route, repaired). Constructing $M$ from arithmetic is the open step. No RH claim.
+
+\noindent\textbf{Proved (12 declarations):}
+\begin{itemize}
+  \item \lean{GppLogDerivZeroFree.local_zero_vanishes}\leanok\ \texttt{local\_zero\_vanishes}
+  \item \lean{GppLogDerivZeroFree.zero_free_of_log_deriv}\leanok\ \texttt{zero\_free\_of\_log\_deriv}
+  \item \lean{GppLogDerivZeroFree.xi}\leanok\ \texttt{xi}
+  \item \lean{GppLogDerivZeroFree.xi_one_sub}\leanok\ \texttt{xi\_one\_sub}
+  \item \lean{GppLogDerivZeroFree.differentiable_xi}\leanok\ \texttt{differentiable\_xi}
+  \item \lean{GppLogDerivZeroFree.xi_two_ne}\leanok\ \texttt{xi\_two\_ne}
+  \item \lean{GppLogDerivZeroFree.slitF}\leanok\ \texttt{slitF}
+  \item \lean{GppLogDerivZeroFree.analyticOnNhd_slitF}\leanok\ \texttt{analyticOnNhd\_slitF}
+  \item \lean{GppLogDerivZeroFree.sq_mem_slitPlane}\leanok\ \texttt{sq\_mem\_slitPlane}
+  \item \lean{GppLogDerivZeroFree.rh_of_slit_log_derivative}\leanok\ \texttt{rh\_of\_slit\_log\_derivative}
+  \item \lean{GppLogDerivZeroFree.xi_eq_zero_of_zeta_zero}\leanok\ \texttt{xi\_eq\_zero\_of\_zeta\_zero}
+  \item \lean{GppLogDerivZeroFree.riemannHypothesis_of_slit_log_derivative}\leanok\ \texttt{riemannHypothesis\_of\_slit\_log\_derivative}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Abstract growth lemma for bounded exponential sums}
+A finite exponential sum $\sum c_ke^{\lambda_ks}$ with nonzero coefficients and distinct exponents that is bounded on $s\ge0$ has $\operatorname{Re}\lambda_k\le0$ for all $k$, by invertibility of a Vandermonde matrix. The unifying finite lemma behind the fixed-window, cutoff-growth and Gaussian-orbit routes; the infinite sums over zeros are not covered. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppExpSumGrowth.exists_small_t}\leanok\ \texttt{exists\_small\_t}
+  \item \lean{GppExpSumGrowth.bounded_exp_sum_re_nonpos}\leanok\ \texttt{bounded\_exp\_sum\_re\_nonpos}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The pole-neutral dyadic filter: exact algebra}
+Source: Astra 2026-10-08. The factor $2(\cosh(az)-\cosh(a/2))$, $a=\log2$, vanishes only on $|\operatorname{Re}z|=1/2$ (so it removes no centred off-axis zero), its square has five-scale coefficients $(13/2,-3\sqrt2,1)$, $\|\varphi\|^2=13/2$, and the $A\sqrt x$ pole term cancels. The lower bound $T(x)\ge-K$, equivalent to RH, is open. No RH claim.
+
+\noindent\textbf{Proved (12 declarations):}
+\begin{itemize}
+  \item \lean{GppPoleNeutral.a}\leanok\ \texttt{a}
+  \item \lean{GppPoleNeutral.c}\leanok\ \texttt{c}
+  \item \lean{GppPoleNeutral.a_pos}\leanok\ \texttt{a\_pos}
+  \item \lean{GppPoleNeutral.exp_half_a}\leanok\ \texttt{exp\_half\_a}
+  \item \lean{GppPoleNeutral.cosh_half_log_two}\leanok\ \texttt{cosh\_half\_log\_two}
+  \item \lean{GppPoleNeutral.factor}\leanok\ \texttt{factor}
+  \item \lean{GppPoleNeutral.filter_vanishes_half}\leanok\ \texttt{filter\_vanishes\_half}
+  \item \lean{GppPoleNeutral.filter_zero_iff}\leanok\ \texttt{filter\_zero\_iff}
+  \item \lean{GppPoleNeutral.filter_ne_zero_of_off_axis}\leanok\ \texttt{filter\_ne\_zero\_of\_off\_axis}
+  \item \lean{GppPoleNeutral.filter_square_expansion}\leanok\ \texttt{filter\_square\_expansion}
+  \item \lean{GppPoleNeutral.norm_sq_filter}\leanok\ \texttt{norm\_sq\_filter}
+  \item \lean{GppPoleNeutral.pole_cancellation}\leanok\ \texttt{pole\_cancellation}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The RH criteria atlas}
+One table of the machine-checked reductions of RH in this library, ordered by strength, with the proved direction of each: Weil positivity, two-point positivity, Hilbert realization, atom weight one, Casimir, centred square, half-flip, observer-positive survival, celestial principal-series survival, Hermitian survival, and the slit-plane logarithmic derivative. Every entry is a precisely stated criterion; none is proved to hold. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppRHAtlas.RHz}\leanok\ \texttt{RHz}
+  \item \lean{GppRHAtlas.weil_all_imp_twoPoint}\leanok\ \texttt{weil\_all\_imp\_twoPoint}
+  \item \lean{GppRHAtlas.hilbert_realization_imp_rh}\leanok\ \texttt{hilbert\_realization\_imp\_rh}
+  \item \lean{GppRHAtlas.rh_nonreal_of_hermitian_survival}\leanok\ \texttt{rh\_nonreal\_of\_hermitian\_survival}
+  \item \lean{GppRHAtlas.rhz_of_hermitian_survival}\leanok\ \texttt{rhz\_of\_hermitian\_survival}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
