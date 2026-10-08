@@ -4926,6 +4926,43 @@ Exact parts of the astra completed-odd-collision note: the full iff $B-2vv^{\top
   \item \lean{GppOddCollision.energy_defect_translate}\leanok\ \texttt{energy\_defect\_translate}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The multi-prime Fock factorization: occupation numbers}
+Unique factorization as occupation numbers: sequences on $n\ge1$ are exactly functions of the exponent configuration $k_p=v_p(n)$ (inverse maps), the Hecke operator $A_p$ is the single-mode lowering shift, the number operators satisfy $[A_p,N_p]=A_p$ and $[A_p,N_q]=0$ for $q\ne p$, and the coherent vector is the product vector $\prod_p(p^{-1/2-z})^{v_p(n)}$. The infinite tensor-product Hilbert space itself is not built. No RH claim.
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFock.IsFock}\leanok\ \texttt{IsFock}
+  \item \lean{GppPrimeFock.toFock}\leanok\ \texttt{toFock}
+  \item \lean{GppPrimeFock.ofFock}\leanok\ \texttt{ofFock}
+  \item \lean{GppPrimeFock.ofFock_toFock}\leanok\ \texttt{ofFock\_toFock}
+  \item \lean{GppPrimeFock.toFock_ofFock}\leanok\ \texttt{toFock\_ofFock}
+  \item \lean{GppPrimeFock.annihilate_fock}\leanok\ \texttt{annihilate\_fock}
+  \item \lean{GppPrimeFock.numberOp}\leanok\ \texttt{numberOp}
+  \item \lean{GppPrimeFock.annihilate_numberOp_self}\leanok\ \texttt{annihilate\_numberOp\_self}
+  \item \lean{GppPrimeFock.annihilate_numberOp_other}\leanok\ \texttt{annihilate\_numberOp\_other}
+  \item \lean{GppPrimeFock.cohHom}\leanok\ \texttt{cohHom}
+  \item \lean{GppPrimeFock.coh_fock}\leanok\ \texttt{coh\_fock}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The sheet-exchange involution on $L^2(\mathbb R)$: even/odd sectors}
+The parity $f\mapsto f(-\cdot)$ is an isometry of $L^2(\mathbb R)$; the even and odd parts are orthogonal and $\int f^2=\int f_e^2+\int f_o^2$; the pole functional $\sinh(x/2)$ is odd so $\langle v,f\rangle=\langle v,f_o\rangle$ (the rank-one pole term lives in the odd sector). A reflection only: no charge operator, no zero location. No RH claim.
+
+\noindent\textbf{Proved (12 declarations):}
+\begin{itemize}
+  \item \lean{GppSheetParity.swap}\leanok\ \texttt{swap}
+  \item \lean{GppSheetParity.evenPart}\leanok\ \texttt{evenPart}
+  \item \lean{GppSheetParity.oddPart}\leanok\ \texttt{oddPart}
+  \item \lean{GppSheetParity.even_add_odd}\leanok\ \texttt{even\_add\_odd}
+  \item \lean{GppSheetParity.evenPart_neg}\leanok\ \texttt{evenPart\_neg}
+  \item \lean{GppSheetParity.oddPart_neg}\leanok\ \texttt{oddPart\_neg}
+  \item \lean{GppSheetParity.integral_odd}\leanok\ \texttt{integral\_odd}
+  \item \lean{GppSheetParity.integral_sq_swap}\leanok\ \texttt{integral\_sq\_swap}
+  \item \lean{GppSheetParity.even_odd_orthogonal}\leanok\ \texttt{even\_odd\_orthogonal}
+  \item \lean{GppSheetParity.memLp_swap}\leanok\ \texttt{memLp\_swap}
+  \item \lean{GppSheetParity.pythagoras}\leanok\ \texttt{pythagoras}
+  \item \lean{GppSheetParity.pole_pairing_odd_only}\leanok\ \texttt{pole\_pairing\_odd\_only}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
