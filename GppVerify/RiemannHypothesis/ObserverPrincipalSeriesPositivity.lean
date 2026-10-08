@@ -63,7 +63,7 @@ abbrev haarQuotientCharacter :=
 
 /-- Both microscopic orientations are non-amplifying in one common observer
 (record-oriented) Haar norm. -/
-def ObserverPositivePair (s : ℂ) (k : ℝ) : Prop :=
+noncomputable def ObserverPositivePair (s : ℂ) (k : ℝ) : Prop :=
   ‖haarQuotientCharacter s k‖ ≤ 1 ∧
     ‖haarQuotientCharacter (reversal s) k‖ ≤ 1
 
@@ -129,6 +129,7 @@ theorem observerPositivePair_iff_critical
       exact le_of_eq hnorm
     · have href : (reversal s).re = (1 : ℝ) / 2 := by
         simp [reversal, GppRHArrowDictionary.reversal, hs]
+      norm_num
       have hnorm :=
         (GppFiniteHaarQuotientPrincipalSeries.critical_line_iff_haar_quotient_isometry
           (s := reversal s) (k := k) hk0 hk1).1 href
