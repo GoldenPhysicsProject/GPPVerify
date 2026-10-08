@@ -66,7 +66,7 @@ theorem hermitian_eigenvalue_star_fixed
   have h2 : dotProduct (star v) (M.mulVec v) =
       star mu * dotProduct (star v) v := by
     simpa only using
-      GppThreadWeilParity.hermitian_dotProduct_mulVec M hM mu v v heig
+      hermitian_dotProduct_mulVec M hM mu v v heig
   have heq : mu * dotProduct (star v) v =
       star mu * dotProduct (star v) v := h1.symm.trans h2
   exact mul_right_cancel₀ hvv heq.symm
