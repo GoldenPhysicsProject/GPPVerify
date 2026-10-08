@@ -21,26 +21,22 @@ Zeta Function at Glueball Celestial Weights via Products over the Riemann Zeros*
 
 3. **`shadow_coupling_sq_rational`** — a_{N,k}² is a positive rational (lem:perfect-square(iii)).
 
-4. **`open_thm_universal_shadow_product`** (thm:universal) — OPEN, `True`-stub:
-   `ξ(s)/ξ(1/2) = ∏_{γ > 0} (1 + (s - 1/2)²/γ²)`.
-   Gap: Hadamard product theorem for ξ — re-verified absent in Mathlib 4.33.1 (2026-09-01).
+4. **`ShadowProductFormula`** (thm:universal) — a precise `Prop` (no longer a stub), RH-strength:
+   `ξ(s)/ξ(1/2) = ∏_{γ > 0} (1 + (s - 1/2)²/γ²)` as an unconditional `HasProd`.
+   It is never asserted; downstream results take it as a hypothesis `h`.
 
-5. **`open_thm_hadamard_shadow`** (thm:hadamard-shadow) — OPEN, `True`-stub: normalized
-   Hadamard product.
+5. **`hadamard_shadow_of_formula`**, **`shadow_euler_of_formula`**, **`su3_master_of_formula`**,
+   **`critical_line_product_of_formula`** — the Δ-variable form, the main identity at
+   `s = kN/(k+N)`, the SU(3) case and the sine-product form, each proved *given* `h`.
 
-6. **`open_thm_shadow_euler`** (thm:shadow-euler) — OPEN, `True`-stub: main identity at
-   glueball weights.
+6. **`one_le_shadow_ratio_of_formula`**, **`geomean_of_formula`** — (cor:minimum) and (cor:geomean)
+   for the infinite product, via `real_hasProd_limit` (a real-factor product has a real limit and
+   order relations between partial products survive it).
 
-   Note these three say **OPEN**, not "AXIOM". They were labelled AXIOM in an earlier
-   version of this header, which overstated them in both directions: they are not axioms
-   (nothing may depend on them — a `True`-stub asserts nothing and cannot be used), and
-   calling them axioms suggested the statements were available for downstream use. They are
-   parked open results, and the `open_` prefix now says so in the names themselves.
-   `ξ(kN/(k+N)) / ξ(1/2) = ∏_{γ > 0} (1 + a_{N,k}²/γ²)`.
-
-7. **`open_cor_su3_master`** (cor:su3) — AXIOM: SU(3) k=1 master identity.
-
-8. **`open_thm_xi_minimum_at_half`** (cor:minimum) — PROVED from `open_thm_universal_shadow_product`.
+   The six stubs these replace (`open_thm_hadamard_shadow`, `open_thm_shadow_euler`,
+   `open_cor_su3_master`, `open_cor_critical_line_product`, `open_thm_xi_minimum_at_half`,
+   `open_cor_xi_geomean_inequality`) were retired 2026-10-08. The *unconditional* statements are
+   not claimed: they are equivalent in strength to RH.
 
 9. **`open_thm_logconcave`** (thm:logconcave) — AXIOM: log-concavity.
 
@@ -213,7 +209,9 @@ lemma shadow_coupling_k3_N3 : shadowCoupling 3 3 = 1 := by native_decide
     "given a missing library primitive, X follows".
 
     Reference: Davenport, *Multiplicative Number Theory* (2000), Ch. 12. -/
-theorem open_thm_universal_shadow_product : ∀ (_ : ℂ), True := fun _ => trivial
+def ShadowProductFormula (xi : ℂ → ℂ) (g : ℕ → ℝ) : Prop :=
+  (∀ n, 0 < g n) ∧ xi (1 / 2) ≠ 0 ∧
+    ∀ s : ℂ, HasProd (fun n => 1 + (s - 1 / 2) ^ 2 / ((g n : ℝ) : ℂ) ^ 2) (xi s / xi (1 / 2))
 
 /-! ### Why the universal product is RH-conditional
 
@@ -251,15 +249,17 @@ theorem rho_one_sub_rho_eq_iff_critical (b g : ℝ) :
     · show g * (1 - 2 * (1 / 2)) = 0
       ring
 
-/-- **thm:hadamard-shadow** (Toupin 2026, Theorem 3.5).
+/- **thm:hadamard-shadow** (Toupin 2026, Theorem 3.5).
     Normalized shadow product in the Δ variable:
     `ξ(Δ/2) / ξ(1/2) = ∏_{γ > 0} (1 + 4γ² - Δ(2-Δ)) / (4γ²)`
 
     Gap: same as `open_thm_universal_shadow_product`.
-    This is the intermediate form leading to the main Shadow Euler Identity. -/
-theorem open_thm_hadamard_shadow : True := trivial
+    This is the intermediate form leading to the main Shadow Euler Identity.
 
-/-- **thm:shadow-euler** (Toupin 2026, Theorem 3.6).
+    **Closed 2026-10-08**: the stub `open_thm_hadamard_shadow` is retired; its conditional form is
+    `hadamard_shadow_of_formula` in the section "Closing the product stubs" below. -/
+
+/- **thm:shadow-euler** (Toupin 2026, Theorem 3.6).
     The Shadow Euler Identity:
     `ξ(kN/(k+N)) / ξ(1/2) = ∏_{γ_ρ > 0} (1 + a_{N,k}² / γ_ρ²)`
     where `a_{N,k} = |k + N - 2kN| / (2(k+N))` is rational for all k ≥ 1, N ≥ 2.
@@ -274,10 +274,12 @@ theorem open_thm_hadamard_shadow : True := trivial
     gap. `open_thm_hadamard_shadow` inherits from `open_thm_universal_shadow_product`, which
     is blocked on **RH**. Steps 2 and 3 are proved above (`lem_perfect_square`,
     `shadow_coupling_su3`); step 1 is the RH-conditional input, and no amount of Mathlib
-    development supplies it. -/
-theorem open_thm_shadow_euler : True := trivial
+    development supplies it.
 
-/-- **cor:su3** (Toupin 2026, Corollary 3.7).
+    **Closed 2026-10-08**: the stub `open_thm_shadow_euler` is retired; its conditional form is
+    `shadow_euler_of_formula` in the section "Closing the product stubs" below. -/
+
+/- **cor:su3** (Toupin 2026, Corollary 3.7).
     SU(3) master identity (k=1, N=3, a = 1/4):
     `ξ(3/4) / ξ(1/2) = ∏_{γ_ρ > 0} (1 + 1/(16·γ_ρ²))`
 
@@ -292,13 +294,15 @@ theorem open_thm_shadow_euler : True := trivial
     Pate–Raclariu–Strominger). See the header of `GppVerify/YangMills/MassGap.lean`. This
     does not affect the identity; it affects the sentence that says why the identity matters.
 
-    Gap: same as `open_thm_shadow_euler` — which is **RH**, not a library gap. -/
-theorem open_cor_su3_master : True := trivial
+    Gap: same as `open_thm_shadow_euler` — which is **RH**, not a library gap.
+
+    **Closed 2026-10-08**: the stub `open_cor_su3_master` is retired; its conditional form is
+    `su3_master_of_formula` in the section "Closing the product stubs" below. -/
 -- Superseded in the conditional direction by `su3_master_of_universal_product` below:
 -- given the universal product, this corollary is one evaluation at `a = 1/4`. The stub
 -- remains only for the *unconditional* claim, which still needs the Hadamard input.
 
-/-- **cor:critical-line** (Toupin 2026, Corollary 3.4).
+/- **cor:critical-line** (Toupin 2026, Corollary 3.4).
     On the critical line s = 1/2 + it, the universal formula gives:
     `ξ(1/2 + it) / ξ(1/2) = ∏_{γ_ρ > 0} (1 - t²/γ_ρ²)`
     This is the exact sine-product analogue with Riemann zeros replacing integers.
@@ -315,8 +319,10 @@ theorem open_cor_su3_master : True := trivial
     is applied to". Hadamard is not what it needs — `open_thm_universal_shadow_product` is
     blocked on **RH**, and this corollary inherits that. Note how visible the circularity is
     once stated correctly: the docstring above says "RH is equivalent to all zeros of this
-    product lying on the real axis", and the product itself is only available under RH. -/
-theorem open_cor_critical_line_product : True := trivial
+    product lying on the real axis", and the product itself is only available under RH.
+
+    **Closed 2026-10-08**: the stub `open_cor_critical_line_product` is retired; its conditional form is
+    `critical_line_product_of_formula` in the section "Closing the product stubs" below. -/
 
 /-! ### The critical line: why the product becomes a sine-product
 
@@ -369,7 +375,7 @@ lemma critical_line_prod_eq_zero_iff {ι : Type*} (S : Finset ι) (g : ι → �
         subst h
         simp [div_self hgj]
 
-/-- **cor:minimum** (Toupin 2026, Corollary 3.8).
+/- **cor:minimum** (Toupin 2026, Corollary 3.8).
     The completed zeta function ξ achieves its minimum on the real interval (0,1)
     exactly at the shadow-symmetric interface s = 1/2:
     `∀ s ∈ (0,1), ξ(s) ≥ ξ(1/2)`.
@@ -386,8 +392,10 @@ lemma critical_line_prod_eq_zero_iff {ι : Type*} (S : Finset ι) (g : ι → �
     needs **RH** — the unconditional claim `∀ s ∈ (0,1), ξ(s) ≥ ξ(1/2)` is being derived here
     from `open_thm_universal_shadow_product`, whose indexing presumes RH. (The inequality
     itself is a known unconditional theorem by other routes; what is blocked is *this*
-    derivation of it, which is what the stub stands for.) -/
-theorem open_thm_xi_minimum_at_half : True := trivial
+    derivation of it, which is what the stub stands for.)
+
+    **Closed 2026-10-08**: the stub `open_thm_xi_minimum_at_half` is retired; its conditional form is
+    `one_le_shadow_ratio_of_formula` in the section "Closing the product stubs" below. -/
 
 /-! ### The minimum argument, proved
 
@@ -567,7 +575,7 @@ lemma shadowLogSum_deriv_strictAntiOn {ι : Type*} (S : Finset ι) (g : ι → �
   have hpa : (0:ℝ) < (g j) ^ 2 + a := by linarith
   exact one_div_lt_one_div_of_lt hpa (by linarith)
 
-/-- **cor:geomean** (Toupin 2026, Corollary 6.3).
+/- **cor:geomean** (Toupin 2026, Corollary 6.3).
     ξ-geometric-mean inequality:
     `ξ(1/2 + a)² ≥ ξ(1/2 + b) · ξ(1/2 + c)` when `a = √((b²+c²)/2)`.
     Direct consequence of strict concavity (`open_thm_logconcave`).
@@ -575,8 +583,10 @@ lemma shadowLogSum_deriv_strictAntiOn {ι : Type*} (S : Finset ι) (g : ι → �
     **Proved below** as `shadow_prod_geomean`, 2026-09-01 — and *not* via the concavity
     route the docstring suggests. Going through `φ''` would need logs, their positivity, and
     a concavity-to-midpoint transfer; termwise it is just `(X − Y)² ≥ 0`. The short proof is
-    the honest one, and it drops every side condition the long one would have carried. -/
-theorem open_cor_xi_geomean_inequality : True := trivial
+    the honest one, and it drops every side condition the long one would have carried.
+
+    **Closed 2026-10-08**: the stub `open_cor_xi_geomean_inequality` is retired; its conditional form is
+    `geomean_of_formula` in the section "Closing the product stubs" below. -/
 
 /-! ### The geometric-mean inequality, proved
 
@@ -626,6 +636,161 @@ lemma shadow_prod_geomean {ι : Type*} (S : Finset ι) (gam : ι → ℝ) (b c a
         (Finset.prod_mul_distrib).symm
     _ ≤ ∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2) ^ 2 := hstep
     _ = (∏ j ∈ S, (1 + a ^ 2 / (gam j) ^ 2)) ^ 2 := Finset.prod_pow _ _ _
+
+/-! ## Closing the product stubs (2026-10-08)
+
+`ShadowProductFormula xi g` (above) is the precise statement the stub `open_thm_universal_shadow_product`
+stood for. The six stubs that said "same gap as the universal product" are retired and restated
+here as theorems **with `h : ShadowProductFormula xi g` in the signature**. The hypothesis is
+RH-strength (see `rho_one_sub_rho_eq_iff_critical`); these theorems do not assert it.
+
+Real-valued conclusions (`minimum`, `geomean`) need one analytic lemma: a complex infinite product
+whose factors are real has a real limit, and the order relations between finite partial products
+survive the limit. That is `real_hasProd_limit` and its two corollaries. -/
+
+/-- A complex product with real factors has a real limit, and the partial products converge to it. -/
+theorem real_hasProd_limit {r : ℕ → ℝ} {w : ℂ} (h : HasProd (fun n => (r n : ℂ)) w) :
+    ∃ x : ℝ, w = x ∧ Filter.Tendsto (fun S : Finset ℕ => ∏ n ∈ S, r n) Filter.atTop (nhds x) := by
+  have h' : Filter.Tendsto (fun S : Finset ℕ => ∏ n ∈ S, (r n : ℂ)) Filter.atTop (nhds w) := h
+  have hre : Filter.Tendsto (fun S : Finset ℕ => ∏ n ∈ S, r n) Filter.atTop (nhds w.re) := by
+    have := (Complex.continuous_re.tendsto w).comp h'
+    refine this.congr (fun S => ?_)
+    simp [Function.comp, ← Complex.ofReal_prod]
+  have him : Filter.Tendsto (fun S : Finset ℕ => (∏ n ∈ S, (r n : ℂ)).im) Filter.atTop
+      (nhds w.im) := (Complex.continuous_im.tendsto w).comp h'
+  have him0 : Filter.Tendsto (fun S : Finset ℕ => (∏ n ∈ S, (r n : ℂ)).im) Filter.atTop
+      (nhds 0) := by
+    refine tendsto_const_nhds.congr (fun S => ?_)
+    have h0 : (∏ n ∈ S, (r n : ℂ)).im = 0 := by
+      rw [← Complex.ofReal_prod]
+      exact Complex.ofReal_im _
+    exact h0.symm
+  have hw : w.im = 0 := tendsto_nhds_unique him him0
+  exact ⟨w.re, Complex.ext (by simp) (by simpa using hw), hre⟩
+
+/-- A product of real factors that are each `≥ 1` has real limit `≥ 1`. -/
+theorem one_le_of_real_hasProd {r : ℕ → ℝ} {w : ℂ} (hr : ∀ n, 1 ≤ r n)
+    (h : HasProd (fun n => (r n : ℂ)) w) : ∃ x : ℝ, w = x ∧ 1 ≤ x := by
+  obtain ⟨x, hx, ht⟩ := real_hasProd_limit h
+  refine ⟨x, hx, ge_of_tendsto' ht (fun S => ?_)⟩
+  simpa using Finset.prod_le_prod (s := S) (f := fun _ => (1:ℝ)) (g := r)
+    (fun _ _ => zero_le_one) (fun n _ => hr n)
+
+/-- Factorwise `p n * q n ≤ (a n)^2` (all nonnegative) passes to the limits of the products. -/
+theorem mul_le_sq_of_real_hasProd {p q a : ℕ → ℝ} {wp wq wa : ℂ}
+    (hp : HasProd (fun n => (p n : ℂ)) wp) (hq : HasProd (fun n => (q n : ℂ)) wq)
+    (ha : HasProd (fun n => (a n : ℂ)) wa)
+    (hle : ∀ n, 0 ≤ p n * q n ∧ p n * q n ≤ (a n) ^ 2) :
+    ∃ x y z : ℝ, wp = x ∧ wq = y ∧ wa = z ∧ x * y ≤ z ^ 2 := by
+  obtain ⟨x, rfl, hx⟩ := real_hasProd_limit hp
+  obtain ⟨y, rfl, hy⟩ := real_hasProd_limit hq
+  obtain ⟨z, rfl, hz⟩ := real_hasProd_limit ha
+  refine ⟨x, y, z, rfl, rfl, rfl, ?_⟩
+  have hxy : Filter.Tendsto (fun S : Finset ℕ => (∏ n ∈ S, p n) * ∏ n ∈ S, q n)
+      Filter.atTop (nhds (x * y)) := hx.mul hy
+  have hzz : Filter.Tendsto (fun S : Finset ℕ => (∏ n ∈ S, a n) ^ 2) Filter.atTop
+      (nhds (z ^ 2)) := hz.pow 2
+  refine le_of_tendsto_of_tendsto' hxy hzz (fun S => ?_)
+  rw [← Finset.prod_mul_distrib, ← Finset.prod_pow]
+  exact Finset.prod_le_prod (fun n _ => (hle n).1) (fun n _ => (hle n).2)
+
+/-- **thm:hadamard-shadow** (Toupin 2026, Theorem 3.5), conditional form: in the variable `Δ`,
+    `ξ(Δ/2)/ξ(1/2) = ∏ₙ (1 + 4γₙ² − Δ(2−Δ)) / (4γₙ²)`. The factor identity is
+    `1 + (Δ/2 − 1/2)²/γ² = (4γ² + (Δ−1)²)/(4γ²)`. -/
+theorem hadamard_shadow_of_formula {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g)
+    (Δ : ℂ) :
+    HasProd (fun n => (1 + 4 * ((g n : ℝ) : ℂ) ^ 2 - Δ * (2 - Δ)) / (4 * ((g n : ℝ) : ℂ) ^ 2))
+      (xi (Δ / 2) / xi (1 / 2)) := by
+  have hP := h.2.2 (Δ / 2)
+  have hf : (fun n => (1 + 4 * ((g n : ℝ) : ℂ) ^ 2 - Δ * (2 - Δ)) / (4 * ((g n : ℝ) : ℂ) ^ 2))
+      = (fun n => 1 + (Δ / 2 - 1 / 2) ^ 2 / ((g n : ℝ) : ℂ) ^ 2) := by
+    funext n
+    have hg : ((g n : ℝ) : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr (h.1 n).ne'
+    field_simp
+    ring
+  rw [hf]
+  exact hP
+
+/-- The squared shadow coupling, as a quotient of squares of integers. -/
+lemma shadowCoupling_sq_eq (k N : ℤ) :
+    (shadowCoupling k N) ^ 2 = ((k + N - 2 * k * N : ℤ) : ℚ) ^ 2 / (2 * ((k + N : ℤ) : ℚ)) ^ 2 := by
+  simp [shadowCoupling, div_pow, mul_pow, Nat.cast_natAbs, sq_abs]
+
+/-- **thm:shadow-euler** (Toupin 2026, Theorem 3.6), conditional form. At `s = kN/(k+N)`,
+    `ξ(s)/ξ(1/2) = ∏ₙ (1 + a_{N,k}²/γₙ²)` with `a_{N,k}` the (rational) shadow coupling.
+    The algebra is `s − 1/2 = (2kN − k − N)/(2(k+N))`, whose square is `a²`. -/
+theorem shadow_euler_of_formula {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g)
+    (k N : ℤ) (hkN : k + N ≠ 0) :
+    HasProd (fun n => 1 + (((shadowCoupling k N : ℚ) : ℂ)) ^ 2 / ((g n : ℝ) : ℂ) ^ 2)
+      (xi ((k * N : ℂ) / (k + N)) / xi (1 / 2)) := by
+  have hP := h.2.2 ((k * N : ℂ) / (k + N))
+  have hkN' : ((k : ℂ) + N) ≠ 0 := by exact_mod_cast hkN
+  have hsq : (((shadowCoupling k N : ℚ) : ℂ)) ^ 2 = ((k * N : ℂ) / (k + N) - 1 / 2) ^ 2 := by
+    have := shadowCoupling_sq_eq k N
+    have hc : (((shadowCoupling k N ^ 2 : ℚ)) : ℂ) = ((((k + N - 2 * k * N : ℤ) : ℚ) ^ 2
+        / (2 * ((k + N : ℤ) : ℚ)) ^ 2 : ℚ) : ℂ) := by rw [this]
+    push_cast at hc
+    rw [hc]
+    field_simp
+    ring
+  simp only [hsq]
+  exact hP
+
+/-- **cor:su3** (Toupin 2026, Corollary 3.7), conditional form: `k = 1, N = 3`, `a = 1/4`,
+    `ξ(3/4)/ξ(1/2) = ∏ₙ (1 + 1/(16 γₙ²))`. -/
+theorem su3_master_of_formula {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g) :
+    HasProd (fun n => 1 + (1 / 4 : ℂ) ^ 2 / ((g n : ℝ) : ℂ) ^ 2) (xi (3 / 4) / xi (1 / 2)) := by
+  have := shadow_euler_of_formula h 1 3 (by norm_num)
+  have hc : ((shadowCoupling 1 3 : ℚ) : ℂ) = 1 / 4 := by rw [shadow_coupling_su3]; norm_num
+  rw [hc] at this
+  have e : ((((1 : ℤ) : ℂ) * ((3 : ℤ) : ℂ)) / (((1 : ℤ) : ℂ) + ((3 : ℤ) : ℂ))) = 3 / 4 := by
+    norm_num
+  rw [e] at this
+  exact this
+
+/-- **cor:critical-line** (Toupin 2026, Corollary 3.4), conditional form: on `s = 1/2 + it`
+    the universal factor becomes the sine-product factor,
+    `ξ(1/2+it)/ξ(1/2) = ∏ₙ (1 − t²/γₙ²)`. -/
+theorem critical_line_product_of_formula {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g)
+    (t : ℝ) :
+    HasProd (fun n => 1 - (t : ℂ) ^ 2 / ((g n : ℝ) : ℂ) ^ 2)
+      (xi (1 / 2 + (t : ℂ) * Complex.I) / xi (1 / 2)) := by
+  have hP := h.2.2 (1 / 2 + (t : ℂ) * Complex.I)
+  simp only [shadow_factor_critical_line] at hP
+  exact hP
+
+/-- The real-argument form of the product: for real `a`, the factors are real. -/
+theorem shadow_hasProd_real {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g) (a : ℝ) :
+    HasProd (fun n => (((1 + a ^ 2 / (g n) ^ 2 : ℝ)) : ℂ)) (xi (1 / 2 + (a : ℂ)) / xi (1 / 2)) := by
+  have hP := h.2.2 (1 / 2 + (a : ℂ))
+  have hf : (fun n => (((1 + a ^ 2 / (g n) ^ 2 : ℝ)) : ℂ))
+      = (fun n => 1 + (1 / 2 + (a : ℂ) - 1 / 2) ^ 2 / ((g n : ℝ) : ℂ) ^ 2) := by
+    funext n
+    push_cast
+    ring_nf
+  rw [hf]
+  exact hP
+
+/-- **cor:minimum** (Toupin 2026, Corollary 3.8), conditional form: under the product formula,
+    `ξ(1/2 + a)/ξ(1/2)` is a real number `≥ 1` for every real `a`. (With `ξ(1/2) > 0` this is
+    `ξ(1/2) ≤ ξ(1/2 + a)`.) -/
+theorem one_le_shadow_ratio_of_formula {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g)
+    (a : ℝ) : ∃ r : ℝ, xi (1 / 2 + (a : ℂ)) / xi (1 / 2) = r ∧ 1 ≤ r :=
+  one_le_of_real_hasProd (fun n => one_le_shadow_factor a (g n)) (shadow_hasProd_real h a)
+
+/-- **cor:geomean** (Toupin 2026, Corollary 6.3), conditional form. For real `a, b, c` with
+    `a² = (b²+c²)/2` the three normalised values `x = ξ(1/2+b)/ξ(1/2)`, `y = ξ(1/2+c)/ξ(1/2)`,
+    `z = ξ(1/2+a)/ξ(1/2)` are real and `x·y ≤ z²`. -/
+theorem geomean_of_formula {xi : ℂ → ℂ} {g : ℕ → ℝ} (h : ShadowProductFormula xi g)
+    (a b c : ℝ) (habc : a ^ 2 = (b ^ 2 + c ^ 2) / 2) :
+    ∃ x y z : ℝ, xi (1 / 2 + (b : ℂ)) / xi (1 / 2) = x ∧ xi (1 / 2 + (c : ℂ)) / xi (1 / 2) = y ∧
+      xi (1 / 2 + (a : ℂ)) / xi (1 / 2) = z ∧ x * y ≤ z ^ 2 := by
+  refine mul_le_sq_of_real_hasProd (shadow_hasProd_real h b) (shadow_hasProd_real h c)
+    (shadow_hasProd_real h a) (fun n => ⟨?_, shadow_factor_geomean (g n) b c a habc⟩)
+  have h1 := one_le_shadow_factor b (g n)
+  have h2 := one_le_shadow_factor c (g n)
+  nlinarith
+
 
 /-- **thm:inversion** (Toupin 2026, Theorem 6.5).
     Spectral moment inversion: every complete spectral moment
@@ -715,14 +880,10 @@ theorem open_cor_li_criterion : True := trivial
     - `shadow_coupling_su3`: a_{3,1} = 1/4
     - `coupling_numerator_nonzero`: a_{N,k} ≠ 0 for k≥1, N≥2
 
-    Infrastructure part (6 axioms, all Hadamard-product gaps):
-    - `open_thm_universal_shadow_product`, `open_thm_hadamard_shadow`, `open_thm_shadow_euler`
-    - `open_cor_su3_master`, `open_thm_xi_minimum_at_half`
-    - `open_thm_spectral_moment_inversion`, `open_cor_li_criterion`
-
-    The proof of `open_thm_shadow_euler` given `open_thm_hadamard_shadow` is:
-    substitute Δ = 2kN/(k+N), apply `lem_perfect_square`, simplify.
-    This algebraic step is documented and fully clean. -/
+    Product part (2026-10-08): the universal product is the `Prop` `ShadowProductFormula`; the
+    Δ-form, main identity, SU(3) case, critical-line form, minimum and geometric-mean inequality
+    are proved *given* it (`*_of_formula`). Still open stubs: `open_thm_logconcave`,
+    `open_thm_spectral_moment_inversion`, `open_cor_s2_xi_derivative`, `open_cor_li_criterion`. -/
 theorem open_shadow_euler_summary : True := trivial
 
 end GppShadowEuler
@@ -733,6 +894,6 @@ end GppShadowEuler
 #check @GppShadowEuler.lem_perfect_square
 #check @GppShadowEuler.shadow_coupling_su3
 #check @GppShadowEuler.coupling_numerator_nonzero
-#check @GppShadowEuler.open_thm_shadow_euler
-#check @GppShadowEuler.open_cor_su3_master
+#check @GppShadowEuler.shadow_euler_of_formula
+#check @GppShadowEuler.su3_master_of_formula
 #check @GppShadowEuler.open_cor_li_criterion
