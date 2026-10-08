@@ -2017,6 +2017,7 @@ import GppVerify.RiemannHypothesis.PrimeSqrtCayley
 
 -- Finite-Haar quotient principal-series norm law (Codex, 2026-09-29)
 import GppVerify.RiemannHypothesis.FiniteHaarQuotientPrincipalSeries
+import GppVerify.RiemannHypothesis.ObserverPrincipalSeriesPositivity
 -- Ported from Codex branches (unmerged on codex/*), 2026-10-03; see CLAUDE_CODE_RESEARCH_NOTES.md
 import GppVerify.QuantumGravity.SpectralRhoChamberSelection
 import GppVerify.RiemannHypothesis.BPYAngularCayley
@@ -2031,6 +2032,7 @@ import GppVerify.RiemannHypothesis.HilbertQuotientClosure
 import GppVerify.RiemannHypothesis.KreinGraphClosure
 import GppVerify.RiemannHypothesis.PoleBoundaryDirac
 import GppVerify.RiemannHypothesis.PrimeModularCovariance
+import GppVerify.RiemannHypothesis.PrimeTFDObserverGeometry
 import GppVerify.RiemannHypothesis.PrimeOccupationHodge
 import GppVerify.RiemannHypothesis.ShadowKMSRigidity
 import GppVerify.RiemannHypothesis.ZetaGibbsLegendre
