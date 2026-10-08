@@ -2,6 +2,7 @@ import GppVerify.RiemannHypothesis.ArrowDictionaryFiniteAlgebra
 import GppVerify.RiemannHypothesis.FiniteHaarQuotientPrincipalSeries
 import GppVerify.RiemannHypothesis.CasimirCriticalLine
 import GppVerify.RiemannHypothesis.ShadowSymmetry
+import GppVerify.RiemannHypothesis.TomitaRatioFlow
 import GppVerify.RHSpectralMultiplicity
 import Mathlib.Tactic
 
@@ -107,6 +108,24 @@ theorem observerPositivePair_iff_critical
         (GppFiniteHaarQuotientPrincipalSeries.critical_line_iff_haar_quotient_isometry
           (s := reversal s) (k := k) hk0 hk1).1 href
       exact le_of_eq hnorm
+
+/-- The finite critical Tomita/KMS modular label `s = 1/2 + i t`
+automatically satisfies observer positivity in every nontrivial finite-Haar
+quotient.  This connects the existing modular-ratio principal-series theorem to
+the common-record contraction criterion without any zeta-zero input. -/
+theorem tomita_principal_label_observer_positive
+    (t : ℝ) {k : ℝ} (hk : 1 < k) :
+    ObserverPositivePair
+      ((1 / 2 : ℂ) + (t : ℂ) * Complex.I) k := by
+  apply (observerPositivePair_iff_critical hk).2
+  simp
+
+/-- The same Tomita/KMS label maps under `Delta = 2s` to the celestial
+principal series. -/
+theorem tomita_principal_label_celestial
+    (t : ℝ) :
+    (2 * ((1 / 2 : ℂ) + (t : ℂ) * Complex.I)).re = 1 := by
+  simp
 
 /-- Observer-positive reflected transport is pointwise fixed by the complete
 anti-linear reversal `s -> 1-conj(s)`. -/
@@ -238,6 +257,8 @@ end GppObserverPrincipalSeries
 
 #print axioms GppObserverPrincipalSeries.reflected_norm_product_eq_one
 #print axioms GppObserverPrincipalSeries.observerPositivePair_iff_critical
+#print axioms GppObserverPrincipalSeries.tomita_principal_label_observer_positive
+#print axioms GppObserverPrincipalSeries.tomita_principal_label_celestial
 #print axioms GppObserverPrincipalSeries.observerPositivePair_forces_reversal_fixed
 #print axioms GppObserverPrincipalSeries.casimir_reversal_eq_conj
 #print axioms GppObserverPrincipalSeries.casimir_reversal_collapse_iff_critical
