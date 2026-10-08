@@ -119,6 +119,37 @@ theorem observerPositivePair_forces_reversal_fixed
     (GppRHArrowDictionary.orientationBias_eq_zero_iff s).2 hs
   exact (GppRHArrowDictionary.orientationBias_eq_zero_iff_fixed s).1 hbias
 
+/-- Complete reversal conjugates the quadratic Casimir.  Thus an off-line
+D-pair carries conjugate Casimir values rather than two independent real
+eigenvalues. -/
+theorem casimir_reversal_eq_conj (s : ℂ) :
+    GppCasimirCriticalLine.casimir (reversal s) =
+      (starRingEnd ℂ) (GppCasimirCriticalLine.casimir s) := by
+  simp [GppCasimirCriticalLine.casimir, reversal, GppRHArrowDictionary.reversal]
+  ring
+
+/-- For a nonreal spectral label, the two conjugate Casimir values collapse to
+one value exactly on the critical line. -/
+theorem casimir_reversal_collapse_iff_critical
+    {s : ℂ} (him : s.im ≠ 0) :
+    GppCasimirCriticalLine.casimir (reversal s) =
+        GppCasimirCriticalLine.casimir s ↔
+      s.re = (1 : ℝ) / 2 := by
+  constructor
+  · intro h
+    have hc : (GppCasimirCriticalLine.casimir s).im = 0 := by
+      have hi := congrArg Complex.im h
+      rw [casimir_reversal_eq_conj] at hi
+      simp at hi
+      linarith
+    exact GppCasimirCriticalLine.real_casimir_forces_half s him hc
+  · intro hs
+    have hfixed : reversal s = s := by
+      have hbias : GppRHArrowDictionary.orientationBias s = 0 :=
+        (GppRHArrowDictionary.orientationBias_eq_zero_iff s).2 hs
+      exact (GppRHArrowDictionary.orientationBias_eq_zero_iff_fixed s).1 hbias
+    rw [hfixed]
+
 /-- The observer-positive pair has a real conformal Casimir in the
 principal-series range `c >= 1/4`. -/
 theorem observerPositivePair_forces_casimir_positive
@@ -208,6 +239,8 @@ end GppObserverPrincipalSeries
 #print axioms GppObserverPrincipalSeries.reflected_norm_product_eq_one
 #print axioms GppObserverPrincipalSeries.observerPositivePair_iff_critical
 #print axioms GppObserverPrincipalSeries.observerPositivePair_forces_reversal_fixed
+#print axioms GppObserverPrincipalSeries.casimir_reversal_eq_conj
+#print axioms GppObserverPrincipalSeries.casimir_reversal_collapse_iff_critical
 #print axioms GppObserverPrincipalSeries.observerPositivePair_forces_casimir_positive
 #print axioms GppObserverPrincipalSeries.observerPositivePair_forces_celestial_principal
 #print axioms GppObserverPrincipalSeries.observerPositiveZeroSurvival_iff_rh
