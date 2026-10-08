@@ -5539,6 +5539,27 @@ Retired \texttt{open\_*} stubs and the precise statements that replace them: Haa
   \item \lean{GppStubRegistry.atom_weight_one_iff_rh}\leanok\ \texttt{atom\_weight\_one\_iff\_rh}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Hecke Recurrence and Jacobi Leakage}
+Exact finite algebra behind the Hecke-boundary leakage inequality: the symmetric-power recurrence, the closed form sinh z a_m = sinh((m+1)z), and the identity $\\|(J-2\\cosh z)v^{(M)}\\|^2=|a_{M+1}|^2+|a_M|^2$. The spectral-distance bound, the limit $2\\sinh(2|\\mathrm{Re}\\,z|)$ and zero survival are not proved here. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppHeckeJacobiLeakage.a}\leanok\ \texttt{a}
+  \item \lean{GppHeckeJacobiLeakage.a_zero}\leanok\ \texttt{a\_zero}
+  \item \lean{GppHeckeJacobiLeakage.a_one}\leanok\ \texttt{a\_one}
+  \item \lean{GppHeckeJacobiLeakage.a_succ_add}\leanok\ \texttt{a\_succ\_add}
+  \item \lean{GppHeckeJacobiLeakage.sinh_mul_a}\leanok\ \texttt{sinh\_mul\_a}
+  \item \lean{GppHeckeJacobiLeakage.trunc}\leanok\ \texttt{trunc}
+  \item \lean{GppHeckeJacobiLeakage.jac}\leanok\ \texttt{jac}
+  \item \lean{GppHeckeJacobiLeakage.resid}\leanok\ \texttt{resid}
+  \item \lean{GppHeckeJacobiLeakage.resid_lt}\leanok\ \texttt{resid\_lt}
+  \item \lean{GppHeckeJacobiLeakage.resid_eq}\leanok\ \texttt{resid\_eq}
+  \item \lean{GppHeckeJacobiLeakage.resid_succ}\leanok\ \texttt{resid\_succ}
+  \item \lean{GppHeckeJacobiLeakage.resid_gt}\leanok\ \texttt{resid\_gt}
+  \item \lean{GppHeckeJacobiLeakage.jacobi_residual_sq}\leanok\ \texttt{jacobi\_residual\_sq}
+  \item \lean{GppHeckeJacobiLeakage.leakage_label}\leanok\ \texttt{leakage\_label}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
