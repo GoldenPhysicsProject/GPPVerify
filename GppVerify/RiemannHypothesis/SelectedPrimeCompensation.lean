@@ -294,7 +294,10 @@ theorem double_log_moment_defect_prime
     {p rPlus rMinus : ℝ} (hprod : rPlus * rMinus = p⁻¹) :
     (rPlus + rMinus) ^ 2 - (rPlus ^ 2 + rMinus ^ 2) =
       2 * p⁻¹ := by
-  rw [double_log_moment_defect, ← mul_assoc, hprod]
+  rw [double_log_moment_defect]
+  calc
+    2 * rPlus * rMinus = 2 * (rPlus * rMinus) := by ring
+    _ = 2 * p⁻¹ := by rw [hprod]
 
 /-- A finite positive prime-scale product makes the local defect strictly positive. -/
 theorem double_log_moment_defect_prime_pos
