@@ -66,6 +66,21 @@ def ObserverPositivePair (s : ℂ) (k : ℝ) : Prop :=
   ‖haarQuotientCharacter s k‖ ≤ 1 ∧
     ‖haarQuotientCharacter (reversal s) k‖ ≤ 1
 
+
+/-- The two complete-reversal transport norms are exact reciprocals.  Their
+product is one before imposing any positivity or zero condition. -/
+theorem reflected_norm_product_eq_one (s : ℂ) (k : ℝ) :
+    ‖haarQuotientCharacter s k‖ *
+      ‖haarQuotientCharacter (reversal s) k‖ = 1 := by
+  rw [GppFiniteHaarQuotientPrincipalSeries.norm_haarQuotientCharacter,
+    GppFiniteHaarQuotientPrincipalSeries.norm_haarQuotientCharacter]
+  rw [← Real.exp_add]
+  have href : (reversal s).re = 1 - s.re := by
+    simp [reversal, GppRHArrowDictionary.reversal]
+  rw [href]
+  ring_nf
+  simp
+
 /-- **Two-sided observer positivity selects the principal line.**
 For any nontrivial finite Haar quotient `k > 1`, simultaneous contractivity of
 a parameter and its complete-reversal companion is equivalent to
@@ -190,6 +205,7 @@ theorem off_line_zero_pair_and_observer_obstruction
 
 end GppObserverPrincipalSeries
 
+#print axioms GppObserverPrincipalSeries.reflected_norm_product_eq_one
 #print axioms GppObserverPrincipalSeries.observerPositivePair_iff_critical
 #print axioms GppObserverPrincipalSeries.observerPositivePair_forces_reversal_fixed
 #print axioms GppObserverPrincipalSeries.observerPositivePair_forces_casimir_positive
