@@ -155,7 +155,7 @@ theorem open_cpt_theorem : True := trivial
 theorem open_spin_statistics : True := trivial
 -- SOURCE: Streater-Wightman, PCT, Spin and Statistics, and All That, Thm 4-10.
 
-theorem open_wightman_summary : True := trivial
+-- Stub `open_wightman_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 /-- Exact arithmetic geometry actually proved in this module (ported from GPPVerify2). -/
 theorem wightman_arithmetic_summary :

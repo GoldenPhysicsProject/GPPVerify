@@ -316,8 +316,9 @@ theorem open_universal_positivity_construction : True := trivial
 -- Every physical theory (YM, RH, QG) that satisfies Haar positivity
 -- automatically satisfies all four positivity conditions simultaneously.
 
-/-- Haar projection onto gauge-invariant sector is an orthogonal projection -/
-theorem open_haar_projection_orthogonal : True := trivial
+/- Haar projection onto gauge-invariant sector is an orthogonal projection
+
+    **Closed 2026-10-08**: the stub `open_haar_projection_orthogonal` is retired. The finite-group instance is proved in full just below (`finiteHaarProjection_isIdempotentElem`, `finiteHaarProjection_range_eq_invariants`, `finiteHaarProjection_isSelfAdjoint`); the infinite compact-group case (Peter–Weyl averaging as a Bochner integral) remains a LIBRARY GAP, stated here rather than parked as a True stub. -/
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-projection
 -- P_K = ∫_K U(k)dk is the orthogonal projection onto K-invariant subspace.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Compact group averaging (Peter-Weyl) in functional analysis,
@@ -464,6 +465,6 @@ theorem open_four_positivities_equivalent : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, prop:logical-status
 -- All four are instances of: P = Ω^∨ * Ω on a locally compact group.
 
-theorem open_haar_positivity_summary : True := trivial
+-- Stub `open_haar_positivity_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 end GppHaarPositivityWeil

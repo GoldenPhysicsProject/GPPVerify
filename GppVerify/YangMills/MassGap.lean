@@ -307,6 +307,6 @@ theorem open_shadow_reflection_correspondence : True := trivial
 -- This is the bridge between the QG and RH papers:
 -- the shadow transform in celestial CFT = the functional equation reflection.
 
-theorem open_mass_gap_summary : True := trivial
+-- Stub `open_mass_gap_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 end GppYangMillsMassGap

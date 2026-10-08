@@ -2,6 +2,7 @@ import GppVerify.RiemannHypothesis.RHCriteriaAtlas
 import GppVerify.RHSpectralMultiplicity
 import Mathlib.NumberTheory.LSeries.DirichletContinuation
 import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+import Mathlib.Analysis.MellinTransform
 
 /-!
 # Stub registry: retired `open_*` stubs and the precise statements that replace them
@@ -20,6 +21,8 @@ references can be traced.
 | `open_generalised_rh` | `GeneralisedRH` (Prop) + `rh_of_generalisedRH` |
 | `open_weil_criterion`, `open_weil_positivity_haar_squares` | `WeilPositivityAll` (Prop) + `weil_criterion_iff` |
 | `open_weil_positivity_hilbert` | `weil_positivity_hilbert_imp_rh` |
+| `open_j_maps_functionals` | `mellin_inversion` (proved) |
+| `open_spectral_atom_weight_one` | `GppRH.AtomWeightOne` (existing Prop; equivalent to RH) |
 
 Scope: `GeneralisedRH` is for Dirichlet L-functions (Mathlib's `DirichletCharacter.LFunction`);
 Hecke L-functions of number fields are not in Mathlib and are not covered. Zeros of an
@@ -93,5 +96,43 @@ theorem weil_positivity_hilbert_imp_rh {V : Type*} [NormedAddCommGroup V]
       ∃ v : V, pairedForm zetaInvolution ({ρ, zetaInvolution ρ} : Finset ℂ) c = inner ℂ v v) :
     ∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2 :=
   GppRHAtlas.hilbert_realization_imp_rh h
+
+/-- **J maps evaluation functionals** (retires `open_j_maps_functionals`). With the Mellin
+    transform as the evaluation functional `l_s f = f^(s)` and the inversion
+    `J f (t) = f(1/t)/t`, one has `l_s ∘ J = l_{1-s}`: `mellin (J f) s = mellin f (1 - s)`.
+    The abstract space `H₋` of the source is not formalised; this is the identity on the
+    Mellin side, for an arbitrary `f` (Bochner convention when not integrable). -/
+theorem mellin_inversion (f : ℝ → ℂ) (s : ℂ) :
+    mellin (fun t : ℝ => f t⁻¹ / (t : ℂ)) s = mellin f (1 - s) := by
+  unfold mellin
+  have h := integral_comp_rpow_Ioi (fun y : ℝ => (y : ℂ) ^ (-s) * f y) (p := -1) (by norm_num)
+  have e : ∫ t in Ioi (0:ℝ), (t : ℂ) ^ (s - 1) • (f t⁻¹ / (t : ℂ))
+      = ∫ x in Ioi (0:ℝ), (|(-1:ℝ)| * x ^ (-1 - 1 : ℝ)) •
+          (((x ^ (-1:ℝ) : ℝ) : ℂ) ^ (-s) * f (x ^ (-1:ℝ))) := by
+    refine setIntegral_congr_fun measurableSet_Ioi (fun x hx => ?_)
+    have hx0 : (0:ℝ) < x := hx
+    have hxc : (x : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hx0.ne'
+    have harg : (x : ℂ).arg ≠ Real.pi := by
+      rw [Complex.arg_ofReal_of_nonneg hx0.le]; exact Real.pi_ne_zero.symm
+    simp only [Real.rpow_neg_one, abs_neg, abs_one, one_mul, smul_eq_mul]
+    rw [show (-1 - 1 : ℝ) = -2 by norm_num, Real.rpow_neg hx0.le, Real.rpow_two]
+    push_cast
+    rw [Complex.inv_cpow _ _ harg, Complex.cpow_neg, inv_inv, Complex.cpow_sub _ _ hxc,
+      Complex.cpow_one]
+    have hs : ((x : ℂ) ^ s) ≠ 0 := by
+      rw [Ne, Complex.cpow_eq_zero_iff]; tauto
+    field_simp
+    rw [Complex.real_smul]
+    push_cast
+    field_simp
+  rw [e, h]
+  refine setIntegral_congr_fun measurableSet_Ioi (fun x hx => ?_)
+  simp only [smul_eq_mul]
+  rw [show (1 - s - 1) = -s by ring]
+
+/-- Retires `open_spectral_atom_weight_one`: the statement is `GppRH.AtomWeightOne`
+    (at most one strip zero per ordinate), an **open** claim equivalent to RH, kept as a `Prop`. -/
+theorem atom_weight_one_iff_rh : GppRH.AtomWeightOne ↔ GppRH.RiemannHypothesisStrip :=
+  GppRH.rh_iff_atomWeightOne.symm
 
 end GppStubRegistry
