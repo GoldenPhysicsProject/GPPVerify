@@ -451,8 +451,9 @@ theorem finiteHaarProjection_isSelfAdjoint
       (fun g => ⟪x, U g⁻¹ y⟫_ℂ) (fun g => ⟪x, U g y⟫_ℂ) (fun g => rfl)
   rw [hstep, hreindex_inv]
 
-/-- Peter-Weyl decomposition (compact groups) -/
-theorem open_peter_weyl_decomposition : True := trivial
+/- Peter-Weyl decomposition (compact groups)
+
+    **Closed 2026-10-09 (finite abelian case)**: the stub `open_peter_weyl_decomposition` is retired. Fourier expansion and Plancherel for finite abelian groups are proved as `GppFinitePeterWeyl.fourier_expansion` and `GppFinitePeterWeyl.plancherel` (`FinitePeterWeyl.lean`). Still a library gap: Peter–Weyl for general compact groups (matrix coefficients of irreducible unitary representations; nonabelian finite groups). -/
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:peter-weyl
 -- L²(G) = ⊕_{π∈Ĝ} V_π ⊗ V_π*, with each irrep appearing dim(V_π) times.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Peter-Weyl re-verified absent in Mathlib 4.33.1 (2026-09-01): zero hits.
