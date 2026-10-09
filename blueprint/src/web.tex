@@ -5571,6 +5571,17 @@ The local Euler factor identity behind the Gr(2,4) zeta factorization, proved fr
   \item \lean{GppGr24LocalZeta.gr24_local_zeta}\leanok\ \texttt{gr24\_local\_zeta}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite Abelian Peter--Weyl}
+Fourier expansion and Plancherel for finite abelian groups, from character orthonormality: $f=\\sum_\\psi \\hat f(\\psi)\\psi$ and $\\mathbb{E}\\|f\\|^2=\\sum\\|\\hat f(\\psi)\\|^2$. General compact-group Peter--Weyl is not proved here.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppFinitePeterWeyl.orth}\leanok\ \texttt{orth}
+  \item \lean{GppFinitePeterWeyl.coeff}\leanok\ \texttt{coeff}
+  \item \lean{GppFinitePeterWeyl.fourier_expansion}\leanok\ \texttt{fourier\_expansion}
+  \item \lean{GppFinitePeterWeyl.plancherel}\leanok\ \texttt{plancherel}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
@@ -6274,7 +6285,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{125} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{124} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
