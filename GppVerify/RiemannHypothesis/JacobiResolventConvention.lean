@@ -32,7 +32,7 @@ theorem green_boundary (r : ℂ) (hr : r ≠ 0) :
   ring
 
 /-- At every positive site the same Green column is homogeneous. -/
-theorem green_bulk (r : ℂ) (hr : r ≠ 0) (n : ℕ) :
+theorem green_bulk (r : ℂ) (n : ℕ) :
     jacobi (green r) (n + 1) -
       energy r * green r (n + 1) = 0 := by
   simp only [jacobi, green, energy, Nat.succ_ne_zero,
