@@ -5784,6 +5784,32 @@ Source: Codex 2026-10-11 cutoff obstruction, with an explicit elementary bound. 
   \item \lean{GppNoGo.LaguerreCutoff.prime_cutoff_sign}\leanok\ \texttt{prime\_cutoff\_sign}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Gaussian Heat Amplitude Is Not OS Positive}
+Source: Codex 2026-10-11 OS/KMS transport note, \S3. For every prime length $a\ne0$ the heat amplitude $g_a(t)=(4\pi t)^{-1/2}e^{-a^2/4t}$ satisfies $g(2t_1)g(2t_2)=\tfrac{4e^{-1/15}}{\sqrt{15}}g(t_1+t_2)^2$ at $t_1=3a^2/16$, $t_2=5a^2/16$, so the $2\times2$ OS--Hankel determinant is negative. Naive positive transfer through Gaussian subordination fails; it says nothing about the completed heat trace, whose OS positivity is RH-equivalent. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.GaussianHeatOS.g}\leanok\ \texttt{g}
+  \item \lean{GppNoGo.GaussianHeatOS.hankelDet}\leanok\ \texttt{hankelDet}
+  \item \lean{GppNoGo.GaussianHeatOS.g_left}\leanok\ \texttt{g\_left}
+  \item \lean{GppNoGo.GaussianHeatOS.g_right}\leanok\ \texttt{g\_right}
+  \item \lean{GppNoGo.GaussianHeatOS.g_mid}\leanok\ \texttt{g\_mid}
+  \item \lean{GppNoGo.GaussianHeatOS.gaussian_ratio}\leanok\ \texttt{gaussian\_ratio}
+  \item \lean{GppNoGo.GaussianHeatOS.ratio_lt_one}\leanok\ \texttt{ratio\_lt\_one}
+  \item \lean{GppNoGo.GaussianHeatOS.gaussian_hankel_det_neg}\leanok\ \texttt{gaussian\_hankel\_det\_neg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Critical Arithmetic OS Gram}
+Source: Codex 2026-10-11 OS/KMS transport note, \S\S1, J--K. For nonnegative weights $w_n$, $\sum_{ij}c_ic_j\sum_n w_n n^{-t_i}n^{-t_j}=\sum_n w_n(\sum_i c_in^{-t_i})^2\ge0$. With the critical weight $1/n$ and all $t_i>0$ the series converge, so $[\sum_n n^{-1-t_i-t_j}]=[\zeta(1+t_i+t_j)]$ is positive semidefinite with no prime truncation. This is not the completed $\xi$ heat trace. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppCriticalRiggedGram.gram_eq}\leanok\ \texttt{gram\_eq}
+  \item \lean{GppCriticalRiggedGram.gram_nonneg}\leanok\ \texttt{gram\_nonneg}
+  \item \lean{GppCriticalRiggedGram.critical_summable}\leanok\ \texttt{critical\_summable}
+  \item \lean{GppCriticalRiggedGram.critical_gram_nonneg}\leanok\ \texttt{critical\_gram\_nonneg}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}

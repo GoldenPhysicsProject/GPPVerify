@@ -2127,6 +2127,8 @@ import GppVerify.NoGo.CayleyGap44
 import GppVerify.Analysis.Pringsheim
 import GppVerify.Analysis.OneSidedPringsheim
 import GppVerify.NoGo.LaguerreCutoff
+import GppVerify.NoGo.GaussianHeatOS
+import GppVerify.RiemannHypothesis.CriticalRiggedGram
 import GppVerify.RiemannHypothesis.FinitePeterWeyl
 import GppVerify.RiemannHypothesis.HeckeJacobiLeakage
 import GppVerify.RiemannHypothesis.ConfluentPickThirdOrder
