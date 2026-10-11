@@ -80,6 +80,52 @@ theorem eulerPole_twoNodeDet_neg {s t : ℝ}
     (c := 1 / 2) (by norm_num) (by linarith) (by linarith) hne'
   convert h using 1 <; ring
 
+/-- The exact rational imaginary logarithmic derivative of Astra's even
+    quartet polynomial
+    `((k-14)^2+(1/5)^2)*((k+14)^2+(1/5)^2)`,
+    evaluated at the imaginary input `k=i*y`.
+    Here `y=s-1/2>1/2`, so `s>1`. -/
+def quartetValue (y : ℚ) : ℚ :=
+  2 * ((y - 1 / 5) / (14 ^ 2 + (y - 1 / 5) ^ 2) +
+       (y + 1 / 5) / (14 ^ 2 + (y + 1 / 5) ^ 2))
+
+/-- The rational Pick kernel restricted to real Euler inputs. -/
+def quartetPick (a b : ℚ) : ℚ :=
+  (quartetValue a + quartetValue b) / (a + b)
+
+/-- Explicit three-by-three symmetric determinant. -/
+def symmetricDet3 (a b c d e f : ℚ) : ℚ :=
+  a * (d * f - e ^ 2) -
+  b * (b * f - c * e) +
+  c * (b * e - c * d)
+
+/-- Exact synthetic quartet Pick determinant at the three REAL Euler nodes
+    `s=11/10, 3/2, 5/2`, i.e. centered inputs `3/5,1,2`.
+    This closes Astra's real-node adversarial witness without zeros or
+    numerical tolerance. The result is explicitly negative. -/
+theorem quartet_real_euler_three_node_negative :
+    symmetricDet3
+      (quartetPick (3 / 5) (3 / 5))
+      (quartetPick (3 / 5) 1)
+      (quartetPick (3 / 5) 2)
+      (quartetPick 1 1)
+      (quartetPick 1 2)
+      (quartetPick 2 2) < 0 := by
+  norm_num [symmetricDet3, quartetPick, quartetValue]
+
+/-- The exact determinant is a negative rational, with a stated value
+    independently checked by symbolic fraction arithmetic. -/
+theorem quartet_real_euler_det_value :
+    symmetricDet3
+      (quartetPick (3 / 5) (3 / 5))
+      (quartetPick (3 / 5) 1)
+      (quartetPick (3 / 5) 2)
+      (quartetPick 1 1)
+      (quartetPick 1 2)
+      (quartetPick 2 2) =
+      -(176434183789130859375 / 664385955512796181542237813770638196 : ℚ) := by
+  norm_num [symmetricDet3, quartetPick, quartetValue]
+
 end
 
 end GppArithmeticPickPole
