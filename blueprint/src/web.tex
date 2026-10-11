@@ -5853,6 +5853,27 @@ Source: Codex 2026-09-29 radical pole-threshold note (GPPDiscovery2), \S\S3--5. 
   \item \lean{GppRadicalPoleThreshold.rankOne_singular_iff_threshold}\leanok\ \texttt{rankOne\_singular\_iff\_threshold}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime Square Roots and the Half-Density Threshold}
+Source: Codex 2026-09-29 prime-square-root hypercube note (GPPDiscovery2), \S\S3, 4, 6. The coefficient of $|d_S\rangle$ in $\bigotimes_{p\in P}(|0\rangle-p^{-s}|1\rangle)$ is $\mu(d_S)d_S^{-s}$; the squared norm is $\prod_{p\in P}(1+p^{-2\sigma})$, independent of $t$; $\sum_p p^{-2\sigma}<\infty$ iff $\sigma>1/2$. The block $D_p=\frac1{2(p-1)}\begin{pmatrix}p+1&-2\sqrt p\\-2\sqrt p&p+1\end{pmatrix}$ has $\det D_p=1/4$ and eigenvalues $\beta_p/2$, $1/(2\beta_p)$ with $\beta_p=\frac{\sqrt p-1}{\sqrt p+1}=\tanh(\log p/4)$; $p\mapsto1/p$ flips $\beta$, and $\beta_5=\varphi^{-2}$. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeSqrtHypercube.moebius_prod_primes}\leanok\ \texttt{moebius\_prod\_primes}
+  \item \lean{GppPrimeSqrtHypercube.natProd_cpow}\leanok\ \texttt{natProd\_cpow}
+  \item \lean{GppPrimeSqrtHypercube.coeff_eq_moebius}\leanok\ \texttt{coeff\_eq\_moebius}
+  \item \lean{GppPrimeSqrtHypercube.normSq_eq_prod}\leanok\ \texttt{normSq\_eq\_prod}
+  \item \lean{GppPrimeSqrtHypercube.fock_threshold}\leanok\ \texttt{fock\_threshold}
+  \item \lean{GppPrimeSqrtHypercube.beta}\leanok\ \texttt{beta}
+  \item \lean{GppPrimeSqrtHypercube.Da}\leanok\ \texttt{Da}
+  \item \lean{GppPrimeSqrtHypercube.Db}\leanok\ \texttt{Db}
+  \item \lean{GppPrimeSqrtHypercube.D_det}\leanok\ \texttt{D\_det}
+  \item \lean{GppPrimeSqrtHypercube.D_eig_minus}\leanok\ \texttt{D\_eig\_minus}
+  \item \lean{GppPrimeSqrtHypercube.D_eig_plus}\leanok\ \texttt{D\_eig\_plus}
+  \item \lean{GppPrimeSqrtHypercube.beta_eq_tanh}\leanok\ \texttt{beta\_eq\_tanh}
+  \item \lean{GppPrimeSqrtHypercube.beta_inv}\leanok\ \texttt{beta\_inv}
+  \item \lean{GppPrimeSqrtHypercube.beta_five}\leanok\ \texttt{beta\_five}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
