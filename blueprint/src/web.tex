@@ -5874,6 +5874,21 @@ Source: Codex 2026-09-29 prime-square-root hypercube note (GPPDiscovery2), \S\S3
   \item \lean{GppPrimeSqrtHypercube.beta_five}\leanok\ \texttt{beta\_five}
 \end{itemize}
 
+\section{Riemann Hypothesis --- CCM Overlap Kernel as a Translation Correlation}
+Source: Codex 2026-09-30 CCM translation-Dirichlet note (GPPDiscovery2), \S\S1, 2, 4. On $[0,L]$ with $U_n=L^{-1/2}e^{2\pi inx/L}$: $\int_0^{L-y}U_m(x+y)\overline{U_n(x)}dx=\frac{e^{i\alpha_ny}-e^{i\alpha_my}}{2\pi i(m-n)}$ ($n\ne m$) and $(1-y/L)e^{i\alpha_ny}$ ($n=m$); the Hermitian combinations are exactly the CCM kernels $\frac{\sin\alpha_my-\sin\alpha_ny}{\pi(n-m)}$ and $2(1-y/L)\cos\alpha_ny$. With $\|g\|=\|f\|$, $2\Re\langle g,f\rangle=2\|f\|^2-\|f-g\|^2$, so $q(f,f)(y)=2\|f\|^2-E_y(f)$, and the finite prime form is a mass minus a positive translation energy. The Archimedean constant and the constrained Poincar\'e target are not formalized. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppCCMTranslationDirichlet.U}\leanok\ \texttt{U}
+  \item \lean{GppCCMTranslationDirichlet.U_mul_conj}\leanok\ \texttt{U\_mul\_conj}
+  \item \lean{GppCCMTranslationDirichlet.overlap_offdiag}\leanok\ \texttt{overlap\_offdiag}
+  \item \lean{GppCCMTranslationDirichlet.overlap_diag}\leanok\ \texttt{overlap\_diag}
+  \item \lean{GppCCMTranslationDirichlet.q_offdiag}\leanok\ \texttt{q\_offdiag}
+  \item \lean{GppCCMTranslationDirichlet.q_diag}\leanok\ \texttt{q\_diag}
+  \item \lean{GppCCMTranslationDirichlet.translation_identity}\leanok\ \texttt{translation\_identity}
+  \item \lean{GppCCMTranslationDirichlet.prime_form_rewrite}\leanok\ \texttt{prime\_form\_rewrite}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
