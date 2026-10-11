@@ -28,6 +28,7 @@ successful argument must use.
 | Finite Euler truncation (pole + any bounded correction) gives PSD Pick matrices | **proved**: `ε²·det → −1/4` at nodes `1+ε, 1+2ε` | `GppNoGo.EulerPole.eps_sq_det_tendsto`, `det_eventually_neg` | renormalise the pole jointly with the infinite prime tail; truncation cannot work |
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
+| *(criterion)* One-sided Cayley–Laguerre bound `E_n ≤ C(n+1)^k` ⇒ RH (Codex) | analytic step **proved**: Pringsheim's theorem `GppPringsheim.pringsheim`; arithmetic bound open | `GppVerify/Analysis/Pringsheim.lean` | a one-sided polynomial bound suffices, but it is Landau-type equivalent to RH |
 | First-prime-trace renormalisation | restatement of RH (classical) | — | a ζ-independent regularisation with provable analyticity |
 | *(detector, not a no-go)* Cayley 2×2 gap test at `s₀ = 2` misses off-axis quartets | **proved false** for Astra's quartet: passes gaps 1–43, fails at gap 44 | `GppNoGo.CayleyGap44.gap44_noGo` | a different finite projection of the same RH-equivalent positivity; unconditional `sup aₙ ≤ 2a₀` for ξ is RH-strength |
 

@@ -5713,6 +5713,20 @@ The Cayley transform at s=2 turns RH into a Caratheodory coefficient bound; for 
   \item \lean{GppNoGo.CayleyGap44.Hsyn_eq}\leanok\ \texttt{Hsyn\_eq}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Pringsheim's Theorem}
+A power series with nonnegative coefficients cannot be continued analytically across the positive point of its circle of convergence (Vivanti-Pringsheim), proved via re-expansion at an interior point, uniqueness of power series and an extended-real rearrangement; supplies the analytic step of Codex's one-sided Cayley-Laguerre criterion.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppPringsheim.h}\leanok\ \texttt{h}
+  \item \lean{GppPringsheim.c}\leanok\ \texttt{c}
+  \item \lean{GppPringsheim.hasSum_reexpand}\leanok\ \texttt{hasSum\_reexpand}
+  \item \lean{GppPringsheim.summable_inner}\leanok\ \texttt{summable\_inner}
+  \item \lean{GppPringsheim.reexpand_ennreal}\leanok\ \texttt{reexpand\_ennreal}
+  \item \lean{GppPringsheim.summable_of_ofReal_ne_top}\leanok\ \texttt{summable\_of\_ofReal\_ne\_top}
+  \item \lean{GppPringsheim.pringsheim}\leanok\ \texttt{pringsheim}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
