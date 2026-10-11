@@ -5827,6 +5827,20 @@ Source: Codex 2026-10-11 arithmetic prime bulk/boundary QFT note. For the free f
   \item \lean{GppPrimeBulkFreeField.smooth_family_gap_closes}\leanok\ \texttt{smooth\_family\_gap\_closes}
 \end{itemize}
 
+\section{Quantum Foundations --- Gauge Invariance Does Not Give Collapse}
+Source: Codex 2026-10-11 bulk QFT note, \S E; a correction to \emph{On the Nature of Nature}, Chapter 11. For $U_\theta=\mathrm{diag}(1,e^{i\theta})$ and $\rho=|e_2\rangle\langle e_2|$: $U_\theta\rho U_\theta^*=\rho$ for all $\theta$, the Haar average $\frac1{2\pi}\int_0^{2\pi}U_\theta\,d\theta=\mathrm{diag}(1,0)$, and $P\rho P=0\ne\rho$. State twirling and singlet projection are different Haar averages; collapse is not derived from gauge invariance.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.TwirlNotCollapse.U}\leanok\ \texttt{U}
+  \item \lean{GppNoGo.TwirlNotCollapse.rho}\leanok\ \texttt{rho}
+  \item \lean{GppNoGo.TwirlNotCollapse.singletProj}\leanok\ \texttt{singletProj}
+  \item \lean{GppNoGo.TwirlNotCollapse.twirl_rho}\leanok\ \texttt{twirl\_rho}
+  \item \lean{GppNoGo.TwirlNotCollapse.integral_exp_I}\leanok\ \texttt{integral\_exp\_I}
+  \item \lean{GppNoGo.TwirlNotCollapse.singletProj_eq}\leanok\ \texttt{singletProj\_eq}
+  \item \lean{GppNoGo.TwirlNotCollapse.collapse_fails}\leanok\ \texttt{collapse\_fails}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
