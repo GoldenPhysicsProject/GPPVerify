@@ -234,6 +234,70 @@ theorem foldedQuartet_twoPoint_pos {a b h w : ℝ}
         (foldedQuartetDen h w b) ^ 2 := by positivity
   positivity
 
+/-- Polynomial numerator of the real Pick kernel for one symmetric quartet.
+    The full entry is `4*T(a,b)/(D(a)*D(b))`, with `D` as above. -/
+def foldedQuartetNum (a b h w : ℝ) : ℝ :=
+  a ^ 3 * b ^ 3 + h * a * b * (a ^ 2 + b ^ 2) +
+    h * a ^ 2 * b ^ 2 + h ^ 2 * (a ^ 2 + b ^ 2 + a * b) +
+    w * (a ^ 2 + b ^ 2 - a * b) + h ^ 3 + h * w
+
+/-- The positive factor that controls the three-node signature. -/
+def foldedQuartetThirdFactor (a b c h w : ℝ) : ℝ :=
+  h * a ^ 2 * b ^ 2 * c ^ 2 +
+    (h ^ 2 + w) * (a ^ 2 * b ^ 2 + a ^ 2 * c ^ 2 + b ^ 2 * c ^ 2) +
+    h * (h ^ 2 + w) * (a ^ 2 + b ^ 2 + c ^ 2) + (h ^ 4 - w ^ 2)
+
+/-- The exact numerator of a symmetric three-by-three determinant. -/
+def foldedQuartetNumDet (a b c h w : ℝ) : ℝ :=
+  foldedQuartetNum a a h w *
+      (foldedQuartetNum b b h w * foldedQuartetNum c c h w -
+        (foldedQuartetNum b c h w) ^ 2) -
+    foldedQuartetNum a b h w *
+      (foldedQuartetNum a b h w * foldedQuartetNum c c h w -
+        foldedQuartetNum a c h w * foldedQuartetNum b c h w) +
+    foldedQuartetNum a c h w *
+      (foldedQuartetNum a b h w * foldedQuartetNum b c h w -
+        foldedQuartetNum a c h w * foldedQuartetNum b b h w)
+
+/-- A UNIVERSAL order-three obstruction for one off-axis spectral quartet:
+    its three-node determinant contains a negative Vandermonde square
+    times a positive factor (when the ordinate dominates displacement). -/
+theorem foldedQuartet_threeNode_factor (a b c h w : ℝ) :
+    foldedQuartetNumDet a b c h w =
+      -w * (a - b) ^ 2 * (a - c) ^ 2 * (b - c) ^ 2 *
+        foldedQuartetThirdFactor a b c h w := by
+  unfold foldedQuartetNumDet foldedQuartetNum foldedQuartetThirdFactor
+  ring
+
+/-- The order-three numerator is strictly negative at every distinct
+    triple of positive nodes, if `h>0`, `w>0`, `w≤h²`.
+    In the zero parameters, this is an off-axis quartet with
+    sufficiently large ordinate. All TWO-point matrices are positive
+    in this SAME regime (proved above). -/
+theorem foldedQuartet_threeNode_num_neg {a b c h w : ℝ}
+    (ha : 0 < a) (hb : 0 < b) (hc : 0 < c)
+    (hh : 0 < h) (hw : 0 < w) (hbound : w ≤ h ^ 2)
+    (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
+    foldedQuartetNumDet a b c h w < 0 := by
+  rw [foldedQuartet_threeNode_factor]
+  have h4 : 0 ≤ h ^ 4 - w ^ 2 := by
+    have h1 : 0 ≤ h ^ 2 - w := sub_nonneg.mpr hbound
+    have h2 : 0 ≤ h ^ 2 + w := by positivity
+    nlinarith [mul_nonneg h1 h2]
+  have hR : 0 < foldedQuartetThirdFactor a b c h w := by
+    unfold foldedQuartetThirdFactor
+    positivity
+  have hAB : 0 < (a - b) ^ 2 :=
+    sq_pos_of_ne_zero (sub_ne_zero.mpr hab)
+  have hAC : 0 < (a - c) ^ 2 :=
+    sq_pos_of_ne_zero (sub_ne_zero.mpr hac)
+  have hBC : 0 < (b - c) ^ 2 :=
+    sq_pos_of_ne_zero (sub_ne_zero.mpr hbc)
+  have hprod : 0 < w * (a - b) ^ 2 * (a - c) ^ 2 *
+      (b - c) ^ 2 * foldedQuartetThirdFactor a b c h w := by
+    positivity
+  linarith
+
 end
 
 end GppArithmeticPickPole
