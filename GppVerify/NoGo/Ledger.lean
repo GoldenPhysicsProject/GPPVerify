@@ -5,6 +5,7 @@ import GppVerify.NoGo.EulerPoleTruncation
 import GppVerify.NoGo.TwoNodePickInsufficient
 import GppVerify.NoGo.QuartetThreeNodeUniversal
 import GppVerify.NoGo.QuartetSignature
+import GppVerify.NoGo.QuartetFourNode
 
 /-!
 # The No-Go ledger
@@ -22,6 +23,7 @@ successful argument must use.
 | Euler-degree defect `D_p` as zero detector | **proved** | `GppNoGo.EulerDegree.defect_shift_invariant` | splitting witnesses `V_p`, `H_p`, or Archimedean completion |
 | Two-node Pick positivity (at every real node pair) implies full Pick | **proved** (Codex's witness + factorisation, Astra's quartet) | `GppNoGo.TwoNodePick.two_node_does_not_imply_three` | sizes ≥ 3 **and** arithmetic input: the quartet has ξ's symmetry and height but no Euler product |
 | One off-axis quartet passes 3-node Pick tests somewhere | **proved false**: every distinct real triple gives `det < 0` (Codex's factorisation) | `GppNoGo.QuartetThreeNode.det3K_neg` | each off-axis quartet carries exactly **two** negative squares, on-line pairs none (`GppNoGo.QuartetSignature`); RH ⇔ zero negative squares of the *sum* — exactly Weil positivity, no loophole |
+| An off-axis quartet can hide from finite real-node Pick tests | **proved false**: at *every* 4 distinct positive nodes there is a 2-dim negative subspace (Codex's Vandermonde congruence) | `GppNoGo.QuartetFourNode.two_negative_at_four_nodes` | detection needs no clever nodes; only masking by on-line mass in the infinite sum can hide a quartet |
 | Finite Euler truncation (pole + any bounded correction) gives PSD Pick matrices | **proved**: `ε²·det → −1/4` at nodes `1+ε, 1+2ε` | `GppNoGo.EulerPole.eps_sq_det_tendsto`, `det_eventually_neg` | renormalise the pole jointly with the infinite prime tail; truncation cannot work |
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |

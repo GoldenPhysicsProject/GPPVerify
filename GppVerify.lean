@@ -2122,6 +2122,7 @@ import GppVerify.NoGo.EulerPoleTruncation
 import GppVerify.NoGo.TwoNodePickInsufficient
 import GppVerify.NoGo.QuartetThreeNodeUniversal
 import GppVerify.NoGo.QuartetSignature
+import GppVerify.NoGo.QuartetFourNode
 import GppVerify.RiemannHypothesis.FinitePeterWeyl
 import GppVerify.RiemannHypothesis.HeckeJacobiLeakage
 import GppVerify.RiemannHypothesis.LogisticPrincipalSeriesUnitary
