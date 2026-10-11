@@ -75,10 +75,15 @@ theorem eulerPole_twoNodeDet_neg {s t : ℝ}
     (hs : 1 < s) (ht : 1 < t) (hne : s ≠ t) :
     twoNodeDet (s - 1 / 2) (t - 1 / 2)
       (1 / (s - 1)) (1 / (t - 1)) < 0 := by
-  have hne' : s - (1 / 2 : ℝ) ≠ t - 1 / 2 := sub_ne_sub_right hne _
+  have hne' : s - (1 / 2 : ℝ) ≠ t - 1 / 2 := by
+    intro heq
+    apply hne
+    linarith
   have h := poleDet_neg (a := s - 1 / 2) (b := t - 1 / 2)
     (c := 1 / 2) (by norm_num) (by linarith) (by linarith) hne'
-  convert h using 1 <; ring
+  have hsimpl : s - (1 / 2 : ℝ) - 1 / 2 = s - 1 := by ring
+  have htsimpl : t - (1 / 2 : ℝ) - 1 / 2 = t - 1 := by ring
+  simpa only [hsimpl, htsimpl] using h
 
 /-- The exact rational imaginary logarithmic derivative of Astra's even
     quartet polynomial
