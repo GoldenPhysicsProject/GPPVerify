@@ -2128,6 +2128,8 @@ import GppVerify.Analysis.Pringsheim
 import GppVerify.Analysis.OneSidedPringsheim
 import GppVerify.RiemannHypothesis.FinitePeterWeyl
 import GppVerify.RiemannHypothesis.HeckeJacobiLeakage
+import GppVerify.RiemannHypothesis.ConfluentPickThirdOrder
+import GppVerify.RiemannHypothesis.JacobiResolventConvention
 import GppVerify.RiemannHypothesis.LogisticPrincipalSeriesUnitary
 import GppVerify.RiemannHypothesis.OrientationBiasExpectation
 import GppVerify.CelestialHolography.RaisedBoxInnerSliceDCT
