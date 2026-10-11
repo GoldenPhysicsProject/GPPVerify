@@ -5841,6 +5841,18 @@ Source: Codex 2026-10-11 bulk QFT note, \S E; a correction to \emph{On the Natur
   \item \lean{GppNoGo.TwirlNotCollapse.collapse_fails}\leanok\ \texttt{collapse\_fails}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Vacuum Radical Calibrates the Pole Channels}
+Source: Codex 2026-09-29 radical pole-threshold note (GPPDiscovery2), \S\S3--5. For any invertible $A$: if $(A+\tfrac12cc^T)\Phi=0$ with $\langle c,\Phi\rangle\ne0$ then $\langle c,A^{-1}c\rangle=-2$; if $(A-\tfrac12ss^T)\Psi=0$ with $\langle s,\Psi\rangle\ne0$ then $\langle s,A^{-1}s\rangle=2$; and $\det(A+tcc^T)=\det A\,(1+t\langle c,A^{-1}c\rangle)$, so the even channel is singular exactly at $-2$. That the Riemann kernel is a radical vector of the completed Weil form (conditional on the test-space extension) and the inertia statement are not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppRadicalPoleThreshold.rankOne_mulVec}\leanok\ \texttt{rankOne\_mulVec}
+  \item \lean{GppRadicalPoleThreshold.even_threshold}\leanok\ \texttt{even\_threshold}
+  \item \lean{GppRadicalPoleThreshold.odd_threshold}\leanok\ \texttt{odd\_threshold}
+  \item \lean{GppRadicalPoleThreshold.det_rankOne}\leanok\ \texttt{det\_rankOne}
+  \item \lean{GppRadicalPoleThreshold.rankOne_singular_iff_threshold}\leanok\ \texttt{rankOne\_singular\_iff\_threshold}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
