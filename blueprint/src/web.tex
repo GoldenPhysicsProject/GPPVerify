@@ -5768,6 +5768,22 @@ Source: Codex 2026-10-11, draft PR \#282. The Green column $g_n=-r^{n+1}$ satisf
   \item \lean{GppJacobiResolventConvention.euler_boundary_opposite}\leanok\ \texttt{euler\_boundary\_opposite}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite Prime Cutoffs Fail in Cayley–Laguerre}
+Source: Codex 2026-10-11 cutoff obstruction, with an explicit elementary bound. With $\mathrm{lag}_n(t)=[z^n]e^{-tz/(1-z)}=L_n^{(-1)}(t)$, $|L_n^{(-1)}(t)|\le e^{n/4}e^{4t}$ for $t\ge0$. Hence any finite weighted family with $\sum|c_i|e^{4t_i}\le e^{n/4}$ gives $(-1)^nE_n\le e^{n/2}-\tfrac32 2^n<0$. In particular the prime truncation on $2\le m\le N$ with weights $\Lambda(m)/m^2$ and nodes $3\log m$ has $(-1)^nE_{n,N}<0$ whenever $N^{12}\le e^{n/4}$. Prime cutoff and $n\to\infty$ do not commute. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.LaguerreCutoff.lag}\leanok\ \texttt{lag}
+  \item \lean{GppNoGo.LaguerreCutoff.E}\leanok\ \texttt{E}
+  \item \lean{GppNoGo.LaguerreCutoff.choose_le}\leanok\ \texttt{choose\_le}
+  \item \lean{GppNoGo.LaguerreCutoff.abs_lag_le}\leanok\ \texttt{abs\_lag\_le}
+  \item \lean{GppNoGo.LaguerreCutoff.exp_half_le}\leanok\ \texttt{exp\_half\_le}
+  \item \lean{GppNoGo.LaguerreCutoff.cutoff_bound}\leanok\ \texttt{cutoff\_bound}
+  \item \lean{GppNoGo.LaguerreCutoff.cutoff_sign}\leanok\ \texttt{cutoff\_sign}
+  \item \lean{GppNoGo.LaguerreCutoff.fixed_cutoff_eventually}\leanok\ \texttt{fixed\_cutoff\_eventually}
+  \item \lean{GppNoGo.LaguerreCutoff.prime_cutoff_sign}\leanok\ \texttt{prime\_cutoff\_sign}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
