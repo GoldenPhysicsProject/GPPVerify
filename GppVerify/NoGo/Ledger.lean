@@ -6,6 +6,7 @@ import GppVerify.NoGo.TwoNodePickInsufficient
 import GppVerify.NoGo.QuartetThreeNodeUniversal
 import GppVerify.NoGo.QuartetSignature
 import GppVerify.NoGo.QuartetFourNode
+import GppVerify.NoGo.CayleyGap44
 
 /-!
 # The No-Go ledger
@@ -28,6 +29,7 @@ successful argument must use.
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
 | First-prime-trace renormalisation | restatement of RH (classical) | — | a ζ-independent regularisation with provable analyticity |
+| *(detector, not a no-go)* Cayley 2×2 gap test at `s₀ = 2` misses off-axis quartets | **proved false** for Astra's quartet: passes gaps 1–43, fails at gap 44 | `GppNoGo.CayleyGap44.gap44_noGo` | a different finite projection of the same RH-equivalent positivity; unconditional `sup aₙ ≤ 2a₀` for ξ is RH-strength |
 
 Entries marked *pending* or *needs* are not yet theorems here; they must not be cited as proved.
 -/
