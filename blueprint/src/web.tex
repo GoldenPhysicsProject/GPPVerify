@@ -5919,6 +5919,35 @@ Source: Codex 2026-10-11, \S K (additivity of negative indices), $r=1$ case. One
   \item \lean{GppNoGo.FiniteNoMasking.no_masking}\leanok\ \texttt{no\_masking}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Arithmetic Free Bulk QFT Paper: Exact Theorems}
+Source: Codex/Toupin draft ``An exact arithmetic free quantum field theory'' (2026-10-11). Prime-Fock energy $\sum_pv_p(n)\log p=\log n$; doubled sum Hamiltonian gap $\log(nm)\ge\log2$ off $(1,1)$, attained at $(2,1)$; the orientation eigenvalues $\log(n/m)$ are dense in $\mathbb R$; the Neumann Green function solves $-\partial_x^2G+\kappa^2G=0$ with Neumann conditions at both ends; and the UV scaling law $\nu\,\widehat C_B(\nu)\to\sum_pp^{-2a}$ ($a>1/2$) over all primes. The IR limit, trace-class Gibbs state and Wick/OS structure are audited but not formalized. Free theory only; no Yang--Mills, CFT or RH claim.
+
+\noindent\textbf{Proved (22 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeBulkQFTPaper.energy_eq_log}\leanok\ \texttt{energy\_eq\_log}
+  \item \lean{GppPrimeBulkQFTPaper.sum_hamiltonian_gap}\leanok\ \texttt{sum\_hamiltonian\_gap}
+  \item \lean{GppPrimeBulkQFTPaper.sum_gap_attained}\leanok\ \texttt{sum\_gap\_attained}
+  \item \lean{GppPrimeBulkQFTPaper.orientation_spectrum_dense}\leanok\ \texttt{orientation\_spectrum\_dense}
+  \item \lean{GppPrimeBulkQFTPaper.greenR}\leanok\ \texttt{greenR}
+  \item \lean{GppPrimeBulkQFTPaper.hasDerivAt_greenR}\leanok\ \texttt{hasDerivAt\_greenR}
+  \item \lean{GppPrimeBulkQFTPaper.hasDerivAt_greenR'}\leanok\ \texttt{hasDerivAt\_greenR'}
+  \item \lean{GppPrimeBulkQFTPaper.green_ode}\leanok\ \texttt{green\_ode}
+  \item \lean{GppPrimeBulkQFTPaper.green_neumann_L}\leanok\ \texttt{green\_neumann\_L}
+  \item \lean{GppPrimeBulkQFTPaper.greenL}\leanok\ \texttt{greenL}
+  \item \lean{GppPrimeBulkQFTPaper.green_neumann_zero}\leanok\ \texttt{green\_neumann\_zero}
+  \item \lean{GppPrimeBulkQFTPaper.coth}\leanok\ \texttt{coth}
+  \item \lean{GppPrimeBulkQFTPaper.coth_eq}\leanok\ \texttt{coth\_eq}
+  \item \lean{GppPrimeBulkQFTPaper.coth_le}\leanok\ \texttt{coth\_le}
+  \item \lean{GppPrimeBulkQFTPaper.coth_pos}\leanok\ \texttt{coth\_pos}
+  \item \lean{GppPrimeBulkQFTPaper.tendsto_coth}\leanok\ \texttt{tendsto\_coth}
+  \item \lean{GppPrimeBulkQFTPaper.kap}\leanok\ \texttt{kap}
+  \item \lean{GppPrimeBulkQFTPaper.le_kap}\leanok\ \texttt{le\_kap}
+  \item \lean{GppPrimeBulkQFTPaper.kap_le}\leanok\ \texttt{kap\_le}
+  \item \lean{GppPrimeBulkQFTPaper.tendsto_div_kap}\leanok\ \texttt{tendsto\_div\_kap}
+  \item \lean{GppPrimeBulkQFTPaper.CB}\leanok\ \texttt{CB}
+  \item \lean{GppPrimeBulkQFTPaper.uv_scaling}\leanok\ \texttt{uv\_scaling}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
