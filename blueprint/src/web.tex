@@ -5594,6 +5594,97 @@ Exact rational identities for the first two members of Astra's pole-neutral shif
   \item \lean{GppNeutralLegendre.G_two_z}\leanok\ \texttt{G\_two\_z}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No-Go: Free Jacobi Has No Eigenvalues}
+The free half-line Jacobi (Hecke) operator has no square-summable eigenvector at any real energy, so zeta zeros cannot be encoded as its eigenvalues.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FreeJacobi.U}\leanok\ \texttt{U}
+  \item \lean{GppNoGo.FreeJacobi.casorati}\leanok\ \texttt{casorati}
+  \item \lean{GppNoGo.FreeJacobi.pair_lower}\leanok\ \texttt{pair\_lower}
+  \item \lean{GppNoGo.FreeJacobi.not_summable_sq}\leanok\ \texttt{not\_summable\_sq}
+  \item \lean{GppNoGo.FreeJacobi.solution_eq}\leanok\ \texttt{solution\_eq}
+  \item \lean{GppNoGo.FreeJacobi.no_l2_eigenvector}\leanok\ \texttt{no\_l2\_eigenvector}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Gram Off-Diagonal Lower Bound}
+Any off-diagonal lower bound obtained from Gram positivity holds for arbitrary vectors and carries no arithmetic content.
+
+\noindent\textbf{Proved (1 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.GramDiagonal.offDiag_re_ge_neg_diag}\leanok\ \texttt{offDiag\_re\_ge\_neg\_diag}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Euler-Degree Defect Is Shift-Blind}
+The local moment defect is independent of the shift, so it detects Euler degree, not zero location; the splitting witness does see the shift.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.EulerDegree.defect_shift_invariant}\leanok\ \texttt{defect\_shift\_invariant}
+  \item \lean{GppNoGo.EulerDegree.splitting_sees_shift}\leanok\ \texttt{splitting\_sees\_shift}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Euler Truncation Is Never Pick-Positive}
+For the Euler pole plus any bounded correction, the two-node real Pick determinant at 1+epsilon, 1+2 epsilon satisfies epsilon squared times det tends to -1/4, so no finite truncation gives positive Pick matrices.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.EulerPole.pickDet}\leanok\ \texttt{pickDet}
+  \item \lean{GppNoGo.EulerPole.det2}\leanok\ \texttt{det2}
+  \item \lean{GppNoGo.EulerPole.eps_sq_det_eq}\leanok\ \texttt{eps\_sq\_det\_eq}
+  \item \lean{GppNoGo.EulerPole.eps_mul_bounded_tendsto}\leanok\ \texttt{eps\_mul\_bounded\_tendsto}
+  \item \lean{GppNoGo.EulerPole.eps_sq_det_tendsto}\leanok\ \texttt{eps\_sq\_det\_tendsto}
+  \item \lean{GppNoGo.EulerPole.det_eventually_neg}\leanok\ \texttt{det\_eventually\_neg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Two-Node Pick Positivity Is Insufficient}
+A synthetic off-axis quartet has every two-node real Pick determinant strictly positive but a negative three-node determinant at s=(3/2,7/2,29/2); witness and factorization due to Codex, quartet due to Astra.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.TwoNodePick.f}\leanok\ \texttt{f}
+  \item \lean{GppNoGo.TwoNodePick.det2}\leanok\ \texttt{det2}
+  \item \lean{GppNoGo.TwoNodePick.det2_eq}\leanok\ \texttt{det2\_eq}
+  \item \lean{GppNoGo.TwoNodePick.twoNode_pos}\leanok\ \texttt{twoNode\_pos}
+  \item \lean{GppNoGo.TwoNodePick.astra_params}\leanok\ \texttt{astra\_params}
+  \item \lean{GppNoGo.TwoNodePick.fq}\leanok\ \texttt{fq}
+  \item \lean{GppNoGo.TwoNodePick.P}\leanok\ \texttt{P}
+  \item \lean{GppNoGo.TwoNodePick.det3}\leanok\ \texttt{det3}
+  \item \lean{GppNoGo.TwoNodePick.threeNode_det_neg}\leanok\ \texttt{threeNode\_det\_neg}
+  \item \lean{GppNoGo.TwoNodePick.two_node_does_not_imply_three}\leanok\ \texttt{two\_node\_does\_not\_imply\_three}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Off-Axis Quartet Fails Every Three-Node Test}
+For a single off-axis zero quartet the three-node real Pick determinant equals -64 w (a-b)^2(a-c)^2(b-c)^2 R/(D(a)D(b)D(c))^2 and is strictly negative at every distinct positive triple (factorization due to Codex).
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.QuartetThreeNode.D}\leanok\ \texttt{D}
+  \item \lean{GppNoGo.QuartetThreeNode.f}\leanok\ \texttt{f}
+  \item \lean{GppNoGo.QuartetThreeNode.K}\leanok\ \texttt{K}
+  \item \lean{GppNoGo.QuartetThreeNode.N}\leanok\ \texttt{N}
+  \item \lean{GppNoGo.QuartetThreeNode.R}\leanok\ \texttt{R}
+  \item \lean{GppNoGo.QuartetThreeNode.det3}\leanok\ \texttt{det3}
+  \item \lean{GppNoGo.QuartetThreeNode.D_pos}\leanok\ \texttt{D\_pos}
+  \item \lean{GppNoGo.QuartetThreeNode.K_eq}\leanok\ \texttt{K\_eq}
+  \item \lean{GppNoGo.QuartetThreeNode.detN_eq}\leanok\ \texttt{detN\_eq}
+  \item \lean{GppNoGo.QuartetThreeNode.det3K_eq}\leanok\ \texttt{det3K\_eq}
+  \item \lean{GppNoGo.QuartetThreeNode.det3K_neg}\leanok\ \texttt{det3K\_neg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Quartet Pick Kernel Signature}
+The Pick form of one off-axis zero quartet reduces to a quadratic form in four moments with signature exactly (2,2): two negative squares; on-line pairs give a sum of two squares (positive at every size).
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.QuartetSignature.Q}\leanok\ \texttt{Q}
+  \item \lean{GppNoGo.QuartetSignature.prod_sums}\leanok\ \texttt{prod\_sums}
+  \item \lean{GppNoGo.QuartetSignature.sum_N_eq_Q}\leanok\ \texttt{sum\_N\_eq\_Q}
+  \item \lean{GppNoGo.QuartetSignature.Q_neg_plane}\leanok\ \texttt{Q\_neg\_plane}
+  \item \lean{GppNoGo.QuartetSignature.Q_pos_plane}\leanok\ \texttt{Q\_pos\_plane}
+  \item \lean{GppNoGo.QuartetSignature.onAxis_psd}\leanok\ \texttt{onAxis\_psd}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
