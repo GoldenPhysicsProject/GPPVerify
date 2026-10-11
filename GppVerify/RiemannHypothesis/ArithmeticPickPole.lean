@@ -169,6 +169,66 @@ theorem onLineQuartet_integer_null :
     onLineQuartetQuadratic (-4909) 6895 (-2000) = 0 := by
   norm_num [onLineQuartetQuadratic, onLineQuartetPick, onLineQuartetValue]
 
+/-- The real-node logarithmic derivative of one symmetric quartet, written
+    in the folded spectral variables `h=γ²-δ²`, `w=4γ²δ²`. -/
+def foldedQuartetDen (h w a : ℝ) : ℝ :=
+  (a ^ 2 + h) ^ 2 + w
+
+def foldedQuartetValue (h w a : ℝ) : ℝ :=
+  4 * a * (a ^ 2 + h) / foldedQuartetDen h w a
+
+/-- Complete two-point Pick determinant factorization, without assuming
+    that a complex quartet lies on the principal line. -/
+theorem foldedQuartetDet_factor {a b h w : ℝ}
+    (ha : a ≠ 0) (hb : b ≠ 0) (hab : a + b ≠ 0)
+    (hDa : foldedQuartetDen h w a ≠ 0)
+    (hDb : foldedQuartetDen h w b ≠ 0) :
+    twoNodeDet a b (foldedQuartetValue h w a)
+      (foldedQuartetValue h w b) =
+      16 * (a - b) ^ 2 *
+        ((a ^ 2 + h) * (b ^ 2 + h) - w) *
+        (h * (a ^ 2 + h) * (b ^ 2 + h) +
+          w * (h + a ^ 2 + b ^ 2)) /
+        ((foldedQuartetDen h w a) ^ 2 *
+          (foldedQuartetDen h w b) ^ 2) := by
+  unfold twoNodeDet foldedQuartetValue foldedQuartetDen at *
+  field_simp
+  ring
+
+/-- Even an OFF-LINE quartet has strictly positive *all* two-point real
+    Pick determinants when its ordinate dominates the horizontal
+    displacement. Hence testing only order-two minors cannot certify RH. -/
+theorem foldedQuartet_twoPoint_pos {a b h w : ℝ}
+    (ha : 0 < a) (hb : 0 < b)
+    (hh : 0 < h) (hw : 0 ≤ w) (hlarge : w ≤ h ^ 2)
+    (hab : a ≠ b) :
+    0 < twoNodeDet a b (foldedQuartetValue h w a)
+      (foldedQuartetValue h w b) := by
+  have hda : 0 < foldedQuartetDen h w a := by
+    unfold foldedQuartetDen
+    positivity
+  have hdb : 0 < foldedQuartetDen h w b := by
+    unfold foldedQuartetDen
+    positivity
+  rw [foldedQuartetDet_factor ha.ne' hb.ne' (add_pos ha hb).ne'
+      hda.ne' hdb.ne']
+  have hsq : 0 < (a - b) ^ 2 := sq_pos_of_ne_zero (sub_ne_zero.mpr hab)
+  have habpos : 0 < a ^ 2 + b ^ 2 := by positivity
+  have hdiff : 0 ≤ h ^ 2 - w := sub_nonneg.mpr hlarge
+  have hA : 0 < (a ^ 2 + h) * (b ^ 2 + h) - w := by
+    calc
+      (a ^ 2 + h) * (b ^ 2 + h) - w =
+          a ^ 2 * b ^ 2 + h * (a ^ 2 + b ^ 2) + (h ^ 2 - w) := by ring
+      _ > 0 := by positivity
+  have hB : 0 <
+      h * (a ^ 2 + h) * (b ^ 2 + h) +
+        w * (h + a ^ 2 + b ^ 2) := by
+    positivity
+  have hden : 0 <
+      (foldedQuartetDen h w a) ^ 2 *
+        (foldedQuartetDen h w b) ^ 2 := by positivity
+  positivity
+
 end
 
 end GppArithmeticPickPole
