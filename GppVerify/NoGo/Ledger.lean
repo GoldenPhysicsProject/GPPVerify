@@ -2,6 +2,7 @@ import GppVerify.NoGo.FreeJacobiNoEigenvalue
 import GppVerify.NoGo.GramDiagonalTautology
 import GppVerify.NoGo.EulerDegreeBlind
 import GppVerify.NoGo.EulerPoleTruncation
+import GppVerify.NoGo.TwoNodePickInsufficient
 
 /-!
 # The No-Go ledger
@@ -17,7 +18,7 @@ successful argument must use.
 | Zeros as eigenvalues of the free Jacobi operator | **proved** | `GppNoGo.FreeJacobi.no_l2_eigenvector` | boundary/scattering data or a perturbed operator |
 | Cross-prime lower bound from window energy | **proved** (it is Gram positivity) | `GppNoGo.GramDiagonal.offDiag_re_ge_neg_diag` | a signed/upper off-diagonal bound, or the linear Weil term inside the Gram matrix |
 | Euler-degree defect `D_p` as zero detector | **proved** | `GppNoGo.EulerDegree.defect_shift_invariant` | splitting witnesses `V_p`, `H_p`, or Archimedean completion |
-| Two-node Pick positivity implies full Pick | finite witness exists, Lean **pending** Codex PRs #280/#282 | (to be ported) | sizes ≥ 3; the synthetic quartet lacks an Euler product |
+| Two-node Pick positivity (at every real node pair) implies full Pick | **proved** (Codex's witness + factorisation, Astra's quartet) | `GppNoGo.TwoNodePick.two_node_does_not_imply_three` | sizes ≥ 3 **and** arithmetic input: the quartet has ξ's symmetry and height but no Euler product |
 | Finite Euler truncation (pole + any bounded correction) gives PSD Pick matrices | **proved**: `ε²·det → −1/4` at nodes `1+ε, 1+2ε` | `GppNoGo.EulerPole.eps_sq_det_tendsto`, `det_eventually_neg` | renormalise the pole jointly with the infinite prime tail; truncation cannot work |
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
