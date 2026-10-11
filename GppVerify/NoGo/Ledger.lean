@@ -7,6 +7,7 @@ import GppVerify.NoGo.QuartetThreeNodeUniversal
 import GppVerify.NoGo.QuartetSignature
 import GppVerify.NoGo.QuartetFourNode
 import GppVerify.NoGo.CayleyGap44
+import GppVerify.NoGo.LaguerreCutoff
 
 /-!
 # The No-Go ledger
@@ -26,6 +27,7 @@ successful argument must use.
 | One off-axis quartet passes 3-node Pick tests somewhere | **proved false**: every distinct real triple gives `det < 0` (Codex's factorisation) | `GppNoGo.QuartetThreeNode.det3K_neg` | each off-axis quartet carries exactly **two** negative squares, on-line pairs none (`GppNoGo.QuartetSignature`); RH ⇔ zero negative squares of the *sum* — exactly Weil positivity, no loophole |
 | An off-axis quartet can hide from finite real-node Pick tests | **proved false**: at *every* 4 distinct positive nodes there is a 2-dim negative subspace (Codex's Vandermonde congruence) | `GppNoGo.QuartetFourNode.two_negative_at_four_nodes` | detection needs no clever nodes; only masking by on-line mass in the infinite sum can hide a quartet |
 | Finite Euler truncation (pole + any bounded correction) gives PSD Pick matrices | **proved**: `ε²·det → −1/4` at nodes `1+ε, 1+2ε` | `GppNoGo.EulerPole.eps_sq_det_tendsto`, `det_eventually_neg` | renormalise the pole jointly with the infinite prime tail; truncation cannot work |
+| Finite (or subexponential) prime cutoff reproduces the Cayley–Laguerre `E_n` | **proved**: any truncation with `N ≤ e^{n/48}` has `(−1)ⁿE_{n,N} < 0`, swamped by the `(−2)ⁿ` pole residue (Codex's observation, explicit bound) | `GppNoGo.LaguerreCutoff.prime_cutoff_sign`, `fixed_cutoff_eventually` | cutoff must grow at least exponentially in `n`; the prime tail and the pole must be renormalised together |
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
 | *(criterion)* One-sided Cayley–Laguerre bound (`E_n ≤ C(n+1)^k`, or just `limsup (E_n⁺)^{1/n} ≤ 1`) ⇒ RH (Codex) | analytic step **proved**: Pringsheim `GppPringsheim.pringsheim` and its one-sided corollary `GppOneSidedPringsheim.summable_of_oneSided` (coefficients bounded below by a radius-1 series + analytic continuation along [0,1) ⇒ radius 1); arithmetic bound **open** | `GppVerify/Analysis/Pringsheim.lean`, `OneSidedPringsheim.lean` | a one-sided subexponential bound suffices, but it is Landau-type equivalent to RH |
