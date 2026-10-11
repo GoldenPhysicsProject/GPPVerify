@@ -5727,6 +5727,15 @@ A power series with nonnegative coefficients cannot be continued analytically ac
   \item \lean{GppPringsheim.pringsheim}\leanok\ \texttt{pringsheim}
 \end{itemize}
 
+\section{Riemann Hypothesis --- One-Sided Pringsheim}
+Source: Codex 2026-10-11 one-sided Cayley--Laguerre criterion (\S\S L, R). If $a_n+e_n\ge0$, where $\sum|e_n|r^n<\infty$ for $r<1$ and $\sum|a_n|r^n<\infty$ for $r<R$, and the sum of $\sum a_nz^n$ on $|z|<R$ continues analytically along every real point of $[0,1)$, then $\sum|a_n|r^n<\infty$ for every $r<1$. Proof: identity theorem on a convex thickening of $[0,\rho]$, then Pringsheim. For the Cayley transform $H$ of $\xi'/\xi$ the continuation hypothesis holds unconditionally; the one-sided arithmetic bound on $E_n$ is open and RH-strength and is not assumed here. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppOneSidedPringsheim.analyticAt_h}\leanok\ \texttt{analyticAt\_h}
+  \item \lean{GppOneSidedPringsheim.summable_of_oneSided}\leanok\ \texttt{summable\_of\_oneSided}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
