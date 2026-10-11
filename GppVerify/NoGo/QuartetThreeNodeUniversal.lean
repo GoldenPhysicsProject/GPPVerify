@@ -19,11 +19,11 @@ determinant `0` (rank ≤ 2).
 **Scope.** This is about one quartet. The Pick kernel of `ξ` is the *sum* over all zero quartets; it
 does not say anything about `ξ` itself.
 
-**Hint.** Each off-axis quartet contributes exactly one negative square (consistent with the
-Krein–Langer count: negative squares of a generalised Nevanlinna kernel = zeros in the open upper
-half-plane). So RH ⇔ the total kernel has **zero** negative squares; the arithmetic must show that
-the positive (on-line) contributions cannot be outweighed, which is again Weil positivity. No
-loophole here; this pins down that the Pick route is exactly as hard as RH.
+**Hint.** Each off-axis quartet contributes exactly **two** negative squares (proved in
+`GppNoGo.QuartetSignature`; an earlier version of this docstring said "one", which was wrong). RH ⇔ the
+total kernel has **zero** negative squares; the arithmetic must show that the positive (on-line)
+contributions cannot outweigh them, which is again Weil positivity. No loophole here; this pins down
+that the Pick route is exactly as hard as RH.
 -/
 
 namespace GppNoGo.QuartetThreeNode
