@@ -5736,6 +5736,38 @@ Source: Codex 2026-10-11 one-sided Cayley--Laguerre criterion (\S\S L, R). If $a
   \item \lean{GppOneSidedPringsheim.summable_of_oneSided}\leanok\ \texttt{summable\_of\_oneSided}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Confluent Pick jets at a real node}
+Source: Codex 2026-10-11, draft PR \#282. When three Pick nodes coalesce at a real point $a$, the divided-difference limit of $K(u,v)=(f(u)+f(v))/(u+v)$ is the matrix of Taylor coefficients. Its $2\times2$ determinant is $(f^2-a^2f'^2)/(4a^4)$ and its $3\times3$ determinant is $-(a^2f''+af'-f)(a^2ff''-2a^2f'^2+aff'+f^2)/(64a^9)$. Exact algebra only; positivity for $\xi'/\xi$ is not claimed. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppConfluentPickThirdOrder.c00}\leanok\ \texttt{c00}
+  \item \lean{GppConfluentPickThirdOrder.c01}\leanok\ \texttt{c01}
+  \item \lean{GppConfluentPickThirdOrder.c02}\leanok\ \texttt{c02}
+  \item \lean{GppConfluentPickThirdOrder.c11}\leanok\ \texttt{c11}
+  \item \lean{GppConfluentPickThirdOrder.c12}\leanok\ \texttt{c12}
+  \item \lean{GppConfluentPickThirdOrder.c22}\leanok\ \texttt{c22}
+  \item \lean{GppConfluentPickThirdOrder.det2}\leanok\ \texttt{det2}
+  \item \lean{GppConfluentPickThirdOrder.det3}\leanok\ \texttt{det3}
+  \item \lean{GppConfluentPickThirdOrder.det2_factor}\leanok\ \texttt{det2\_factor}
+  \item \lean{GppConfluentPickThirdOrder.det3_factor}\leanok\ \texttt{det3\_factor}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Jacobi resolvent sign convention}
+Source: Codex 2026-10-11, draft PR \#282. The Green column $g_n=-r^{n+1}$ satisfies $(J-E)g=e_0$ coordinatewise for $E=r+r^{-1}$ on the half-line adjacency operator, which fixes the sign of the resolvent diagonal and of the associated Euler boundary factor $1-\tau r$. The $\ell^2$ uniqueness statement is not formalized. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppJacobiResolventConvention.energy}\leanok\ \texttt{energy}
+  \item \lean{GppJacobiResolventConvention.green}\leanok\ \texttt{green}
+  \item \lean{GppJacobiResolventConvention.jacobi}\leanok\ \texttt{jacobi}
+  \item \lean{GppJacobiResolventConvention.green_boundary}\leanok\ \texttt{green\_boundary}
+  \item \lean{GppJacobiResolventConvention.green_bulk}\leanok\ \texttt{green\_bulk}
+  \item \lean{GppJacobiResolventConvention.green_diagonal}\leanok\ \texttt{green\_diagonal}
+  \item \lean{GppJacobiResolventConvention.euler_boundary_factor}\leanok\ \texttt{euler\_boundary\_factor}
+  \item \lean{GppJacobiResolventConvention.euler_boundary_opposite}\leanok\ \texttt{euler\_boundary\_opposite}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
