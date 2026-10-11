@@ -126,6 +126,49 @@ theorem quartet_real_euler_det_value :
       -(176434183789130859375 / 664385955512796181542237813770638196 : ℚ) := by
   norm_num [symmetricDet3, quartetPick, quartetValue]
 
+/-- Direct arithmetic quadratic form of the three-real-node Pick matrix.
+    The six entries are computed independently from the off-axis quartet,
+    and the argument is the test vector `(u,v,w)`. -/
+def quartetQuadratic (u v w : ℚ) : ℚ :=
+  u ^ 2 * quartetPick (3 / 5) (3 / 5) +
+  v ^ 2 * quartetPick 1 1 +
+  w ^ 2 * quartetPick 2 2 +
+  2 * u * v * quartetPick (3 / 5) 1 +
+  2 * u * w * quartetPick (3 / 5) 2 +
+  2 * v * w * quartetPick 1 2
+
+/-- A short, exact, integer-coefficient NEGATIVE witness against the
+    synthetic off-line quartet at real Euler-region nodes. -/
+theorem quartet_integer_vector_exact :
+    quartetQuadratic (-4909) 6895 (-2000) =
+      -(36832026069825 / 11625303092480009 : ℚ) := by
+  norm_num [quartetQuadratic, quartetPick, quartetValue]
+
+theorem quartet_integer_vector_negative :
+    quartetQuadratic (-4909) 6895 (-2000) < 0 := by
+  rw [quartet_integer_vector_exact]
+  norm_num
+
+/-- On-line control (displacement zero): the same rational test vector lies
+    in the nullspace of the rank-two on-line Gram form, exactly. -/
+def onLineQuartetValue (y : ℚ) : ℚ :=
+  4 * y / (14 ^ 2 + y ^ 2)
+
+def onLineQuartetPick (a b : ℚ) : ℚ :=
+  (onLineQuartetValue a + onLineQuartetValue b) / (a + b)
+
+def onLineQuartetQuadratic (u v w : ℚ) : ℚ :=
+  u ^ 2 * onLineQuartetPick (3 / 5) (3 / 5) +
+  v ^ 2 * onLineQuartetPick 1 1 +
+  w ^ 2 * onLineQuartetPick 2 2 +
+  2 * u * v * onLineQuartetPick (3 / 5) 1 +
+  2 * u * w * onLineQuartetPick (3 / 5) 2 +
+  2 * v * w * onLineQuartetPick 1 2
+
+theorem onLineQuartet_integer_null :
+    onLineQuartetQuadratic (-4909) 6895 (-2000) = 0 := by
+  norm_num [onLineQuartetQuadratic, onLineQuartetPick, onLineQuartetValue]
+
 end
 
 end GppArithmeticPickPole
