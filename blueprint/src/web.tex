@@ -5889,6 +5889,36 @@ Source: Codex 2026-09-30 CCM translation-Dirichlet note (GPPDiscovery2), \S\S1, 
   \item \lean{GppCCMTranslationDirichlet.prime_form_rewrite}\leanok\ \texttt{prime\_form\_rewrite}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite On-Line Mass Cannot Mask a Quartet}
+Source: Codex 2026-10-11, \S K (additivity of negative indices), $r=1$ case. One off-axis quartet ($h,w>0$) plus any finite family of on-line pairs at distinct heights $\gamma_l\ne0$ (responses $2x/(x^2+\gamma_l^2)$): the total real-node Pick form factors as $4Q(\text{quartet moments})+\sum_l2(\gamma_l^2m_{0,l}^2+m_{1,l}^2)$; the features $x^k/D(x)$, $1/E_l(x)$, $x/E_l(x)$ are linearly independent on $(0,\infty)$ (cleared polynomial evaluated at $i\gamma_l$), hence span; so some finite set of positive nodes realizes $Q$'s negative plane with all pair moments zero, giving a two-dimensional negative subspace. Finite on-line mass never masks an off-axis quartet. The general $r$-quartet inertia and the infinite (Weil) case are not formalized. No RH claim.
+
+\noindent\textbf{Proved (23 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FiniteNoMasking.E}\leanok\ \texttt{E}
+  \item \lean{GppNoGo.FiniteNoMasking.fPair}\leanok\ \texttt{fPair}
+  \item \lean{GppNoGo.FiniteNoMasking.F}\leanok\ \texttt{F}
+  \item \lean{GppNoGo.FiniteNoMasking.Ktot}\leanok\ \texttt{Ktot}
+  \item \lean{GppNoGo.FiniteNoMasking.Idx}\leanok\ \texttt{Idx}
+  \item \lean{GppNoGo.FiniteNoMasking.E_pos}\leanok\ \texttt{E\_pos}
+  \item \lean{GppNoGo.FiniteNoMasking.pair_kernel}\leanok\ \texttt{pair\_kernel}
+  \item \lean{GppNoGo.FiniteNoMasking.Ktot_split}\leanok\ \texttt{Ktot\_split}
+  \item \lean{GppNoGo.FiniteNoMasking.quartet_part}\leanok\ \texttt{quartet\_part}
+  \item \lean{GppNoGo.FiniteNoMasking.pair_part}\leanok\ \texttt{pair\_part}
+  \item \lean{GppNoGo.FiniteNoMasking.pick_eq}\leanok\ \texttt{pick\_eq}
+  \item \lean{GppNoGo.FiniteNoMasking.Dp}\leanok\ \texttt{Dp}
+  \item \lean{GppNoGo.FiniteNoMasking.Ep}\leanok\ \texttt{Ep}
+  \item \lean{GppNoGo.FiniteNoMasking.Dp_eval}\leanok\ \texttt{Dp\_eval}
+  \item \lean{GppNoGo.FiniteNoMasking.Ep_eval}\leanok\ \texttt{Ep\_eval}
+  \item \lean{GppNoGo.FiniteNoMasking.Apoly}\leanok\ \texttt{Apoly}
+  \item \lean{GppNoGo.FiniteNoMasking.Bpoly}\leanok\ \texttt{Bpoly}
+  \item \lean{GppNoGo.FiniteNoMasking.Ppoly}\leanok\ \texttt{Ppoly}
+  \item \lean{GppNoGo.FiniteNoMasking.sum_idx}\leanok\ \texttt{sum\_idx}
+  \item \lean{GppNoGo.FiniteNoMasking.Ppoly_eval}\leanok\ \texttt{Ppoly\_eval}
+  \item \lean{GppNoGo.FiniteNoMasking.features_independent}\leanok\ \texttt{features\_independent}
+  \item \lean{GppNoGo.FiniteNoMasking.span_top}\leanok\ \texttt{span\_top}
+  \item \lean{GppNoGo.FiniteNoMasking.no_masking}\leanok\ \texttt{no\_masking}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
