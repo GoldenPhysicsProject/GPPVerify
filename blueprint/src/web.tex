@@ -5810,6 +5810,23 @@ Source: Codex 2026-10-11 OS/KMS transport note, \S\S1, J--K. For nonnegative wei
   \item \lean{GppCriticalRiggedGram.critical_gram_nonneg}\leanok\ \texttt{critical\_gram\_nonneg}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime Bulk Free Field: Exact Identities}
+Source: Codex 2026-10-11 arithmetic prime bulk/boundary QFT note. For the free field of mass $\log p$ per prime on a Neumann strip: every mode has $\omega_{p,k}\ge\log2$ with equality at $p=2,k=0$; $c\log p+d\pi k/L\le\omega_{p,k}$ when $c^2+d^2=1$ (Gibbs-trace factorization); the Neumann Green function satisfies $G(x,0)=\frac{\cosh\kappa(L-x)}{\cosh\kappa L}G(0,0)$; an energy set invariant under all dilations has no gap; the doubled-orientation eigenvalues $\log(n/m)$ accumulate at $0^+$. Also a correction to \emph{On the Nature of Nature}, Theorem 10.21: $G_a(r)=e^{-ar}$ is smooth in $a$ at every fixed $r$ while its gap $a\to0$. Free theory only; not a Yang--Mills mass gap; no RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeBulkFreeField.omega}\leanok\ \texttt{omega}
+  \item \lean{GppPrimeBulkFreeField.omega_ge_log_two}\leanok\ \texttt{omega\_ge\_log\_two}
+  \item \lean{GppPrimeBulkFreeField.omega_two_zero}\leanok\ \texttt{omega\_two\_zero}
+  \item \lean{GppPrimeBulkFreeField.omega_ge_split}\leanok\ \texttt{omega\_ge\_split}
+  \item \lean{GppPrimeBulkFreeField.green}\leanok\ \texttt{green}
+  \item \lean{GppPrimeBulkFreeField.green_diag_zero}\leanok\ \texttt{green\_diag\_zero}
+  \item \lean{GppPrimeBulkFreeField.green_transfer}\leanok\ \texttt{green\_transfer}
+  \item \lean{GppPrimeBulkFreeField.scale_invariant_no_gap}\leanok\ \texttt{scale\_invariant\_no\_gap}
+  \item \lean{GppPrimeBulkFreeField.doubled_orientation_gapless}\leanok\ \texttt{doubled\_orientation\_gapless}
+  \item \lean{GppPrimeBulkFreeField.smooth_family_gap_closes}\leanok\ \texttt{smooth\_family\_gap\_closes}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
