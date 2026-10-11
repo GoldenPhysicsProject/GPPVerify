@@ -1,0 +1,26 @@
+import GppVerify.NoGo.FreeJacobiNoEigenvalue
+import GppVerify.NoGo.GramDiagonalTautology
+import GppVerify.NoGo.EulerDegreeBlind
+
+/-!
+# The No-Go ledger
+
+Policy (Daniel, 2026-10-11): a no-go is trusted exactly as much as a go — only when it is a Lean
+theorem. Each entry states the **strategy refuted**, the **witness** (an explicit object satisfying
+every hypothesis the strategy uses while violating its conclusion, or a proof that the conclusion
+carries no information), and the **hint**: which property of `ζ` the witness lacks, i.e. what any
+successful argument must use.
+
+| No-go | Status | Lean | Hint (what a proof must use) |
+|---|---|---|---|
+| Zeros as eigenvalues of the free Jacobi operator | **proved** | `GppNoGo.FreeJacobi.no_l2_eigenvector` | boundary/scattering data or a perturbed operator |
+| Cross-prime lower bound from window energy | **proved** (it is Gram positivity) | `GppNoGo.GramDiagonal.offDiag_re_ge_neg_diag` | a signed/upper off-diagonal bound, or the linear Weil term inside the Gram matrix |
+| Euler-degree defect `D_p` as zero detector | **proved** | `GppNoGo.EulerDegree.defect_shift_invariant` | splitting witnesses `V_p`, `H_p`, or Archimedean completion |
+| Two-node Pick positivity implies full Pick | finite witness exists, Lean **pending** Codex PRs #280/#282 | (to be ported) | sizes ≥ 3; the synthetic quartet lacks an Euler product |
+| Raw/naive finite Euler truncation gives PSD Pick matrices | pole determinant `< 0` (Codex #280, pending) | (to be ported) | the pole must be healed by a nontrivial signed tail |
+| Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
+| Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
+| First-prime-trace renormalisation | restatement of RH (classical) | — | a ζ-independent regularisation with provable analyticity |
+
+Entries marked *pending* or *needs* are not yet theorems here; they must not be cited as proved.
+-/

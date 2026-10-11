@@ -5594,6 +5594,36 @@ Exact rational identities for the first two members of Astra's pole-neutral shif
   \item \lean{GppNeutralLegendre.G_two_z}\leanok\ \texttt{G\_two\_z}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No-Go: Free Jacobi Has No Eigenvalues}
+The free half-line Jacobi (Hecke) operator has no square-summable eigenvector at any real energy, so zeta zeros cannot be encoded as its eigenvalues.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FreeJacobi.U}\leanok\ \texttt{U}
+  \item \lean{GppNoGo.FreeJacobi.casorati}\leanok\ \texttt{casorati}
+  \item \lean{GppNoGo.FreeJacobi.pair_lower}\leanok\ \texttt{pair\_lower}
+  \item \lean{GppNoGo.FreeJacobi.not_summable_sq}\leanok\ \texttt{not\_summable\_sq}
+  \item \lean{GppNoGo.FreeJacobi.solution_eq}\leanok\ \texttt{solution\_eq}
+  \item \lean{GppNoGo.FreeJacobi.no_l2_eigenvector}\leanok\ \texttt{no\_l2\_eigenvector}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Gram Off-Diagonal Lower Bound}
+Any off-diagonal lower bound obtained from Gram positivity holds for arbitrary vectors and carries no arithmetic content.
+
+\noindent\textbf{Proved (1 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.GramDiagonal.offDiag_re_ge_neg_diag}\leanok\ \texttt{offDiag\_re\_ge\_neg\_diag}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No-Go: Euler-Degree Defect Is Shift-Blind}
+The local moment defect is independent of the shift, so it detects Euler degree, not zero location; the splitting witness does see the shift.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.EulerDegree.defect_shift_invariant}\leanok\ \texttt{defect\_shift\_invariant}
+  \item \lean{GppNoGo.EulerDegree.splitting_sees_shift}\leanok\ \texttt{splitting\_sees\_shift}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
