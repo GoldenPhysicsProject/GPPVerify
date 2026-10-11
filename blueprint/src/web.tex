@@ -5624,6 +5624,19 @@ The local moment defect is independent of the shift, so it detects Euler degree,
   \item \lean{GppNoGo.EulerDegree.splitting_sees_shift}\leanok\ \texttt{splitting\_sees\_shift}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No-Go: Euler Truncation Is Never Pick-Positive}
+For the Euler pole plus any bounded correction, the two-node real Pick determinant at 1+epsilon, 1+2 epsilon satisfies epsilon squared times det tends to -1/4, so no finite truncation gives positive Pick matrices.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.EulerPole.pickDet}\leanok\ \texttt{pickDet}
+  \item \lean{GppNoGo.EulerPole.det2}\leanok\ \texttt{det2}
+  \item \lean{GppNoGo.EulerPole.eps_sq_det_eq}\leanok\ \texttt{eps\_sq\_det\_eq}
+  \item \lean{GppNoGo.EulerPole.eps_mul_bounded_tendsto}\leanok\ \texttt{eps\_mul\_bounded\_tendsto}
+  \item \lean{GppNoGo.EulerPole.eps_sq_det_tendsto}\leanok\ \texttt{eps\_sq\_det\_tendsto}
+  \item \lean{GppNoGo.EulerPole.det_eventually_neg}\leanok\ \texttt{det\_eventually\_neg}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}

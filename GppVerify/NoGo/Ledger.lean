@@ -1,6 +1,7 @@
 import GppVerify.NoGo.FreeJacobiNoEigenvalue
 import GppVerify.NoGo.GramDiagonalTautology
 import GppVerify.NoGo.EulerDegreeBlind
+import GppVerify.NoGo.EulerPoleTruncation
 
 /-!
 # The No-Go ledger
@@ -17,7 +18,7 @@ successful argument must use.
 | Cross-prime lower bound from window energy | **proved** (it is Gram positivity) | `GppNoGo.GramDiagonal.offDiag_re_ge_neg_diag` | a signed/upper off-diagonal bound, or the linear Weil term inside the Gram matrix |
 | Euler-degree defect `D_p` as zero detector | **proved** | `GppNoGo.EulerDegree.defect_shift_invariant` | splitting witnesses `V_p`, `H_p`, or Archimedean completion |
 | Two-node Pick positivity implies full Pick | finite witness exists, Lean **pending** Codex PRs #280/#282 | (to be ported) | sizes ≥ 3; the synthetic quartet lacks an Euler product |
-| Raw/naive finite Euler truncation gives PSD Pick matrices | pole determinant `< 0` (Codex #280, pending) | (to be ported) | the pole must be healed by a nontrivial signed tail |
+| Finite Euler truncation (pole + any bounded correction) gives PSD Pick matrices | **proved**: `ε²·det → −1/4` at nodes `1+ε, 1+2ε` | `GppNoGo.EulerPole.eps_sq_det_tendsto`, `det_eventually_neg` | renormalise the pole jointly with the infinite prime tail; truncation cannot work |
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
 | First-prime-trace renormalisation | restatement of RH (classical) | — | a ζ-independent regularisation with provable analyticity |
