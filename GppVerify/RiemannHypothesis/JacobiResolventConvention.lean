@@ -18,7 +18,7 @@ isolated energy sign flip proposed by an independent numerical checker.
 
 namespace GppJacobiResolventConvention
 
-def energy (r : ℂ) : ℂ := r + r⁻¹
+noncomputable def energy (r : ℂ) : ℂ := r + r⁻¹
 def green (r : ℂ) (n : ℕ) : ℂ := -(r ^ (n + 1))
 
 def jacobi (f : ℕ → ℂ) (n : ℕ) : ℂ :=
@@ -28,7 +28,7 @@ def jacobi (f : ℕ → ℂ) (n : ℕ) : ℂ :=
 theorem green_boundary (r : ℂ) (hr : r ≠ 0) :
     jacobi (green r) 0 - energy r * green r 0 = 1 := by
   simp [jacobi, green, energy]
-  field_simp
+  field_simp [hr]
   ring
 
 /-- At every positive site the same Green column is homogeneous. -/
@@ -53,6 +53,7 @@ theorem green_diagonal (r : ℂ) : green r 0 = -r := by
 theorem euler_boundary_factor (r τ : ℂ) :
     1 + τ * green r 0 = 1 - τ * r := by
   simp [green]
+  ring
 
 /-- The opposite sign in the same determinant produces the opposite factor. -/
 theorem euler_boundary_opposite (r τ : ℂ) :
