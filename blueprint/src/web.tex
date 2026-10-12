@@ -6103,6 +6103,28 @@ Source: Codex 2026-10-12, completed resolvent sector passivity note (finite-alge
   \item \lean{GppCompletedResolventSector.loewner_mixed}\leanok\ \texttt{loewner\_mixed}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No Finite-Norm Boundary State for $m_*$}
+Source: Codex 2026-10-12, Haar/Peter--Weyl note. If $A$ is accretive, $u>0$ and $(A+u)x=\Omega$, then $u\,\mathrm{Re}\langle\Omega,x\rangle\le\|\Omega\|^2$, so $u\,m(u)$ stays bounded for any diagonal resolvent amplitude of a finite-norm vector. The completed response has $u\,m_*(u)\to\infty$ (Stirling and Euler; Codex's asymptotic, not formalized). So the sewing must be a trace, a rigged boundary field or a regularized determinant, not a normalizable boundary state. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FiniteNormResolvent.resolvent_diag_bound}\leanok\ \texttt{resolvent\_diag\_bound}
+  \item \lean{GppNoGo.FiniteNormResolvent.not_tendsto_atTop}\leanok\ \texttt{not\_tendsto\_atTop}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Conductor Hamiltonian: Gap $\log 3$}
+Source: Codex 2026-10-12, building on Daniel Toupin's observation that Peter--Weyl quantizes the compact part $K\cong\hat{\mathbb Z}^\times$ into Dirichlet characters. For $H_{\rm cond}\chi=\log(\mathrm{cond}\,\chi)\,\chi$: the trivial character is the unique vacuum (conductor $1$); no character has conductor $2$ because $(\mathbb Z/2)^\times$ is trivial; so every nontrivial character has conductor $\ge3$ and energy $\ge\log3$. The energy assignment is a model choice. It gaps the discrete label $\chi$, not the Mellin variable $\tau$. No RH or Yang--Mills claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppConductorGap.level_two}\leanok\ \texttt{level\_two}
+  \item \lean{GppConductorGap.conductor_ne_two}\leanok\ \texttt{conductor\_ne\_two}
+  \item \lean{GppConductorGap.conductor_eq_one_iff}\leanok\ \texttt{conductor\_eq\_one\_iff}
+  \item \lean{GppConductorGap.three_le_conductor}\leanok\ \texttt{three\_le\_conductor}
+  \item \lean{GppConductorGap.log_three_le}\leanok\ \texttt{log\_three\_le}
+  \item \lean{GppConductorGap.log_conductor_one}\leanok\ \texttt{log\_conductor\_one}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Compact Operators Cannot Commute With a Mixing Symmetry}
 Source: Codex 2026-10-12, building on Daniel Toupin's observation that multiplicative Haar fixes the unitary critical line while Peter--Weyl quantizes the compact part $K$ of the idele class group. Abstract core: if isometries $U_n$ on a complex inner product space are weakly mixing ($\langle U_nx,y\rangle\to0$) and a compact $T$ commutes with every $U_n$, then $T=0$. The proof: $\|T U_nx\|=\|Tx\|$ is constant, compactness gives a norm-convergent subsequence, and weak mixing makes its limit $0$. Instance (stated): translations on $L^2(\mathbb R)$, i.e.\ scale translations on $L^2(\mathbb R_+,dx/x)$. So compactness of $K$ cannot quantize the Mellin variable while full dilation symmetry remains. No RH or Yang--Mills claim.
 
@@ -6150,6 +6172,37 @@ Source: Codex, GPPDiscovery2 2026-09-30 note on neutralization preserving the ze
   \item \lean{GppPoleNeutralMultiplier.one_sub_mul_eq}\leanok\ \texttt{one\_sub\_mul\_eq}
   \item \lean{GppPoleNeutralMultiplier.mul_one_sub_ne_zero}\leanok\ \texttt{mul\_one\_sub\_ne\_zero}
   \item \lean{GppPoleNeutralMultiplier.congr_preserves_negative}\leanok\ \texttt{congr\_preserves\_negative}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Bohr Prime Energy: $\zeta$ vs $F_\theta$ Threshold}
+Source: Codex, GPPDiscovery2 2026-10-08 Bohr prime energy note, sections 1--2. The Bohr--Parseval energy $B(\sigma)=\sum\Lambda(n)^2n^{-2\sigma}$ of the von Mangoldt current is finite iff $\sigma>\tfrac12$: one direction uses $\Lambda(n)\le\log n\le n^\varepsilon/\varepsilon$, the other $\sum_p1/p=\infty$. For $F_\theta=\xi(s-\theta)\xi(s+\theta)$ the coefficients are $\Lambda_\theta(n)=\Lambda(n)(n^\theta+n^{-\theta})$, and the energy splits as $B(\sigma-\theta)+2B(\sigma)+B(\sigma+\theta)$, so it is finite iff $\sigma>\tfrac12+\theta$. On the strip $\tfrac12<\sigma\le\tfrac12+\theta$ the $\zeta$ energy is finite and the $F_\theta$ energy infinite: a prime-side separation that uses no zeros. It concerns absolute convergence only and does not impose RH. Also (Codex's 2026-09-28 slit-holomorphy note): the $\ell^2$ prime-power current $J(z)$ is in Hilbert space iff $\mathrm{Re}\,z>0$, while the scalar $\ell^1$ Euler current converges absolutely iff $\mathrm{Re}\,z>\tfrac12$. No fixed Poisson compensation $I-P_\delta$ makes the critical energy finite. Correction: the compensated energy is $B(\sigma)-2B(\sigma+\delta/2)+B(\sigma+\delta)$; the note's shifts are off by a factor $2$. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppBohrPrimeEnergy.bterm}\leanok\ \texttt{bterm}
+  \item \lean{GppBohrPrimeEnergy.bterm_nonneg}\leanok\ \texttt{bterm\_nonneg}
+  \item \lean{GppBohrPrimeEnergy.summable_iff}\leanok\ \texttt{summable\_iff}
+  \item \lean{GppBohrPrimeEnergy.thetaTerm}\leanok\ \texttt{thetaTerm}
+  \item \lean{GppBohrPrimeEnergy.thetaTerm_eq}\leanok\ \texttt{thetaTerm\_eq}
+  \item \lean{GppBohrPrimeEnergy.summable_theta_iff}\leanok\ \texttt{summable\_theta\_iff}
+  \item \lean{GppBohrPrimeEnergy.separation}\leanok\ \texttt{separation}
+  \item \lean{GppBohrPrimeEnergy.hilbert_current_iff}\leanok\ \texttt{hilbert\_current\_iff}
+  \item \lean{GppBohrPrimeEnergy.lterm}\leanok\ \texttt{lterm}
+  \item \lean{GppBohrPrimeEnergy.lterm_nonneg}\leanok\ \texttt{lterm\_nonneg}
+  \item \lean{GppBohrPrimeEnergy.scalar_summable_iff}\leanok\ \texttt{scalar\_summable\_iff}
+  \item \lean{GppBohrPrimeEnergy.compTerm}\leanok\ \texttt{compTerm}
+  \item \lean{GppBohrPrimeEnergy.compTerm_eq}\leanok\ \texttt{compTerm\_eq}
+  \item \lean{GppBohrPrimeEnergy.compensation_critical_not_summable}\leanok\ \texttt{compensation\_critical\_not\_summable}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Constant-Vertex Schur Models and the $F_\theta$ Twist}
+Source: Codex 2026-10-12 (stronger $F_\theta$ kill test) with Claude Code's audit. Gaussian moment: $\int e^{-(w-L)^2}e^{\kappa w}\,dw=\sqrt\pi\,e^{\kappa L+\kappa^2/4}$ for every real $\kappa$. With a constant vertex twisted by $e^{\theta w}$, $\theta>0$, the quadratic form $C-e^{\theta L+\theta^2/4}\to-\infty$, so that model is not semibounded. With $\zeta$'s actual prime weight $e^{-w/2}$, $F_\theta$'s twist gives $\kappa=\theta-\tfrac12<0$ and the moment tends to $0$. So the test kills the constant-vertex model but does not discriminate $\zeta$ from $F_\theta$. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.ConstantVertexSchur.gauss_moment}\leanok\ \texttt{gauss\_moment}
+  \item \lean{GppNoGo.ConstantVertexSchur.twisted_form_tendsto_atBot}\leanok\ \texttt{twisted\_form\_tendsto\_atBot}
+  \item \lean{GppNoGo.ConstantVertexSchur.decaying_moment_tendsto_zero}\leanok\ \texttt{decaying\_moment\_tendsto\_zero}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}
