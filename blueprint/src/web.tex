@@ -6103,6 +6103,28 @@ Source: Codex 2026-10-12, completed resolvent sector passivity note (finite-alge
   \item \lean{GppCompletedResolventSector.loewner_mixed}\leanok\ \texttt{loewner\_mixed}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No Finite-Norm Boundary State for $m_*$}
+Source: Codex 2026-10-12, Haar/Peter--Weyl note. If $A$ is accretive, $u>0$ and $(A+u)x=\Omega$, then $u\,\mathrm{Re}\langle\Omega,x\rangle\le\|\Omega\|^2$, so $u\,m(u)$ stays bounded for any diagonal resolvent amplitude of a finite-norm vector. The completed response has $u\,m_*(u)\to\infty$ (Stirling and Euler; Codex's asymptotic, not formalized). So the sewing must be a trace, a rigged boundary field or a regularized determinant, not a normalizable boundary state. No RH claim.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FiniteNormResolvent.resolvent_diag_bound}\leanok\ \texttt{resolvent\_diag\_bound}
+  \item \lean{GppNoGo.FiniteNormResolvent.not_tendsto_atTop}\leanok\ \texttt{not\_tendsto\_atTop}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Conductor Hamiltonian: Gap $\log 3$}
+Source: Codex 2026-10-12, building on Daniel Toupin's observation that Peter--Weyl quantizes the compact part $K\cong\hat{\mathbb Z}^\times$ into Dirichlet characters. For $H_{\rm cond}\chi=\log(\mathrm{cond}\,\chi)\,\chi$: the trivial character is the unique vacuum (conductor $1$); no character has conductor $2$ because $(\mathbb Z/2)^\times$ is trivial; so every nontrivial character has conductor $\ge3$ and energy $\ge\log3$. The energy assignment is a model choice. It gaps the discrete label $\chi$, not the Mellin variable $\tau$. No RH or Yang--Mills claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppConductorGap.level_two}\leanok\ \texttt{level\_two}
+  \item \lean{GppConductorGap.conductor_ne_two}\leanok\ \texttt{conductor\_ne\_two}
+  \item \lean{GppConductorGap.conductor_eq_one_iff}\leanok\ \texttt{conductor\_eq\_one\_iff}
+  \item \lean{GppConductorGap.three_le_conductor}\leanok\ \texttt{three\_le\_conductor}
+  \item \lean{GppConductorGap.log_three_le}\leanok\ \texttt{log\_three\_le}
+  \item \lean{GppConductorGap.log_conductor_one}\leanok\ \texttt{log\_conductor\_one}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
