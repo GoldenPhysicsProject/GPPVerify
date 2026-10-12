@@ -5975,6 +5975,52 @@ Source: Codex, directive C6 answer (2026-10-12), generalizing the one-quartet ca
   \item \lean{GppNoGo.FiniteNoMaskingMulti.no_masking_multi}\leanok\ \texttt{no\_masking\_multi}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Pole-Neutral Congruence}
+Source: Codex, directive C3(i) answer (2026-10-12), re-deriving the 2026-09-30 pole-calibrated neutral reduction. For symmetric invertible $A$ with $\langle c,A^{-1}c\rangle=-2$, $\langle s,A^{-1}s\rangle=2$, $\langle c,A^{-1}s\rangle=0$ and $Q=A+\tfrac12cc^T-\tfrac12ss^T$: every $x=y+\alpha A^{-1}c+\beta A^{-1}s$ with $y$ in the neutral subspace $\mathcal N=\{\langle c,\cdot\rangle=\langle s,\cdot\rangle=0\}$ has $Q[x]=A[y]$; hence $Q\succeq0$ iff $A\succeq0$ on $\mathcal N$. Finite-dimensional statement; the continuum version needs form-domain and density hypotheses and stays open. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPoleNeutralCongruence.qf}\leanok\ \texttt{qf}
+  \item \lean{GppPoleNeutralCongruence.Qf}\leanok\ \texttt{Qf}
+  \item \lean{GppPoleNeutralCongruence.symm_dot}\leanok\ \texttt{symm\_dot}
+  \item \lean{GppPoleNeutralCongruence.qf_add}\leanok\ \texttt{qf\_add}
+  \item \lean{GppPoleNeutralCongruence.congruence}\leanok\ \texttt{congruence}
+  \item \lean{GppPoleNeutralCongruence.psd_iff}\leanok\ \texttt{psd\_iff}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Arithmetic Pick Kernel: Two-Node Determinant and Euler-Pole Obstruction}
+Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's request. Exact two-node Pick determinant identity; the isolated Euler pole $1/(s-1)$ has a negative Pick determinant at every distinct pair of Euler-real nodes (stronger than the eventual statement in \texttt{GppNoGo.EulerPoleTruncation}); an exact integer witness vector for the synthetic quartet; an on-line null vector; and the folded-quartet two- and three-node factorizations. No RH claim.
+
+\noindent\textbf{Proved (26 declarations):}
+\begin{itemize}
+  \item \lean{GppArithmeticPickPole.twoNodeDet}\leanok\ \texttt{twoNodeDet}
+  \item \lean{GppArithmeticPickPole.twoNodeDet_identity}\leanok\ \texttt{twoNodeDet\_identity}
+  \item \lean{GppArithmeticPickPole.poleDet_identity}\leanok\ \texttt{poleDet\_identity}
+  \item \lean{GppArithmeticPickPole.poleDet_neg}\leanok\ \texttt{poleDet\_neg}
+  \item \lean{GppArithmeticPickPole.eulerPole_twoNodeDet_neg}\leanok\ \texttt{eulerPole\_twoNodeDet\_neg}
+  \item \lean{GppArithmeticPickPole.quartetValue}\leanok\ \texttt{quartetValue}
+  \item \lean{GppArithmeticPickPole.quartetPick}\leanok\ \texttt{quartetPick}
+  \item \lean{GppArithmeticPickPole.symmetricDet3}\leanok\ \texttt{symmetricDet3}
+  \item \lean{GppArithmeticPickPole.quartet_real_euler_three_node_negative}\leanok\ \texttt{quartet\_real\_euler\_three\_node\_negative}
+  \item \lean{GppArithmeticPickPole.quartet_real_euler_det_value}\leanok\ \texttt{quartet\_real\_euler\_det\_value}
+  \item \lean{GppArithmeticPickPole.quartetQuadratic}\leanok\ \texttt{quartetQuadratic}
+  \item \lean{GppArithmeticPickPole.quartet_integer_vector_exact}\leanok\ \texttt{quartet\_integer\_vector\_exact}
+  \item \lean{GppArithmeticPickPole.quartet_integer_vector_negative}\leanok\ \texttt{quartet\_integer\_vector\_negative}
+  \item \lean{GppArithmeticPickPole.onLineQuartetValue}\leanok\ \texttt{onLineQuartetValue}
+  \item \lean{GppArithmeticPickPole.onLineQuartetPick}\leanok\ \texttt{onLineQuartetPick}
+  \item \lean{GppArithmeticPickPole.onLineQuartetQuadratic}\leanok\ \texttt{onLineQuartetQuadratic}
+  \item \lean{GppArithmeticPickPole.onLineQuartet_integer_null}\leanok\ \texttt{onLineQuartet\_integer\_null}
+  \item \lean{GppArithmeticPickPole.foldedQuartetDen}\leanok\ \texttt{foldedQuartetDen}
+  \item \lean{GppArithmeticPickPole.foldedQuartetValue}\leanok\ \texttt{foldedQuartetValue}
+  \item \lean{GppArithmeticPickPole.foldedQuartetDet_factor}\leanok\ \texttt{foldedQuartetDet\_factor}
+  \item \lean{GppArithmeticPickPole.foldedQuartet_twoPoint_pos}\leanok\ \texttt{foldedQuartet\_twoPoint\_pos}
+  \item \lean{GppArithmeticPickPole.foldedQuartetNum}\leanok\ \texttt{foldedQuartetNum}
+  \item \lean{GppArithmeticPickPole.foldedQuartetThirdFactor}\leanok\ \texttt{foldedQuartetThirdFactor}
+  \item \lean{GppArithmeticPickPole.foldedQuartetNumDet}\leanok\ \texttt{foldedQuartetNumDet}
+  \item \lean{GppArithmeticPickPole.foldedQuartet_threeNode_factor}\leanok\ \texttt{foldedQuartet\_threeNode\_factor}
+  \item \lean{GppArithmeticPickPole.foldedQuartet_threeNode_num_neg}\leanok\ \texttt{foldedQuartet\_threeNode\_num\_neg}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
