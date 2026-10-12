@@ -6021,6 +6021,35 @@ Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's reque
   \item \lean{GppArithmeticPickPole.foldedQuartet_threeNode_num_neg}\leanok\ \texttt{foldedQuartet\_threeNode\_num\_neg}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Completed Resolvent Response: $\pi/6$ Sector and Two-Node Loewner Obstruction}
+Source: Codex 2026-10-12, completed resolvent sector passivity note (finite-algebra items (i)--(iii)). For a zero $z=\delta+i\gamma$ of $\Xi$, with $A=1+\gamma^2-\delta^2$ and $B=2\delta\gamma$: the identity $A-\sqrt3|B|=(|\gamma|-\sqrt3|\delta|)^2+1-4\delta^2$ puts $1-z^2$ inside the cone $\mathrm{Re}\,\lambda>\sqrt3|\mathrm{Im}\,\lambda|$ when $|\delta|<1/2$. Hence the quartet response $m_q(u)=2(u+A)/((u+A)^2+B^2)$ has $m_q>0$, $m_q'<0$ and $m_q''>0$ for $u\ge0$, with explicit derivatives. The two-node Loewner determinant is exactly $-4B^2(u-v)^2/(N_u^2N_v^2)<0$ for $B\ne0$, $u\ne v$: an off-axis quartet passes the scalar sign tests but is not Stieltjes. Codex's rational control is checked. Abstract resolvent identity $R_u-R_v=(v-u)R_uR_v$, and the Loewner entry equals the mixed amplitude $\ell(R_uR_vW)$. Finite algebra only; the global statement for $m_*$ needs Hadamard and the zero-free strip, which are not formalized. No RH claim.
+
+\noindent\textbf{Proved (22 declarations):}
+\begin{itemize}
+  \item \lean{GppCompletedResolventSector.A}\leanok\ \texttt{A}
+  \item \lean{GppCompletedResolventSector.B}\leanok\ \texttt{B}
+  \item \lean{GppCompletedResolventSector.sector_identity}\leanok\ \texttt{sector\_identity}
+  \item \lean{GppCompletedResolventSector.sector_pos}\leanok\ \texttt{sector\_pos}
+  \item \lean{GppCompletedResolventSector.mq}\leanok\ \texttt{mq}
+  \item \lean{GppCompletedResolventSector.d1}\leanok\ \texttt{d1}
+  \item \lean{GppCompletedResolventSector.d2}\leanok\ \texttt{d2}
+  \item \lean{GppCompletedResolventSector.hasDerivAt_N}\leanok\ \texttt{hasDerivAt\_N}
+  \item \lean{GppCompletedResolventSector.hasDerivAt_mq}\leanok\ \texttt{hasDerivAt\_mq}
+  \item \lean{GppCompletedResolventSector.hasDerivAt_d1}\leanok\ \texttt{hasDerivAt\_d1}
+  \item \lean{GppCompletedResolventSector.N_pos}\leanok\ \texttt{N\_pos}
+  \item \lean{GppCompletedResolventSector.mq_pos}\leanok\ \texttt{mq\_pos}
+  \item \lean{GppCompletedResolventSector.d1_neg}\leanok\ \texttt{d1\_neg}
+  \item \lean{GppCompletedResolventSector.d2_pos}\leanok\ \texttt{d2\_pos}
+  \item \lean{GppCompletedResolventSector.quartet_signs}\leanok\ \texttt{quartet\_signs}
+  \item \lean{GppCompletedResolventSector.loewner}\leanok\ \texttt{loewner}
+  \item \lean{GppCompletedResolventSector.loewner_eq}\leanok\ \texttt{loewner\_eq}
+  \item \lean{GppCompletedResolventSector.loewner_det}\leanok\ \texttt{loewner\_det}
+  \item \lean{GppCompletedResolventSector.loewner_det_neg}\leanok\ \texttt{loewner\_det\_neg}
+  \item \lean{GppCompletedResolventSector.loewner_control}\leanok\ \texttt{loewner\_control}
+  \item \lean{GppCompletedResolventSector.resolvent_identity}\leanok\ \texttt{resolvent\_identity}
+  \item \lean{GppCompletedResolventSector.loewner_mixed}\leanok\ \texttt{loewner\_mixed}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
