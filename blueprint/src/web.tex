@@ -6163,6 +6163,16 @@ Source: Codex 2026-10-12, idelic compact-$K$ note, no-go (2). The self-dual Gaus
   \item \lean{GppNoGo.HermiteFourierIndefinite.h2_zero}\leanok\ \texttt{h2\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Constant-Vertex Schur Models and the $F_\theta$ Twist}
+Source: Codex 2026-10-12 (stronger $F_\theta$ kill test) with Claude Code's audit. Gaussian moment: $\int e^{-(w-L)^2}e^{\kappa w}\,dw=\sqrt\pi\,e^{\kappa L+\kappa^2/4}$ for every real $\kappa$. With a constant vertex twisted by $e^{\theta w}$, $\theta>0$, the quadratic form $C-e^{\theta L+\theta^2/4}\to-\infty$, so that model is not semibounded. With $\zeta$'s actual prime weight $e^{-w/2}$, $F_\theta$'s twist gives $\kappa=\theta-\tfrac12<0$ and the moment tends to $0$. So the test kills the constant-vertex model but does not discriminate $\zeta$ from $F_\theta$. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.ConstantVertexSchur.gauss_moment}\leanok\ \texttt{gauss\_moment}
+  \item \lean{GppNoGo.ConstantVertexSchur.twisted_form_tendsto_atBot}\leanok\ \texttt{twisted\_form\_tendsto\_atBot}
+  \item \lean{GppNoGo.ConstantVertexSchur.decaying_moment_tendsto_zero}\leanok\ \texttt{decaying\_moment\_tendsto\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
