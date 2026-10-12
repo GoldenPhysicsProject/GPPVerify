@@ -6205,6 +6205,17 @@ Source: Codex 2026-10-12 (stronger $F_\theta$ kill test) with Claude Code's audi
   \item \lean{GppNoGo.ConstantVertexSchur.decaying_moment_tendsto_zero}\leanok\ \texttt{decaying\_moment\_tendsto\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Global Arithmetic TFD: Vacuum Möbius Current}
+Source: Codex, GPPDiscovery2 2026-09-28 note on the TFD Möbius connection and the zeta current, sections 2 and 5. For the normalized global thermofield double $\Omega_\beta=\zeta(\beta)^{-1/2}\sum_n n^{-\beta/2}|n,n\rangle$ ($\beta>1$) and $V_d=S_d\otimes S_d$, the matrix coefficient is exactly $\langle\Omega_\beta,V_d\Omega_\beta\rangle=d^{-\beta/2}$. Hence the vacuum expectation of the Möbius connection $P(z)=\sum\Lambda(n)n^{-z}V_n$ is $-\zeta'/\zeta(z+\beta/2)$ for $\mathrm{Re}\,z+\beta/2>1$, via Mathlib's $L$-series identity for $\Lambda$. The half-density shift comes from the state, not the operator. The Hilbert space is represented by its basis expansion, not constructed. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppTFDMobiusCurrent.tfdCoeff}\leanok\ \texttt{tfdCoeff}
+  \item \lean{GppTFDMobiusCurrent.summable_shift}\leanok\ \texttt{summable\_shift}
+  \item \lean{GppTFDMobiusCurrent.tfdCoeff_eq}\leanok\ \texttt{tfdCoeff\_eq}
+  \item \lean{GppTFDMobiusCurrent.vacuum_current}\leanok\ \texttt{vacuum\_current}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
