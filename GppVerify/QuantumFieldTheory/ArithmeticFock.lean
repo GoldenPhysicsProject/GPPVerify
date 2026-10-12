@@ -61,6 +61,13 @@ open Finsupp
 
 namespace ArithmeticFock
 
+/-- Prime index type: reducible alias for the prime subtype.
+    (We use this instead of Mathlib's `PrimeIdx` because that is a semireducible
+    `def`, which `lake build`'s ilean check — running at `implicit` transparency —
+    will not unfold, breaking the `Finsupp.subtypeDomain` defeq. The name avoids
+    shadowing `Nat.Prime`.) -/
+abbrev PrimeIdx := {p : ℕ // p.Prime}
+
 variable {ι : Type*} [DecidableEq ι]
 
 /-- Occupation-number configurations: finitely supported functions `ι → ℕ`. -/
@@ -317,18 +324,18 @@ Configurations over prime modes are in bijection with positive naturals via
 weights `log p` then acts as multiplication by `log n`.
 -/
 
-/-- Embedding of `Nat.Primes` into naturals (used for the prime tower). -/
-def primeEmb : Nat.Primes ↪ ℕ := ⟨Subtype.val, Subtype.val_injective⟩
+/-- Embedding of `PrimeIdx` into naturals (used for the prime tower). -/
+def primeEmb : PrimeIdx ↪ ℕ := ⟨Subtype.val, Subtype.val_injective⟩
 
 /-- `toNat`: configuration ↦ positive natural via prime factorization. -/
-noncomputable def toNat (c : Config Nat.Primes) : ℕ :=
+noncomputable def toNat (c : Config PrimeIdx) : ℕ :=
   c.prod fun p r => (p : ℕ) ^ r
 
 /-- `fromNat`: positive natural ↦ occupation configuration (prime exponents). -/
-noncomputable def fromNat (n : ℕ) : Config Nat.Primes :=
+noncomputable def fromNat (n : ℕ) : Config PrimeIdx :=
   if n = 0 then 0 else Finsupp.subtypeDomain (fun (p : ℕ) => p.Prime) (Nat.factorization n)
 
-theorem toNat_ne_zero (c : Config Nat.Primes) : toNat c ≠ 0 := by
+theorem toNat_ne_zero (c : Config PrimeIdx) : toNat c ≠ 0 := by
   unfold toNat
   show (∏ p ∈ c.support, (p : ℕ) ^ c p) ≠ 0
   rw [Finset.prod_ne_zero_iff]
@@ -336,7 +343,7 @@ theorem toNat_ne_zero (c : Config Nat.Primes) : toNat c ≠ 0 := by
   exact pow_ne_zero _ p.property.ne_zero
 
 /-- Round trip: configuration → natural → configuration. -/
-theorem fromNat_toNat (c : Config Nat.Primes) : fromNat (toNat c) = c := by
+theorem fromNat_toNat (c : Config PrimeIdx) : fromNat (toNat c) = c := by
   have hne : toNat c ≠ 0 := toNat_ne_zero c
   -- Key: factorization of `toNat c` is `c` embedded into `ℕ →₀ ℕ`.
   have key : (toNat c).factorization = Finsupp.embDomain primeEmb c := by
@@ -401,7 +408,7 @@ theorem toNat_fromNat {n : ℕ} (hn : n ≠ 0) : toNat (fromNat n) = n := by
   rw [h1, hfac]
 
 /-- Real identity: `∑_p (c p) * log p = log (∏ p^(c p))`. -/
-theorem sum_mul_log_eq_log_toNat (c : Config Nat.Primes) :
+theorem sum_mul_log_eq_log_toNat (c : Config PrimeIdx) :
     c.sum (fun i r => (r : ℝ) * Real.log ((i : ℕ):ℝ)) = Real.log (toNat c) := by
   have hpos : ∀ i ∈ c.support, (0:ℝ) < (((i : ℕ):ℝ)) ^ c i := by
     intro i _
@@ -420,8 +427,8 @@ theorem sum_mul_log_eq_log_toNat (c : Config Nat.Primes) :
   rw [Real.log_pow]
 
 /-- The `log p`-weighted number operator acts as multiplication by `log n`. -/
-theorem weightedNumber_log_eigenvalue (c : Config Nat.Primes) :
-    weightedNumber (fun p : Nat.Primes => Real.log ((p : ℕ):ℝ)) (Finsupp.single c (1:ℂ))
+theorem weightedNumber_log_eigenvalue (c : Config PrimeIdx) :
+    weightedNumber (fun p : PrimeIdx => Real.log ((p : ℕ):ℝ)) (Finsupp.single c (1:ℂ))
       = (((Real.log (toNat c)):ℝ):ℂ) • Finsupp.single c (1:ℂ) := by
   rw [weightedNumber_eigenvalue]
   congr 1
