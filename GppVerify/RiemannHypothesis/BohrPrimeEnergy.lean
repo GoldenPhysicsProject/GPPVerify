@@ -23,6 +23,10 @@ finiteness above `½` is a statement about absolute convergence, not about zeros
 Also (`hilbert_current_iff`, `scalar_summable_iff`; Codex's 2026-09-28 slit-holomorphy note): the
 `ℓ²` prime-power current `J(z)` lies in Hilbert space iff `Re z > 0`, while the scalar `ℓ¹`
 Euler current converges absolutely iff `Re z > ½`. Vector-valued holomorphy is not formalized.
+
+`compTerm_eq`, `compensation_critical_not_summable` (Bohr note §3): no fixed Poisson compensation
+`I − P_δ` makes the critical energy finite. **Correction:** the compensated energy is
+`B(σ) − 2B(σ+δ/2) + B(σ+δ)`; the note's `B(σ) − 2B(σ+δ) + B(σ+2δ)` has the shifts off by a factor `2`.
 **No RH claim.**
 -/
 
@@ -200,5 +204,53 @@ theorem scalar_summable_iff (u : ℝ) : Summable (lterm u) ↔ 1 < u := by
         _ = (n : ℝ) ^ (ε - u) / ε := by
             rw [div_mul_eq_mul_div, ← Real.rpow_add h]
             ring_nf
+
+/-- The compensated summand `Λ(n)² n^{−2σ}(1 − n^{−δ})²` of `‖(I − P_δ)J_σ‖²`, where the Poisson
+semigroup `P_δ` multiplies the `n`-th Bohr frequency by `n^{−δ}`. -/
+noncomputable def compTerm (δ σ : ℝ) (n : ℕ) : ℝ :=
+  Λ n ^ 2 * (n : ℝ) ^ (-2 * σ) * (1 - (n : ℝ) ^ (-δ)) ^ 2
+
+/-- **Correction to the note's §3.** The compensated energy is `B(σ) − 2B(σ + δ/2) + B(σ + δ)`.
+The note has `B(σ) − 2B(σ+δ) + B(σ+2δ)`, which is off by a factor `2` in the shifts. -/
+theorem compTerm_eq (δ σ : ℝ) (n : ℕ) :
+    compTerm δ σ n = bterm σ n - 2 * bterm (σ + δ / 2) n + bterm (σ + δ) n := by
+  unfold compTerm bterm
+  rcases Nat.eq_zero_or_pos n with h | h
+  · subst h; simp
+  · have hn : (0 : ℝ) < n := by exact_mod_cast h
+    have e1 : (n : ℝ) ^ (-2 * σ) * (n : ℝ) ^ (-δ) = (n : ℝ) ^ (-2 * (σ + δ / 2)) := by
+      rw [← Real.rpow_add hn]; ring_nf
+    have e2 : (n : ℝ) ^ (-2 * σ) * ((n : ℝ) ^ (-δ) * (n : ℝ) ^ (-δ)) =
+        (n : ℝ) ^ (-2 * (σ + δ)) := by
+      rw [← Real.rpow_add hn, ← Real.rpow_add hn]; ring_nf
+    linear_combination -2 * Λ n ^ 2 * e1 + Λ n ^ 2 * e2
+
+/-- **No fixed Poisson compensation removes the critical divergence** (the note's §3 conclusion):
+for every `δ > 0`, the compensated energy at `σ = ½` is infinite. -/
+theorem compensation_critical_not_summable {δ : ℝ} (hδ : 0 < δ) :
+    ¬ Summable (compTerm δ (1 / 2)) := by
+  intro hs
+  have hc : 0 < (1 - (2 : ℝ) ^ (-δ)) ^ 2 := by
+    have : (2 : ℝ) ^ (-δ) < 1 := Real.rpow_lt_one_of_one_lt_of_neg one_lt_two (by linarith)
+    have : 0 < 1 - (2 : ℝ) ^ (-δ) := by linarith
+    positivity
+  have hb : Summable (bterm (1 / 2)) := by
+    refine Summable.of_nonneg_of_le (bterm_nonneg _) (fun n => ?_)
+      (hs.div_const ((1 - (2 : ℝ) ^ (-δ)) ^ 2))
+    rw [le_div_iff₀ hc]
+    unfold compTerm bterm
+    rcases Nat.lt_or_ge n 2 with h | h
+    · interval_cases n <;> simp
+    · have hn2 : (2 : ℝ) ≤ n := by exact_mod_cast h
+      have hle : (n : ℝ) ^ (-δ) ≤ (2 : ℝ) ^ (-δ) :=
+        Real.rpow_le_rpow_of_nonpos (by norm_num) hn2 (by linarith)
+      have h0 : 0 ≤ (n : ℝ) ^ (-δ) := Real.rpow_nonneg (by linarith) _
+      have hsq : (1 - (2 : ℝ) ^ (-δ)) ^ 2 ≤ (1 - (n : ℝ) ^ (-δ)) ^ 2 := by
+        have h2 : (2 : ℝ) ^ (-δ) < 1 := Real.rpow_lt_one_of_one_lt_of_neg one_lt_two (by linarith)
+        nlinarith
+      have hA : 0 ≤ Λ n ^ 2 * (n : ℝ) ^ (-2 * (1 / 2 : ℝ)) := by
+        have := Real.rpow_nonneg (by linarith : (0 : ℝ) ≤ n) (-2 * (1 / 2 : ℝ)); positivity
+      exact mul_le_mul_of_nonneg_left hsq hA
+  exact absurd ((summable_iff _).mp hb) (lt_irrefl _)
 
 end GppBohrPrimeEnergy
