@@ -6021,6 +6021,39 @@ Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's reque
   \item \lean{GppArithmeticPickPole.foldedQuartet_threeNode_num_neg}\leanok\ \texttt{foldedQuartet\_threeNode\_num\_neg}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No Finite On-Line Mass Masks Loewner Negativity}
+Source: Codex 2026-10-12 (GPP-bridge PR \#11), the C6 Loewner theorem: the shifted-Stieltjes companion to the Pick no-masking theorems. Take $r$ off-axis quartets contributing $2\,\mathrm{Re}\,1/(u+a_j+ib_j)$ ($a_j>0$, $b_j\ne0$, distinct $(a_j,b_j^2)$) and finitely many on-line pieces $\kappa_l/(u+\mu_l)$ ($\mu_l>0$ distinct). The Loewner kernel equals the divided difference of $m$ off the diagonal and $-m'$ on it, with form $\sum_j2((\sum cR_j)^2-(\sum cI_j)^2)+\sum_l\kappa_l(\sum cg_l)^2$. The cleared polynomial has degree $<2r+m$, so a feature combination vanishing at any $2r+m$ positive nodes is zero (evaluate at $-\mu_l$ and at $-a_j+ib_j$). Hence at every set of $\ge2r+m$ positive nodes every moment vector is realized: the form is $-2\sum t_j^2$ on an $r$-dim family for arbitrary real $\kappa$, and with $\kappa>0$ it is $2\sum s_j^2+\sum\kappa_lt_l^2>0$ on an $(r+m)$-dim family. That gives inertia $(r+m,r)$ at $2r+m$ nodes. Finite only; for the full $m_*$ this is Codex's v34 RH-equivalent criterion. No RH claim.
+
+\noindent\textbf{Proved (26 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.N}\leanok\ \texttt{N}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.R}\leanok\ \texttt{R}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.I}\leanok\ \texttt{I}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.g}\leanok\ \texttt{g}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.N_pos}\leanok\ \texttt{N\_pos}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.resp}\leanok\ \texttt{resp}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.loewnerK}\leanok\ \texttt{loewnerK}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.loewnerK_eq}\leanok\ \texttt{loewnerK\_eq}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.hasDerivAt_resp}\leanok\ \texttt{hasDerivAt\_resp}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.loewner_form}\leanok\ \texttt{loewner\_form}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Idx}\leanok\ \texttt{Idx}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Np}\leanok\ \texttt{Np}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Lp}\leanok\ \texttt{Lp}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Apoly}\leanok\ \texttt{Apoly}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Ppoly}\leanok\ \texttt{Ppoly}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.sum_idx}\leanok\ \texttt{sum\_idx}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Ppoly_eval}\leanok\ \texttt{Ppoly\_eval}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Ppoly_natDegree_lt}\leanok\ \texttt{Ppoly\_natDegree\_lt}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.eq_zero_of_Ppoly}\leanok\ \texttt{eq\_zero\_of\_Ppoly}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.features_independent_on}\leanok\ \texttt{features\_independent\_on}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.span_top_on}\leanok\ \texttt{span\_top\_on}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.realize}\leanok\ \texttt{realize}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.form_of_moments}\leanok\ \texttt{form\_of\_moments}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.no_masking}\leanok\ \texttt{no\_masking}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.pos_family}\leanok\ \texttt{pos\_family}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.pos_family_pos}\leanok\ \texttt{pos\_family\_pos}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Completed Resolvent Response: $\pi/6$ Sector and Two-Node Loewner Obstruction}
 Source: Codex 2026-10-12, completed resolvent sector passivity note (finite-algebra items (i)--(iii)). For a zero $z=\delta+i\gamma$ of $\Xi$, with $A=1+\gamma^2-\delta^2$ and $B=2\delta\gamma$: the identity $A-\sqrt3|B|=(|\gamma|-\sqrt3|\delta|)^2+1-4\delta^2$ puts $1-z^2$ inside the cone $\mathrm{Re}\,\lambda>\sqrt3|\mathrm{Im}\,\lambda|$ when $|\delta|<1/2$. Hence the quartet response $m_q(u)=2(u+A)/((u+A)^2+B^2)$ has $m_q>0$, $m_q'<0$ and $m_q''>0$ for $u\ge0$, with explicit derivatives. The two-node Loewner determinant is exactly $-4B^2(u-v)^2/(N_u^2N_v^2)<0$ for $B\ne0$, $u\ne v$: an off-axis quartet passes the scalar sign tests but is not Stieltjes. Codex's rational control is checked. Abstract resolvent identity $R_u-R_v=(v-u)R_uR_v$, and the Loewner entry equals the mixed amplitude $\ell(R_uR_vW)$. Finite algebra only; the global statement for $m_*$ needs Hadamard and the zero-free strip, which are not formalized. No RH claim.
 
