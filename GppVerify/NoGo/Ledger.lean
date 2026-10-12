@@ -17,6 +17,7 @@ import GppVerify.NoGo.ConstantVertexSchur
 import GppVerify.NoGo.FiniteNormResolvent
 import GppVerify.NoGo.CompactCommutingMixing
 import GppVerify.NoGo.HermiteFourierIndefinite
+import GppVerify.NoGo.ShiftedProductControl
 
 /-!
 # The No-Go ledger
@@ -47,6 +48,7 @@ successful argument must use.
 | *(book correction)* Gauge invariance of a state yields collapse onto singlets (*On the Nature of Nature*, Ch. 11) | **proved false**: `U_θ = diag(1,e^{iθ})`, `ρ = |e₂⟩⟨e₂|` is twirl-invariant but `PρP = 0`, where `P = (1/2π)∫U_θ dθ = diag(1,0)` (Codex) | `GppNoGo.TwirlNotCollapse.collapse_fails` | Born probabilities come from a positive state's GNS representation `ω(P) = ‖π(P)Ω‖²`, not from Haar averaging |
 | Sharp-window energy `E_ℓ(x) = O(1)` | argued (Littlewood Ω±) — **needs Littlewood's theorem, absent from Mathlib** | — | use a smooth cutoff |
 | Any argument not using the Euler product (functional equation + growth alone) | classical (Davenport–Heilbronn) — **needs DH zero computation** | — | the Euler product |
+| Functional equation + Euler product (of any degree) locating zeros | **proved**: for `0 < θ < 1/2`, `F_θ(s) = Λ(s−θ)Λ(s+θ)` satisfies the functional equation and has a degree-2 Euler product, yet every on-line zero `ρ` of `Λ` gives off-line zeros `ρ ± θ` of `F_θ` | `GppNoGo.ShiftedProductControl.F_one_sub`, `.F_zero_add`, `.F_zero_sub` | the specific arithmetic content of `ζ`'s Euler factors — a bare Euler product is not enough; a proof must use the one-channel structure that `F_θ` lacks |
 | *(criterion)* One-sided Cayley–Laguerre bound (`E_n ≤ C(n+1)^k`, or just `limsup (E_n⁺)^{1/n} ≤ 1`) ⇒ RH (Codex) | analytic step **proved**: Pringsheim `GppPringsheim.pringsheim` and its one-sided corollary `GppOneSidedPringsheim.summable_of_oneSided` (coefficients bounded below by a radius-1 series + analytic continuation along [0,1) ⇒ radius 1); arithmetic bound **open** | `GppVerify/Analysis/Pringsheim.lean`, `OneSidedPringsheim.lean` | a one-sided subexponential bound suffices, but it is Landau-type equivalent to RH |
 | First-prime-trace renormalisation | restatement of RH (classical) | — | a ζ-independent regularisation with provable analyticity |
 | *(detector, not a no-go)* Cayley 2×2 gap test at `s₀ = 2` misses off-axis quartets | **proved false** for Astra's quartet: passes gaps 1–43, fails at gap 44 | `GppNoGo.CayleyGap44.gap44_noGo` | a different finite projection of the same RH-equivalent positivity; unconditional `sup aₙ ≤ 2a₀` for ξ is RH-strength |
