@@ -5948,6 +5948,46 @@ Source: Codex/Toupin draft ``An exact arithmetic free quantum field theory'' (20
   \item \lean{GppPrimeBulkQFTPaper.uv_scaling}\leanok\ \texttt{uv\_scaling}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No Finite On-Line Mass Masks Any of $r$ Quartets}
+Source: Codex, directive C6 answer (2026-10-12), generalizing the one-quartet case. For $r$ distinct off-axis quartets $(h_j,w_j)$, $h_j,w_j>0$, plus $m$ on-line pairs at distinct heights $\gamma_l\ne0$, the total real-node Pick form equals $\sum_j4Q_j(\text{quartet-}j\text{ moments})+\sum_l2(\gamma_l^2m_0^2+m_1^2)$. The $4r+2m$ features $x^k/D_j(x)$, $x^i/E_l(x)$ are linearly independent on $(0,\infty)$: clear denominators, evaluate at $i\gamma_l$ to kill the pair coefficients, then at the four complex roots of each $D_j$ to kill the cubic numerator $A_j$. Hence at some finite set of positive nodes the form is strictly negative on a $2r$-dimensional family of weights: negative index $\ge2r$. The exact inertia $(2r+2m,2r)$ also needs Sylvester's law and is not formalized here. Finite statement only; in the infinite sum over $\xi$'s zeros masking is Weil positivity itself. No RH claim.
+
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.KtotR}\leanok\ \texttt{KtotR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.KtotR_eq}\leanok\ \texttt{KtotR\_eq}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.IdxR}\leanok\ \texttt{IdxR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.pick_eq_multi}\leanok\ \texttt{pick\_eq\_multi}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.ApolyR}\leanok\ \texttt{ApolyR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.BpolyR}\leanok\ \texttt{BpolyR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.PpolyR}\leanok\ \texttt{PpolyR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.sum_idxR}\leanok\ \texttt{sum\_idxR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.PpolyR_eval}\leanok\ \texttt{PpolyR\_eval}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Dp_aeval}\leanok\ \texttt{Dp\_aeval}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Ep_aeval}\leanok\ \texttt{Ep\_aeval}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Dp_aeval_root}\leanok\ \texttt{Dp\_aeval\_root}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Dp_aeval_other}\leanok\ \texttt{Dp\_aeval\_other}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Ep_aeval_ne}\leanok\ \texttt{Ep\_aeval\_ne}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.eq_zero_of_roots}\leanok\ \texttt{eq\_zero\_of\_roots}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.ApolyR_natDegree}\leanok\ \texttt{ApolyR\_natDegree}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.features_independent_multi}\leanok\ \texttt{features\_independent\_multi}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.span_top_multi}\leanok\ \texttt{span\_top\_multi}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.target}\leanok\ \texttt{target}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.no_masking_multi}\leanok\ \texttt{no\_masking\_multi}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Pole-Neutral Congruence}
+Source: Codex, directive C3(i) answer (2026-10-12), re-deriving the 2026-09-30 pole-calibrated neutral reduction. For symmetric invertible $A$ with $\langle c,A^{-1}c\rangle=-2$, $\langle s,A^{-1}s\rangle=2$, $\langle c,A^{-1}s\rangle=0$ and $Q=A+\tfrac12cc^T-\tfrac12ss^T$: every $x=y+\alpha A^{-1}c+\beta A^{-1}s$ with $y$ in the neutral subspace $\mathcal N=\{\langle c,\cdot\rangle=\langle s,\cdot\rangle=0\}$ has $Q[x]=A[y]$; hence $Q\succeq0$ iff $A\succeq0$ on $\mathcal N$. Finite-dimensional statement; the continuum version needs form-domain and density hypotheses and stays open. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPoleNeutralCongruence.qf}\leanok\ \texttt{qf}
+  \item \lean{GppPoleNeutralCongruence.Qf}\leanok\ \texttt{Qf}
+  \item \lean{GppPoleNeutralCongruence.symm_dot}\leanok\ \texttt{symm\_dot}
+  \item \lean{GppPoleNeutralCongruence.qf_add}\leanok\ \texttt{qf\_add}
+  \item \lean{GppPoleNeutralCongruence.congruence}\leanok\ \texttt{congruence}
+  \item \lean{GppPoleNeutralCongruence.psd_iff}\leanok\ \texttt{psd\_iff}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Arithmetic Pick Kernel: Two-Node Determinant and Euler-Pole Obstruction}
 Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's request. Exact two-node Pick determinant identity; the isolated Euler pole $1/(s-1)$ has a negative Pick determinant at every distinct pair of Euler-real nodes (stronger than the eventual statement in \texttt{GppNoGo.EulerPoleTruncation}); an exact integer witness vector for the synthetic quartet; an on-line null vector; and the folded-quartet two- and three-node factorizations. No RH claim.
 
@@ -6012,6 +6052,35 @@ Source: Codex 2026-10-12 (GPP-bridge PR \#11), the C6 Loewner theorem: the shift
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.no_masking}\leanok\ \texttt{no\_masking}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.pos_family}\leanok\ \texttt{pos\_family}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.pos_family_pos}\leanok\ \texttt{pos\_family\_pos}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Completed Resolvent Response: $\pi/6$ Sector and Two-Node Loewner Obstruction}
+Source: Codex 2026-10-12, completed resolvent sector passivity note (finite-algebra items (i)--(iii)). For a zero $z=\delta+i\gamma$ of $\Xi$, with $A=1+\gamma^2-\delta^2$ and $B=2\delta\gamma$: the identity $A-\sqrt3|B|=(|\gamma|-\sqrt3|\delta|)^2+1-4\delta^2$ puts $1-z^2$ inside the cone $\mathrm{Re}\,\lambda>\sqrt3|\mathrm{Im}\,\lambda|$ when $|\delta|<1/2$. Hence the quartet response $m_q(u)=2(u+A)/((u+A)^2+B^2)$ has $m_q>0$, $m_q'<0$ and $m_q''>0$ for $u\ge0$, with explicit derivatives. The two-node Loewner determinant is exactly $-4B^2(u-v)^2/(N_u^2N_v^2)<0$ for $B\ne0$, $u\ne v$: an off-axis quartet passes the scalar sign tests but is not Stieltjes. Codex's rational control is checked. Abstract resolvent identity $R_u-R_v=(v-u)R_uR_v$, and the Loewner entry equals the mixed amplitude $\ell(R_uR_vW)$. Finite algebra only; the global statement for $m_*$ needs Hadamard and the zero-free strip, which are not formalized. No RH claim.
+
+\noindent\textbf{Proved (22 declarations):}
+\begin{itemize}
+  \item \lean{GppCompletedResolventSector.A}\leanok\ \texttt{A}
+  \item \lean{GppCompletedResolventSector.B}\leanok\ \texttt{B}
+  \item \lean{GppCompletedResolventSector.sector_identity}\leanok\ \texttt{sector\_identity}
+  \item \lean{GppCompletedResolventSector.sector_pos}\leanok\ \texttt{sector\_pos}
+  \item \lean{GppCompletedResolventSector.mq}\leanok\ \texttt{mq}
+  \item \lean{GppCompletedResolventSector.d1}\leanok\ \texttt{d1}
+  \item \lean{GppCompletedResolventSector.d2}\leanok\ \texttt{d2}
+  \item \lean{GppCompletedResolventSector.hasDerivAt_N}\leanok\ \texttt{hasDerivAt\_N}
+  \item \lean{GppCompletedResolventSector.hasDerivAt_mq}\leanok\ \texttt{hasDerivAt\_mq}
+  \item \lean{GppCompletedResolventSector.hasDerivAt_d1}\leanok\ \texttt{hasDerivAt\_d1}
+  \item \lean{GppCompletedResolventSector.N_pos}\leanok\ \texttt{N\_pos}
+  \item \lean{GppCompletedResolventSector.mq_pos}\leanok\ \texttt{mq\_pos}
+  \item \lean{GppCompletedResolventSector.d1_neg}\leanok\ \texttt{d1\_neg}
+  \item \lean{GppCompletedResolventSector.d2_pos}\leanok\ \texttt{d2\_pos}
+  \item \lean{GppCompletedResolventSector.quartet_signs}\leanok\ \texttt{quartet\_signs}
+  \item \lean{GppCompletedResolventSector.loewner}\leanok\ \texttt{loewner}
+  \item \lean{GppCompletedResolventSector.loewner_eq}\leanok\ \texttt{loewner\_eq}
+  \item \lean{GppCompletedResolventSector.loewner_det}\leanok\ \texttt{loewner\_det}
+  \item \lean{GppCompletedResolventSector.loewner_det_neg}\leanok\ \texttt{loewner\_det\_neg}
+  \item \lean{GppCompletedResolventSector.loewner_control}\leanok\ \texttt{loewner\_control}
+  \item \lean{GppCompletedResolventSector.resolvent_identity}\leanok\ \texttt{resolvent\_identity}
+  \item \lean{GppCompletedResolventSector.loewner_mixed}\leanok\ \texttt{loewner\_mixed}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}
