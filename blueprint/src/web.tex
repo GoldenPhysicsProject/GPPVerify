@@ -5948,6 +5948,19 @@ Source: Codex/Toupin draft ``An exact arithmetic free quantum field theory'' (20
   \item \lean{GppPrimeBulkQFTPaper.uv_scaling}\leanok\ \texttt{uv\_scaling}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Pole-Neutral Congruence}
+Source: Codex, directive C3(i) answer (2026-10-12), re-deriving the 2026-09-30 pole-calibrated neutral reduction. For symmetric invertible $A$ with $\langle c,A^{-1}c\rangle=-2$, $\langle s,A^{-1}s\rangle=2$, $\langle c,A^{-1}s\rangle=0$ and $Q=A+\tfrac12cc^T-\tfrac12ss^T$: every $x=y+\alpha A^{-1}c+\beta A^{-1}s$ with $y$ in the neutral subspace $\mathcal N=\{\langle c,\cdot\rangle=\langle s,\cdot\rangle=0\}$ has $Q[x]=A[y]$; hence $Q\succeq0$ iff $A\succeq0$ on $\mathcal N$. Finite-dimensional statement; the continuum version needs form-domain and density hypotheses and stays open. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppPoleNeutralCongruence.qf}\leanok\ \texttt{qf}
+  \item \lean{GppPoleNeutralCongruence.Qf}\leanok\ \texttt{Qf}
+  \item \lean{GppPoleNeutralCongruence.symm_dot}\leanok\ \texttt{symm\_dot}
+  \item \lean{GppPoleNeutralCongruence.qf_add}\leanok\ \texttt{qf\_add}
+  \item \lean{GppPoleNeutralCongruence.congruence}\leanok\ \texttt{congruence}
+  \item \lean{GppPoleNeutralCongruence.psd_iff}\leanok\ \texttt{psd\_iff}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Arithmetic Pick Kernel: Two-Node Determinant and Euler-Pole Obstruction}
 Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's request. Exact two-node Pick determinant identity; the isolated Euler pole $1/(s-1)$ has a negative Pick determinant at every distinct pair of Euler-real nodes (stronger than the eventual statement in \texttt{GppNoGo.EulerPoleTruncation}); an exact integer witness vector for the synthetic quartet; an on-line null vector; and the folded-quartet two- and three-node factorizations. No RH claim.
 
