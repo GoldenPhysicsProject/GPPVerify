@@ -6111,6 +6111,36 @@ Source: Codex 2026-10-12, building on Daniel Toupin's observation that multiplic
   \item \lean{GppNoGo.CompactCommutingMixing.eq_zero}\leanok\ \texttt{eq\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Fourier Reflection Is Indefinite (Hermite $h_2$)}
+Source: Codex 2026-10-12, idelic compact-$K$ note, no-go (2). The self-dual Gaussian $g=e^{-\pi x^2}$ is Fourier-fixed. The second Hermite function $h_2=(4\pi x^2-1)e^{-\pi x^2}=g''/\pi+g$ satisfies $\mathcal F h_2=-h_2$, by applying Mathlib's $\mathcal F f'=2\pi i\xi\,\mathcal Ff$ twice. Hence $\overline{h_2}\,\mathcal Fh_2=-|h_2|^2$ pointwise and the reflection pairing is $-\|h_2\|^2<0$. Unitary additive-Fourier reflection is not a positive form, even on the $K$-trivial sector. The adelic tensor with $1_{\hat{\mathbb Z}}$ is stated, not formalized. This does not contradict OS positive-time positivity. No RH claim.
+
+\noindent\textbf{Proved (23 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.g}\leanok\ \texttt{g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.integrable_fourier_smul}\leanok\ \texttt{integrable\_fourier\_smul}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.fourier_lin}\leanok\ \texttt{fourier\_lin}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.fourier_g}\leanok\ \texttt{fourier\_g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.g1}\leanok\ \texttt{g1}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.hasDerivAt_g}\leanok\ \texttt{hasDerivAt\_g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.g2}\leanok\ \texttt{g2}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.hasDerivAt_g1}\leanok\ \texttt{hasDerivAt\_g1}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.deriv_g}\leanok\ \texttt{deriv\_g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.deriv_g1}\leanok\ \texttt{deriv\_g1}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.integrable_g}\leanok\ \texttt{integrable\_g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.integrable_xg}\leanok\ \texttt{integrable\_xg}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.integrable_x2g}\leanok\ \texttt{integrable\_x2g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.integrable_g1}\leanok\ \texttt{integrable\_g1}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.integrable_g2}\leanok\ \texttt{integrable\_g2}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.differentiable_g}\leanok\ \texttt{differentiable\_g}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.differentiable_g1}\leanok\ \texttt{differentiable\_g1}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.fourier_g1}\leanok\ \texttt{fourier\_g1}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.fourier_g2}\leanok\ \texttt{fourier\_g2}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.h2}\leanok\ \texttt{h2}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.fourier_h2}\leanok\ \texttt{fourier\_h2}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.pairing_neg}\leanok\ \texttt{pairing\_neg}
+  \item \lean{GppNoGo.HermiteFourierIndefinite.h2_zero}\leanok\ \texttt{h2\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
