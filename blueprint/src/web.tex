@@ -6142,9 +6142,9 @@ Source: Codex 2026-10-12, idelic compact-$K$ note, no-go (2). The self-dual Gaus
 \end{itemize}
 
 \section{Riemann Hypothesis --- Bohr Prime Energy: $\zeta$ vs $F_\theta$ Threshold}
-Source: Codex, GPPDiscovery2 2026-10-08 Bohr prime energy note, sections 1--2. The Bohr--Parseval energy $B(\sigma)=\sum\Lambda(n)^2n^{-2\sigma}$ of the von Mangoldt current is finite iff $\sigma>\tfrac12$: one direction uses $\Lambda(n)\le\log n\le n^\varepsilon/\varepsilon$, the other $\sum_p1/p=\infty$. For $F_\theta=\xi(s-\theta)\xi(s+\theta)$ the coefficients are $\Lambda_\theta(n)=\Lambda(n)(n^\theta+n^{-\theta})$, and the energy splits as $B(\sigma-\theta)+2B(\sigma)+B(\sigma+\theta)$, so it is finite iff $\sigma>\tfrac12+\theta$. On the strip $\tfrac12<\sigma\le\tfrac12+\theta$ the $\zeta$ energy is finite and the $F_\theta$ energy infinite: a prime-side separation that uses no zeros. It concerns absolute convergence only and does not impose RH. No RH claim.
+Source: Codex, GPPDiscovery2 2026-10-08 Bohr prime energy note, sections 1--2. The Bohr--Parseval energy $B(\sigma)=\sum\Lambda(n)^2n^{-2\sigma}$ of the von Mangoldt current is finite iff $\sigma>\tfrac12$: one direction uses $\Lambda(n)\le\log n\le n^\varepsilon/\varepsilon$, the other $\sum_p1/p=\infty$. For $F_\theta=\xi(s-\theta)\xi(s+\theta)$ the coefficients are $\Lambda_\theta(n)=\Lambda(n)(n^\theta+n^{-\theta})$, and the energy splits as $B(\sigma-\theta)+2B(\sigma)+B(\sigma+\theta)$, so it is finite iff $\sigma>\tfrac12+\theta$. On the strip $\tfrac12<\sigma\le\tfrac12+\theta$ the $\zeta$ energy is finite and the $F_\theta$ energy infinite: a prime-side separation that uses no zeros. It concerns absolute convergence only and does not impose RH. Also (Codex's 2026-09-28 slit-holomorphy note): the $\ell^2$ prime-power current $J(z)$ is in Hilbert space iff $\mathrm{Re}\,z>0$, while the scalar $\ell^1$ Euler current converges absolutely iff $\mathrm{Re}\,z>\tfrac12$. No RH claim.
 
-\noindent\textbf{Proved (7 declarations):}
+\noindent\textbf{Proved (11 declarations):}
 \begin{itemize}
   \item \lean{GppBohrPrimeEnergy.bterm}\leanok\ \texttt{bterm}
   \item \lean{GppBohrPrimeEnergy.bterm_nonneg}\leanok\ \texttt{bterm\_nonneg}
@@ -6153,6 +6153,10 @@ Source: Codex, GPPDiscovery2 2026-10-08 Bohr prime energy note, sections 1--2. T
   \item \lean{GppBohrPrimeEnergy.thetaTerm_eq}\leanok\ \texttt{thetaTerm\_eq}
   \item \lean{GppBohrPrimeEnergy.summable_theta_iff}\leanok\ \texttt{summable\_theta\_iff}
   \item \lean{GppBohrPrimeEnergy.separation}\leanok\ \texttt{separation}
+  \item \lean{GppBohrPrimeEnergy.hilbert_current_iff}\leanok\ \texttt{hilbert\_current\_iff}
+  \item \lean{GppBohrPrimeEnergy.lterm}\leanok\ \texttt{lterm}
+  \item \lean{GppBohrPrimeEnergy.lterm_nonneg}\leanok\ \texttt{lterm\_nonneg}
+  \item \lean{GppBohrPrimeEnergy.scalar_summable_iff}\leanok\ \texttt{scalar\_summable\_iff}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}

@@ -18,7 +18,12 @@ The Bohr–Parseval energy of `J_σ(t) = Σ Λ(n) n^{−σ} e^{−it log n}` is 
 
 So on the strip `½ < σ ≤ ½ + θ` the ζ current has finite energy and the `F_θ` current does not.
 This is a prime-side separation of `F_θ` from ζ that uses no zeros. It does **not** impose RH:
-finiteness above `½` is a statement about absolute convergence, not about zeros. **No RH claim.**
+finiteness above `½` is a statement about absolute convergence, not about zeros.
+
+Also (`hilbert_current_iff`, `scalar_summable_iff`; Codex's 2026-09-28 slit-holomorphy note): the
+`ℓ²` prime-power current `J(z)` lies in Hilbert space iff `Re z > 0`, while the scalar `ℓ¹`
+Euler current converges absolutely iff `Re z > ½`. Vector-valued holomorphy is not formalized.
+**No RH claim.**
 -/
 
 namespace GppBohrPrimeEnergy
@@ -131,5 +136,69 @@ energy is infinite. -/
 theorem separation {θ σ : ℝ} (hθ : 0 < θ) (hσ : 1 / 2 < σ) (hσθ : σ ≤ 1 / 2 + θ) :
     Summable (bterm σ) ∧ ¬ Summable (thetaTerm θ σ) :=
   ⟨(summable_iff σ).mpr hσ, fun h => by linarith [(summable_theta_iff hθ.le σ).mp h]⟩
+
+/-- **The Hilbert wall is at `Re z = 0`.** The prime-power current `J(z) = Σ (log p) p^{−k(½+z)} e_{p,k}`
+has `‖J(z)‖² = Σ_m Λ(m)² m^{−(1+2a)}`, `a = Re z` (each prime power once). This is finite iff `a > 0`
+(Codex, `2026-09-28_connected_log_euler_current_slit_holomorphy.md` §1). -/
+theorem hilbert_current_iff (a : ℝ) : Summable (bterm (1 / 2 + a)) ↔ 0 < a := by
+  rw [summable_iff]; constructor <;> intro h <;> linarith
+
+/-- The scalar Euler-current summand `Λ(n) n^{−u}`. -/
+noncomputable def lterm (u : ℝ) (n : ℕ) : ℝ := Λ n * (n : ℝ) ^ (-u)
+
+lemma lterm_nonneg (u : ℝ) (n : ℕ) : 0 ≤ lterm u n := by
+  unfold lterm; have := (n : ℝ).rpow_nonneg (Nat.cast_nonneg n) (-u)
+  exact mul_nonneg vonMangoldt_nonneg this
+
+/-- **The scalar wall is at `Re z = ½`.** `Σ Λ(n) n^{−u}` converges absolutely iff `u > 1`, i.e.
+`Re(½ + z) > 1`. The scalar `ℓ¹` current needs `Re z > ½`; the Hilbert `ℓ²` current
+(`hilbert_current_iff`) only `Re z > 0` (Codex, same note §3). -/
+theorem scalar_summable_iff (u : ℝ) : Summable (lterm u) ↔ 1 < u := by
+  constructor
+  · intro hs
+    by_contra hu
+    push Not at hu
+    apply not_summable_one_div_on_primes
+    have hl2 : 0 < Real.log 2 := Real.log_pos one_lt_two
+    refine Summable.of_nonneg_of_le (fun n => ?_) (fun n => ?_) (hs.div_const (Real.log 2))
+    · by_cases hp : n ∈ {p : ℕ | p.Prime}
+      · simp [Set.indicator_of_mem hp]
+      · simp [Set.indicator_of_notMem hp]
+    · by_cases hp : n ∈ {p : ℕ | p.Prime}
+      · rw [Set.indicator_of_mem hp]
+        have hpr : n.Prime := hp
+        have hn2 : (2 : ℝ) ≤ n := by exact_mod_cast hpr.two_le
+        have hn1 : (1 : ℝ) ≤ n := by linarith
+        have hlog : Real.log 2 ≤ Real.log n := Real.log_le_log (by norm_num) hn2
+        have hpow : (n : ℝ) ^ (-1 : ℝ) ≤ (n : ℝ) ^ (-u) :=
+          Real.rpow_le_rpow_of_exponent_le hn1 (by linarith)
+        rw [le_div_iff₀ hl2]
+        unfold lterm
+        rw [vonMangoldt_apply_prime hpr]
+        have hinv : (1 : ℝ) / n = (n : ℝ) ^ (-1 : ℝ) := by rw [Real.rpow_neg_one, one_div]
+        rw [hinv]
+        calc (n : ℝ) ^ (-1 : ℝ) * Real.log 2 ≤ (n : ℝ) ^ (-u) * Real.log n :=
+              mul_le_mul hpow hlog hl2.le (Real.rpow_nonneg (by linarith) _)
+          _ = Real.log n * (n : ℝ) ^ (-u) := mul_comm _ _
+      · rw [Set.indicator_of_notMem hp]
+        exact div_nonneg (lterm_nonneg u n) hl2.le
+  · intro hu
+    set ε := (u - 1) / 2 with hε
+    have hεpos : 0 < ε := by rw [hε]; linarith
+    have hsum : Summable (fun n : ℕ => (n : ℝ) ^ (ε - u) / ε) :=
+      (summable_nat_rpow.mpr (by rw [hε]; linarith)).div_const _
+    refine Summable.of_nonneg_of_le (lterm_nonneg u) (fun n => ?_) hsum
+    have hn0 : (0 : ℝ) ≤ n := Nat.cast_nonneg n
+    have hΛ : Λ n ≤ (n : ℝ) ^ ε / ε :=
+      vonMangoldt_le_log.trans (Real.log_le_rpow_div hn0 hεpos)
+    unfold lterm
+    rcases hn0.eq_or_lt with h | h
+    · rw [← h, Real.zero_rpow (by linarith), Real.zero_rpow (by rw [hε]; linarith)]
+      simp
+    · calc Λ n * (n : ℝ) ^ (-u) ≤ (n : ℝ) ^ ε / ε * (n : ℝ) ^ (-u) :=
+            mul_le_mul_of_nonneg_right hΛ (Real.rpow_nonneg hn0 _)
+        _ = (n : ℝ) ^ (ε - u) / ε := by
+            rw [div_mul_eq_mul_div, ← Real.rpow_add h]
+            ring_nf
 
 end GppBohrPrimeEnergy
