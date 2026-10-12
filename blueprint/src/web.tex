@@ -6103,6 +6103,14 @@ Source: Codex 2026-10-12, completed resolvent sector passivity note (finite-alge
   \item \lean{GppCompletedResolventSector.loewner_mixed}\leanok\ \texttt{loewner\_mixed}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Compact Operators Cannot Commute With a Mixing Symmetry}
+Source: Codex 2026-10-12, building on Daniel Toupin's observation that multiplicative Haar fixes the unitary critical line while Peter--Weyl quantizes the compact part $K$ of the idele class group. Abstract core: if isometries $U_n$ on a complex inner product space are weakly mixing ($\langle U_nx,y\rangle\to0$) and a compact $T$ commutes with every $U_n$, then $T=0$. The proof: $\|T U_nx\|=\|Tx\|$ is constant, compactness gives a norm-convergent subsequence, and weak mixing makes its limit $0$. Instance (stated): translations on $L^2(\mathbb R)$, i.e.\ scale translations on $L^2(\mathbb R_+,dx/x)$. So compactness of $K$ cannot quantize the Mellin variable while full dilation symmetry remains. No RH or Yang--Mills claim.
+
+\noindent\textbf{Proved (1 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.CompactCommutingMixing.eq_zero}\leanok\ \texttt{eq\_zero}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Fourier Reflection Is Indefinite (Hermite $h_2$)}
 Source: Codex 2026-10-12, idelic compact-$K$ note, no-go (2). The self-dual Gaussian $g=e^{-\pi x^2}$ is Fourier-fixed. The second Hermite function $h_2=(4\pi x^2-1)e^{-\pi x^2}=g''/\pi+g$ satisfies $\mathcal F h_2=-h_2$, by applying Mathlib's $\mathcal F f'=2\pi i\xi\,\mathcal Ff$ twice. Hence $\overline{h_2}\,\mathcal Fh_2=-|h_2|^2$ pointwise and the reflection pairing is $-\|h_2\|^2<0$. Unitary additive-Fourier reflection is not a positive form, even on the $K$-trivial sector. The adelic tensor with $1_{\hat{\mathbb Z}}$ is stated, not formalized. This does not contradict OS positive-time positivity. No RH claim.
 
