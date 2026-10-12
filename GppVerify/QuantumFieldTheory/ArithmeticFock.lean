@@ -326,7 +326,7 @@ noncomputable def toNat (c : Config Nat.Primes) : ℕ :=
 
 /-- `fromNat`: positive natural ↦ occupation configuration (prime exponents). -/
 noncomputable def fromNat (n : ℕ) : Config Nat.Primes :=
-  if n = 0 then 0 else Finsupp.subtypeDomain (fun p => p.Prime) (Nat.factorization n)
+  if n = 0 then 0 else Finsupp.subtypeDomain (fun (p : ℕ) => p.Prime) (Nat.factorization n)
 
 theorem toNat_ne_zero (c : Config Nat.Primes) : toNat c ≠ 0 := by
   unfold toNat
@@ -369,11 +369,11 @@ theorem fromNat_toNat (c : Config Nat.Primes) : fromNat (toNat c) = c := by
 
 /-- Helper: prod over the prime subtype equals prod over `ℕ`. -/
 theorem prod_subtypeDomain_prime {f : ℕ →₀ ℕ} (hsupp : ∀ m ∈ f.support, m.Prime) :
-    (Finsupp.subtypeDomain (fun m => m.Prime) f).prod (fun q r => (q : ℕ) ^ r)
+    (Finsupp.subtypeDomain (fun (m : ℕ) => m.Prime) f).prod (fun q r => (q : ℕ) ^ r)
       = f.prod (· ^ ·) := by
-  rw [show (Finsupp.subtypeDomain (fun m => m.Prime) f).prod (fun q r => (q : ℕ) ^ r)
-      = ∏ q ∈ (Finsupp.subtypeDomain (fun m => m.Prime) f).support,
-        (q : ℕ) ^ ((Finsupp.subtypeDomain (fun m => m.Prime) f) q) from rfl,
+  rw [show (Finsupp.subtypeDomain (fun (m : ℕ) => m.Prime) f).prod (fun q r => (q : ℕ) ^ r)
+      = ∏ q ∈ (Finsupp.subtypeDomain (fun (m : ℕ) => m.Prime) f).support,
+        (q : ℕ) ^ ((Finsupp.subtypeDomain (fun (m : ℕ) => m.Prime) f) q) from rfl,
     show f.prod (· ^ ·) = ∏ m ∈ f.support, m ^ f m from rfl,
     Finsupp.support_subtypeDomain]
   apply Finset.prod_bij (fun q _ => (q.val : ℕ))
