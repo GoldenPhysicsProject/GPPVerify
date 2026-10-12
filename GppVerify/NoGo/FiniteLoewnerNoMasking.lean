@@ -24,12 +24,20 @@ Take `r` quartets with distinct `(a_j, b_j²)`, `a_j > 0`, `b_j ≠ 0`, plus `m`
   So it is exactly the Loewner matrix of `m`.
 * `loewner_form`: the form `Σ c_x c_y L(x,y)` equals
   `Σ_j 2((Σ c R_j)² − (Σ c I_j)²) + Σ_l κ_l (Σ c g_l)²`.
-* `features_independent`: the `2r + m` features `R_j, I_j, g_l` are linearly independent on
-  `(0, ∞)`. Clear denominators, evaluate at `−μ_l` (kills `κ`-coefficients), then at the complex root
-  `−a_j + i b_j` of `N_j` (kills `(α_j, β_j)`).
-* `no_masking`: at finitely many positive nodes the Loewner form equals `−2 Σ_j t_j²` on an
-  `r`-dimensional family of weights. So the Loewner matrix has at least `r` negative directions:
-  **no finite on-line mass, of any sign, makes it positive semidefinite.**
+* `Ppoly_natDegree_lt`, `features_independent_on`: the cleared polynomial has degree `< 2r + m`,
+  so a feature combination vanishing at **any** `2r + m` distinct positive nodes clears to the zero
+  polynomial. Evaluating at `−μ_l` and at the complex roots `−a_j + i b_j` then kills every
+  coefficient (`eq_zero_of_Ppoly`). This is Codex's "scaled Vandermonde after a partial-fraction
+  change of basis" in polynomial form.
+* `span_top_on`, `realize`: at every such node set, every moment vector is realized by weights
+  supported on the nodes. `form_of_moments`: the form then equals
+  `Σ_j 2(τ_{j,R}² − τ_{j,I}²) + Σ_l κ_l τ_l²`.
+* `no_masking`: at **every** set of `≥ 2r + m` positive nodes, the Loewner form is `−2 Σ_j t_j²` on
+  an `r`-dimensional family of weights. **No finite on-line mass, of any sign, makes it PSD.**
+* `pos_family`, `pos_family_pos`: with `κ_l > 0`, the same nodes carry an `(r + m)`-dimensional
+  family on which the form is `2Σ s_j² + Σ κ_l t_l² > 0`. At exactly `2r + m` nodes, the two
+  families force inertia `(r + m, r, 0)` (Codex's C6 Loewner theorem, 2026-10-12, GPP-bridge PR #11
+  comment 6121892934), by a dimension count that is not itself formalized here.
 
 **Scope.** Finite only. For the actual `ξ` the on-line family is infinite, and Stieltjes-ness of the
 full `m_*` (support in `[1, ∞)`) is Codex's v34 RH-equivalent criterion. This file proves only that
@@ -202,16 +210,47 @@ lemma Ppoly_eval {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j
     simp only [g]
     field_simp
 
-/-- **Linear independence of the Loewner features** on `(0, ∞)`. -/
-theorem features_independent {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j)
-    (hb : ∀ j, b j ≠ 0) (hab : Function.Injective fun j => (a j, b j ^ 2)) (hμ : ∀ l, 0 < μ l)
-    (hμi : Function.Injective μ) (c : Idx r m → ℝ)
-    (hc : ∀ x, 0 < x → ∑ i, c i * φ a b μ x i = 0) : c = 0 := by
-  have hP : Ppoly a b μ c = 0 := by
-    apply Polynomial.eq_zero_of_infinite_isRoot
-    refine Set.Infinite.mono (fun x (hx : x ∈ Set.Ioi (0 : ℝ)) => ?_) (Set.Ioi_infinite 0)
-    show IsRoot _ x
-    rw [IsRoot, Ppoly_eval ha hμ c hx, hc x hx, mul_zero]
+/-- The cleared polynomial has degree `< 2r + m`. -/
+lemma Ppoly_natDegree_lt (a b : Fin r → ℝ) (μ : Fin m → ℝ) (c : Idx r m → ℝ) (hd : 0 < 2 * r + m) :
+    (Ppoly a b μ c).natDegree < 2 * r + m := by
+  have hNp : ∀ s : Finset (Fin r), (∏ j ∈ s, Np (a j) (b j)).natDegree ≤ 2 * s.card := by
+    intro s
+    refine (natDegree_prod_le _ _).trans ?_
+    refine (Finset.sum_le_card_nsmul s _ 2 fun j _ => ?_).trans (by simp [mul_comm])
+    unfold Np; compute_degree!
+  have hLp : ∀ s : Finset (Fin m), (∏ l ∈ s, Lp (μ l)).natDegree ≤ s.card := by
+    intro s
+    refine (natDegree_prod_le _ _).trans ?_
+    refine (Finset.sum_le_card_nsmul s _ 1 fun l _ => ?_).trans (by simp)
+    unfold Lp; compute_degree!
+  have hA : ∀ j, (Apoly a b c j).natDegree ≤ 1 := fun j => by unfold Apoly; compute_degree!
+  have hbound : (Ppoly a b μ c).natDegree ≤ 2 * r + m - 1 := by
+    apply natDegree_add_le_of_degree_le
+    · refine natDegree_sum_le_of_forall_le _ _ fun j _ => ?_
+      refine (natDegree_mul_le).trans ?_
+      have h1 := (natDegree_mul_le (p := Apoly a b c j)
+        (q := ∏ j' ∈ univ.erase j, Np (a j') (b j'))).trans
+        (add_le_add (hA j) (hNp (univ.erase j)))
+      have h2 := hLp univ
+      rw [Finset.card_erase_of_mem (mem_univ j), Finset.card_univ, Fintype.card_fin] at h1
+      rw [Finset.card_univ, Fintype.card_fin] at h2
+      have : 1 ≤ r := Nat.one_le_iff_ne_zero.mpr fun h => (h ▸ j).elim0
+      omega
+    · refine natDegree_sum_le_of_forall_le _ _ fun l _ => ?_
+      refine (natDegree_mul_le).trans ?_
+      have h1 := (natDegree_mul_le (p := C (c (Sum.inr l)))
+        (q := ∏ j, Np (a j) (b j))).trans (add_le_add (natDegree_C _).le (hNp univ))
+      have h2 := hLp (univ.erase l)
+      rw [Finset.card_univ, Fintype.card_fin] at h1
+      rw [Finset.card_erase_of_mem (mem_univ l), Finset.card_univ, Fintype.card_fin] at h2
+      have : 1 ≤ m := Nat.one_le_iff_ne_zero.mpr fun h => (h ▸ l).elim0
+      omega
+  omega
+
+/-- The cleared polynomial vanishes only for the zero coefficient vector. -/
+theorem eq_zero_of_Ppoly {a b : Fin r → ℝ} {μ : Fin m → ℝ}
+    (hb : ∀ j, b j ≠ 0) (hab : Function.Injective fun j => (a j, b j ^ 2))
+    (hμi : Function.Injective μ) (c : Idx r m → ℝ) (hP : Ppoly a b μ c = 0) : c = 0 := by
   -- on-line coefficients: evaluate at `−μ_l`
   have hK : ∀ l, c (Sum.inr l) = 0 := by
     intro l
@@ -316,21 +355,42 @@ theorem features_independent {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : �
     · exact (hA j).2
   · exact hK l
 
-/-- **The Loewner features span** `ℝ^{2r+m}` as `x` ranges over `(0, ∞)`. -/
-theorem span_top {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j) (hb : ∀ j, b j ≠ 0)
+/-- **Invertibility at any `2r + m` nodes.** If a feature combination vanishes at `2r + m` distinct
+positive nodes, it is zero. (Codex: the evaluation matrix is a scaled Vandermonde matrix after a
+partial-fraction change of basis.) -/
+theorem features_independent_on {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j)
+    (hb : ∀ j, b j ≠ 0) (hab : Function.Injective fun j => (a j, b j ^ 2)) (hμ : ∀ l, 0 < μ l)
+    (hμi : Function.Injective μ) {S : Finset ℝ} (hS : ∀ x ∈ S, 0 < x) (hcard : 2 * r + m ≤ S.card)
+    (c : Idx r m → ℝ) (hc : ∀ x ∈ S, ∑ i, c i * φ a b μ x i = 0) : c = 0 := by
+  rcases Nat.eq_zero_or_pos (2 * r + m) with hd | hd
+  · have hr : r = 0 := by omega
+    have hm : m = 0 := by omega
+    subst hr hm
+    funext i
+    rcases i with ⟨j, _⟩ | l
+    · exact j.elim0
+    · exact l.elim0
+  refine eq_zero_of_Ppoly hb hab hμi c ?_
+  refine eq_zero_of_natDegree_lt_card_of_eval_eq_zero' _ S (fun x hx => ?_)
+    ((Ppoly_natDegree_lt a b μ c hd).trans_le hcard)
+  rw [Ppoly_eval ha hμ c (hS x hx), hc x hx, mul_zero]
+
+/-- **The features at any `2r + m` positive nodes span** `ℝ^{2r+m}`. -/
+theorem span_top_on {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j) (hb : ∀ j, b j ≠ 0)
     (hab : Function.Injective fun j => (a j, b j ^ 2)) (hμ : ∀ l, 0 < μ l)
-    (hμi : Function.Injective μ) :
-    Submodule.span ℝ (φ a b μ '' Set.Ioi 0) = ⊤ := by
+    (hμi : Function.Injective μ) {S : Finset ℝ} (hS : ∀ x ∈ S, 0 < x)
+    (hcard : 2 * r + m ≤ S.card) :
+    Submodule.span ℝ (φ a b μ '' (S : Set ℝ)) = ⊤ := by
   by_contra hne
   obtain ⟨f, hf, hle⟩ := Submodule.exists_le_ker_of_lt_top _ (lt_top_iff_ne_top.mpr hne)
   set c : Idx r m → ℝ := fun i => f fun j => if i = j then 1 else 0
-  have hc : ∀ x, 0 < x → ∑ i, c i * φ a b μ x i = 0 := by
+  have hc : ∀ x ∈ S, ∑ i, c i * φ a b μ x i = 0 := by
     intro x hx
     have hmem : φ a b μ x ∈ LinearMap.ker f := hle (Submodule.subset_span ⟨x, hx, rfl⟩)
     rw [LinearMap.mem_ker, LinearMap.pi_apply_eq_sum_univ] at hmem
     rw [← hmem]
     exact Finset.sum_congr rfl fun i _ => by simp [c, smul_eq_mul, mul_comm]
-  have h0 := features_independent ha hb hab hμ hμi c hc
+  have h0 := features_independent_on ha hb hab hμ hμi hS hcard c hc
   apply hf
   refine LinearMap.ext fun v => ?_
   rw [LinearMap.pi_apply_eq_sum_univ]
@@ -340,67 +400,111 @@ theorem span_top {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j
   simp only [c] at this
   rw [this, smul_zero]
 
-/-- **No finite on-line mass masks the Loewner negativity.** For `r` off-axis quartets and any
-finite family of on-line pieces with arbitrary real weights `κ`, there are finitely many positive
-nodes and weight functions `w_j` such that the Loewner form of `Σ_j t_j w_j` is `−2 Σ_j t_j²`. -/
+/-- **Every moment vector is realized** by weights supported on `S`. -/
+theorem realize {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j) (hb : ∀ j, b j ≠ 0)
+    (hab : Function.Injective fun j => (a j, b j ^ 2)) (hμ : ∀ l, 0 < μ l)
+    (hμi : Function.Injective μ) {S : Finset ℝ} (hS : ∀ x ∈ S, 0 < x)
+    (hcard : 2 * r + m ≤ S.card) :
+    ∃ e : Idx r m → ℝ → ℝ, ∀ τ : Idx r m → ℝ, ∀ k,
+      ∑ x ∈ S, (∑ i, τ i * e i x) * φ a b μ x k = τ k := by
+  classical
+  have hspan := span_top_on ha hb hab hμ hμi hS hcard
+  have hmem : ∀ i : Idx r m, (Pi.single i (1 : ℝ) : Idx r m → ℝ) ∈
+      Submodule.span ℝ (φ a b μ '' (S : Set ℝ)) := fun i => hspan ▸ Submodule.mem_top
+  choose l hl hle using fun i => (Finsupp.mem_span_image_iff_linearCombination ℝ).mp (hmem i)
+  have hcomb : ∀ i k, ∑ x ∈ S, l i x * φ a b μ x k = (Pi.single i (1 : ℝ) : Idx r m → ℝ) k := by
+    intro i k
+    rw [← hle i, Finsupp.linearCombination_apply, Finsupp.sum_of_support_subset (l i) (hl i)]
+    · rw [Finset.sum_apply]; rfl
+    · intro x _; simp
+  refine ⟨fun i x => l i x, fun τ k => ?_⟩
+  simp only [Finset.sum_mul, mul_assoc]
+  rw [Finset.sum_comm]
+  simp_rw [← Finset.mul_sum, hcomb]
+  simp [Pi.single_apply]
+
+/-- The Loewner form of a weight with prescribed moments `τ`. -/
+theorem form_of_moments (a b : Fin r → ℝ) (μ κ : Fin m → ℝ) (S : Finset ℝ) (c : ℝ → ℝ)
+    (τ : Idx r m → ℝ) (hτ : ∀ k, ∑ x ∈ S, c x * φ a b μ x k = τ k) :
+    ∑ x ∈ S, ∑ y ∈ S, c x * c y * loewnerK a b μ κ x y =
+      ∑ j, 2 * (τ (Sum.inl (j, 0)) ^ 2 - τ (Sum.inl (j, 1)) ^ 2) + ∑ l, κ l * τ (Sum.inr l) ^ 2 := by
+  rw [loewner_form]
+  have eR : ∀ j, ∑ x ∈ S, c x * R (a j) (b j) x = τ (Sum.inl (j, 0)) := fun j => by
+    rw [← hτ]; rfl
+  have eI : ∀ j, ∑ x ∈ S, c x * I (a j) (b j) x = τ (Sum.inl (j, 1)) := fun j => by
+    rw [← hτ]; rfl
+  have eg : ∀ l, ∑ x ∈ S, c x * g (μ l) x = τ (Sum.inr l) := fun l => by
+    rw [← hτ]; rfl
+  simp only [eR, eI, eg]
+
+/-- **No finite on-line mass masks the Loewner negativity, at any `2r + m` nodes.** For `r`
+off-axis quartets and any finite family of on-line pieces with arbitrary real weights `κ`, at
+*every* set `S` of at least `2r + m` positive nodes there are weights `w_j` supported on `S` whose
+combinations `Σ_j t_j w_j` have Loewner form `−2 Σ_j t_j²`. -/
 theorem no_masking {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j) (hb : ∀ j, b j ≠ 0)
     (hab : Function.Injective fun j => (a j, b j ^ 2)) (hμ : ∀ l, 0 < μ l)
-    (hμi : Function.Injective μ) (κ : Fin m → ℝ) :
-    ∃ S : Finset ℝ, (∀ x ∈ S, 0 < x) ∧ ∃ w : Fin r → ℝ → ℝ, ∀ t : Fin r → ℝ,
+    (hμi : Function.Injective μ) (κ : Fin m → ℝ) {S : Finset ℝ} (hS : ∀ x ∈ S, 0 < x)
+    (hcard : 2 * r + m ≤ S.card) :
+    ∃ w : Fin r → ℝ → ℝ, ∀ t : Fin r → ℝ,
       ∑ x ∈ S, ∑ y ∈ S, (∑ j, t j * w j x) * (∑ j, t j * w j y) * loewnerK a b μ κ x y =
         -2 * ∑ j, t j ^ 2 := by
   classical
-  have hspan := span_top ha hb hab hμ hμi
-  have hmem : ∀ j : Fin r, (Pi.single (Sum.inl (j, 1)) (1 : ℝ) : Idx r m → ℝ) ∈
-      Submodule.span ℝ (φ a b μ '' Set.Ioi 0) := fun j => hspan ▸ Submodule.mem_top
-  choose l hl hle using fun j => (Finsupp.mem_span_image_iff_linearCombination ℝ).mp (hmem j)
-  set S := univ.biUnion fun j => (l j).support
-  have hS : ∀ x ∈ S, 0 < x := by
-    intro x hx
-    obtain ⟨j, _, hj⟩ := Finset.mem_biUnion.mp hx
-    exact hl j hj
-  have hcomb : ∀ j k, ∑ x ∈ S, l j x * φ a b μ x k =
-      (Pi.single (Sum.inl (j, 1)) (1 : ℝ) : Idx r m → ℝ) k := by
-    intro j k
-    rw [← hle j, Finsupp.linearCombination_apply, Finsupp.sum_of_support_subset (l j)
-      (fun x hx => Finset.subset_biUnion_of_mem (fun j => (l j).support) (mem_univ j) hx)]
-    · rw [Finset.sum_apply]; rfl
-    · intro x _; simp
-  have hmom : ∀ (t : Fin r → ℝ) k,
-      ∑ x ∈ S, (∑ j, t j * l j x) * φ a b μ x k =
-        ∑ j, t j * (Pi.single (Sum.inl (j, 1)) (1 : ℝ) : Idx r m → ℝ) k := by
-    intro t k
-    simp only [Finset.sum_mul, mul_assoc]
-    rw [Finset.sum_comm]
-    simp_rw [← Finset.mul_sum, hcomb]
-  refine ⟨S, hS, fun j x => l j x, fun t => ?_⟩
-  rw [loewner_form]
-  have eR : ∀ j, ∑ x ∈ S, (∑ j', t j' * l j' x) * R (a j) (b j) x = 0 := by
-    intro j
-    have := hmom t (Sum.inl (j, 0))
-    simp only [φ, Fin.isValue, Fin.val_zero, if_true] at this
-    rw [this]
-    refine Finset.sum_eq_zero fun j' _ => ?_
-    rw [Pi.single_apply, if_neg (by simp), mul_zero]
-  have eI : ∀ j, ∑ x ∈ S, (∑ j', t j' * l j' x) * I (a j) (b j) x = t j := by
-    intro j
-    have := hmom t (Sum.inl (j, 1))
-    simp only [φ, Fin.isValue, Fin.val_one, one_ne_zero, if_false] at this
-    rw [this, Finset.sum_eq_single j]
-    · simp
-    · intro j' _ hj'
-      rw [Pi.single_apply, if_neg (by simp [hj'.symm]), mul_zero]
-    · simp
-  have eg : ∀ l', ∑ x ∈ S, (∑ j', t j' * l j' x) * g (μ l') x = 0 := by
-    intro l'
-    have := hmom t (Sum.inr l')
-    simp only [φ] at this
-    rw [this]
-    refine Finset.sum_eq_zero fun j' _ => ?_
-    rw [Pi.single_apply, if_neg (by simp), mul_zero]
-  simp only [eR, eI, eg]
-  simp only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow, zero_sub, mul_zero,
-    Finset.sum_const_zero, add_zero, mul_neg, Finset.sum_neg_distrib, ← Finset.mul_sum]
-  ring
+  obtain ⟨e, he⟩ := realize ha hb hab hμ hμi hS hcard
+  refine ⟨fun j => e (Sum.inl (j, 1)), fun t => ?_⟩
+  set τ : Idx r m → ℝ := fun i => match i with
+    | Sum.inl (j, k) => if (k : ℕ) = 1 then t j else 0
+    | Sum.inr _ => 0 with hτdef
+  have hsum : ∀ x, ∑ j, t j * e (Sum.inl (j, 1)) x = ∑ i, τ i * e i x := by
+    intro x
+    rw [Fintype.sum_sum_type, Fintype.sum_prod_type]
+    simp [τ]
+  simp_rw [hsum]
+  rw [form_of_moments a b μ κ S _ τ (he τ)]
+  simp [τ, Finset.mul_sum]
+
+/-- **The positive directions.** If the on-line weights are positive, the same nodes carry an
+`(r + m)`-dimensional family on which the Loewner form is `2 Σ_j s_j² + Σ_l κ_l t_l² > 0`. With
+`no_masking` and `2r + m` nodes, the Loewner matrix has inertia exactly `(r + m, r, 0)`, by a
+dimension count. -/
+theorem pos_family {a b : Fin r → ℝ} {μ : Fin m → ℝ} (ha : ∀ j, 0 < a j) (hb : ∀ j, b j ≠ 0)
+    (hab : Function.Injective fun j => (a j, b j ^ 2)) (hμ : ∀ l, 0 < μ l)
+    (hμi : Function.Injective μ) (κ : Fin m → ℝ) {S : Finset ℝ} (hS : ∀ x ∈ S, 0 < x)
+    (hcard : 2 * r + m ≤ S.card) :
+    ∃ wq : Fin r → ℝ → ℝ, ∃ wp : Fin m → ℝ → ℝ, ∀ (s : Fin r → ℝ) (t : Fin m → ℝ),
+      ∑ x ∈ S, ∑ y ∈ S, (∑ j, s j * wq j x + ∑ l, t l * wp l x) *
+          (∑ j, s j * wq j y + ∑ l, t l * wp l y) * loewnerK a b μ κ x y =
+        2 * ∑ j, s j ^ 2 + ∑ l, κ l * t l ^ 2 := by
+  classical
+  obtain ⟨e, he⟩ := realize ha hb hab hμ hμi hS hcard
+  refine ⟨fun j => e (Sum.inl (j, 0)), fun l => e (Sum.inr l), fun s t => ?_⟩
+  set τ : Idx r m → ℝ := fun i => match i with
+    | Sum.inl (j, k) => if (k : ℕ) = 0 then s j else 0
+    | Sum.inr l => t l with hτdef
+  have hsum : ∀ x, ∑ j, s j * e (Sum.inl (j, 0)) x + ∑ l, t l * e (Sum.inr l) x =
+      ∑ i, τ i * e i x := by
+    intro x
+    rw [Fintype.sum_sum_type, Fintype.sum_prod_type]
+    simp [τ]
+  simp_rw [hsum]
+  rw [form_of_moments a b μ κ S _ τ (he τ)]
+  simp [τ, Finset.mul_sum]
+
+/-- With positive on-line weights, the positive form is strictly positive off zero. -/
+theorem pos_family_pos {r m : ℕ} (κ : Fin m → ℝ) (hκ : ∀ l, 0 < κ l) (s : Fin r → ℝ)
+    (t : Fin m → ℝ) (hst : s ≠ 0 ∨ t ≠ 0) : 0 < 2 * ∑ j, s j ^ 2 + ∑ l, κ l * t l ^ 2 := by
+  have h1 : 0 ≤ ∑ j, s j ^ 2 := Finset.sum_nonneg fun j _ => sq_nonneg _
+  have h2 : 0 ≤ ∑ l, κ l * t l ^ 2 := Finset.sum_nonneg fun l _ => by
+    have := hκ l; positivity
+  rcases hst with hs | ht
+  · obtain ⟨j, hj⟩ := Function.ne_iff.mp hs
+    have : 0 < ∑ j, s j ^ 2 :=
+      Finset.sum_pos' (fun j _ => sq_nonneg _)
+        ⟨j, mem_univ _, lt_of_le_of_ne (sq_nonneg _) (Ne.symm (pow_ne_zero 2 hj))⟩
+    linarith
+  · obtain ⟨l, hl⟩ := Function.ne_iff.mp ht
+    have : 0 < ∑ l, κ l * t l ^ 2 :=
+      Finset.sum_pos' (fun l _ => by have := hκ l; positivity)
+        ⟨l, mem_univ _, mul_pos (hκ l) (lt_of_le_of_ne (sq_nonneg _) (Ne.symm (pow_ne_zero 2 hl)))⟩
+    linarith
 
 end GppNoGo.FiniteLoewnerNoMasking

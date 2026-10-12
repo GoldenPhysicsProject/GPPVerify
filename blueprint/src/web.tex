@@ -5982,9 +5982,9 @@ Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's reque
 \end{itemize}
 
 \section{Riemann Hypothesis --- No Finite On-Line Mass Masks Loewner Negativity}
-Shifted-Stieltjes companion to the Pick no-masking theorem, in the picture of Codex's 2026-10-12 completed resolvent note. Take $r$ off-axis quartets contributing $2\,\mathrm{Re}\,1/(u+a_j+ib_j)$ ($a_j>0$, $b_j\ne0$, distinct $(a_j,b_j^2)$) and finitely many on-line pieces $\kappa_l/(u+\mu_l)$ ($\mu_l>0$ distinct, $\kappa_l$ arbitrary real). The Loewner kernel $\sum_j2(R_jR_j-I_jI_j)+\sum_l\kappa_lg_lg_l$ equals the divided difference $-(m(x)-m(y))/(x-y)$ off the diagonal and $-m'$ on it. Its form is $\sum_j2((\sum cR_j)^2-(\sum cI_j)^2)+\sum_l\kappa_l(\sum cg_l)^2$. The $2r+m$ features are linearly independent on $(0,\infty)$: clear denominators and evaluate at $-\mu_l$ and at the complex roots $-a_j+ib_j$. So at finitely many positive nodes the form is $-2\sum_jt_j^2$ on an $r$-dimensional family. No finite on-line correction makes the Loewner matrix PSD. Finite only; for the full $m_*$ this is Codex's v34 RH-equivalent criterion. No RH claim.
+Source: Codex 2026-10-12 (GPP-bridge PR \#11), the C6 Loewner theorem: the shifted-Stieltjes companion to the Pick no-masking theorems. Take $r$ off-axis quartets contributing $2\,\mathrm{Re}\,1/(u+a_j+ib_j)$ ($a_j>0$, $b_j\ne0$, distinct $(a_j,b_j^2)$) and finitely many on-line pieces $\kappa_l/(u+\mu_l)$ ($\mu_l>0$ distinct). The Loewner kernel equals the divided difference of $m$ off the diagonal and $-m'$ on it, with form $\sum_j2((\sum cR_j)^2-(\sum cI_j)^2)+\sum_l\kappa_l(\sum cg_l)^2$. The cleared polynomial has degree $<2r+m$, so a feature combination vanishing at any $2r+m$ positive nodes is zero (evaluate at $-\mu_l$ and at $-a_j+ib_j$). Hence at every set of $\ge2r+m$ positive nodes every moment vector is realized: the form is $-2\sum t_j^2$ on an $r$-dim family for arbitrary real $\kappa$, and with $\kappa>0$ it is $2\sum s_j^2+\sum\kappa_lt_l^2>0$ on an $(r+m)$-dim family. That gives inertia $(r+m,r)$ at $2r+m$ nodes. Finite only; for the full $m_*$ this is Codex's v34 RH-equivalent criterion. No RH claim.
 
-\noindent\textbf{Proved (20 declarations):}
+\noindent\textbf{Proved (26 declarations):}
 \begin{itemize}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.N}\leanok\ \texttt{N}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.R}\leanok\ \texttt{R}
@@ -6003,9 +6003,15 @@ Shifted-Stieltjes companion to the Pick no-masking theorem, in the picture of Co
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.Ppoly}\leanok\ \texttt{Ppoly}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.sum_idx}\leanok\ \texttt{sum\_idx}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.Ppoly_eval}\leanok\ \texttt{Ppoly\_eval}
-  \item \lean{GppNoGo.FiniteLoewnerNoMasking.features_independent}\leanok\ \texttt{features\_independent}
-  \item \lean{GppNoGo.FiniteLoewnerNoMasking.span_top}\leanok\ \texttt{span\_top}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.Ppoly_natDegree_lt}\leanok\ \texttt{Ppoly\_natDegree\_lt}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.eq_zero_of_Ppoly}\leanok\ \texttt{eq\_zero\_of\_Ppoly}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.features_independent_on}\leanok\ \texttt{features\_independent\_on}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.span_top_on}\leanok\ \texttt{span\_top\_on}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.realize}\leanok\ \texttt{realize}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.form_of_moments}\leanok\ \texttt{form\_of\_moments}
   \item \lean{GppNoGo.FiniteLoewnerNoMasking.no_masking}\leanok\ \texttt{no\_masking}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.pos_family}\leanok\ \texttt{pos\_family}
+  \item \lean{GppNoGo.FiniteLoewnerNoMasking.pos_family_pos}\leanok\ \texttt{pos\_family\_pos}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}
