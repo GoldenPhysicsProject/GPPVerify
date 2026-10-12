@@ -5948,6 +5948,33 @@ Source: Codex/Toupin draft ``An exact arithmetic free quantum field theory'' (20
   \item \lean{GppPrimeBulkQFTPaper.uv_scaling}\leanok\ \texttt{uv\_scaling}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No Finite On-Line Mass Masks Any of $r$ Quartets}
+Source: Codex, directive C6 answer (2026-10-12), generalizing the one-quartet case. For $r$ distinct off-axis quartets $(h_j,w_j)$, $h_j,w_j>0$, plus $m$ on-line pairs at distinct heights $\gamma_l\ne0$, the total real-node Pick form equals $\sum_j4Q_j(\text{quartet-}j\text{ moments})+\sum_l2(\gamma_l^2m_0^2+m_1^2)$. The $4r+2m$ features $x^k/D_j(x)$, $x^i/E_l(x)$ are linearly independent on $(0,\infty)$: clear denominators, evaluate at $i\gamma_l$ to kill the pair coefficients, then at the four complex roots of each $D_j$ to kill the cubic numerator $A_j$. Hence at some finite set of positive nodes the form is strictly negative on a $2r$-dimensional family of weights: negative index $\ge2r$. The exact inertia $(2r+2m,2r)$ also needs Sylvester's law and is not formalized here. Finite statement only; in the infinite sum over $\xi$'s zeros masking is Weil positivity itself. No RH claim.
+
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.KtotR}\leanok\ \texttt{KtotR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.KtotR_eq}\leanok\ \texttt{KtotR\_eq}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.IdxR}\leanok\ \texttt{IdxR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.pick_eq_multi}\leanok\ \texttt{pick\_eq\_multi}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.ApolyR}\leanok\ \texttt{ApolyR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.BpolyR}\leanok\ \texttt{BpolyR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.PpolyR}\leanok\ \texttt{PpolyR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.sum_idxR}\leanok\ \texttt{sum\_idxR}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.PpolyR_eval}\leanok\ \texttt{PpolyR\_eval}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Dp_aeval}\leanok\ \texttt{Dp\_aeval}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Ep_aeval}\leanok\ \texttt{Ep\_aeval}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Dp_aeval_root}\leanok\ \texttt{Dp\_aeval\_root}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Dp_aeval_other}\leanok\ \texttt{Dp\_aeval\_other}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.Ep_aeval_ne}\leanok\ \texttt{Ep\_aeval\_ne}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.eq_zero_of_roots}\leanok\ \texttt{eq\_zero\_of\_roots}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.ApolyR_natDegree}\leanok\ \texttt{ApolyR\_natDegree}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.features_independent_multi}\leanok\ \texttt{features\_independent\_multi}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.span_top_multi}\leanok\ \texttt{span\_top\_multi}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.target}\leanok\ \texttt{target}
+  \item \lean{GppNoGo.FiniteNoMaskingMulti.no_masking_multi}\leanok\ \texttt{no\_masking\_multi}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Pole-Neutral Congruence}
 Source: Codex, directive C3(i) answer (2026-10-12), re-deriving the 2026-09-30 pole-calibrated neutral reduction. For symmetric invertible $A$ with $\langle c,A^{-1}c\rangle=-2$, $\langle s,A^{-1}s\rangle=2$, $\langle c,A^{-1}s\rangle=0$ and $Q=A+\tfrac12cc^T-\tfrac12ss^T$: every $x=y+\alpha A^{-1}c+\beta A^{-1}s$ with $y$ in the neutral subspace $\mathcal N=\{\langle c,\cdot\rangle=\langle s,\cdot\rangle=0\}$ has $Q[x]=A[y]$; hence $Q\succeq0$ iff $A\succeq0$ on $\mathcal N$. Finite-dimensional statement; the continuum version needs form-domain and density hypotheses and stays open. No RH claim.
 
