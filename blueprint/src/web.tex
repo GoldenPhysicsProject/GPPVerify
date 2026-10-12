@@ -6021,6 +6021,26 @@ Source: Codex, draft PR \#280 (2026-10-10/11), ported unchanged at Codex's reque
   \item \lean{GppArithmeticPickPole.foldedQuartet_threeNode_num_neg}\leanok\ \texttt{foldedQuartet\_threeNode\_num\_neg}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Two-Copy Theta Operator: Exact Weyl-Law Algebra}
+Source: Codex 2026-10-12 (GPP-bridge PR \#11), theta-derived bulk operator $H_\alpha=-d^2/dx^2+\Psi_\alpha''/\Psi_\alpha$, $\Psi_\alpha=\Phi^\alpha$. Exact pieces: each summand of the theta density $\Phi$ is positive for $x\ge0$. For the leading model $\log\Psi=\alpha(-\pi e^{2x}+9x/2+K)$, the potential is $\Psi''/\Psi=4\alpha^2\pi^2e^{4x}-(18\alpha^2+4\alpha)\pi e^{2x}+81\alpha^2/4$, which is $-80\pi$ at $\alpha=2$. The WKB phase integral has the closed form $\int_0^X\sqrt{T^2-c^2e^{4x}}\,dx=\tfrac12(T\log((T+\sqrt{T^2-c^2})/c)-\sqrt{T^2-c^2})$, proved by FTC. The Weyl constant $\log(2T/(2\pi\alpha))-1$ equals Riemann--von Mangoldt's iff $\alpha=2$: one parameter fits one constant. The Dirichlet gap, the bracketing remainder and the UV trace are ARGUED, not formalized (they need unbounded Sturm--Liouville theory). Two-term Weyl agreement does not see $S(T)$. No RH claim.
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppThetaTwoCopyWeyl.summand_pos}\leanok\ \texttt{summand\_pos}
+  \item \lean{GppThetaTwoCopyWeyl.Psi}\leanok\ \texttt{Psi}
+  \item \lean{GppThetaTwoCopyWeyl.Psi1}\leanok\ \texttt{Psi1}
+  \item \lean{GppThetaTwoCopyWeyl.Vmodel}\leanok\ \texttt{Vmodel}
+  \item \lean{GppThetaTwoCopyWeyl.hasDerivAt_exp2}\leanok\ \texttt{hasDerivAt\_exp2}
+  \item \lean{GppThetaTwoCopyWeyl.hasDerivAt_Psi}\leanok\ \texttt{hasDerivAt\_Psi}
+  \item \lean{GppThetaTwoCopyWeyl.hasDerivAt_Psi1}\leanok\ \texttt{hasDerivAt\_Psi1}
+  \item \lean{GppThetaTwoCopyWeyl.Vmodel_two}\leanok\ \texttt{Vmodel\_two}
+  \item \lean{GppThetaTwoCopyWeyl.F}\leanok\ \texttt{F}
+  \item \lean{GppThetaTwoCopyWeyl.F_deriv_alg}\leanok\ \texttt{F\_deriv\_alg}
+  \item \lean{GppThetaTwoCopyWeyl.hasDerivAt_F}\leanok\ \texttt{hasDerivAt\_F}
+  \item \lean{GppThetaTwoCopyWeyl.wkb_integral}\leanok\ \texttt{wkb\_integral}
+  \item \lean{GppThetaTwoCopyWeyl.weyl_constant_iff}\leanok\ \texttt{weyl\_constant\_iff}
+\end{itemize}
+
 \section{Riemann Hypothesis --- No Finite On-Line Mass Masks Loewner Negativity}
 Source: Codex 2026-10-12 (GPP-bridge PR \#11), the C6 Loewner theorem: the shifted-Stieltjes companion to the Pick no-masking theorems. Take $r$ off-axis quartets contributing $2\,\mathrm{Re}\,1/(u+a_j+ib_j)$ ($a_j>0$, $b_j\ne0$, distinct $(a_j,b_j^2)$) and finitely many on-line pieces $\kappa_l/(u+\mu_l)$ ($\mu_l>0$ distinct). The Loewner kernel equals the divided difference of $m$ off the diagonal and $-m'$ on it, with form $\sum_j2((\sum cR_j)^2-(\sum cI_j)^2)+\sum_l\kappa_l(\sum cg_l)^2$. The cleared polynomial has degree $<2r+m$, so a feature combination vanishing at any $2r+m$ positive nodes is zero (evaluate at $-\mu_l$ and at $-a_j+ib_j$). Hence at every set of $\ge2r+m$ positive nodes every moment vector is realized: the form is $-2\sum t_j^2$ on an $r$-dim family for arbitrary real $\kappa$, and with $\kappa>0$ it is $2\sum s_j^2+\sum\kappa_lt_l^2>0$ on an $(r+m)$-dim family. That gives inertia $(r+m,r)$ at $2r+m$ nodes. Finite only; for the full $m_*$ this is Codex's v34 RH-equivalent criterion. No RH claim.
 
