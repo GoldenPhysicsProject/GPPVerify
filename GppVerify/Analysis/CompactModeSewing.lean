@@ -37,7 +37,7 @@ theorem cross_block_zero_reverse {A : Type*} [Ring A] (P T : A)
     (hP : P * P = P) (hc : P * T = T * P) : (1 - P) * T * P = 0 := by
   calc
     (1 - P) * T * P = (1 - P) * (T * P) := by rw [mul_assoc]
-    _ = (1 - P) * (P * T) := by rw [hc]
+    _ = (1 - P) * (P * T) := by rw [← hc]
     _ = ((1 - P) * P) * T := by rw [← mul_assoc]
     _ = 0 := by rw [sub_mul, one_mul, hP, sub_self, zero_mul]
 
