@@ -6529,6 +6529,29 @@ Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_rh\_prime\_heat\_as\_tfd\_phase
   \item \lean{GppPrimeHeatPhaseDiffusion.prime_heat_term_pos}\leanok\ \texttt{prime\_heat\_term\_pos}
 \end{itemize}
 
+\section{Riemann Hypothesis --- All-Prime Hellinger Threshold at the Critical Temperature}
+Source: Codex, bridge \texttt{work/codex/2026-10-13\_all\_prime\_kakutani\_fisher\_critical\_temperature\_boundary}. For geometric prime occupation laws at inverse temperatures $\beta_a,\beta_b$, the one-prime Hellinger affinity is $u_p=\sqrt{(1-s^2)(1-r^2)}/(1-sr)$ with $s=p^{-\beta_a/2}$, $r=p^{-\beta_b/2}$, and $1-u_p^2=(s-r)^2/(1-sr)^2$ exactly. For $0<\beta_a<\beta_b$, $\sum_p(1-u_p^2)<\infty$ iff $\beta_a>1$; so for the shifted fake $\beta_\pm=1\pm2\theta$ the defect series diverges. Kakutani's dichotomy (cited, not formalized) turns this into equivalence versus singularity of the infinite-product measures. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHellingerThreshold.affinity}\leanok\ \texttt{affinity}
+  \item \lean{GppPrimeHellingerThreshold.sr_lt_one}\leanok\ \texttt{sr\_lt\_one}
+  \item \lean{GppPrimeHellingerThreshold.hasSum_affinity}\leanok\ \texttt{hasSum\_affinity}
+  \item \lean{GppPrimeHellingerThreshold.one_sub_affinity_sq}\leanok\ \texttt{one\_sub\_affinity\_sq}
+  \item \lean{GppPrimeHellingerThreshold.affinity_le_one}\leanok\ \texttt{affinity\_le\_one}
+  \item \lean{GppPrimeHellingerThreshold.sv}\leanok\ \texttt{sv}
+  \item \lean{GppPrimeHellingerThreshold.two_le}\leanok\ \texttt{two\_le}
+  \item \lean{GppPrimeHellingerThreshold.sv_nonneg}\leanok\ \texttt{sv\_nonneg}
+  \item \lean{GppPrimeHellingerThreshold.sv_le_two}\leanok\ \texttt{sv\_le\_two}
+  \item \lean{GppPrimeHellingerThreshold.two_rpow_lt_one}\leanok\ \texttt{two\_rpow\_lt\_one}
+  \item \lean{GppPrimeHellingerThreshold.sv_lt_one}\leanok\ \texttt{sv\_lt\_one}
+  \item \lean{GppPrimeHellingerThreshold.sv_sq}\leanok\ \texttt{sv\_sq}
+  \item \lean{GppPrimeHellingerThreshold.sv_split}\leanok\ \texttt{sv\_split}
+  \item \lean{GppPrimeHellingerThreshold.defect}\leanok\ \texttt{defect}
+  \item \lean{GppPrimeHellingerThreshold.summable_defect_iff}\leanok\ \texttt{summable\_defect\_iff}
+  \item \lean{GppPrimeHellingerThreshold.shifted_fake_defect_not_summable}\leanok\ \texttt{shifted\_fake\_defect\_not\_summable}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
