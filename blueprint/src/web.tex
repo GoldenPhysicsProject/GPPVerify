@@ -6446,6 +6446,29 @@ Source: Codex, GPPDiscovery2 2026-09-27 one-ghost note. The $s=0$ pole square ca
   \item \lean{GppOneGhost.baseline_eq_neg_pole_difference}\leanok\ \texttt{baseline\_eq\_neg\_pole\_difference}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime and Archimedean Factors as Unitary Scattering Phases}
+Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_completed\_phase\_as\_su11\_scattering\_balance}, \S\S1, 3, 4. For $0\le a<1$ the prime channel $S_p(T)=(1-ae^{iTL})/(1-ae^{-iTL})$ is unimodular and equals the local Euler ratio $\zeta_p(1/2+iT)/\zeta_p(1/2-iT)$ when $a=p^{-1/2}$, $L=\log p$. It is the pure phase $\exp(i\varphi)$ with $\varphi=-2\sum_m a^m\sin(mTL)/m$, and its Wigner--Smith delay is $-2L\sum_m a^m\cos(mTL)$, the prime term of the explicit formula. The Archimedean factor $\pi^{-iT}\Gamma(1/4+iT/2)/\Gamma(1/4-iT/2)$ is unimodular. Not formalized: the zeta-regularized determinant reading, the renormalized infinite product, and the zero-counting quantization. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeScatteringPhase.Sp}\leanok\ \texttt{Sp}
+  \item \lean{GppPrimeScatteringPhase.norm_exp_I_mul_ofReal}\leanok\ \texttt{norm\_exp\_I\_mul\_ofReal}
+  \item \lean{GppPrimeScatteringPhase.one_sub_ne_zero}\leanok\ \texttt{one\_sub\_ne\_zero}
+  \item \lean{GppPrimeScatteringPhase.conj_numerator}\leanok\ \texttt{conj\_numerator}
+  \item \lean{GppPrimeScatteringPhase.norm_Sp}\leanok\ \texttt{norm\_Sp}
+  \item \lean{GppPrimeScatteringPhase.natCast_cpow_eq}\leanok\ \texttt{natCast\_cpow\_eq}
+  \item \lean{GppPrimeScatteringPhase.Sp_eq_local_ratio}\leanok\ \texttt{Sp\_eq\_local\_ratio}
+  \item \lean{GppPrimeScatteringPhase.phase}\leanok\ \texttt{phase}
+  \item \lean{GppPrimeScatteringPhase.summable_geom_bound}\leanok\ \texttt{summable\_geom\_bound}
+  \item \lean{GppPrimeScatteringPhase.summable_phase_terms}\leanok\ \texttt{summable\_phase\_terms}
+  \item \lean{GppPrimeScatteringPhase.log_one_sub_hasSum}\leanok\ \texttt{log\_one\_sub\_hasSum}
+  \item \lean{GppPrimeScatteringPhase.term_diff}\leanok\ \texttt{term\_diff}
+  \item \lean{GppPrimeScatteringPhase.Sp_eq_exp_phase}\leanok\ \texttt{Sp\_eq\_exp\_phase}
+  \item \lean{GppPrimeScatteringPhase.hasDerivAt_phase}\leanok\ \texttt{hasDerivAt\_phase}
+  \item \lean{GppPrimeScatteringPhase.Sinf}\leanok\ \texttt{Sinf}
+  \item \lean{GppPrimeScatteringPhase.norm_Sinf}\leanok\ \texttt{norm\_Sinf}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
