@@ -2200,3 +2200,6 @@ import GppVerify.RiemannHypothesis.OneSided
 import GppVerify.QuantumFieldTheory.ArithmeticFock
 import GppVerify.QuantumFieldTheory.FockGibbs
 import GppVerify.RiemannHypothesis.PrimeScatteringPhase
+import GppVerify.RiemannHypothesis.ModularResonanceDepth
+import GppVerify.RiemannHypothesis.PrimeHaloKernel
+import GppVerify.RiemannHypothesis.PrimeHeatPhaseDiffusion

@@ -6469,6 +6469,66 @@ Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_completed\_phase\_as\_su11\_sca
   \item \lean{GppPrimeScatteringPhase.norm_Sinf}\leanok\ \texttt{norm\_Sinf}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Modular-Surface Zeta Resonances at Depth One Quarter}
+Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_modular\_surface\_arithmetic\_ads2\_scattering}, \S\S3--4. For a zeta zero $\rho$ with $0<\Re\rho<1$, $w=\rho/2$ is a pole of the cusp scattering coefficient $\varphi(w)=\Lambda(2w-1)/\Lambda(2w)$ and $(\rho+1)/2$ is a zero; the partner $1-\rho$ reflects the pole to $1-\rho/2$. The pole never lies on the unitary line, and its depth $1/2-\Re(\rho/2)$ equals $1/4$ iff $\Re\rho=1/2$. RH is a uniform resonance depth, not principal-series location in the Eisenstein parameter. Unitarity of $\varphi$ is in ArithmeticEisensteinUnitarity. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppModularResonanceDepth.completed_zero_of_zeta_zero}\leanok\ \texttt{completed\_zero\_of\_zeta\_zero}
+  \item \lean{GppModularResonanceDepth.phi}\leanok\ \texttt{phi}
+  \item \lean{GppModularResonanceDepth.denominator_zero}\leanok\ \texttt{denominator\_zero}
+  \item \lean{GppModularResonanceDepth.numerator_zero}\leanok\ \texttt{numerator\_zero}
+  \item \lean{GppModularResonanceDepth.pole_re_lt_half}\leanok\ \texttt{pole\_re\_lt\_half}
+  \item \lean{GppModularResonanceDepth.reflection}\leanok\ \texttt{reflection}
+  \item \lean{GppModularResonanceDepth.partner_numerator_zero}\leanok\ \texttt{partner\_numerator\_zero}
+  \item \lean{GppModularResonanceDepth.depth_eq_quarter_iff}\leanok\ \texttt{depth\_eq\_quarter\_iff}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime Spectral Halo Kernel}
+Source: Codex, GPPDiscovery2 \texttt{2026-09-26\_prime\_spectral\_halo\_kernel}, \S1. The kernel $K(M,r)=4\sum_p e^{-2Mr/\sqrt{p-1}}/(p-1)^2$ converges, has the finite core $K(M,0)=4\sum_p (p-1)^{-2}$ (numerically about $5.500260$, not certified), is positive, is antitone in $r$, and tends to $0$ as $r\to\infty$ for $M>0$. Not formalized: the $1/(r^2\log r)$ asymptotic, which needs the prime number theorem. No physics claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHaloKernel.weight}\leanok\ \texttt{weight}
+  \item \lean{GppPrimeHaloKernel.summable_weight_nat}\leanok\ \texttt{summable\_weight\_nat}
+  \item \lean{GppPrimeHaloKernel.summable_weight}\leanok\ \texttt{summable\_weight}
+  \item \lean{GppPrimeHaloKernel.weight_nonneg}\leanok\ \texttt{weight\_nonneg}
+  \item \lean{GppPrimeHaloKernel.kernel}\leanok\ \texttt{kernel}
+  \item \lean{GppPrimeHaloKernel.term_le}\leanok\ \texttt{term\_le}
+  \item \lean{GppPrimeHaloKernel.summable_terms}\leanok\ \texttt{summable\_terms}
+  \item \lean{GppPrimeHaloKernel.kernel_zero}\leanok\ \texttt{kernel\_zero}
+  \item \lean{GppPrimeHaloKernel.kernel_le_zero}\leanok\ \texttt{kernel\_le\_zero}
+  \item \lean{GppPrimeHaloKernel.two_prime}\leanok\ \texttt{two\_prime}
+  \item \lean{GppPrimeHaloKernel.kernel_pos}\leanok\ \texttt{kernel\_pos}
+  \item \lean{GppPrimeHaloKernel.kernel_antitone}\leanok\ \texttt{kernel\_antitone}
+  \item \lean{GppPrimeHaloKernel.sqrt_pos_of_prime}\leanok\ \texttt{sqrt\_pos\_of\_prime}
+  \item \lean{GppPrimeHaloKernel.kernel_tendsto_zero}\leanok\ \texttt{kernel\_tendsto\_zero}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime Heat Term as Circular Phase Diffusion}
+Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_rh\_prime\_heat\_as\_tfd\_phase\_diffusion}, \S\S1, 2, 5. For absolutely summable coefficients the circle pairing $(2\pi)^{-1}\int_0^{2\pi}AB=1+2\sum a_mb_m$ holds; hence $(P_r*H_\tau)(0)=1+2\sum_m r^me^{-m^2\tau}$, the prime heat term $\sum_m L r^m e^{-m^2L^2/4t}$ equals $(L/2)[(P_r*H_{L^2/4t})(0)-1]$, and it is positive. Not formalized: the global domination $B_\infty\ge B_{\rm prime}$, the open RH-equivalent problem. No RH claim.
+
+\noindent\textbf{Proved (17 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeHeatPhaseDiffusion.integral_cos_int}\leanok\ \texttt{integral\_cos\_int}
+  \item \lean{GppPrimeHeatPhaseDiffusion.integral_cos_succ}\leanok\ \texttt{integral\_cos\_succ}
+  \item \lean{GppPrimeHeatPhaseDiffusion.cos_mul_cos}\leanok\ \texttt{cos\_mul\_cos}
+  \item \lean{GppPrimeHeatPhaseDiffusion.orth}\leanok\ \texttt{orth}
+  \item \lean{GppPrimeHeatPhaseDiffusion.integral_tsum_mul}\leanok\ \texttt{integral\_tsum\_mul}
+  \item \lean{GppPrimeHeatPhaseDiffusion.cosSeries}\leanok\ \texttt{cosSeries}
+  \item \lean{GppPrimeHeatPhaseDiffusion.summable_cos_terms}\leanok\ \texttt{summable\_cos\_terms}
+  \item \lean{GppPrimeHeatPhaseDiffusion.continuous_cosSeries}\leanok\ \texttt{continuous\_cosSeries}
+  \item \lean{GppPrimeHeatPhaseDiffusion.abs_cosSeries_le}\leanok\ \texttt{abs\_cosSeries\_le}
+  \item \lean{GppPrimeHeatPhaseDiffusion.integral_cosSeries_mul_cos}\leanok\ \texttt{integral\_cosSeries\_mul\_cos}
+  \item \lean{GppPrimeHeatPhaseDiffusion.integral_cosSeries}\leanok\ \texttt{integral\_cosSeries}
+  \item \lean{GppPrimeHeatPhaseDiffusion.pairing}\leanok\ \texttt{pairing}
+  \item \lean{GppPrimeHeatPhaseDiffusion.summable_abs_geom}\leanok\ \texttt{summable\_abs\_geom}
+  \item \lean{GppPrimeHeatPhaseDiffusion.summable_abs_heat}\leanok\ \texttt{summable\_abs\_heat}
+  \item \lean{GppPrimeHeatPhaseDiffusion.poisson_heat_pairing}\leanok\ \texttt{poisson\_heat\_pairing}
+  \item \lean{GppPrimeHeatPhaseDiffusion.prime_heat_term}\leanok\ \texttt{prime\_heat\_term}
+  \item \lean{GppPrimeHeatPhaseDiffusion.prime_heat_term_pos}\leanok\ \texttt{prime\_heat\_term\_pos}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
