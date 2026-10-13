@@ -32,6 +32,15 @@ theorem cross_block_zero {A : Type*} [Ring A] (P T : A)
     (hP : P * P = P) (hc : P * T = T * P) : P * T * (1 - P) = 0 := by
   rw [hc, mul_assoc, mul_sub, mul_one, hP, sub_self, mul_zero]
 
+/-- The opposite cross block also vanishes when the projector commutes with the coupling. -/
+theorem cross_block_zero_reverse {A : Type*} [Ring A] (P T : A)
+    (hP : P * P = P) (hc : P * T = T * P) : (1 - P) * T * P = 0 := by
+  calc
+    (1 - P) * T * P = (1 - P) * (T * P) := by rw [mul_assoc]
+    _ = (1 - P) * (P * T) := by rw [hc]
+    _ = ((1 - P) * P) * T := by rw [← mul_assoc]
+    _ = 0 := by rw [sub_mul, one_mul, hP, sub_self, zero_mul]
+
 /-- Successive nested projections have idempotent difference. -/
 theorem difference_idempotent {A : Type*} [Ring A] (P Q : A)
     (hP : P * P = P) (hQ : Q * Q = Q)
@@ -48,7 +57,7 @@ theorem moment_correction {R E F : Type*} [Ring R]
     M (x - S (M x)) = 0 := by
   rw [map_sub, hMS, sub_self]
 
-/-- A positive spectral coordinate at least one gives a contraction on squared norm. -/
+/-- A scalar denominator at least one gives a contraction on squared norm; a spectral application needs functional calculus. -/
 theorem inverse_coordinate_bound (a w : ℝ) (hw : 1 ≤ w) :
     a ^ 2 / w ^ 2 ≤ a ^ 2 := by
   apply div_le_self (sq_nonneg a)
@@ -68,17 +77,8 @@ theorem scaled_odd_moment_lower (a y : ℝ) (ha : 0 < a) :
   calc
     y ^ 2 = (2 / a) * ((a * y / 2) * y) := by
       field_simp [ne_of_gt ha]
-      <;> ring
     _ ≤ (2 / a) * (Real.sinh (a * y / 2) * y) :=
       mul_le_mul_of_nonneg_left hprod (by positivity)
     _ = (2 / a) * Real.sinh (a * y / 2) * y := by ring
 
 end GppCompactModeSewing
-
-#print axioms GppCompactModeSewing.phase_constant
-#print axioms GppCompactModeSewing.cross_block_zero
-#print axioms GppCompactModeSewing.difference_idempotent
-#print axioms GppCompactModeSewing.moment_correction
-#print axioms GppCompactModeSewing.inverse_coordinate_bound
-
-#print axioms GppCompactModeSewing.scaled_odd_moment_lower
