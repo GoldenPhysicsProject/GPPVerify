@@ -91,7 +91,7 @@ theorem laplace_exp_majorant_holo (F : ℝ) :
       {z : ℂ | F < z.re} := by
   have hne : ∀ z ∈ {z : ℂ | F < z.re}, (fun z : ℂ ↦ z - (F:ℂ)) z ≠ 0 := by
     intro z hz hcon
-    simp only [Set.mem_setOf_eq] at hz
+    simp only [Set.mem_ofPred_eq] at hz
     have hre0 : (z - (F:ℂ)).re = 0 := by
       have h := congrArg Complex.re hcon
       simpa using h
@@ -535,7 +535,7 @@ theorem landau_full {h : ℝ → ℝ} {σc : ℝ} {Hext : ℂ → ℂ}
     -- Taylor setup: ball(x, x) ⊆ {Re > 0}, y ∈ ball(x, x)
     have hball_sub : Metric.ball (x:ℂ) (x:ℝ) ⊆ {z : ℂ | 0 < z.re} := by
       intro z hz
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [Metric.mem_ball, dist_eq_norm] at hz
       have h1 : |z.re - x| ≤ ‖z - (x:ℂ)‖ := by
         have h2 := Complex.abs_re_le_norm (z - (x:ℂ))
@@ -846,7 +846,7 @@ theorem g3_as_stated_false :
     kernel-checked. The arithmetic inputs are explicit hypotheses, so the
     `F_θ` control cannot be misapplied: for `F_θ` the shifted zeros make the
     "no poles past `F`" consequence unprovable when `F < θ`. -/
-theorem onesided_transfer {F σc T₀ K : ℝ} {h : ℝ → ℝ} {Hext L E : ℂ → ℂ}
+theorem onesided_transfer {F _σc T₀ K : ℝ} {_h : ℝ → ℝ} {Hext L E : ℂ → ℂ}
     (hHext : DifferentiableOn ℂ Hext {z : ℂ | 0 < z.re})
     (hform : ∀ z : ℂ, 0 < z.re → Hext z = K / z - Complex.exp ((z + F) * T₀) * L (z + F) + E z)
     (hE : DifferentiableOn ℂ E Set.univ)
@@ -917,7 +917,7 @@ theorem onesided_transfer {F σc T₀ K : ℝ} {h : ℝ → ℝ} {Hext L E : ℂ
   -- Step B: no zero with Re ρ > 1/2 + F
   have hB : ρ.re ≤ 1/2 + F := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hwF : F < (ρ - 1/2).re := by
       have hre : (ρ - (1/2:ℂ)).re = ρ.re - 1/2 := by simp [Complex.sub_re]
       rw [hre]; linarith
@@ -934,7 +934,7 @@ theorem onesided_transfer {F σc T₀ K : ℝ} {h : ℝ → ℝ} {Hext L E : ℂ
     norm_num at hρ
   have hB' : (1 - star ρ).re ≤ 1/2 + F := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hwF : F < ((1 - star ρ) - 1/2).re := by
       have hre : ((1 - star ρ) - (1/2:ℂ)).re = (1 - star ρ).re - 1/2 := by
         simp [Complex.sub_re]
