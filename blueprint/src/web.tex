@@ -6410,6 +6410,21 @@ Source: Codex, GPPDiscovery2 2026-09-27 Euler-log note. The half-integrated SU(1
   \item \lean{GppSU11DirichletLift.radial_derivative}\leanok\ \texttt{radial\_derivative}
 \end{itemize}
 
+\section{Riemann Hypothesis --- One-ghost reduction of the completed logarithmic derivative}
+Source: Codex, GPPDiscovery2 2026-09-27 one-ghost note. The $s=0$ pole square cancels the Gamma ground mode exactly: $e^{-qx}/(1-e^{-2x})-e^{-qx}=e^{-(q+2)x}/(1-e^{-2x})=e^{-(q+1)x}/(2\sinh x)$, the $k=\tfrac12$ SU(1,1) heat character; the Gamma and pole features differ by this density times $(1-e^{-ax})(1-e^{-bx})$, a pointwise Gram form. The single surviving negative channel is $\int_0^\infty e^{-(q-1)x}(1-e^{-ax})(1-e^{-bx})dx=-\Delta_q[1/(s-1)](a,b)$, the $s=1$ pole (PNT continuum). The Stieltjes $d(\psi-y)$ form is not formalized; fixed-$q$ positivity still fails. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppOneGhost.density_split}\leanok\ \texttt{density\_split}
+  \item \lean{GppOneGhost.density_sinh}\leanok\ \texttt{density\_sinh}
+  \item \lean{GppOneGhost.feature_identity}\leanok\ \texttt{feature\_identity}
+  \item \lean{GppOneGhost.gram_pointwise}\leanok\ \texttt{gram\_pointwise}
+  \item \lean{GppOneGhost.integral_exp_neg}\leanok\ \texttt{integral\_exp\_neg}
+  \item \lean{GppOneGhost.integrable_exp_neg}\leanok\ \texttt{integrable\_exp\_neg}
+  \item \lean{GppOneGhost.baseline_closed_form}\leanok\ \texttt{baseline\_closed\_form}
+  \item \lean{GppOneGhost.baseline_eq_neg_pole_difference}\leanok\ \texttt{baseline\_eq\_neg\_pole\_difference}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
