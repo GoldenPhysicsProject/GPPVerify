@@ -6396,6 +6396,20 @@ Source: Codex, 2026-10-13 Fibonacci--Lucas note (Daniel Toupin's golden prime-fi
   \item \lean{GppGoldenLucas.fib_mod_prime_small}\leanok\ \texttt{fib\_mod\_prime\_small}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The Euler logarithm as the Dirichlet lift of the prime SU(1,1) coherent state}
+Source: Codex, GPPDiscovery2 2026-09-27 Euler-log note. The half-integrated SU(1,1) coherent vector $v(z)=\sum_{m\ge1}z^m/\sqrt m\,e_m$ has $\langle v(z),v(w)\rangle=-\log(1-\bar zw)$; a prime mode has free energy $\sum p^{-m\beta}/m=-\log(1-p^{-\beta})$; and $\exp(\sum_p\sum_{m\ge1}p^{-mu}/m)=\zeta(u)$ for $\operatorname{Re}u>1$, the exponential-vector kernel $\zeta(\bar s+w)$. The radial derivative $x/(1-x)$ is the forward-null excess. The Fock space and the critical-line divergence are not formalized. No RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11DirichletLift.vCoef}\leanok\ \texttt{vCoef}
+  \item \lean{GppSU11DirichletLift.conj_vCoef_mul}\leanok\ \texttt{conj\_vCoef\_mul}
+  \item \lean{GppSU11DirichletLift.inner_hasSum}\leanok\ \texttt{inner\_hasSum}
+  \item \lean{GppSU11DirichletLift.free_energy}\leanok\ \texttt{free\_energy}
+  \item \lean{GppSU11DirichletLift.norm_prime_cpow_lt_one}\leanok\ \texttt{norm\_prime\_cpow\_lt\_one}
+  \item \lean{GppSU11DirichletLift.fock_kernel}\leanok\ \texttt{fock\_kernel}
+  \item \lean{GppSU11DirichletLift.radial_derivative}\leanok\ \texttt{radial\_derivative}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
