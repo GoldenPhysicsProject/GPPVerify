@@ -6216,6 +6216,18 @@ Source: Codex, GPPDiscovery2 2026-09-28 note on the TFD Möbius connection and t
   \item \lean{GppTFDMobiusCurrent.vacuum_current}\leanok\ \texttt{vacuum\_current}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Theta Decimation Under Primes}
+Source: Codex, GPP-bridge 2026-09-30 theta decimation note. For the summands $\phi_n(u)=(4\pi^2n^4e^{9u/2}-6\pi n^2e^{5u/2})e^{-\pi n^2e^{2u}}$ of the Riemann theta density: theta scaling $\phi_n(u)=n^{-1/2}\phi_1(u+\log n)$, and prime decimation $\phi_{pm}(u-a_p)=p^{-1/2}\phi_m(u+a_p)$ with $a_p=\tfrac12\log p$, the exact realization of the half-density factor. The two tail exponents $-\pi(2e^{\pm2t}-1)e^{\pm2u}$ both decay iff $|t|<\tfrac12\log2$, the algebraic core of the dyadic threshold. The $L^2$ statement rests on tail asymptotics that are ARGUED, not formalized. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppThetaDecimation.phi}\leanok\ \texttt{phi}
+  \item \lean{GppThetaDecimation.exp_add_log}\leanok\ \texttt{exp\_add\_log}
+  \item \lean{GppThetaDecimation.phi_scaling}\leanok\ \texttt{phi\_scaling}
+  \item \lean{GppThetaDecimation.phi_decimation}\leanok\ \texttt{phi\_decimation}
+  \item \lean{GppThetaDecimation.threshold_iff}\leanok\ \texttt{threshold\_iff}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
