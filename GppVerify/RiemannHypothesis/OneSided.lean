@@ -957,14 +957,5 @@ theorem onesided_transfer {F _σc T₀ K : ℝ} {_h : ℝ → ℝ} {Hext L E : �
   rw [abs_le]
   constructor <;> linarith
 
-#print axioms laplace_exp_majorant
-#print axioms laplace_exp_majorant_holo
-#print axioms shift_reduction
-#print axioms landau_full
-#print axioms landau_improve
-#print axioms landau_abscissa
-#print axioms onesided_transfer
-#print axioms zeta_zero_symm
-#print axioms g3_as_stated_false
 
 end RhWaveLean
