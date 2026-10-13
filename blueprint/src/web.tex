@@ -6413,7 +6413,7 @@ Source: Codex, GPPDiscovery2 2026-09-27 Euler-log note. The half-integrated SU(1
 \section{Riemann Hypothesis --- The orientation coordinate eta = log(s/(1-s))}
 Source: Codex, PR \#11 comment 6145326782, realizing Daniel Toupin's orientation picture (``$\tfrac12$ is like 0, 0 like $-\infty$, 1 like $+\infty$''). $\operatorname{Re}\eta=\log|s|-\log|1-s|$, so $\operatorname{Re}\eta=0$ iff $\operatorname{Re}s=\tfrac12$: the critical line is the imaginary $\eta$-axis. On it $s/(1-s)$ is unimodular; $s\mapsto1-s$ inverts the ratio; and $(s/(1-s))^{-1}=-(s-1)/s$, the Cayley reciprocal. RH is the statement that zeta zero $\eta$-labels are purely imaginary. No RH claim.
 
-\noindent\textbf{Proved (9 declarations):}
+\noindent\textbf{Proved (14 declarations):}
 \begin{itemize}
   \item \lean{GppOrientationLogit.logit}\leanok\ \texttt{logit}
   \item \lean{GppOrientationLogit.re_logit}\leanok\ \texttt{re\_logit}
@@ -6424,6 +6424,11 @@ Source: Codex, PR \#11 comment 6145326782, realizing Daniel Toupin's orientation
   \item \lean{GppOrientationLogit.cayley_link}\leanok\ \texttt{cayley\_link}
   \item \lean{GppOrientationLogit.double_neutral_iff}\leanok\ \texttt{double\_neutral\_iff}
   \item \lean{GppOrientationLogit.chi_total}\leanok\ \texttt{chi\_total}
+  \item \lean{GppOrientationLogit.logistic_logit}\leanok\ \texttt{logistic\_logit}
+  \item \lean{GppOrientationLogit.odds}\leanok\ \texttt{odds}
+  \item \lean{GppOrientationLogit.odds_inv}\leanok\ \texttt{odds\_inv}
+  \item \lean{GppOrientationLogit.odds_one}\leanok\ \texttt{odds\_one}
+  \item \lean{GppOrientationLogit.hasDerivAt_log_odds}\leanok\ \texttt{hasDerivAt\_log\_odds}
 \end{itemize}
 
 \section{Riemann Hypothesis --- One-ghost reduction of the completed logarithmic derivative}
