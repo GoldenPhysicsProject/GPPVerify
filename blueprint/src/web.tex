@@ -6259,6 +6259,19 @@ Source: Codex, PR \#11 comment 6138600589 (Daniel Toupin's compact-$K$ idea cont
   \item \lean{GppRationalHeightShells.level_inverse_bound}\leanok\ \texttt{level\_inverse\_bound}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Confluent Stieltjes jets are Gram matrices}
+Source: Codex, 2026-10-13 compact-modes note \S5 (correcting Claude Code's 2026-10-12 locality recommendation). The confluent jet matrix $\int (u_0+t)^{-(i+j+2)}\,d\mu$ of a finite positive measure on $[0,\infty)$ is a Gram matrix at every size, so one negative witness excludes every Stieltjes representation. The numerical witnesses for $F_\theta$ are not formalized. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram}\leanok\ \texttt{jetGram}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.integrable_resolvent_pow}\leanok\ \texttt{integrable\_resolvent\_pow}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram_quadratic_eq}\leanok\ \texttt{jetGram\_quadratic\_eq}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram_quadratic_nonneg}\leanok\ \texttt{jetGram\_quadratic\_nonneg}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.not_stieltjes_of_negative_witness}\leanok\ \texttt{not\_stieltjes\_of\_negative\_witness}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.diag_congruence_witness}\leanok\ \texttt{diag\_congruence\_witness}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
