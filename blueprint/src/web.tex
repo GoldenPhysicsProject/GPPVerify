@@ -6255,6 +6255,50 @@ Source: Codex, PR \#11 comment 6138916828 (continuing Daniel Toupin's additive-s
   \item \lean{GppPrimeShiftCurrent.logDeriv_zeta_error}\leanok\ \texttt{logDeriv\_zeta\_error}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Rational height shells and integer-shell frequencies}
+Source: Codex, PR \#11 comment 6138600589 (Daniel Toupin's compact-$K$ idea continued to the additive solenoid $\mathbb{A}_\mathbb{Q}/\mathbb{Q}$). Reduced positive fractions of height $\max(a,b)\le n$ number at least $11n^2/36$; each dyadic height shell contributes at least $1/18$ to $\sum H^{-2}$; the partial sums of $\sum H^{-2\sigma}$ are bounded iff $\sigma>1$ (the positive-frequency core of $\delta_0\in H_{-\sigma}(X)\iff\sigma>1$). Every rational lies in $(1/(j+1)!)\mathbb{Z}$ at level $j=\mathrm{den}$, where the accelerated frequency has modulus at least $1$, so the multiscale inverse is bounded by $1/(2\pi)$ over all of $\mathbb{Q}$. The solenoid, Parseval and Tate--Poisson identities are not formalized; the completed Weil sign stays OPEN. No RH claim.
+
+\noindent\textbf{Proved (24 declarations):}
+\begin{itemize}
+  \item \lean{GppRationalHeightShells.box}\leanok\ \texttt{box}
+  \item \lean{GppRationalHeightShells.reduced}\leanok\ \texttt{reduced}
+  \item \lean{GppRationalHeightShells.height}\leanok\ \texttt{height}
+  \item \lean{GppRationalHeightShells.card_box}\leanok\ \texttt{card\_box}
+  \item \lean{GppRationalHeightShells.card_reduced_le}\leanok\ \texttt{card\_reduced\_le}
+  \item \lean{GppRationalHeightShells.card_common_dvd}\leanok\ \texttt{card\_common\_dvd}
+  \item \lean{GppRationalHeightShells.nonreduced_subset}\leanok\ \texttt{nonreduced\_subset}
+  \item \lean{GppRationalHeightShells.sum_inv_sq_le}\leanok\ \texttt{sum\_inv\_sq\_le}
+  \item \lean{GppRationalHeightShells.reduced_lower}\leanok\ \texttt{reduced\_lower}
+  \item \lean{GppRationalHeightShells.shell}\leanok\ \texttt{shell}
+  \item \lean{GppRationalHeightShells.reduced_filter_not}\leanok\ \texttt{reduced\_filter\_not}
+  \item \lean{GppRationalHeightShells.card_shell}\leanok\ \texttt{card\_shell}
+  \item \lean{GppRationalHeightShells.shell_card_lower}\leanok\ \texttt{shell\_card\_lower}
+  \item \lean{GppRationalHeightShells.shell_sum_lower}\leanok\ \texttt{shell\_sum\_lower}
+  \item \lean{GppRationalHeightShells.dyadic_sum_lower}\leanok\ \texttt{dyadic\_sum\_lower}
+  \item \lean{GppRationalHeightShells.not_bounded}\leanok\ \texttt{not\_bounded}
+  \item \lean{GppRationalHeightShells.bounded_of_one_lt}\leanok\ \texttt{bounded\_of\_one\_lt}
+  \item \lean{GppRationalHeightShells.bounded_iff}\leanok\ \texttt{bounded\_iff}
+  \item \lean{GppRationalHeightShells.mem_reduced}\leanok\ \texttt{mem\_reduced}
+  \item \lean{GppRationalHeightShells.card_height_eq}\leanok\ \texttt{card\_height\_eq}
+  \item \lean{GppRationalHeightShells.factorial_level}\leanok\ \texttt{factorial\_level}
+  \item \lean{GppRationalHeightShells.one_le_abs_level}\leanok\ \texttt{one\_le\_abs\_level}
+  \item \lean{GppRationalHeightShells.inverse_bound}\leanok\ \texttt{inverse\_bound}
+  \item \lean{GppRationalHeightShells.level_inverse_bound}\leanok\ \texttt{level\_inverse\_bound}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Confluent Stieltjes jets are Gram matrices}
+Source: Codex, 2026-10-13 compact-modes note \S5 (correcting Claude Code's 2026-10-12 locality recommendation). The confluent jet matrix $\int (u_0+t)^{-(i+j+2)}\,d\mu$ of a finite positive measure on $[0,\infty)$ is a Gram matrix at every size, so one negative witness excludes every Stieltjes representation. The numerical witnesses for $F_\theta$ are not formalized. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram}\leanok\ \texttt{jetGram}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.integrable_resolvent_pow}\leanok\ \texttt{integrable\_resolvent\_pow}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram_quadratic_eq}\leanok\ \texttt{jetGram\_quadratic\_eq}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram_quadratic_nonneg}\leanok\ \texttt{jetGram\_quadratic\_nonneg}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.not_stieltjes_of_negative_witness}\leanok\ \texttt{not\_stieltjes\_of\_negative\_witness}
+  \item \lean{GppNoGo.ConfluentStieltjesGram.diag_congruence_witness}\leanok\ \texttt{diag\_congruence\_witness}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
