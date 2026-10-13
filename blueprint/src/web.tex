@@ -6352,6 +6352,27 @@ Source: Codex, PR \#11 comment 6139796379, answering Daniel Toupin's ``is 5 the 
   \item \lean{GppPrimeFiveBoundary.dic5_card}\leanok\ \texttt{dic5\_card}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Fibonacci/Lucas dynamics of the golden modular matrix}
+Source: Codex, 2026-10-13 Fibonacci--Lucas note (Daniel Toupin's golden prime-five boundary). With $Q=[[1,1],[1,0]]$ and $A=Q^2=[[2,1],[1,1]]$: $Q^{m+1}=[[F_{m+2},F_{m+1}],[F_{m+1},F_m]]$, Cassini, $\operatorname{tr}A^n=L_{2n}$, $\det(A^n-1)=2-L_{2n}$ so the torus has $P_n=L_{2n}-2$ points fixed by $A^n$, with $P_n=L_n^2$ for odd $n$ and $5F_n^2$ for even $n$; $F_p\equiv\chi_5(p)\pmod p$ is checked for odd primes $p<100$. Classical facts; the Artin--Mazur zeta is rational and carries no zeta zeros. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppGoldenLucas.Q}\leanok\ \texttt{Q}
+  \item \lean{GppGoldenLucas.A}\leanok\ \texttt{A}
+  \item \lean{GppGoldenLucas.lucas}\leanok\ \texttt{lucas}
+  \item \lean{GppGoldenLucas.A_eq_Q_sq}\leanok\ \texttt{A\_eq\_Q\_sq}
+  \item \lean{GppGoldenLucas.Q_pow}\leanok\ \texttt{Q\_pow}
+  \item \lean{GppGoldenLucas.det_Q}\leanok\ \texttt{det\_Q}
+  \item \lean{GppGoldenLucas.cassini}\leanok\ \texttt{cassini}
+  \item \lean{GppGoldenLucas.trace_A_pow}\leanok\ \texttt{trace\_A\_pow}
+  \item \lean{GppGoldenLucas.det_A}\leanok\ \texttt{det\_A}
+  \item \lean{GppGoldenLucas.det_A_pow_sub_one}\leanok\ \texttt{det\_A\_pow\_sub\_one}
+  \item \lean{GppGoldenLucas.lucas_two_mul_sub_two}\leanok\ \texttt{lucas\_two\_mul\_sub\_two}
+  \item \lean{GppGoldenLucas.periodic_odd}\leanok\ \texttt{periodic\_odd}
+  \item \lean{GppGoldenLucas.periodic_even}\leanok\ \texttt{periodic\_even}
+  \item \lean{GppGoldenLucas.fib_mod_prime_small}\leanok\ \texttt{fib\_mod\_prime\_small}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
