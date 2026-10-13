@@ -6320,6 +6320,38 @@ Source: Codex, PR \#11 comment 6139438663, testing Daniel Toupin's Haar-measure 
   \item \lean{GppNoGo.HaarSquareNotReflection.off_axis}\leanok\ \texttt{off\_axis}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Prime 5 is the last integral local boost}
+Source: Codex, PR \#11 comment 6139796379, answering Daniel Toupin's ``is 5 the boundary?''. The local TFD boost $\lambda_p=(\sqrt p+1)/(\sqrt p-1)$ has trace $\lambda_p+\lambda_p^{-1}=2+4/(p-1)$, which is an integer (so $\lambda_p$ is a hyperbolic $SL_2(\mathbb{Z})$ eigenvalue) iff $p\in\{2,3,5\}$. At $p=5$ the boost is $\varphi^2$, the shortest modular geodesic $A=[[2,1],[1,1]]=UV$, inverted by the Weyl element $S$; mod 5, $(A+1)^2=0$, $A^5=-1$, $SAS^{-1}=A^9$, and the twenty products $A^iS^j$ are distinct (dicyclic group of order 20). The criterion assumes integral modular compatibility. No RH claim.
+
+\noindent\textbf{Proved (25 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFiveBoundary.dvd_four_iff}\leanok\ \texttt{dvd\_four\_iff}
+  \item \lean{GppPrimeFiveBoundary.boost}\leanok\ \texttt{boost}
+  \item \lean{GppPrimeFiveBoundary.sqrt_gt_one}\leanok\ \texttt{sqrt\_gt\_one}
+  \item \lean{GppPrimeFiveBoundary.boost_trace}\leanok\ \texttt{boost\_trace}
+  \item \lean{GppPrimeFiveBoundary.trace_int_iff}\leanok\ \texttt{trace\_int\_iff}
+  \item \lean{GppPrimeFiveBoundary.companion_det}\leanok\ \texttt{companion\_det}
+  \item \lean{GppPrimeFiveBoundary.boost_quadratic}\leanok\ \texttt{boost\_quadratic}
+  \item \lean{GppPrimeFiveBoundary.U}\leanok\ \texttt{U}
+  \item \lean{GppPrimeFiveBoundary.V}\leanok\ \texttt{V}
+  \item \lean{GppPrimeFiveBoundary.A}\leanok\ \texttt{A}
+  \item \lean{GppPrimeFiveBoundary.Ainv}\leanok\ \texttt{Ainv}
+  \item \lean{GppPrimeFiveBoundary.S}\leanok\ \texttt{S}
+  \item \lean{GppPrimeFiveBoundary.A_eq_UV}\leanok\ \texttt{A\_eq\_UV}
+  \item \lean{GppPrimeFiveBoundary.A_trace_det}\leanok\ \texttt{A\_trace\_det}
+  \item \lean{GppPrimeFiveBoundary.A_mul_Ainv}\leanok\ \texttt{A\_mul\_Ainv}
+  \item \lean{GppPrimeFiveBoundary.S_conj}\leanok\ \texttt{S\_conj}
+  \item \lean{GppPrimeFiveBoundary.S_sq}\leanok\ \texttt{S\_sq}
+  \item \lean{GppPrimeFiveBoundary.A5}\leanok\ \texttt{A5}
+  \item \lean{GppPrimeFiveBoundary.S5}\leanok\ \texttt{S5}
+  \item \lean{GppPrimeFiveBoundary.A5_unipotent}\leanok\ \texttt{A5\_unipotent}
+  \item \lean{GppPrimeFiveBoundary.A5_pow_five}\leanok\ \texttt{A5\_pow\_five}
+  \item \lean{GppPrimeFiveBoundary.A5_sq_ne_one}\leanok\ \texttt{A5\_sq\_ne\_one}
+  \item \lean{GppPrimeFiveBoundary.S5_conj}\leanok\ \texttt{S5\_conj}
+  \item \lean{GppPrimeFiveBoundary.S5_sq}\leanok\ \texttt{S5\_sq}
+  \item \lean{GppPrimeFiveBoundary.dic5_card}\leanok\ \texttt{dic5\_card}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
