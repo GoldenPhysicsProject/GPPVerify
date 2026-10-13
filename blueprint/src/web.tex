@@ -6579,6 +6579,27 @@ Source: Codex, GPP-bridge PR \#11 (2026-10-13) and bridge note \texttt{work/code
   \item \lean{GppPrimeOccupationTail.shifted_pair_E}\leanok\ \texttt{shifted\_pair\_E}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite Swap-Invariant Prime-Block Discriminator}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_finite\_even\_prime\_clock\_discriminators}. For a finite block $B$ of prime modes, $E_B$ = both sheets have an occupied mode in $B$ is swap-invariant and bounded. For any joining of two copies of $\mu_1$, $\nu(E_B)\ge 1-2\prod_{B}(1-1/p)$; for any measure with a $\mu_c$ marginal, $\nu(E_B)\le\sum_B p^{-c}$. Hence for $0<\theta<1/2$ and every $\varepsilon>0$ there is a finite block with centered probability at least $1-\varepsilon$ and shifted probability at most $\varepsilon$ (norm distance $2$ on finite swap-invariant observables), using Euler's divergence of $\sum 1/p$. Bost--Connes reading audited, not formalized. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeBlockDiscriminator.A}\leanok\ \texttt{A}
+  \item \lean{GppPrimeBlockDiscriminator.EB}\leanok\ \texttt{EB}
+  \item \lean{GppPrimeBlockDiscriminator.EB_swap}\leanok\ \texttt{EB\_swap}
+  \item \lean{GppPrimeBlockDiscriminator.measurableSet_A}\leanok\ \texttt{measurableSet\_A}
+  \item \lean{GppPrimeBlockDiscriminator.compl_A}\leanok\ \texttt{compl\_A}
+  \item \lean{GppPrimeBlockDiscriminator.law_zero}\leanok\ \texttt{law\_zero}
+  \item \lean{GppPrimeBlockDiscriminator.vacuum_prob}\leanok\ \texttt{vacuum\_prob}
+  \item \lean{GppPrimeBlockDiscriminator.centered_lower}\leanok\ \texttt{centered\_lower}
+  \item \lean{GppPrimeBlockDiscriminator.occupied_upper}\leanok\ \texttt{occupied\_upper}
+  \item \lean{GppPrimeBlockDiscriminator.shifted_upper}\leanok\ \texttt{shifted\_upper}
+  \item \lean{GppPrimeBlockDiscriminator.summable_q_iff}\leanok\ \texttt{summable\_q\_iff}
+  \item \lean{GppPrimeBlockDiscriminator.prod_one_sub_le_exp}\leanok\ \texttt{prod\_one\_sub\_le\_exp}
+  \item \lean{GppPrimeBlockDiscriminator.block_discriminator}\leanok\ \texttt{block\_discriminator}
+  \item \lean{GppPrimeBlockDiscriminator.mixture_le}\leanok\ \texttt{mixture\_le}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
