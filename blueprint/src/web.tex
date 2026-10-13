@@ -6552,6 +6552,33 @@ Source: Codex, bridge \texttt{work/codex/2026-10-13\_all\_prime\_kakutani\_fishe
   \item \lean{GppPrimeHellingerThreshold.shifted_fake_defect_not_summable}\leanok\ \texttt{shifted\_fake\_defect\_not\_summable}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Unlabeled All-Prime Tail Event}
+Source: Codex, GPP-bridge PR \#11 (2026-10-13) and bridge note \texttt{work/codex/2026-10-13\_all\_prime\_kakutani\_fisher\_critical\_temperature\_boundary}. For any infinite product of probability measures on $\mathbb N$, ``infinitely many modes occupied'' has probability $1$ or $0$ according as $\sum_i P(\text{occupied}_i)$ diverges or converges (Borel--Cantelli, independence under \texttt{infinitePi}). For the prime occupation law the occupation probability is exactly $p^{-\beta}$, so infinitely many primes are occupied a.s.\ iff $\beta\le1$. The pair event $E$ = both sheets infinitely occupied is swap-invariant, with $\nu_0(E)=1$ for $\mu_1\otimes\mu_1$ and $\nu_\theta(E)=0$ for the swap-symmetrized $\beta_\pm=1\pm2\theta$ mixture. $E$ is a tail event; whether a completed observable algebra contains it is open. No RH claim.
+
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeOccupationTail.occ}\leanok\ \texttt{occ}
+  \item \lean{GppPrimeOccupationTail.measurableSet_occ}\leanok\ \texttt{measurableSet\_occ}
+  \item \lean{GppPrimeOccupationTail.iIndepSet_occ}\leanok\ \texttt{iIndepSet\_occ}
+  \item \lean{GppPrimeOccupationTail.infinitePi_occ}\leanok\ \texttt{infinitePi\_occ}
+  \item \lean{GppPrimeOccupationTail.infinitely_occupied_dichotomy}\leanok\ \texttt{infinitely\_occupied\_dichotomy}
+  \item \lean{GppPrimeOccupationTail.prime}\leanok\ \texttt{prime}
+  \item \lean{GppPrimeOccupationTail.q}\leanok\ \texttt{q}
+  \item \lean{GppPrimeOccupationTail.q_nonneg}\leanok\ \texttt{q\_nonneg}
+  \item \lean{GppPrimeOccupationTail.q_le_one}\leanok\ \texttt{q\_le\_one}
+  \item \lean{GppPrimeOccupationTail.succ}\leanok\ \texttt{succ}
+  \item \lean{GppPrimeOccupationTail.law}\leanok\ \texttt{law}
+  \item \lean{GppPrimeOccupationTail.q_lt_one}\leanok\ \texttt{q\_lt\_one}
+  \item \lean{GppPrimeOccupationTail.occ_prob}\leanok\ \texttt{occ\_prob}
+  \item \lean{GppPrimeOccupationTail.tsum_occ_eq_top_iff}\leanok\ \texttt{tsum\_occ\_eq\_top\_iff}
+  \item \lean{GppPrimeOccupationTail.tail_one_iff}\leanok\ \texttt{tail\_one\_iff}
+  \item \lean{GppPrimeOccupationTail.tail_zero_iff}\leanok\ \texttt{tail\_zero\_iff}
+  \item \lean{GppPrimeOccupationTail.E}\leanok\ \texttt{E}
+  \item \lean{GppPrimeOccupationTail.pair_event_swap}\leanok\ \texttt{pair\_event\_swap}
+  \item \lean{GppPrimeOccupationTail.centered_pair_E}\leanok\ \texttt{centered\_pair\_E}
+  \item \lean{GppPrimeOccupationTail.shifted_pair_E}\leanok\ \texttt{shifted\_pair\_E}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
