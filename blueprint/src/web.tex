@@ -6231,7 +6231,7 @@ Source: Codex, GPP-bridge 2026-09-30 theta decimation note. For the summands $\p
 \section{Riemann Hypothesis --- Rational height shells and integer-shell frequencies}
 Source: Codex, PR \#11 comment 6138600589 (Daniel Toupin's compact-$K$ idea continued to the additive solenoid $\mathbb{A}_\mathbb{Q}/\mathbb{Q}$). Reduced positive fractions of height $\max(a,b)\le n$ number at least $11n^2/36$; each dyadic height shell contributes at least $1/18$ to $\sum H^{-2}$; the partial sums of $\sum H^{-2\sigma}$ are bounded iff $\sigma>1$ (the positive-frequency core of $\delta_0\in H_{-\sigma}(X)\iff\sigma>1$). Every rational lies in $(1/(j+1)!)\mathbb{Z}$ at level $j=\mathrm{den}$, where the accelerated frequency has modulus at least $1$, so the multiscale inverse is bounded by $1/(2\pi)$ over all of $\mathbb{Q}$. The solenoid, Parseval and Tate--Poisson identities are not formalized; the completed Weil sign stays OPEN. No RH claim.
 
-\noindent\textbf{Proved (22 declarations):}
+\noindent\textbf{Proved (24 declarations):}
 \begin{itemize}
   \item \lean{GppRationalHeightShells.box}\leanok\ \texttt{box}
   \item \lean{GppRationalHeightShells.reduced}\leanok\ \texttt{reduced}
@@ -6251,6 +6251,8 @@ Source: Codex, PR \#11 comment 6138600589 (Daniel Toupin's compact-$K$ idea cont
   \item \lean{GppRationalHeightShells.not_bounded}\leanok\ \texttt{not\_bounded}
   \item \lean{GppRationalHeightShells.bounded_of_one_lt}\leanok\ \texttt{bounded\_of\_one\_lt}
   \item \lean{GppRationalHeightShells.bounded_iff}\leanok\ \texttt{bounded\_iff}
+  \item \lean{GppRationalHeightShells.mem_reduced}\leanok\ \texttt{mem\_reduced}
+  \item \lean{GppRationalHeightShells.card_height_eq}\leanok\ \texttt{card\_height\_eq}
   \item \lean{GppRationalHeightShells.factorial_level}\leanok\ \texttt{factorial\_level}
   \item \lean{GppRationalHeightShells.one_le_abs_level}\leanok\ \texttt{one\_le\_abs\_level}
   \item \lean{GppRationalHeightShells.inverse_bound}\leanok\ \texttt{inverse\_bound}

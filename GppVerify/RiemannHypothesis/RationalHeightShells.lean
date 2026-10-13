@@ -22,6 +22,10 @@ with `H ≤ n`).
   frequencies. The negative frequencies and `0` add a mirror copy and one term, so the threshold is
   unchanged; that bookkeeping is not formalized.
 
+* `card_height_eq`: for `n ≥ 2` exactly `2φ(n)` reduced positive fractions have height `n`
+  (`4φ(n)` over `ℚ`). So `Σ_q H(q)^{−s} = 4ζ(s−1)/ζ(s) − 1` and the height operator has compact
+  resolvent; the Dirichlet-series identity itself is not formalized.
+
 **Integer shells.** Every rational `q` lies in `Γ_j = (1/(j+1)!)ℤ` at level `j = q.den`
 (`factorial_level`). At any level where `(j+1)! q ∈ ℤ` and `q ≠ 0`, the accelerated
 frequency satisfies `|(j+1)! q| ≥ 1` (`one_le_abs_level`). So the multiscale inverse has
@@ -243,6 +247,49 @@ theorem bounded_iff (σ : ℝ) :
   calc ((height p : ℕ) : ℝ) ^ (2 * σ) ≤ ((height p : ℕ) : ℝ) ^ ((2 : ℕ) : ℝ) :=
         Real.rpow_le_rpow_of_exponent_le h1 (by push_cast; linarith)
     _ = ((height p : ℕ) : ℝ) ^ 2 := Real.rpow_natCast _ 2
+
+theorem mem_reduced {n : ℕ} {p : ℕ × ℕ} :
+    p ∈ reduced n ↔ ((0 < p.1 ∧ p.1 ≤ n) ∧ (0 < p.2 ∧ p.2 ≤ n)) ∧ Nat.Coprime p.1 p.2 := by
+  rw [reduced, mem_filter, box, mem_product, mem_Ioc, mem_Ioc]
+
+/-- **Height multiplicity** (positive quadrant): for `n ≥ 2` exactly `2φ(n)` reduced fractions
+have height `n`, namely `a/n` and `n/a` with `a < n` coprime to `n`. Over all of `ℚ` the signs
+double this to `4φ(n)`, as in Codex's note. -/
+theorem card_height_eq {n : ℕ} (hn : 2 ≤ n) :
+    ((reduced n).filter (fun p => height p = n)).card = 2 * Nat.totient n := by
+  set T := (Ioc 0 n).filter (fun a => n.Coprime a) with hTdef
+  have hT : T.card = Nat.totient n := by
+    rw [hTdef, show Ioc 0 n = Ico 1 (1 + n) by ext x; simp; omega]
+    exact Nat.filter_coprime_Ico_eq_totient n 1
+  have hsplit : (reduced n).filter (fun p => height p = n) =
+      T.image (fun a => (a, n)) ∪ T.image (fun b => (n, b)) := by
+    ext ⟨a, b⟩
+    rw [mem_union, mem_filter, mem_reduced]
+    simp only [hTdef, height, mem_filter, mem_Ioc, mem_image, Prod.mk.injEq]
+    constructor
+    · rintro ⟨⟨⟨⟨ha0, han⟩, hb0, hbn⟩, hc⟩, hmax⟩
+      rcases le_total a b with h | h
+      · have hb : b = n := by rwa [max_eq_right h] at hmax
+        exact Or.inl ⟨a, ⟨⟨ha0, han⟩, hb ▸ hc.symm⟩, rfl, hb.symm⟩
+      · have ha : a = n := by rwa [max_eq_left h] at hmax
+        exact Or.inr ⟨b, ⟨⟨hb0, hbn⟩, ha ▸ hc⟩, ha.symm, rfl⟩
+    · rintro (⟨x, ⟨⟨hx0, hxn⟩, hc⟩, rfl, rfl⟩ | ⟨x, ⟨⟨hx0, hxn⟩, hc⟩, rfl, rfl⟩)
+      · exact ⟨⟨⟨⟨hx0, hxn⟩, by omega, le_rfl⟩, hc.symm⟩, max_eq_right hxn⟩
+      · exact ⟨⟨⟨⟨by omega, le_rfl⟩, hx0, hxn⟩, hc⟩, max_eq_left hxn⟩
+  have hdisj : Disjoint (T.image (fun a => (a, n))) (T.image (fun b => (n, b))) := by
+    rw [disjoint_left]
+    rintro p hp1 hp2
+    simp only [mem_image] at hp1 hp2
+    obtain ⟨x, hx, rfl⟩ := hp1
+    obtain ⟨y, _, hy⟩ := hp2
+    simp only [Prod.mk.injEq] at hy
+    rw [hTdef, mem_filter, ← hy.1] at hx
+    have := (Nat.coprime_self n).mp hx.2
+    omega
+  rw [hsplit, card_union_of_disjoint hdisj,
+    card_image_of_injective _ (fun x y h => (Prod.mk.inj h).1),
+    card_image_of_injective _ (fun x y h => (Prod.mk.inj h).2), hT]
+  ring
 
 /-- Every rational appears at a factorial level: `(q.den + 1)! · q` is the integer
 `((q.den + 1)! / q.den) · q.num`. -/
