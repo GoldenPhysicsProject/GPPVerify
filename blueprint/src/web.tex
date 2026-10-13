@@ -7059,6 +7059,25 @@ content was weakened, added, or removed --- the deduction
 $c_{2D}=0 \Rightarrow n_{\mathrm{gen}}=3$ was always conditional on its physics inputs, and
 now says so in its own type.
 
+\subsection{FiniteLatticeGap}
+Finite-volume lattice Peter--Weyl electric gap (Turbo, 2026-10-13): on a finite
+label set the nontrivial Peter--Weyl sectors are separated from the trivial
+sector by an explicit gap; the SU(2) Casimir gap is $3/4$, and the finite-volume
+lattice electric energy has a volume-independent gap. Continuum limit open.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{FiniteLatticeGap.variational_gap}\leanok\ \texttt{variational\_gap}
+  \item \lean{FiniteLatticeGap.casimir_nonneg}\leanok\ \texttt{casimir\_nonneg}
+  \item \lean{FiniteLatticeGap.casimir_pos}\leanok\ \texttt{casimir\_pos}
+  \item \lean{FiniteLatticeGap.casimir_eq_zero}\leanok\ \texttt{casimir\_eq\_zero}
+  \item \lean{FiniteLatticeGap.casimir_gap}\leanok\ \texttt{casimir\_gap}
+  \item \lean{FiniteLatticeGap.linkEnergy_nonneg}\leanok\ \texttt{linkEnergy\_nonneg}
+  \item \lean{FiniteLatticeGap.linkEnergy_gap}\leanok\ \texttt{linkEnergy\_gap}
+  \item \lean{FiniteLatticeGap.linkEnergy_eq_zero}\leanok\ \texttt{linkEnergy\_eq\_zero}
+  \item \lean{FiniteLatticeGap.finite_volume_gap}\leanok\ \texttt{finite\_volume\_gap}
+\end{itemize}
+
 \section{Physics Inputs (now hypotheses, not axioms)}
 
 These name a physical observable, or a cited external physics result. None is a mathematical
