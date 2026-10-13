@@ -14,6 +14,13 @@ reciprocal: `e^{−η} = (1 − s)/s = −β(s)`.
 * `ratio_reflect`: `s ↦ 1 − s` inverts the ratio, so `η ↦ −η` on the principal branch away from the
   cut.
 
+**Double neutrality** (Codex, comment 6145384891, on Daniel's "total t = 0 just like charge"): for
+four orientation populations `N_{q,t}`, `q, t ∈ {±1}`, total charge `Q = 0` and total time-orientation
+`T = 0` hold **iff** `N_{++} = N_{−−}` and `N_{+−} = N_{−+}` (`double_neutral_iff`). That is exactly the
+`(q,t) ↦ (−q,−t)` pair matching. Yet `Σχ = 2(N_{++} − N_{+−})` need not vanish (`chi_total`). As an RH
+control, balanced global counts say nothing about individual unitarity: an off-axis quartet is
+balanced too.
+
 RH is thus the statement that the zeta zero `η`-labels are purely imaginary. The functional equation
 alone gives only `±η` pairs. That `η` is the additive Haar coordinate, or the generator of a natural
 Haar/Tate operator, is **not** claimed. **No RH claim.**
@@ -61,5 +68,17 @@ theorem ratio_reflect (s : ℂ) : (1 - s) / (1 - (1 - s)) = (s / (1 - s))⁻¹ :
 /-- The Cayley link: `(s/(1 − s))⁻¹ = −(s − 1)/s`. -/
 theorem cayley_link (s : ℂ) : (s / (1 - s))⁻¹ = -((s - 1) / s) := by
   rw [inv_div, ← neg_div, neg_sub]
+
+/-- **Double neutrality**: `Q = 0 ∧ T = 0 ⟺ N₊₊ = N₋₋ ∧ N₊₋ = N₋₊`. -/
+theorem double_neutral_iff (npp npm nmp nmm : ℤ) :
+    (npp + npm - nmp - nmm = 0 ∧ npp - npm + nmp - nmm = 0) ↔ (npp = nmm ∧ npm = nmp) := by
+  constructor
+  · rintro ⟨hQ, hT⟩; constructor <;> linarith
+  · rintro ⟨h1, h2⟩; subst h1; subst h2; constructor <;> ring
+
+/-- The relational charge `χ = qt` totals `2(N₊₊ − N₊₋)` under double neutrality. -/
+theorem chi_total {npp npm nmp nmm : ℤ} (h1 : npp = nmm) (h2 : npm = nmp) :
+    npp - npm - nmp + nmm = 2 * (npp - npm) := by
+  subst h1; subst h2; ring
 
 end GppOrientationLogit
