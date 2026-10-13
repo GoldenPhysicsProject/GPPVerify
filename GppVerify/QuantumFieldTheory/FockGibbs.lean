@@ -225,17 +225,26 @@ noncomputable def natEquivPosNat : ℕ ≃ {n : ℕ // n ≠ 0} where
     simp only
     omega
 
-/-! ## Task 4 (OPEN): Z₀(β) = ζ(β)
+/-! ## Task 4 (CLOSED): Z₀(β) = ζ(β) -/
 
-**Status: OPEN.** The reindexing `partitionFn β = ∑' (n : {n // n ≠ 0}), ((n.val:ℝ)^(-β))`
-is proved above (`partitionFn_eq_tsum_posNat`). The further reindexing to
-`∑' m : ℕ, (((m+1:ℕ):ℝ)^(-β))` follows from `natEquivPosNat` (defined above).
-The remaining step to reach `riemannZeta (β:ℂ)` is the real→complex tsum cast:
-`((∑' m, ((m+1:ℝ)^(-β)) : ℝ) : ℂ) = ∑' m, (1 / ((m+1:ℂ)^(β:ℂ)))`,
-via `Complex.ofReal_cpow`, `Complex.cpow_neg`, `one_div`, and
-`zeta_eq_tsum_one_div_nat_add_one_cpow` (Mathlib), modulo the cast commutation
-`((∑' m, f m : ℝ) : ℂ) = ∑' m, ((f m : ℝ) : ℂ)`.
-No mathematical gap — only the Lean cast manipulation remains.
--/
+/-- **Partition function = Riemann zeta.** For `β > 1`, the Gibbs partition
+function of the arithmetic Fock space, cast to `ℂ`, equals `riemannZeta (β : ℂ)`.
+Proof: reindex configurations to positive naturals (`partitionFn_eq_tsum_posNat`),
+shift to all naturals (`natEquivPosNat`), push the cast through the sum
+(`Complex.ofReal_tsum`), identify terms via `Complex.ofReal_cpow`, and finish
+with Mathlib's `zeta_eq_tsum_one_div_nat_add_one_cpow`. -/
+theorem partitionFn_eq_riemannZeta (β : ℝ) (hβ : 1 < β) :
+    (partitionFn β : ℂ) = riemannZeta (β : ℂ) := by
+  have hre : 1 < Complex.re (β : ℂ) := by simpa using hβ
+  rw [zeta_eq_tsum_one_div_nat_add_one_cpow hre, partitionFn_eq_tsum_posNat β,
+    ← natEquivPosNat.tsum_eq]
+  rw [Complex.ofReal_tsum]
+  apply tsum_congr
+  intro m
+  have hval : ((natEquivPosNat m).val : ℝ) = (m : ℝ) + 1 := by
+    simp [natEquivPosNat]
+  rw [hval, Complex.ofReal_cpow (by positivity : (0 : ℝ) ≤ (m : ℝ) + 1)]
+  push_cast
+  rw [Complex.cpow_neg, inv_eq_one_div]
 
 end FockGibbs
