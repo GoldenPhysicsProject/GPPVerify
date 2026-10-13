@@ -6231,7 +6231,7 @@ Source: Codex, GPP-bridge 2026-09-30 theta decimation note. For the summands $\p
 \section{Riemann Hypothesis --- The all-prime shift current}
 Source: Codex, PR \#11 comment 6138916828 (continuing Daniel Toupin's additive-solenoid height spectrum). With $S_ne_m=e_{nm}$ and $De_m=(\log m)e_m$ the algebra of the $S_n$ is Dirichlet convolution and $[D,\cdot]$ is pointwise $\log$, a derivation. Twisting by $n^{-\sigma}$ is a ring map, $Z_\sigma=\sum n^{-\sigma}S_n$ is inverted by $\sum\mu(n)n^{-\sigma}S_n$, and $[D,Z_\sigma]Z_\sigma^{-1}=\sum\Lambda(n)n^{-\sigma}S_n$ exactly, with every prime power. The finite M\"obius cancellation $\sum_{k\le N}(\sum_{d\mid k}\mu(d))f(k)=f(1)$ underlies the theta identity $\sum\mu(n)(\Theta(ny)-1)=2e^{-\pi y^2}$. The $\ell^2$ operators, the Eisenstein coefficient and analytic continuation are not formalized. No RH claim.
 
-\noindent\textbf{Proved (9 declarations):}
+\noindent\textbf{Proved (20 declarations):}
 \begin{itemize}
   \item \lean{GppPrimeShiftCurrent.twist}\leanok\ \texttt{twist}
   \item \lean{GppPrimeShiftCurrent.twist_apply}\leanok\ \texttt{twist\_apply}
@@ -6242,6 +6242,17 @@ Source: Codex, PR \#11 comment 6138916828 (continuing Daniel Toupin's additive-s
   \item \lean{GppPrimeShiftCurrent.pmul_log_twist_zeta}\leanok\ \texttt{pmul\_log\_twist\_zeta}
   \item \lean{GppPrimeShiftCurrent.prime_current}\leanok\ \texttt{prime\_current}
   \item \lean{GppPrimeShiftCurrent.moebius_theta_finite}\leanok\ \texttt{moebius\_theta\_finite}
+  \item \lean{GppPrimeShiftCurrent.lw}\leanok\ \texttt{lw}
+  \item \lean{GppPrimeShiftCurrent.lwPrim}\leanok\ \texttt{lwPrim}
+  \item \lean{GppPrimeShiftCurrent.hasDerivAt_lwPrim}\leanok\ \texttt{hasDerivAt\_lwPrim}
+  \item \lean{GppPrimeShiftCurrent.hasDerivAt_lw}\leanok\ \texttt{hasDerivAt\_lw}
+  \item \lean{GppPrimeShiftCurrent.lw_antitoneOn}\leanok\ \texttt{lw\_antitoneOn}
+  \item \lean{GppPrimeShiftCurrent.lwSeq}\leanok\ \texttt{lwSeq}
+  \item \lean{GppPrimeShiftCurrent.lwSeq_nonneg}\leanok\ \texttt{lwSeq\_nonneg}
+  \item \lean{GppPrimeShiftCurrent.sum_lwSeq_eq}\leanok\ \texttt{sum\_lwSeq\_eq}
+  \item \lean{GppPrimeShiftCurrent.integral_lw_le}\leanok\ \texttt{integral\_lw\_le}
+  \item \lean{GppPrimeShiftCurrent.sum_range_lwSeq_le}\leanok\ \texttt{sum\_range\_lwSeq\_le}
+  \item \lean{GppPrimeShiftCurrent.logDeriv_zeta_error}\leanok\ \texttt{logDeriv\_zeta\_error}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}

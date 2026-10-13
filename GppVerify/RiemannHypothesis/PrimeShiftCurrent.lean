@@ -1,6 +1,8 @@
 import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 import Mathlib.NumberTheory.ArithmeticFunction.Moebius
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
+import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
+import Mathlib.Analysis.SumIntegralComparisons
+import Mathlib.NumberTheory.LSeries.Dirichlet
 
 /-!
 # The all-prime shift current `[D, Z_σ] Z_σ⁻¹ = Σ Λ(n) n^{-σ} S_n`
@@ -21,6 +23,12 @@ as the pointwise product with `log`. In that algebra:
 * `moebius_theta_finite`: the exact finite Möbius cancellation
   `Σ_{k≤N} (Σ_{d∣k} μ(d)) f(k) = f(1)`. Applied to `f(k) = 2e^{−πk²y²}` and summed absolutely, it
   gives Codex's `Σ_n μ(n)(Θ(ny) − 1) = 2e^{−πy²}`; that limit is not formalized here.
+
+* `logDeriv_zeta_error`: for `Re z ≥ 2`, **uniformly in `Im z`**,
+  `‖ζ'/ζ(z)‖ ≤ log 2 · 2^{−q} + 2^{1−q}[log 2/(q−1) + 1/(q−1)²]` with `q = Re z`. This is Codex's
+  exact `N`-scale error for the telescoped height reconstruction
+  `ζ'/ζ(s) = Σ_{k≤N} T'(s+k)/(T(s+k)+2) + ζ'/ζ(s+N)`, where `[T(s)+2]/4 = ζ(s−1)/ζ(s)` makes the product
+  telescope. It uses `Λ ≤ log` and the integral comparison for the decreasing `log x · x^{−q}`.
 
 Codex's height–Eisenstein bridge `φ(w) = √π Γ(w−½)/(4Γ(w)) · [T(2w) + 2]` is a direct substitution
 of `T(s) = 4ζ(s−1)/ζ(s) − 2` into the classical scattering coefficient. The log-derivative
@@ -108,5 +116,156 @@ theorem moebius_theta_finite (f : ℕ → ℝ) {N : ℕ} (hN : 1 ≤ N) :
     exact h
   simp_rw [hk, ite_mul, one_mul, zero_mul]
   rw [Finset.sum_ite_eq' (Finset.Icc 1 N) 1 f, if_pos (Finset.mem_Icc.mpr ⟨le_rfl, hN⟩)]
+
+section ErrorBound
+
+/-- The summand `log x · x^{−q}`. -/
+noncomputable def lw (q x : ℝ) : ℝ := Real.log x * x ^ (-q)
+
+/-- Its antiderivative `−x^{1−q}(log x/(q−1) + 1/(q−1)²)`. -/
+noncomputable def lwPrim (q x : ℝ) : ℝ :=
+  -(x ^ (1 - q)) * (Real.log x / (q - 1) + 1 / (q - 1) ^ 2)
+
+theorem hasDerivAt_lwPrim {q x : ℝ} (hq : 1 < q) (hx : 0 < x) :
+    HasDerivAt (lwPrim q) (lw q x) x := by
+  have h1 : HasDerivAt (fun y : ℝ => y ^ (1 - q)) ((1 - q) * x ^ (1 - q - 1)) x :=
+    Real.hasDerivAt_rpow_const (Or.inl hx.ne')
+  have h2 : HasDerivAt Real.log x⁻¹ x := Real.hasDerivAt_log hx.ne'
+  have h : HasDerivAt (fun y : ℝ => -(y ^ (1 - q)) * (Real.log y / (q - 1) + 1 / (q - 1) ^ 2))
+      (-((1 - q) * x ^ (1 - q - 1)) * (Real.log x / (q - 1) + 1 / (q - 1) ^ 2) +
+        -(x ^ (1 - q)) * (x⁻¹ / (q - 1))) x :=
+    h1.neg.mul ((h2.div_const (q - 1)).add_const (1 / (q - 1) ^ 2))
+  refine h.congr_deriv ?_
+  have hq1 : q - 1 ≠ 0 := by linarith
+  have e1 : x ^ (1 - q - 1) = x ^ (-q) := by congr 1; ring
+  have e2 : x ^ (1 - q) = x ^ (-q) * x := by
+    rw [show 1 - q = -q + 1 by ring, Real.rpow_add_one hx.ne']
+  rw [e1, e2]
+  show _ = Real.log x * x ^ (-q)
+  field_simp
+  ring
+
+theorem hasDerivAt_lw {q x : ℝ} (hx : 0 < x) :
+    HasDerivAt (lw q) (x ^ (-q - 1) * (1 - q * Real.log x)) x := by
+  have h1 : HasDerivAt (fun y : ℝ => y ^ (-q)) ((-q) * x ^ (-q - 1)) x :=
+    Real.hasDerivAt_rpow_const (Or.inl hx.ne')
+  have h : HasDerivAt (fun y : ℝ => Real.log y * y ^ (-q))
+      (x⁻¹ * x ^ (-q) + Real.log x * (-q * x ^ (-q - 1))) x :=
+    (Real.hasDerivAt_log hx.ne').mul h1
+  refine h.congr_deriv ?_
+  rw [show x ^ (-q) = x ^ (-q - 1) * x by rw [← Real.rpow_add_one hx.ne', sub_add_cancel]]
+  field_simp
+  ring
+
+theorem lw_antitoneOn {q : ℝ} (hq : 2 ≤ q) : AntitoneOn (lw q) (Set.Ici 2) := by
+  apply antitoneOn_of_deriv_nonpos (convex_Ici 2)
+  · exact fun x hx => (hasDerivAt_lw (q := q)
+      (by linarith [Set.mem_Ici.mp hx])).continuousAt.continuousWithinAt
+  · intro x hx
+    rw [interior_Ici] at hx
+    exact (hasDerivAt_lw (q := q) (by linarith [Set.mem_Ioi.mp hx])).differentiableAt.differentiableWithinAt
+  · intro x hx
+    rw [interior_Ici] at hx
+    have hx2 : (2 : ℝ) < x := hx
+    rw [(hasDerivAt_lw (q := q) (by linarith)).deriv]
+    apply mul_nonpos_of_nonneg_of_nonpos (by positivity)
+    have h1 : 1 - x⁻¹ ≤ Real.log x := Real.one_sub_inv_le_log_of_pos (by linarith)
+    have h2 : x⁻¹ ≤ 1 / 2 := by rw [inv_eq_one_div]; gcongr
+    nlinarith
+
+/-- `Λ`-majorant: `log n · n^{−q}` for `n ≥ 2`, zero below. -/
+noncomputable def lwSeq (q : ℝ) (n : ℕ) : ℝ := if n ≤ 1 then 0 else lw q n
+
+theorem lwSeq_nonneg (q : ℝ) (n : ℕ) : 0 ≤ lwSeq q n := by
+  unfold lwSeq lw
+  split_ifs with h
+  · exact le_rfl
+  · exact mul_nonneg (Real.log_nonneg (by exact_mod_cast (by omega : 1 ≤ n))) (by positivity)
+
+theorem sum_lwSeq_eq (q : ℝ) {K : ℕ} (hK : 2 ≤ K) :
+    ∑ n ∈ Finset.range (K + 1), lwSeq q n = lw q 2 + ∑ i ∈ Finset.Ico 2 K, lw q ↑(i + 1) := by
+  induction K, hK using Nat.le_induction with
+  | base => simp [Finset.sum_range_succ, lwSeq]
+  | succ K hK ih =>
+    rw [Finset.sum_range_succ, ih, Finset.sum_Ico_succ_top hK, lwSeq, if_neg (by omega)]
+    ring
+
+theorem integral_lw_le {q : ℝ} (hq : 2 ≤ q) {K : ℕ} (hK : 2 ≤ K) :
+    ∫ x in (2 : ℝ)..K, lw q x ≤ 2 ^ (1 - q) * (Real.log 2 / (q - 1) + 1 / (q - 1) ^ 2) := by
+  have hK' : (2 : ℝ) ≤ K := by exact_mod_cast hK
+  rw [intervalIntegral.integral_eq_sub_of_hasDerivAt (f := lwPrim q)]
+  · have hpos : 0 ≤ Real.log K / (q - 1) + 1 / (q - 1) ^ 2 := by
+      have := Real.log_nonneg (by linarith : (1 : ℝ) ≤ K)
+      have : 0 < q - 1 := by linarith
+      positivity
+    have hF : lwPrim q K ≤ 0 := by
+      unfold lwPrim
+      rw [neg_mul]
+      exact neg_nonpos.mpr (mul_nonneg (Real.rpow_nonneg (by linarith) _) hpos)
+    have h2 : lwPrim q 2 = -(2 ^ (1 - q) * (Real.log 2 / (q - 1) + 1 / (q - 1) ^ 2)) := by
+      unfold lwPrim
+      ring
+    linarith
+  · intro x hx
+    rw [Set.uIcc_of_le hK'] at hx
+    exact hasDerivAt_lwPrim (by linarith) (by linarith [hx.1])
+  · apply ContinuousOn.intervalIntegrable
+    intro x hx
+    rw [Set.uIcc_of_le hK'] at hx
+    exact (hasDerivAt_lw (q := q) (by linarith [hx.1])).continuousAt.continuousWithinAt
+
+theorem sum_range_lwSeq_le {q : ℝ} (hq : 2 ≤ q) (M : ℕ) :
+    ∑ n ∈ Finset.range M, lwSeq q n ≤
+      Real.log 2 * 2 ^ (-q) + 2 ^ (1 - q) * (Real.log 2 / (q - 1) + 1 / (q - 1) ^ 2) := by
+  set K := max M 2 with hKdef
+  have hK : 2 ≤ K := le_max_right _ _
+  have hanti : AntitoneOn (lw q) (Set.Icc ((2 : ℕ) : ℝ) (K : ℝ)) :=
+    (lw_antitoneOn hq).mono (fun x hx => by
+      simp only [Set.mem_Icc, Nat.cast_ofNat] at hx
+      exact Set.mem_Ici.mpr hx.1)
+  have hsi := AntitoneOn.sum_le_integral_Ico hK hanti
+  simp only [Nat.cast_ofNat] at hsi
+  calc ∑ n ∈ Finset.range M, lwSeq q n
+      ≤ ∑ n ∈ Finset.range (K + 1), lwSeq q n :=
+        Finset.sum_le_sum_of_subset_of_nonneg (Finset.range_subset_range.mpr (by omega))
+          (fun n _ _ => lwSeq_nonneg q n)
+    _ = lw q 2 + ∑ i ∈ Finset.Ico 2 K, lw q ↑(i + 1) := sum_lwSeq_eq q hK
+    _ ≤ lw q 2 + 2 ^ (1 - q) * (Real.log 2 / (q - 1) + 1 / (q - 1) ^ 2) := by
+        have := integral_lw_le hq hK
+        linarith
+    _ = _ := by rw [lw]
+
+/-- **Uniform multiscale error**: for `Re z ≥ 2`, uniformly in `Im z`,
+`‖ζ'/ζ(z)‖ ≤ log 2 · 2^{−q} + 2^{1−q}(log 2/(q−1) + 1/(q−1)²)` with `q = Re z`. -/
+theorem logDeriv_zeta_error {z : ℂ} (hz : 2 ≤ z.re) :
+    ‖deriv riemannZeta z / riemannZeta z‖ ≤
+      Real.log 2 * 2 ^ (-z.re) + 2 ^ (1 - z.re) * (Real.log 2 / (z.re - 1) + 1 / (z.re - 1) ^ 2) := by
+  have hterm : ∀ n, ‖LSeries.term (fun n => (vonMangoldt n : ℂ)) z n‖ ≤ lwSeq z.re n := by
+    intro n
+    rw [LSeries.norm_term_eq]
+    split_ifs with h0
+    · exact lwSeq_nonneg _ n
+    · rcases (by omega : n = 1 ∨ 2 ≤ n) with rfl | h2
+      · simp [lwSeq]
+      · rw [lwSeq, if_neg (by omega), lw, Complex.norm_real,
+          Real.norm_of_nonneg vonMangoldt_nonneg, Real.rpow_neg (Nat.cast_nonneg _),
+          ← div_eq_mul_inv]
+        gcongr
+        exact vonMangoldt_le_log
+  have hsb : Summable (lwSeq z.re) :=
+    summable_of_sum_range_le (fun n => lwSeq_nonneg _ n) (sum_range_lwSeq_le hz)
+  have hsn : Summable (fun n => ‖LSeries.term (fun n => (vonMangoldt n : ℂ)) z n‖) :=
+    Summable.of_nonneg_of_le (fun _ => norm_nonneg _) hterm hsb
+  have hL := LSeries_vonMangoldt_eq_deriv_riemannZeta_div (s := z) (by linarith)
+  have e : deriv riemannZeta z / riemannZeta z = -LSeries (fun n => (vonMangoldt n : ℂ)) z := by
+    rw [hL]
+    ring
+  rw [e, norm_neg, LSeries]
+  calc ‖∑' n, LSeries.term (fun n => (vonMangoldt n : ℂ)) z n‖
+      ≤ ∑' n, ‖LSeries.term (fun n => (vonMangoldt n : ℂ)) z n‖ := norm_tsum_le_tsum_norm hsn
+    _ ≤ ∑' n, lwSeq z.re n := hsn.tsum_le_tsum hterm hsb
+    _ ≤ _ := Real.tsum_le_of_sum_range_le (fun n => lwSeq_nonneg _ n) (sum_range_lwSeq_le hz)
+
+end ErrorBound
 
 end GppPrimeShiftCurrent
