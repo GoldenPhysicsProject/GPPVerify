@@ -6600,6 +6600,35 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_finite\_even\_prime\_cl
   \item \lean{GppPrimeBlockDiscriminator.mixture_le}\leanok\ \texttt{mixture\_le}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Conductor-Five Quartic Gauss-Sum Operator}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_quartic\_bc\_haar\_spinor\_gauss\_signed\_pairing}, \S1. With $\zeta=e^{2\pi i/5}$ and the quartic character $\chi$ mod 5 ($\chi(2)=i$), the operator $B_\chi(x)=\tfrac14\sum_a\bar\chi(a)\zeta^{ax}$ satisfies $B_\chi(x)=\chi(x)\bar\tau/4$, with $\bar\tau\,\overline{\bar\tau}=5$ and $\overline{\bar\tau}=-\tau$. Hence $B_\chi\overline{B_\chi}=\tfrac5{16}(1-P_5)$ pointwise, $\overline{B_\chi}=-B_{\bar\chi}$, and $B_\chi B_{\bar\chi}=-\tfrac5{16}(1-P_5)$: the sign is forced by $\chi(-1)=-1$. Proved by pure algebra in $\zeta$ ($\zeta^5=1$, geometric sum, $i^2=-1$). Bost--Connes algebra, KMS values and the $L(s,\chi)$ Mellin period are audited, not formalized. No RH claim.
+
+\noindent\textbf{Proved (22 declarations):}
+\begin{itemize}
+  \item \lean{GppQuarticGaussFive.zeta_prim}\leanok\ \texttt{zeta\_prim}
+  \item \lean{GppQuarticGaussFive.zeta_pow_five}\leanok\ \texttt{zeta\_pow\_five}
+  \item \lean{GppQuarticGaussFive.geom}\leanok\ \texttt{geom}
+  \item \lean{GppQuarticGaussFive.conj_zeta}\leanok\ \texttt{conj\_zeta}
+  \item \lean{GppQuarticGaussFive.chi}\leanok\ \texttt{chi}
+  \item \lean{GppQuarticGaussFive.chibar}\leanok\ \texttt{chibar}
+  \item \lean{GppQuarticGaussFive.taubar}\leanok\ \texttt{taubar}
+  \item \lean{GppQuarticGaussFive.tau}\leanok\ \texttt{tau}
+  \item \lean{GppQuarticGaussFive.B}\leanok\ \texttt{B}
+  \item \lean{GppQuarticGaussFive.Bbar}\leanok\ \texttt{Bbar}
+  \item \lean{GppQuarticGaussFive.zeta_pow_mod}\leanok\ \texttt{zeta\_pow\_mod}
+  \item \lean{GppQuarticGaussFive.B_mod}\leanok\ \texttt{B\_mod}
+  \item \lean{GppQuarticGaussFive.Bbar_mod}\leanok\ \texttt{Bbar\_mod}
+  \item \lean{GppQuarticGaussFive.B_eq}\leanok\ \texttt{B\_eq}
+  \item \lean{GppQuarticGaussFive.Bbar_eq}\leanok\ \texttt{Bbar\_eq}
+  \item \lean{GppQuarticGaussFive.conj_taubar}\leanok\ \texttt{conj\_taubar}
+  \item \lean{GppQuarticGaussFive.taubar_mul_tau}\leanok\ \texttt{taubar\_mul\_tau}
+  \item \lean{GppQuarticGaussFive.tau_mul_conj}\leanok\ \texttt{tau\_mul\_conj}
+  \item \lean{GppQuarticGaussFive.chi_mul_conj}\leanok\ \texttt{chi\_mul\_conj}
+  \item \lean{GppQuarticGaussFive.B_mul_conj}\leanok\ \texttt{B\_mul\_conj}
+  \item \lean{GppQuarticGaussFive.conj_B}\leanok\ \texttt{conj\_B}
+  \item \lean{GppQuarticGaussFive.B_mul_Bbar}\leanok\ \texttt{B\_mul\_Bbar}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
