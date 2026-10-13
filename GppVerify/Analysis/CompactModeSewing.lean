@@ -3,6 +3,8 @@ import Mathlib.Algebra.Module.LinearMap.Basic
 import Mathlib.Tactic.NoncommRing
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.Abel
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 
 /-!
 # Compact mode separation and moment correction
@@ -52,6 +54,25 @@ theorem inverse_coordinate_bound (a w : ℝ) (hw : 1 ≤ w) :
   apply div_le_self (sq_nonneg a)
   nlinarith
 
+/-- Dividing the odd pole moment by its scale prevents its denominator from collapsing. -/
+theorem scaled_odd_moment_lower (a y : ℝ) (ha : 0 < a) :
+    y ^ 2 ≤ (2 / a) * Real.sinh (a * y / 2) * y := by
+  have hprod : (a * y / 2) * y ≤ Real.sinh (a * y / 2) * y := by
+    rcases le_total 0 y with hy | hy
+    · exact mul_le_mul_of_nonneg_right
+        (Real.self_le_sinh_iff.mpr (by positivity)) hy
+    · exact mul_le_mul_of_nonpos_right
+        (Real.sinh_le_self_iff.mpr (by
+          exact div_nonpos_of_nonpos_of_nonneg (mul_nonpos_of_nonneg_of_nonpos ha.le hy)
+            (by norm_num))) hy
+  calc
+    y ^ 2 = (2 / a) * ((a * y / 2) * y) := by
+      field_simp [ne_of_gt ha]
+      <;> ring
+    _ ≤ (2 / a) * (Real.sinh (a * y / 2) * y) :=
+      mul_le_mul_of_nonneg_left hprod (by positivity)
+    _ = (2 / a) * Real.sinh (a * y / 2) * y := by ring
+
 end GppCompactModeSewing
 
 #print axioms GppCompactModeSewing.phase_constant
@@ -59,3 +80,5 @@ end GppCompactModeSewing
 #print axioms GppCompactModeSewing.difference_idempotent
 #print axioms GppCompactModeSewing.moment_correction
 #print axioms GppCompactModeSewing.inverse_coordinate_bound
+
+#print axioms GppCompactModeSewing.scaled_odd_moment_lower
