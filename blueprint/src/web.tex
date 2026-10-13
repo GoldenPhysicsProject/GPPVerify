@@ -6352,6 +6352,29 @@ Source: Codex, PR \#11 comment 6139796379, answering Daniel Toupin's ``is 5 the 
   \item \lean{GppPrimeFiveBoundary.dic5_card}\leanok\ \texttt{dic5\_card}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The golden geodesic: Hecke norm identity and Weyl reflection}
+Source: Codex, PR \#11 comment 6140674618 (Daniel Toupin's golden Haar-torus route; toroidal periods are due to Hecke and Zagier). On the unit-speed golden geodesic $z(t)=\tfrac12+\tfrac{\sqrt5}{2}(\tanh t+i\operatorname{sech}t)$, the norm identity $|mz+n|^2/\operatorname{Im}z=(\alpha^2e^t+\alpha'^2e^{-t})/\sqrt5$ with $\alpha=m\varphi+n$ is the exact algebraic core of Hecke's unfolding $\int_0^{4\log\varphi}E^*=\Lambda_{\mathbb{Q}(\sqrt5)}$. The Weyl element reverses the geodesic, $-1/z(t)=z(-t-2\log\varphi)$, with fixed points $z(-\log\varphi)=i$ and $z(\log\varphi)=1+i$. The Neumann boundary holds for every $s$, so it does not prove RH. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppGoldenGeodesic.phi}\leanok\ \texttt{phi}
+  \item \lean{GppGoldenGeodesic.phi'}\leanok\ \texttt{phi'}
+  \item \lean{GppGoldenGeodesic.gx}\leanok\ \texttt{gx}
+  \item \lean{GppGoldenGeodesic.gy}\leanok\ \texttt{gy}
+  \item \lean{GppGoldenGeodesic.sqrt5_sq}\leanok\ \texttt{sqrt5\_sq}
+  \item \lean{GppGoldenGeodesic.phi_pos}\leanok\ \texttt{phi\_pos}
+  \item \lean{GppGoldenGeodesic.phi_inv}\leanok\ \texttt{phi\_inv}
+  \item \lean{GppGoldenGeodesic.cosh_log_phi}\leanok\ \texttt{cosh\_log\_phi}
+  \item \lean{GppGoldenGeodesic.sinh_log_phi}\leanok\ \texttt{sinh\_log\_phi}
+  \item \lean{GppGoldenGeodesic.on_circle}\leanok\ \texttt{on\_circle}
+  \item \lean{GppGoldenGeodesic.norm_identity}\leanok\ \texttt{norm\_identity}
+  \item \lean{GppGoldenGeodesic.cosh_two_log_phi}\leanok\ \texttt{cosh\_two\_log\_phi}
+  \item \lean{GppGoldenGeodesic.sinh_two_log_phi}\leanok\ \texttt{sinh\_two\_log\_phi}
+  \item \lean{GppGoldenGeodesic.weyl_reflection}\leanok\ \texttt{weyl\_reflection}
+  \item \lean{GppGoldenGeodesic.fixed_i}\leanok\ \texttt{fixed\_i}
+  \item \lean{GppGoldenGeodesic.fixed_one_add_i}\leanok\ \texttt{fixed\_one\_add\_i}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
