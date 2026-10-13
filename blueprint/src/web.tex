@@ -6272,6 +6272,27 @@ Source: Codex, 2026-10-13 compact-modes note \S5 (correcting Claude Code's 2026-
   \item \lean{GppNoGo.ConfluentStieltjesGram.diag_congruence_witness}\leanok\ \texttt{diag\_congruence\_witness}
 \end{itemize}
 
+\section{Riemann Hypothesis --- A Haar square need not be reflection positive}
+Source: Codex, PR \#11 comment 6139438663, testing Daniel Toupin's Haar-measure proposal. On $\mathbb{Z}$ every finitely supported autocorrelation is of positive type, but $u=\delta_0+c\delta_1$ has reflected Hankel form $-c^2(1+c^2)<0$ at times $(0,1)$; its transform $(1+ce^{z})(1+ce^{-z})$ is nonnegative on the imaginary axis yet vanishes at $\operatorname{Re}z=-\log c$. The needed law is reflected positivity of the actual signed $W$, which is RH-strength. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.HaarSquareNotReflection.autocorr}\leanok\ \texttt{autocorr}
+  \item \lean{GppNoGo.HaarSquareNotReflection.autocorr_posType}\leanok\ \texttt{autocorr\_posType}
+  \item \lean{GppNoGo.HaarSquareNotReflection.u}\leanok\ \texttt{u}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C}\leanok\ \texttt{C}
+  \item \lean{GppNoGo.HaarSquareNotReflection.u_support}\leanok\ \texttt{u\_support}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_zero}\leanok\ \texttt{C\_zero}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_one}\leanok\ \texttt{C\_one}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_two}\leanok\ \texttt{C\_two}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_posType}\leanok\ \texttt{C\_posType}
+  \item \lean{GppNoGo.HaarSquareNotReflection.hankel_witness}\leanok\ \texttt{hankel\_witness}
+  \item \lean{GppNoGo.HaarSquareNotReflection.hankel_neg}\leanok\ \texttt{hankel\_neg}
+  \item \lean{GppNoGo.HaarSquareNotReflection.transform_factor}\leanok\ \texttt{transform\_factor}
+  \item \lean{GppNoGo.HaarSquareNotReflection.transform_zero_off_axis}\leanok\ \texttt{transform\_zero\_off\_axis}
+  \item \lean{GppNoGo.HaarSquareNotReflection.off_axis}\leanok\ \texttt{off\_axis}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
