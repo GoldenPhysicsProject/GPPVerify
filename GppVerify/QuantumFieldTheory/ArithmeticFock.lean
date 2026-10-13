@@ -123,8 +123,8 @@ theorem ext_on_config {T S : Fock ι →ₗ[ℂ] Fock ι}
     apply Finsupp.ext; intro k
     by_cases hk : k = a
     · subst hk
-      simp [Finsupp.single_apply, Finsupp.smul_apply]
-    · simp [Finsupp.single_apply, hk, Finsupp.smul_apply]
+      simp
+    · simp [hk]
   apply LinearMap.ext; intro x
   induction x using Finsupp.induction with
   | zero => simp
