@@ -6228,6 +6228,64 @@ Source: Codex, GPP-bridge 2026-09-30 theta decimation note. For the summands $\p
   \item \lean{GppThetaDecimation.threshold_iff}\leanok\ \texttt{threshold\_iff}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The all-prime shift current}
+Source: Codex, PR \#11 comment 6138916828 (continuing Daniel Toupin's additive-solenoid height spectrum). With $S_ne_m=e_{nm}$ and $De_m=(\log m)e_m$ the algebra of the $S_n$ is Dirichlet convolution and $[D,\cdot]$ is pointwise $\log$, a derivation. Twisting by $n^{-\sigma}$ is a ring map, $Z_\sigma=\sum n^{-\sigma}S_n$ is inverted by $\sum\mu(n)n^{-\sigma}S_n$, and $[D,Z_\sigma]Z_\sigma^{-1}=\sum\Lambda(n)n^{-\sigma}S_n$ exactly, with every prime power. The finite M\"obius cancellation $\sum_{k\le N}(\sum_{d\mid k}\mu(d))f(k)=f(1)$ underlies the theta identity $\sum\mu(n)(\Theta(ny)-1)=2e^{-\pi y^2}$. The $\ell^2$ operators, the Eisenstein coefficient and analytic continuation are not formalized. No RH claim.
+
+\noindent\textbf{Proved (20 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeShiftCurrent.twist}\leanok\ \texttt{twist}
+  \item \lean{GppPrimeShiftCurrent.twist_apply}\leanok\ \texttt{twist\_apply}
+  \item \lean{GppPrimeShiftCurrent.twist_mul}\leanok\ \texttt{twist\_mul}
+  \item \lean{GppPrimeShiftCurrent.twist_one}\leanok\ \texttt{twist\_one}
+  \item \lean{GppPrimeShiftCurrent.pmul_log_mul}\leanok\ \texttt{pmul\_log\_mul}
+  \item \lean{GppPrimeShiftCurrent.twist_zeta_mul_twist_moebius}\leanok\ \texttt{twist\_zeta\_mul\_twist\_moebius}
+  \item \lean{GppPrimeShiftCurrent.pmul_log_twist_zeta}\leanok\ \texttt{pmul\_log\_twist\_zeta}
+  \item \lean{GppPrimeShiftCurrent.prime_current}\leanok\ \texttt{prime\_current}
+  \item \lean{GppPrimeShiftCurrent.moebius_theta_finite}\leanok\ \texttt{moebius\_theta\_finite}
+  \item \lean{GppPrimeShiftCurrent.lw}\leanok\ \texttt{lw}
+  \item \lean{GppPrimeShiftCurrent.lwPrim}\leanok\ \texttt{lwPrim}
+  \item \lean{GppPrimeShiftCurrent.hasDerivAt_lwPrim}\leanok\ \texttt{hasDerivAt\_lwPrim}
+  \item \lean{GppPrimeShiftCurrent.hasDerivAt_lw}\leanok\ \texttt{hasDerivAt\_lw}
+  \item \lean{GppPrimeShiftCurrent.lw_antitoneOn}\leanok\ \texttt{lw\_antitoneOn}
+  \item \lean{GppPrimeShiftCurrent.lwSeq}\leanok\ \texttt{lwSeq}
+  \item \lean{GppPrimeShiftCurrent.lwSeq_nonneg}\leanok\ \texttt{lwSeq\_nonneg}
+  \item \lean{GppPrimeShiftCurrent.sum_lwSeq_eq}\leanok\ \texttt{sum\_lwSeq\_eq}
+  \item \lean{GppPrimeShiftCurrent.integral_lw_le}\leanok\ \texttt{integral\_lw\_le}
+  \item \lean{GppPrimeShiftCurrent.sum_range_lwSeq_le}\leanok\ \texttt{sum\_range\_lwSeq\_le}
+  \item \lean{GppPrimeShiftCurrent.logDeriv_zeta_error}\leanok\ \texttt{logDeriv\_zeta\_error}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Rational height shells and integer-shell frequencies}
+Source: Codex, PR \#11 comment 6138600589 (Daniel Toupin's compact-$K$ idea continued to the additive solenoid $\mathbb{A}_\mathbb{Q}/\mathbb{Q}$). Reduced positive fractions of height $\max(a,b)\le n$ number at least $11n^2/36$; each dyadic height shell contributes at least $1/18$ to $\sum H^{-2}$; the partial sums of $\sum H^{-2\sigma}$ are bounded iff $\sigma>1$ (the positive-frequency core of $\delta_0\in H_{-\sigma}(X)\iff\sigma>1$). Every rational lies in $(1/(j+1)!)\mathbb{Z}$ at level $j=\mathrm{den}$, where the accelerated frequency has modulus at least $1$, so the multiscale inverse is bounded by $1/(2\pi)$ over all of $\mathbb{Q}$. The solenoid, Parseval and Tate--Poisson identities are not formalized; the completed Weil sign stays OPEN. No RH claim.
+
+\noindent\textbf{Proved (24 declarations):}
+\begin{itemize}
+  \item \lean{GppRationalHeightShells.box}\leanok\ \texttt{box}
+  \item \lean{GppRationalHeightShells.reduced}\leanok\ \texttt{reduced}
+  \item \lean{GppRationalHeightShells.height}\leanok\ \texttt{height}
+  \item \lean{GppRationalHeightShells.card_box}\leanok\ \texttt{card\_box}
+  \item \lean{GppRationalHeightShells.card_reduced_le}\leanok\ \texttt{card\_reduced\_le}
+  \item \lean{GppRationalHeightShells.card_common_dvd}\leanok\ \texttt{card\_common\_dvd}
+  \item \lean{GppRationalHeightShells.nonreduced_subset}\leanok\ \texttt{nonreduced\_subset}
+  \item \lean{GppRationalHeightShells.sum_inv_sq_le}\leanok\ \texttt{sum\_inv\_sq\_le}
+  \item \lean{GppRationalHeightShells.reduced_lower}\leanok\ \texttt{reduced\_lower}
+  \item \lean{GppRationalHeightShells.shell}\leanok\ \texttt{shell}
+  \item \lean{GppRationalHeightShells.reduced_filter_not}\leanok\ \texttt{reduced\_filter\_not}
+  \item \lean{GppRationalHeightShells.card_shell}\leanok\ \texttt{card\_shell}
+  \item \lean{GppRationalHeightShells.shell_card_lower}\leanok\ \texttt{shell\_card\_lower}
+  \item \lean{GppRationalHeightShells.shell_sum_lower}\leanok\ \texttt{shell\_sum\_lower}
+  \item \lean{GppRationalHeightShells.dyadic_sum_lower}\leanok\ \texttt{dyadic\_sum\_lower}
+  \item \lean{GppRationalHeightShells.not_bounded}\leanok\ \texttt{not\_bounded}
+  \item \lean{GppRationalHeightShells.bounded_of_one_lt}\leanok\ \texttt{bounded\_of\_one\_lt}
+  \item \lean{GppRationalHeightShells.bounded_iff}\leanok\ \texttt{bounded\_iff}
+  \item \lean{GppRationalHeightShells.mem_reduced}\leanok\ \texttt{mem\_reduced}
+  \item \lean{GppRationalHeightShells.card_height_eq}\leanok\ \texttt{card\_height\_eq}
+  \item \lean{GppRationalHeightShells.factorial_level}\leanok\ \texttt{factorial\_level}
+  \item \lean{GppRationalHeightShells.one_le_abs_level}\leanok\ \texttt{one\_le\_abs\_level}
+  \item \lean{GppRationalHeightShells.inverse_bound}\leanok\ \texttt{inverse\_bound}
+  \item \lean{GppRationalHeightShells.level_inverse_bound}\leanok\ \texttt{level\_inverse\_bound}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Confluent Stieltjes jets are Gram matrices}
 Source: Codex, 2026-10-13 compact-modes note \S5 (correcting Claude Code's 2026-10-12 locality recommendation). The confluent jet matrix $\int (u_0+t)^{-(i+j+2)}\,d\mu$ of a finite positive measure on $[0,\infty)$ is a Gram matrix at every size, so one negative witness excludes every Stieltjes representation. The numerical witnesses for $F_\theta$ are not formalized. No RH claim.
 
@@ -6239,6 +6297,148 @@ Source: Codex, 2026-10-13 compact-modes note \S5 (correcting Claude Code's 2026-
   \item \lean{GppNoGo.ConfluentStieltjesGram.jetGram_quadratic_nonneg}\leanok\ \texttt{jetGram\_quadratic\_nonneg}
   \item \lean{GppNoGo.ConfluentStieltjesGram.not_stieltjes_of_negative_witness}\leanok\ \texttt{not\_stieltjes\_of\_negative\_witness}
   \item \lean{GppNoGo.ConfluentStieltjesGram.diag_congruence_witness}\leanok\ \texttt{diag\_congruence\_witness}
+\end{itemize}
+
+\section{Riemann Hypothesis --- A Haar square need not be reflection positive}
+Source: Codex, PR \#11 comment 6139438663, testing Daniel Toupin's Haar-measure proposal. On $\mathbb{Z}$ every finitely supported autocorrelation is of positive type, but $u=\delta_0+c\delta_1$ has reflected Hankel form $-c^2(1+c^2)<0$ at times $(0,1)$; its transform $(1+ce^{z})(1+ce^{-z})$ is nonnegative on the imaginary axis yet vanishes at $\operatorname{Re}z=-\log c$. The needed law is reflected positivity of the actual signed $W$, which is RH-strength. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppNoGo.HaarSquareNotReflection.autocorr}\leanok\ \texttt{autocorr}
+  \item \lean{GppNoGo.HaarSquareNotReflection.autocorr_posType}\leanok\ \texttt{autocorr\_posType}
+  \item \lean{GppNoGo.HaarSquareNotReflection.u}\leanok\ \texttt{u}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C}\leanok\ \texttt{C}
+  \item \lean{GppNoGo.HaarSquareNotReflection.u_support}\leanok\ \texttt{u\_support}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_zero}\leanok\ \texttt{C\_zero}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_one}\leanok\ \texttt{C\_one}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_two}\leanok\ \texttt{C\_two}
+  \item \lean{GppNoGo.HaarSquareNotReflection.C_posType}\leanok\ \texttt{C\_posType}
+  \item \lean{GppNoGo.HaarSquareNotReflection.hankel_witness}\leanok\ \texttt{hankel\_witness}
+  \item \lean{GppNoGo.HaarSquareNotReflection.hankel_neg}\leanok\ \texttt{hankel\_neg}
+  \item \lean{GppNoGo.HaarSquareNotReflection.transform_factor}\leanok\ \texttt{transform\_factor}
+  \item \lean{GppNoGo.HaarSquareNotReflection.transform_zero_off_axis}\leanok\ \texttt{transform\_zero\_off\_axis}
+  \item \lean{GppNoGo.HaarSquareNotReflection.off_axis}\leanok\ \texttt{off\_axis}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Prime 5 is the last integral local boost}
+Source: Codex, PR \#11 comment 6139796379, answering Daniel Toupin's ``is 5 the boundary?''. The local TFD boost $\lambda_p=(\sqrt p+1)/(\sqrt p-1)$ has trace $\lambda_p+\lambda_p^{-1}=2+4/(p-1)$, which is an integer (so $\lambda_p$ is a hyperbolic $SL_2(\mathbb{Z})$ eigenvalue) iff $p\in\{2,3,5\}$. At $p=5$ the boost is $\varphi^2$, the shortest modular geodesic $A=[[2,1],[1,1]]=UV$, inverted by the Weyl element $S$; mod 5, $(A+1)^2=0$, $A^5=-1$, $SAS^{-1}=A^9$, and the twenty products $A^iS^j$ are distinct (dicyclic group of order 20). The criterion assumes integral modular compatibility. No RH claim.
+
+\noindent\textbf{Proved (25 declarations):}
+\begin{itemize}
+  \item \lean{GppPrimeFiveBoundary.dvd_four_iff}\leanok\ \texttt{dvd\_four\_iff}
+  \item \lean{GppPrimeFiveBoundary.boost}\leanok\ \texttt{boost}
+  \item \lean{GppPrimeFiveBoundary.sqrt_gt_one}\leanok\ \texttt{sqrt\_gt\_one}
+  \item \lean{GppPrimeFiveBoundary.boost_trace}\leanok\ \texttt{boost\_trace}
+  \item \lean{GppPrimeFiveBoundary.trace_int_iff}\leanok\ \texttt{trace\_int\_iff}
+  \item \lean{GppPrimeFiveBoundary.companion_det}\leanok\ \texttt{companion\_det}
+  \item \lean{GppPrimeFiveBoundary.boost_quadratic}\leanok\ \texttt{boost\_quadratic}
+  \item \lean{GppPrimeFiveBoundary.U}\leanok\ \texttt{U}
+  \item \lean{GppPrimeFiveBoundary.V}\leanok\ \texttt{V}
+  \item \lean{GppPrimeFiveBoundary.A}\leanok\ \texttt{A}
+  \item \lean{GppPrimeFiveBoundary.Ainv}\leanok\ \texttt{Ainv}
+  \item \lean{GppPrimeFiveBoundary.S}\leanok\ \texttt{S}
+  \item \lean{GppPrimeFiveBoundary.A_eq_UV}\leanok\ \texttt{A\_eq\_UV}
+  \item \lean{GppPrimeFiveBoundary.A_trace_det}\leanok\ \texttt{A\_trace\_det}
+  \item \lean{GppPrimeFiveBoundary.A_mul_Ainv}\leanok\ \texttt{A\_mul\_Ainv}
+  \item \lean{GppPrimeFiveBoundary.S_conj}\leanok\ \texttt{S\_conj}
+  \item \lean{GppPrimeFiveBoundary.S_sq}\leanok\ \texttt{S\_sq}
+  \item \lean{GppPrimeFiveBoundary.A5}\leanok\ \texttt{A5}
+  \item \lean{GppPrimeFiveBoundary.S5}\leanok\ \texttt{S5}
+  \item \lean{GppPrimeFiveBoundary.A5_unipotent}\leanok\ \texttt{A5\_unipotent}
+  \item \lean{GppPrimeFiveBoundary.A5_pow_five}\leanok\ \texttt{A5\_pow\_five}
+  \item \lean{GppPrimeFiveBoundary.A5_sq_ne_one}\leanok\ \texttt{A5\_sq\_ne\_one}
+  \item \lean{GppPrimeFiveBoundary.S5_conj}\leanok\ \texttt{S5\_conj}
+  \item \lean{GppPrimeFiveBoundary.S5_sq}\leanok\ \texttt{S5\_sq}
+  \item \lean{GppPrimeFiveBoundary.dic5_card}\leanok\ \texttt{dic5\_card}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The golden geodesic: Hecke norm identity and Weyl reflection}
+Source: Codex, PR \#11 comment 6140674618 (Daniel Toupin's golden Haar-torus route; toroidal periods are due to Hecke and Zagier). On the unit-speed golden geodesic $z(t)=\tfrac12+\tfrac{\sqrt5}{2}(\tanh t+i\operatorname{sech}t)$, the norm identity $|mz+n|^2/\operatorname{Im}z=(\alpha^2e^t+\alpha'^2e^{-t})/\sqrt5$ with $\alpha=m\varphi+n$ is the exact algebraic core of Hecke's unfolding $\int_0^{4\log\varphi}E^*=\Lambda_{\mathbb{Q}(\sqrt5)}$. The Weyl element reverses the geodesic, $-1/z(t)=z(-t-2\log\varphi)$, with fixed points $z(-\log\varphi)=i$ and $z(\log\varphi)=1+i$. The Neumann boundary holds for every $s$, so it does not prove RH. No RH claim.
+
+\noindent\textbf{Proved (16 declarations):}
+\begin{itemize}
+  \item \lean{GppGoldenGeodesic.phi}\leanok\ \texttt{phi}
+  \item \lean{GppGoldenGeodesic.phi'}\leanok\ \texttt{phi'}
+  \item \lean{GppGoldenGeodesic.gx}\leanok\ \texttt{gx}
+  \item \lean{GppGoldenGeodesic.gy}\leanok\ \texttt{gy}
+  \item \lean{GppGoldenGeodesic.sqrt5_sq}\leanok\ \texttt{sqrt5\_sq}
+  \item \lean{GppGoldenGeodesic.phi_pos}\leanok\ \texttt{phi\_pos}
+  \item \lean{GppGoldenGeodesic.phi_inv}\leanok\ \texttt{phi\_inv}
+  \item \lean{GppGoldenGeodesic.cosh_log_phi}\leanok\ \texttt{cosh\_log\_phi}
+  \item \lean{GppGoldenGeodesic.sinh_log_phi}\leanok\ \texttt{sinh\_log\_phi}
+  \item \lean{GppGoldenGeodesic.on_circle}\leanok\ \texttt{on\_circle}
+  \item \lean{GppGoldenGeodesic.norm_identity}\leanok\ \texttt{norm\_identity}
+  \item \lean{GppGoldenGeodesic.cosh_two_log_phi}\leanok\ \texttt{cosh\_two\_log\_phi}
+  \item \lean{GppGoldenGeodesic.sinh_two_log_phi}\leanok\ \texttt{sinh\_two\_log\_phi}
+  \item \lean{GppGoldenGeodesic.weyl_reflection}\leanok\ \texttt{weyl\_reflection}
+  \item \lean{GppGoldenGeodesic.fixed_i}\leanok\ \texttt{fixed\_i}
+  \item \lean{GppGoldenGeodesic.fixed_one_add_i}\leanok\ \texttt{fixed\_one\_add\_i}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Fibonacci/Lucas dynamics of the golden modular matrix}
+Source: Codex, 2026-10-13 Fibonacci--Lucas note (Daniel Toupin's golden prime-five boundary). With $Q=[[1,1],[1,0]]$ and $A=Q^2=[[2,1],[1,1]]$: $Q^{m+1}=[[F_{m+2},F_{m+1}],[F_{m+1},F_m]]$, Cassini, $\operatorname{tr}A^n=L_{2n}$, $\det(A^n-1)=2-L_{2n}$ so the torus has $P_n=L_{2n}-2$ points fixed by $A^n$, with $P_n=L_n^2$ for odd $n$ and $5F_n^2$ for even $n$; $F_p\equiv\chi_5(p)\pmod p$ is checked for odd primes $p<100$. Classical facts; the Artin--Mazur zeta is rational and carries no zeta zeros. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppGoldenLucas.Q}\leanok\ \texttt{Q}
+  \item \lean{GppGoldenLucas.A}\leanok\ \texttt{A}
+  \item \lean{GppGoldenLucas.lucas}\leanok\ \texttt{lucas}
+  \item \lean{GppGoldenLucas.A_eq_Q_sq}\leanok\ \texttt{A\_eq\_Q\_sq}
+  \item \lean{GppGoldenLucas.Q_pow}\leanok\ \texttt{Q\_pow}
+  \item \lean{GppGoldenLucas.det_Q}\leanok\ \texttt{det\_Q}
+  \item \lean{GppGoldenLucas.cassini}\leanok\ \texttt{cassini}
+  \item \lean{GppGoldenLucas.trace_A_pow}\leanok\ \texttt{trace\_A\_pow}
+  \item \lean{GppGoldenLucas.det_A}\leanok\ \texttt{det\_A}
+  \item \lean{GppGoldenLucas.det_A_pow_sub_one}\leanok\ \texttt{det\_A\_pow\_sub\_one}
+  \item \lean{GppGoldenLucas.lucas_two_mul_sub_two}\leanok\ \texttt{lucas\_two\_mul\_sub\_two}
+  \item \lean{GppGoldenLucas.periodic_odd}\leanok\ \texttt{periodic\_odd}
+  \item \lean{GppGoldenLucas.periodic_even}\leanok\ \texttt{periodic\_even}
+  \item \lean{GppGoldenLucas.fib_mod_prime_small}\leanok\ \texttt{fib\_mod\_prime\_small}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The Euler logarithm as the Dirichlet lift of the prime SU(1,1) coherent state}
+Source: Codex, GPPDiscovery2 2026-09-27 Euler-log note. The half-integrated SU(1,1) coherent vector $v(z)=\sum_{m\ge1}z^m/\sqrt m\,e_m$ has $\langle v(z),v(w)\rangle=-\log(1-\bar zw)$; a prime mode has free energy $\sum p^{-m\beta}/m=-\log(1-p^{-\beta})$; and $\exp(\sum_p\sum_{m\ge1}p^{-mu}/m)=\zeta(u)$ for $\operatorname{Re}u>1$, the exponential-vector kernel $\zeta(\bar s+w)$. The radial derivative $x/(1-x)$ is the forward-null excess. The Fock space and the critical-line divergence are not formalized. No RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppSU11DirichletLift.vCoef}\leanok\ \texttt{vCoef}
+  \item \lean{GppSU11DirichletLift.conj_vCoef_mul}\leanok\ \texttt{conj\_vCoef\_mul}
+  \item \lean{GppSU11DirichletLift.inner_hasSum}\leanok\ \texttt{inner\_hasSum}
+  \item \lean{GppSU11DirichletLift.free_energy}\leanok\ \texttt{free\_energy}
+  \item \lean{GppSU11DirichletLift.norm_prime_cpow_lt_one}\leanok\ \texttt{norm\_prime\_cpow\_lt\_one}
+  \item \lean{GppSU11DirichletLift.fock_kernel}\leanok\ \texttt{fock\_kernel}
+  \item \lean{GppSU11DirichletLift.radial_derivative}\leanok\ \texttt{radial\_derivative}
+\end{itemize}
+
+\section{Riemann Hypothesis --- The orientation coordinate eta = log(s/(1-s))}
+Source: Codex, PR \#11 comment 6145326782, realizing Daniel Toupin's orientation picture (``$\tfrac12$ is like 0, 0 like $-\infty$, 1 like $+\infty$''). $\operatorname{Re}\eta=\log|s|-\log|1-s|$, so $\operatorname{Re}\eta=0$ iff $\operatorname{Re}s=\tfrac12$: the critical line is the imaginary $\eta$-axis. On it $s/(1-s)$ is unimodular; $s\mapsto1-s$ inverts the ratio; and $(s/(1-s))^{-1}=-(s-1)/s$, the Cayley reciprocal. RH is the statement that zeta zero $\eta$-labels are purely imaginary. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppOrientationLogit.logit}\leanok\ \texttt{logit}
+  \item \lean{GppOrientationLogit.re_logit}\leanok\ \texttt{re\_logit}
+  \item \lean{GppOrientationLogit.norm_eq_norm_one_sub_iff}\leanok\ \texttt{norm\_eq\_norm\_one\_sub\_iff}
+  \item \lean{GppOrientationLogit.re_logit_eq_zero_iff}\leanok\ \texttt{re\_logit\_eq\_zero\_iff}
+  \item \lean{GppOrientationLogit.norm_ratio_on_line}\leanok\ \texttt{norm\_ratio\_on\_line}
+  \item \lean{GppOrientationLogit.ratio_reflect}\leanok\ \texttt{ratio\_reflect}
+  \item \lean{GppOrientationLogit.cayley_link}\leanok\ \texttt{cayley\_link}
+  \item \lean{GppOrientationLogit.double_neutral_iff}\leanok\ \texttt{double\_neutral\_iff}
+  \item \lean{GppOrientationLogit.chi_total}\leanok\ \texttt{chi\_total}
+\end{itemize}
+
+\section{Riemann Hypothesis --- One-ghost reduction of the completed logarithmic derivative}
+Source: Codex, GPPDiscovery2 2026-09-27 one-ghost note. The $s=0$ pole square cancels the Gamma ground mode exactly: $e^{-qx}/(1-e^{-2x})-e^{-qx}=e^{-(q+2)x}/(1-e^{-2x})=e^{-(q+1)x}/(2\sinh x)$, the $k=\tfrac12$ SU(1,1) heat character; the Gamma and pole features differ by this density times $(1-e^{-ax})(1-e^{-bx})$, a pointwise Gram form. The single surviving negative channel is $\int_0^\infty e^{-(q-1)x}(1-e^{-ax})(1-e^{-bx})dx=-\Delta_q[1/(s-1)](a,b)$, the $s=1$ pole (PNT continuum). The Stieltjes $d(\psi-y)$ form is not formalized; fixed-$q$ positivity still fails. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppOneGhost.density_split}\leanok\ \texttt{density\_split}
+  \item \lean{GppOneGhost.density_sinh}\leanok\ \texttt{density\_sinh}
+  \item \lean{GppOneGhost.feature_identity}\leanok\ \texttt{feature\_identity}
+  \item \lean{GppOneGhost.gram_pointwise}\leanok\ \texttt{gram\_pointwise}
+  \item \lean{GppOneGhost.integral_exp_neg}\leanok\ \texttt{integral\_exp\_neg}
+  \item \lean{GppOneGhost.integrable_exp_neg}\leanok\ \texttt{integrable\_exp\_neg}
+  \item \lean{GppOneGhost.baseline_closed_form}\leanok\ \texttt{baseline\_closed\_form}
+  \item \lean{GppOneGhost.baseline_eq_neg_pole_difference}\leanok\ \texttt{baseline\_eq\_neg\_pole\_difference}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}
@@ -6853,6 +7053,25 @@ retired outright, its statement kept as a hypothesis-shaped \texttt{Prop}. No ma
 content was weakened, added, or removed --- the deduction
 $c_{2D}=0 \Rightarrow n_{\mathrm{gen}}=3$ was always conditional on its physics inputs, and
 now says so in its own type.
+
+\subsection{FiniteLatticeGap}
+Finite-volume lattice Peter--Weyl electric gap (Turbo, 2026-10-13): on a finite
+label set the nontrivial Peter--Weyl sectors are separated from the trivial
+sector by an explicit gap; the SU(2) Casimir gap is $3/4$, and the finite-volume
+lattice electric energy has a volume-independent gap. Continuum limit open.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{FiniteLatticeGap.variational_gap}\leanok\ \texttt{variational\_gap}
+  \item \lean{FiniteLatticeGap.casimir_nonneg}\leanok\ \texttt{casimir\_nonneg}
+  \item \lean{FiniteLatticeGap.casimir_pos}\leanok\ \texttt{casimir\_pos}
+  \item \lean{FiniteLatticeGap.casimir_eq_zero}\leanok\ \texttt{casimir\_eq\_zero}
+  \item \lean{FiniteLatticeGap.casimir_gap}\leanok\ \texttt{casimir\_gap}
+  \item \lean{FiniteLatticeGap.linkEnergy_nonneg}\leanok\ \texttt{linkEnergy\_nonneg}
+  \item \lean{FiniteLatticeGap.linkEnergy_gap}\leanok\ \texttt{linkEnergy\_gap}
+  \item \lean{FiniteLatticeGap.linkEnergy_eq_zero}\leanok\ \texttt{linkEnergy\_eq\_zero}
+  \item \lean{FiniteLatticeGap.finite_volume_gap}\leanok\ \texttt{finite\_volume\_gap}
+\end{itemize}
 
 \section{Physics Inputs (now hypotheses, not axioms)}
 
