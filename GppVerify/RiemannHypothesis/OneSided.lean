@@ -71,7 +71,7 @@ theorem laplace_exp_majorant {F : ℝ} {z : ℂ} (hz : F < z.re) :
       = 1 / (z - (F:ℂ)) := by
   have hneg : (-(z - (F:ℂ))).re < 0 := by
     have hre : (-(z - (F:ℂ))).re = F - z.re := by
-      simp [Complex.sub_re, Complex.neg_re, Complex.ofReal_re]
+      simp [Complex.sub_re, Complex.ofReal_re]
     linarith
   rw [integral_exp_mul_complex_Ioi hneg 0]
   simp only [Complex.ofReal_zero, mul_zero, Complex.exp_zero]
