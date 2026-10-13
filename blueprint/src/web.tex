@@ -6976,6 +6976,32 @@ Finite-dimensional, analysis-free, zero-free (no Riemann zeta zeros anywhere in 
   \item \lean{GppThreadS.inertia_sum}\leanok\ \texttt{inertia\_sum}
 \end{itemize}
 
+\section{Quantum Field Theory}
+
+\subsection{ArithmeticFock}
+Source: \texttt{GppVerify/QuantumFieldTheory/ArithmeticFock.lean} (Turbo, Track 1)
+
+Algebraic bosonic Fock space over prime-tower modes, in the unnormalized
+(Bargmann) basis: no square roots appear. Creation/annihilation as
+$\CC$-linear maps, four CCR relations, number operators, and the
+prime-tower identification $\mathrm{Config}(\mathbb{P}) \cong \mathbb{N}_{>0}$
+with the $\log n$ eigenvalue.
+
+\noindent\textbf{Proved (21 declarations):}
+\begin{itemize}
+  \item \lean{ArithmeticFock.comm_create_annihilate}\leanok\ \texttt{comm\_create\_annihilate}
+  \item \lean{ArithmeticFock.comm_create_annihilate_ne}\leanok\ \texttt{comm\_create\_annihilate\_ne}
+  \item \lean{ArithmeticFock.comm_annihilate_annihilate}\leanok\ \texttt{comm\_annihilate\_annihilate}
+  \item \lean{ArithmeticFock.comm_create_create}\leanok\ \texttt{comm\_create\_create}
+  \item \lean{ArithmeticFock.numberOp_eigenvalue}\leanok\ \texttt{numberOp\_eigenvalue}
+  \item \lean{ArithmeticFock.weightedNumber_eigenvalue}\leanok\ \texttt{weightedNumber\_eigenvalue}
+  \item \lean{ArithmeticFock.fromNat_toNat}\leanok\ \texttt{fromNat\_toNat}
+  \item \lean{ArithmeticFock.toNat_fromNat}\leanok\ \texttt{toNat\_fromNat}
+  \item \lean{ArithmeticFock.sum_mul_log_eq_log_toNat}\leanok\ \texttt{sum\_mul\_log\_eq\_log\_toNat}
+  \item \lean{ArithmeticFock.weightedNumber_log_eigenvalue}\leanok\ \texttt{weightedNumber\_log\_eigenvalue}
+  \item \emph{\ldots and 11 further results in this module.}
+\end{itemize}
+
 \section{Yang--Mills}
 
 \subsection{MassGap}
@@ -7058,6 +7084,25 @@ retired outright, its statement kept as a hypothesis-shaped \texttt{Prop}. No ma
 content was weakened, added, or removed --- the deduction
 $c_{2D}=0 \Rightarrow n_{\mathrm{gen}}=3$ was always conditional on its physics inputs, and
 now says so in its own type.
+
+\subsection{FiniteLatticeGap}
+Finite-volume lattice Peter--Weyl electric gap (Turbo, 2026-10-13): on a finite
+label set the nontrivial Peter--Weyl sectors are separated from the trivial
+sector by an explicit gap; the SU(2) Casimir gap is $3/4$, and the finite-volume
+lattice electric energy has a volume-independent gap. Continuum limit open.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{FiniteLatticeGap.variational_gap}\leanok\ \texttt{variational\_gap}
+  \item \lean{FiniteLatticeGap.casimir_nonneg}\leanok\ \texttt{casimir\_nonneg}
+  \item \lean{FiniteLatticeGap.casimir_pos}\leanok\ \texttt{casimir\_pos}
+  \item \lean{FiniteLatticeGap.casimir_eq_zero}\leanok\ \texttt{casimir\_eq\_zero}
+  \item \lean{FiniteLatticeGap.casimir_gap}\leanok\ \texttt{casimir\_gap}
+  \item \lean{FiniteLatticeGap.linkEnergy_nonneg}\leanok\ \texttt{linkEnergy\_nonneg}
+  \item \lean{FiniteLatticeGap.linkEnergy_gap}\leanok\ \texttt{linkEnergy\_gap}
+  \item \lean{FiniteLatticeGap.linkEnergy_eq_zero}\leanok\ \texttt{linkEnergy\_eq\_zero}
+  \item \lean{FiniteLatticeGap.finite_volume_gap}\leanok\ \texttt{finite\_volume\_gap}
+\end{itemize}
 
 \section{Physics Inputs (now hypotheses, not axioms)}
 
