@@ -6794,6 +6794,24 @@ Grok's Hagedorn-gap lemma, exact part. The coefficients $a_\theta(n)=\sum_{d\mid
   \item \lean{GppHagedornGapShifted.not_summable_gas}\leanok\ \texttt{not\_summable\_gas}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Two-Face Pole Signature of the Zeta Pole Pair}
+Codex's two-face pole theorem, exact part. With $M_g(\pm r)=C\pm S$ (even/odd channels), the pole term is $2\,\mathrm{Re}[(C+S)\overline{(C-S)}]=2|C|^2-2|S|^2$. The form $2\langle g,u\rangle^2-2\langle g,v\rangle^2$ with $u\perp v$ has exactly one positive and one negative direction; on $L^2[-h,h]$ with $u=\cosh(t/2)$, $v=\sinh(t/2)$ (orthogonal) the eigenvalues are $+2(\sinh h+h)$ and $-2(\sinh h-h)$. Pole term only, not full Weil. No RH claim.
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppTwoFacePoleSignature.pole_parity}\leanok\ \texttt{pole\_parity}
+  \item \lean{GppTwoFacePoleSignature.Q}\leanok\ \texttt{Q}
+  \item \lean{GppTwoFacePoleSignature.signature_pos}\leanok\ \texttt{signature\_pos}
+  \item \lean{GppTwoFacePoleSignature.signature_neg}\leanok\ \texttt{signature\_neg}
+  \item \lean{GppTwoFacePoleSignature.nonpos_on_perp}\leanok\ \texttt{nonpos\_on\_perp}
+  \item \lean{GppTwoFacePoleSignature.nonneg_on_perp}\leanok\ \texttt{nonneg\_on\_perp}
+  \item \lean{GppTwoFacePoleSignature.cosh_half_sq}\leanok\ \texttt{cosh\_half\_sq}
+  \item \lean{GppTwoFacePoleSignature.sinh_half_sq}\leanok\ \texttt{sinh\_half\_sq}
+  \item \lean{GppTwoFacePoleSignature.norm_cosh_half}\leanok\ \texttt{norm\_cosh\_half}
+  \item \lean{GppTwoFacePoleSignature.norm_sinh_half}\leanok\ \texttt{norm\_sinh\_half}
+  \item \lean{GppTwoFacePoleSignature.cosh_sinh_orth}\leanok\ \texttt{cosh\_sinh\_orth}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
