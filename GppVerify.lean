@@ -2220,3 +2220,4 @@ import GppVerify.RiemannHypothesis.FisherKernelPositive
 import GppVerify.RiemannHypothesis.ShiftedFisherKernelNoGo
 import GppVerify.RiemannHypothesis.HagedornGapShifted
 import GppVerify.RiemannHypothesis.TwoFacePoleSignature
+import GppVerify.RiemannHypothesis.OddWindowAutocorrelation

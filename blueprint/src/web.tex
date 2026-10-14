@@ -6812,6 +6812,16 @@ Codex's two-face pole theorem, exact part. With $M_g(\pm r)=C\pm S$ (even/odd ch
   \item \lean{GppTwoFacePoleSignature.cosh_sinh_orth}\leanok\ \texttt{cosh\_sinh\_orth}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Exact Autocorrelation of the Odd Mirror Window}
+Codex's full signed Weil odd-window evaluation, exact input. For $g=\sinh(t/2)$ on $[-h,h]$, $\int_{-h}^{h-t}g(s)g(s+t)\,ds=\sinh(h-t/2)-(h-t/2)\cosh(t/2)$, vanishing at $t=2h$. Independent numerics reproduce $Q_4=+0.0698371091$ and the Abel/Chebyshev identity; $Q_h>0$ numerically for $h=1,\dots,8$, not certified. A witness consistent with RH, not a proof. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppOddWindowAutocorrelation.sinh_mul_sinh}\leanok\ \texttt{sinh\_mul\_sinh}
+  \item \lean{GppOddWindowAutocorrelation.autocorr}\leanok\ \texttt{autocorr}
+  \item \lean{GppOddWindowAutocorrelation.autocorr_edge}\leanok\ \texttt{autocorr\_edge}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
