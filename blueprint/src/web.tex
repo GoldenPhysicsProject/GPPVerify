@@ -6784,6 +6784,16 @@ The shifted control $F_\theta(s)=\xi(s-\theta)\xi(s+\theta)$ has a functional eq
   \item \lean{GppShiftedFisherKernelNoGo.shifted_kernel_posDef}\leanok\ \texttt{shifted\_kernel\_posDef}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Hagedorn Gap of the Shifted Prime Gas}
+Grok's Hagedorn-gap lemma, exact part. The coefficients $a_\theta(n)=\sum_{d\mid n}d^\theta(n/d)^{-\theta}$ of $\zeta(s-\theta)\zeta(s+\theta)$ satisfy $a_\theta(n)\ge n^\theta$, so $\sum a_\theta(n)n^{-\sigma}$ diverges for $\sigma\le1+\theta$: the $F_\theta$ gas has no Gibbs state on $1<\sigma\le1+\theta$, while $\zeta$'s converges for $\sigma>1$. This is temperedness restated as gas stability, not positivity; Davenport--Heilbronn passes it. No RH claim.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppHagedornGapShifted.coeff}\leanok\ \texttt{coeff}
+  \item \lean{GppHagedornGapShifted.coeff_ge}\leanok\ \texttt{coeff\_ge}
+  \item \lean{GppHagedornGapShifted.not_summable_gas}\leanok\ \texttt{not\_summable\_gas}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
