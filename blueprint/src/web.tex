@@ -6713,6 +6713,17 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_arithmetic\_seed\_euler
   \item \lean{GppCayleyEulerHorodisk.horodisk_touches}\leanok\ \texttt{horodisk\_touches}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Li Moments of a Reflected Zero Quartet}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_arithmetic\_seed\_euler\_horodisk\_li\_circle\_moments} (88b7fe2). The Cayley images $e^{-\varepsilon\pm i\theta},e^{\varepsilon\pm i\theta}$ of an off-line zero quartet contribute $\sum(1-w^n)=4[1-\cosh(n\varepsilon)\cos(n\theta)]$ to the $n$-th Li moment; an on-circle conjugate pair contributes $2[1-\cos(n\theta)]\ge0$. Resolving an off-line quartet needs $n\gtrsim1/\varepsilon\approx\gamma^2/\delta$. Li's criterion is an equivalence, not a mechanism. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppLiQuartetMoment.exp_pow}\leanok\ \texttt{exp\_pow}
+  \item \lean{GppLiQuartetMoment.quartet_moment}\leanok\ \texttt{quartet\_moment}
+  \item \lean{GppLiQuartetMoment.pair_moment}\leanok\ \texttt{pair\_moment}
+  \item \lean{GppLiQuartetMoment.pair_moment_nonneg}\leanok\ \texttt{pair\_moment\_nonneg}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
