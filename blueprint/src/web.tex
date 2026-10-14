@@ -6669,6 +6669,21 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_mirror\_gram\_window\_l
   \item \lean{GppMirrorGramWindow.overlap_tendsto_zero}\leanok\ \texttt{overlap\_tendsto\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Cayley Circle and Harmonic Measure at s = 1}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_cayley\_mirror\_circle\_infinite\_length} and \texttt{\_cayley\_circle\_haar\_harmonic\_measure}. With $\beta(s)=(s-1)/s$: $|\beta|<1$ iff $\Re s>1/2$ and $|\beta|>1$ iff $\Re s<1/2$ (the two disk faces). On the line $\beta(1/2+i\gamma)=-e^{-2i\arctan 2\gamma}$, and $d/d\gamma\,[2\arctan 2\gamma]=1/(\gamma^2+1/4)$, so normalized circle Haar pulls back to $d\gamma/(2\pi(\gamma^2+1/4))$, the harmonic measure of $\Re s>1/2$ based at $s=1$, of total mass $1$. Gluing the faces gives the Riemann sphere (real dimension 2), not a 4D bulk. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppCayleyCircleHarmonic.beta}\leanok\ \texttt{beta}
+  \item \lean{GppCayleyCircleHarmonic.norm_sub_one_lt_iff}\leanok\ \texttt{norm\_sub\_one\_lt\_iff}
+  \item \lean{GppCayleyCircleHarmonic.norm_sub_one_gt_iff}\leanok\ \texttt{norm\_sub\_one\_gt\_iff}
+  \item \lean{GppCayleyCircleHarmonic.norm_beta_lt_one_iff}\leanok\ \texttt{norm\_beta\_lt\_one\_iff}
+  \item \lean{GppCayleyCircleHarmonic.norm_beta_gt_one_iff}\leanok\ \texttt{norm\_beta\_gt\_one\_iff}
+  \item \lean{GppCayleyCircleHarmonic.beta_line}\leanok\ \texttt{beta\_line}
+  \item \lean{GppCayleyCircleHarmonic.hasDerivAt_angle}\leanok\ \texttt{hasDerivAt\_angle}
+  \item \lean{GppCayleyCircleHarmonic.harmonic_mass_one}\leanok\ \texttt{harmonic\_mass\_one}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
