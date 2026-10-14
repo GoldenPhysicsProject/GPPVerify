@@ -6916,6 +6916,21 @@ Codex's doubled BPY note, exact parts. With $p_\pm(x)=2e^{\pm x/2}\Phi(x)$: $p_+
   \item \lean{GppBpyDoubledKmsWedge.wedge_det}\leanok\ \texttt{wedge\_det}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Rank-One Compensation No-Go on Two Odd Channels}
+The shifted $F_\theta$ polar sector has two independent negative odd directions. A single
+positive rank-one compensating boundary functional cannot remove both:
+for $\alpha,\beta>0$ and arbitrary real $a,b,\lambda$, there are $x,y$ with
+$\alpha x^2+\beta y^2>0$, $ax+by=0$, and
+$\lambda(ax+by)^2-\alpha x^2-\beta y^2<0$.
+This is exact finite quadratic algebra, not a claim that the completed
+prime--Archimedean remainder has rank one and not a proof of RH.
+
+\noindent\textbf{Proved (2 declarations):}
+\begin{itemize}
+  \item \lean{GppShiftedPoleRankOneNoGo.residual}\leanok\ \texttt{residual}
+  \item \lean{GppShiftedPoleRankOneNoGo.one_channel_cannot_heal_two_negative_modes}\leanok\ \texttt{one\_channel\_cannot\_heal\_two\_negative\_modes}
+\end{itemize}
+
 \section{Riemann Hypothesis --- Four Charge-Time Orientation Lifts}
 Daniel Toupin's orientation group contains four microscopic states
 $(q,t)\in\{\pm1\}^2$.
