@@ -6916,6 +6916,30 @@ Codex's doubled BPY note, exact parts. With $p_\pm(x)=2e^{\pm x/2}\Phi(x)$: $p_+
   \item \lean{GppBpyDoubledKmsWedge.wedge_det}\leanok\ \texttt{wedge\_det}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Four Charge-Time Orientation Lifts}
+Daniel Toupin's orientation group contains four microscopic states
+$(q,t)\in\{\pm1\}^2$.
+The independent charge and time flips commute, their product is the simultaneous
+mirror, and the observer orientation $\chi=qt$ commutes with this mirror.
+For $v=(a,b,c,d)$ the mirror reflection quadratic
+$B_R(v)=2(ad+bc)$ satisfies the exact signature decomposition
+$B_R=\bigl((a+d)^2+(b+c)^2-(a-d)^2-(b-c)^2\bigr)/2$.
+Hence it has two independent positive and two independent negative directions.
+Selecting only the mirror-even subspace would make positivity tautological,
+not a consequence of zeta arithmetic. This is orientation algebra, not RH.
+
+\noindent\textbf{Selected proved declarations:}
+\begin{itemize}
+  \item \lean{GppFourOrientationMirror.flips_commute}\leanok\ \texttt{flips\_commute}
+  \item \lean{GppFourOrientationMirror.two_flips_eq_mirror}\leanok\ \texttt{two\_flips\_eq\_mirror}
+  \item \lean{GppFourOrientationMirror.mirror_involution}\leanok\ \texttt{mirror\_involution}
+  \item \lean{GppFourOrientationMirror.chi_mirror_commute}\leanok\ \texttt{chi\_mirror\_commute}
+  \item \lean{GppFourOrientationMirror.mirror_form_decomposition}\leanok\ \texttt{mirror\_form\_decomposition}
+  \item \lean{GppFourOrientationMirror.even_form_nonneg}\leanok\ \texttt{even\_form\_nonneg}
+  \item \lean{GppFourOrientationMirror.odd_form_nonpos}\leanok\ \texttt{odd\_form\_nonpos}
+  \item \lean{GppFourOrientationMirror.chi_invariant_pairing}\leanok\ \texttt{chi\_invariant\_pairing}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
