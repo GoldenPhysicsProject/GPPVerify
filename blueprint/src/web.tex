@@ -6701,6 +6701,18 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_spherical\_double\_cayl
   \item \lean{GppCelestialCayleySphere.spinor_components}\leanok\ \texttt{spinor\_components}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Euler Horodisk in the Cayley Disk}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_arithmetic\_seed\_euler\_horodisk\_li\_circle\_moments}, \S2. In $w=(s-1)/s$, the Euler half-plane $\Re s>1$ is exactly the horodisk $|w-1/2|<1/2$, which lies inside the critical disk $|w|<1$ and touches the unit circle only at $w=1$ ($s=\infty$). RH is equivalent to zero-freeness of $\xi(1/(1-w))$ on the whole disk (Li's setting); this is a reformulation, not an estimate. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppCayleyEulerHorodisk.beta_eq}\leanok\ \texttt{beta\_eq}
+  \item \lean{GppCayleyEulerHorodisk.norm_sub_two_lt_iff}\leanok\ \texttt{norm\_sub\_two\_lt\_iff}
+  \item \lean{GppCayleyEulerHorodisk.euler_horodisk_iff}\leanok\ \texttt{euler\_horodisk\_iff}
+  \item \lean{GppCayleyEulerHorodisk.horodisk_sub_disk}\leanok\ \texttt{horodisk\_sub\_disk}
+  \item \lean{GppCayleyEulerHorodisk.horodisk_touches}\leanok\ \texttt{horodisk\_touches}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
