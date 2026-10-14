@@ -6760,6 +6760,22 @@ Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_zeta\_coherent\_state\_ads2\_ge
   \item \lean{GppZetaFisherMetric.fisher_pos}\leanok\ \texttt{fisher\_pos}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Zeta Fisher Kernel Is Positive Definite}
+For every real $\sigma>1$ the kernel $\tau\mapsto(\zeta'/\zeta)'(\sigma+i\tau)=L(\Lambda\log)(\sigma+i\tau)$ is positive definite: $\sum_{i,j}c_i\bar c_j(\zeta'/\zeta)'(\sigma+i(t_i-t_j))=\sum_n\Lambda(n)\log n\,n^{-\sigma}|\sum_i c_i n^{-it_i}|^2\ge0$. The $1\times1$ case is Fisher positivity; the Davenport--Heilbronn function (functional equation, no Euler product with $\Lambda\ge0$) already fails it (Arb: $(\log\mathrm{DH})''(2)<0$). No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppFisherKernelPositive.abscissa_vonMangoldt_le_one}\leanok\ \texttt{abscissa\_vonMangoldt\_le\_one}
+  \item \lean{GppFisherKernelPositive.logDeriv_deriv_eq}\leanok\ \texttt{logDeriv\_deriv\_eq}
+  \item \lean{GppFisherKernelPositive.exp_split}\leanok\ \texttt{exp\_split}
+  \item \lean{GppFisherKernelPositive.quad_form_eq}\leanok\ \texttt{quad\_form\_eq}
+  \item \lean{GppFisherKernelPositive.w}\leanok\ \texttt{w}
+  \item \lean{GppFisherKernelPositive.w_nonneg}\leanok\ \texttt{w\_nonneg}
+  \item \lean{GppFisherKernelPositive.term_eq}\leanok\ \texttt{term\_eq}
+  \item \lean{GppFisherKernelPositive.summable_w}\leanok\ \texttt{summable\_w}
+  \item \lean{GppFisherKernelPositive.fisher_kernel_posDef}\leanok\ \texttt{fisher\_kernel\_posDef}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
