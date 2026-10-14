@@ -6860,6 +6860,27 @@ Codex's zero-survival note, exact abstract lemmas. A nonzero bounded eigen-funct
   \item \lean{GppZeroSurvivalSubexp.jordan_unbounded}\leanok\ \texttt{jordan\_unbounded}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Real-Trace Sobolev Completion and Zero Blindness}
+Codex's scale-completion attempt (recorded by Codex as a failed RH closure). The $H^1$ modulation norm is exactly $R=(\sqrt{t^2+4\kappa^2}+|t|)/(2\kappa)$, the root of $R-1/R=|t|/\kappa$, attained and $\le1+|t|/\kappa$; the interval trace block has determinant $\kappa^2$ and eigenvalues $\kappa(1\mp r)/(1\pm r)$, $r=e^{-\kappa\ell}$; the multiplier $((z-b)^2+a^2)((z+b)^2+a^2)$ is positive on $\mathbb R$ yet vanishes at $b+ia$, so real-trace completions are blind to inserted off-line zeros; $h_N$ witnesses nonclosability of the raw vacuum graph. No RH claim.
+
+\noindent\textbf{Proved (14 declarations):}
+\begin{itemize}
+  \item \lean{GppScaleCompletionTrace.R}\leanok\ \texttt{R}
+  \item \lean{GppScaleCompletionTrace.R_root}\leanok\ \texttt{R\_root}
+  \item \lean{GppScaleCompletionTrace.R_pos}\leanok\ \texttt{R\_pos}
+  \item \lean{GppScaleCompletionTrace.R_le}\leanok\ \texttt{R\_le}
+  \item \lean{GppScaleCompletionTrace.disc_zero}\leanok\ \texttt{disc\_zero}
+  \item \lean{GppScaleCompletionTrace.t_eq_zero_of}\leanok\ \texttt{t\_eq\_zero\_of}
+  \item \lean{GppScaleCompletionTrace.ratio_le}\leanok\ \texttt{ratio\_le}
+  \item \lean{GppScaleCompletionTrace.ratio_attained}\leanok\ \texttt{ratio\_attained}
+  \item \lean{GppScaleCompletionTrace.dtn_det}\leanok\ \texttt{dtn\_det}
+  \item \lean{GppScaleCompletionTrace.dtn_eig_minus}\leanok\ \texttt{dtn\_eig\_minus}
+  \item \lean{GppScaleCompletionTrace.dtn_eig_plus}\leanok\ \texttt{dtn\_eig\_plus}
+  \item \lean{GppScaleCompletionTrace.blind_mult_pos}\leanok\ \texttt{blind\_mult\_pos}
+  \item \lean{GppScaleCompletionTrace.blind_mult_root}\leanok\ \texttt{blind\_mult\_root}
+  \item \lean{GppScaleCompletionTrace.nonclosable_witness}\leanok\ \texttt{nonclosable\_witness}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
