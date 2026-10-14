@@ -6776,6 +6776,14 @@ For every real $\sigma>1$ the kernel $\tau\mapsto(\zeta'/\zeta)'(\sigma+i\tau)=L
   \item \lean{GppFisherKernelPositive.fisher_kernel_posDef}\leanok\ \texttt{fisher\_kernel\_posDef}
 \end{itemize}
 
+\section{Riemann Hypothesis --- No-go: Fisher-PD Does Not Force Zeros onto the Line}
+The shifted control $F_\theta(s)=\xi(s-\theta)\xi(s+\theta)$ has a functional equation and off-line zeros, yet its Fisher kernel $\tau\mapsto(\zeta'/\zeta)'(\sigma-\theta+i\tau)+(\zeta'/\zeta)'(\sigma+\theta+i\tau)$ is positive definite for $\sigma-\theta>1$. A positivity transfer using only the functional equation and $\Lambda\ge0$ is therefore falsified; tempered local factors with the single pole pair $\{0,1\}$ are also needed. No RH claim.
+
+\noindent\textbf{Proved (1 declarations):}
+\begin{itemize}
+  \item \lean{GppShiftedFisherKernelNoGo.shifted_kernel_posDef}\leanok\ \texttt{shifted\_kernel\_posDef}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
