@@ -6629,6 +6629,19 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_quartic\_bc\_haar\_spin
   \item \lean{GppQuarticGaussFive.B_mul_Bbar}\leanok\ \texttt{B\_mul\_Bbar}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Binary Fermionic Euler Factor and the Liouville Correction}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_prime\_fermionic\_fock\_composite\_theta\_mirror\_boundary}, with Claude Code's correction. Binary telescoping $(1-x)\prod_{j<N}(1+x^{2^j})=1-x^{2^N}$ gives $\prod_j(1+x^{2^j})=1/(1-x)$ for $|x|<1$, the local form of $\zeta(s)=\prod_p\prod_j(1+p^{-2^js})$. Dropping $j=0$ gives $1/(1-x^2)$, so whole-space $j=0$ parity grading yields $1/(1+x)$, the Euler factor of $\zeta(2s)/\zeta(s)$, which differs from the M\"obius factor $1-x$ unless $x=0$. No RH claim.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppBinaryFermionEuler.prod_binary}\leanok\ \texttt{prod\_binary}
+  \item \lean{GppBinaryFermionEuler.tendsto_pow_two_pow}\leanok\ \texttt{tendsto\_pow\_two\_pow}
+  \item \lean{GppBinaryFermionEuler.tendsto_prod_binary}\leanok\ \texttt{tendsto\_prod\_binary}
+  \item \lean{GppBinaryFermionEuler.tendsto_prod_binary_succ}\leanok\ \texttt{tendsto\_prod\_binary\_succ}
+  \item \lean{GppBinaryFermionEuler.liouville_local}\leanok\ \texttt{liouville\_local}
+  \item \lean{GppBinaryFermionEuler.liouville_ne_moebius}\leanok\ \texttt{liouville\_ne\_moebius}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
