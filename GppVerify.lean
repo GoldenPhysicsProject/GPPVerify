@@ -2207,3 +2207,4 @@ import GppVerify.RiemannHypothesis.PrimeHellingerThreshold
 import GppVerify.RiemannHypothesis.PrimeOccupationTail
 import GppVerify.RiemannHypothesis.PrimeBlockDiscriminator
 import GppVerify.RiemannHypothesis.QuarticGaussFive
+import GppVerify.RiemannHypothesis.BinaryFermionEuler
