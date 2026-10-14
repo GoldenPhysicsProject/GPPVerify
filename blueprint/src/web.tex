@@ -6822,6 +6822,22 @@ Codex's full signed Weil odd-window evaluation, exact input. For $g=\sinh(t/2)$ 
   \item \lean{GppOddWindowAutocorrelation.autocorr_edge}\leanok\ \texttt{autocorr\_edge}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Shadow Boosts and Prime Shadow Fidelity}
+Codex's shadow-KMS boost note. Einstein addition $\beta(qr)=(\beta q+\beta r)/(1+\beta q\beta r)$; off-line pairs are split-unitary boosts; an invariant positive metric entry forces $\delta=0$ (conditional); prime shadow fidelity $F_p(\sigma)\le1$ with equality iff $\sigma=1/2$, defect $p^{-1}(p^\delta-p^{-\delta})^2$; one-prime modular-spectrum rigidity. Product catastrophe not formalized. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppShadowBoostFidelity.beta}\leanok\ \texttt{beta}
+  \item \lean{GppShadowBoostFidelity.mobius_add}\leanok\ \texttt{mobius\_add}
+  \item \lean{GppShadowBoostFidelity.boost_split_unitary}\leanok\ \texttt{boost\_split\_unitary}
+  \item \lean{GppShadowBoostFidelity.rigidity}\leanok\ \texttt{rigidity}
+  \item \lean{GppShadowBoostFidelity.fidelity}\leanok\ \texttt{fidelity}
+  \item \lean{GppShadowBoostFidelity.one_sub_fidelity_sq}\leanok\ \texttt{one\_sub\_fidelity\_sq}
+  \item \lean{GppShadowBoostFidelity.fidelity_le_one}\leanok\ \texttt{fidelity\_le\_one}
+  \item \lean{GppShadowBoostFidelity.fidelity_eq_one_iff}\leanok\ \texttt{fidelity\_eq\_one\_iff}
+  \item \lean{GppShadowBoostFidelity.modular_spectrum_rigidity}\leanok\ \texttt{modular\_spectrum\_rigidity}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
