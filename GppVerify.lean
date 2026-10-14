@@ -2230,3 +2230,4 @@ import GppVerify.RiemannHypothesis.ResidueClassProjection
 import GppVerify.RiemannHypothesis.BpyDoubledKmsWedge
 import GppVerify.RiemannHypothesis.ShiftedPoleRankOneNoGo
 import GppVerify.RiemannHypothesis.FourOrientationMirror
+import GppVerify.RiemannHypothesis.SatakeTwoPointNoGo

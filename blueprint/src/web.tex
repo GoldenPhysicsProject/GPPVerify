@@ -6955,6 +6955,23 @@ not a consequence of zeta arithmetic. This is orientation algebra, not RH.
   \item \lean{GppFourOrientationMirror.chi_invariant_pairing}\leanok\ \texttt{chi\_invariant\_pairing}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Satake Two-Point Positive-Type Obstruction}
+Grok's S9/S10 local Satake programme and Codex's two-point simplification:
+a Hermitian $2\times2$ Gram with diagonal $d$ and off-diagonal $c>d$
+has a negative antisymmetric direction with energy $2(d-c)<0$.
+For a nonzero real hyperbolic displacement $z$, $2\cosh z>2$,
+so the same obstruction applies to the local weight at an aligned phase.
+No inference of completed Weil positivity or RH.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+\item \lean{GppSatakeTwoPointNoGo.gramEnergy}\leanok\ \texttt{gramEnergy}
+\item \lean{GppSatakeTwoPointNoGo.antisymmetric_energy}\leanok\ \texttt{antisymmetric\_energy}
+\item \lean{GppSatakeTwoPointNoGo.not_psd_of_off_gt_diag}\leanok\ \texttt{not\_psd\_of\_off\_gt\_diag}
+\item \lean{GppSatakeTwoPointNoGo.cosh_weight_not_psd}\leanok\ \texttt{cosh\_weight\_not\_psd}
+\item \lean{GppSatakeTwoPointNoGo.hyperbolic_negative_witness}\leanok\ \texttt{hyperbolic\_negative\_witness}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
