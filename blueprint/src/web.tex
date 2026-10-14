@@ -6657,6 +6657,18 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_quartic\_bc\_to\_tate\_
   \item \lean{GppConductorFiveMellin.gauss_theta_mellin}\leanok\ \texttt{gauss\_theta\_mellin}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Mirror Gram Window}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_mirror\_gram\_window\_lemma}. For $z=\delta+i\gamma$ and its Hermitian mirror, the window evaluation vectors on $L^2[-h,h]$ have squared norm $\int_{-h}^he^{2\delta x}dx=\sinh(2h\delta)/\delta$ and overlap $2h$. The reflected Gram is positive semidefinite for every $\delta$ ($2h\le\sinh(2h\delta)/\delta$), but the normalized overlap $2h\delta/\sinh(2h\delta)$ is $<1$ off the line and tends to $0$ as $h\to\infty$. Imposing rank-one mirror matching at zeta zeros is RH-equivalent and not derived here. No RH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppMirrorGramWindow.norm_sq_eq}\leanok\ \texttt{norm\_sq\_eq}
+  \item \lean{GppMirrorGramWindow.lt_sinh}\leanok\ \texttt{lt\_sinh}
+  \item \lean{GppMirrorGramWindow.gram_psd}\leanok\ \texttt{gram\_psd}
+  \item \lean{GppMirrorGramWindow.overlap_lt_one}\leanok\ \texttt{overlap\_lt\_one}
+  \item \lean{GppMirrorGramWindow.overlap_tendsto_zero}\leanok\ \texttt{overlap\_tendsto\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
