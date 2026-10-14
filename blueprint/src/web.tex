@@ -6724,6 +6724,17 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_arithmetic\_seed\_euler
   \item \lean{GppLiQuartetMoment.pair_moment_nonneg}\leanok\ \texttt{pair\_moment\_nonneg}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Zeta as Reproducing Kernel; Coherent Overlaps at the Critical Line}
+Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_zeta\_coherent\_state\_ads2\_geometry}, \S\S1--2. In the Dirichlet Hardy space the evaluation vectors satisfy $\sum_n n^{-s}\overline{n^{-w}}=\zeta(s+\bar w)$ for $\Re s+\Re w>1$, so $\zeta$ is the reproducing kernel; at equal $\sigma$ the normalized coherent overlap is $\zeta(2\sigma+i(t-u))/\zeta(2\sigma)$, and for $\tau\ne0$, $\zeta(x+i\tau)/\zeta(x)\to0$ as $x\to1^+$ (pole at $1$, finite at $1+i\tau$). Not formalized: the Fisher metric $(\log\zeta)''$ and its $1/(4r^2)$ asymptotics. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaCoherentKernel.conj_natCast_cpow}\leanok\ \texttt{conj\_natCast\_cpow}
+  \item \lean{GppZetaCoherentKernel.kernel_eq_zeta}\leanok\ \texttt{kernel\_eq\_zeta}
+  \item \lean{GppZetaCoherentKernel.equal_sigma_kernel}\leanok\ \texttt{equal\_sigma\_kernel}
+  \item \lean{GppZetaCoherentKernel.overlap_tendsto_zero}\leanok\ \texttt{overlap\_tendsto\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
