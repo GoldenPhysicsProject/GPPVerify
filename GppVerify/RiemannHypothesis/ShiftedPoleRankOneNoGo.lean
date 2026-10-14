@@ -22,18 +22,18 @@ prime-Archimedean remainder as rank one nor proves RH.
 namespace GppShiftedPoleRankOneNoGo
 
 /-- A weighted two-channel negative form plus an arbitrary rank-one compensation. -/
-def residual (α β a b λ x y : ℝ) : ℝ :=
-  λ * (a * x + b * y) ^ 2 - (α * x ^ 2 + β * y ^ 2)
+def residual (α β a b kappa x y : ℝ) : ℝ :=
+  kappa * (a * x + b * y) ^ 2 - (α * x ^ 2 + β * y ^ 2)
 
 /-- **Exact rank-one no-masking.** Any real linear coupling on a strictly
 two-negative-direction plane has a nonzero kernel witness, along which the
 original negative quadratic form survives regardless of compensation strength. -/
 theorem one_channel_cannot_heal_two_negative_modes
-    (α β : ℝ) (hα : 0 < α) (hβ : 0 < β) (a b λ : ℝ) :
+    (α β : ℝ) (hα : 0 < α) (hβ : 0 < β) (a b kappa : ℝ) :
     ∃ x y : ℝ,
       0 < α * x ^ 2 + β * y ^ 2 ∧
       a * x + b * y = 0 ∧
-      residual α β a b λ x y < 0 := by
+      residual α β a b kappa x y < 0 := by
   by_cases hab : a = 0 ∧ b = 0
   · rcases hab with ⟨ha, hb⟩
     refine ⟨1, 0, ?_, ?_, ?_⟩
