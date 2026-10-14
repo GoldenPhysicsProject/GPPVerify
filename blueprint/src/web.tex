@@ -6684,6 +6684,23 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_cayley\_mirror\_circle\
   \item \lean{GppCayleyCircleHarmonic.harmonic_mass_one}\leanok\ \texttt{harmonic\_mass\_one}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Cayley Sphere Involutions and Null Spinors}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_spherical\_double\_cayley\_spinor\_null\_cone\_geometry}. Stereographic projection $n(w)$ of $w=(s-1)/s$: the critical line is the equator ($n_z=0\iff|w|=1$); conjugation acts as $(n_x,-n_y,n_z)$, the functional shadow $w\mapsto1/w$ as $(n_x,-n_y,-n_z)$, and the Hermitian mirror $w\mapsto1/\bar w$ as the equator reflection $(n_x,n_y,-n_z)$. The Hermitian matrix $c\lambda\lambda^\dagger$, $\lambda=(1,w)$, is null, with components $E(1,n(w))$ for $c=2E/(1+|w|^2)$. Massless spinor kinematics, not a 4D bulk or gravity. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppCelestialCayleySphere.nx}\leanok\ \texttt{nx}
+  \item \lean{GppCelestialCayleySphere.ny}\leanok\ \texttt{ny}
+  \item \lean{GppCelestialCayleySphere.nz}\leanok\ \texttt{nz}
+  \item \lean{GppCelestialCayleySphere.one_add_normSq_pos}\leanok\ \texttt{one\_add\_normSq\_pos}
+  \item \lean{GppCelestialCayleySphere.nz_eq_zero_iff}\leanok\ \texttt{nz\_eq\_zero\_iff}
+  \item \lean{GppCelestialCayleySphere.n_conj}\leanok\ \texttt{n\_conj}
+  \item \lean{GppCelestialCayleySphere.n_inv}\leanok\ \texttt{n\_inv}
+  \item \lean{GppCelestialCayleySphere.n_inv_conj}\leanok\ \texttt{n\_inv\_conj}
+  \item \lean{GppCelestialCayleySphere.spinor_null}\leanok\ \texttt{spinor\_null}
+  \item \lean{GppCelestialCayleySphere.spinor_components}\leanok\ \texttt{spinor\_components}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
