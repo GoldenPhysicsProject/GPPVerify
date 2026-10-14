@@ -6735,6 +6735,31 @@ Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_zeta\_coherent\_state\_ads2\_ge
   \item \lean{GppZetaCoherentKernel.overlap_tendsto_zero}\leanok\ \texttt{overlap\_tendsto\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Zeta Gibbs Fisher Metric}
+Source: Codex, GPPDiscovery2 \texttt{2026-09-27\_zeta\_coherent\_state\_ads2\_geometry}, \S3. For real $\beta>1$ with $Z=\sum n^{-\beta}$, $M_1=\sum(\log n)n^{-\beta}$, $M_2=\sum(\log n)^2n^{-\beta}$: termwise $Z'=-M_1$, $M_1'=-M_2$, so $(\log Z)''=(ZM_2-M_1^2)/Z^2=\mathrm{Var}_\beta(\log N)$, and $M_1^2<ZM_2$ strictly (Cauchy--Schwarz). The pole asymptotics $1/\delta^2-(\gamma^2+2\gamma_1)+O(\delta)$ are checked numerically, not formalized. Positivity comes from positive Dirichlet coefficients, so it also holds for $\zeta(s-\theta)\zeta(s+\theta)$; Davenport--Heilbronn fails it numerically. No RH claim.
+
+\noindent\textbf{Proved (18 declarations):}
+\begin{itemize}
+  \item \lean{GppZetaFisherMetric.L}\leanok\ \texttt{L}
+  \item \lean{GppZetaFisherMetric.term}\leanok\ \texttt{term}
+  \item \lean{GppZetaFisherMetric.L_nonneg}\leanok\ \texttt{L\_nonneg}
+  \item \lean{GppZetaFisherMetric.term_eq}\leanok\ \texttt{term\_eq}
+  \item \lean{GppZetaFisherMetric.Z}\leanok\ \texttt{Z}
+  \item \lean{GppZetaFisherMetric.M1}\leanok\ \texttt{M1}
+  \item \lean{GppZetaFisherMetric.M2}\leanok\ \texttt{M2}
+  \item \lean{GppZetaFisherMetric.L_le}\leanok\ \texttt{L\_le}
+  \item \lean{GppZetaFisherMetric.summable_Lpow_term}\leanok\ \texttt{summable\_Lpow\_term}
+  \item \lean{GppZetaFisherMetric.hasDerivAt_Lterm}\leanok\ \texttt{hasDerivAt\_Lterm}
+  \item \lean{GppZetaFisherMetric.term_pos}\leanok\ \texttt{term\_pos}
+  \item \lean{GppZetaFisherMetric.term_le_of_le}\leanok\ \texttt{term\_le\_of\_le}
+  \item \lean{GppZetaFisherMetric.hasDerivAt_sum}\leanok\ \texttt{hasDerivAt\_sum}
+  \item \lean{GppZetaFisherMetric.hasDerivAt_Z}\leanok\ \texttt{hasDerivAt\_Z}
+  \item \lean{GppZetaFisherMetric.hasDerivAt_M1}\leanok\ \texttt{hasDerivAt\_M1}
+  \item \lean{GppZetaFisherMetric.Z_pos}\leanok\ \texttt{Z\_pos}
+  \item \lean{GppZetaFisherMetric.hasDerivAt_logderiv}\leanok\ \texttt{hasDerivAt\_logderiv}
+  \item \lean{GppZetaFisherMetric.fisher_pos}\leanok\ \texttt{fisher\_pos}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
