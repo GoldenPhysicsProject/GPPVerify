@@ -6899,6 +6899,23 @@ Grok's precise $P_\chi$. The isotypic projection $E_a=\varphi(q)^{-1}\sum_\psi\p
   \item \lean{GppResidueClassProjection.class_sum}\leanok\ \texttt{class\_sum}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Doubled BPY KMS Autocorrelation and Wedge Fibers}
+Codex's doubled BPY note, exact parts. With $p_\pm(x)=2e^{\pm x/2}\Phi(x)$: $p_+(u+a)p_-(u)=4e^{a/2}\Phi(u+a)\Phi(u)$; the autocorrelation is even; detailed balance $w(a)=e^aw(-a)$ and $\mathfrak F_g(a)=e^a\mathfrak F_g(-a)$; each jump fiber is a $2\times2$ Grassmann determinant $\sqrt{\Phi(u+a)\Phi(u)}(g(u+a)-g(u))$. The Fourier identity $\hat h_0=4\Xi^2$ is not formalized. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppBpyDoubledKmsWedge.pPlus}\leanok\ \texttt{pPlus}
+  \item \lean{GppBpyDoubledKmsWedge.pMinus}\leanok\ \texttt{pMinus}
+  \item \lean{GppBpyDoubledKmsWedge.kernel_factor}\leanok\ \texttt{kernel\_factor}
+  \item \lean{GppBpyDoubledKmsWedge.w}\leanok\ \texttt{w}
+  \item \lean{GppBpyDoubledKmsWedge.fiber}\leanok\ \texttt{fiber}
+  \item \lean{GppBpyDoubledKmsWedge.shift_even}\leanok\ \texttt{shift\_even}
+  \item \lean{GppBpyDoubledKmsWedge.autocorr_even}\leanok\ \texttt{autocorr\_even}
+  \item \lean{GppBpyDoubledKmsWedge.detailed_balance}\leanok\ \texttt{detailed\_balance}
+  \item \lean{GppBpyDoubledKmsWedge.fiber_detailed_balance}\leanok\ \texttt{fiber\_detailed\_balance}
+  \item \lean{GppBpyDoubledKmsWedge.wedge_det}\leanok\ \texttt{wedge\_det}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
