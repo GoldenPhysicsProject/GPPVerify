@@ -6642,6 +6642,21 @@ Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_prime\_fermionic\_fock\
   \item \lean{GppBinaryFermionEuler.liouville_ne_moebius}\leanok\ \texttt{liouville\_ne\_moebius}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Conductor-Five Gaussian Mellin Period}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-13\_quartic\_bc\_to\_tate\_odd\_gamma\_exact\_mellin}, \S2. For the odd test $f(x)=xe^{-\pi x^2/5}$: $\int_0^\infty f(ny)y^{s-1}dy=\tfrac12(5/\pi)^{(s+1)/2}\Gamma(\tfrac{s+1}2)n^{-s}$ for $s>-1$; for bounded coefficients and real $s>1$ the theta period $\sum_n c_nf(ny)$ has Mellin transform $\tfrac12(5/\pi)^{(s+1)/2}\Gamma(\tfrac{s+1}2)\sum_n c_nn^{-s}$ (termwise interchange justified by absolute summability). With $c_n=2B_\chi(n)$ from QuarticGaussFive this is $(\bar\tau/4)\Lambda(s,\chi)$, the completed odd conductor-5 Dirichlet $L$-function. Real $s$ only; Tate-type identity, not Weil positivity. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppConductorFiveMellin.f}\leanok\ \texttt{f}
+  \item \lean{GppConductorFiveMellin.arch}\leanok\ \texttt{arch}
+  \item \lean{GppConductorFiveMellin.integrand_eq}\leanok\ \texttt{integrand\_eq}
+  \item \lean{GppConductorFiveMellin.term_mellin}\leanok\ \texttt{term\_mellin}
+  \item \lean{GppConductorFiveMellin.integrableOn_term}\leanok\ \texttt{integrableOn\_term}
+  \item \lean{GppConductorFiveMellin.theta_mellin}\leanok\ \texttt{theta\_mellin}
+  \item \lean{GppConductorFiveMellin.norm_B_le}\leanok\ \texttt{norm\_B\_le}
+  \item \lean{GppConductorFiveMellin.gauss_theta_mellin}\leanok\ \texttt{gauss\_theta\_mellin}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
