@@ -41,6 +41,7 @@ theorem magnetic_swap_square_scaled (a b : ℝ) (z : TwoComplexCoords) :
   | mk x u y v =>
     simp [magneticSwap]
     <;> ring
+    <;> trivial
 
 /-- Every unit-phase prime strip exchange has exact square +1. -/
 theorem magnetic_swap_involution (a b : ℝ) (h : a*a+b*b=1)
