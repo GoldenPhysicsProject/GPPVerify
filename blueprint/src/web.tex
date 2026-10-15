@@ -6999,6 +6999,37 @@ analogue, so this is \textbf{not} a proof of RH.
   \texttt{critical\_mass\_square}
 \end{itemize}
 
+\section{Riemann Hypothesis / Dirichlet GRH --- Haar Prime Partial Isometries}
+The compact norm-one idèle-class factor for $\mathbb Q$ has discrete
+primitive Dirichlet-character sectors $\eta$. A local prime coefficient
+$\eta(p)$ is zero when $p$ divides the conductor and has unit modulus
+otherwise. Therefore a \emph{single unitary} prime translation cannot
+simultaneously reproduce every character's Euler coefficient. Its correct
+abstract Fourier form is a normal partial isometry: a Haar projection
+onto the $p$-unramified character sectors times a compact unitary phase.
+This file formalizes the resulting diagonal operator algebra:
+$V_p^*V_p=V_pV_p^*=E_p$, $E_p^2=E_p$, and commuting Euler vertices.
+The local Haar integral and conductor arithmetic are left as explicit
+external identifications. This does not prove RH or Dirichlet GRH.
+
+\noindent\textbf{Selected proved declarations:}
+\begin{itemize}
+  \item \lean{GppHaarPrimePartialIsometry.haar_projector_idempotent}\leanok\
+  \texttt{haar\_projector\_idempotent}
+  \item \lean{GppHaarPrimePartialIsometry.vertex_product}\leanok\
+  \texttt{vertex\_product}
+  \item \lean{GppHaarPrimePartialIsometry.vertices_commute}\leanok\
+  \texttt{vertices\_commute}
+  \item \lean{GppHaarPrimePartialIsometry.adjoint_vertex_comp}\leanok\
+  \texttt{adjoint\_vertex\_comp}
+  \item \lean{GppHaarPrimePartialIsometry.vertex_adjoint_comp}\leanok\
+  \texttt{vertex\_adjoint\_comp}
+  \item \lean{GppHaarPrimePartialIsometry.vertex_haar_commute}\leanok\
+  \texttt{vertex\_haar\_commute}
+  \item \lean{GppHaarPrimePartialIsometry.ramified_euler_zero}\leanok\
+  \texttt{ramified\_euler\_zero}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
