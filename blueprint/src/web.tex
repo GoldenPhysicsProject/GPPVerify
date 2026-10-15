@@ -7060,6 +7060,26 @@ NOT an RH/GRH proof.
   \texttt{negative\_requires\_small\_conductor}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Finite Picone ground-state comparison for symmetric jumps}
+A positive ground-state comparison function yields an exact
+edge energy identity
+\[
+ (au-bv)^2-(a-b)(au^2-bv^2)=ab(u-v)^2.
+\]
+For nonnegative $a,b$ and nonnegative edge weights, the right-hand side
+is nonnegative and the comparison survives arbitrary finite sums.
+This finite discrete algebra is the core of the nonlocal jump
+ground-state representation used to bound the completed primitive
+$\chi_4$ Weil form on the first prime-active Mellin window.
+The archimedean integral realization and finite interval certificate
+are NOT verified in this module, and no GRH/RH inference is made.
+\begin{itemize}
+\item \lean{GppGroundStatePicone.edge_identity}\leanok\ \texttt{edge\_identity}
+\item \lean{GppGroundStatePicone.edge_lower}\leanok\ \texttt{edge\_lower}
+\item \lean{GppGroundStatePicone.finite_edge_identity}\leanok\ \texttt{finite\_edge\_identity}
+\item \lean{GppGroundStatePicone.finite_edge_lower}\leanok\ \texttt{finite\_edge\_lower}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
