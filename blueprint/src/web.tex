@@ -6972,6 +6972,33 @@ No inference of completed Weil positivity or RH.
 \item \lean{GppSatakeTwoPointNoGo.hyperbolic_negative_witness}\leanok\ \texttt{hyperbolic\_negative\_witness}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Pole/prime-density Casimir and four-orientation Dirac symbol}
+The exact cancellation of the zeta pole with the \emph{continuous}
+prime-counting reference leaves the positive convolution kernel
+$e^{-|t|/2}$, with angular Fourier multiplier $(\nu^2+1/4)^{-1}$.
+This principal-series resolvent admits an internal four-lift Dirac
+square root: on $V=\mathbb C^2\otimes\mathbb C^2$ set
+$\Gamma_1=X\otimes I$, $\Gamma_2=i(Z\otimes Z)(X\otimes I)$.
+The abstract symbol $(a\Gamma_1+b\Gamma_2)$ squares to
+$(a^2+b^2)I_4$, and specifically $b=1/2$ produces $a^2+1/4$.
+This module formally checks only the \emph{finite complex algebra}.
+It does not formalize the integral cancellation, unbounded domains,
+self-adjoint spectral calculus, or the signed Chebyshev-error bound.
+In particular the shifted off-line fake has a positive resolvent
+analogue, so this is \textbf{not} a proof of RH.
+
+\noindent\textbf{Proved declarations:}
+\begin{itemize}
+  \item \lean{GppPoleMeanFourFaceDirac.complex_mass_factor}\leanok\
+  \texttt{complex\_mass\_factor}
+  \item \lean{GppPoleMeanFourFaceDirac.complex_mass_factor_rev}\leanok\
+  \texttt{complex\_mass\_factor\_rev}
+  \item \lean{GppPoleMeanFourFaceDirac.dirac_symbol_square}\leanok\
+  \texttt{dirac\_symbol\_square}
+  \item \lean{GppPoleMeanFourFaceDirac.critical_mass_square}\leanok\
+  \texttt{critical\_mass\_square}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
