@@ -105,4 +105,23 @@ theorem two_component_positive_pole
   have h2 := positive_pole_completion Eim β λ xi wi C him hβ hC hxi
   linarith [h1, h2]
 
+
+theorem pole_lambda_square_identity (a b d λ : ℝ) :
+    (d + 1 / 2) * (a - 2 * b * λ + (d + 1 / 2) * λ ^ 2) =
+      (d + 1 / 2) * a - b ^ 2 + ((d + 1 / 2) * λ - b) ^ 2 := by
+  ring
+
+theorem pole_lambda_lower_bound (a b d λ : ℝ) :
+    (d + 1 / 2) * a - b ^ 2 ≤
+      (d + 1 / 2) * (a - 2 * b * λ + (d + 1 / 2) * λ ^ 2) := by
+  rw [pole_lambda_square_identity]
+  exact le_add_of_nonneg_right (sq_nonneg _)
+
+theorem necessary_pole_lambda_budget
+    (C β λ : ℝ) (hC : 0 < C) (hβ : 0 ≤ β)
+    (hmargin : C * (β + λ ^ 2 / 2) < 1) :
+    C * λ ^ 2 < 2 := by
+  have hprod : 0 ≤ C * β := mul_nonneg (le_of_lt hC) hβ
+  nlinarith
+
 end GppEvenPositivePoleCompletion
