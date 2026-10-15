@@ -53,9 +53,7 @@ theorem dirac_symbol_square (a b : ℂ) (v : FourState) :
        (a^2+b^2)*v.mp, (a^2+b^2)*v.mm⟩ := by
   cases v with
   | mk pp pm mp mm =>
-    apply FourState.mk.injEq.mpr
-    simp only [diracSymbol]
-    simp [← mul_assoc, complex_mass_factor, complex_mass_factor_rev]
+    simp [diracSymbol, ← mul_assoc, complex_mass_factor, complex_mass_factor_rev]
 
 /-- For the physical mass m=1/2 the Dirac square gives the critical
 principal-series quadratic a²+1/4, algebraically, before any spectral calculus. -/
@@ -63,7 +61,6 @@ theorem critical_mass_square (a : ℂ) (v : FourState) :
     diracSymbol a (1/2) (diracSymbol a (1/2) v) =
       ⟨(a^2+1/4)*v.pp, (a^2+1/4)*v.pm,
        (a^2+1/4)*v.mp, (a^2+1/4)*v.mm⟩ := by
-  simpa [show ((1/2 : ℂ)^2) = 1/4 by norm_num] using
-    dirac_symbol_square a (1/2) v
+  convert dirac_symbol_square a (1/2 : ℂ) v using 1 <;> norm_num
 
 end GppPoleMeanFourFaceDirac
