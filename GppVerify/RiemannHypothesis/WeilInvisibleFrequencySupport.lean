@@ -30,13 +30,17 @@ theorem shifted_conjugate_product_zero
     (f : ℝ → ℂ) (L u x : ℝ)
     (hf : ∀ y : ℝ, ¬ (-L < y ∧ y < L) → f y = 0)
     (hu : 2 * L ≤ |u|) :
-    f x * Complex.conj (f (x + u)) = 0 := by
+    f x * star (f (x + u)) = 0 := by
   by_cases hx : -L < x ∧ x < L
   · have hy : ¬ (-L < x + u ∧ x + u < L) := by
       intro hy
       exact open_window_disjoint_shift L u x hu ⟨hx, hy⟩
-    simp [hf _ hy]
-  · simp [hf _ hx]
+    have h0 : f (x + u) = 0 := hf _ hy
+    rw [h0]
+    simp
+  · have h0 : f x = 0 := hf _ hx
+    rw [h0]
+    simp
 
 /-- The shifted autocorrelation integral vanishes (no integrability assumption
 needed, since the integrand is identically zero). -/
@@ -44,8 +48,8 @@ theorem shifted_autocorrelation_zero
     (f : ℝ → ℂ) (L u : ℝ)
     (hf : ∀ y : ℝ, ¬ (-L < y ∧ y < L) → f y = 0)
     (hu : 2 * L ≤ |u|) :
-    (∫ x : ℝ, f x * Complex.conj (f (x + u))) = 0 := by
-  have hzero : (fun x : ℝ => f x * Complex.conj (f (x + u))) = (fun _ => 0) := by
+    (∫ x : ℝ, f x * star (f (x + u))) = 0 := by
+  have hzero : (fun x : ℝ => f x * star (f (x + u))) = (fun _ => 0) := by
     funext x
     exact shifted_conjugate_product_zero f L u x hf hu
   simp [hzero]
