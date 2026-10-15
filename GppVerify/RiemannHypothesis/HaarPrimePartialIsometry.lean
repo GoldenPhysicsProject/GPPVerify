@@ -33,8 +33,9 @@ def vertex (w : I → ℂ) (f : I → ℂ) : I → ℂ :=
   fun i => w i * f i
 
 /-- Fourier-side description of averaging over local p-adic units. -/
-noncomputable def haarProjector (unramified : I → Prop) (f : I → ℂ) : I → ℂ :=
-  fun i => if unramified i then f i else 0
+noncomputable def haarProjector (unramified : I → Prop) (f : I → ℂ) : I → ℂ := by
+  classical
+  exact fun i => if unramified i then f i else 0
 
 theorem haar_projector_idempotent (P : I → Prop) (f : I → ℂ) :
     haarProjector P (haarProjector P f) = haarProjector P f := by
@@ -56,8 +57,9 @@ theorem vertex_product (w z : I → ℂ) (f : I → ℂ) :
   simp [vertex, mul_assoc]
 
 /-- Phase and ramification condition for a primitive Dirichlet character. -/
-def phaseCondition (w : I → ℂ) (P : I → Prop) : Prop :=
-  ∀ i, star (w i) * w i = if P i then 1 else 0
+def phaseCondition (w : I → ℂ) (P : I → Prop) : Prop := by
+  classical
+  exact ∀ i, star (w i) * w i = if P i then 1 else 0
 
 /-- Exact normal partial-isometry identity V* V = Haar-unramified projection,
 written without choosing a matrix or a finite conductor. -/
