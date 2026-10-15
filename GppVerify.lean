@@ -2236,3 +2236,6 @@ import GppVerify.RiemannHypothesis.HaarPrimePartialIsometry
 import GppVerify.RiemannHypothesis.ConductorPrimeCoercivity
 import GppVerify.RiemannHypothesis.GroundStatePicone
 import GppVerify.RiemannHypothesis.ComplexCharacterMagneticStrip
+
+-- Support-disjoint invisible-frequency kernel for compact Weil windows (S27)
+import GppVerify.RiemannHypothesis.WeilInvisibleFrequencySupport
