@@ -7080,6 +7080,31 @@ are NOT verified in this module, and no GRH/RH inference is made.
 \item \lean{GppGroundStatePicone.finite_edge_lower}\leanok\ \texttt{finite\_edge\_lower}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Complex Character Magnetic Two-Strip Obstruction}
+For the first active prime $p=2$ with $H<\log 2<2H$, the two
+disjoint edge strips carry a Hermitian magnetic exchange matrix
+with Euler phase $a+ib$. In four real coordinates
+$z=(x,u,y,v)$ this exchange is an involution for $a^2+b^2=1$,
+and its quadratic pairing is
+$2a(xy+uv)+2b(xv-uy)$.
+Thus restricting tests to real functions ($u=v=0$) discards the
+imaginary Euler contribution. An explicit Hermitian energy is
+nonnegative on every real vector but strictly negative on the
+complex vector $(x,u,y,v)=(1,0,0,-1)$.
+This proves that real-test positivity is INSUFFICIENT to infer
+the completed complex-character Weil inequality or Dirichlet GRH.
+The formalization checks only finite algebra and no zero locations.
+
+\noindent\textbf{Selected proved declarations:}
+\begin{itemize}
+  \item \lean{GppComplexCharacterMagneticStrip.magnetic_swap_square_scaled}\leanok\ \texttt{magnetic\_swap\_square\_scaled}
+  \item \lean{GppComplexCharacterMagneticStrip.magnetic_swap_involution}\leanok\ \texttt{magnetic\_swap\_involution}
+  \item \lean{GppComplexCharacterMagneticStrip.magnetic_pairing_components}\leanok\ \texttt{magnetic\_pairing\_components}
+  \item \lean{GppComplexCharacterMagneticStrip.real_tests_invisible_imaginary_phase}\leanok\ \texttt{real\_tests\_invisible\_imaginary\_phase}
+  \item \lean{GppComplexCharacterMagneticStrip.real_subspace_nonnegative}\leanok\ \texttt{real\_subspace\_nonnegative}
+  \item \lean{GppComplexCharacterMagneticStrip.complex_witness_negative}\leanok\ \texttt{complex\_witness\_negative}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
