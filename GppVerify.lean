@@ -2236,3 +2236,7 @@ import GppVerify.RiemannHypothesis.HaarPrimePartialIsometry
 import GppVerify.RiemannHypothesis.ConductorPrimeCoercivity
 import GppVerify.RiemannHypothesis.GroundStatePicone
 import GppVerify.RiemannHypothesis.ComplexCharacterMagneticStrip
+
+-- Astra positive-pole completion: exact algebraic Cauchy-Schwarz slack,
+-- complex-component transfer only; continuum Arb input and RH remain open.
+import GppVerify.RiemannHypothesis.EvenPoleCompletion
