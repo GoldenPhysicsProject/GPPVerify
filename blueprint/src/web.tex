@@ -7030,6 +7030,36 @@ external identifications. This does not prove RH or Dirichlet GRH.
   \texttt{ramified\_euler\_zero}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Fixed-window conductor dominance of Dirichlet prime currents}
+For the primitive nontrivial Dirichlet sector, the exact completed Weil
+form on a compact Mellin window has a nonnegative real-place kinetic
+energy, conductor coefficient $\log f-c_\varepsilon$, and a finite signed
+prime-power current. Each prime autocorrelation is at most the test
+norm squared. The elementary abstract inequality therefore reads
+\[
+  Q_\eta(g)\geq
+  \left(\log f-c_\varepsilon-2\sum_{p^k<e^{2h}}
+   \frac{\log p}{p^{k/2}}\right)\|g\|^2.
+\]
+Consequently, at any fixed $h$ only finitely many conductors may
+support a negative test. This module verifies the **finite weighted
+sum and conductor comparison**, conditional on explicit upper bounds
+for individual correlations. It does not kernel-check the full
+Dirichlet explicit formula or a uniform-in-$h$ estimate. It is
+NOT an RH/GRH proof.
+\begin{itemize}
+\item \lean{GppConductorPrimeCoercivity.weighted_pairing_upper}\leanok\
+  \texttt{weighted\_pairing\_upper}
+\item \lean{GppConductorPrimeCoercivity.signed_euler_lower}\leanok\
+  \texttt{signed\_euler\_lower}
+\item \lean{GppConductorPrimeCoercivity.conductor_coercivity}\leanok\
+  \texttt{conductor\_coercivity}
+\item \lean{GppConductorPrimeCoercivity.conductor_dominates}\leanok\
+  \texttt{conductor\_dominates}
+\item \lean{GppConductorPrimeCoercivity.negative_requires_small_conductor}\leanok\
+  \texttt{negative\_requires\_small\_conductor}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
