@@ -89,6 +89,9 @@ import GppVerify.QuantumGravity.BornRuleHaar
 -- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
 import GppVerify.GeneralRelativity.Rigidity
 
+-- Causal-diamond volume ensemble: exact algebra and explicit hypothesis boundaries
+import GppVerify.GeneralRelativity.VolumeConstraintEntanglement
+
 -- ── Number Theory (New) ──────────────────────────────────────
 -- Shadow Euler Identity and Hadamard product stubs
 import GppVerify.NumberTheory.ShadowEulerIdentity
