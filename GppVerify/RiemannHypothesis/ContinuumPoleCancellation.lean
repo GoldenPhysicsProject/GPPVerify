@@ -48,7 +48,7 @@ theorem halfDensity_product (x y : ℝ) :
 theorem integrable_halfDensity_product (x y : ℝ) :
     Integrable (fun t => halfDensity x t * halfDensity y t) := by
   rw [halfDensity_product]
-  exact ((integrableOn_exp_Iic (min x y)).const_mul _).indicator measurableSet_Iic
+  exact ((integrableOn_exp_Iic (min x y)).const_mul _).integrable_indicator measurableSet_Iic
 
 /-- Exact Gram representation, with the normalization fixed at exponent `1/2`. -/
 theorem halfDensity_gram (x y : ℝ) :
