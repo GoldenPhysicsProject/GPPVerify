@@ -48,7 +48,8 @@ theorem halfDensity_product (x y : ℝ) :
 theorem integrable_halfDensity_product (x y : ℝ) :
     Integrable (fun t => halfDensity x t * halfDensity y t) := by
   rw [halfDensity_product]
-  exact ((integrableOn_exp_Iic (min x y)).const_mul _).integrable_indicator measurableSet_Iic
+  apply (integrable_indicator_iff measurableSet_Iic).2
+  exact (integrableOn_exp_Iic (min x y)).const_mul (exp (-(x + y) / 2))
 
 /-- Exact Gram representation, with the normalization fixed at exponent `1/2`. -/
 theorem halfDensity_gram (x y : ℝ) :
@@ -77,9 +78,9 @@ theorem completed_continuum_nonneg {n : ℕ} (x c : Fin n → ℝ) :
         (∑ j, ∫ t, c i * c j * (halfDensity (x i) t * halfDensity (x j) t)) =
         ∫ t, ∑ j, c i * c j * (halfDensity (x i) t * halfDensity (x j) t) := by
       intro i
-      exact (integral_finset_sum _ (fun j _ => hint i j)).symm
+      exact (integral_finsetSum _ (fun j _ => hint i j)).symm
     simp_rw [hinner]
-    rw [← integral_finset_sum]
+    rw [← integral_finsetSum]
     · congr 1
       funext t
       simp_rw [pow_two, Finset.sum_mul, Finset.mul_sum]
@@ -89,7 +90,7 @@ theorem completed_continuum_nonneg {n : ℕ} (x c : Fin n → ℝ) :
       intro j _
       ring
     · intro i _
-      exact integrable_finset_sum _ (fun j _ => hint i j)
+      exact integrable_finsetSum _ (fun j _ => hint i j)
   rw [heq]
   exact integral_nonneg (fun t => sq_nonneg _)
 
