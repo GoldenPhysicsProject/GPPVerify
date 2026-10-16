@@ -7105,6 +7105,23 @@ The formalization checks only finite algebra and no zero locations.
   \item \lean{GppComplexCharacterMagneticStrip.complex_witness_negative}\leanok\ \texttt{complex\_witness\_negative}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Closed-Chain Algebra of the Causal-Fermion Bridge}
+Codex/GPT's causal-fermion bridge, finite part only (independently re-derived by Grok S42). The spin-$n$ causal Lagrangian in the moduli $a_i=|\lambda_i|$ of the $N=2n$ closed-chain eigenvalues, $L=\sum a_i^2-N^{-1}(\sum a_i)^2=(2N)^{-1}\sum_{ij}(a_i-a_j)^2$, is nonnegative and vanishes iff all moduli agree; spin one gives $(a_1-a_2)^2/2$ and spin two with spectrum $(c_1,c_1,c_2,c_2)$ gives $(|c_1|-|c_2|)^2$. For the mirror overlap $O=\begin{psmallmatrix}a&b\\\bar b&\bar a\end{psmallmatrix}$, $JOJO^\dagger=(|a|^2-|b|^2)I$, so mirrored spin-one chains have zero action for every input. For real $h$, $m=1+|h|$, the chain $A=xy_h$ obeys $(A-m)^2=h$ and $L=2\max(h,0)$; and $\operatorname{Im}(1/(u-u_0))<0$ for every real $u_0$ (Pick sign alone does not exclude a positive real pole). This re-encodes a scalar defect supplied from outside; it supplies no variational principle and no arithmetic input. No RH claim.
+
+\noindent\textbf{Proved (10 declarations):}
+\begin{itemize}
+  \item \lean{GppCfsClosedChain.lagrangian_eq_pair_sum}\leanok\ \texttt{lagrangian\_eq\_pair\_sum}
+  \item \lean{GppCfsClosedChain.lagrangian_nonneg}\leanok\ \texttt{lagrangian\_nonneg}
+  \item \lean{GppCfsClosedChain.lagrangian_eq_zero_iff}\leanok\ \texttt{lagrangian\_eq\_zero\_iff}
+  \item \lean{GppCfsClosedChain.lagrangian_spin_one}\leanok\ \texttt{lagrangian\_spin\_one}
+  \item \lean{GppCfsClosedChain.lagrangian_spin_two}\leanok\ \texttt{lagrangian\_spin\_two}
+  \item \lean{GppCfsClosedChain.mirror_overlap}\leanok\ \texttt{mirror\_overlap}
+  \item \lean{GppCfsClosedChain.det_yMat_neg}\leanok\ \texttt{det\_yMat\_neg}
+  \item \lean{GppCfsClosedChain.chain_sq}\leanok\ \texttt{chain\_sq}
+  \item \lean{GppCfsClosedChain.lagrangian_roots}\leanok\ \texttt{lagrangian\_roots}
+  \item \lean{GppCfsClosedChain.im_inv_sub_neg}\leanok\ \texttt{im\_inv\_sub\_neg}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
