@@ -51,6 +51,6 @@ theorem shifted_autocorrelation_zero
     (∫ x : ℝ, f x * star (f (x + u))) = 0 := by
   have hpoint (x : ℝ) : f x * star (f (x + u)) = 0 := by
     exact shifted_conjugate_product_zero f L u x hf hu
-  simp only [hpoint, integral_zero]
+  simp [hpoint]
 
 end GppWeilInvisibleFrequency
