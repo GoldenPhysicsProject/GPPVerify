@@ -7122,6 +7122,22 @@ Codex/GPT's causal-fermion bridge, finite part only (independently re-derived by
   \item \lean{GppCfsClosedChain.im_inv_sub_neg}\leanok\ \texttt{im\_inv\_sub\_neg}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The Gamma-Free Prime Barrier as a Legendre-Dual Family}
+Astra's exact duality for Codex's Suzuki gamma-free scalar $T(t)=V(t)-A(t)$, $V(t)=8(\cosh(t/2)-1)$, $A(t)=\sum_j w_j(t-u_j)_+$, proved here for finite truncations of the prime-power list. $A_K(t)=\max_{k\le K}(B_kt-C_k)$ (each prefix affine function lies below $A_K$ and the last active prefix attains it), and with the Legendre transform $V^*(B)=2B\,\mathrm{arsinh}(B/4)-2\sqrt{B^2+16}+8$ (Fenchel--Young via the tangent line of $\cosh$), $A_K\le V$ on $t\ge0$ iff $V^*(B_k)\le C_k$ for every prefix $k\le K$. It does not assert either side for the actual von~Mangoldt sequence (the open arithmetic barrier), handles no infinite list, and says nothing about Suzuki's eventual-sign criterion or its converse. No RH claim.
+
+\noindent\textbf{Proved (9 declarations):}
+\begin{itemize}
+  \item \lean{GppGammaFreeDuality.cosh_tangent}\leanok\ \texttt{cosh\_tangent}
+  \item \lean{GppGammaFreeDuality.Vstar_eq}\leanok\ \texttt{Vstar\_eq}
+  \item \lean{GppGammaFreeDuality.fenchel}\leanok\ \texttt{fenchel}
+  \item \lean{GppGammaFreeDuality.fenchel_eq}\leanok\ \texttt{fenchel\_eq}
+  \item \lean{GppGammaFreeDuality.Vstar_zero}\leanok\ \texttt{Vstar\_zero}
+  \item \lean{GppGammaFreeDuality.affine_eq}\leanok\ \texttt{affine\_eq}
+  \item \lean{GppGammaFreeDuality.affine_le_A}\leanok\ \texttt{affine\_le\_A}
+  \item \lean{GppGammaFreeDuality.A_attained}\leanok\ \texttt{A\_attained}
+  \item \lean{GppGammaFreeDuality.barrier_iff}\leanok\ \texttt{barrier\_iff}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
