@@ -7149,6 +7149,21 @@ Grok S47's Lean ask. From Mathlib's $\psi=\Gamma'/\Gamma$ and the Gamma reflecti
   \item \lean{GppDigammaQuarterSech.re_digamma_quarter_sub}\leanok\ \texttt{re\_digamma\_quarter\_sub}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The Sharp Two-Mode Real-Rootedness Threshold}
+Codex's fake filter for the twistor theta-mixture. With $y=\cosh z$, $\cosh 2z+c\cosh z=2y^2+cy-1$, whose roots $y=(-c\pm\sqrt{c^2+8})/4$ are real and lie in $[-1,1]$ exactly when $|c|\le1$; a real $y$ in $[-1,1]$ forces $\operatorname{Re}z=0$, while $|y|>1$ gives a zero with $\operatorname{Re}z\ne0$. Hence all zeros of $\cosh 2z+c\cosh z$ lie on $i\mathbb R$ iff $|c|\le 1$ (the note states $0\le c\le1$, which agrees for the positive mixtures it uses; recorded as a correction). Also Grok S49's lemma $0<\operatorname{Re}(1/w^2)\iff|\operatorname{Im}w|<|\operatorname{Re}w|$. Finite algebra of one example; nothing about the Fisher-variance identity, the true $\xi$ margin, or any zero of $\xi$ or $\zeta$. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppTwistorTwoModeThreshold.F_eq}\leanok\ \texttt{F\_eq}
+  \item \lean{GppTwistorTwoModeThreshold.cosh_re_im}\leanok\ \texttt{cosh\_re\_im}
+  \item \lean{GppTwistorTwoModeThreshold.re_eq_zero_of_cosh_real}\leanok\ \texttt{re\_eq\_zero\_of\_cosh\_real}
+  \item \lean{GppTwistorTwoModeThreshold.exists_cosh_offAxis}\leanok\ \texttt{exists\_cosh\_offAxis}
+  \item \lean{GppTwistorTwoModeThreshold.onAxis_of_abs_le_one}\leanok\ \texttt{onAxis\_of\_abs\_le\_one}
+  \item \lean{GppTwistorTwoModeThreshold.offAxis_of_one_lt_abs}\leanok\ \texttt{offAxis\_of\_one\_lt\_abs}
+  \item \lean{GppTwistorTwoModeThreshold.zeros_on_axis_iff}\leanok\ \texttt{zeros\_on\_axis\_iff}
+  \item \lean{GppTwistorTwoModeThreshold.re_inv_sq_pos_iff}\leanok\ \texttt{re\_inv\_sq\_pos\_iff}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
