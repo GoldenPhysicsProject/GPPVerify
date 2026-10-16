@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.Tactic
 
 /-!
 # Weil-window invisible shifts: pointwise support and autocorrelation
@@ -51,6 +52,10 @@ theorem shifted_autocorrelation_zero
     (∫ x : ℝ, f x * star (f (x + u))) = 0 := by
   have hpoint (x : ℝ) : f x * star (f (x + u)) = 0 := by
     exact shifted_conjugate_product_zero f L u x hf hu
-  simp [hpoint]
+  calc
+    (∫ x : ℝ, f x * star (f (x + u))) = (∫ _x : ℝ, (0 : ℂ)) := by
+      apply MeasureTheory.integral_congr_ae
+      exact Filter.Eventually.of_forall hpoint
+    _ = 0 := by simp
 
 end GppWeilInvisibleFrequency
