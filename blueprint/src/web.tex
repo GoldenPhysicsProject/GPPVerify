@@ -7138,6 +7138,17 @@ Astra's exact duality for Codex's Suzuki gamma-free scalar $T(t)=V(t)-A(t)$, $V(
   \item \lean{GppGammaFreeDuality.barrier_iff}\leanok\ \texttt{barrier\_iff}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The Davenport--Heilbronn Archimedean Difference is a sech Kernel}
+Grok S47's Lean ask. From Mathlib's $\psi=\Gamma'/\Gamma$ and the Gamma reflection formula $\Gamma(z)\Gamma(1-z)=\pi/\sin\pi z$, the logarithmic derivative gives $\psi(1-z)-\psi(z)=\pi\cos(\pi z)/\sin(\pi z)$ off the poles; with $\psi(\bar z)=\overline{\psi(z)}$ and $\Re\cot(\pi(\tfrac14+\tfrac{ir}{2}))=1/\cosh(\pi r)$ this yields $\Re[\psi(\tfrac34+\tfrac{ir}2)-\psi(\tfrac14+\tfrac{ir}2)]=\pi/\cosh(\pi r)$ for every real $r$. Pointwise digamma identity only: the integral form through $\int_0^\infty\cos(rx)/\cosh(x/2)\,dx$ and the Davenport--Heilbronn Weil form itself are not formalized. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppDigammaQuarterSech.digamma_reflection}\leanok\ \texttt{digamma\_reflection}
+  \item \lean{GppDigammaQuarterSech.digamma_conj}\leanok\ \texttt{digamma\_conj}
+  \item \lean{GppDigammaQuarterSech.re_cot_quarter}\leanok\ \texttt{re\_cot\_quarter}
+  \item \lean{GppDigammaQuarterSech.re_digamma_quarter_sub}\leanok\ \texttt{re\_digamma\_quarter\_sub}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
