@@ -159,9 +159,37 @@ theorem cubic_model (lam c rho : ℝ)
   ring
 end Spectral
 
+
+section HyperplaneUniqueness
+
+/-- On an admissible real variation space, a nonzero work coefficient and
+stationarity along ker F force the volume differential to be proportional
+to F. This is first-order hyperplane uniqueness, not global F=f(V). -/
+theorem stationarity_selects_volume_tangent
+    {E : Type*} [AddCommGroup E] [Module ℝ E]
+    (F V : E →ₗ[ℝ] ℝ) (w : E) (hw : F w = 1)
+    (C : ℝ) (hC : C ≠ 0)
+    (hstat : ∀ x, F x = 0 → C * V x = 0) :
+    V = (V w) • F := by
+  apply LinearMap.ext
+  intro x
+  have hFx : F (x - (F x) • w) = 0 := by
+    simp [map_sub, map_smul, hw]
+  have hwork := hstat (x - (F x) • w) hFx
+  have hzero : V (x - (F x) • w) = 0 :=
+    (mul_eq_zero.mp hwork).resolve_left hC
+  have hv : V x - F x * V w = 0 := by
+    simpa [map_sub, map_smul] using hzero
+  change V x = (V w) * F x
+  nlinarith [hv]
+
+end HyperplaneUniqueness
+
 end GppVolumeConstraint
 
 #print axioms GppVolumeConstraint.normalized_state_scalar_invisible
 #print axioms GppVolumeConstraint.einstein_ricci_identity_concircular
 #print axioms GppVolumeConstraint.area_admixture_residual
 #print axioms GppVolumeConstraint.thermal_fisher_cancellation
+
+#print axioms GppVolumeConstraint.stationarity_selects_volume_tangent
