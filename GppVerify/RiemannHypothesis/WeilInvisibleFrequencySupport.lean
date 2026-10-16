@@ -1,3 +1,4 @@
+import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
 import Mathlib.Tactic
 
