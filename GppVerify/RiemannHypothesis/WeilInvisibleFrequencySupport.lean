@@ -49,9 +49,8 @@ theorem shifted_autocorrelation_zero
     (hf : ∀ y : ℝ, ¬ (-L < y ∧ y < L) → f y = 0)
     (hu : 2 * L ≤ |u|) :
     (∫ x : ℝ, f x * star (f (x + u))) = 0 := by
-  have hzero : (fun x : ℝ => f x * star (f (x + u))) = (fun _ => 0) := by
-    funext x
+  have hpoint (x : ℝ) : f x * star (f (x + u)) = 0 := by
     exact shifted_conjugate_product_zero f L u x hf hu
-  simp [hzero]
+  simp only [hpoint, integral_zero]
 
 end GppWeilInvisibleFrequency
