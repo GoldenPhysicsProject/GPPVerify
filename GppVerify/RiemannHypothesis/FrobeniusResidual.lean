@@ -27,7 +27,12 @@ theorem abs_quadratic_le_of_sum_sq_le {n : ℕ}
   simp only [Fintype.sum_prod_type] at hcs
   have hxx : (∑ i : Fin n, ∑ j : Fin n, (x i * x j) ^ 2) =
       (∑ i : Fin n, x i ^ 2) ^ 2 := by
-    simp only [mul_pow, pow_two, Finset.sum_mul, Finset.mul_sum]
+    simp only [pow_two, Finset.sum_mul, Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro i _
+    apply Finset.sum_congr rfl
+    intro j _
+    ring
   have hn : 0 ≤ ∑ i : Fin n, x i ^ 2 :=
     Finset.sum_nonneg (fun i _ => sq_nonneg (x i))
   rw [hxx] at hcs
