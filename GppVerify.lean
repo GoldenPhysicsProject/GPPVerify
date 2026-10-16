@@ -2236,3 +2236,4 @@ import GppVerify.RiemannHypothesis.HaarPrimePartialIsometry
 import GppVerify.RiemannHypothesis.ConductorPrimeCoercivity
 import GppVerify.RiemannHypothesis.GroundStatePicone
 import GppVerify.RiemannHypothesis.ComplexCharacterMagneticStrip
+import GppVerify.RiemannHypothesis.FrobeniusResidual
