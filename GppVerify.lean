@@ -2241,6 +2241,8 @@ import GppVerify.RiemannHypothesis.GammaFreeDuality
 import GppVerify.RiemannHypothesis.DigammaQuarterSech
 import GppVerify.RiemannHypothesis.TwistorTwoModeThreshold
 import GppVerify.RiemannHypothesis.CramerIntensityBound
+import GppVerify.RiemannHypothesis.LogPartitionVariance
+import GppVerify.RiemannHypothesis.PairSignRule
 import GppVerify.RiemannHypothesis.SuzukiKickCone
 import GppVerify.RiemannHypothesis.ContinuumPoleCancellation
 import GppVerify.RiemannHypothesis.FrobeniusResidual
