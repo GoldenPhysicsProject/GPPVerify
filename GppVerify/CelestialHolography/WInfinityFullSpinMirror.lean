@@ -70,7 +70,7 @@ theorem kr_mirror_anti (n : ℕ) (f g : ℤ → ℂ) :
 theorem kr_total_central_zero (n : ℕ) (f g : ℤ → ℂ) :
     KRCocycle n f g + KRMirrored n f g = 0 := by
   rw [kr_mirror_anti]
-  add_neg_cancel
+  simp
 
 /-- An abstract Haar factor is a nonnegative norm only with complex
 conjugation. A signed cocycle without conjugation is NOT positive. -/
