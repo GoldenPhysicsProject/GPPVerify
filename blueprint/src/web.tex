@@ -7205,6 +7205,83 @@ Codex's elementary dynamics on Suzuki's gamma-free scalar $T=V-A$, for a finite 
   \item \lean{GppSuzukiKickCone.start_cone}\leanok\ \texttt{start\_cone}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Exact pole cancellation of the PNT continuum kernel (Astra)}
+The completed pole pair has kernel $2\cosh((x-y)/2)$; subtracting the PNT continuum kernel $e^{|x-y|/2}$ leaves the positive kernel $e^{-|x-y|/2}$. This gives an explicit one-sided half-density Gram representation and finite positivity for real and complex coefficients at arbitrary locations, both pole channels retained. A continuum statement on arbitrary finite sets with no window bound: the signed difference between the actual von~Mangoldt sum and the continuum is not bounded here, so this proves neither Weil positivity nor RH.
+
+\noindent\textbf{Proved (6 declarations):}
+\begin{itemize}
+  \item \lean{GppContinuumPoleCancellation.pole_sub_continuum}\leanok\ \texttt{pole\_sub\_continuum}
+  \item \lean{GppContinuumPoleCancellation.halfDensity_product}\leanok\ \texttt{halfDensity\_product}
+  \item \lean{GppContinuumPoleCancellation.integrable_halfDensity_product}\leanok\ \texttt{integrable\_halfDensity\_product}
+  \item \lean{GppContinuumPoleCancellation.halfDensity_gram}\leanok\ \texttt{halfDensity\_gram}
+  \item \lean{GppContinuumPoleCancellation.completed_continuum_nonneg}\leanok\ \texttt{completed\_continuum\_nonneg}
+  \item \lean{GppContinuumPoleCancellation.completed_continuum_complex_nonneg}\leanok\ \texttt{completed\_continuum\_complex\_nonneg}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Frobenius residual bounds imply quadratic residual bounds (Astra)}
+If $\sum_{ij}E_{ij}^2\le\varepsilon^2$ and $\varepsilon\ge0$ then $|\sum_{ij}E_{ij}x_ix_j|\le\varepsilon\sum_ix_i^2$ (finite Cauchy--Schwarz, no symmetry needed), packaged with the residual equality and the resulting coercivity lower bound feeding \texttt{GppWeilResidualCoercivity}. No matrix data, interval certificate, Weil formula or RH assumption is asserted; the hypotheses are explicit finite inequalities.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppFrobeniusResidual.abs_quadratic_le_of_sum_sq_le}\leanok\ \texttt{abs\_quadratic\_le\_of\_sum\_sq\_le}
+  \item \lean{GppFrobeniusResidual.residual_bound}\leanok\ \texttt{residual\_bound}
+  \item \lean{GppFrobeniusResidual.lower_bound}\leanok\ \texttt{lower\_bound}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Weil-window invisible shifts: pointwise support and autocorrelation (Codex)}
+For a test function supported in the open interval $(-L,L)$, translations by $u$ with $|u|\ge2L$ have no overlapping support, so the translated conjugate product vanishes pointwise and the shifted autocorrelation integral is zero, including at $|u|=2L$. This is the spatial half of Grok's S27 invisible-harmonic lemma; the Fourier/Plancherel identity connecting the autocorrelation to the cosine multiplier is not claimed. No RH or GRH conclusion.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppWeilInvisibleFrequency.open_window_disjoint_shift}\leanok\ \texttt{open\_window\_disjoint\_shift}
+  \item \lean{GppWeilInvisibleFrequency.shifted_conjugate_product_zero}\leanok\ \texttt{shifted\_conjugate\_product\_zero}
+  \item \lean{GppWeilInvisibleFrequency.shifted_autocorrelation_zero}\leanok\ \texttt{shifted\_autocorrelation\_zero}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Finite confluent Hankel falsifier for the positive two-mode fake (Codex)}
+The rational numbers $h_n=(-1)^n[u^n](f_5'/f_5)$ for $f_5(u)=\cosh(2\sqrt u)+5\cosh\sqrt u$ (checked independently by exact Fraction formal division, and by an independent sympy run, outside Lean): $h_1=13/48>0$ and the adjacent $2\times2$ minor $1649/19353600>0$, but the skipped minor $h_1h_5-h_3^2=-7159067/214592716800<0$, the $3\times3$ determinant is negative, and an explicit rational vector gives a negative quadratic witness. Only the scalar rational facts are formalized; identification with Taylor coefficients is not. No RH claim.
+
+\noindent\textbf{Proved (7 declarations):}
+\begin{itemize}
+  \item \lean{GppTwistorConfluentHankelFake.fake_first_curvature_positive}\leanok\ \texttt{fake\_first\_curvature\_positive}
+  \item \lean{GppTwistorConfluentHankelFake.fake_consecutive_minor_positive}\leanok\ \texttt{fake\_consecutive\_minor\_positive}
+  \item \lean{GppTwistorConfluentHankelFake.fake_skipped_minor_exact}\leanok\ \texttt{fake\_skipped\_minor\_exact}
+  \item \lean{GppTwistorConfluentHankelFake.fake_skipped_minor_negative}\leanok\ \texttt{fake\_skipped\_minor\_negative}
+  \item \lean{GppTwistorConfluentHankelFake.fake_three_by_three_det_exact}\leanok\ \texttt{fake\_three\_by\_three\_det\_exact}
+  \item \lean{GppTwistorConfluentHankelFake.fake_three_by_three_det_negative}\leanok\ \texttt{fake\_three\_by\_three\_det\_negative}
+  \item \lean{GppTwistorConfluentHankelFake.fake_negative_quadratic_witness}\leanok\ \texttt{fake\_negative\_quadratic\_witness}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Pole-parameter square completion and necessary budget (Codex)}
+The non-duplicate lemmas of Codex's draft \#367: $(d+\tfrac12)(a-2b\lambda+(d+\tfrac12)\lambda^2)=(d+\tfrac12)a-b^2+((d+\tfrac12)\lambda-b)^2$, its lower bound, and the necessary budget $C(\beta+\lambda^2/2)<1\Rightarrow C\lambda^2<2$. Real algebra only: nothing here proves $m\ge c$, the continuum lift, a residual tail bound, or RH/GRH.
+
+\noindent\textbf{Proved (3 declarations):}
+\begin{itemize}
+  \item \lean{GppPoleParameterBudget.pole_lambda_square_identity}\leanok\ \texttt{pole\_lambda\_square\_identity}
+  \item \lean{GppPoleParameterBudget.pole_lambda_lower_bound}\leanok\ \texttt{pole\_lambda\_lower\_bound}
+  \item \lean{GppPoleParameterBudget.necessary_pole_lambda_budget}\leanok\ \texttt{necessary\_pole\_lambda\_budget}
+\end{itemize}
+
+\section{General Relativity --- Causal-diamond volume constraint: formalized algebraic core (Codex, Astra repair)}
+Fixed-reference normalized-state identity-shift invariance versus varying-operator scalar response, the vacuum shift, algebraic Einstein/CKV concircularity \emph{assuming} an explicit Ricci Lie-derivative identity, the fixed-volume deficit, the ensemble area-admixture residual, a 4D diagnostic, the exact thermal Fisher cancellation, and linearized constraint-hyperplane uniqueness: if the complete first law gives $\delta S=C\,\delta V$ with $C\ne0$, every stationary variation satisfies $\delta F=0$, and $\delta F\ne0$, then $\delta V\propto\delta F$. Not a global or nonlinear volume-uniqueness proof; full differential geometry, type-III algebraic QFT and curved Noether calculus are not Lean-verified.
+
+\noindent\textbf{Proved (13 declarations):}
+\begin{itemize}
+  \item \lean{GppVolumeConstraint.normalized_state_scalar_invisible}\leanok\ \texttt{normalized\_state\_scalar\_invisible}
+  \item \lean{GppVolumeConstraint.normalized_operator_scalar_visible}\leanok\ \texttt{normalized\_operator\_scalar\_visible}
+  \item \lean{GppVolumeConstraint.vacuum_shift}\leanok\ \texttt{vacuum\_shift}
+  \item \lean{GppVolumeConstraint.volume_multiplier_nonzero}\leanok\ \texttt{volume\_multiplier\_nonzero}
+  \item \lean{GppVolumeConstraint.ricci_trace_wave}\leanok\ \texttt{ricci\_trace\_wave}
+  \item \lean{GppVolumeConstraint.einstein_ricci_identity_concircular}\leanok\ \texttt{einstein\_ricci\_identity\_concircular}
+  \item \lean{GppVolumeConstraint.fixed_volume_area_deficit}\leanok\ \texttt{fixed\_volume\_area\_deficit}
+  \item \lean{GppVolumeConstraint.area_admixture_residual}\leanok\ \texttt{area\_admixture\_residual}
+  \item \lean{GppVolumeConstraint.radius_factor_4d}\leanok\ \texttt{radius\_factor\_4d}
+  \item \lean{GppVolumeConstraint.frozen_weight_factor_4d}\leanok\ \texttt{frozen\_weight\_factor\_4d}
+  \item \lean{GppVolumeConstraint.thermal_fisher_cancellation}\leanok\ \texttt{thermal\_fisher\_cancellation}
+  \item \lean{GppVolumeConstraint.cubic_model}\leanok\ \texttt{cubic\_model}
+  \item \lean{GppVolumeConstraint.stationarity_selects_volume_tangent}\leanok\ \texttt{stationarity\_selects\_volume\_tangent}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
