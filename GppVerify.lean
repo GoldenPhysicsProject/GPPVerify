@@ -2254,3 +2254,7 @@ import GppVerify.RiemannHypothesis.PositivePoleCompletion
 import GppVerify.RiemannHypothesis.WeilResidualCoercivity
 import GppVerify.NumberTheory.MertensFirst
 import GppVerify.RiemannHypothesis.IndependentChannelBudgetNoGo
+import GppVerify.CelestialHolography.FubiniStudyOrientation
+import GppVerify.CelestialHolography.ShadowCutOSObstruction
+import GppVerify.CelestialHolography.WInfinityCentralSewing
+import GppVerify.CelestialHolography.WInfinityFullSpinMirror
