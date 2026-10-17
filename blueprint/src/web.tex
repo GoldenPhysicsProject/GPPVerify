@@ -7179,6 +7179,32 @@ Codex's tilt-independent obstruction for Astra's independent-channel Poisson con
   \item \lean{GppCramerIntensityBound.alpha_astra_mean}\leanok\ \texttt{alpha\_astra\_mean}
 \end{itemize}
 
+\section{Riemann Hypothesis --- The Gamma-Free Prime-Kick Cone}
+Codex's elementary dynamics on Suzuki's gamma-free scalar $T=V-A$, for a finite list of prime-power events. With $a_0=V''=2\cosh(t/2)$, $P_0=T'=4\sinh(t/2)-B_k$ and $E_0=2a_0T-P_0^2$, inside a gap $T'=P_0$, $P_0'=a_0$, $a_0'=\sinh(t/2)$, hence $E_0'=2\sinh(t/2)\,T$. At an event of weight $w$: $T$ is continuous, $P_0$ drops by $w$, $E_0^+-E_0^-=2wP_0^--w^2$, and $N_\pm=\sqrt{2a_0T}\pm P_0$ change by $\mp w$. At $n=2$: $T=4(3/\sqrt2-2)$, $a_0=3/\sqrt2$, $P_0^+=\sqrt2-\log2/\sqrt2$, $E_0^+=36-24\sqrt2-2(1-\tfrac12\log2)^2>1.2$, so the starting cone $T,P_0,E_0,N_\pm>0$ holds. Not formalized: the single arithmetic inequality $N_+((\log n)^-)\ge\Lambda(n)/\sqrt n$ for all $n$, Suzuki's criterion, and Landau's theorem; nothing here proves $T\ge0$ for the real prime list. No RH claim.
+
+\noindent\textbf{Proved (19 declarations):}
+\begin{itemize}
+  \item \lean{GppSuzukiKickCone.hasDerivAt_a0}\leanok\ \texttt{hasDerivAt\_a0}
+  \item \lean{GppSuzukiKickCone.hasDerivAt_V}\leanok\ \texttt{hasDerivAt\_V}
+  \item \lean{GppSuzukiKickCone.hasDerivAt_Tk}\leanok\ \texttt{hasDerivAt\_Tk}
+  \item \lean{GppSuzukiKickCone.hasDerivAt_P}\leanok\ \texttt{hasDerivAt\_P}
+  \item \lean{GppSuzukiKickCone.hasDerivAt_E}\leanok\ \texttt{hasDerivAt\_E}
+  \item \lean{GppSuzukiKickCone.Tk_continuous_at_event}\leanok\ \texttt{Tk\_continuous\_at\_event}
+  \item \lean{GppSuzukiKickCone.P_jump}\leanok\ \texttt{P\_jump}
+  \item \lean{GppSuzukiKickCone.E_jump}\leanok\ \texttt{E\_jump}
+  \item \lean{GppSuzukiKickCone.Nplus_jump}\leanok\ \texttt{Nplus\_jump}
+  \item \lean{GppSuzukiKickCone.Nminus_jump}\leanok\ \texttt{Nminus\_jump}
+  \item \lean{GppSuzukiKickCone.E_eq_Nplus_mul_Nminus}\leanok\ \texttt{E\_eq\_Nplus\_mul\_Nminus}
+  \item \lean{GppSuzukiKickCone.start_B}\leanok\ \texttt{start\_B}
+  \item \lean{GppSuzukiKickCone.start_C}\leanok\ \texttt{start\_C}
+  \item \lean{GppSuzukiKickCone.start_T}\leanok\ \texttt{start\_T}
+  \item \lean{GppSuzukiKickCone.start_a0}\leanok\ \texttt{start\_a0}
+  \item \lean{GppSuzukiKickCone.start_P}\leanok\ \texttt{start\_P}
+  \item \lean{GppSuzukiKickCone.start_E}\leanok\ \texttt{start\_E}
+  \item \lean{GppSuzukiKickCone.start_E_gt}\leanok\ \texttt{start\_E\_gt}
+  \item \lean{GppSuzukiKickCone.start_cone}\leanok\ \texttt{start\_cone}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
