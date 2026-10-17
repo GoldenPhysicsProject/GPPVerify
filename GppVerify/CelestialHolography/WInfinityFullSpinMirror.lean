@@ -51,10 +51,7 @@ theorem kr_reindex (n : ℕ) (f g : ℤ → ℂ) :
               have hcast : ((n - 1 - j : ℕ) : ℤ) =
                   (n : ℤ) - (j : ℤ) - 1 := by omega
               rw [hcast]
-              have harg : -((j : ℤ) + 1) =
-                  (n : ℤ) - (j : ℤ) - 1 - (n : ℤ) := by omega
-              rw [harg]
-              exact mul_comm _ _
+              ring
     _ = ∑ j ∈ Finset.range n,
         g (j : ℤ) * f ((j : ℤ) - (n : ℤ)) := by
           exact Finset.sum_range_reflect
