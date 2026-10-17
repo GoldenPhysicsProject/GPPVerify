@@ -269,6 +269,7 @@ import GppVerify.NumberTheory.BSDPointCounts
 import GppVerify.CelestialHolography.FubiniStudyAntipodal
 import GppVerify.CelestialHolography.FubiniStudyOrientation
 import GppVerify.CelestialHolography.WInfinityCentralSewing
+import GppVerify.CelestialHolography.WInfinityFullSpinMirror
 import GppVerify.CelestialHolography.ShadowCutOSObstruction
 
 -- ── Zagier MZV Growth Recurrence, corrected (New) ─────────────
