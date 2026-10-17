@@ -7164,6 +7164,21 @@ Codex's fake filter for the twistor theta-mixture. With $y=\cosh z$, $\cosh 2z+c
   \item \lean{GppTwistorTwoModeThreshold.re_inv_sq_pos_iff}\leanok\ \texttt{re\_inv\_sq\_pos\_iff}
 \end{itemize}
 
+\section{Riemann Hypothesis --- Cram\'er Lower Bound on Independent Prime-Power Intensities}
+Codex's tilt-independent obstruction for Astra's independent-channel Poisson construction, elementary part only. For reference intensity $\alpha>0$ and tilted mean $w>0$ the Cram\'er rate is $I_\alpha(w)=2w\,\mathrm{arsinh}(w/\alpha)-2(\sqrt{\alpha^2+w^2}-\alpha)\ge 2w(\log(2w/\alpha)-1)$ (from $\mathrm{arsinh}\,x\ge\log 2x$ and $\sqrt{\alpha^2+w^2}-\alpha\le w$); if $I_\alpha(w)\le wu$ then $\alpha\ge(2/e)\,w\,e^{-u/2}$, which for $w=\Lambda(n)/\sqrt n$, $u=\log n$ is $\alpha\ge(2/e)\Lambda(n)/n$. Also Astra's choice $\alpha=2\Lambda/(n-1)$ has tilted mean $\alpha\sinh(\tfrac12\log n)=\Lambda/\sqrt n$. Not formalized: that the KL of every law with mean $w$ is at least $I_\alpha(w)$ (probability), and the divergence of $\sum\Lambda(n)/n$ that turns this local bound into the intensity-budget no-go. Nothing here concerns correlated or KMS/CFS constructions. No RH claim.
+
+\noindent\textbf{Proved (8 declarations):}
+\begin{itemize}
+  \item \lean{GppCramerIntensityBound.log_two_mul_le_arsinh}\leanok\ \texttt{log\_two\_mul\_le\_arsinh}
+  \item \lean{GppCramerIntensityBound.sqrt_sub_le}\leanok\ \texttt{sqrt\_sub\_le}
+  \item \lean{GppCramerIntensityBound.rate_lower}\leanok\ \texttt{rate\_lower}
+  \item \lean{GppCramerIntensityBound.alpha_lower}\leanok\ \texttt{alpha\_lower}
+  \item \lean{GppCramerIntensityBound.exp_log_half}\leanok\ \texttt{exp\_log\_half}
+  \item \lean{GppCramerIntensityBound.alpha_lower_prime_power}\leanok\ \texttt{alpha\_lower\_prime\_power}
+  \item \lean{GppCramerIntensityBound.sinh_log_half}\leanok\ \texttt{sinh\_log\_half}
+  \item \lean{GppCramerIntensityBound.alpha_astra_mean}\leanok\ \texttt{alpha\_astra\_mean}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
