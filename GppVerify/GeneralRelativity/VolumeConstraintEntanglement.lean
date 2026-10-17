@@ -76,7 +76,6 @@ theorem ricci_trace_wave (d R alpha lap : ℝ)
   have h2 : (d - 1) * lap = -(R * alpha) := by nlinarith [htrace]
   have h2' : (d - 1) * (-(R / (d - 1)) * alpha) = -(R * alpha) := by
     field_simp [hd1]
-    ring
   have : (d - 1) * lap =
       (d - 1) * (-(R / (d - 1)) * alpha) := by rw [h2, h2']
   exact mul_left_cancel₀ hd1 this
