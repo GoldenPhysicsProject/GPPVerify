@@ -16,7 +16,7 @@ net anomaly nor the wedge central term proves RH.
 namespace GppWInfinityCentralSewing
 
 /-- Virasoro central polynomial for integer mode n. -/
-def central (c : ℝ) (n : ℤ) : ℝ :=
+noncomputable def central (c : ℝ) (n : ℤ) : ℝ :=
   c / 12 * ((n : ℝ) ^ 3 - (n : ℝ))
 
 /-- The anti-oriented right sector changes the sign of the cocycle.
@@ -46,7 +46,8 @@ theorem central_wedge_one (c : ℝ) :
 
 /-- The first mode that can detect a central extension. -/
 theorem central_mode_two (c : ℝ) :
-    central c (2 : ℤ) = c / 2 := by norm_num [central]
+    central c (2 : ℤ) = c / 2 := by
+  norm_num [central] <;> ring
 
 /-- In a standard unitary Virasoro vacuum representation the squared
 norm of the stress tensor state is c/2 (external CFT input).
