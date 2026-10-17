@@ -7280,6 +7280,27 @@ Fixed-reference normalized-state identity-shift invariance versus varying-operat
   \item \lean{GppVolumeConstraint.thermal_fisher_cancellation}\leanok\ \texttt{thermal\_fisher\_cancellation}
   \item \lean{GppVolumeConstraint.cubic_model}\leanok\ \texttt{cubic\_model}
   \item \lean{GppVolumeConstraint.stationarity_selects_volume_tangent}\leanok\ \texttt{stationarity\_selects\_volume\_tangent}
+\section{Riemann Hypothesis --- Positive-Pole Direct-Sum Coercivity (Codex, Astra)}
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Astra (even Weil-form completion; Grok S26 audit). The exact weighted square identity $2\beta\big((\beta+\tfrac{\lambda^2}2)(A+2W^2)-(R+\lambda W)^2\big)=(2\beta+\lambda^2)(\beta A-R^2)+(2\beta W-\lambda R)^2$ gives the direct-sum Cauchy--Schwarz bound $(R+\lambda W)^2\le(\beta+\tfrac{\lambda^2}2)(A+2W^2)$ from $R^2\le\beta A$; with $\eta=1-C(\beta+\lambda^2/2)\ge0$ this yields the coercivity $\eta cN\le A+2W^2-C(R+\lambda W)^2$, and the real and imaginary coordinates add for complex tests. Not formalized: the Fourier/Plancherel residual bound, any Arb certificate for a support window, and global Weil positivity. No RH or GRH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppPositivePoleCompletion.cauchy_square_identity}\leanok\ \texttt{cauchy\_square\_identity}
+  \item \lean{GppPositivePoleCompletion.direct_sum_cauchy}\leanok\ \texttt{direct\_sum\_cauchy}
+  \item \lean{GppPositivePoleCompletion.positive_pole_coercivity}\leanok\ \texttt{positive\_pole\_coercivity}
+  \item \lean{GppPositivePoleCompletion.two_coordinate_coercivity}\leanok\ \texttt{two\_coordinate\_coercivity}
+\end{itemize}
+
+\section{Riemann Hypothesis --- Conditional Residual-Matrix Coercivity (Codex)}
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex (Grok S36--S38). A real finite Cholesky Gram form $\sum_k(\sum_iR_{ki}x_i)^2$ and an LDL form $\sum_kd_k(\sum_iR_{ki}x_i)^2$ with $d\ge0$ are nonnegative, so if $|A(x)-(\lambda\|x\|^2+\text{Gram})|\le\varepsilon\|x\|^2$ then $A(x)\ge(\lambda-\varepsilon)\|x\|^2$, and $A(x)>0$ when $\varepsilon<\lambda$ and $x\neq0$. The residual bound is an explicit hypothesis: nothing here verifies a numerical certificate, a matrix entry, a Frobenius bound, or the Weil trace formula. No RH or GRH claim.
+
+\noindent\textbf{Proved (5 declarations):}
+\begin{itemize}
+  \item \lean{GppWeilResidualCoercivity.cholesky_gram_nonneg}\leanok\ \texttt{cholesky\_gram\_nonneg}
+  \item \lean{GppWeilResidualCoercivity.ldlt_gram_nonneg}\leanok\ \texttt{ldlt\_gram\_nonneg}
+  \item \lean{GppWeilResidualCoercivity.cholesky_residual_lower}\leanok\ \texttt{cholesky\_residual\_lower}
+  \item \lean{GppWeilResidualCoercivity.ldlt_residual_lower}\leanok\ \texttt{ldlt\_residual\_lower}
+  \item \lean{GppWeilResidualCoercivity.cholesky_residual_pos}\leanok\ \texttt{cholesky\_residual\_pos}
 \end{itemize}
 
 \section{Number Theory --- Arithmetic Layer}
