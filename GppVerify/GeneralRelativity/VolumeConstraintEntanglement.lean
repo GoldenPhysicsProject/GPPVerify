@@ -1,4 +1,3 @@
-import Mathlib
 import GppVerify.QuantumGravity.CausalDiamondFisherCancellation
 import GppVerify.QuantumGravity.CausalDiamondGammaBridge
 
