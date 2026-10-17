@@ -7228,6 +7228,35 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex (Grok S36-
   \item \lean{GppWeilResidualCoercivity.cholesky_residual_pos}\leanok\ \texttt{cholesky\_residual\_pos}
 \end{itemize}
 
+\section{Number Theory --- Mertens' First Theorem (explicit)}
+Mathlib has Chebyshev's $\psi$ and $\theta$ with $\psi(x)\le(\log4+4)x$, but not Mertens' theorems. Elementary proof: $\log N!=\sum_{n\le N}\log n=\sum_{n\le N}\sum_{d\mid n}\Lambda(d)=\sum_{d\le N}\Lambda(d)\lfloor N/d\rfloor$, so $N\sum_{d\le N}\Lambda(d)/d=\log N!+\sum_{d\le N}\Lambda(d)\{N/d\}$ with $0\le\sum\Lambda(d)\{N/d\}\le\psi(N)$, and $N\log N-N\le\log N!\le N\log N$. Hence for every $N\ge1$, $\log N-1\le\sum_{n\le N}\Lambda(n)/n\le\log N+\log4+4$, and the sum is unbounded. Unconditional and elementary; no zeta function, no RH content. Written to be upstreamed to Mathlib.
+
+\noindent\textbf{Proved (11 declarations):}
+\begin{itemize}
+  \item \lean{GppMertens.log_factorial_eq}\leanok\ \texttt{log\_factorial\_eq}
+  \item \lean{GppMertens.log_factorial_le}\leanok\ \texttt{log\_factorial\_le}
+  \item \lean{GppMertens.log_factorial_ge}\leanok\ \texttt{log\_factorial\_ge}
+  \item \lean{GppMertens.frac_nonneg}\leanok\ \texttt{frac\_nonneg}
+  \item \lean{GppMertens.frac_le_one}\leanok\ \texttt{frac\_le\_one}
+  \item \lean{GppMertens.mul_sum_eq}\leanok\ \texttt{mul\_sum\_eq}
+  \item \lean{GppMertens.sum_frac_nonneg}\leanok\ \texttt{sum\_frac\_nonneg}
+  \item \lean{GppMertens.sum_frac_le_psi}\leanok\ \texttt{sum\_frac\_le\_psi}
+  \item \lean{GppMertens.mertens_first}\leanok\ \texttt{mertens\_first}
+  \item \lean{GppMertens.mertens_first_lower}\leanok\ \texttt{mertens\_first\_lower}
+  \item \lean{GppMertens.sum_vonMangoldt_div_unbounded}\leanok\ \texttt{sum\_vonMangoldt\_div\_unbounded}
+\end{itemize}
+
+\section{Riemann Hypothesis --- No Fixed Intensity Budget for Independent Prime-Power Channels}
+Codex's independent-channel obstruction to Astra's gamma-free Poisson transport, completed. If each prime-power channel $n$ with reference intensity $\alpha_n>0$ obeys the Cram\'er inequality $I_{\alpha_n}(w_n)\le w_n\log n$ with $w_n=\Lambda(n)/\sqrt n$, then $\alpha_n\ge(2/e)\Lambda(n)/n$ for every $n$ (\texttt{GppCramerIntensityBound}), and Mertens' first theorem gives $\sum_{n\le N}\alpha_n\ge(2/e)(\log N-1)$, which is unbounded: no fixed reference intensity, in particular not the budget $4$, can host all channels. The Cram\'er inequality is a hypothesis (the probability fact $\mathrm{KL}\ge I_\alpha(w)$ is not formalized); the result concerns independently charged channels only and says nothing about correlated, KMS/CFS or signed constructions, or about RH. No RH claim.
+
+\noindent\textbf{Proved (4 declarations):}
+\begin{itemize}
+  \item \lean{GppIndependentChannelBudgetNoGo.alpha_ge}\leanok\ \texttt{alpha\_ge}
+  \item \lean{GppIndependentChannelBudgetNoGo.intensity_sum_lower}\leanok\ \texttt{intensity\_sum\_lower}
+  \item \lean{GppIndependentChannelBudgetNoGo.no_fixed_intensity_budget}\leanok\ \texttt{no\_fixed\_intensity\_budget}
+  \item \lean{GppIndependentChannelBudgetNoGo.budget_four_exceeded}\leanok\ \texttt{budget\_four\_exceeded}
+\end{itemize}
+
 \section{Number Theory --- Arithmetic Layer}
 
 \subsection{BSDPointCounts}
