@@ -8234,4 +8234,28 @@ Continuous phases into totally disconnected spaces are constant on connected dom
 Commuting projections have zero cross blocks, nested projections give idempotent differences,
 and a right inverse removes prescribed linear moments. Spectral weights at least one give
 a uniform coordinate inverse bound. No arithmetic boundary construction is claimed.
+
+\section{Oriented Fubini--Study antipode and the Weil polar split}
+\lean{GppFSOrientation.antipodal_jacobian_negative,GppFSOrientation.antipodal_unsigned_measure_invariant,GppFSOrientation.antipodal_oriented_form_anti_invariant,GppFSOrientation.weil_pole_even_minus_odd,GppFSOrientation.opposite_orientation_pole_negative}
+The antipode $z\mapsto -1/\bar z$ has negative Jacobian determinant, preserves the unsigned
+Fubini--Study measure, and reverses the oriented area form. Separately, the completed Weil
+polar cross-pair is an even-minus-odd difference of squares, and a reverse-oriented witness
+gives a strictly negative signed polar contribution. Algebra only (Codex, with Daniel Toupin's
+orientation insight): it does not make the polar term positive and does not prove RH.
+
+\section{Exact Osterwalder--Schrader failure of the complete shadow cut}
+\lean{GppCelestialShadowCutOS.cutoffless_shadow_kernel_2log2,GppCelestialShadowCutOS.cutoffless_shadow_kernel_log6,GppCelestialShadowCutOS.cutoffless_shadow_kernel_2log3,GppCelestialShadowCutOS.exact_reflection_determinant,GppCelestialShadowCutOS.negative_reflection_determinant,GppCelestialShadowCutOS.explicit_negative_reflection_witness}
+For the kernel $K(t)=\operatorname{sech}^2(t/2)/16$, the $2\times2$ reflection matrix at
+$t=\log 2,\log 3$ is $\begin{psmallmatrix}1/25&3/98\\3/98&9/400\end{psmallmatrix}$ with exact
+determinant $-891/24010000<0$. So the kernel is positive definite as a Fourier Gram kernel
+but not Osterwalder--Schrader positive for additive Euclidean time. Rational arithmetic only
+(Codex; entries and determinant independently re-checked).
+
+\section{Central-charge sewing algebra and all-spin Kac--Radul mirror}
+\lean{GppWInfinityCentralSewing.opposite_chiral_central,GppWInfinityCentralSewing.equal_chiral_anomaly_cancels,GppWInfinityCentralSewing.central_wedge_zero,GppWInfinityCentralSewing.nontrivial_positive_anomaly_free_pair,GppWInfinityFullSpinMirror.kr_reindex,GppWInfinityFullSpinMirror.kr_mirror_anti,GppWInfinityFullSpinMirror.kr_total_central_zero}
+Two Virasoro sectors with opposite orientation have central term proportional to
+$c_+-c_-$, so equal positive charges give an anomaly-free glued pair; the global wedge
+$n\in\{-1,0,1\}$ has no central term for any $c$. For arbitrary symbols $f,g$ the
+Kac--Radul cocycle reverses sign under the half-density mirror. Formal-algebra statements;
+they do not fix the physical quantum central charge and do not touch RH.
 \end{document}
