@@ -109,11 +109,6 @@ theorem time_reversal_involutive (p : Fin N → ℝ) :
   funext i
   ring
 
-/-- The configuration sector is unaffected by momentum time reversal. -/
-theorem spatial_measure_time_even (V : (Fin N → ℝ) → ℝ)
-    (q p : Fin N → ℝ) :
-    V q = V q := rfl
-
 end TwoSided
 
 end GppYorkVolume
