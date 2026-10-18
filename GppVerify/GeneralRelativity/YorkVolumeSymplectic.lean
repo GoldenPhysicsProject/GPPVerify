@@ -128,6 +128,24 @@ theorem york_constraint_forces_maximal_slice
 
 end Canonical
 
+section UnweightedRigidity
+variable {N : ℕ}
+
+/-- If a weighted first variation agrees with a constant multiple of
+unweighted volume variation for *every independently variable cell*,
+all work coefficients must be the same constant. This is the
+finite-sum converse of factoring out the concircular normal slope. -/
+theorem weighted_volume_response_forces_constant
+    (w : Fin N → ℝ) (c : ℝ)
+    (h : ∀ delta : Fin N → ℝ,
+      (∑ i, w i * delta i) = c * (∑ i, delta i)) :
+    ∀ i, w i = c := by
+  intro i
+  have hi := h (fun j => if j = i then (1 : ℝ) else 0)
+  simpa using hi
+
+end UnweightedRigidity
+
 section TwoSided
 variable {N : ℕ}
 
