@@ -11,7 +11,7 @@
 
 ## New files
 
-1. `GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean`: exact finite-sum ADM trace-momentum pairing; `Ω(δYork, δ)=2c δV` in the specified discretized canonical data; momentum-reversal antisymplectic identity.
+1. `GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean`: exact finite-sum ADM trace-momentum pairing; `Ω(δYork, δ)=2c δV` in the specified discretized canonical data; explicit ADM coefficient `c=(1-n)α`; linearized Hamiltonian constraint implies `K=0` for nontrivial York shifts and `n≠1`; independent-cell weighted-volume rigidity proves that equality with unweighted response for all variations forces spatially constant weights; momentum-reversal antisymplectic identity.
 2. `GppVerify/QuantumGravity/FubiniStudyLocalKahler.lean`: local CP1 metric and symplectic form with common density `(1+r)⁻²`; `J²=-id`, `ω(u,v)=g(Ju,v)`, metric nonnegativity, antiunitary metric invariance and symplectic sign reversal.
 3. `GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean`: projective horizontal projection and scalar-ray invariance; conditional equivalence `dV=0 ↔ g(JδYork,δ)=0`; conditional entropy stationarity correspondence; explicit normalization counterexample.
 
@@ -34,7 +34,7 @@
 
 ## Upstreaming plan
 
-GPPVerify main is the immediate upstream target for the PR. The local complex structure and phase-horizontal projection are generic mathematics and are possible candidates for **Mathlib** as projective/complex-Hermitian geometry develops. Existing Mathlib projectivization definitions, desired APIs and proof dependencies must be checked before submitting to leanprover-community/mathlib4; avoid a stand-alone physics-specific file. The user's accessible fork `GoldenPhysicsProject/mathlib4` can host a prepared branch, but no upstream claims will be made until it compiles on Mathlib master and meets Mathlib contribution standards.
+GPPVerify main is the immediate upstream target for the PR. The local complex structure and phase-horizontal projection are generic mathematics and are possible candidates for **Mathlib** as projective/complex-Hermitian geometry develops. Existing Mathlib projectivization definitions, desired APIs and proof dependencies must be checked before submitting to leanprover-community/mathlib4; avoid a stand-alone physics-specific file. A candidate pure CP1 chart was staged as **draft** `GoldenPhysicsProject/mathlib4` PR #1 on `gpp/fs-local-kahler-candidate-20261018`. It does **not** constitute acceptance by official `leanprover-community/mathlib4`. Mathlib fork CI, API integration and maintainer feedback are required.
 
 ## Reproducibility
 
