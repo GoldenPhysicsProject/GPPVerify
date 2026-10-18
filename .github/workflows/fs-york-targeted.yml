@@ -1,0 +1,43 @@
+name: FS York targeted Lean
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean'
+      - 'GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean'
+      - '.github/workflows/fs-york-targeted.yml'
+  workflow_dispatch:
+
+jobs:
+  lean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache elan
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+      - name: Get mathlib cache
+        run: lake exe cache get || true
+      - name: Compile two new Lean modules
+        run: |
+          set -o pipefail
+          lake build GppVerify.GeneralRelativity.YorkVolumeSymplectic GppVerify.QuantumGravity.FubiniStudyYorkBridge 2>&1 | tee /tmp/fs_york.log
+      - name: Reject sorry and tactic-generated axioms
+        run: |
+          if grep -F "declaration uses 'sorry'" /tmp/fs_york.log; then exit 1; fi
+          if grep -rE '(^|[^a-zA-Z])(sorry|admit)([^a-zA-Z]|$)' GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean; then exit 1; fi
