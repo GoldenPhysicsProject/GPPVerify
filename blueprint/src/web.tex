@@ -8297,4 +8297,14 @@ from the volume hyperplane, and given a K\"ahler pair $(g,\omega)$ and the York 
 $\omega(y,\cdot)=c\,dV$, $dV(\delta)=0\iff g(Jy,\delta)=0$. The equality of the boundary
 Fubini--Study and bulk gravitational symplectic forms is a named hypothesis, not proved
 (Codex; Belin--Lewkowycz--Sarosi and Jacobson--Visser as sources). No claim about RH.
+
+\section{The PNT continuum kernel has at most one positive direction}
+\lean{GppContinuumInertia.pole_form_eq,GppContinuumInertia.contForm_le_pole,GppContinuumInertia.contForm_nonpos_on_hyperplane,GppContinuumInertia.no_two_dim_positive}
+The pole form $\sum c_ic_j\,2\cosh((x_i-x_j)/2)$ equals $2\ell_+(c)\ell_-(c)$ with
+$\ell_\pm(c)=\sum c_ie^{\pm x_i/2}$, a rank-two form of signature $(1,1)$. By pole cancellation, the
+continuum form $\sum c_ic_j e^{|x_i-x_j|/2}$ is at most the pole form, hence $\le0$ on the hyperplane
+$\ell_+=0$, and for any two coefficient vectors some nontrivial combination has nonpositive continuum
+form. So the continuum form has at most one positive direction, on arbitrary finite point sets. This
+concerns the continuum model only: the signed remainder between the actual prime-power sum and the
+continuum is not controlled, and nothing is claimed about the Weil form or RH.
 \end{document}
