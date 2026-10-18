@@ -6,6 +6,7 @@ on:
     paths:
       - 'GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean'
       - 'GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean'
+      - 'GppVerify/QuantumGravity/FubiniStudyLocalKahler.lean'
       - '.github/workflows/fs-york-targeted.yml'
   workflow_dispatch:
 
@@ -36,8 +37,8 @@ jobs:
       - name: Compile two new Lean modules
         run: |
           set -o pipefail
-          lake build GppVerify.GeneralRelativity.YorkVolumeSymplectic GppVerify.QuantumGravity.FubiniStudyYorkBridge 2>&1 | tee /tmp/fs_york.log
+          lake build GppVerify.GeneralRelativity.YorkVolumeSymplectic GppVerify.QuantumGravity.FubiniStudyLocalKahler GppVerify.QuantumGravity.FubiniStudyYorkBridge 2>&1 | tee /tmp/fs_york.log
       - name: Reject sorry and tactic-generated axioms
         run: |
           if grep -F "declaration uses 'sorry'" /tmp/fs_york.log; then exit 1; fi
-          if grep -rE '(^|[^a-zA-Z])(sorry|admit)([^a-zA-Z]|$)' GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean; then exit 1; fi
+          if grep -rE '(^|[^a-zA-Z])(sorry|admit)([^a-zA-Z]|$)' GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean GppVerify/QuantumGravity/FubiniStudyLocalKahler.lean; then exit 1; fi
