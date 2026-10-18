@@ -43,14 +43,12 @@ theorem complex_structure_sq (u : Tangent2) : J (J u) = -u := by
 /-- Exact local Fubini--Study Kähler compatibility. -/
 theorem symplectic_eq_metric_J (r : ℝ) (u v : Tangent2) :
     omega r u v = metric r (J u) v := by
-  simp [omega, metric, J]
-  ring
+  simp [omega, metric, J] <;> tauto
 
 /-- The metric does not depend on the sign of the imaginary coordinate. -/
 theorem antiunitary_preserves_metric (r : ℝ) (u v : Tangent2) :
     metric r (conjTangent u) (conjTangent v) = metric r u v := by
   simp [metric, conjTangent]
-  ring
 
 /-- Conjugation is anti-symplectic (time-orientation reversal). -/
 theorem antiunitary_reverses_omega (r : ℝ) (u v : Tangent2) :
@@ -77,8 +75,7 @@ theorem fs_metric_nonnegative (r : ℝ) (u : Tangent2) :
 /-- Alternating property of the oriented Fubini--Study form. -/
 theorem omega_self_zero (r : ℝ) (u : Tangent2) :
     omega r u u = 0 := by
-  simp [omega]
-  ring
+  simp [omega] <;> tauto
 
 end GppFSLocalKahler
 
