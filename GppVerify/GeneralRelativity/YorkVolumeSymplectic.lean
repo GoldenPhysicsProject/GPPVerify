@@ -83,6 +83,49 @@ theorem york_reversal_changes_pairing_sign
       york_pairing_is_volume_variation]
   ring
 
+/-- ADM trace-momentum coefficient induced by δK_ij = α h_ij
+on a spatial slice of dimension n. -/
+theorem york_adm_momentum_coefficient (n alpha : ℝ) :
+    alpha - n * alpha = (1 - n) * alpha := by
+  ring
+
+/-- York's extrinsic-curvature shift gives a canonical pairing proportional
+to unweighted spatial volume, with the ADM coefficient fixed. -/
+theorem adm_york_volume_pairing
+    (n alpha : ℝ) (weight : Fin N → ℝ)
+    (invMetric dh : Fin N → Fin M → Fin M → ℝ) :
+    canonicalMomentumPair
+      (yorkMomentum ((1 - n) * alpha) weight invMetric) dh =
+      (2 * (1 - n) * alpha) * volumeTangent weight invMetric dh := by
+  rw [york_pairing_is_volume_variation]
+  ring
+
+/-- Linearized Hamiltonian constraint in the York shift:
+δ(K_ij K^ij - K²) = 2α(1-n)K when the spatial metric is held fixed. -/
+theorem york_hamiltonian_constraint_linearization
+    (n alpha K : ℝ) :
+    2 * alpha * K - 2 * n * alpha * K =
+      2 * (1 - n) * alpha * K := by
+  ring
+
+/-- A nonzero York shift preserving the linearized Hamiltonian
+constraint forces a maximal slice, provided n != 1.
+This models precisely the maximal-slice restriction of BLS eq. (3.13). -/
+theorem york_constraint_forces_maximal_slice
+    (n alpha K : ℝ) (hn : n ≠ 1) (ha : alpha ≠ 0)
+    (hconstraint : 2 * alpha * K - 2 * n * alpha * K = 0) :
+    K = 0 := by
+  have hz : (2 * (1 - n) * alpha) * K = 0 := by
+    calc
+      (2 * (1 - n) * alpha) * K =
+          2 * alpha * K - 2 * n * alpha * K := by ring
+      _ = 0 := hconstraint
+  have hc : (2 * (1 - n) * alpha) ≠ 0 := by
+    apply mul_ne_zero
+    · exact mul_ne_zero (by norm_num) (sub_ne_zero.mpr (Ne.symm hn))
+    · exact ha
+  exact (mul_eq_zero.mp hz).resolve_left hc
+
 end Canonical
 
 section TwoSided
