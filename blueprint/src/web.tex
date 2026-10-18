@@ -8258,4 +8258,13 @@ $c_+-c_-$, so equal positive charges give an anomaly-free glued pair; the global
 $n\in\{-1,0,1\}$ has no central term for any $c$. For arbitrary symbols $f,g$ the
 Kac--Radul cocycle reverses sign under the half-density mirror. Formal-algebra statements;
 they do not fix the physical quantum central charge and do not touch RH.
+
+\section{Indicator-vector expectations of the pole kernel and prime shifts}
+\lean{GppIndicatorPole.pole_indicator_expectation,GppIndicatorPole.indicator_shift_overlap,GppIndicatorPole.prime_shift_expectation}
+On $[-L,L]$ with the normalised indicator $f_L=(2L)^{-1/2}\mathbf 1_{[-L,L]}$, the Weil pole kernel
+$2\cosh((x-y)/2)$ has expectation $8(\cosh L-1)/L$; the overlap of $[-L,L]$ with its translate
+by $a\in[0,2L]$ has length $2L-a$; and the symmetric prime-shift expectation is
+$2\sum_n w_n(1-\log n/(2L))$. Exact calculus behind section~3 of Astra's Schur-scale note, whose
+$L=6$ values were re-checked. Elementary integrals only: nothing about the prime operator's
+spectrum, the archimedean term, or any zero of $\zeta$.
 \end{document}
