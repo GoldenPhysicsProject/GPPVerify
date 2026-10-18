@@ -8267,4 +8267,13 @@ by $a\in[0,2L]$ has length $2L-a$; and the symmetric prime-shift expectation is
 $2\sum_n w_n(1-\log n/(2L))$. Exact calculus behind section~3 of Astra's Schur-scale note, whose
 $L=6$ values were re-checked. Elementary integrals only: nothing about the prime operator's
 spectrum, the archimedean term, or any zero of $\zeta$.
+
+\section{Elementary entries of the interval-packet Weil matrix}
+\lean{GppPacketEntries.packet_overlap,GppPacketEntries.pole_functional,GppPacketEntries.pole_functional_conj}
+For carrier packets $f_t(x)=e^{itx}/\sqrt{2L}$ on $[-L,L]$ and $d=t-s\neq0$, the overlap is
+$\langle f_t,f_s\rangle=\sin(dL)/(dL)$; the pole functional
+$\ell_a(t)=\int f_t(x)e^{ax}\,dx$ equals $2\sinh((a+it)L)/((a+it)\sqrt{2L})$, and
+$\ell_{-a}(t)=\overline{\ell_a(t)}$, so the pole term $2\operatorname{Re}(\ell_a\ell_a)$ is not a
+positive absolute square. Elementary integrals behind the conventions of Astra's joint-packet note;
+the Archimedean digamma/Lerch expression, the prime sum and the numerics are not formalized.
 \end{document}
