@@ -267,6 +267,9 @@ import GppVerify.NumberTheory.BSDPointCounts
 -- identity is proved here instead, plus an explicit counterexample to
 -- the bare-density claim as literally stated in the source.
 import GppVerify.CelestialHolography.FubiniStudyAntipodal
+-- Fubini--Study and York-volume precise finite-sum / conditional geometry bridge
+import GppVerify.GeneralRelativity.YorkVolumeSymplectic
+import GppVerify.QuantumGravity.FubiniStudyYorkBridge
 
 -- ── Zagier MZV Growth Recurrence, corrected (New) ─────────────
 -- On the Nature of Nature v5.2.1.3's Zagier recurrence d_w = d_{w-2}+d_{w-3} is formalized
