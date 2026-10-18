@@ -8276,4 +8276,13 @@ $\ell_a(t)=\int f_t(x)e^{ax}\,dx$ equals $2\sinh((a+it)L)/((a+it)\sqrt{2L})$, an
 $\ell_{-a}(t)=\overline{\ell_a(t)}$, so the pole term $2\operatorname{Re}(\ell_a\ell_a)$ is not a
 positive absolute square. Elementary integrals behind the conventions of Astra's joint-packet note;
 the Archimedean digamma/Lerch expression, the prime sum and the numerics are not formalized.
+
+\section{Constants of the all-$L$ exterior coercivity choice}
+\lean{GppExteriorConstants.tail_inv_sq_le,GppExteriorConstants.tail_inv_sq_le_inv,GppExteriorConstants.leakage_ratio_le,GppExteriorConstants.exteriorTail_le_half,GppExteriorConstants.alpha_ge_half}
+The real-number inequalities used by the exterior-coercivity choice in Astra's note: the tail
+$\sum_{N<j\le M}(j-a)^{-2}\le 1/(N-a)$, the leakage ratio $r\le 1/(b-a_0)$ once
+$N\ge LT/\pi+4LT(b-a_0)/\pi^3$, the bound $d_N\le\tfrac12$ once $N\ge16L\sinh^2(L/2)/\pi^2$, and
+$\alpha=b-(b-a_0)r-s-d_N\ge\tfrac12$ for $b=s+2$. The Fourier estimates producing $r$ and $d_N$, the digamma
+lower bound and the coupling tail are not formalized; no positivity of the Weil form beyond the
+exterior of a finite Fourier block, and no RH claim.
 \end{document}
