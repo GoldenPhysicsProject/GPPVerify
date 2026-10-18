@@ -41,4 +41,4 @@ jobs:
       - name: Reject sorry and tactic-generated axioms
         run: |
           if grep -F "declaration uses 'sorry'" /tmp/fs_york.log; then exit 1; fi
-          if grep -rE '(^|[^a-zA-Z])(sorry|admit)([^a-zA-Z]|$)' GppVerify/GeneralRelativity/YorkVolumeSymplectic.lean GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean GppVerify/QuantumGravity/FubiniStudyLocalKahler.lean; then exit 1; fi
+          python3 scripts/check_sorries.py
