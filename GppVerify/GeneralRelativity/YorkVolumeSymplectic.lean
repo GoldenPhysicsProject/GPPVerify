@@ -29,7 +29,7 @@ def tracePair (weight : Fin N → ℝ)
 
 /-- First variation of spatial volume in a discretized coordinate chart:
 dV = 1/2 ∑ sqrt(h) h^ij dh_ij. -/
-def volumeTangent (weight : Fin N → ℝ)
+noncomputable def volumeTangent (weight : Fin N → ℝ)
     (invMetric dh : Fin N → Fin M → Fin M → ℝ) : ℝ :=
   (1 / 2 : ℝ) * tracePair weight invMetric dh
 
