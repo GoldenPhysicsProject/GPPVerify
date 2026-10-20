@@ -8329,4 +8329,12 @@ putative mean $M(f^2)$ by $e^{2ah}\ne1$ then $M(f^2)=0$, contradicting $M(f^2)M(
 translation-invariant mean exists on an algebra containing $e^{au}$ and $e^{-au}$. Source: Astra's critique of an external
 Ces\`aro draft, formalized by Claude Code. This does not show zeta has off-line zeros and makes no claim about RH.
 
+\section{Ces\`aro metric defect and matrix-mean controls}
+\lean{GppCesaroMetricDefect.defect_eigen_identity,GppCesaroMetricDefect.defect_eigen_bound,GppCesaroMetricDefect.jordan_defect,GppCesaroMetricDefect.norlund_not_symmetric,GppCesaroMetricDefect.scalar_mean_psd}
+If $Av=\mu v$ then $v^*(A^*G+GA)v=2\,\mathrm{Re}(\mu)\,v^*Gv$; hence a relative invariance defect $|v^*Dv|\le\eta\,v^*Gv$ with $v^*Gv>0$
+forces $2|\mathrm{Re}\,\mu|\le\eta$. For the Jordan block the defect matrix is $\sigma_1$ for every diagonal metric $\mathrm{diag}(1,g)$.
+A matrix N\"orlund mean with positive-definite weights $\mathrm{diag}(2,1)$, $I$ on PSD inputs returns the non-symmetric matrix
+$\begin{pmatrix}1/3&1/3\\1/2&1/2\end{pmatrix}$, while nonnegative scalar weights preserve positivity. Source: Astra's notes on the
+Ces\`aro metric repair and matrix means, formalized by Claude Code. Finite linear algebra only; no arithmetic bound and no claim about RH.
+
 \end{document}
