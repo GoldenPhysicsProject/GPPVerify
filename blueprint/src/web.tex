@@ -8326,5 +8326,15 @@ curve parameter reverses velocity but leaves acceleration unchanged. Hence the s
 either orientation: an arrow flip can change measured charge but never turn attraction into repulsion, which would need $m<0$. Source:
 Daniel Toupin, \emph{Which Way Is Forward?}, with AI assistance from Claude Code. Classical point-particle kinematics only; the
 field-theory stress tensor and the ALPHA-g measurement are cited, not formalized. No claim about RH.
+\section{The continued Abel kernel is indefinite off its convergence strip}
+\lean{GppAbelContinuedKernel.abelCont_gt_one,GppAbelContinuedKernel.abelCont_zero,GppAbelContinuedKernel.abelCont_imag_le_one,GppAbelContinuedKernel.diag_value,GppAbelContinuedKernel.offdiag_value,GppAbelContinuedKernel.eigen_pair,GppAbelContinuedKernel.contForm_indefinite,GppAbelContinuedKernel.no_invariant_mean}
+The rational function $\varepsilon^2/(\varepsilon^2-\alpha^2)$ is the value of the Abel character integral only for
+$|\alpha|<\varepsilon$. For real $0<|\alpha|<\varepsilon$ it exceeds $1$ (it equals $1$ at $\alpha=0$ and is at most $1$ for
+purely imaginary exponents). Continued past the strip, at $\varepsilon=1/4$ with exponents $\pm1/4$, the Gram matrix is
+$\begin{pmatrix}-1/3&1\\1&-1/3\end{pmatrix}$ with eigenvalues $2/3$ and $-4/3$; the vector $(1,-1)$ has quadratic value $-8/3$.
+So positivity of the genuine integral cannot be transported through the continuation. Separately, if translation by $h$ scales a
+putative mean $M(f^2)$ by $e^{2ah}\ne1$ then $M(f^2)=0$, contradicting $M(f^2)M(f^{-2})\ge M(1)^2=1$: no normalized positive
+translation-invariant mean exists on an algebra containing $e^{au}$ and $e^{-au}$. Source: Astra's critique of an external
+Ces\`aro draft, formalized by Claude Code. This does not show zeta has off-line zeros and makes no claim about RH.
 
 \end{document}

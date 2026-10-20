@@ -1677,6 +1677,7 @@ import GppVerify.StandardModel.PatiSalamHypercharge
 
 -- v20: finite q,t and orientation-covariant entropy-rate sign core.
 import GppVerify.RiemannHypothesis.AbelCesaroPoleBarrier
+import GppVerify.RiemannHypothesis.AbelContinuedKernelIndefinite
 import GppVerify.RiemannHypothesis.CasimirFoldBoundaryIndex
 import GppVerify.RiemannHypothesis.SingleOffLinePairLoewner
 
