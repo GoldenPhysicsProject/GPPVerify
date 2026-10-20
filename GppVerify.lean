@@ -214,6 +214,8 @@ import GppVerify.StandardModel.OrientationCARBridge
 import GppVerify.StandardModel.OrientationComplexStructureDoubleCover
 import GppVerify.StandardModel.OrientationCovariantSecondLaw
 import GppVerify.StandardModel.WhichWayForwardV26Gaps
+import GppVerify.StandardModel.FeynmanCheckerboard
+import GppVerify.StandardModel.OrientationEvenGravity
 import GppVerify.StandardModel.OrientationGaugeAveraging
 import GppVerify.StandardModel.OrientationMassTime
 import GppVerify.StandardModel.OrientationPairProduction
@@ -1678,6 +1680,7 @@ import GppVerify.StandardModel.PatiSalamHypercharge
 -- v20: finite q,t and orientation-covariant entropy-rate sign core.
 import GppVerify.RiemannHypothesis.AbelCesaroPoleBarrier
 import GppVerify.RiemannHypothesis.AbelContinuedKernelIndefinite
+import GppVerify.RiemannHypothesis.CesaroMetricDefect
 import GppVerify.RiemannHypothesis.CasimirFoldBoundaryIndex
 import GppVerify.RiemannHypothesis.SingleOffLinePairLoewner
 

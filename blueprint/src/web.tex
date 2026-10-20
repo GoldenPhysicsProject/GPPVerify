@@ -8318,6 +8318,14 @@ negative index at least $2$. Consequently, if the form has no two-dimensional ne
 finite statement; passing to the Weil form needs the explicit formula and independent prescribability of the
 samples, and under those hypotheses it is equivalent to RH. It reformulates RH as a Lorentzian-signature
 statement and does not prove it.
+\section{Gravity reads the even part of the orientation grading}
+\lean{GppOrientationEvenGravity.current_odd,GppOrientationEvenGravity.current_diagonal,GppOrientationEvenGravity.stress_even,GppOrientationEvenGravity.gravitational_source_sign,GppOrientationEvenGravity.reversed_velocity,GppOrientationEvenGravity.reversed_acceleration}
+Reversing a worldline's orientation sends its tangent $u\mapsto-u$. The oriented current $q\,u$ is odd under a single arrow
+flip and invariant under the simultaneous flip $(q,u)\mapsto(-q,-u)$; the dust stress tensor $m\,u_iu_j$ is even; and reversing the
+curve parameter reverses velocity but leaves acceleration unchanged. Hence the sign of the gravitational source is the sign of $m$ for
+either orientation: an arrow flip can change measured charge but never turn attraction into repulsion, which would need $m<0$. Source:
+Daniel Toupin, \emph{Which Way Is Forward?}, with AI assistance from Claude Code. Classical point-particle kinematics only; the
+field-theory stress tensor and the ALPHA-g measurement are cited, not formalized. No claim about RH.
 \section{The continued Abel kernel is indefinite off its convergence strip}
 \lean{GppAbelContinuedKernel.abelCont_gt_one,GppAbelContinuedKernel.abelCont_zero,GppAbelContinuedKernel.abelCont_imag_le_one,GppAbelContinuedKernel.diag_value,GppAbelContinuedKernel.offdiag_value,GppAbelContinuedKernel.eigen_pair,GppAbelContinuedKernel.contForm_indefinite,GppAbelContinuedKernel.no_invariant_mean}
 The rational function $\varepsilon^2/(\varepsilon^2-\alpha^2)$ is the value of the Abel character integral only for
@@ -8337,5 +8345,22 @@ invertible $U$ satisfies $UR_t=-U$, so the temporal half flip is not the spin-de
 Hermitian slice $A\mapsto LAL^\dagger$ preserve $\det A$. Dimension counts $66=28+6+32$ and $32=24+4+4$ for the $\mathrm{Spin}(10,2)$
 adjoint split. A unitary one-dimensional character satisfies $z^{-1}=\bar z$. Source: Daniel Toupin, \emph{Which Way Is Forward?} (v26),
 with AI assistance from Claude Code. The antilinear deck case, winding topology and the branching itself are not formalized. No claim about RH.
+\section{Feynman's checkerboard: mass is the reversal amplitude}
+\lean{GppCheckerboard.pathSum_eq,GppCheckerboard.weight_snoc,GppCheckerboard.turn_prod_eq_pow,GppCheckerboard.step_prod_eq_pow,GppCheckerboard.transfer_pow_massless,GppCheckerboard.transfer_sq,GppCheckerboard.transfer_sq_physical}
+Paths move one lattice step per time step at the speed of light; each reversal contributes a factor $w$ and each right or left step a
+factor $z_r$ or $z_l$. Summing the weights of all paths that start in direction $a$ and end in direction $b$ gives $z_a\,(T^n)_{ab}$ for
+the transfer matrix $T_{ab}=w^{[a\ne b]}z_b$, the discrete two-component Dirac evolution. The weight equals $w$ to the number of
+reversals times $z_r^{\#\mathrm{right}}z_l^{\#\mathrm{left}}$. At $w=0$ the evolution is diagonal, so a massless particle never turns.
+With $w=i\varepsilon m$, $z_{r,l}=e^{\pm i\theta}$: $T^2=2\cos\theta\,T-(1+\varepsilon^2m^2)I$, the lattice dispersion whose
+$\varepsilon\to0$ limit is $E^2=p^2+m^2$. Source: Feynman--Hibbs Problem 2-6; for Daniel Toupin's \emph{Which Way Is Forward?}
+(falsifier F8), with AI assistance from Claude Code. Exact $1+1$-dimensional algebra; the continuum limit and the $3+1$ case are not
+formalized. No claim about RH.
+\section{Ces\`aro metric defect and matrix-mean controls}
+\lean{GppCesaroMetricDefect.defect_eigen_identity,GppCesaroMetricDefect.defect_eigen_bound,GppCesaroMetricDefect.jordan_defect,GppCesaroMetricDefect.norlund_not_symmetric,GppCesaroMetricDefect.scalar_mean_psd}
+If $Av=\mu v$ then $v^*(A^*G+GA)v=2\,\mathrm{Re}(\mu)\,v^*Gv$; hence a relative invariance defect $|v^*Dv|\le\eta\,v^*Gv$ with $v^*Gv>0$
+forces $2|\mathrm{Re}\,\mu|\le\eta$. For the Jordan block the defect matrix is $\sigma_1$ for every diagonal metric $\mathrm{diag}(1,g)$.
+A matrix N\"orlund mean with positive-definite weights $\mathrm{diag}(2,1)$, $I$ on PSD inputs returns the non-symmetric matrix
+$\begin{pmatrix}1/3&1/3\\1/2&1/2\end{pmatrix}$, while nonnegative scalar weights preserve positivity. Source: Astra's notes on the
+Ces\`aro metric repair and matrix means, formalized by Claude Code. Finite linear algebra only; no arithmetic bound and no claim about RH.
 
 \end{document}
