@@ -8318,4 +8318,13 @@ negative index at least $2$. Consequently, if the form has no two-dimensional ne
 finite statement; passing to the Weil form needs the explicit formula and independent prescribability of the
 samples, and under those hypotheses it is equivalent to RH. It reformulates RH as a Lorentzian-signature
 statement and does not prove it.
+\section{Gravity reads the even part of the orientation grading}
+\lean{GppOrientationEvenGravity.current_odd,GppOrientationEvenGravity.current_diagonal,GppOrientationEvenGravity.stress_even,GppOrientationEvenGravity.gravitational_source_sign,GppOrientationEvenGravity.reversed_velocity,GppOrientationEvenGravity.reversed_acceleration}
+Reversing a worldline's orientation sends its tangent $u\mapsto-u$. The oriented current $q\,u$ is odd under a single arrow
+flip and invariant under the simultaneous flip $(q,u)\mapsto(-q,-u)$; the dust stress tensor $m\,u_iu_j$ is even; and reversing the
+curve parameter reverses velocity but leaves acceleration unchanged. Hence the sign of the gravitational source is the sign of $m$ for
+either orientation: an arrow flip can change measured charge but never turn attraction into repulsion, which would need $m<0$. Source:
+Daniel Toupin, \emph{Which Way Is Forward?}, with AI assistance from Claude Code. Classical point-particle kinematics only; the
+field-theory stress tensor and the ALPHA-g measurement are cited, not formalized. No claim about RH.
+
 \end{document}
