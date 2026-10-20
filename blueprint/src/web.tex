@@ -8329,4 +8329,15 @@ putative mean $M(f^2)$ by $e^{2ah}\ne1$ then $M(f^2)=0$, contradicting $M(f^2)M(
 translation-invariant mean exists on an algebra containing $e^{au}$ and $e^{-au}$. Source: Astra's critique of an external
 Ces\`aro draft, formalized by Claude Code. This does not show zeta has off-line zeros and makes no claim about RH.
 
+\section{Feynman's checkerboard: mass is the reversal amplitude}
+\lean{GppCheckerboard.pathSum_eq,GppCheckerboard.weight_snoc,GppCheckerboard.turn_prod_eq_pow,GppCheckerboard.step_prod_eq_pow,GppCheckerboard.transfer_pow_massless,GppCheckerboard.transfer_sq,GppCheckerboard.transfer_sq_physical}
+Paths move one lattice step per time step at the speed of light; each reversal contributes a factor $w$ and each right or left step a
+factor $z_r$ or $z_l$. Summing the weights of all paths that start in direction $a$ and end in direction $b$ gives $z_a\,(T^n)_{ab}$ for
+the transfer matrix $T_{ab}=w^{[a\ne b]}z_b$, the discrete two-component Dirac evolution. The weight equals $w$ to the number of
+reversals times $z_r^{\#\mathrm{right}}z_l^{\#\mathrm{left}}$. At $w=0$ the evolution is diagonal, so a massless particle never turns.
+With $w=i\varepsilon m$, $z_{r,l}=e^{\pm i\theta}$: $T^2=2\cos\theta\,T-(1+\varepsilon^2m^2)I$, the lattice dispersion whose
+$\varepsilon\to0$ limit is $E^2=p^2+m^2$. Source: Feynman--Hibbs Problem 2-6; for Daniel Toupin's \emph{Which Way Is Forward?}
+(falsifier F8), with AI assistance from Claude Code. Exact $1+1$-dimensional algebra; the continuum limit and the $3+1$ case are not
+formalized. No claim about RH.
+
 \end{document}
