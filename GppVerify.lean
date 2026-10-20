@@ -213,6 +213,7 @@ import GppVerify.StandardModel.ObservedChargeMustBeRelational
 import GppVerify.StandardModel.OrientationCARBridge
 import GppVerify.StandardModel.OrientationComplexStructureDoubleCover
 import GppVerify.StandardModel.OrientationCovariantSecondLaw
+import GppVerify.StandardModel.WhichWayForwardV26Gaps
 import GppVerify.StandardModel.FeynmanCheckerboard
 import GppVerify.StandardModel.OrientationEvenGravity
 import GppVerify.StandardModel.OrientationGaugeAveraging

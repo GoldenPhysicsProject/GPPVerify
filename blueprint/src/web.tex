@@ -8337,6 +8337,14 @@ putative mean $M(f^2)$ by $e^{2ah}\ne1$ then $M(f^2)=0$, contradicting $M(f^2)M(
 translation-invariant mean exists on an algebra containing $e^{au}$ and $e^{-au}$. Source: Astra's critique of an external
 Ces\`aro draft, formalized by Claude Code. This does not show zeta has off-line zeros and makes no claim about RH.
 
+\section{\emph{Which Way Is Forward?}: remaining finite statements}
+\lean{GppWhichWayV26.equal_lift_weight,GppWhichWayV26.equal_lift_weight_half,GppWhichWayV26.even_profile_deriv_odd,GppWhichWayV26.oriented_rate_eq_abs,GppWhichWayV26.half_flip_not_deck,GppWhichWayV26.det_lorentz_chart,GppWhichWayV26.det_hermitian_slice,GppWhichWayV26.so102_dimension_split,GppWhichWayV26.offdiag_branching_dimension,GppWhichWayV26.unit_character_inv_eq_conj}
+A weight on the four lifts invariant under the diagonal reversal gives $\mu(++)=\mu(--)$, $\mu(+-)=\mu(-+)$ and probability $1/2$ within
+each orbit. An even entropy profile has odd derivative, and with $t=\operatorname{sgn}\lambda$ the oriented rate is $|S'(\lambda)|$. No
+invertible $U$ satisfies $UR_t=-U$, so the temporal half flip is not the spin-deck sign. The Lorentz chart action $A\mapsto LAR^T$ and the
+Hermitian slice $A\mapsto LAL^\dagger$ preserve $\det A$. Dimension counts $66=28+6+32$ and $32=24+4+4$ for the $\mathrm{Spin}(10,2)$
+adjoint split. A unitary one-dimensional character satisfies $z^{-1}=\bar z$. Source: Daniel Toupin, \emph{Which Way Is Forward?} (v26),
+with AI assistance from Claude Code. The antilinear deck case, winding topology and the branching itself are not formalized. No claim about RH.
 \section{Feynman's checkerboard: mass is the reversal amplitude}
 \lean{GppCheckerboard.pathSum_eq,GppCheckerboard.weight_snoc,GppCheckerboard.turn_prod_eq_pow,GppCheckerboard.step_prod_eq_pow,GppCheckerboard.transfer_pow_massless,GppCheckerboard.transfer_sq,GppCheckerboard.transfer_sq_physical}
 Paths move one lattice step per time step at the speed of light; each reversal contributes a factor $w$ and each right or left step a
