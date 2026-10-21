@@ -2136,6 +2136,7 @@ import GppVerify.NoGo.CayleyGap44
 import GppVerify.Analysis.Pringsheim
 import GppVerify.Analysis.OneSidedPringsheim
 import GppVerify.Analysis.LandauDirichlet
+import GppVerify.Analysis.LandauLaplace
 import GppVerify.NoGo.LaguerreCutoff
 import GppVerify.NoGo.GaussianHeatOS
 import GppVerify.NoGo.TwirlNotCollapse
