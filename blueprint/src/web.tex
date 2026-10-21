@@ -8387,6 +8387,12 @@ $\int_0^T(v^2-w^2)=e\,q(T)^2+e(2a+e)\int_0^Tq^2$; for $a,e\ge0$ each stage is an
 $\log(1+E_0)\le2eT+\log(1+E_e)$. Source: Astra's balanced-inverse-energy note, formalized by Claude Code. The two-stage composition for the
 prime signal and the pole argument are not formalized; no upper bound on $E_e$ is known. No claim about RH.
 
+\section{Rank-one inertia threshold: the inequality form}
+\lean{GppRankOneInertia.quad_decomp,GppRankOneInertia.psd_iff,GppRankOneInertia.psd_plus_half_iff,GppRankOneInertia.psd_minus_half_iff}
+Let $A$ be real symmetric invertible, positive definite on $c^\perp$, $u=A^{-1}c$, $s=c^TA^{-1}c\ne0$. Writing $x=\alpha u+y$ with $y\perp c$,
+$x^T(A+\kappa cc^T)x=y^TAy+\alpha^2s(1+\kappa s)$, so $A+\kappa cc^T\succeq0\iff s(1+\kappa s)\ge0$. Hence $A+\tfrac12cc^T\succeq0\iff s\le-2$ or $s>0$
+(even case) and $A-\tfrac12cc^T\succeq0\iff0<s\le2$ (odd case). Source: Grok's team review, generalizing \texttt{pole\_threshold\_neg};
+formalized by Claude Code. The Haynsworth equivalence with ``one negative eigenvalue'' is not proved. No claim about RH.
 \section{Landau's theorem for Laplace transforms with nonnegative integrand}
 \lean{GppLandauLaplace.iteratedDeriv_eq_of_hasFPowerSeriesAt,GppLandauLaplace.summable_of_nonneg_coeffs,GppLandauLaplace.lintegral_shift_eq_tsum,GppLandauLaplace.hasFPowerSeriesAt_laplace,GppLandauLaplace.lintegral_lt_top_of_holomorphic,GppLandauLaplace.landau_laplace}
 For $g\ge0$ with $\int_0^\infty g\,e^{-x't}<\infty$ and $x>x'$, the Laplace transform $\int_0^\infty g(t)e^{-zt}\,dt$ has the power series
