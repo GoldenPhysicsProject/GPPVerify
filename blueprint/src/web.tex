@@ -8372,4 +8372,13 @@ $2\sqrt{\bar\rho\bar T}+\bar\rho<10^{-45}$. Source: Astra's uniform moment-tail 
 envelopes and the true tail integrals is not formalized; this controls one fixed block's frequency tail and is not a positivity
 certificate. No claim about RH.
 
+\section{Landau's theorem for Dirichlet series with nonnegative coefficients}
+\lean{GppLandau.iterate_logMul_apply,GppLandau.iterate_logMul_nonneg,GppLandau.norm_term_iterate,GppLandau.summable_of_taylor,GppLandau.landau}
+If $a\ge0$, $x$ is real to the right of the abscissa of absolute convergence and $f$ is holomorphic on $B(x,R)$ and equal to $L(a,\cdot)$
+near $x$, then $L(a,\cdot)$ converges absolutely at every real $y\in(x-R,x)$: the Taylor coefficients at $x$ are
+$(x-y)^k/k!\sum_n(\log n)^ka_nn^{-x}\ge0$, the double series is summable, and swapping the sums gives $\sum_na_nn^{-y}$. Hence, if the
+abscissa is a real number $\sigma$, $L(a,\cdot)$ has no holomorphic extension to $\{\operatorname{Re}s>\sigma\}\cup B(\sigma,\varepsilon)$
+(Landau 1905). Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The Laplace-transform version is not
+formalized. No claim about RH.
+
 \end{document}
