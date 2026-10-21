@@ -8380,5 +8380,11 @@ $(x-y)^k/k!\sum_n(\log n)^ka_nn^{-x}\ge0$, the double series is summable, and sw
 abscissa is a real number $\sigma$, $L(a,\cdot)$ has no holomorphic extension to $\{\operatorname{Re}s>\sigma\}\cup B(\sigma,\varepsilon)$
 (Landau 1905). Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The Laplace-transform version is not
 formalized. No claim about RH.
+\section{Causal dissipation identity for regulator removal}
+\lean{GppCausalDissipation.stage_sq_diff,GppCausalDissipation.stage_energy_identity,GppCausalDissipation.stage_contraction,GppCausalDissipation.log_energy_transfer}
+For a state $q$ with $q(0)=0$, input $v=q'+(a+e)q$ and output $w=q'+aq$, one has $v^2-w^2=2e\,qq'+e(2a+e)q^2$ and
+$\int_0^T(v^2-w^2)=e\,q(T)^2+e(2a+e)\int_0^Tq^2$; for $a,e\ge0$ each stage is an energy contraction. If $E_0\le e^{2eT}E_e$ then
+$\log(1+E_0)\le2eT+\log(1+E_e)$. Source: Astra's balanced-inverse-energy note, formalized by Claude Code. The two-stage composition for the
+prime signal and the pole argument are not formalized; no upper bound on $E_e$ is known. No claim about RH.
 
 \end{document}
