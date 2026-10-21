@@ -8393,5 +8393,13 @@ Let $A$ be real symmetric invertible, positive definite on $c^\perp$, $u=A^{-1}c
 $x^T(A+\kappa cc^T)x=y^TAy+\alpha^2s(1+\kappa s)$, so $A+\kappa cc^T\succeq0\iff s(1+\kappa s)\ge0$. Hence $A+\tfrac12cc^T\succeq0\iff s\le-2$ or $s>0$
 (even case) and $A-\tfrac12cc^T\succeq0\iff0<s\le2$ (odd case). Source: Grok's team review, generalizing \texttt{pole\_threshold\_neg};
 formalized by Claude Code. The Haynsworth equivalence with ``one negative eigenvalue'' is not proved. No claim about RH.
+\section{Landau's theorem for Laplace transforms with nonnegative integrand}
+\lean{GppLandauLaplace.iteratedDeriv_eq_of_hasFPowerSeriesAt,GppLandauLaplace.summable_of_nonneg_coeffs,GppLandauLaplace.lintegral_shift_eq_tsum,GppLandauLaplace.hasFPowerSeriesAt_laplace,GppLandauLaplace.lintegral_lt_top_of_holomorphic,GppLandauLaplace.landau_laplace}
+For $g\ge0$ with $\int_0^\infty g\,e^{-x't}<\infty$ and $x>x'$, the Laplace transform $\int_0^\infty g(t)e^{-zt}\,dt$ has the power series
+$\sum(-1)^nm_n(z-x)^n/n!$ at $x$, $m_n=\int_0^\infty t^ng\,e^{-xt}$, and $\int_0^\infty g\,e^{-(x-\rho)t}=\sum\rho^nm_n/n!$ (Tonelli). A holomorphic
+function on $B(x,R)$ equal to the transform near $x$ therefore forces $\int_0^\infty g\,e^{-yt}<\infty$ for real $y\in(x-R,x]$; hence the real
+point of the abscissa of convergence is a singularity (Landau). Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+This is the analytic half of the one-sided criterion for the prime signal $J(t)$; the arithmetic bound and the zeta identity are not formalized.
+No claim about RH.
 
 \end{document}
