@@ -25,13 +25,11 @@ The continuous companion of `GppLandau.landau` (Dirichlet series) and `GppPrings
 * `landau_laplace`: if the integral converges for `s > σ` and diverges for `s < σ`, the Laplace
   transform has no holomorphic extension to `{re s > σ} ∪ B(σ, ε)` (Landau).
 
-**Use (not formalized here).** This is the analytic half of the one-sided criterion for the prime
-signal `J(t) = ∫₁^{e^t} (ψ(x) − x) x^{−3/2} dx`. Suppose `g(t) = J(t) − κ − R(t) + C(1+t)^k ≥ 0` for all
-`t`. Its Laplace transform differs from `L[J](z) = −[ζ'/ζ(z+½) + 1/(z−½) + 1] / (z(z+½))` by terms
-whose only singularities are at `z ≤ 0`. If some zero had `Re ρ > ½`, the abscissa of `g` would be a
-positive real number, and `landau_laplace` would put a singularity there; but `ζ` has no real zeros in
-`(½, 1)` and the pole at `z = ½` cancels, so there is none. The arithmetic bound on `J` is
-RH-strength and open, and the zeta identity is not formalized here. Nothing here claims RH.
+**Use.** This is the analytic input to the one-sided criterion `GppOneSidedRH`
+(`RiemannHypothesis/OneSidedPsiRH.lean`), which applies it to the defect
+`ψ(eᵗ) − eᵗ + C e^{at} ≥ 0` and proves that `ψ(x) ≥ x − C x^a` excludes zeros of `ζ` with `Re s > a`.
+That is a conditional theorem; the lower bound on `ψ` is RH-strength and open. Nothing here
+claims RH.
 -/
 
 open MeasureTheory Set Complex

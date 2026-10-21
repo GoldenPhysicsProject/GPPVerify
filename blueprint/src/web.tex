@@ -8378,8 +8378,8 @@ If $a\ge0$, $x$ is real to the right of the abscissa of absolute convergence and
 near $x$, then $L(a,\cdot)$ converges absolutely at every real $y\in(x-R,x)$: the Taylor coefficients at $x$ are
 $(x-y)^k/k!\sum_n(\log n)^ka_nn^{-x}\ge0$, the double series is summable, and swapping the sums gives $\sum_na_nn^{-y}$. Hence, if the
 abscissa is a real number $\sigma$, $L(a,\cdot)$ has no holomorphic extension to $\{\operatorname{Re}s>\sigma\}\cup B(\sigma,\varepsilon)$
-(Landau 1905). Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The Laplace-transform version is not
-formalized. No claim about RH.
+(Landau 1905). Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The Laplace-transform version is
+\texttt{GppLandauLaplace.landau\_laplace} (next sections). No claim about RH.
 \section{Causal dissipation identity for regulator removal}
 \lean{GppCausalDissipation.stage_sq_diff,GppCausalDissipation.stage_energy_identity,GppCausalDissipation.stage_contraction,GppCausalDissipation.log_energy_transfer}
 For a state $q$ with $q(0)=0$, input $v=q'+(a+e)q$ and output $w=q'+aq$, one has $v^2-w^2=2e\,qq'+e(2a+e)q^2$ and
@@ -8399,7 +8399,8 @@ For $g\ge0$ with $\int_0^\infty g\,e^{-x't}<\infty$ and $x>x'$, the Laplace tran
 $\sum(-1)^nm_n(z-x)^n/n!$ at $x$, $m_n=\int_0^\infty t^ng\,e^{-xt}$, and $\int_0^\infty g\,e^{-(x-\rho)t}=\sum\rho^nm_n/n!$ (Tonelli). A holomorphic
 function on $B(x,R)$ equal to the transform near $x$ therefore forces $\int_0^\infty g\,e^{-yt}<\infty$ for real $y\in(x-R,x]$; hence the real
 point of the abscissa of convergence is a singularity (Landau). Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
-This is the analytic half of the one-sided criterion for the prime signal $J(t)$; the arithmetic bound and the zeta identity are not formalized.
+This is the analytic input to the one-sided criterion \texttt{GppOneSidedRH} below, where the zeta identity is formalized; the lower
+bound on $\psi$ it would need is RH-strength and not proved.
 No claim about RH.
 
 \section{A one-sided bound on $\psi$ implies the Riemann Hypothesis (conditional)}
@@ -8411,8 +8412,9 @@ $g(t)=\psi(e^t)-e^t+Ce^{at}\ge0$ has Laplace transform $L(z)=L(\Lambda,z)/z-1/(z
 $\operatorname{Re}z>\max(a,1)$ to the half-plane right of the abscissa $\sigma$ of $L$, where an entire solution of $Z'=-AZ$ cannot vanish.
 If $\sigma>a$, either $Z(\sigma)\ne0$ and $L$ continues across $\sigma$, contradicting Landau's theorem, or $Z(\sigma)=0$ and
 $\operatorname{Re}A\ge-K$ on $(\sigma,\sigma+1)$ (since $L(s)\ge0$) makes $\|Z(s)\|^2e^{-2Ks}$ nonincreasing, so it cannot tend to $0$.
-Zeros left of $\tfrac12$ reflect through the functional equation. Classical (Landau--Ingham). Daniel Toupin / Golden Physics Project,
+Zeros left of $\tfrac12$ reflect through the functional equation. A classical consequence of Landau's theorem (1905); compare
+Ingham, \emph{The Distribution of Prime Numbers}, Ch.~V, and Montgomery--Vaughan, \emph{Multiplicative Number Theory I}, Ch.~15. Daniel Toupin / Golden Physics Project,
 with AI assistance from Claude Code. This is a conditional theorem: the hypothesis is not proved, and by von Koch's converse it is
-equivalent to RH. No claim that RH is proved.
+equivalent to RH (von Koch 1901). No claim that RH is proved.
 
 \end{document}

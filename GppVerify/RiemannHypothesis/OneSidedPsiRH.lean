@@ -17,15 +17,18 @@ import Mathlib.MeasureTheory.Integral.IntegralEqImproper
 /-!
 # A one-sided bound on `ψ` implies the Riemann Hypothesis (conditional theorem)
 
-This file proves, with no `sorry` and no new axiom, the classical *one-sided* criterion of
-Landau–Ingham type:
+This file proves, with no `sorry` and no new axiom, a classical *one-sided* criterion. It is a
+consequence of Landau's theorem on Laplace transforms with nonnegative integrand (Landau, 1905);
+for the circle of one-sided oscillation results it belongs to, see Ingham, *The Distribution of
+Prime Numbers* (1932), Ch. V, and Montgomery–Vaughan, *Multiplicative Number Theory I* (2007),
+Ch. 15:
 
 > if `ψ(x) ≥ x − C x^a` for all `x ≥ 1`, with `0 < a`, then `ζ` has no zero with `Re s > a`;
 > if this holds for every `a > ½` (with `C` depending on `a`), then `RiemannHypothesis`.
 
 Only a *lower* bound on `ψ` is assumed; no upper bound and no two-sided error term. This is
 **not** a proof of the Riemann Hypothesis: the hypothesis is open and, by the converse
-(von Koch), is equivalent to RH. What is proved is the implication.
+(von Koch, 1901: RH implies `ψ(x) = x + O(√x log² x)`), is equivalent to RH. What is proved is the implication.
 
 ## Route
 
