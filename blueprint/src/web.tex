@@ -8402,4 +8402,17 @@ point of the abscissa of convergence is a singularity (Landau). Daniel Toupin / 
 This is the analytic half of the one-sided criterion for the prime signal $J(t)$; the arithmetic bound and the zeta identity are not formalized.
 No claim about RH.
 
+\section{A one-sided bound on $\psi$ implies the Riemann Hypothesis (conditional)}
+\lean{GppOneSidedRH.differentiableOn_laplace,GppOneSidedRH.ne_zero_of_deriv_eq_neg_mul,GppOneSidedRH.ne_zero_of_re_logDeriv_bound,GppOneSidedRH.integral_psi_exp,GppOneSidedRH.laplace_defect,GppOneSidedRH.zeta_identity,GppOneSidedRH.riemannZeta₁_ne_zero_of_psi_lower,GppOneSidedRH.riemannZeta_ne_zero_of_psi_lower,GppOneSidedRH.riemannHypothesis_of_ne_zero,GppOneSidedRH.riemannHypothesis_of_psi_lower}
+If $0<a$ and $\psi(x)\ge x-Cx^a$ for all $x\ge1$, then $\zeta(s)\ne0$ for $\operatorname{Re}s>a$; if this holds for every $a>\tfrac12$ (with $C$
+depending on $a$), Mathlib's \texttt{RiemannHypothesis} follows. Only a lower bound on $\psi$ is assumed. Route: the defect
+$g(t)=\psi(e^t)-e^t+Ce^{at}\ge0$ has Laplace transform $L(z)=L(\Lambda,z)/z-1/(z-1)+C/(z-a)$ for $\operatorname{Re}z>\max(a,1)$
+(Abel summation and $x=e^t$); with $Z=(s-1)\zeta(s)$ entire and $A=zL+1-Cz/(z-a)$, the identity $ZA+Z'=0$ continues from
+$\operatorname{Re}z>\max(a,1)$ to the half-plane right of the abscissa $\sigma$ of $L$, where an entire solution of $Z'=-AZ$ cannot vanish.
+If $\sigma>a$, either $Z(\sigma)\ne0$ and $L$ continues across $\sigma$, contradicting Landau's theorem, or $Z(\sigma)=0$ and
+$\operatorname{Re}A\ge-K$ on $(\sigma,\sigma+1)$ (since $L(s)\ge0$) makes $\|Z(s)\|^2e^{-2Ks}$ nonincreasing, so it cannot tend to $0$.
+Zeros left of $\tfrac12$ reflect through the functional equation. Classical (Landau--Ingham). Daniel Toupin / Golden Physics Project,
+with AI assistance from Claude Code. This is a conditional theorem: the hypothesis is not proved, and by von Koch's converse it is
+equivalent to RH. No claim that RH is proved.
+
 \end{document}
