@@ -8363,4 +8363,13 @@ A matrix N\"orlund mean with positive-definite weights $\mathrm{diag}(2,1)$, $I$
 $\begin{pmatrix}1/3&1/3\\1/2&1/2\end{pmatrix}$, while nonnegative scalar weights preserve positivity. Source: Astra's notes on the
 Ces\`aro metric repair and matrix means, formalized by Claude Code. Finite linear algebra only; no arithmetic bound and no claim about RH.
 
+\section{Uniform moment-tail certificate}
+\lean{GppMomentTail.sq_norm_replacement,GppMomentTail.two_mul_le_eps,GppMomentTail.certificate_step,GppMomentTail.rhobar_lt,GppMomentTail.trbar_le,GppMomentTail.moment_tail_certificate}
+In a real inner-product space $|\|x\|^2-\|y\|^2|\le2\|y\|\|x-y\|+\|x-y\|^2$, the abstract form of the moment-replacement bound, and
+$2ab\le\varepsilon a^2+b^2/\varepsilon$ gives the operator sandwich. If $\rho<\delta$ and $(\delta-\rho)^2>4\rho T$ then
+$2\sqrt{\rho T}+\rho<\delta$. For Astra's rational envelopes $\bar\rho<10^{-100}$ and $\bar T\le17\cdot576\cdot4107/1000$, so
+$2\sqrt{\bar\rho\bar T}+\bar\rho<10^{-45}$. Source: Astra's uniform moment-tail note, formalized by Claude Code. The analytic link between the
+envelopes and the true tail integrals is not formalized; this controls one fixed block's frequency tail and is not a positivity
+certificate. No claim about RH.
+
 \end{document}
