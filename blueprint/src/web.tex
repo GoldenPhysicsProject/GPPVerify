@@ -8446,4 +8446,12 @@ $\chi_1$-coefficient functional is unbounded: the finite core of Codex's nonclos
 assistance from Codex and Claude Code. The $\varepsilon>\tfrac12$ dual norm $\zeta(2\varepsilon)\prod_{p\mid n}(1+p^{-2\varepsilon})$ and the Hilbert completion are not
 formalized. No claim about RH.
 
+\section{The one-prime GCD Gram: orthonormal basis and exact coefficient dual norms}
+\lean{GppOnePrimeToeplitz.gram_phi,GppOnePrimeToeplitz.expand,GppOnePrimeToeplitz.gram_self_eq,GppOnePrimeToeplitz.dual_norm_zero,GppOnePrimeToeplitz.dual_norm_succ}
+Source: Codex, \texttt{work/codex/2026-10-21\_gcd\_coefficient\_recovery\_closability\_zeta\_threshold.md} \S B (one prime). For the Gram
+$\langle u_i,u_j\rangle=r^{|i-j|}$ with $r^2<1$: $\varphi_0=u_0$, $\varphi_{k+1}=(u_{k+1}-ru_k)/\sqrt{1-r^2}$ is orthonormal; every vector expands in it with
+explicit coordinates and Parseval holds; and the coefficient functionals have exact dual norms $\|\mathrm{coeff}_0\|^2=1/(1-r^2)$ and
+$\|\mathrm{coeff}_j\|^2=(1+r^2)/(1-r^2)$ for interior $j$, both attained. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and
+Claude Code. The tensor product over primes, giving $\zeta(2\varepsilon)\prod_{p\mid n}(1+p^{-2\varepsilon})$, is not formalized. No claim about RH.
+
 \end{document}
