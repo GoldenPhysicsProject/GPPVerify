@@ -92,6 +92,37 @@ theorem no_unconstrained_york_reduction
   exact (nontrivial_volume_excludes_global_york_null
      omega y dV c hc hYork x hvol) (hall x)
 
+
+/-- A bilinear antisymmetric form is independent of representatives
+shifted along the York direction when both variations have fixed
+volume. This is the pointwise algebra behind descent to W / span(y),
+with the geometric quotient and boundary terms still separate. -/
+theorem york_form_representative_invariant
+    (B : E →ₗ[ℝ] E →ₗ[ℝ] ℝ)
+    (hskew : ∀ x z, B x z = -(B z x))
+    (hc : c ≠ 0) (hMoment : ∀ z, B y z = c * dV z)
+    (x z : E) (hx : dV x = 0) (hz : dV z = 0)
+    (hy : dV y = 0) (a b : ℝ) :
+    B (x + a • y) (z + b • y) = B x z := by
+  have hyx : B y x = 0 := by
+    rw [hMoment x, hx]
+    ring
+  have hyz : B y z = 0 := by
+    rw [hMoment z, hz]
+    ring
+  have hyy : B y y = 0 := by
+    rw [hMoment y, hy]
+    ring
+  have hxy : B x y = 0 := by
+    rw [hskew x y, hyx]
+    ring
+  calc
+    B (x + a • y) (z + b • y) =
+        B x z + b * B x y + a * B y z + a * b * B y y := by
+          simp only [map_add, map_smul, smul_eq_mul]
+          ring
+    _ = B x z := by rw [hxy, hyz, hyy]; ring
+
 end Linearized
 
 
@@ -134,3 +165,5 @@ end GppYorkReduction
 
 #print axioms GppYorkReduction.adm_york_null_forces_fixed_volume
 #print axioms GppYorkReduction.adm_fixed_volume_implies_york_null
+
+#print axioms GppYorkReduction.york_form_representative_invariant
