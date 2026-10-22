@@ -41,3 +41,14 @@ Do **not** say that the cosmological multiplier equals the entropy volume multip
 - T. Jacobson & M. Visser, *Entropy of causal diamond ensembles* (2023), arXiv:2212.10608.
 
 **Verification convention:** Cite Lean declarations only after an exact-head CI run has completed. Document mathematical assumptions and physical analogies separately. Never use a theorem of the form `True := trivial` as a proof of the research claim.
+
+
+## October 22 extensions: continuum and CFT radius no-go
+
+- `GeneralRelativity/YorkVolumeContinuum.lean` adds the exact **arbitrary measurable-spatial-slice** Bochner-integral formula `integral c * traceDensity = 2c * volumeVariation`, and its null-volume equivalence. Also proves (when exact-head CI is green) the pointwise first derivative for a conformally scaled 3D spatial density. It does **not** yet derive the general \(\sqrt{\det h}\) variation from the smooth metric or carry through EH boundary/corner charges.
+- `GeneralRelativity/DiamondRadiusModularNoGo.lean` establishes that for all round Minkowski diamonds the conformal factor and radial flow are time-odd, their maximal-slice volumes depend on radius, and a normalized state tangent can coexist with a nonzero radius volume response. Physical strengthening: the Casini–Huerta–Myers conformal-ball modular Hamiltonian is available for *every* radius in a vacuum CFT. Thus two-sided time symmetry plus projective KMS structure **does not logically fix volume**.
+- `YorkVolumeReduction.lean` also proves York quotient pairing representative invariance; a new extension derives \(dV(Y)=0\) from antisymmetry and a nonzero York moment-map coefficient, eliminating an independent tangency postulate (subject to exact-head Lean check).
+- The original-structure paper is revised as **The Volume Constraint in Entanglement Equilibrium** (14-page October 22 LaTeX/PDF artifact; source kept in conversation output), with a full two-sided radius no-go, ADM coefficient, and conditional York-reduction theorem while retaining the original geometry, ensembles and spectral work.
+- GPP-bridge research handoff: `work/codex/2026-10-22_york_volume_fs_continuum_paper_handoff.md`.
+
+**Current epistemic distinction:** the necessity of fixed volume for *entropy-only stationarity under Einstein–Hilbert causal-diamond first laws* is supported. The necessity for a *chosen York symplectic quotient* has an exact algebraic/ADM proof. An unconditional derivation from projective state normalization + expanding/contracting symmetry is impossible from those premises alone because of the radius-family counterexample. New physical input would be required.
