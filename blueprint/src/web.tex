@@ -8417,4 +8417,14 @@ Ingham, \emph{The Distribution of Prime Numbers}, Ch.~V, and Montgomery--Vaughan
 with AI assistance from Claude Code. This is a conditional theorem: the hypothesis is not proved, and by von Koch's converse it is
 equivalent to RH (von Koch 1901). No claim that RH is proved.
 
+\section{The Laplace transform of the prime signal $J_0$}
+\lean{GppPrimeSignalLaplace.integral_f,GppPrimeSignalLaplace.integral_J0,GppPrimeSignalLaplace.laplace_J0_eq}
+Source: Astra, \texttt{work/2026-10-21\_astra\_joint\_mobius\_abel\_obstruction.md} \S1, with Codex's normalization
+$J_0(t)=\int_0^te^{u/2}(e^{-u}\psi(e^u)-1)\,du$. For $\operatorname{Re}z>\tfrac12$:
+$\int_0^\infty e^{u/2}(e^{-u}\psi(e^u)-1)e^{-zu}du=L(\Lambda,z+\tfrac12)/(z+\tfrac12)-1/(z-\tfrac12)$, Fubini on $\{0<u\le t\}$ gives
+$\int_0^\infty J_0(t)e^{-zt}dt=z^{-1}\int_0^\infty J_0'(u)e^{-zu}du$, and together
+$\int_0^\infty J_0(t)e^{-zt}dt=-[\zeta'/\zeta(z+\tfrac12)+1/(z-\tfrac12)+1]/(z(z+\tfrac12))$. Daniel Toupin / Golden Physics Project, with AI
+assistance from Astra and Claude Code. Proved only for $\operatorname{Re}z>\tfrac12$; the continuation, the residues at zeros and the
+Abel-energy bound are not formalized. No claim about RH.
+
 \end{document}
