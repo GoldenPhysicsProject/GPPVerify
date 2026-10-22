@@ -119,7 +119,7 @@ theorem york_form_representative_invariant
   calc
     B (x + a • y) (z + b • y) =
         B x z + b * B x y + a * B y z + a * b * B y y := by
-          simp only [map_add, map_smul, smul_eq_mul]
+          simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
           ring
     _ = B x z := by rw [hxy, hyz, hyy]; ring
 
