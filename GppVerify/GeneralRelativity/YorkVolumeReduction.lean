@@ -100,7 +100,7 @@ with the geometric quotient and boundary terms still separate. -/
 theorem york_form_representative_invariant
     (B : E →ₗ[ℝ] E →ₗ[ℝ] ℝ)
     (hskew : ∀ x z, B x z = -(B z x))
-    (hc : c ≠ 0) (hMoment : ∀ z, B y z = c * dV z)
+    (hMoment : ∀ z, B y z = c * dV z)
     (x z : E) (hx : dV x = 0) (hz : dV z = 0)
     (hy : dV y = 0) (a b : ℝ) :
     B (x + a • y) (z + b • y) = B x z := by
