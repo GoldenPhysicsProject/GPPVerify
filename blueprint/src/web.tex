@@ -8436,4 +8436,14 @@ nondecreasing; the Abel identity $k(b)-k(a)=\int_a^b\varphi$ then gives $\operat
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The Fourier-tail and all-time ultraviolet parts of the
 note are not formalized. This uses only Chebyshev's bound, so it holds for Beurling systems as well. No claim about RH.
 
+\section{Critical GCD Gram: Euler packets collapse}
+\lean{GppGcdPacketClosability.double_sum_collapse,GppGcdPacketClosability.gcd_prod_primes,GppGcdPacketClosability.coef_eq_moebius,GppGcdPacketClosability.packet_gram,GppGcdPacketClosability.prefix_sum_lt_two,GppGcdPacketClosability.prod_primes_tends_small,GppGcdPacketClosability.coeff_one_unbounded}
+Source: Codex, \texttt{work/codex/2026-10-21\_gcd\_coefficient\_recovery\_closability\_zeta\_threshold.md} \S C, audited by Grok (S86). For the
+kernel $K_\varepsilon(m,n)=(\gcd(m,n)^2/(mn))^\varepsilon$ and a finite set $P$ of primes, the Euler packet $\prod_{p\in P}(1-p^{-\varepsilon}\chi_p)$,
+with coefficient $\mu(n)n^{-\varepsilon}$ on $\chi_n$, has $K_\varepsilon$-norm squared $\prod_{p\in P}(1-p^{-2\varepsilon})$. Summing over $T$ for fixed $S$ gives a product that
+vanishes unless $S=\emptyset$. Its prefix sums equal $1$ below $2$. For $0<\varepsilon\le\tfrac12$ the norms tend to $0$ (divergence of $\sum1/p$), so the
+$\chi_1$-coefficient functional is unbounded: the finite core of Codex's nonclosability theorem. Daniel Toupin / Golden Physics Project, with AI
+assistance from Codex and Claude Code. The $\varepsilon>\tfrac12$ dual norm $\zeta(2\varepsilon)\prod_{p\mid n}(1+p^{-2\varepsilon})$ and the Hilbert completion are not
+formalized. No claim about RH.
+
 \end{document}
