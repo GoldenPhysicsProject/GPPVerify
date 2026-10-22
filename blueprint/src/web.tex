@@ -8427,4 +8427,13 @@ $\int_0^\infty J_0(t)e^{-zt}dt=-[\zeta'/\zeta(z+\tfrac12)+1/(z-\tfrac12)+1]/(z(z
 assistance from Astra and Claude Code. Proved only for $\operatorname{Re}z>\tfrac12$; the continuation, the residues at zeros and the
 Abel-energy bound are not formalized. No claim about RH.
 
+\section{Uniform variation of $e^{-t}\psi(e^t)$ on logarithmic blocks}
+\lean{GppLogBlockVariation.cont_monotoneOn,GppLogBlockVariation.cont_sub_eq,GppLogBlockVariation.eVariationOn_phi_le,GppLogBlockVariation.eVariationOn_phi_unit_le,GppLogBlockVariation.eVariationOn_phi_unit_le_chebyshev}
+Source: Codex, \texttt{work/codex/2026-10-21\_arithmetic\_logblock\_BV\_ultraviolet\_tail\_alltime.md} \S1, audited by Grok (S79). If
+$\psi(x)\le Kx$ for $x\ge1$, then for $0\le a\le b$ the total variation of $\varphi(t)=e^{-t}\psi(e^t)$ on $[a,b]$ is at most $K(2(b-a)+1)$,
+so at most $3K$ on a unit block, and $3(\log4+4)$ unconditionally. Write $\varphi=g-k$ with $g(t)=\sum_{e^a<n\le e^t}\Lambda(n)/n$ and $k$ both
+nondecreasing; the Abel identity $k(b)-k(a)=\int_a^b\varphi$ then gives $\operatorname{Var}\varphi\le2\int_a^b\varphi+\varphi(b)-\varphi(a)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The Fourier-tail and all-time ultraviolet parts of the
+note are not formalized. This uses only Chebyshev's bound, so it holds for Beurling systems as well. No claim about RH.
+
 \end{document}
