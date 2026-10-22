@@ -57,7 +57,6 @@ theorem volume_radius_one_vs_two :
   unfold ballVolume
   have hpi : 0 < Real.pi := Real.pi_pos
   norm_num
-  nlinarith
 
 /-- Formal volume response for a radial size perturbation; nonzero
 for every positive radius, despite the two-sided symmetry. -/
