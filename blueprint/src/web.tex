@@ -8454,4 +8454,12 @@ explicit coordinates and Parseval holds; and the coefficient functionals have ex
 $\|\mathrm{coeff}_j\|^2=(1+r^2)/(1-r^2)$ for interior $j$, both attained. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and
 Claude Code. The tensor product over primes, giving $\zeta(2\varepsilon)\prod_{p\mid n}(1+p^{-2\varepsilon})$, is not formalized. No claim about RH.
 
+\section{A scalar Schur criterion at the form level}
+\lean{GppScalarSchurForm.nonneg_iff,GppScalarSchurForm.price_le,GppScalarSchurForm.price_attained,GppScalarSchurForm.truncation_nonneg_iff,GppScalarSchurForm.seven_witness}
+Source: Astra, \texttt{work/2026-10-22\_astra\_wave231\_assembly\_audit.md}. For a positive semidefinite bilinear form $a$, a linear functional $\ell$
+and $c\in\mathbb R$: $a(u,u)+2t\ell(u)+ct^2\ge0$ for all $(u,t)$ iff $c\ge0$ and $\ell(u)^2\le c\,a(u,u)$ for all $u$; no inverse or completion is needed.
+Example: $a_K(u)=\sum_{n\le K}u_n^2/n^2$, $\ell_K(u)=\sum_{n\le K}u_n/n$, $c=6$. The finite price is exactly $K$ (Cauchy--Schwarz, attained at $u_n=n$),
+so the truncated form is nonnegative iff $K\le6$, with value $-1$ at $K=7$, although $a$ and $\ell$ are bounded on $\ell^2$. Daniel Toupin / Golden
+Physics Project, with AI assistance from Astra and Claude Code. General quadratic-form facts; they prove no part of the RH assembly. No claim about RH.
+
 \end{document}
