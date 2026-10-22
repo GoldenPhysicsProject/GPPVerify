@@ -56,8 +56,8 @@ theorem integral_phi_mul (j k : ℕ) :
   simp only [mul_zero, Real.exp_zero]
   field_simp
 
-/-- **The odd companion.** With `A(v) = e^{−v/2}/(1 − e^{−2v})` and `B(v) = e^{−3v/2}/(1 −
-e^{−2v})`,
+/-- **The odd companion.** With `A(v) = e^{−v/2}/(1 − e^{−2v})` and
+`B(v) = e^{−3v/2}/(1 − e^{−2v})`,
 `A + B = 1/(2 sinh(v/2))` for `v > 0`. -/
 theorem arch_add_companion {v : ℝ} (hv : 0 < v) :
     Real.exp (-v / 2) / (1 - Real.exp (-2 * v)) + Real.exp (-3 * v / 2) / (1 - Real.exp (-2 * v))
