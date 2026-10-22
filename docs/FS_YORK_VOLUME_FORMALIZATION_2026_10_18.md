@@ -39,3 +39,19 @@ GPPVerify main is the immediate upstream target for the PR. The local complex st
 ## Reproducibility
 
 See `.github/workflows/fs-york-targeted.yml` for the fresh module build and source-aware sorry checks; full GPPVerify CI additionally verifies imports, axioms, vacuity and stubs. **Status is determined by CI on the exact head commit, not by the presence of Lean source.**
+
+
+## October 21 continuation: symplectic-reduction necessity theorem
+
+New file `GppVerify/GeneralRelativity/YorkVolumeReduction.lean` now makes the physical gap mathematically testable:
+
+- Assume a York vector (y), a symplectic pairing `omega`, a nonzero normalization constant `c`, and the explicit moment-map identity `omega y x = c * dV x`.
+- For **any** linearized admissible variation subspace `W`, the condition that `omega y x = 0` for every `x∈W` (the necessary horizontality condition for descending the two-form after quotienting by York flow) is **equivalent** to `W ≤ ker(dV)`.
+- Hence `ker(dV)` is the maximal admissible first-order subspace on which York flow is null, and fixed volume is necessary and sufficient for **that specified symplectic reduction**. No entropy first law is needed to derive this algebraic implication.
+- If a nonzero volume-changing perturbation exists, the York vector is **not** globally symplectic-null. This refutes the attempted identification of York flow with the projective U(1) phase-gauge direction on the *unrestricted* state space.
+- Crucially, this theorem does **not** prove that the physical equilibrium ensemble must perform a York-flow quotient. That is an independent physical assertion. The BLS deformation is in general not a diffeomorphism, and projective quantum normalization by itself is not sufficient to impose this quotient.
+
+**Decision point:** To obtain the deeper identity-sector necessity claim, independently derive that the entropy-equilibrium variational principle descends through York-flow reduction, or give an alternative physical principle (with independent support) that forces this reduction. Proving only the conditional symplectic implication is not enough. Alternatively, the already rigorous causal-diamond first law gives necessity of fixed volume *for entropy-only stationarity* and is a defensible paper result with explicit dynamical assumptions.
+
+**Verification:** exact-head CI for this new module must pass. The earlier October 18 full Build completed all Lean compilation but was red because `FubiniStudyLocalKahler.lean` was not explicitly root-imported. The current branch's `GppVerify.lean` now adds this direct import alongside the new module; rerun full import-graph and axiom audits.
+
