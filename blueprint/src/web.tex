@@ -8462,4 +8462,12 @@ Example: $a_K(u)=\sum_{n\le K}u_n^2/n^2$, $\ell_K(u)=\sum_{n\le K}u_n/n$, $c=6$.
 so the truncated form is nonnegative iff $K\le6$, with value $-1$ at $K=7$, although $a$ and $\ell$ are bounded on $\ell^2$. Daniel Toupin / Golden
 Physics Project, with AI assistance from Astra and Claude Code. General quadratic-form facts; they prove no part of the RH assembly. No claim about RH.
 
+\section{The archimedean Hankel kernel: Gram expansion and the odd companion}
+\lean{GppArchimedeanHankelGram.hasSum_phi_mul,GppArchimedeanHankelGram.integral_phi_mul,GppArchimedeanHankelGram.arch_add_companion}
+Sources: Astra, \texttt{work/2026-10-22\_astra\_archimedean\_hankel\_realisation.md} \S1 and \texttt{work/2026-10-22\_astra\_cayley\_nested\_spectral\_audit.md}
+\S4, for Turbo's reported kernel $k_{\rm arch}(v)=-e^{-v/2}/(1-e^{-2v})$. With $\varphi_j(u)=e^{-(2j+1/2)u}$: $\sum_j\varphi_j(u)\varphi_j(v)=-k_{\rm arch}(u+v)$ for $u+v>0$,
+$\langle\varphi_j,\varphi_k\rangle_{L^2(0,\infty)}=1/(2j+2k+1)$, and $A+B=1/(2\sinh(v/2))$ for $A=e^{-v/2}/(1-e^{-2v})$, $B=e^{-3v/2}/(1-e^{-2v})$. Daniel Toupin /
+Golden Physics Project, with AI assistance from Astra and Claude Code. The $\pi/2$ Schur bound, the tail norm, the Mellin identity and the intertwiner
+no-go are not formalized. No claim about RH.
+
 \end{document}
