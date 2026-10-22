@@ -20,8 +20,9 @@ Project, with AI assistance from Claude Code.
 
 Scope: the classical theorem (Landau 1905) for Dirichlet series. For nonnegative coefficients the
 abscissae of convergence and absolute convergence agree; here we work with Mathlib's
-`abscissaOfAbsConv` throughout. The Laplace-transform version, which the one-sided criterion for
-the prime signal `J(t)` needs, is not formalized here. Nothing here concerns RH directly.
+`abscissaOfAbsConv` throughout. The Laplace-transform version is `GppLandauLaplace.landau_laplace`
+(`Analysis/LandauLaplace.lean`); the one-sided criterion it feeds is `GppOneSidedRH`
+(`RiemannHypothesis/OneSidedPsiRH.lean`). Nothing here concerns RH directly.
 -/
 
 open Complex LSeries
