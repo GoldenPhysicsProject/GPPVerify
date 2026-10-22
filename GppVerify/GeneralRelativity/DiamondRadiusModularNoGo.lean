@@ -77,10 +77,11 @@ independently nonzero geometric volume response: projective state
 normalization does not logically force dV=0. -/
 theorem phase_quotient_does_not_fix_radius :
     ∃ (dp : Fin 2 → ℝ) (R : ℝ),
-        (∑ i, dp i) = 0 ∧
+        (∑ i, dp i) = 0 ∧ dp 0 ≠ 0 ∧
         0 < R ∧ radialVolumeResponse R ≠ 0 := by
-  refine ⟨(fun _ => 0), 1, ?_, by norm_num, ?_⟩
-  · simp
+  refine ⟨(fun i => if i = 0 then 1 else -1), 1,
+      ?_, by norm_num, by norm_num, ?_⟩
+  · simp [Fin.sum_univ_two]
   · exact radial_volume_response_nonzero 1 (by norm_num)
 
 end GppDiamondRadiusNoGo
