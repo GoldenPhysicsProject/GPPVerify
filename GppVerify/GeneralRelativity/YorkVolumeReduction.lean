@@ -32,23 +32,23 @@ section Linearized
 variable {E : Type*} [AddCommGroup E] [Module ℝ E]
 variable (omega : E → E → ℝ) (y : E)
   (dV : E →ₗ[ℝ] ℝ) (c : ℝ)
-  (hc : c ≠ 0) (hYork : ∀ x, omega y x = c * dV x)
 
 /-- Horizontal/characteristic York condition is precisely the
 linearized fixed-volume condition. -/
-theorem york_horizontal_iff_fixed_volume (x : E) :
+theorem york_horizontal_iff_fixed_volume
+    (hc : c ≠ 0) (hYork : ∀ z, omega y z = c * dV z) (x : E) :
     omega y x = 0 ↔ dV x = 0 := by
   constructor
   · intro h
     rw [hYork x] at h
     exact (mul_eq_zero.mp h).resolve_left hc
   · intro h
-    rw [hYork x, h]
-    ring
+    simp [hYork x, h]
 
 /-- If the York direction annihilates the induced two-form on a
 chosen admissible tangent subspace, that space lies in ker(dV). -/
 theorem reduction_domain_forces_fixed_volume
+    (hc : c ≠ 0) (hYork : ∀ z, omega y z = c * dV z)
     (W : Submodule ℝ E)
     (hnull : ∀ x ∈ W, omega y x = 0) :
     W ≤ LinearMap.ker dV := by
@@ -60,6 +60,7 @@ theorem reduction_domain_forces_fixed_volume
 /-- Converse and exact uniqueness of the maximal York-reducible
 linearized variation space: the full kernel of the volume functional. -/
 theorem york_reduction_iff_volume_level
+    (hc : c ≠ 0) (hYork : ∀ z, omega y z = c * dV z)
     (W : Submodule ℝ E) :
     (∀ x ∈ W, omega y x = 0) ↔
     W ≤ LinearMap.ker dV := by
@@ -75,6 +76,7 @@ theorem york_reduction_iff_volume_level
 generator CANNOT be in the presymplectic kernel on the entire
 unconstrained tangent space. It is not a phase-only gauge direction. -/
 theorem nontrivial_volume_excludes_global_york_null
+    (hc : c ≠ 0) (hYork : ∀ z, omega y z = c * dV z)
     (x : E) (hvol : dV x ≠ 0) :
     omega y x ≠ 0 := by
   rw [hYork x]
@@ -83,6 +85,7 @@ theorem nontrivial_volume_excludes_global_york_null
 /-- In particular, treating York flow as an everywhere-degenerate
 direction is inconsistent when nonzero volume variations exist. -/
 theorem no_unconstrained_york_reduction
+    (hc : c ≠ 0) (hYork : ∀ z, omega y z = c * dV z)
     (x : E) (hvol : dV x ≠ 0) :
     ¬ (∀ z : E, omega y z = 0) := by
   intro hall
