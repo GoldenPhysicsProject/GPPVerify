@@ -86,7 +86,7 @@ theorem conformal_density_hasDerivAt_zero (a w : ℝ) :
   have hinner : HasDerivAt (fun eps : ℝ => eps * (3 * a))
        (3 * a) 0 := by
     simpa using (hasDerivAt_id (0 : ℝ)).mul_const (3 * a)
-  have hexp := (Real.hasDerivAt_exp (0 : ℝ)).comp 0 hinner
+  have hexp := (Real.hasDerivAt_exp ((0 : ℝ) * (3 * a))).comp 0 hinner
   have hscaled := hexp.const_mul w
   convert hscaled using 1 <;> norm_num [mul_comm, mul_left_comm, mul_assoc]
 
