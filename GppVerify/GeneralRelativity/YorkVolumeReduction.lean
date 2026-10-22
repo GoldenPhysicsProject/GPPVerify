@@ -91,9 +91,43 @@ theorem no_unconstrained_york_reduction
 
 end Linearized
 
+
+section ConcreteADM
+variable {N M : ℕ}
+
+/-- No external York moment-map hypothesis: the finite ADM momentum
+trace formula was already proved in YorkVolumeSymplectic. A York-null
+admissible metric perturbation must have zero proper-volume variation. -/
+theorem adm_york_null_forces_fixed_volume
+    (c : ℝ) (hc : c ≠ 0) (weight : Fin N → ℝ)
+    (invMetric dh : Fin N → Fin M → Fin M → ℝ)
+    (hnull : GppYorkVolume.canonicalMomentumPair
+      (GppYorkVolume.yorkMomentum c weight invMetric) dh = 0) :
+    GppYorkVolume.volumeTangent weight invMetric dh = 0 := by
+  have h : (2 * c) * GppYorkVolume.volumeTangent weight invMetric dh = 0 := by
+    rw [← GppYorkVolume.york_pairing_is_volume_variation]
+    exact hnull
+  exact (mul_eq_zero.mp h).resolve_left (mul_ne_zero (by norm_num) hc)
+
+/-- Converse: fixed proper volume suffices to make the ADM York
+momentum shift invisible to the linearized canonical pairing. -/
+theorem adm_fixed_volume_implies_york_null
+    (c : ℝ) (weight : Fin N → ℝ)
+    (invMetric dh : Fin N → Fin M → Fin M → ℝ)
+    (hvol : GppYorkVolume.volumeTangent weight invMetric dh = 0) :
+    GppYorkVolume.canonicalMomentumPair
+       (GppYorkVolume.yorkMomentum c weight invMetric) dh = 0 := by
+  rw [GppYorkVolume.york_pairing_is_volume_variation, hvol]
+  ring
+
+end ConcreteADM
+
 end GppYorkReduction
 
 #print axioms GppYorkReduction.york_horizontal_iff_fixed_volume
 #print axioms GppYorkReduction.reduction_domain_forces_fixed_volume
 #print axioms GppYorkReduction.york_reduction_iff_volume_level
 #print axioms GppYorkReduction.no_unconstrained_york_reduction
+
+#print axioms GppYorkReduction.adm_york_null_forces_fixed_volume
+#print axioms GppYorkReduction.adm_fixed_volume_implies_york_null
