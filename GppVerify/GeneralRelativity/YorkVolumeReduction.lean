@@ -123,6 +123,39 @@ theorem york_form_representative_invariant
           ring
     _ = B x z := by rw [hxy, hyz, hyy]; ring
 
+
+/-- The York Hamiltonian flow preserves its own moment map: since an
+antisymmetric form annihilates (y,y), dV(y)=0 follows automatically.
+No independent tangency assumption on y is needed. -/
+theorem york_generator_preserves_volume
+    (B : E →ₗ[ℝ] E →ₗ[ℝ] ℝ)
+    (hskew : ∀ x z, B x z = -(B z x))
+    (hc : c ≠ 0)
+    (hMoment : ∀ z, B y z = c * dV z) :
+    dV y = 0 := by
+  have hzero : B y y = 0 := by
+    have h := hskew y y
+    linarith
+  have hcy : c * dV y = 0 := by
+    rw [← hMoment y]
+    exact hzero
+  exact (mul_eq_zero.mp hcy).resolve_left hc
+
+/-- Representative independence for York quotient follows from the
+moment-map relation and antisymmetry without postulating dV(y)=0. -/
+theorem york_quotient_pairing_well_defined
+    (B : E →ₗ[ℝ] E →ₗ[ℝ] ℝ)
+    (hskew : ∀ x z, B x z = -(B z x))
+    (hc : c ≠ 0)
+    (hMoment : ∀ z, B y z = c * dV z)
+    (x z : E) (hx : dV x = 0) (hz : dV z = 0)
+    (a b : ℝ) :
+    B (x + a • y) (z + b • y) = B x z := by
+  have hy := york_generator_preserves_volume
+    omega y dV c B hskew hc hMoment
+  exact york_form_representative_invariant
+    omega y dV c B hskew hMoment x z hx hz hy a b
+
 end Linearized
 
 
@@ -167,3 +200,6 @@ end GppYorkReduction
 #print axioms GppYorkReduction.adm_fixed_volume_implies_york_null
 
 #print axioms GppYorkReduction.york_form_representative_invariant
+
+#print axioms GppYorkReduction.york_generator_preserves_volume
+#print axioms GppYorkReduction.york_quotient_pairing_well_defined
