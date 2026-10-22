@@ -72,7 +72,24 @@ theorem continuum_fixed_volume_is_null (μ : Measure X) (c : ℝ)
   rw [continuum_york_pairing_equals_volume, h]
   ring
 
+
+/-- For a conformal deformation h_eps = exp(2*eps*a) h_0 on a
+three-dimensional spatial slice, sqrt(det h_eps) = exp(3*eps*a)
+sqrt(det h_0). This is a rigorous first derivative of the
+spatial volume density in the conformal sector. -/
+theorem conformal_density_hasDerivAt_zero (a w : ℝ) :
+    HasDerivAt (fun eps : ℝ => w * Real.exp (eps * (3 * a)))
+      (3 * a * w) 0 := by
+  have hinner : HasDerivAt (fun eps : ℝ => eps * (3 * a))
+       (3 * a) 0 := by
+    simpa using (hasDerivAt_id (0 : ℝ)).mul_const (3 * a)
+  have hexp := (Real.hasDerivAt_exp (0 : ℝ)).comp 0 hinner
+  have hscaled := hexp.const_mul w
+  convert hscaled using 1 <;> norm_num [mul_comm, mul_left_comm, mul_assoc]
+
 end GppYorkContinuum
 
 #print axioms GppYorkContinuum.continuum_york_pairing_equals_volume
 #print axioms GppYorkContinuum.continuum_null_forces_fixed_volume
+
+#print axioms GppYorkContinuum.conformal_density_hasDerivAt_zero
