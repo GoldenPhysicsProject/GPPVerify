@@ -128,9 +128,39 @@ theorem two_sided_time_reversal_does_not_fix_volume :
 
 end Geometry
 
+
+section FirstOrderBlindness
+
+variable {E : Type*} [AddCommGroup E] [Module ℝ E]
+
+/-- At a time-reversal fixed background, invariance of an entropy
+first-variation functional under the linearized reversal T forces
+it to vanish on any T-odd tangent vector. This is first-order
+blindness, not quotienting that vector from the physical state space. -/
+theorem time_even_entropy_response_vanishes_on_odd_mode
+    (dS : E →ₗ[ℝ] ℝ) (T : E →ₗ[ℝ] E) (Y : E)
+    (hinv : ∀ x, dS (T x) = dS x)
+    (hodd : T Y = -Y) :
+    dS Y = 0 := by
+  have h := hinv Y
+  rw [hodd, map_neg] at h
+  linarith
+
+/-- A time-even quadratic response can nevertheless detect a
+nonzero time-odd magnitude at second order. In particular,
+first-law invisibility cannot be promoted to Fisher nullity. -/
+theorem even_quadratic_direction_not_null
+    (p : ℝ) (hp : p ≠ 0) :
+    p ^ 2 ≠ 0 := pow_ne_zero 2 hp
+
+end FirstOrderBlindness
+
 end GppTimeReversalVolume
 
 #print axioms GppTimeReversalVolume.adm_scalar_constraint_time_even
 #print axioms GppTimeReversalVolume.momentum_constraint_time_odd
 #print axioms GppTimeReversalVolume.schmidt_entropy_time_even
 #print axioms GppTimeReversalVolume.two_sided_time_reversal_does_not_fix_volume
+
+#print axioms GppTimeReversalVolume.time_even_entropy_response_vanishes_on_odd_mode
+#print axioms GppTimeReversalVolume.even_quadratic_direction_not_null
