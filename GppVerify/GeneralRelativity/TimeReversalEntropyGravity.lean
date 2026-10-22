@@ -91,7 +91,7 @@ noncomputable def schmidtEntropy (a : Fin n → ℂ) : ℝ :=
 /-- A factorized spinless antiunitary conjugation preserves the Schmidt
 probabilities and hence their von Neumann entropy. -/
 theorem schmidt_entropy_time_even (a : Fin n → ℂ) :
-    schmidtEntropy (fun i => Complex.conj (a i)) =
+    schmidtEntropy (fun i => starRingEnd ℂ (a i)) =
       schmidtEntropy a := by
   simp [schmidtEntropy, Complex.normSq_conj]
 
