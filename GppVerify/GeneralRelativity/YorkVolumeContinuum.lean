@@ -1,4 +1,5 @@
 import Mathlib.MeasureTheory.Integral.Bochner.Basic
+import Mathlib.Analysis.Calculus.Deriv.Basic
 import Mathlib.Tactic
 
 /-!
