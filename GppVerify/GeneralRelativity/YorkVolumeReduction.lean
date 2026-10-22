@@ -152,9 +152,9 @@ theorem york_quotient_pairing_well_defined
     (a b : ℝ) :
     B (x + a • y) (z + b • y) = B x z := by
   have hy := york_generator_preserves_volume
-    omega y dV c B hskew hc hMoment
+    y dV c B hskew hc hMoment
   exact york_form_representative_invariant
-    omega y dV c B hskew hMoment x z hx hz hy a b
+    y dV c B hskew hMoment x z hx hz hy a b
 
 end Linearized
 
