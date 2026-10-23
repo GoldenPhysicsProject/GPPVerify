@@ -11,8 +11,8 @@ Source: Astra, `work/2026-10-22_astra_prime_packet_construction.md` §3 (GPP-bri
 Toupin / Golden Physics Project, with AI assistance from Astra (statement and proof) and Claude Code
 (formalization).
 
-Let `T` be a strongly continuous group of linear isometries of a complex normed space `H`, indexed by
-the additive reals. Astra's theorem says that the vectors `T(log n) g` cannot be the images of an
+Let `T` be a strongly continuous group of linear isometries of a complex normed space `H`,
+indexed by the additive reals. Astra's theorem says that the vectors `T(log n) g` cannot be the images of an
 orthonormal sequence `e_n` under a bounded map unless `g = 0`. The proof averages `M` consecutive
 indices: `T(−log N) ∑_{j<M} T(log(N+j)) g → M g`, while boundedness caps the norm by `C √M`.
 
