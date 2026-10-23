@@ -8487,4 +8487,16 @@ bounded $U:\ell^2(\mathbb N_{\ge1})\to H$ with $Ue_n=T_{\log n}g$ is zero, and s
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Weighted or unbounded synthesis, distributional maps, the
 compact prime-character model and the co-Poisson operator are untouched. No claim about RH.
 
+\section{The ground-state hypothesis implies RH (conditional)}
+\lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
+Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
+\texttt{work/2026-10-22\_astra\_detector\_kms\_sewing\_audit.md}; Turbo, \texttt{MuseResearch/turbo-note-2026-10-23-boundary-ontology.md}. Following Daniel's
+direction of 2026-10-23, the ground-state property is taken as an explicit hypothesis. The detector signal is the prime side alone,
+$K(t)=\sum_{n\ge3}\Lambda(n)n^{-1/2}\sin^2(\pi(\log n-t))\mathbf 1_{[0,1]}(\log n-t)-S(\tfrac12)e^{t/2}$. If $K$ is bounded on $t>0$, then for $\operatorname{Re}z>1$
+$\mathcal LK(z)=S(z)(L(\Lambda,z+\tfrac12)-T_2(z))-S(\tfrac12)/(z-\tfrac12)$, and $(s-1)\zeta(s)\ne0$ for $\operatorname{Re}s>\tfrac12$; hence RH. In particular RH follows from
+(GS): $K(t)=\operatorname{Re}\langle v,U_tv\rangle+r(t)$ with $U_t$ isometries and $r$ bounded. Daniel Toupin / Golden Physics Project, with AI assistance from
+Codex, Astra, Turbo and Claude Code. A conditional theorem: with $v=0$ the hypothesis is bare boundedness of $K$, which is RH-equivalent, so (GS) has
+content only once $(v,U_t)$ is constructed from the boundary state, which is open. The converse (RH $\Rightarrow$ $K$ bounded) needs the explicit formula and is
+not formalized. RH is not claimed.
+
 \end{document}
