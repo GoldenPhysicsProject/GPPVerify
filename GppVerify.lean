@@ -2291,3 +2291,4 @@ import GppVerify.GeneralRelativity.OrientationYorkMomentMap
 import GppVerify.GeneralRelativity.YorkClockConstraintCountermodel
 import GppVerify.GeneralRelativity.DiamondADMHessianYork
 import GppVerify.QuantumGravity.OrientationObservableObstruction
+import GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction
