@@ -8508,5 +8508,16 @@ and satisfies $s(A)\ge d$ when $A(v)\ge d\sum v_i^2$. For a positive semidefinit
 one slot). If positive nonincreasing $t_j$ have $(\prod_{j<K}t_j)^{1/K}\to0$ then $t_K\to0$; and if $0<s_K\le2t_K\to0$ while $s^\Delta_K\ge d>0$, no fixed
 $c>0$ has $s_K\ge c\,s^\Delta_K$ for all $K$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The spectral input
 (under RH the packet kernel is pure-point, so $(\det Q_K)^{1/K}\to0$ by Ky Fan) is not formalized; a moving barrier $c_K>0$ is not ruled out. No claim about RH.
+\section{The ground-state hypothesis implies RH (conditional)}
+\lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
+Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
+\texttt{work/2026-10-22\_astra\_detector\_kms\_sewing\_audit.md}; Turbo, \texttt{MuseResearch/turbo-note-2026-10-23-boundary-ontology.md}. Following Daniel's
+direction of 2026-10-23, the ground-state property is taken as an explicit hypothesis. The detector signal is the prime side alone,
+$K(t)=\sum_{n\ge3}\Lambda(n)n^{-1/2}\sin^2(\pi(\log n-t))\mathbf 1_{[0,1]}(\log n-t)-S(\tfrac12)e^{t/2}$. If $K$ is bounded on $t>0$, then for $\operatorname{Re}z>1$
+$\mathcal LK(z)=S(z)(L(\Lambda,z+\tfrac12)-T_2(z))-S(\tfrac12)/(z-\tfrac12)$, and $(s-1)\zeta(s)\ne0$ for $\operatorname{Re}s>\tfrac12$; hence RH. In particular RH follows from
+(GS): $K(t)=\operatorname{Re}\langle v,U_tv\rangle+r(t)$ with $U_t$ isometries and $r$ bounded. Daniel Toupin / Golden Physics Project, with AI assistance from
+Codex, Astra, Turbo and Claude Code. A conditional theorem: with $v=0$ the hypothesis is bare boundedness of $K$, which is RH-equivalent, so (GS) has
+content only once $(v,U_t)$ is constructed from the boundary state, which is open. The converse (RH $\Rightarrow$ $K$ bounded) needs the explicit formula and is
+not formalized. RH is not claimed.
 
 \end{document}
