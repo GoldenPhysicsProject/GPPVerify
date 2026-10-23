@@ -74,7 +74,10 @@ theorem radial_polynomial_homogeneous_limit
       ((n-1)/R) * radialVolumeVariation n R V a 0 := by
   have h := radial_polynomial_flat_green_identity
     n R V A a 0 hR hn hAV
-  simpa [radialWeightedCurvature] using h
+  have hz : radialAreaVariation n A a -
+      ((n-1)/R) * radialVolumeVariation n R V a 0 = 0 := by
+    simpa [radialWeightedCurvature] using h
+  exact sub_eq_zero.mp hz
 
 end RadialPolynomial
 
