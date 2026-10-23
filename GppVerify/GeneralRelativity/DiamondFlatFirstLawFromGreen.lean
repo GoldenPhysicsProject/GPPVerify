@@ -114,8 +114,9 @@ theorem generalized_entropy_work_from_green
       eta*k*dV delta := by
   have h := einstein_diamond_first_law_from_green
     dA dV dCurvature dMatter k G hGreen hEinstein delta
+  have hm := congrArg (fun z : ℝ => eta * z) h
   rw [hBeta]
-  nlinarith [h]
+  nlinarith [hm]
 
 /-- For a finite nondegenerate diamond, generalized entropy
 stationarity is equivalent to fixed proper volume under the
