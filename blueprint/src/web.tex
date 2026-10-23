@@ -8538,6 +8538,14 @@ Source: Claude Code, \texttt{work/claude-code/2026-10-23\_holographic\_dictionar
 and $\Phi(u)=(f''(u)-f(u))/16$. Differentiation sends even to odd to even, so $\Phi(-u)=\Phi(u)$. Daniel Toupin / Golden Physics Project, with AI
 assistance from Claude Code. Positivity and decay of $\Phi$ and the cosine representation of $\Xi$ are not formalized. No claim about RH.
 
+\section{An explicit rational rectangular Gram factor for $\hat P_6$}
+\lean{GppPhat6.phat6_eq,GppPhat6.phat6_rectangular_factor,GppPhat6.phat6_quadratic_nonneg}
+Source: Turbo, \texttt{MuseResearch/turbo-note-2026-10-23-phat6-data-for-gppverify.md} and \texttt{MuseResearch/Phat6Data.lean} (bridge \texttt{feedac1}).
+For the explicit $6\times6$ rational matrix $\hat P_6$ of Turbo's wave-252 (SS-sep) certificate and an explicit $C\in\mathbb Q^{24\times6}$, $\hat P_6=C^{\mathsf T}C$
+exactly, so $x^{\mathsf T}\hat P_6x=\|Cx\|^2\ge0$. Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. $\hat P_6$ is a
+12-digit rational rounding of a numerically computed object; its agreement with the arithmetic matrix is not claimed, and the general factorisation over
+$\mathbb Q$ (which needs $LDL^{\mathsf T}$ over $\mathbb Q$) is not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
