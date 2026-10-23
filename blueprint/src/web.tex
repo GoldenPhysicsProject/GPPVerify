@@ -8516,6 +8516,12 @@ $\Phi(u)=e^u[2x^2\psi''(x)+3x\psi'(x)]$ with $x=e^{4u}$. Also $1+2\psi(x)=\sum_{
 $1+2\psi(x)=x^{-1/2}(1+2\psi(1/x))$ holds, and for $\operatorname{Re}s>1$, $\Lambda(s)=\int_0^\infty\psi(x)x^{s/2-1}\,dx$. Physically $4\sqrt y\,\psi(y)$ is the
 scalar sector of the self-dual $c=1$ compact boson. Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The evenness of $\Phi$,
 the cosine representation of $\Xi$ and the Rankin--Selberg identity of arXiv 2107.10744 are not formalized. No claim about RH.
+\section{The arbitrary-predictor residual certificate}
+\lean{GppResidualCertificate.translate,GppResidualCertificate.bound_iff_residual,GppResidualCertificate.bound_of_residual,GppResidualCertificate.block_nonneg_of_residual}
+Source: Astra, \texttt{work/2026-10-23\_astra\_celestial\_transfer\_residual\_extension.md}. For a symmetric positive semidefinite form $a$, a functional $\ell$ and
+any predictor $x$, put $h=2\ell(x)-a(x,x)$ and $r=\ell-a(x,\cdot)$. Then $2\ell(x+w)-a(x+w,x+w)=h+2r(w)-a(w,w)$, so $q_a(\ell)=h+q_a(r)$; if
+$r(v)^2\le e\,a(v,v)$ with $e\ge0$ then $q_a(\ell)\le h+e$, and $h+e\le d$ certifies the bordered form $a(u,u)+2t\ell(u)+dt^2\ge0$. Daniel Toupin / Golden
+Physics Project, with AI assistance from Astra and Claude Code. The arithmetic dual-residual estimate is open and not assumed. No claim about RH.
 
 \section{Riemann's $\Phi$ is even}
 \lean{GppRiemannPhi.f_even,GppRiemannPhi.hasDerivAt_f,GppRiemannPhi.hasDerivAt_f₁,GppRiemannPhi.phi_eq_f,GppRiemannPhi.phi_even}
