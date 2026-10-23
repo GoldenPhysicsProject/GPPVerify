@@ -43,7 +43,7 @@ theorem york_momentmap_differential_time_even
     (x : E) :
     dV (T x) = dV x := by
   have h := hAnti Y x
-  rw [hYorkOdd, map_neg] at h
+  rw [hYorkOdd, map_neg, LinearMap.neg_apply] at h
   have hEven : omega Y (T x) = omega Y x := by
     linarith
   rw [hMoment (T x), hMoment x] at hEven
