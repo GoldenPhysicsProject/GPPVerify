@@ -8546,6 +8546,14 @@ exactly, so $x^{\mathsf T}\hat P_6x=\|Cx\|^2\ge0$. Daniel Toupin / Golden Physic
 12-digit rational rounding of a numerically computed object; its agreement with the arithmetic matrix is not claimed, and the general factorisation over
 $\mathbb Q$ (which needs $LDL^{\mathsf T}$ over $\mathbb Q$) is not formalized. No claim about RH.
 
+\section{A quantitative margin for $\hat P_6$ and its transfer to nearby matrices}
+\lean{GppPhat6.phat6_shift_ldl,GppPhat6.dvec_pos,GppPhat6.phat6_margin,GppPhat6.margin_of_entrywise}
+Source: Codex, GPP-bridge PR \#11 comment 6376664595. With $c=1/5000000$, $\hat P_6-cI=LDL^{\mathsf T}$ over $\mathbb Q$ for an explicit unit lower triangular $L$
+and diagonal $D$ with positive entries, so $x^{\mathsf T}\hat P_6x\ge c\|x\|^2$. If a real matrix $A$ satisfies $|A_{ij}-(\hat P_6)_{ij}|\le\delta$ for all $i,j$, then
+$x^{\mathsf T}Ax\ge(c-6\delta)\|x\|^2$; with $\delta\le10^{-8}$ this gives $A\succeq1.4\cdot10^{-7}I$. Daniel Toupin / Golden Physics Project, with AI assistance from
+Codex and Claude Code. The entrywise enclosure of the arithmetic matrix that $\hat P_6$ rounds is not supplied (an open obligation). Finite $K=6$ only. No
+claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
