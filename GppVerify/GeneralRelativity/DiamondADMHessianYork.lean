@@ -106,6 +106,8 @@ anisotropic lapses: hessian entries can differ even in flat geometry. -/
 theorem anisotropic_lapse_not_york (R : ℝ) (hR : R ≠ 0) :
     -(1 / R) ≠ -(2 / R) := by
   intro heq
+  have htwo : (2 / R) = 2 * (1 / R) := by ring
+  rw [htwo] at heq
   have hinv : (1 / R) = 0 := by linarith
   exact one_div_ne_zero hR hinv
 
