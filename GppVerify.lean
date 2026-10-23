@@ -2293,3 +2293,4 @@ import GppVerify.GeneralRelativity.DiamondADMHessianYork
 import GppVerify.QuantumGravity.OrientationObservableObstruction
 import GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction
 import GppVerify.GeneralRelativity.DiamondExplicitBoundaryCancellation
+import GppVerify.GeneralRelativity.DiamondHaarNormalMoment
