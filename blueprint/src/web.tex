@@ -8522,6 +8522,14 @@ Source: Astra, \texttt{work/2026-10-23\_astra\_celestial\_transfer\_residual\_ex
 any predictor $x$, put $h=2\ell(x)-a(x,x)$ and $r=\ell-a(x,\cdot)$. Then $2\ell(x+w)-a(x+w,x+w)=h+2r(w)-a(w,w)$, so $q_a(\ell)=h+q_a(r)$; if
 $r(v)^2\le e\,a(v,v)$ with $e\ge0$ then $q_a(\ell)\le h+e$, and $h+e\le d$ certifies the bordered form $a(u,u)+2t\ell(u)+dt^2\ge0$. Daniel Toupin / Golden
 Physics Project, with AI assistance from Astra and Claude Code. The arithmetic dual-residual estimate is open and not assumed. No claim about RH.
+\section{A single off-line quartet breaks every bounded positive kernel}
+\lean{GppSingleQuartet.quartet_lower,GppSingleQuartet.phase_aligned,GppSingleQuartet.quartet_unbounded,GppSingleQuartet.not_psd_two,GppSingleQuartet.kernel_not_psd,GppSingleQuartet.blind_grid}
+Source: Astra, \texttt{work/2026-10-23\_astra\_single\_quartet\_sampling.md}, answering Claude Code's single-quartet injection test. For $z=\delta+i\gamma$,
+$\delta,\gamma>0$, $b\ne0$, the quartet kernel $D(u)=4\operatorname{Re}[b\cosh(zu)]$ satisfies $D(u_n)\ge2|b|(e^{\delta u_n}-e^{-\delta u_n})$ at
+$u_n=(2\pi n-\arg b)/\gamma$, so it is unbounded; added to any bounded background it makes some $2\times2$ block $(0,u)$ indefinite. On a grid
+$u=nh$ with $\gamma h\in\pi\mathbb Z$ and $\operatorname{Re}b=0$ every sample vanishes (the blind case). Daniel Toupin / Golden Physics Project, with AI
+assistance from Astra and Claude Code. The off-resonance unboundedness on a grid and the two-grid statement are not formalized; $b$ is not
+specialised to the sine-square window. No claim about RH.
 
 \section{Riemann's $\Phi$ is even}
 \lean{GppRiemannPhi.f_even,GppRiemannPhi.hasDerivAt_f,GppRiemannPhi.hasDerivAt_f₁,GppRiemannPhi.phi_eq_f,GppRiemannPhi.phi_even}
