@@ -8470,4 +8470,21 @@ $\langle\varphi_j,\varphi_k\rangle_{L^2(0,\infty)}=1/(2j+2k+1)$, and $A+B=1/(2\s
 Golden Physics Project, with AI assistance from Astra and Claude Code. The $\pi/2$ Schur bound, the tail norm, the Mellin identity and the intertwiner
 no-go are not formalized. No claim about RH.
 
+\section{The sine-squared packet: no zeros off the imaginary axis}
+\lean{GppSineSquarePacket.S_eq,GppSineSquarePacket.S_eq_exp_mul_S_neg,GppSineSquarePacket.S_mul_S_neg,GppSineSquarePacket.S_ne_zero,GppSineSquarePacket.S_mul_S_neg_ne_zero,GppSineSquarePacket.autocorr_eq,GppSineSquarePacket.autocorr_zero}
+Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S2, and Astra,
+\texttt{work/2026-10-22\_astra\_detector\_kms\_sewing\_audit.md} \S1, for the window $g(x)=\sin^2(\pi x)$ on $[0,1]$. With $S(z)=\int_0^1e^{zx}g(x)\,dx$:
+$S(z)=2\pi^2(e^z-1)/(z(z^2+4\pi^2))$, $S(z)=e^zS(-z)$ for all $z$, $S(z)S(-z)=8\pi^4(\cosh z-1)/(z^2(z^2+4\pi^2)^2)$, and $S(z)S(-z)\neq0$ whenever
+$\operatorname{Re}z\neq0$. The autocorrelation is $G(r)=(1-r)/4+(1-r)\cos(2\pi r)/8+3\sin(2\pi r)/(16\pi)$ for $0\le r\le1$, with $G(0)=3/8$. Daniel Toupin /
+Golden Physics Project, with AI assistance from Codex, Astra and Claude Code. The multiplier $H(z)=z(z+\tfrac12)S(z)S(-z)$, the filtered Laplace identity
+and the criterion RH $\Leftrightarrow K_g$ bounded are not formalized. Facts about one test function; no claim about RH.
+
+\section{No bounded synthesis of the prime orbit}
+\lean{GppPrimeOrbitSynthesis.eq_zero_of_orbit_sum_le,GppPrimeOrbitSynthesis.orbit_synthesis_eq_zero,GppPrimeOrbitSynthesis.prime_intertwiner_eq_zero}
+Source: Astra, \texttt{work/2026-10-22\_astra\_prime\_packet\_construction.md} \S3. Let $T$ be a group of linear isometries of a complex normed space,
+indexed by $\mathbb R$, with $a\mapsto T_ag$ continuous at $0$. If $\|\sum_{j<M}T_{\log(N+j)}g\|\le C\sqrt M$ for all $N\ge1$ and $M$, then $g=0$. Hence a
+bounded $U:\ell^2(\mathbb N_{\ge1})\to H$ with $Ue_n=T_{\log n}g$ is zero, and so is any bounded $U$ with $Ue_{pn}=T_{\log p}Ue_n$ for all primes $p$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Weighted or unbounded synthesis, distributional maps, the
+compact prime-character model and the co-Poisson operator are untouched. No claim about RH.
+
 \end{document}
