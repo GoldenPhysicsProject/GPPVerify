@@ -48,6 +48,39 @@ noncomputable def isotropicNormalMoment (A : ℝ) :
     Fin n → Fin n → ℝ :=
   fun i j => if i = j then A / (n : ℝ) else 0
 
+/-- Sign-flip symmetry kills off-diagonal spherical normal moments,
+permutation symmetry equalizes diagonal moments, and the unit-normal
+trace fixes the scalar coefficient A/n. This algebra is exactly the
+finite tensor-content of pushing Haar measure forward to the sphere;
+the analytic proof that the surface integral obeys these premises is
+a separate invariant-measure step. -/
+theorem normal_moment_from_orthogonal_symmetries
+    (moment : Fin n → Fin n → ℝ) (A : ℝ)
+    (hn : (n : ℝ) ≠ 0)
+    (hReflect : ∀ i j, i ≠ j → moment i j = -moment i j)
+    (hPermute : ∀ i j, moment i i = moment j j)
+    (hTrace : (∑ i, moment i i) = A) :
+    ∀ i j, moment i j =
+      (if i = j then A / (n : ℝ) else 0) := by
+  intro i j
+  by_cases hij : i = j
+  · subst j
+    have hs : (n : ℝ) * moment i i = A := by
+      calc
+        (n : ℝ) * moment i i = ∑ k : Fin n, moment i i := by simp
+        _ = ∑ k : Fin n, moment k k := by
+          apply Finset.sum_congr rfl
+          intro k hk
+          exact (hPermute i k)
+        _ = A := hTrace
+    have hv : moment i i = A / (n : ℝ) := by
+      apply (eq_div_iff hn).2
+      nlinarith [hs]
+    simpa using hv
+  · have hzero : moment i j = 0 := by
+      linarith [hReflect i j hij]
+    simpa [hij] using hzero
+
 theorem isotropic_normal_contraction
     (A : ℝ) (gamma : Fin n → Fin n → ℝ) :
     normalMomentContraction (isotropicNormalMoment (n := n) A) gamma =
@@ -120,3 +153,5 @@ end GppDiamondHaarNormalMoment
 #print axioms GppDiamondHaarNormalMoment.any_constant_metric_bulk_surface_cancel
 #print axioms GppDiamondHaarNormalMoment.interior_trace_is_york_volume
 #print axioms GppDiamondHaarNormalMoment.traceless_anisotropy_invisible_to_scalar_channel
+
+#print axioms GppDiamondHaarNormalMoment.normal_moment_from_orthogonal_symmetries
