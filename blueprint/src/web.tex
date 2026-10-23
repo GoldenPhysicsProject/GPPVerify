@@ -8501,6 +8501,13 @@ $\sum_k(\sum_ic_ie^{-t_iE_k})^2$. For $a>0$ and $t>0$ the two-frequency trace $\
 gives $|na+mb|\le a/2$ for every $m$. With $a=\log2$, $b=\log3$, the proposed prime-torus heat operator is not trace class. Daniel Toupin / Golden
 Physics Project, with AI assistance from Astra and Claude Code. No claim about RH.
 
+\section{Last-coordinate pivots and the constant-barrier obstruction}
+\lean{GppPivotFloor.pivot_le_of_le,GppPivotFloor.le_pivot_of_coercive,GppPivotFloor.toeplitzPivot_succ_le,GppPivotFloor.toeplitzPivot_antitone,GppPivotFloor.tendsto_zero_of_antitone_of_root,GppPivotFloor.no_constant_barrier}
+Source: Astra, \texttt{work/2026-10-23\_astra\_pivot\_floor\_obstruction.md} \S2--\S3. The last-coordinate pivot $s(A)=\inf\{A(v):v_{K-1}=1\}$ is monotone in the Loewner order
+and satisfies $s(A)\ge d$ when $A(v)\ge d\sum v_i^2$. For a positive semidefinite Toeplitz kernel the pivots $t_K$ are nonincreasing (shift the competitor
+one slot). If positive nonincreasing $t_j$ have $(\prod_{j<K}t_j)^{1/K}\to0$ then $t_K\to0$; and if $0<s_K\le2t_K\to0$ while $s^\Delta_K\ge d>0$, no fixed
+$c>0$ has $s_K\ge c\,s^\Delta_K$ for all $K$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The spectral input
+(under RH the packet kernel is pure-point, so $(\det Q_K)^{1/K}\to0$ by Ky Fan) is not formalized; a moving barrier $c_K>0$ is not ruled out. No claim about RH.
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
