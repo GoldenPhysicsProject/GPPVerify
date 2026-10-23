@@ -8517,6 +8517,13 @@ $1+2\psi(x)=x^{-1/2}(1+2\psi(1/x))$ holds, and for $\operatorname{Re}s>1$, $\Lam
 scalar sector of the self-dual $c=1$ compact boson. Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The evenness of $\Phi$,
 the cosine representation of $\Xi$ and the Rankin--Selberg identity of arXiv 2107.10744 are not formalized. No claim about RH.
 
+\section{Riemann's $\Phi$ is even}
+\lean{GppRiemannPhi.f_even,GppRiemannPhi.hasDerivAt_f,GppRiemannPhi.hasDerivAt_f₁,GppRiemannPhi.phi_eq_f,GppRiemannPhi.phi_even}
+Source: Claude Code, \texttt{work/claude-code/2026-10-23\_holographic\_dictionary.md} \S1; factor convention checked against Astra,
+\texttt{work/2026-10-23\_astra\_phi\_two\_wave\_interference.md}. With $\theta=1+2\psi$ and $f(u)=e^u\theta(e^{4u})$, theta inversion gives $f(-u)=f(u)$,
+and $\Phi(u)=(f''(u)-f(u))/16$. Differentiation sends even to odd to even, so $\Phi(-u)=\Phi(u)$. Daniel Toupin / Golden Physics Project, with AI
+assistance from Claude Code. Positivity and decay of $\Phi$ and the cosine representation of $\Xi$ are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
