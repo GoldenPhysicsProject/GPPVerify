@@ -12,6 +12,7 @@ on:
       - 'GppVerify/GeneralRelativity/YorkClockConstraintCountermodel.lean'
       - 'GppVerify/GeneralRelativity/DiamondADMHessianYork.lean'
       - 'GppVerify/GeneralRelativity/DiamondBoundaryChargeObstruction.lean'
+      - 'GppVerify/GeneralRelativity/DiamondExplicitBoundaryCancellation.lean'
       - '.github/workflows/york-volume-reduction-targeted.yml'
   workflow_dispatch:
 jobs:
@@ -41,7 +42,7 @@ jobs:
       - name: Lean check new reduction theorem and dependencies
         run: |
           set -o pipefail
-          lake build GppVerify.GeneralRelativity.YorkVolumeReduction GppVerify.GeneralRelativity.YorkVolumeContinuum GppVerify.GeneralRelativity.DiamondRadiusModularNoGo GppVerify.GeneralRelativity.TimeReversalEntropyGravity GppVerify.GeneralRelativity.OrientationYorkMomentMap GppVerify.QuantumGravity.OrientationObservableObstruction GppVerify.GeneralRelativity.YorkClockConstraintCountermodel GppVerify.GeneralRelativity.DiamondADMHessianYork GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction 2>&1 | tee /tmp/york_reduction.log
+          lake build GppVerify.GeneralRelativity.YorkVolumeReduction GppVerify.GeneralRelativity.YorkVolumeContinuum GppVerify.GeneralRelativity.DiamondRadiusModularNoGo GppVerify.GeneralRelativity.TimeReversalEntropyGravity GppVerify.GeneralRelativity.OrientationYorkMomentMap GppVerify.QuantumGravity.OrientationObservableObstruction GppVerify.GeneralRelativity.YorkClockConstraintCountermodel GppVerify.GeneralRelativity.DiamondADMHessianYork GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction GppVerify.GeneralRelativity.DiamondExplicitBoundaryCancellation 2>&1 | tee /tmp/york_reduction.log
       - name: Sorry check
         run: |
           ! grep -F "declaration uses 'sorry'" /tmp/york_reduction.log
