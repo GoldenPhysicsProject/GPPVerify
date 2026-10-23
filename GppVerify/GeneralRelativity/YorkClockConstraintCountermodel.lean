@@ -73,9 +73,49 @@ theorem different_size_not_clock_gauge_equivalent
   have hs : (clockShift a x).size = y.size := congrArg ClockData.size h
   simpa [clockShift] using hs
 
+
+section GeneratorMatchingCriterion
+
+variable {E : Type*} [AddCommGroup E] [Module ℝ E]
+
+/-- A *sufficient* and mathematically precise criterion for fixing
+volume from a genuine gravitational constraint:
+if the constrained clock Hamiltonian generator X_C equals a nonzero
+multiple of the York momentum shift Y (with no leftover boundary
+charge), then dC=0 forces dV=0.
+
+The condition X_C = a Y is not derived by algebra; it must be proved
+from a chosen continuum gravity and boundary-value problem. The
+JT-inspired countermodel above shows it is not automatic. -/
+theorem matching_clock_generator_forces_fixed_volume
+    (omega : E →ₗ[ℝ] E →ₗ[ℝ] ℝ)
+    (Y X : E) (dV dC : E →ₗ[ℝ] ℝ)
+    (c a : ℝ) (hc : c ≠ 0) (ha : a ≠ 0)
+    (hYork : ∀ z, omega Y z = c * dV z)
+    (hClock : ∀ z, omega X z = dC z)
+    (hMatch : X = a • Y)
+    (delta : E) (hAdmissible : dC delta = 0) :
+    dV delta = 0 := by
+  have hcon : dC delta = a * (c * dV delta) := by
+    calc
+      dC delta = omega X delta := (hClock delta).symm
+      _ = omega (a • Y) delta := by rw [hMatch]
+      _ = a * omega Y delta := by simp
+      _ = a * (c * dV delta) := by rw [hYork]
+  have hz : (a * c) * dV delta = 0 := by
+    calc
+      (a * c) * dV delta = a * (c * dV delta) := by ring
+      _ = dC delta := hcon.symm
+      _ = 0 := hAdmissible
+  exact (mul_eq_zero.mp hz).resolve_left (mul_ne_zero ha hc)
+
+end GeneratorMatchingCriterion
+
 end GppYorkClockConstraint
 
 #print axioms GppYorkClockConstraint.clock_shift_preserves_constraint
 #print axioms GppYorkClockConstraint.size_clock_gauge_invariant
 #print axioms GppYorkClockConstraint.coupled_clock_constraint_does_not_fix_size
 #print axioms GppYorkClockConstraint.different_size_not_clock_gauge_equivalent
+
+#print axioms GppYorkClockConstraint.matching_clock_generator_forces_fixed_volume
