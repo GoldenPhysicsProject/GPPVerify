@@ -43,6 +43,20 @@ theorem antisymplectic_invariant_form_zero
     (hDesc u v).symm.trans (hAnti u v)
   linarith
 
+/-- The fixed tangent subspace of an anti-symplectic involution is
+isotropic. If two tangent vectors are fixed, their canonical symplectic
+pairing vanishes. This does not restrict an independent metric/volume
+direction lying in that fixed tangent subspace. -/
+theorem antisymplectic_fixed_tangents_isotropic
+    (omega : E →ₗ[ℝ] E →ₗ[ℝ] ℝ)
+    (T : E →ₗ[ℝ] E)
+    (hAnti : ∀ u v, omega (T u) (T v) = -omega u v)
+    (u v : E) (hu : T u = u) (hv : T v = v) :
+    omega u v = 0 := by
+  have h := hAnti u v
+  rw [hu, hv] at h
+  linarith
+
 /-- Nonvanishing canonical symplectic geometry excludes simply
 identifying an anti-symplectic orientation quotient with a symplectic
 phase-space quotient. -/
@@ -121,3 +135,5 @@ end GppOrientationObservableObstruction
 #print axioms GppOrientationObservableObstruction.canonical_anti_symplectic_cannot_descend
 #print axioms GppOrientationObservableObstruction.opposite_relative_phase_same_reduced_state
 #print axioms GppOrientationObservableObstruction.full_ray_phase_fs_positive
+
+#print axioms GppOrientationObservableObstruction.antisymplectic_fixed_tangents_isotropic
