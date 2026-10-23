@@ -8486,5 +8486,19 @@ indexed by $\mathbb R$, with $a\mapsto T_ag$ continuous at $0$. If $\|\sum_{j<M}
 bounded $U:\ell^2(\mathbb N_{\ge1})\to H$ with $Ue_n=T_{\log n}g$ is zero, and so is any bounded $U$ with $Ue_{pn}=T_{\log p}Ue_n$ for all primes $p$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Weighted or unbounded synthesis, distributional maps, the
 compact prime-character model and the co-Poisson operator are untouched. No claim about RH.
+\section{The variational Schur scalar}
+\lean{GppVariationalSchurScalar.bound_iff,GppVariationalSchurScalar.block_nonneg_iff_bound,GppVariationalSchurScalar.bound_of_le,GppVariationalSchurScalar.rankOne_left_inv,GppVariationalSchurScalar.rankOne_right_inv}
+Source: Astra, \texttt{work/2026-10-23\_astra\_schur\_variational\_frontier.md}. For a positive semidefinite symmetric form $a$ and a linear functional
+$\ell$: $2\ell(v)-a(v,v)\le q$ for all $v$ iff $q\ge0$ and $\ell(v)^2\le q\,a(v,v)$ for all $v$, so $q_a(\ell)=\sup_v[2\ell(v)-a(v,v)]$ is the squared dual norm.
+The bordered form $a(u,u)+2t\ell(u)+dt^2$ is nonnegative iff $q_a(\ell)\le d$, and enlarging $a$ lowers $q_a$. Calibration: $x\mapsto x-c\langle e,x\rangle e$ with
+$\langle e,e\rangle=L$, $cL\ne1$, has inverse $x\mapsto x+\frac{c}{1-cL}\langle e,x\rangle e$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and
+Claude Code. The Hilbert-space range characterisation and the residual certificate are not formalized. No claim about RH.
+
+\section{The prime-torus heat trace}
+\lean{GppPrimeTorusTrace.gram_eq_sum_sq,GppPrimeTorusTrace.not_summable_heat,GppPrimeTorusTrace.not_summable_prime_heat}
+Source: Astra, \texttt{work/2026-10-22\_astra\_prime\_torus\_trace\_audit.md}. The Gram form of a finite trace $K_B(t)=\sum_{k\in B}e^{-tE_k}$ is the sum of squares
+$\sum_k(\sum_ic_ie^{-t_iE_k})^2$. For $a>0$ and $t>0$ the two-frequency trace $\sum_{(n,m)\in\mathbb Z^2}e^{-t(na+mb)^2}$ diverges, since the nearest $n$ to $-mb/a$
+gives $|na+mb|\le a/2$ for every $m$. With $a=\log2$, $b=\log3$, the proposed prime-torus heat operator is not trace class. Daniel Toupin / Golden
+Physics Project, with AI assistance from Astra and Claude Code. No claim about RH.
 
 \end{document}
