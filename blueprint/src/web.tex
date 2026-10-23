@@ -8508,6 +8508,13 @@ and satisfies $s(A)\ge d$ when $A(v)\ge d\sum v_i^2$. For a positive semidefinit
 one slot). If positive nonincreasing $t_j$ have $(\prod_{j<K}t_j)^{1/K}\to0$ then $t_K\to0$; and if $0<s_K\le2t_K\to0$ while $s^\Delta_K\ge d>0$, no fixed
 $c>0$ has $s_K\ge c\,s^\Delta_K$ for all $K$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The spectral input
 (under RH the packet kernel is pure-point, so $(\det Q_K)^{1/K}\to0$ by Ky Fan) is not formalized; a moving barrier $c_K>0$ is not ruled out. No claim about RH.
+\section{The arbitrary-predictor residual certificate}
+\lean{GppResidualCertificate.translate,GppResidualCertificate.bound_iff_residual,GppResidualCertificate.bound_of_residual,GppResidualCertificate.block_nonneg_of_residual}
+Source: Astra, \texttt{work/2026-10-23\_astra\_celestial\_transfer\_residual\_extension.md}. For a symmetric positive semidefinite form $a$, a functional $\ell$ and
+any predictor $x$, put $h=2\ell(x)-a(x,x)$ and $r=\ell-a(x,\cdot)$. Then $2\ell(x+w)-a(x+w,x+w)=h+2r(w)-a(w,w)$, so $q_a(\ell)=h+q_a(r)$; if
+$r(v)^2\le e\,a(v,v)$ with $e\ge0$ then $q_a(\ell)\le h+e$, and $h+e\le d$ certifies the bordered form $a(u,u)+2t\ell(u)+dt^2\ge0$. Daniel Toupin / Golden
+Physics Project, with AI assistance from Astra and Claude Code. The arithmetic dual-residual estimate is open and not assumed. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
