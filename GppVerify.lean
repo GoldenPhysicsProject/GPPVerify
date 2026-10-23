@@ -2285,3 +2285,5 @@ import GppVerify.RiemannHypothesis.ScalarSchurForm
 import GppVerify.RiemannHypothesis.ArchimedeanHankelGram
 import GppVerify.RiemannHypothesis.SineSquarePacket
 import GppVerify.RiemannHypothesis.PrimeOrbitSynthesis
+import GppVerify.RiemannHypothesis.VariationalSchurScalar
+import GppVerify.RiemannHypothesis.PrimeTorusTrace
