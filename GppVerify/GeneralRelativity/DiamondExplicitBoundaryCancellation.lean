@@ -83,7 +83,6 @@ theorem sphere_area_eq_three_vol_over_radius
     sphereArea R = 3 * ballVolume R / R := by
   simp only [sphereArea, ballVolume]
   field_simp
-  ring
 
 /-- In 3+1 dimensions the bulk coefficient is (4/R) dV,
 and the boundary counterterm cancels it for an explicitly
@@ -110,16 +109,13 @@ with a condition δV=0. -/
 theorem physical_three_ball_volume_response_nonzero
     (R eps : ℝ) (hR : R ≠ 0) (heps : eps ≠ 0) :
     volumeResponse 3 (ballVolume R) eps ≠ 0 := by
-  simp only [volumeResponse, ballVolume]
-  apply mul_ne_zero
-  · apply mul_ne_zero
-    · norm_num
-    · exact heps
-  · apply mul_ne_zero
-    · apply mul_ne_zero
-      · norm_num
-      · exact Real.pi_ne_zero
-    · exact pow_ne_zero 3 hR
+  have hV : ballVolume R ≠ 0 := by
+    unfold ballVolume
+    exact mul_ne_zero
+      (div_ne_zero (mul_ne_zero (by norm_num) Real.pi_ne_zero) (by norm_num))
+      (pow_ne_zero 3 hR)
+  unfold volumeResponse
+  exact mul_ne_zero (mul_ne_zero (by norm_num) heps) hV
 
 end GppDiamondExplicitBoundary
 
