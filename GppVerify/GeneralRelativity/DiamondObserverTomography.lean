@@ -27,33 +27,33 @@ namespace GppDiamondObserverTomography
 unnormalized timelike vector (1,x,y,z).
 a=S00, bi=S0i and cij=Sij, with cij symmetric. -/
 noncomputable def contract
-    (a bx by bz cxx cyy czz cxy cxz cyz x y z : ℝ) : ℝ :=
-  a + 2*(bx*x + by*y + bz*z) +
+    (a bx bY bz cxx cyy czz cxy cxz cyz x y z : ℝ) : ℝ :=
+  a + 2*(bx*x + bY*y + bz*z) +
     cxx*x^2 + cyy*y^2 + czz*z^2 +
     2*(cxy*x*y + cxz*x*z + cyz*y*z)
 
 /-- All ten independent tensor entries are determined by ten
 timelike contractions, each exactly zero. No need for all vectors. -/
 theorem ten_timelike_contractions_force_zero
-    (a bx by bz cxx cyy czz cxy cxz cyz : ℝ)
-    (h0 : contract a bx by bz cxx cyy czz cxy cxz cyz 0 0 0 = 0)
-    (hxp : contract a bx by bz cxx cyy czz cxy cxz cyz (1/4) 0 0 = 0)
-    (hxm : contract a bx by bz cxx cyy czz cxy cxz cyz (-1/4) 0 0 = 0)
-    (hyp : contract a bx by bz cxx cyy czz cxy cxz cyz 0 (1/4) 0 = 0)
-    (hym : contract a bx by bz cxx cyy czz cxy cxz cyz 0 (-1/4) 0 = 0)
-    (hzp : contract a bx by bz cxx cyy czz cxy cxz cyz 0 0 (1/4) = 0)
-    (hzm : contract a bx by bz cxx cyy czz cxy cxz cyz 0 0 (-1/4) = 0)
-    (hxy : contract a bx by bz cxx cyy czz cxy cxz cyz (1/4) (1/4) 0 = 0)
-    (hxz : contract a bx by bz cxx cyy czz cxy cxz cyz (1/4) 0 (1/4) = 0)
-    (hyz : contract a bx by bz cxx cyy czz cxy cxz cyz 0 (1/4) (1/4) = 0) :
-    a = 0 ∧ bx = 0 ∧ by = 0 ∧ bz = 0 ∧
+    (a bx bY bz cxx cyy czz cxy cxz cyz : ℝ)
+    (h0 : contract a bx bY bz cxx cyy czz cxy cxz cyz 0 0 0 = 0)
+    (hxp : contract a bx bY bz cxx cyy czz cxy cxz cyz (1/4) 0 0 = 0)
+    (hxm : contract a bx bY bz cxx cyy czz cxy cxz cyz (-1/4) 0 0 = 0)
+    (hyp : contract a bx bY bz cxx cyy czz cxy cxz cyz 0 (1/4) 0 = 0)
+    (hym : contract a bx bY bz cxx cyy czz cxy cxz cyz 0 (-1/4) 0 = 0)
+    (hzp : contract a bx bY bz cxx cyy czz cxy cxz cyz 0 0 (1/4) = 0)
+    (hzm : contract a bx bY bz cxx cyy czz cxy cxz cyz 0 0 (-1/4) = 0)
+    (hxy : contract a bx bY bz cxx cyy czz cxy cxz cyz (1/4) (1/4) 0 = 0)
+    (hxz : contract a bx bY bz cxx cyy czz cxy cxz cyz (1/4) 0 (1/4) = 0)
+    (hyz : contract a bx bY bz cxx cyy czz cxy cxz cyz 0 (1/4) (1/4) = 0) :
+    a = 0 ∧ bx = 0 ∧ bY = 0 ∧ bz = 0 ∧
     cxx = 0 ∧ cyy = 0 ∧ czz = 0 ∧
     cxy = 0 ∧ cxz = 0 ∧ cyz = 0 := by
   unfold contract at *
   norm_num at h0 hxp hxm hyp hym hzp hzm hxy hxz hyz
   have ha : a = 0 := by linarith
   have hbx : bx = 0 := by linarith [hxp,hxm]
-  have hby : by = 0 := by linarith [hyp,hym]
+  have hby : bY = 0 := by linarith [hyp,hym]
   have hbz : bz = 0 := by linarith [hzp,hzm]
   have hcxx : cxx = 0 := by linarith [hxp,hxm]
   have hcyy : cyy = 0 := by linarith [hyp,hym]

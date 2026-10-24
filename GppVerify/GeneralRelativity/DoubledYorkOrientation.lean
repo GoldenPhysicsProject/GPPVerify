@@ -72,8 +72,9 @@ theorem common_volume_not_fixed_by_diagonal_reduction (c : ℝ) :
     ∃ v : DoubledState,
       v.1.1 = v.2.1 ∧ v.1.1 ≠ 0 ∧
         oppositeSymplectic (diagonalYork c) v = 0 := by
-  refine ⟨matchedVariation 1, rfl, by norm_num, ?_⟩
-  exact diagonal_york_null_on_matched_variation c 1
+  refine ⟨matchedVariation 1, rfl, ?_, ?_⟩
+  · norm_num [matchedVariation]
+  · exact diagonal_york_null_on_matched_variation c 1
 
 /-- Anti-diagonal nullity DOES force the common volume to be
 stationary if the two variations are matched. -/
