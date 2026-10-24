@@ -2298,6 +2298,7 @@ import GppVerify.RiemannHypothesis.Phat6Margin
 import GppVerify.RiemannHypothesis.CriticalPrimeTFD
 import GppVerify.RiemannHypothesis.ArchRowSum
 import GppVerify.RiemannHypothesis.AtomSquare
+import GppVerify.RiemannHypothesis.CrossArchMoment
 import GppVerify.RiemannHypothesis.RankTwoCentring
 import GppVerify.RiemannHypothesis.SemigroupGram
 import GppVerify.RiemannHypothesis.ThetaHalfWave
