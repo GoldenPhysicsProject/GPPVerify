@@ -8593,6 +8593,14 @@ $A(s-\tfrac12)=\tfrac14+(s-\tfrac12)\psi(1)+s(s-1)I(s)/2$. With the theta split,
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The endpoint expansion of $A(it)$ is not formalized; near-cancellation of the two
 waves at large height is generic. Classical; not claimed novel. No claim about RH.
 
+\section{Uniform-in-\texorpdfstring{$K$}{K} bounds for geometric Toeplitz and folded Hankel blocks}
+\lean{GppArchRowSum.schur_test,GppArchRowSum.toeplitz_row_sum,GppArchRowSum.toeplitz_form_le,GppArchRowSum.geom_partial_le,GppArchRowSum.toeplitz_form_le_geom,GppArchRowSum.gram_form_le_trace}
+Source: Codex, GPP-bridge PR \#11 comment 6381970052. Schur test: row and column sums of $|K|$ at most $R$ give $|v^{\mathsf T}Kv|\le R\|v\|^2$. A Toeplitz kernel
+$A(|i-j|)$ on $\{0,\dots,n-1\}$ has rows of $|A|$ summing to at most $|A_0|+2\sum_{1\le d<n}|A_d|$; if $|A_d|\le|A_2|q^{d-2}$ for $d\ge2$ with $0\le q<1$, then
+$|v^{\mathsf T}Tv|\le(|A_0|+2|A_1|+2|A_2|/(1-q))\|v\|^2$ for every $n$. For $C=-\sum_\lambda h_\lambda h_\lambda^{\mathsf T}$, $0\le-v^{\mathsf T}Cv\le(\sum_\lambda\|h_\lambda\|^2)\|v\|^2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The identification with Discovery2's gamma entries and the enclosures of $A_0,A_1$
+are not formalized; this bounds the pure gamma Arch blocks only. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
