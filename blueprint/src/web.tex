@@ -8563,6 +8563,14 @@ $(\mathrm{lcm}/\gcd)\gcd^2=mn$ (the valuation step of the GCD Gram $(\gcd^2/(mn)
 clock) and $\zeta(1+\tfrac{1+a}2\delta)^2/(\zeta(1+\delta)\zeta(1+a\delta))\to4a/(1+a)^2$ (the critical fidelity, squared). Daniel Toupin / Golden Physics Project, with AI
 assistance from Codex and Claude Code. The infinite tensor product, GNS disjointness and the Dickman limit are not formalized. No claim about RH.
 
+\section{Isometric semigroups have positive-definite lag kernels}
+\lean{GppSemigroupGram.gram_form_eq_norm_sq,GppSemigroupGram.gram_form_re_nonneg,GppSemigroupGram.semigroup_inner_shift,GppSemigroupGram.semigroup_lag_kernel_psd}
+Source: Turbo, Wave 272 (GPP-bridge PR \#11 comment 6377887735). For vectors $w_i$ and coefficients $c_i$, $\sum_{i,j}\overline{c_i}c_j\langle w_i,w_j\rangle=\|\sum_ic_iw_i\|^2\ge0$.
+For an isometric semigroup $V$ on $\mathbb N$, $\langle V_sv,V_{s+d}v\rangle=\langle v,V_dv\rangle$, so its lag kernel is positive definite. This is the finite Gram identity behind
+the sign obstruction to a diagonal (GS) representation of the ground-state detector. Daniel Toupin / Golden Physics Project, with AI assistance
+from Turbo and Claude Code. Discrete time only; Bochner's theorem and the Sz.-Nagy dilation step are not formalized; the sign data of $K$ is numerical. No
+claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
