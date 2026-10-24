@@ -2297,4 +2297,5 @@ import GppVerify.RiemannHypothesis.Phat6RectangularFactor
 import GppVerify.RiemannHypothesis.Phat6Margin
 import GppVerify.RiemannHypothesis.CriticalPrimeTFD
 import GppVerify.RiemannHypothesis.SemigroupGram
+import GppVerify.RiemannHypothesis.ThetaHalfWave
 import GppVerify.RiemannHypothesis.ThetaSplit
