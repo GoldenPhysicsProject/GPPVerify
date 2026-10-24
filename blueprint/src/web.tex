@@ -8570,6 +8570,13 @@ with $U_te_{j,\pm}=e^{\pm i\gamma_jt}e_{j,\pm}$ and the antilinear twist $J(c,d)
 $\sum_j2\,\overline{c_jd_j}\cos(\gamma_jt)$ (correcting the deposit's $2\operatorname{Re}\sum_j\overline{c_jd_j}e^{i\gamma_jt}$, which agrees only when every $c_jd_j$ is real) and is
 bounded by $\sum_j(|c_j|^2+|d_j|^2)=\|\Psi_L\|^2$ for all $t$. Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. Finite $N$
 only; (PAIR-NORM), (P2), (P3) and the dilation identity are not formalized. No claim about RH.
+\section{Isometric semigroups have positive-definite lag kernels}
+\lean{GppSemigroupGram.gram_form_eq_norm_sq,GppSemigroupGram.gram_form_re_nonneg,GppSemigroupGram.semigroup_inner_shift,GppSemigroupGram.semigroup_lag_kernel_psd}
+Source: Turbo, Wave 272 (GPP-bridge PR \#11 comment 6377887735). For vectors $w_i$ and coefficients $c_i$, $\sum_{i,j}\overline{c_i}c_j\langle w_i,w_j\rangle=\|\sum_ic_iw_i\|^2\ge0$.
+For an isometric semigroup $V$ on $\mathbb N$, $\langle V_sv,V_{s+d}v\rangle=\langle v,V_dv\rangle$, so its lag kernel is positive definite. This is the finite Gram identity behind
+the sign obstruction to a diagonal (GS) representation of the ground-state detector. Daniel Toupin / Golden Physics Project, with AI assistance
+from Turbo and Claude Code. Discrete time only; Bochner's theorem and the Sz.-Nagy dilation step are not formalized; the sign data of $K$ is numerical. No
+claim about RH.
 
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}

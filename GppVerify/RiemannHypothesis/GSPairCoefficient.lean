@@ -12,13 +12,17 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (statement
 
 * `inner_isometry_le`: for any linear isometry `U`, `‖⟨x, U y⟩‖ ≤ ‖x‖ ‖y‖`. This is the free-pair
   bound (Turbo's Gap 2); no positivity is used.
-* In coordinates `ℂ^{2N}` with basis `e_{j,±}`, `U_t e_{j,±} = e^{±iγ_j t} e_{j,±}` and the
-  antilinear twist `J(c, d) = (conj d, conj c)`, the pair coefficient `C(t) = ⟨Ψ_L, U_t J Ψ_L⟩` for
-  `Ψ_L = (c, d)` expands to `pairCoeff`, the sum of `conj c_j conj d_j (e^{iγ_j t} + e^{−iγ_j t})`.
+* `pairCoeff` is the coordinate sum `∑_j conj c_j conj d_j (e^{iγ_j t} + e^{−iγ_j t})`. It is
+  intended as the expansion of `C(t) = ⟨Ψ_L, U_t J Ψ_L⟩` for `Ψ_L = (c, d)` in `ℂ^{2N}`, with
+  `U_t e_{j,±} = e^{±iγ_j t} e_{j,±}` and the antilinear twist `J(c, d) = (conj d, conj c)`. That
+  identification is a hand computation and is **not** formalized: the theorems below are about the
+  coordinate definition, not the inner-product term.
 * `pairCoeff_eq`: `C(t) = ∑_j 2 conj(c_j d_j) cos(γ_j t)`.
   **Correction to the deposit's §2.1.** The deposit writes
   `C(t) = 2 Re ∑_j conj(c_j d_j) e^{iγ_j t}`. That agrees with the line above only when every
-  `c_j d_j` is real. The deposit's own code (`pair273b.py`) computes the form proved here.
+  `c_j d_j` is real. Per Turbo's Wave 280 audit, the executed `Cpair()` in `pair273b.py` computes the
+  `2 Re` form (only its header comment has the form proved here), so its sieve check tests that real
+  sum, not this identity.
 * `pairCoeff_bound`: `‖C(t)‖ ≤ ∑_j (‖c_j‖² + ‖d_j‖²) = ‖Ψ_L‖² = ‖Ψ_L‖ ‖JΨ_L‖` for every `t`.
 
 **Scope.** Finite `N`. The continuous (GS)-pair implication, the off-diagonal dilation identity,
