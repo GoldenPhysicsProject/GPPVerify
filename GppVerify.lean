@@ -2286,6 +2286,7 @@ import GppVerify.RiemannHypothesis.ArchimedeanHankelGram
 import GppVerify.RiemannHypothesis.SineSquarePacket
 import GppVerify.RiemannHypothesis.PrimeOrbitSynthesis
 import GppVerify.RiemannHypothesis.GroundStateDetector
+import GppVerify.RiemannHypothesis.GradedSphereFalsifier
 import GppVerify.RiemannHypothesis.VariationalSchurScalar
 import GppVerify.RiemannHypothesis.PrimeTorusTrace
 import GppVerify.RiemannHypothesis.PivotFloor
@@ -2306,8 +2307,3 @@ import GppVerify.RiemannHypothesis.SemigroupGram
 import GppVerify.RiemannHypothesis.Sine2Convolution
 import GppVerify.RiemannHypothesis.ThetaHalfWave
 import GppVerify.RiemannHypothesis.ThetaSplit
-
--- Codex, 2026-10-24: an unconditional polynomial falsifier of global-
--- mirror => global central line; motivic-grade centres and Tate twists.
--- This does not prove RH or construct cohomology for Spec Z.
-import GppVerify.RiemannHypothesis.GradedSphereFalsifier
