@@ -8622,6 +8622,13 @@ $x_n\to0$ with $Bx_n\to g\ne0$, then $(0,g)$ lies in the closure of its graph, s
 linear $C$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Abstract operator theory; the GCD / critical-M\"obius packets that
 supply the sequence are not constructed here. No claim about RH.
 
+\section{Midpoint symmetry turns the sine-squared convolution into the shifted autocorrelation}
+\lean{GppSine2Convolution.autocorr_neg,GppSine2Convolution.conv_eq_autocorr,GppSine2Convolution.bump_symm,GppSine2Convolution.bump_conv_eq_autocorr}
+Source: Codex, GPP-bridge PR \#11 comment 6377118601. With $G(t)=\int f(u)f(u+t)\,du$: $G$ is even, and if $f(1-x)=f(x)$ then $(f*f)(s)=G(s-1)$. The bump
+$b(u)=\sin^2(\pi u)\mathbf 1_{[0,1]}(u)$ is symmetric about $\tfrac12$, so $(b*b)(s)=G_0(s-1)$: the step that rewrites the sewn prime kernel as an ordinary convolution.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The identities $\int e^{t/2}C_V=A_K^2$ and the parity split are not formalized.
+No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
