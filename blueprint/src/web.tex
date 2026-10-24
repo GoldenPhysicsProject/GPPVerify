@@ -8593,6 +8593,14 @@ $A(s-\tfrac12)=\tfrac14+(s-\tfrac12)\psi(1)+s(s-1)I(s)/2$. With the theta split,
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The endpoint expansion of $A(it)$ is not formalized; near-cancellation of the two
 waves at large height is generic. Classical; not claimed novel. No claim about RH.
 
+\section{One spectral atom: Toeplitz plus Hankel is a rank-one square}
+\lean{GppAtomSquare.toeplitz_form,GppAtomSquare.hankel_form,GppAtomSquare.add_form,GppAtomSquare.sub_form,GppAtomSquare.add_form_nonneg,GppAtomSquare.sub_form_nonneg}
+Source: Codex, GPP-bridge PR \#11 comment 6382027722; identified by Turbo's Wave 310 as the mechanism of the Wave 308 $\gamma_1$ near-cancellation. Hypotheses: one real
+spectral atom, $D_{ij}=m\cos(\omega(i-j))$, $C_{ij}=m\cos(\omega(i+j)+2\alpha)$. With $a=\sum_jv_j\cos(\omega j+\alpha)$, $b=\sum_jv_j\sin(\omega j+\alpha)$:
+$v^{\mathsf T}Dv=m(a^2+b^2)$, $v^{\mathsf T}Cv=m(a^2-b^2)$, so $v^{\mathsf T}(D+C)v=2ma^2$ and $v^{\mathsf T}(D-C)v=2mb^2$, both $\ge0$ for $m\ge0$ and every $K$. Daniel Toupin /
+Golden Physics Project, with AI assistance from Codex, Turbo and Claude Code. Finite algebra only; the block identification and the rest of the spectrum are not
+addressed. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
