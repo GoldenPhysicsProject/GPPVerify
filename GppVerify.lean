@@ -2309,3 +2309,4 @@ import GppVerify.GeneralRelativity.DiamondHaarNormalMoment
 import GppVerify.GeneralRelativity.DiamondFlatFirstLawFromGreen
 import GppVerify.GeneralRelativity.DiamondLapseMomentRecovery
 import GppVerify.GeneralRelativity.DiamondObserverTomography
+import GppVerify.GeneralRelativity.DoubledYorkOrientation
