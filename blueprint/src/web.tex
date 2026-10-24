@@ -8554,6 +8554,15 @@ $x^{\mathsf T}Ax\ge(c-6\delta)\|x\|^2$; with $\delta\le10^{-8}$ this gives $A\su
 Codex and Claude Code. The entrywise enclosure of the arithmetic matrix that $\hat P_6$ rounds is not supplied (an open obligation). Finite $K=6$ only. No
 claim about RH.
 
+\section{The critical prime thermofield state: exact finite identities}
+\lean{GppCriticalPrimeTFD.local_overlap,GppCriticalPrimeTFD.sum_clock_coeff,GppCriticalPrimeTFD.phase_eq_one_of_overlap,GppCriticalPrimeTFD.lcm_div_gcd_factorization,GppCriticalPrimeTFD.lcm_div_gcd_mul_gcd_sq,GppCriticalPrimeTFD.gibbs_ratio_tendsto,GppCriticalPrimeTFD.fidelity_sq_tendsto}
+Source: Codex, GPP-bridge PR \#11 comments 6376282990, 6376325034, 6376349113, 6376360639 (audited there by Claude Code). The local thermofield overlap
+$\sum_k\sqrt{1-q_1}q_1^{k/2}\sqrt{1-q_2}q_2^{k/2}=\sqrt{(1-q_1)(1-q_2)}/(1-\sqrt{q_1q_2})$; the sum-clock coefficient $(1-q)\sum_kq^ke^{ik\theta}=(1-q)/(1-qe^{i\theta})$; a linear
+isometry fixing $\Omega$ with $Uw=cw$ forces $c=1$ when $\langle\Omega,w\rangle\ne0$ (no phase-diagonal unitary time on the critical TFD); $v_p(\mathrm{lcm}/\gcd)=\max-\min$ and
+$(\mathrm{lcm}/\gcd)\gcd^2=mn$ (the valuation step of the GCD Gram $(\gcd^2/(mn))^{\beta/2}$ at every $\beta>0$); $\zeta(1+(1+a)\delta)/\zeta(1+\delta)\to1/(1+a)$ (the Exp(1) Gibbs
+clock) and $\zeta(1+\tfrac{1+a}2\delta)^2/(\zeta(1+\delta)\zeta(1+a\delta))\to4a/(1+a)^2$ (the critical fidelity, squared). Daniel Toupin / Golden Physics Project, with AI
+assistance from Codex and Claude Code. The infinite tensor product, GNS disjointness and the Dickman limit are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
