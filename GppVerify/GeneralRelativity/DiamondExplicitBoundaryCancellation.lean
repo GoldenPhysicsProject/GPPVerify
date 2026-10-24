@@ -56,7 +56,7 @@ theorem homogeneous_ball_bulk_surface_cancel
 
 /-- Bulk York work is proportional to the proper-volume first variation. -/
 theorem homogeneous_ball_bulk_is_volume_work
-    (n R V eps : ℝ) (hR : R ≠ 0) :
+    (n R V eps : ℝ) :
     interiorWork n R V eps =
       (2 * (n-1) / R) * volumeResponse n V eps := by
   simp only [interiorWork, volumeResponse]
@@ -70,7 +70,7 @@ theorem homogeneous_ball_surface_is_minus_york_work
     boundaryWork n A eps =
       -((2 * (n-1) / R) * volumeResponse n V eps) := by
   have hb := homogeneous_ball_bulk_surface_cancel n R V A eps hR hAV
-  rw [homogeneous_ball_bulk_is_volume_work n R V eps hR] at hb
+  rw [homogeneous_ball_bulk_is_volume_work n R V eps] at hb
   linarith
 
 /-- For a three-dimensional ball the geometric area/volume relation
@@ -100,7 +100,7 @@ theorem physical_three_ball_york_coefficient
     interiorWork 3 R (ballVolume R) eps =
       (4 / R) * volumeResponse 3 (ballVolume R) eps := by
   convert homogeneous_ball_bulk_is_volume_work
-     3 R (ballVolume R) eps hR using 1 <;> ring
+     3 R (ballVolume R) eps using 1 <;> ring
 
 /-- Even though the full scalar-curvature pairing vanishes, the
 proper-volume response is nonzero for any nonzero eps and radius.
