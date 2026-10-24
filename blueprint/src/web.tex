@@ -8579,6 +8579,11 @@ definition of $\Lambda_0$ as a Mellin transform, with no continuation step. With
 which is $s(s-1)\Lambda(s)/2=\xi(s)$ for $s\ne0,1$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The identification of $B(s)$ with
 Astra's $A(s-\tfrac12)=4\int_0^\infty\Phi(u)e^{(2s-1)u}\,du$ (two integrations by parts) is not formalized. Classical; not claimed novel. No claim about RH.
 
+\section{The centred two-point kernel is a rank-two correction}
+\lean{GppRankTwoCentring.centred_quadratic_form,GppRankTwoCentring.centred_quadratic_form_of_neutral}
+Source: Codex, GPP-bridge PR \#11 comment 6380730175, on Turbo's Wave 295 decomposition $K^c(m,n)=K_1(m,n)-u(m)-u(n)+C$. For a finite real vector $r$ with
+$S=\sum_mr_m$ and $U=\sum_mu(m)r_m$, $r^{\mathsf T}K^cr=r^{\mathsf T}K_1r-2SU+CS^2$; on the neutral subspace $S=0$ the centred and uncentred forms coincide. Daniel Toupin /
+Golden Physics Project, with AI assistance from Codex and Claude Code. No positivity claim; for $r_n=\Lambda(n)-1$, $S=\psi(X)-\lfloor X\rfloor$ is not bounded here. No claim about RH.
 \section{Astra's half-wave boundary identity}
 \lean{GppThetaHalfWave.deriv_psi_one,GppThetaHalfWave.halfWaveA_eq_integral,GppThetaHalfWave.halfWaveA_eq_halfWave,GppThetaHalfWave.halfWaveA_add_reflect,GppThetaHalfWave.halfWaveA_add_reflect_eq_xi}
 Source: Astra, \texttt{work/2026-10-24\_astra\_phi\_halfwave\_boundary\_identity.md} (GPP-bridge PR \#11 comment 6379118669). With Riemann's kernel $\Phi$ put
