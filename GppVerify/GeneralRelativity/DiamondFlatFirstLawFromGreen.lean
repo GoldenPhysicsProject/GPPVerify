@@ -144,6 +144,54 @@ theorem entropy_stationary_iff_fixed_volume_from_green
   · intro h
     simp [h]
 
+
+/-- The exact OFF-SHELL identity. Unlike the on-shell first-law theorem,
+this does not assume the Einstein Hamiltonian constraint; its failure
+appears explicitly as the weighted curvature-minus-energy residual. -/
+theorem generalized_entropy_offshell_residual
+    (dA dV dCurvature dMatter : E →ₗ[ℝ] ℝ)
+    (k G eta beta : ℝ)
+    (hGreen : ∀ x, dCurvature x = 2*k*dV x - 2*dA x)
+    (hBeta : beta = 8*Real.pi*G*eta)
+    (delta : E) :
+    (eta * dA delta + beta * dMatter delta) -
+      eta*k*dV delta =
+      -(eta/2) *
+        (dCurvature delta - 16*Real.pi*G*dMatter delta) := by
+  rw [hGreen delta, hBeta]
+  ring
+
+/-- Stationarity at fixed proper volume is equivalent to the
+linearized Einstein Hamiltonian constraint integrated against the
+causal-diamond lapse, without assuming that constraint in advance. -/
+theorem fixed_volume_entropy_iff_weighted_einstein_constraint
+    (dA dV dCurvature dMatter : E →ₗ[ℝ] ℝ)
+    (k G eta beta : ℝ) (heta : eta ≠ 0)
+    (hGreen : ∀ x, dCurvature x = 2*k*dV x - 2*dA x)
+    (hBeta : beta = 8*Real.pi*G*eta)
+    (delta : E) (hV : dV delta = 0) :
+    eta * dA delta + beta * dMatter delta = 0 ↔
+      dCurvature delta = 16*Real.pi*G*dMatter delta := by
+  have hOff := generalized_entropy_offshell_residual
+    dA dV dCurvature dMatter k G eta beta hGreen hBeta delta
+  rw [hV] at hOff
+  simp only [mul_zero, sub_zero] at hOff
+  constructor
+  · intro hS
+    rw [hS] at hOff
+    have hmul :
+        (-(eta/2)) *
+         (dCurvature delta - 16*Real.pi*G*dMatter delta) = 0 := by
+      linarith
+    have he : (-(eta/2)) ≠ 0 := by
+      exact neg_ne_zero.mpr (div_ne_zero heta (by norm_num))
+    have hz := (mul_eq_zero.mp hmul).resolve_left he
+    exact sub_eq_zero.mp hz
+  · intro hE
+    rw [hE] at hOff
+    ring_nf at hOff
+    linarith
+
 end LinearizedGreenFirstLaw
 
 end GppDiamondFlatFirstLaw
@@ -152,3 +200,6 @@ end GppDiamondFlatFirstLaw
 #print axioms GppDiamondFlatFirstLaw.einstein_diamond_first_law_from_green
 #print axioms GppDiamondFlatFirstLaw.generalized_entropy_work_from_green
 #print axioms GppDiamondFlatFirstLaw.entropy_stationary_iff_fixed_volume_from_green
+
+#print axioms GppDiamondFlatFirstLaw.generalized_entropy_offshell_residual
+#print axioms GppDiamondFlatFirstLaw.fixed_volume_entropy_iff_weighted_einstein_constraint
