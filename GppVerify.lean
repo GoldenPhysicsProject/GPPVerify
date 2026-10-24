@@ -2295,3 +2295,4 @@ import GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction
 import GppVerify.GeneralRelativity.DiamondExplicitBoundaryCancellation
 import GppVerify.GeneralRelativity.DiamondHaarNormalMoment
 import GppVerify.GeneralRelativity.DiamondFlatFirstLawFromGreen
+import GppVerify.GeneralRelativity.DiamondLapseMomentRecovery
