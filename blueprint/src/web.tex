@@ -8629,6 +8629,13 @@ $b(u)=\sin^2(\pi u)\mathbf 1_{[0,1]}(u)$ is symmetric about $\tfrac12$, so $(b*b
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The identities $\int e^{t/2}C_V=A_K^2$ and the parity split are not formalized.
 No claim about RH.
 
+\section{Exact duality does not locate spectral roots; a positive height does}
+\lean{GppDualityHeight.bad_dual,GppDualityHeight.good_dual,GppDualityHeight.bad_no_height,GppDualityHeight.good_height,GppDualityHeight.ftheta_coeff_bounds,GppDualityHeight.ftheta_coeff_not_int}
+Source: Codex, GPP-bridge PR \#11 comment 6389906209 (Discovery2 PR \#20). With $q=16$ and $J=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$ over $\mathbb Q$, both
+$F_{\rm bad}=\mathrm{diag}(8,2)$ and $F_{\rm good}=\begin{psmallmatrix}0&-16\\1&0\end{psmallmatrix}$ satisfy $F^{\mathsf T}JF=qJ$; $F_{\rm bad}$ admits no positive definite $H$ with
+$F^{\mathsf T}HF=qH$ (the $(0,0)$ entry forces $64h_{00}=16h_{00}$), while $F_{\rm good}$ admits $H=\mathrm{diag}(1,16)$. Duality alone does not put the spectrum on $|\lambda|=\sqrt q$. Integrality gate (PR \#11 6389930457): the would-be local coefficient $2^{1/4}+2^{-1/4}$ of $F_{1/4}$ at $p=2$ lies strictly between $2$ and $3$, so it is not an integer, unlike $\#\mathbb P^1(\mathbb F_p)=p+1$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. $F_{\rm bad}$ is abstract, not a geometric Frobenius. No claim about RH or BSD.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
