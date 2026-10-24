@@ -8600,6 +8600,13 @@ $A(|i-j|)$ on $\{0,\dots,n-1\}$ has rows of $|A|$ summing to at most $|A_0|+2\su
 $|v^{\mathsf T}Tv|\le(|A_0|+2|A_1|+2|A_2|/(1-q))\|v\|^2$ for every $n$. For $C=-\sum_\lambda h_\lambda h_\lambda^{\mathsf T}$, $0\le-v^{\mathsf T}Cv\le(\sum_\lambda\|h_\lambda\|^2)\|v\|^2$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The identification with Discovery2's gamma entries and the enclosures of $A_0,A_1$
 are not formalized; this bounds the pure gamma Arch blocks only. No claim about RH.
+\section{One spectral atom: Toeplitz plus Hankel is a rank-one square}
+\lean{GppAtomSquare.toeplitz_form,GppAtomSquare.hankel_form,GppAtomSquare.add_form,GppAtomSquare.sub_form,GppAtomSquare.add_form_nonneg,GppAtomSquare.sub_form_nonneg}
+Source: Codex, GPP-bridge PR \#11 comment 6382027722; identified by Turbo's Wave 310 as the mechanism of the Wave 308 $\gamma_1$ near-cancellation. Hypotheses: one real
+spectral atom, $D_{ij}=m\cos(\omega(i-j))$, $C_{ij}=m\cos(\omega(i+j)+2\alpha)$. With $a=\sum_jv_j\cos(\omega j+\alpha)$, $b=\sum_jv_j\sin(\omega j+\alpha)$:
+$v^{\mathsf T}Dv=m(a^2+b^2)$, $v^{\mathsf T}Cv=m(a^2-b^2)$, so $v^{\mathsf T}(D+C)v=2ma^2$ and $v^{\mathsf T}(D-C)v=2mb^2$, both $\ge0$ for $m\ge0$ and every $K$. Daniel Toupin /
+Golden Physics Project, with AI assistance from Codex, Turbo and Claude Code. Finite algebra only; the block identification and the rest of the spectrum are not
+addressed. No claim about RH.
 
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
