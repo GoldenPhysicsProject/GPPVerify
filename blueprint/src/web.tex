@@ -8608,6 +8608,13 @@ $v^{\mathsf T}Dv=m(a^2+b^2)$, $v^{\mathsf T}Cv=m(a^2-b^2)$, so $v^{\mathsf T}(D+
 Golden Physics Project, with AI assistance from Codex, Turbo and Claude Code. Finite algebra only; the block identification and the rest of the spectrum are not
 addressed. No claim about RH.
 
+\section{The cross-Arch moment matrix is positive definite, with a near-null direction}
+\lean{GppCrossArchMoment.moment_form_eq,GppCrossArchMoment.moment_form_nonneg,GppCrossArchMoment.moment_form_pos,GppCrossArchMoment.moment_form_of_vanishing}
+Source: Codex, GPP-bridge PR \#11 comment 6376886553. For $M_{jk}=\sum_nc_n^2r_n^{j+k}$ ($j,k<K$) and $P_v(x)=\sum_{j<K}v_jx^j$: $v^{\mathsf T}Mv=\sum_nc_n^2P_v(r_n)^2$; with distinct
+nodes, nonzero weights and at least $K$ nodes, $M$ is positive definite (Vandermonde, via a polynomial of degree $<K$ with $\ge K$ roots); if $P_v$ vanishes at the
+nodes in $S$, only the remaining nodes contribute (the Rayleigh witness behind $\lambda_{\min}\le e^{-X_K}/(\Lambda_K^2(1-e^{-7/5}))$). Daniel Toupin / Golden Physics
+Project, with AI assistance from Codex and Claude Code. The tail size estimate and the identification with the Arch modes are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
