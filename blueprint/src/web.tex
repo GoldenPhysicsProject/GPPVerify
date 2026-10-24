@@ -8579,6 +8579,15 @@ definition of $\Lambda_0$ as a Mellin transform, with no continuation step. With
 which is $s(s-1)\Lambda(s)/2=\xi(s)$ for $s\ne0,1$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The identification of $B(s)$ with
 Astra's $A(s-\tfrac12)=4\int_0^\infty\Phi(u)e^{(2s-1)u}\,du$ (two integrations by parts) is not formalized. Classical; not claimed novel. No claim about RH.
 
+\section{Astra's half-wave boundary identity}
+\lean{GppThetaHalfWave.deriv_psi_one,GppThetaHalfWave.halfWaveA_eq_integral,GppThetaHalfWave.halfWaveA_eq_halfWave,GppThetaHalfWave.halfWaveA_add_reflect,GppThetaHalfWave.halfWaveA_add_reflect_eq_xi}
+Source: Astra, \texttt{work/2026-10-24\_astra\_phi\_halfwave\_boundary\_identity.md} (GPP-bridge PR \#11 comment 6379118669). With Riemann's kernel $\Phi$ put
+$A(z)=4\int_0^\infty\Phi(u)e^{2zu}\,du$. The substitution $x=e^{4u}$ gives $A(s-\tfrac12)=\int_1^\infty x^{s/2}(2x\psi''+3\psi')\,dx$; two integrations by parts, using
+$e^{-\pi(x-1)}$ decay of $\psi,\psi',\psi''$ on $[1,\infty)$ and $-2\psi'(1)=\tfrac14+\tfrac12\psi(1)$ (the derivative of theta inversion at $1$), give, for every $s\in\mathbb C$,
+$A(s-\tfrac12)=\tfrac14+(s-\tfrac12)\psi(1)+s(s-1)I(s)/2$. With the theta split, $A(s-\tfrac12)+A(\tfrac12-s)=\tfrac12+s(s-1)\Lambda_0(s)/2$, which is $\xi(s)$ for $s\ne0,1$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The endpoint expansion of $A(it)$ is not formalized; near-cancellation of the two
+waves at large height is generic. Classical; not claimed novel. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
