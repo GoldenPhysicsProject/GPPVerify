@@ -20,10 +20,10 @@ cohomological interpretation for P¹ is a separate geometric input.
 namespace GppGradedSphere
 
 /-- Model of one weight-zero symmetric spectral factor, with zero at 1/2. -/
-def seed (s : ℂ) : ℂ := (s - (1 / 2 : ℂ)) ^ 2
+noncomputable def seed (s : ℂ) : ℂ := (s - (1 / 2 : ℂ)) ^ 2
 
 /-- Model of the two Tate grades of the projective sphere. -/
-def sphereModel (s : ℂ) : ℂ := seed s * seed (s - 1)
+noncomputable def sphereModel (s : ℂ) : ℂ := seed s * seed (s - 1)
 
 /-- The seed has its own involution about 1/2. -/
 theorem seed_mirror (s : ℂ) : seed (1 - s) = seed s := by
