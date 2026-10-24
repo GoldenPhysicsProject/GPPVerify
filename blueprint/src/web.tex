@@ -8571,6 +8571,14 @@ the sign obstruction to a diagonal (GS) representation of the ground-state detec
 from Turbo and Claude Code. Discrete time only; Bochner's theorem and the Sz.-Nagy dilation step are not formalized; the sign data of $K$ is numerical. No
 claim about RH.
 
+\section{Riemann's theta split and the two-wave form of \texorpdfstring{$\xi$}{xi}}
+\lean{GppThetaSplit.completedRiemannZeta₀_eq_split,GppThetaSplit.completedRiemannZeta_eq_split,GppThetaSplit.halfWave_add_reflect,GppThetaSplit.halfWave_add_reflect_eq_xi}
+Source: Astra, \texttt{work/2026-10-24\_astra\_phi\_halfwave\_boundary\_identity.md} (GPP-bridge PR \#11 comment 6379118669). With $\psi(x)=\sum_{n\ge1}e^{-\pi n^2x}$ and
+$I(s)=\int_1^\infty\psi(x)x^{s/2-1}\,dx$, for every $s\in\mathbb C$ the entire $\Lambda_0(s)=\Lambda(s)+1/s+1/(1-s)$ equals $I(s)+I(1-s)$, read off from Mathlib's own
+definition of $\Lambda_0$ as a Mellin transform, with no continuation step. With the half-wave $B(s)=\tfrac14+(s-\tfrac12)\psi(1)+s(s-1)I(s)/2$, $B(s)+B(1-s)=\tfrac12+s(s-1)\Lambda_0(s)/2$,
+which is $s(s-1)\Lambda(s)/2=\xi(s)$ for $s\ne0,1$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The identification of $B(s)$ with
+Astra's $A(s-\tfrac12)=4\int_0^\infty\Phi(u)e^{(2s-1)u}\,du$ (two integrations by parts) is not formalized. Classical; not claimed novel. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
