@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Data.Complex.Basic
+import Mathlib.Tactic
 
 /-!
 # The sphere's two grades: mirror symmetry does not imply one global spectral line
@@ -77,10 +78,5 @@ theorem quarter_shift_weight_not_integral (n : ℤ) :
   have hlo' : (0 : ℤ) < n := by exact_mod_cast hlo
   have hhi' : n < (1 : ℤ) := by exact_mod_cast hhi
   omega
-
-#check sphere_global_mirror
-#check quarter_shift_weight_not_integral
-#print axioms sphere_global_mirror
-#print axioms quarter_shift_weight_not_integral
 
 end GppGradedSphere
