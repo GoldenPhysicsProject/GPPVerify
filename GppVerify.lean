@@ -2305,5 +2305,6 @@ import GppVerify.RiemannHypothesis.P1Mirror
 import GppVerify.RiemannHypothesis.RankTwoCentring
 import GppVerify.RiemannHypothesis.SemigroupGram
 import GppVerify.RiemannHypothesis.Sine2Convolution
+import GppVerify.RiemannHypothesis.Sylvester3
 import GppVerify.RiemannHypothesis.ThetaHalfWave
 import GppVerify.RiemannHypothesis.ThetaSplit
