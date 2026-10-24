@@ -8636,6 +8636,13 @@ $F_{\rm bad}=\mathrm{diag}(8,2)$ and $F_{\rm good}=\begin{psmallmatrix}0&-16\\1&
 $F^{\mathsf T}HF=qH$ (the $(0,0)$ entry forces $64h_{00}=16h_{00}$), while $F_{\rm good}$ admits $H=\mathrm{diag}(1,16)$. Duality alone does not put the spectrum on $|\lambda|=\sqrt q$. Integrality gate (PR \#11 6389930457): the would-be local coefficient $2^{1/4}+2^{-1/4}$ of $F_{1/4}$ at $p=2$ lies strictly between $2$ and $3$, so it is not an integer, unlike $\#\mathbb P^1(\mathbb F_p)=p+1$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. $F_{\rm bad}$ is abstract, not a geometric Frobenius. No claim about RH or BSD.
 
+\section{A global mirror does not confine zeros to its fixed line: \texorpdfstring{$\mathbb P^1_{\mathbb Z}$}{P1}}
+\lean{GppP1Mirror.p1Xi_mirror,GppP1Mirror.differentiable_p1Xi,GppP1Mirror.p1Xi_zeros_off_mirror}
+Source: Codex, GPP-bridge PR \#11 comment 6390241157 (a correction of Codex's own phrase). With $\xi$ entire and $\xi(1-s)=\xi(s)$, the completion
+$\Xi(s)=\xi(s)\xi(s-1)$ of $\zeta(\mathbb P^1_{\mathbb Z},s)=\zeta(s)\zeta(s-1)$ is entire with $\Xi(2-s)=\Xi(s)$, yet every critical-line zero $\rho$ of $\xi$ gives zeros of $\Xi$ at
+$\rho$ and $\rho+1$, on $\operatorname{Re}s=\tfrac12$ and $\tfrac32$, off the mirror line $\operatorname{Re}s=1$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and
+Claude Code. Existence of critical-line zeros (Hardy) is a hypothesis here; the weight grading is not formalized. No claim about RH or BSD.
+
 \section{Leading minors of a symmetric \texorpdfstring{$3\times3$}{3x3} form: positive definite or signature \texorpdfstring{$(2,1)$}{(2,1)}}
 \lean{GppSylvester3.ldl3_identity,GppSylvester3.posDef_of_minors,GppSylvester3.signature_two_one_of_minors}
 Source: Codex, GPP-bridge PR \#11 comment 6390445769 (Discovery2 PR \#21). For $\begin{psmallmatrix}a&b&c\\b&d&e\\c&e&f\end{psmallmatrix}$ with $\Delta_1=a$, $\Delta_2=ad-b^2$, $\Delta_3=\det$:
