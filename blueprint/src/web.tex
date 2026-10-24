@@ -8563,6 +8563,14 @@ $(\mathrm{lcm}/\gcd)\gcd^2=mn$ (the valuation step of the GCD Gram $(\gcd^2/(mn)
 clock) and $\zeta(1+\tfrac{1+a}2\delta)^2/(\zeta(1+\delta)\zeta(1+a\delta))\to4a/(1+a)^2$ (the critical fidelity, squared). Daniel Toupin / Golden Physics Project, with AI
 assistance from Codex and Claude Code. The infinite tensor product, GNS disjointness and the Dickman limit are not formalized. No claim about RH.
 
+\section{The (GS)-pair coefficient: finite identity and bound}
+\lean{GppGSPair.inner_isometry_le,GppGSPair.pairCoeff_eq,GppGSPair.pairCoeff_bound}
+Source: Turbo, \texttt{MuseResearch/agent1-pair-statements.md} (bridge \texttt{695e7f4}). For a linear isometry $U$, $|\langle x,Uy\rangle|\le\|x\|\|y\|$. In $\mathbb C^{2N}$
+with $U_te_{j,\pm}=e^{\pm i\gamma_jt}e_{j,\pm}$ and the antilinear twist $J(c,d)=(\bar d,\bar c)$, the pair coefficient $\langle\Psi_L,U_tJ\Psi_L\rangle$ equals
+$\sum_j2\,\overline{c_jd_j}\cos(\gamma_jt)$ (correcting the deposit's $2\operatorname{Re}\sum_j\overline{c_jd_j}e^{i\gamma_jt}$, which agrees only when every $c_jd_j$ is real) and is
+bounded by $\sum_j(|c_j|^2+|d_j|^2)=\|\Psi_L\|^2$ for all $t$. Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. Finite $N$
+only; (PAIR-NORM), (P2), (P3) and the dilation identity are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
