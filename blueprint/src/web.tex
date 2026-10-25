@@ -8683,6 +8683,13 @@ $Ee_k=ke_{k-1}$, $Fe_k=(N-1-k)e_{k+1}$, $He_k=(N-1-2k)e_k$ satisfy $[H,E]=2E$, $
 $j=(N-1)/2$. With weights $w_k=1/\binom{N-1}{k}$, $\langle Ec,d\rangle_w=\langle c,Fd\rangle_w$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code.
 Classical spin-$j$ representation; the CAR Fock singlet count, the thermal falsifier and any black-hole entropy reading are not formalized. No claim about RH or BSD.
 
+\section{The free angular spectrum at the Hawking temperature has bounded entropy}
+\lean{GppEquatorThermal.hF_eq_binary,GppEquatorThermal.hF_le,GppEquatorThermal.hF_zero,GppEquatorThermal.term_le,GppEquatorThermal.thermalEntropy_le}
+Source: Codex, GPP-bridge PR \#11 comments 6392046099 and 6392063911 (Discovery2 PR \#23), the thermal falsifier. With $h_F(x)=\log(1+e^{-x})+x/(e^x+1)$ the binary entropy of
+the Fermi occupation, $h_F(x)\le(1+x)e^{-x}$ for $x\ge0$, and for the free spectrum $\varepsilon_\ell=\ell/R$ at $\beta_H=4\pi R$,
+$S_N=\sum_{\ell<N}(2\ell+1)h_F(4\pi\ell)\le\log2+10^{-3}$ for every $N$, against $N^2\log2$ for the maximal CAR Fock entropy. Daniel Toupin / Golden Physics Project, with AI
+assistance from Codex and Claude Code. Falsifier of one naive model; not a black-hole entropy statement. No claim about RH or BSD.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
