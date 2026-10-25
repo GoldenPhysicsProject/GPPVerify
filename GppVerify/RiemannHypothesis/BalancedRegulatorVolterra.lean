@@ -30,6 +30,8 @@ Every piece of `J_e` is a superposition of the **atoms**
 * `volterra_cont`: it holds for every continuum superposition `∫₀ᵗ w(s) g_{e,s}(t) ds` with `w`
   continuous and `t ≥ 0` (one Fubini swap on `[0,t]²`). `continuum_eq`: Astra's
   `∫₁^{e^t} (x^{−1/2} − e^{−t/2}) x^{−e} dx` is the case `w = exp` (substitution `x = e^s`).
+* `balanced_zero_eq`: at `e = 0`, with `X = e^t`, `J₀(log X) = 2Σ_{n≤X} Λ(n)/√n − 2ψ(X)/√X − 2√X + 2`
+  (Astra, `work/2026-10-20_astra_laplace_growth_mobius_audit.md`).
 * `volterra_balanced`, with `balanced_eq`: **Astra's identity for `J_e = M_e − C_e` itself**,
   for every `e ∈ ℝ` and `t ≥ 0`, with `M_e` truncated at any `N > e^t` (the truncation does not
   change `M_e` on `[0, t]`).
@@ -332,6 +334,32 @@ theorem balanced_eq (N : ℕ) (e : ℝ) {t : ℝ} (ht : 0 ≤ t) :
       (2 * (∫ x in (1 : ℝ)..exp t, (x ^ (-(1 / 2) : ℝ) - exp (-t / 2)) * x ^ (-e)) +
         2 * (1 - exp (-t / 2))) := by
   rw [balanced, primeSignal_eq, continuum_eq e ht, endpoint_eq e ht]; ring
+
+/-- **The unregularised signal in closed form** (Astra, `work/2026-10-20_astra_laplace_growth_mobius_audit.md`):
+for `t ≥ 0`, with `X = e^t`, `J₀(log X) = 2 Σ_{n ≤ X} Λ(n)/√n − 2ψ(X)/√X − 2√X + 2`. -/
+theorem balanced_zero_eq (N : ℕ) {t : ℝ} (ht : 0 ≤ t) :
+    balanced N 0 t =
+      2 * (∑ n ∈ range N, if (n : ℝ) ≤ exp t then
+        ArithmeticFunction.vonMangoldt n * (n : ℝ) ^ (-(1 / 2) : ℝ) else 0) -
+      2 * (∑ n ∈ range N, if (n : ℝ) ≤ exp t then ArithmeticFunction.vonMangoldt n else 0) *
+        exp (-t / 2) - 2 * exp (t / 2) + 2 := by
+  rw [balanced_eq N 0 ht]
+  simp only [neg_zero, rpow_zero, mul_one, one_mul]
+  have hI : ∫ x in (1 : ℝ)..exp t, (x ^ (-(1 / 2) : ℝ) - exp (-t / 2)) =
+      2 * (exp (t / 2) - 1) - (exp t - 1) * exp (-t / 2) := by
+    rw [integral_sub (intervalIntegral.intervalIntegrable_rpow' (by norm_num))
+      intervalIntegrable_const, integral_rpow (Or.inl (by norm_num)), integral_const, smul_eq_mul,
+      one_rpow, ← exp_mul]
+    norm_num
+    ring_nf
+  have hsum : ∀ n ∈ range N, (if (n : ℝ) ≤ exp t then ArithmeticFunction.vonMangoldt n *
+      ((n : ℝ) ^ (-(1 / 2) : ℝ) - exp (-t / 2)) else 0) =
+      (if (n : ℝ) ≤ exp t then ArithmeticFunction.vonMangoldt n * (n : ℝ) ^ (-(1 / 2) : ℝ) else 0) -
+        (if (n : ℝ) ≤ exp t then ArithmeticFunction.vonMangoldt n else 0) * exp (-t / 2) := by
+    intro n _; split_ifs <;> ring
+  rw [sum_congr rfl hsum, sum_sub_distrib, ← sum_mul, hI]
+  have hx : exp t * exp (-t / 2) = exp (t / 2) := by rw [← exp_add]; ring_nf
+  linear_combination 2 * hx
 
 /-- **Astra's exact Volterra relation for `J_e`**, for every truncation `N`, every `e` and every
 `t ≥ 0`. -/
