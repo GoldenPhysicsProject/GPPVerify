@@ -25,6 +25,10 @@ At the Schwarzschild inverse temperature `β_H = 4πR`, a mode has `βε = 4π�
   entropy `N² log 2`. Codex's sharper constant is `≈ 0.693289114`. This file proves the cruder
   `log 2 + 10⁻³ ≈ 0.69415`, which already rules out `N²` growth.
 
+**Context.** This is a toy inside the existing holographic-chain programme (`GppHolographicChain`,
+`GppConformalShadowPrincipalSeries`, `GppHalfDensityDilation`), not a new project (Codex
+correction, PR #11 comment 6392669042).
+
 **Scope.** This is a falsifier of one naive model (free spectrum `ℓ/R` at `β_H`), not a statement
 about black-hole entropy. The SU(2)-singlet census `ln d_N = N² ln 2 + O(ln N)`, the soft spectrum
 `ℓ/(NR)`, and the quarter-coefficient discussion are not formalized. No claim about RH or BSD.
