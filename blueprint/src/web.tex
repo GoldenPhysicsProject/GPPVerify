@@ -8698,6 +8698,14 @@ homogeneous mode $|x|^{-\Delta}$ has eigenvalue $\lambda_a(\Delta)=a^{d/2}a^{-\D
 $|\lambda_a(\Delta)|=1\iff\operatorname{Re}\Delta=d/2\iff d-\Delta=\overline\Delta$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code.
 The principal-series completion and any $S^1\to S^2$ intertwiner are not constructed. No claim about RH, BSD or black-hole entropy.
 
+\section{Gamma-free Poisson transport: channel identities and the intensity budget}
+\lean{GppPoissonTransport.poisson_total,GppPoissonTransport.poisson_mean,GppPoissonTransport.poisson_mgf,GppPoissonTransport.poisson_kl,GppPoissonTransport.pair_logMgf,GppPoissonTransport.V_eq,GppPoissonTransport.tilt_mean,GppPoissonTransport.tilt_kl,GppPoissonTransport.tilt_kl_le,GppPoissonTransport.alpha_eq,GppPoissonTransport.budget_lt_four,GppPoissonTransport.budget_gt_four}
+Source: Astra, \texttt{work/2026-10-16\_astra\_gamma\_free\_poisson\_transport.md}. For Poisson weights $p_\lambda(k)=e^{-\lambda}\lambda^k/k!$: total mass $1$, mean $\lambda$,
+$\sum e^{ck}p_\lambda(k)=\exp(\lambda(e^c-1))$ and $\sum p_\mu\log(p_\mu/p_\lambda)=\mu\log(\mu/\lambda)-\mu+\lambda$; the pair log-mgf is $2\lambda(\cosh(t/2)-1)$, giving
+$V(t)=8(\cosh(t/2)-1)$ at $\lambda=4$. Tilting to rates $\alpha e^{\pm u/2}$ gives mean $\alpha\sinh(u/2)$ and relative entropy $u\alpha\sinh(u/2)-2\alpha(\cosh(u/2)-1)$; the
+prime-power intensity is $2\Lambda(n)/(n-1)$, and $\sum_{n=2}^5 2\Lambda(n)/(n-1)<4<\sum_{n\in\{2,3,4,5,7\}}2\Lambda(n)/(n-1)$. Daniel Toupin / Golden Physics Project,
+with AI assistance from Astra and Claude Code. The probability layer, the Gibbs inequality and the Legendre transform are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
