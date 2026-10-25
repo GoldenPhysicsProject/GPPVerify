@@ -21,6 +21,13 @@ Write a vector of `H_N = span{e^{ikφ} : 0 ≤ k < N}` as a coefficient sequence
 * `detailed_balance` and `adjoint`: with weights `w_k = 1/C(N−1, k)`, `⟨E c, d⟩_w = ⟨c, F d⟩_w`
   for `c, d ∈ H_N`. So `E† = F` for this positive metric.
 
+**Context.** The equator thread belongs to the existing holographic-chain programme (Daniel's
+March 2026 Holographic Chain paper; `GppHolographicChain`). It is not a new project. The
+`d = 1` equator and `d = 2` horizon principal axes `Re Δ = 1/2, 1` are already formalized in
+`GppConformalShadowPrincipalSeries`, and the half-density dilation behind them in every `d` is in
+`GppHalfDensityDilation` (Codex correction, PR #11 comment 6392669042). This file is a finite toy
+inside that programme.
+
 **Scope.** This is the spin-`j` representation in the standard binomial basis, a classical fact.
 The generation of `Mat_N`, the `End(V_j) = ⊕ V_ℓ` decomposition, the CAR Fock singlet count
 `ln d_N = N² ln 2 + O(ln N)`, the thermal falsifier and the quarter-coefficient discussion are not

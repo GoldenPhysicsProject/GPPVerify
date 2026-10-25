@@ -8690,6 +8690,14 @@ the Fermi occupation, $h_F(x)\le(1+x)e^{-x}$ for $x\ge0$, and for the free spect
 $S_N=\sum_{\ell<N}(2\ell+1)h_F(4\pi\ell)\le\log2+10^{-3}$ for every $N$, against $N^2\log2$ for the maximal CAR Fock entropy. Daniel Toupin / Golden Physics Project, with AI
 assistance from Codex and Claude Code. Falsifier of one naive model; not a black-hole entropy statement. No claim about RH or BSD.
 
+\section{Half-density dilations in every boundary dimension}
+\lean{GppHalfDensityDilation.integral_normSq_dilate,GppHalfDensityDilation.dilate_homogeneous,GppHalfDensityDilation.norm_eigen,GppHalfDensityDilation.norm_eigen_eq_one_iff,GppHalfDensityDilation.norm_eigen_eq_one_iff_shadow}
+Source: Codex, GPP-bridge PR \#11 comment 6392669042, anchoring the equator thread in the existing holographic chain (\texttt{GppConformalShadowPrincipalSeries},
+\texttt{GppPrincipalSeriesDilationBridge}). On a $d$-dimensional real inner-product space with Haar measure, $(U_af)(x)=a^{d/2}f(ax)$ preserves $\int|f|^2$; the
+homogeneous mode $|x|^{-\Delta}$ has eigenvalue $\lambda_a(\Delta)=a^{d/2}a^{-\Delta}$ with $|\lambda_a(\Delta)|=a^{d/2-\operatorname{Re}\Delta}$, so for $a\ne1$,
+$|\lambda_a(\Delta)|=1\iff\operatorname{Re}\Delta=d/2\iff d-\Delta=\overline\Delta$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code.
+The principal-series completion and any $S^1\to S^2$ intertwiner are not constructed. No claim about RH, BSD or black-hole entropy.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
