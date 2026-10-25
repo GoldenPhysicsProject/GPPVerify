@@ -23,6 +23,14 @@ Project, with AI assistance from Codex (statement) and Claude Code (formalizatio
   critical-line zero `ρ` of `ξ` gives zeros of `F_θ` at `ρ ± 1/4`, on `Re s = 1/4` and `3/4`.
   Reflection and reality symmetry alone do not force zeros onto the equator.
 
+* `Ftheta_critical_eq_normSq`: `F_θ(½ + it) = |ξ(¾ + it)|² ≥ 0` (Discovery2 #25). Even a
+  pointwise nonnegative equatorial wave has interior zeros.
+* `cayley`, `norm_cayley_lt_one_iff`, `norm_cayley_eq_one_iff`, `cayley_shifted_zero`: the
+  height-recentred chart `w_{h,a}(s) = (s − ½ − ih − a)/(s − ½ − ih + a)` maps `Re s > ½` into
+  `|w| < 1` and `Re s = ½` onto `|w| = 1`. With `h = γ`, `a = ½` it sends the adversary zero
+  `ρ + ¼` to `w = −1/3` for every `γ` (Codex's Jensen discriminator; the Jensen bound
+  `J ≥ ln(27/20)` is not formalized).
+
 **Scope.** Writing zeros as nodal crossings is a coordinate pullback; "all zeros are equatorial
 crossings" is RH and is not proved. The orthogonal crossing of simple nodal arcs, the η-phase
 picture, the theta-integral form of `ξ(½ + it)` (see `GppThetaSplit`, `GppThetaHalfWave`) and the
@@ -135,5 +143,62 @@ theorem Ftheta_zeros_off_line {ρ : ℂ} (hρ : xi ρ = 0) (hre : ρ.re = 1 / 2)
   · simp [Ftheta, hρ]
   · simp [hre]; norm_num
   · simp [hre]; norm_num
+
+/-- **The adversary is nonnegative on the line.** `F_θ(½ + it) = |ξ(¾ + it)|²` (Discovery2 #25):
+a pointwise nonnegative equatorial wave does not exclude zeros off the line. -/
+theorem Ftheta_critical_eq_normSq (t : ℝ) :
+    Ftheta (1 / 2 + t * I) = (normSq (xi (3 / 4 + t * I)) : ℂ) := by
+  have h1 : xi (1 / 2 + t * I - 1 / 4) = conj (xi (3 / 4 + t * I)) := by
+    rw [← xi_conj, ← xi_one_sub]
+    congr 1
+    apply Complex.ext <;> norm_num [map_ofNat]
+  rw [Ftheta, h1, show (1 : ℂ) / 2 + t * I + 1 / 4 = 3 / 4 + t * I by ring, mul_comm,
+    mul_conj]
+
+/-- The height-recentred celestial Cayley chart `w_{h,a}(s) = (s − ½ − ih − a)/(s − ½ − ih + a)`. -/
+noncomputable def cayley (h a : ℝ) (s : ℂ) : ℂ :=
+  (s - 1 / 2 - h * I - a) / (s - 1 / 2 - h * I + a)
+
+lemma normSq_sub_add (z : ℂ) (a : ℝ) :
+    normSq (z - a) = normSq (z + a) - 4 * a * z.re := by
+  simp only [normSq_apply, sub_re, add_re, sub_im, add_im, ofReal_re, ofReal_im]; ring
+
+/-- **Right half-plane → unit disk.** For `a > 0`, `|w_{h,a}(s)| < 1 ↔ Re s > ½`. -/
+theorem norm_cayley_lt_one_iff {h a : ℝ} (ha : 0 < a) {s : ℂ}
+    (hs : s - 1 / 2 - h * I + a ≠ 0) : ‖cayley h a s‖ < 1 ↔ 1 / 2 < s.re := by
+  set z := s - 1 / 2 - h * I with hz
+  have hre : z.re = s.re - 1 / 2 := by simp [hz]
+  have hpos : 0 < normSq (z + a) := normSq_pos.mpr hs
+  rw [cayley, ← hz, norm_div, div_lt_one (norm_pos_iff.mpr hs), ← sq_lt_sq₀ (norm_nonneg _)
+    (norm_nonneg _), ← normSq_eq_norm_sq, ← normSq_eq_norm_sq, normSq_sub_add]
+  constructor
+  · intro h; nlinarith
+  · intro h; nlinarith
+
+/-- **Critical line → equator.** For `a > 0`, `|w_{h,a}(s)| = 1 ↔ Re s = ½`. -/
+theorem norm_cayley_eq_one_iff {h a : ℝ} (ha : 0 < a) {s : ℂ}
+    (hs : s - 1 / 2 - h * I + a ≠ 0) : ‖cayley h a s‖ = 1 ↔ s.re = 1 / 2 := by
+  set z := s - 1 / 2 - h * I with hz
+  have hre : z.re = s.re - 1 / 2 := by simp [hz]
+  have hpos : 0 < normSq (z + a) := normSq_pos.mpr hs
+  rw [cayley, ← hz, norm_div, div_eq_one_iff_eq (norm_pos_iff.mpr hs).ne', ← sq_eq_sq₀
+    (norm_nonneg _) (norm_nonneg _), ← normSq_eq_norm_sq, ← normSq_eq_norm_sq, normSq_sub_add]
+  constructor
+  · intro h
+    have : a * z.re = 0 := by linarith
+    rcases mul_eq_zero.mp this with h' | h'
+    · linarith
+    · linarith
+  · intro h; rw [show z.re = 0 by linarith]; ring
+
+/-- **The adversary's off-line zero sits at `w = −1/3`, independent of the height.** For a
+critical-line zero `ρ = ½ + iγ`, the chart `w_{γ,½}` sends `ρ + ¼` to `−1/3`. -/
+theorem cayley_shifted_zero (γ : ℝ) :
+    cayley γ (1 / 2) (1 / 2 + γ * I + 1 / 4) = -1 / 3 := by
+  unfold cayley
+  push_cast
+  rw [show (1 : ℂ) / 2 + γ * I + 1 / 4 - 1 / 2 - γ * I - 1 / 2 = -1 / 4 by ring,
+    show (1 : ℂ) / 2 + γ * I + 1 / 4 - 1 / 2 - γ * I + 1 / 2 = 3 / 4 by ring]
+  norm_num
 
 end GppCelestialNodal

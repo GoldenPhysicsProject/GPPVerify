@@ -8707,11 +8707,11 @@ cannot control the Ces\`aro energy. Daniel Toupin / Golden Physics Project, with
 not formalized; the sequence is not multiplicative. No claim about RH.
 
 \section{Celestial nodal picture: exact reflection and two falsifiers}
-\lean{GppCelestialNodal.dimension_circles_coincide,GppCelestialNodal.xi_conj,GppCelestialNodal.G_reflect,GppCelestialNodal.G_im_eq_zero_of_norm_one,GppCelestialNodal.Ftheta_one_sub,GppCelestialNodal.Ftheta_conj,GppCelestialNodal.Ftheta_zeros_off_line}
+\lean{GppCelestialNodal.dimension_circles_coincide,GppCelestialNodal.xi_conj,GppCelestialNodal.G_reflect,GppCelestialNodal.G_im_eq_zero_of_norm_one,GppCelestialNodal.Ftheta_one_sub,GppCelestialNodal.Ftheta_conj,GppCelestialNodal.Ftheta_zeros_off_line,GppCelestialNodal.Ftheta_critical_eq_normSq,GppCelestialNodal.norm_cayley_lt_one_iff,GppCelestialNodal.norm_cayley_eq_one_iff,GppCelestialNodal.cayley_shifted_zero}
 Source: Codex, GPP-bridge PR \#11 comment 6393727134 (Discovery2 PR \#24). With $\Delta_d=ds$ and $w_d(\Delta)=(\Delta-d)/\Delta$, $w_d(ds)=(s-1)/s$ for every $d\ne0$, so the
 dimension circles coincide. $\xi(\bar s)=\overline{\xi(s)}$ for all $s$; $G(w)=\xi(1/(1-w))$ satisfies $G(1/\bar w)=\overline{G(w)}$, so $\operatorname{Im}G=0$ on $|w|=1$.
 The adversary $F_\theta(s)=\xi(s-\tfrac14)\xi(s+\tfrac14)$ has both symmetries yet zeros on $\operatorname{Re}s=\tfrac14,\tfrac34$. Daniel Toupin / Golden Physics Project, with
-AI assistance from Codex and Claude Code. Nodal crossings are a coordinate pullback; ``all zeros equatorial'' is RH and is not proved. No claim about RH or BSD.
+AI assistance from Codex and Claude Code. Discovery2 \#25: $F_\theta(\tfrac12+it)=|\xi(\tfrac34+it)|^2\ge0$, and the chart $w_{h,a}(s)=(s-\tfrac12-ih-a)/(s-\tfrac12-ih+a)$ ($a>0$) sends $\operatorname{Re}s>\tfrac12$ to $|w|<1$, $\operatorname{Re}s=\tfrac12$ to $|w|=1$, and $\rho+\tfrac14$ to $w=-\tfrac13$ when $h=\gamma$, $a=\tfrac12$. Nodal crossings are a coordinate pullback; ``all zeros equatorial'' is RH and is not proved. No claim about RH or BSD.
 
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
