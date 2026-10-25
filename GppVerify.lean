@@ -2308,6 +2308,7 @@ import GppVerify.RiemannHypothesis.BalancedRegulatorVolterra
 import GppVerify.QuantumGravity.EquatorSU2
 import GppVerify.QuantumGravity.EquatorThermalBound
 import GppVerify.CelestialHolography.HalfDensityDilation
+import GppVerify.RiemannHypothesis.CelestialNodal
 import GppVerify.RiemannHypothesis.RankTwoCentring
 import GppVerify.RiemannHypothesis.SemigroupGram
 import GppVerify.RiemannHypothesis.Sine2Convolution
