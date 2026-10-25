@@ -8658,6 +8658,15 @@ $f_0(6)=2$, while $A_\pm=f_0\pm f_1$ give $A_+(2,3,6)=(1,2,2)$ and $A_-(2,3,6)=(
 Claude Code. Only the pair $(2,3)$ is checked; the ideal-class and Hecke $L$-function identifications and Euler products (classical) are not formalized. No claim about RH,
 GRH or BSD.
 
+\section{The \texorpdfstring{$q$}{q}-binomial annihilator and its pole cancellation}
+\lean{GppQBinomialEdge.gauss_mul_prod,GppQBinomialEdge.prod_expand,GppQBinomialEdge.prod_eq_sum_vK,GppQBinomialEdge.laplace_train,GppQBinomialEdge.laplace_train_annihilated,GppQBinomialEdge.codex_B_K_eq_zero}
+Source: Codex, \texttt{work/codex/2026-10-23\_wave234\_full\_s1\_annihilator\_pnt\_residual\_q\_binomial.md} (Discovery2 PR \#12). With the Gaussian binomial $[M,j]_q$ (q-Pascal rule;
+closed form $[M,j]_q\prod_{l<j}(1-q^{l+1})=\prod_{l<j}(1-q^{M-l})$), $\prod_{m<M}(z-r_0q^mw)=\sum_{j\le M}(-r_0)^jq^{\binom j2}[M,j]_qz^{M-j}w^j$, so the annihilator
+$P(z)=\prod_{m<M}(z-r_0q^m)$ has $v_{M-j}=(-r_0)^jq^{\binom j2}[M,j]_q$. For a train $V=\sum_jv_jb(\cdot-a_0-j\delta)$,
+$\int e^{\sigma u}V=e^{\sigma a_0}\bigl(\int e^{\sigma u}b\bigr)P(e^{\sigma\delta})$, which vanishes when $r_0=e^{\sigma\delta}$; at $\sigma=-\tfrac12$, $\delta=\tfrac7{10}$ this is Codex's $B_K=0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The $K\to\infty$ edge limit, the sewing square $A_K^2$ and any PNT comparison are not
+formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
