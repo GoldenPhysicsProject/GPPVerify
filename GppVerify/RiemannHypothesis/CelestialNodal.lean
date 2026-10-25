@@ -1,0 +1,204 @@
+import GppVerify.RiemannHypothesis.CompletedZetaReality
+import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
+
+/-!
+# Celestial nodal picture: what is exact, and two falsifiers
+
+Source: Codex, GPP-bridge PR #11 comment 6393727134 (Discovery2 PR #24), answering Daniel's
+"show zeros are intersecting circles". It builds on `GppConformalShadowPrincipalSeries` (the
+shadow/principal-axis dictionary in every `d`) and `GppP1Mirror`. Daniel Toupin / Golden Physics
+Project, with AI assistance from Codex (statement) and Claude Code (formalization).
+
+* `dimension_circles_coincide`: with `Δ_d = d s` and `w_d(Δ) = (Δ − d)/Δ`, `w_d(d s) = (s − 1)/s`
+  for every `d ≠ 0` and every `s`. So the normalized "dimension circles" for `d = 1, 2, 3, 4, …`
+  are one and the same curve. Their geometric intersections cannot pick out discrete zeros.
+* `xi_conj`: `ξ(s̄) = conj ξ(s)` for **every** `s`. On `Re s > 0` this comes from
+  `GppCompletedZetaReality.completedRiemannZeta_conj`; elsewhere from `ξ(1 − s) = ξ(s)`.
+* `G_reflect`: on the celestial sphere `w = (s − 1)/s`, `G(w) = ξ(1/(1 − w))` satisfies
+  `G(1/w̄) = conj G(w)` for `w ≠ 0, 1`.
+* `G_im_eq_zero_of_norm_one`: hence `Im G = 0` on the equator `|w| = 1`. So equatorial zeros of `G`
+  are exactly the crossings of the single nodal curve `{Re G = 0}` with the equator.
+* `Ftheta`, `Ftheta_one_sub`, `Ftheta_conj`, `Ftheta_zeros_off_line` (the **adversary**):
+  `F_θ(s) = ξ(s − 1/4) ξ(s + 1/4)` has the same two symmetries `s ↦ 1 − s` and `s ↦ s̄`. Yet every
+  critical-line zero `ρ` of `ξ` gives zeros of `F_θ` at `ρ ± 1/4`, on `Re s = 1/4` and `3/4`.
+  Reflection and reality symmetry alone do not force zeros onto the equator.
+
+* `Ftheta_critical_eq_normSq`: `F_θ(½ + it) = |ξ(¾ + it)|² ≥ 0` (Discovery2 #25). Even a
+  pointwise nonnegative equatorial wave has interior zeros.
+* `cayley`, `norm_cayley_lt_one_iff`, `norm_cayley_eq_one_iff`, `cayley_shifted_zero`: the
+  height-recentred chart `w_{h,a}(s) = (s − ½ − ih − a)/(s − ½ − ih + a)` maps `Re s > ½` into
+  `|w| < 1` and `Re s = ½` onto `|w| = 1`. With `h = γ`, `a = ½` it sends the adversary zero
+  `ρ + ¼` to `w = −1/3` for every `γ` (Codex's Jensen discriminator; the Jensen bound
+  `J ≥ ln(27/20)` is not formalized).
+
+**Scope.** Writing zeros as nodal crossings is a coordinate pullback; "all zeros are equatorial
+crossings" is RH and is not proved. The orthogonal crossing of simple nodal arcs, the η-phase
+picture, the theta-integral form of `ξ(½ + it)` (see `GppThetaSplit`, `GppThetaHalfWave`) and the
+numerical latitudes are not formalized here. Existence of critical-line zeros (Hardy) is a
+hypothesis in `Ftheta_zeros_off_line`. No claim about RH or BSD.
+-/
+
+set_option autoImplicit false
+
+open Complex
+open scoped ComplexConjugate
+
+namespace GppCelestialNodal
+
+open GppLogDerivZeroFree
+
+/-- The normalized celestial coordinate `w_d(Δ) = (Δ − d)/Δ`. -/
+noncomputable def wd (d : ℝ) (Δ : ℂ) : ℂ := (Δ - d) / Δ
+
+/-- **Dimension circles coincide.** `w_d(d s) = (s − 1)/s` for every `d ≠ 0`. -/
+theorem dimension_circles_coincide {d : ℝ} (hd : d ≠ 0) (s : ℂ) :
+    wd d (d * s) = (s - 1) / s := by
+  have hd' : (d : ℂ) ≠ 0 := by exact_mod_cast hd
+  unfold wd
+  rcases eq_or_ne s 0 with rfl | hs
+  · simp
+  · rw [show (d : ℂ) * s - d = d * (s - 1) by ring, mul_div_mul_left _ _ hd']
+
+lemma xi_eq_of_ne {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
+    xi s = s * (s - 1) * completedRiemannZeta s / 2 := by
+  have h1' : (1 : ℂ) - s ≠ 0 := sub_ne_zero.mpr (Ne.symm h1)
+  rw [xi, completedRiemannZeta_eq]
+  field_simp
+  ring
+
+lemma xi_conj_of_re_pos {s : ℂ} (hs : 0 < s.re) : xi (conj s) = conj (xi s) := by
+  rcases eq_or_ne s 1 with rfl | h1
+  · simp [xi, map_ofNat]
+  have h0 : s ≠ 0 := by rintro rfl; simp at hs
+  have hc0 : conj s ≠ 0 := by simpa using h0
+  have hc1 : conj s ≠ 1 := by
+    intro h; apply h1; simpa using congrArg conj h
+  rw [xi_eq_of_ne hc0 hc1, xi_eq_of_ne h0 h1,
+    GppCompletedZetaReality.completedRiemannZeta_conj hs]
+  simp [map_div₀, map_mul, map_sub, map_ofNat]
+
+/-- **Reality of `ξ`.** `ξ(s̄) = conj ξ(s)` for every `s`. -/
+theorem xi_conj (s : ℂ) : xi (conj s) = conj (xi s) := by
+  rcases lt_or_ge 0 s.re with hs | hs
+  · exact xi_conj_of_re_pos hs
+  · have hpos : 0 < (1 - s).re := by simp; linarith
+    calc xi (conj s) = xi (1 - conj s) := (xi_one_sub _).symm
+      _ = xi (conj (1 - s)) := by simp
+      _ = conj (xi (1 - s)) := xi_conj_of_re_pos hpos
+      _ = conj (xi s) := by rw [xi_one_sub]
+
+/-- The celestial pullback `G(w) = ξ(1/(1 − w))`, i.e. `s = 1/(1 − w)`, `w = (s − 1)/s`. -/
+noncomputable def G (w : ℂ) : ℂ := xi (1 / (1 - w))
+
+/-- **Celestial reflection.** `G(1/w̄) = conj G(w)` for `w ≠ 0, 1`. -/
+theorem G_reflect {w : ℂ} (h0 : w ≠ 0) (h1 : w ≠ 1) : G (1 / conj w) = conj (G w) := by
+  have hc0 : conj w ≠ 0 := by simpa using h0
+  have hc1 : conj w - 1 ≠ 0 := by
+    intro h; apply h1
+    have : conj w = 1 := sub_eq_zero.mp h
+    simpa using congrArg conj this
+  have hw1 : 1 - conj w ≠ 0 := by
+    intro h; apply hc1; linear_combination -h
+  have key : 1 / (1 - 1 / conj w) = 1 - conj (1 / (1 - w)) := by
+    simp only [map_div₀, map_one, map_sub]
+    field_simp
+    ring
+  rw [G, G, key, xi_one_sub, xi_conj]
+
+/-- **The equator is a real locus.** `Im G(w) = 0` whenever `|w| = 1`, `w ≠ 1`. -/
+theorem G_im_eq_zero_of_norm_one {w : ℂ} (hw : ‖w‖ = 1) (h1 : w ≠ 1) : (G w).im = 0 := by
+  have h0 : w ≠ 0 := by rintro rfl; simp at hw
+  have hinv : 1 / conj w = w := by
+    have hmul : w * conj w = 1 := by
+      rw [mul_conj, normSq_eq_norm_sq, hw]; simp
+    have hc0 : conj w ≠ 0 := by simpa using h0
+    field_simp
+    linear_combination -hmul
+  have h := G_reflect h0 h1
+  rw [hinv] at h
+  have := congrArg Complex.im h
+  simp at this
+  linarith
+
+/-- The adversary `F_θ(s) = ξ(s − 1/4) ξ(s + 1/4)`. -/
+noncomputable def Ftheta (s : ℂ) : ℂ := xi (s - 1 / 4) * xi (s + 1 / 4)
+
+theorem Ftheta_one_sub (s : ℂ) : Ftheta (1 - s) = Ftheta s := by
+  unfold Ftheta
+  rw [show 1 - s - 1 / 4 = 1 - (s + 1 / 4) by ring, show 1 - s + 1 / 4 = 1 - (s - 1 / 4) by ring,
+    xi_one_sub, xi_one_sub, mul_comm]
+
+theorem Ftheta_conj (s : ℂ) : Ftheta (conj s) = conj (Ftheta s) := by
+  unfold Ftheta
+  have h4 : conj ((1 : ℂ) / 4) = 1 / 4 := by simp [map_ofNat]
+  rw [map_mul, ← xi_conj, ← xi_conj, map_sub, map_add, h4]
+
+/-- **The adversary has zeros off the line.** Every critical-line zero `ρ` of `ξ` gives zeros
+of `F_θ` at `ρ + 1/4` and `ρ − 1/4`, with real parts `3/4` and `1/4`. -/
+theorem Ftheta_zeros_off_line {ρ : ℂ} (hρ : xi ρ = 0) (hre : ρ.re = 1 / 2) :
+    Ftheta (ρ + 1 / 4) = 0 ∧ Ftheta (ρ - 1 / 4) = 0 ∧
+      (ρ + 1 / 4).re = 3 / 4 ∧ (ρ - 1 / 4).re = 1 / 4 := by
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · simp [Ftheta, hρ]
+  · simp [Ftheta, hρ]
+  · simp [hre]; norm_num
+  · simp [hre]; norm_num
+
+/-- **The adversary is nonnegative on the line.** `F_θ(½ + it) = |ξ(¾ + it)|²` (Discovery2 #25):
+a pointwise nonnegative equatorial wave does not exclude zeros off the line. -/
+theorem Ftheta_critical_eq_normSq (t : ℝ) :
+    Ftheta (1 / 2 + t * I) = (normSq (xi (3 / 4 + t * I)) : ℂ) := by
+  have h1 : xi (1 / 2 + t * I - 1 / 4) = conj (xi (3 / 4 + t * I)) := by
+    rw [← xi_conj, ← xi_one_sub]
+    congr 1
+    apply Complex.ext <;> norm_num [map_ofNat]
+  rw [Ftheta, h1, show (1 : ℂ) / 2 + t * I + 1 / 4 = 3 / 4 + t * I by ring, mul_comm,
+    mul_conj]
+
+/-- The height-recentred celestial Cayley chart `w_{h,a}(s) = (s − ½ − ih − a)/(s − ½ − ih + a)`. -/
+noncomputable def cayley (h a : ℝ) (s : ℂ) : ℂ :=
+  (s - 1 / 2 - h * I - a) / (s - 1 / 2 - h * I + a)
+
+lemma normSq_sub_add (z : ℂ) (a : ℝ) :
+    normSq (z - a) = normSq (z + a) - 4 * a * z.re := by
+  simp only [normSq_apply, sub_re, add_re, sub_im, add_im, ofReal_re, ofReal_im]; ring
+
+/-- **Right half-plane → unit disk.** For `a > 0`, `|w_{h,a}(s)| < 1 ↔ Re s > ½`. -/
+theorem norm_cayley_lt_one_iff {h a : ℝ} (ha : 0 < a) {s : ℂ}
+    (hs : s - 1 / 2 - h * I + a ≠ 0) : ‖cayley h a s‖ < 1 ↔ 1 / 2 < s.re := by
+  set z := s - 1 / 2 - h * I with hz
+  have hre : z.re = s.re - 1 / 2 := by simp [hz]
+  have hpos : 0 < normSq (z + a) := normSq_pos.mpr hs
+  rw [cayley, ← hz, norm_div, div_lt_one (norm_pos_iff.mpr hs), ← sq_lt_sq₀ (norm_nonneg _)
+    (norm_nonneg _), ← normSq_eq_norm_sq, ← normSq_eq_norm_sq, normSq_sub_add]
+  constructor
+  · intro h; nlinarith
+  · intro h; nlinarith
+
+/-- **Critical line → equator.** For `a > 0`, `|w_{h,a}(s)| = 1 ↔ Re s = ½`. -/
+theorem norm_cayley_eq_one_iff {h a : ℝ} (ha : 0 < a) {s : ℂ}
+    (hs : s - 1 / 2 - h * I + a ≠ 0) : ‖cayley h a s‖ = 1 ↔ s.re = 1 / 2 := by
+  set z := s - 1 / 2 - h * I with hz
+  have hre : z.re = s.re - 1 / 2 := by simp [hz]
+  have hpos : 0 < normSq (z + a) := normSq_pos.mpr hs
+  rw [cayley, ← hz, norm_div, div_eq_one_iff_eq (norm_pos_iff.mpr hs).ne', ← sq_eq_sq₀
+    (norm_nonneg _) (norm_nonneg _), ← normSq_eq_norm_sq, ← normSq_eq_norm_sq, normSq_sub_add]
+  constructor
+  · intro h
+    have : a * z.re = 0 := by linarith
+    rcases mul_eq_zero.mp this with h' | h'
+    · linarith
+    · linarith
+  · intro h; rw [show z.re = 0 by linarith]; ring
+
+/-- **The adversary's off-line zero sits at `w = −1/3`, independent of the height.** For a
+critical-line zero `ρ = ½ + iγ`, the chart `w_{γ,½}` sends `ρ + ¼` to `−1/3`. -/
+theorem cayley_shifted_zero (γ : ℝ) :
+    cayley γ (1 / 2) (1 / 2 + γ * I + 1 / 4) = -1 / 3 := by
+  unfold cayley
+  push_cast
+  rw [show (1 : ℂ) / 2 + γ * I + 1 / 4 - 1 / 2 - γ * I - 1 / 2 = -1 / 4 by ring,
+    show (1 : ℂ) / 2 + γ * I + 1 / 4 - 1 / 2 - γ * I + 1 / 2 = 3 / 4 by ring]
+  norm_num
+
+end GppCelestialNodal
