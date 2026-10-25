@@ -8658,6 +8658,15 @@ $f_0(6)=2$, while $A_\pm=f_0\pm f_1$ give $A_+(2,3,6)=(1,2,2)$ and $A_-(2,3,6)=(
 Claude Code. Only the pair $(2,3)$ is checked; the ideal-class and Hecke $L$-function identifications and Euler products (classical) are not formalized. No claim about RH,
 GRH or BSD.
 
+\section{Astra's balanced-regulator Volterra identity}
+\lean{GppBalancedRegulator.mul_integral_exp,GppBalancedRegulator.volterra_atom,GppBalancedRegulator.volterra_sum,GppBalancedRegulator.primeSignal_eq,GppBalancedRegulator.volterra_primeSignal,GppBalancedRegulator.volterra_cont,GppBalancedRegulator.continuum_eq,GppBalancedRegulator.balanced_eq,GppBalancedRegulator.volterra_balanced}
+Source: Astra, \texttt{work/2026-10-20\_astra\_balanced\_regulator\_transfer.md}. With $M_e(t)=2\sum_{n\le e^t}\Lambda(n)n^{-e}(n^{-1/2}-e^{-t/2})$,
+$C_e(t)=2\int_1^{e^t}(x^{-1/2}-e^{-t/2})x^{-e}dx+2(1-e^{-t/2})$ and $J_e=M_e-C_e$, for every real $e$ and $t\ge0$:
+$J_e(t)=e^{-et}J_0(t)+e(1+2e)\int_0^te^{-eu}J_0(u)\,du+e(1-2e)\int_0^te^{-(t-u)/2}e^{-eu}J_0(u)\,du$. Proof: each piece is a superposition of atoms
+$g_{e,s}(t)=e^{-es}\max(e^{-s/2}-e^{-t/2},0)$; the identity holds for each atom (closed-form exponential integrals), for finite sums, and for continuum
+superpositions by one Fubini swap. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The Laplace factorization and pole-transfer
+criterion are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
