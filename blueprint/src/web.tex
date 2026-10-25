@@ -8728,6 +8728,13 @@ $M(s)=\prod_{p\in P}(1-p^{-s})/(1-p^{-s'_p})$. On $\operatorname{Re}s>0$ every f
 $\zeta(s)M(s)=0\iff\zeta(s)=0$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite Euler-factor edit only; the functional equation
 need not survive. All-prime freezing is singular (Codex 6394642859): $R_n(s)=\zeta(s)\prod_{p<n}(1-p^{-s})\to1$ on $\operatorname{Re}s>1$ and vanishes at every zero, so on an open preconnected $D\not\ni1$ meeting $\operatorname{Re}s>1$ and containing a zero, no subsequence converges locally uniformly (identity theorem). Elementary, not claimed novel. No claim about RH.
 
+\section{Legendre's sieve for rough integers}
+\lean{GppRoughSieve.sum_moebius_divisors,GppRoughSieve.legendre,GppRoughSieve.abs_count_sub_le}
+Source: Codex, \texttt{work/codex/2026-10-25\_rough\_source\_pole\_subtraction\_tempered\_escape.md}. For $P\ge1$ and $A_P(N)=\#\{1\le n\le N:\gcd(n,P)=1\}$:
+$\sum_{d\mid m}\mu(d)=[m=1]$, $A_P(N)=\sum_{d\mid P}\mu(d)\lfloor N/d\rfloor$, and $|A_P(N)-c_PN|\le\tau(P)$ with $c_P=\sum_{d\mid P}\mu(d)/d$. For $P=\prod_{p\le y}p$ this is
+Codex's $A_y(t)-c_yt=O_y(1)$ with constant $2^{\pi(y)}$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The Laplace
+reconstruction and the Mertens-based tempered-escape no-go are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
