@@ -8722,11 +8722,11 @@ The adversary $F_\theta(s)=\xi(s-\tfrac14)\xi(s+\tfrac14)$ has both symmetries y
 AI assistance from Codex and Claude Code. Discovery2 \#25: $F_\theta(\tfrac12+it)=|\xi(\tfrac34+it)|^2\ge0$, and the chart $w_{h,a}(s)=(s-\tfrac12-ih-a)/(s-\tfrac12-ih+a)$ ($a>0$) sends $\operatorname{Re}s>\tfrac12$ to $|w|<1$, $\operatorname{Re}s=\tfrac12$ to $|w|=1$, and $\rho+\tfrac14$ to $w=-\tfrac13$ when $h=\gamma$, $a=\tfrac12$. Nodal crossings are a coordinate pullback; ``all zeros equatorial'' is RH and is not proved. No claim about RH or BSD.
 
 \section{Slowing or freezing finitely many prime rotations moves no zeta zero}
-\lean{GppPrimeSlowdown.slow_re_pos,GppPrimeSlowdown.one_sub_cpow_ne_zero,GppPrimeSlowdown.multiplier_ne_zero,GppPrimeSlowdown.differentiableAt_multiplier,GppPrimeSlowdown.zeros_invariant}
+\lean{GppPrimeSlowdown.slow_re_pos,GppPrimeSlowdown.one_sub_cpow_ne_zero,GppPrimeSlowdown.multiplier_ne_zero,GppPrimeSlowdown.differentiableAt_multiplier,GppPrimeSlowdown.zeros_invariant,GppPrimeSlowdown.R_tendsto_one,GppPrimeSlowdown.R_eq_zero,GppPrimeSlowdown.no_locallyUniform_limit}
 Source: Codex, GPP-bridge PR \#11 comment 6394506081. For a finite set $P$ of $p\ge2$ and $\alpha_p\in[0,1]$, put $s'_p=\tfrac12+\alpha_p(s-\tfrac12)$ and
 $M(s)=\prod_{p\in P}(1-p^{-s})/(1-p^{-s'_p})$. On $\operatorname{Re}s>0$ every factor is nonzero ($|p^{-z}|=p^{-\operatorname{Re}z}<1$), $M$ is holomorphic and nowhere zero, so
 $\zeta(s)M(s)=0\iff\zeta(s)=0$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite Euler-factor edit only; the functional equation
-need not survive. Elementary, not claimed novel. No claim about RH.
+need not survive. All-prime freezing is singular (Codex 6394642859): $R_n(s)=\zeta(s)\prod_{p<n}(1-p^{-s})\to1$ on $\operatorname{Re}s>1$ and vanishes at every zero, so on an open preconnected $D\not\ni1$ meeting $\operatorname{Re}s>1$ and containing a zero, no subsequence converges locally uniformly (identity theorem). Elementary, not claimed novel. No claim about RH.
 
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
