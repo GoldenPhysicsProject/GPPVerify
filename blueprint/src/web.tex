@@ -8667,6 +8667,15 @@ $\int e^{\sigma u}V=e^{\sigma a_0}\bigl(\int e^{\sigma u}b\bigr)P(e^{\sigma\delt
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The $K\to\infty$ edge limit, the sewing square $A_K^2$ and any PNT comparison are not
 formalized. No claim about RH.
 
+\section{Astra's balanced-regulator Volterra identity}
+\lean{GppBalancedRegulator.mul_integral_exp,GppBalancedRegulator.volterra_atom,GppBalancedRegulator.volterra_sum,GppBalancedRegulator.primeSignal_eq,GppBalancedRegulator.volterra_primeSignal,GppBalancedRegulator.volterra_cont,GppBalancedRegulator.continuum_eq,GppBalancedRegulator.balanced_eq,GppBalancedRegulator.balanced_zero_eq,GppBalancedRegulator.volterra_balanced}
+Source: Astra, \texttt{work/2026-10-20\_astra\_balanced\_regulator\_transfer.md}. With $M_e(t)=2\sum_{n\le e^t}\Lambda(n)n^{-e}(n^{-1/2}-e^{-t/2})$,
+$C_e(t)=2\int_1^{e^t}(x^{-1/2}-e^{-t/2})x^{-e}dx+2(1-e^{-t/2})$ and $J_e=M_e-C_e$, for every real $e$ and $t\ge0$:
+$J_e(t)=e^{-et}J_0(t)+e(1+2e)\int_0^te^{-eu}J_0(u)\,du+e(1-2e)\int_0^te^{-(t-u)/2}e^{-eu}J_0(u)\,du$. Proof: each piece is a superposition of atoms
+$g_{e,s}(t)=e^{-es}\max(e^{-s/2}-e^{-t/2},0)$; the identity holds for each atom (closed-form exponential integrals), for finite sums, and for continuum
+superpositions by one Fubini swap. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The Laplace factorization and pole-transfer
+criterion are not formalized. At $e=0$, $J_0(\log X)=2\sum_{n\le X}\Lambda(n)/\sqrt n-2\psi(X)/\sqrt X-2\sqrt X+2$ (Astra, Laplace-growth audit). No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
