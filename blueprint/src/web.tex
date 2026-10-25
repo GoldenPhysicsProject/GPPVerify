@@ -8650,6 +8650,14 @@ $a\Delta_2Q(x)=\Delta_2(ax_1+bx_2+cx_3)^2+(\Delta_2x_2+(ae-bc)x_3)^2+a\Delta_3x_
 explicit negative vector (inertia $(2,1)$). Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The Arb-certified site intervals are not
 plugged in. No claim about RH or BSD.
 
+\section{The \texorpdfstring{$C_2$}{C2} class-character projection of the \texorpdfstring{$D=-20$}{D=-20} Epstein counts}
+\lean{GppC2ClassCharacter.idem_plus,GppC2ClassCharacter.idem_minus,GppC2ClassCharacter.idem_orth,GppC2ClassCharacter.idem_sum,GppC2ClassCharacter.g_mul_plus,GppC2ClassCharacter.g_mul_minus,GppC2ClassCharacter.inv_fourier,GppC2ClassCharacter.sol_bound_Q0,GppC2ClassCharacter.sol_bound_Q1,GppC2ClassCharacter.f0_not_mult,GppC2ClassCharacter.Aplus_mult_2_3,GppC2ClassCharacter.Aminus_mult_2_3}
+Source: Codex, GPP-bridge PR \#11 comment 6390593150 (Discovery2 PR \#22), from Grok's S99 Epstein audit. With $g^2=1$ and $2$ invertible, $e_\pm=(1\pm g)/2$ are complementary
+orthogonal idempotents with $ge_\pm=\pm e_\pm$. For $Q_0=x^2+5y^2$, $Q_1=2x^2+2xy+3y^2$ and $f_j=r_j/2$, every solution of $Q_j=n$ lies in $[-n,n]^2$; $f_0(2)=f_0(3)=0$ but
+$f_0(6)=2$, while $A_\pm=f_0\pm f_1$ give $A_+(2,3,6)=(1,2,2)$ and $A_-(2,3,6)=(-1,-2,2)$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex, Grok and
+Claude Code. Only the pair $(2,3)$ is checked; the ideal-class and Hecke $L$-function identifications and Euler products (classical) are not formalized. No claim about RH,
+GRH or BSD.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
