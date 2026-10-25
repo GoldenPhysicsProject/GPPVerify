@@ -96,7 +96,7 @@ theorem physical_three_ball_cancellation
     (sphere_area_eq_three_vol_over_radius R hR)
 
 theorem physical_three_ball_york_coefficient
-    (R eps : ℝ) (hR : R ≠ 0) :
+    (R eps : ℝ) :
     interiorWork 3 R (ballVolume R) eps =
       (4 / R) * volumeResponse 3 (ballVolume R) eps := by
   convert homogeneous_ball_bulk_is_volume_work
