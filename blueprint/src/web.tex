@@ -8676,6 +8676,13 @@ $g_{e,s}(t)=e^{-es}\max(e^{-s/2}-e^{-t/2},0)$; the identity holds for each atom 
 superpositions by one Fubini swap. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The Laplace factorization and pole-transfer
 criterion are not formalized. At $e=0$, $J_0(\log X)=2\sum_{n\le X}\Lambda(n)/\sqrt n-2\psi(X)/\sqrt X-2\sqrt X+2$ (Astra, Laplace-growth audit). No claim about RH.
 
+\section{The \texorpdfstring{$\mathfrak{su}(2)$}{su(2)} ladder on the equator modes \texorpdfstring{$H_N$}{H\_N}}
+\lean{GppEquatorSU2.comm_HE,GppEquatorSU2.comm_HF,GppEquatorSU2.comm_EF,GppEquatorSU2.E_preserves,GppEquatorSU2.F_preserves,GppEquatorSU2.H_preserves,GppEquatorSU2.casimir,GppEquatorSU2.detailed_balance,GppEquatorSU2.adjoint}
+Source: Codex, GPP-bridge PR \#11 comment 6392046099 (Discovery2 PR \#23), a finite model of Daniel's equator hypothesis. On $H_N=\mathrm{span}\{e^{ik\varphi}:0\le k<N\}$,
+$Ee_k=ke_{k-1}$, $Fe_k=(N-1-k)e_{k+1}$, $He_k=(N-1-2k)e_k$ satisfy $[H,E]=2E$, $[H,F]=-2F$, $[E,F]=H$, preserve $H_N$, and $H^2+2(EF+FE)=(N-1)(N+1)$, i.e. $J^2=j(j+1)$ with
+$j=(N-1)/2$. With weights $w_k=1/\binom{N-1}{k}$, $\langle Ec,d\rangle_w=\langle c,Fd\rangle_w$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code.
+Classical spin-$j$ representation; the CAR Fock singlet count, the thermal falsifier and any black-hole entropy reading are not formalized. No claim about RH or BSD.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
