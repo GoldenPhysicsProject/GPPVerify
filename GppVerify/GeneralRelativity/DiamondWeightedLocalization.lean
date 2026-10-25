@@ -39,14 +39,13 @@ noncomputable def radialSecondLapseMoment (n R V : ℝ) : ℝ :=
   n * R^3 * V / ((n+2)*(n+4))
 
 /-- Exact weighted radial moment ratio, if denominators and
-normalizing mass are nonzero. -/
+n+2 and n+4 are nonzero. -/
 theorem weighted_second_moment_exact
     (n R V : ℝ) (hn2 : n+2 ≠ 0) (hn4 : n+4 ≠ 0) :
     radialSecondLapseMoment n R V =
       lapseMass n R V * weightedRadialSecondMoment n R := by
   unfold radialSecondLapseMoment lapseMass weightedRadialSecondMoment
   field_simp
-  ring
 
 /-- The normalized weighted residual in the radial quadratic sector. -/
 noncomputable def normalizedResidual (n R a b : ℝ) : ℝ :=
