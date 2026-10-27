@@ -8747,4 +8747,21 @@ Codex, Astra, Turbo and Claude Code. A conditional theorem: with $v=0$ the hypot
 content only once $(v,U_t)$ is constructed from the boundary state, which is open. The converse (RH $\Rightarrow$ $K$ bounded) needs the explicit formula and is
 not formalized. RH is not claimed.
 
+
+\section{Hidden zeros of planar scalar tree amplitudes}
+\label{sec:hidden-zeros}
+\lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
+\leanok
+The four-, five-, and six-point hidden-zero identities of Arkani-Hamed, Cao,
+Dong, Figueiredo and He (arXiv:2312.16282, sections 2--3) are formalized over
+an arbitrary field, with the stated linear kinematic relations and nonzero
+propagator denominators. The five-point results include factorization into
+two four-point amplitudes; the six-point result uses all fourteen hexagon
+triangulations on the skinny-rectangle locus. The general multiplicity
+statement and loop amplitudes are not formalized here. The displayed cyclic
+seeds in equation (3.6) generate eleven distinct terms under ordinary
+rotations; the definition includes the additional reflected three-term
+orbit required by the full triangulation sum. Formalization: Turbo;
+integration and independent orbit audit: Astra, Golden Physics Project.
+
 \end{document}
