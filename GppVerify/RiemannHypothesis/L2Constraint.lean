@@ -83,6 +83,31 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
     absent. Name the missing theorem, not the module. -/
 theorem open_K1_compact_haar : True := trivial
 
+/-- **Inversion preserves the `L^p` seminorm** — the abstract
+    measure-theoretic content of the step `open_T_preserves_L2` below
+    cites ("follows from adelic_haar_self_dual"): on any group `G`
+    carrying an inversion-invariant measure `μ`, precomposition with
+    `a ↦ a⁻¹` preserves the `L^p` seminorm for every `p`. This is
+    Mathlib's `Measure.measurePreserving_inv` (Haar self-duality for a
+    general group) fed into `eLpNorm_comp_measurePreserving`. The adelic
+    instantiation at `K¹` additionally needs the idèle group, which
+    Mathlib does not have, so the stub itself stays open; this is its
+    group-theoretic half, proved. -/
+theorem inv_eLpNorm {G : Type*} [Group G] [MeasurableSpace G]
+    [MeasurableInv G] {μ : MeasureTheory.Measure G} [μ.IsInvInvariant]
+    (p : ENNReal) {f : G → ℂ} (hf : MeasureTheory.AEStronglyMeasurable f μ) :
+    MeasureTheory.eLpNorm (f ∘ Inv.inv) p μ = MeasureTheory.eLpNorm f p μ :=
+  MeasureTheory.eLpNorm_comp_measurePreserving hf
+    (MeasureTheory.Measure.measurePreserving_inv μ)
+
+/-- **Inversion preserves `L²` membership**: under the same hypotheses,
+    `f ∈ L²(μ)` implies `f ∘ (a ↦ a⁻¹) ∈ L²(μ)`. -/
+theorem inv_memLp_two {G : Type*} [Group G] [MeasurableSpace G]
+    [MeasurableInv G] {μ : MeasureTheory.Measure G} [μ.IsInvInvariant]
+    {f : G → ℂ} (hf : MeasureTheory.MemLp f 2 μ) :
+    MeasureTheory.MemLp (f ∘ Inv.inv) 2 μ :=
+  hf.comp_measurePreserving (MeasureTheory.Measure.measurePreserving_inv μ)
+
 /-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).
     Follows from adelic_haar_self_dual. -/
 theorem open_T_preserves_L2 : True := trivial
