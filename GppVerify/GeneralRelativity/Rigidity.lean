@@ -36,8 +36,128 @@ namespace GppRigidity
 -- §1  Algebraic facts (proved clean)
 -- ============================================================
 
-/-- In 4D, the Weyl tensor is traceless: g^{αβ} C_{αμβν} = 0. -/
-lemma open_weyl_traceless : True := trivial
+/-! ### Algebraic curvature layer
+
+The tracelessness of the Weyl tensor is pure algebra of finite index sums:
+it needs the definitions of Ricci contraction, scalar curvature, and the
+Weyl tensor itself, but no differential geometry and not even the symmetries
+of the Riemann tensor. The layer below builds exactly that, for algebraic
+curvature tensors given as bare functions of four indices on `Fin n`, with
+the Kronecker delta as the metric (the orthonormal-frame form of the
+contraction `g^{αβ} C_{αμβν}`). -/
+
+/-- Kronecker delta on `Fin n`, valued in `ℝ`. -/
+def kdelta {n : ℕ} (i j : Fin n) : ℝ := if i = j then 1 else 0
+
+/-- Ricci contraction (slots 1 and 3) of an algebraic curvature tensor,
+    given as a bare function of four indices (no symmetries assumed). -/
+def ricci {n : ℕ} (R : Fin n → Fin n → Fin n → Fin n → ℝ) (b d : Fin n) : ℝ :=
+  ∑ a, R a b a d
+
+/-- Scalar curvature: the full trace of the Ricci contraction. -/
+def scalCurv {n : ℕ} (R : Fin n → Fin n → Fin n → Fin n → ℝ) : ℝ :=
+  ∑ a, ricci R a a
+
+/-- Kulkarni–Nomizu product of the Kronecker delta with a 2-tensor `T`:
+    `(δ ⊙ T)_{ijkl} = δ_{ik} T_{jl} + δ_{jl} T_{ik} − δ_{il} T_{jk}
+    − δ_{jk} T_{il}`. -/
+def kulkarniNomizu {n : ℕ} (T : Fin n → Fin n → ℝ) (i j k l : Fin n) : ℝ :=
+  kdelta i k * T j l + kdelta j l * T i k
+    - kdelta i l * T j k - kdelta j k * T i l
+
+/-- The Weyl tensor of an algebraic curvature tensor in dimension `n`:
+    `C = Riem − (1/(n−2)) δ ⊙ Ric + (R / (2(n−1)(n−2))) δ ⊙ δ`. -/
+noncomputable def weyl {n : ℕ} (R : Fin n → Fin n → Fin n → Fin n → ℝ)
+    (i j k l : Fin n) : ℝ :=
+  R i j k l
+    - (1 / ((n : ℝ) - 2)) * kulkarniNomizu (ricci R) i j k l
+    + (scalCurv R / (2 * ((n : ℝ) - 1) * ((n : ℝ) - 2)))
+      * kulkarniNomizu kdelta i j k l
+
+theorem sum_kdelta_self {n : ℕ} : ∑ a : Fin n, kdelta a a = (n : ℝ) := by
+  simp [kdelta]
+
+theorem sum_kdelta_mul_left {n : ℕ} (T : Fin n → Fin n → ℝ) (b d : Fin n) :
+    ∑ a, kdelta a d * T b a = T b d := by
+  have h : ∀ a : Fin n, kdelta a d * T b a = if a = d then T b a else 0 := by
+    intro a
+    by_cases ha : a = d <;> simp [kdelta, ha]
+  rw [Finset.sum_congr rfl (fun a _ => h a), Finset.sum_ite_eq',
+    if_pos (Finset.mem_univ d)]
+
+theorem sum_kdelta_mul_right {n : ℕ} (T : Fin n → Fin n → ℝ) (b d : Fin n) :
+    ∑ a, kdelta b a * T a d = T b d := by
+  have h : ∀ a : Fin n, kdelta b a * T a d = if b = a then T a d else 0 := by
+    intro a
+    by_cases ha : b = a <;> simp [kdelta, ha]
+  rw [Finset.sum_congr rfl (fun a _ => h a), Finset.sum_ite_eq,
+    if_pos (Finset.mem_univ b)]
+
+/-- Trace of `δ ⊙ Ric` over slots 1 and 3: `(n−2) Ric + δ · R`.
+    Pure finite-sum algebra; no symmetries of `R` are used. -/
+theorem trace_kulkarniNomizu_ricci {n : ℕ}
+    (R : Fin n → Fin n → Fin n → Fin n → ℝ) (b d : Fin n) :
+    ∑ a, kulkarniNomizu (ricci R) a b a d
+      = ((n : ℝ) - 2) * ricci R b d + kdelta b d * scalCurv R := by
+  have hpt : ∀ a : Fin n, kulkarniNomizu (ricci R) a b a d
+      = kdelta a a * ricci R b d + kdelta b d * ricci R a a
+        - kdelta a d * ricci R b a - kdelta b a * ricci R a d := by
+    intro a
+    rfl
+  rw [Finset.sum_congr rfl (fun a _ => hpt a), Finset.sum_sub_distrib,
+    Finset.sum_sub_distrib, Finset.sum_add_distrib]
+  rw [← Finset.sum_mul, sum_kdelta_self, ← Finset.mul_sum,
+    sum_kdelta_mul_left, sum_kdelta_mul_right]
+  simp only [scalCurv]
+  ring
+
+/-- Trace of `δ ⊙ δ` over slots 1 and 3: `2(n−1) δ`. -/
+theorem trace_kulkarniNomizu_delta {n : ℕ} (b d : Fin n) :
+    ∑ a, kulkarniNomizu kdelta a b a d = 2 * ((n : ℝ) - 1) * kdelta b d := by
+  have hpt : ∀ a : Fin n, kulkarniNomizu kdelta a b a d
+      = kdelta a a * kdelta b d + kdelta b d * kdelta a a
+        - kdelta a d * kdelta b a - kdelta b a * kdelta a d := by
+    intro a
+    rfl
+  rw [Finset.sum_congr rfl (fun a _ => hpt a), Finset.sum_sub_distrib,
+    Finset.sum_sub_distrib, Finset.sum_add_distrib]
+  rw [← Finset.sum_mul, sum_kdelta_self, ← Finset.mul_sum, sum_kdelta_self,
+    sum_kdelta_mul_left, sum_kdelta_mul_right]
+  by_cases hbd : b = d <;> simp [kdelta, hbd] <;> ring
+
+/-- **The Weyl tensor is traceless** in every dimension `n ≥ 3`: the
+    contraction of the Weyl tensor over slots 1 and 3 vanishes identically,
+    for every algebraic curvature tensor `R` — no symmetries assumed. The
+    two trace identities above are the whole proof: the `(n−2)` in the
+    Ricci trace and the `2(n−1)` in the delta trace are exactly cancelled
+    by the Weyl coefficients. -/
+theorem weyl_trace_zero {n : ℕ} (hn : 3 ≤ n)
+    (R : Fin n → Fin n → Fin n → Fin n → ℝ) (b d : Fin n) :
+    ∑ a, weyl R a b a d = 0 := by
+  have h2n : (2 : ℝ) < (n : ℝ) := by exact_mod_cast (show 2 < n by omega)
+  have hn2 : ((n : ℝ) - 2) ≠ 0 := sub_ne_zero.mpr (ne_of_gt h2n)
+  have hn1 : ((n : ℝ) - 1) ≠ 0 :=
+    sub_ne_zero.mpr (ne_of_gt (by linarith : (1 : ℝ) < (n : ℝ)))
+  have hsum : (∑ a, weyl R a b a d) = ricci R b d
+      - (1 / ((n : ℝ) - 2))
+        * (((n : ℝ) - 2) * ricci R b d + kdelta b d * scalCurv R)
+      + (scalCurv R / (2 * ((n : ℝ) - 1) * ((n : ℝ) - 2)))
+        * (2 * ((n : ℝ) - 1) * kdelta b d) := by
+    simp only [weyl]
+    rw [Finset.sum_add_distrib, Finset.sum_sub_distrib, ← Finset.mul_sum,
+      ← Finset.mul_sum, trace_kulkarniNomizu_ricci, trace_kulkarniNomizu_delta]
+    rfl
+  rw [hsum]
+  field_simp
+  ring
+
+/-- In 4D, the Weyl tensor is traceless: `g^{αβ} C_{αμβν} = 0` (in the
+    orthonormal-frame form of the contraction: summation against the
+    Kronecker delta over slots 1 and 3). The `n = 4` case of
+    `weyl_trace_zero`. Retires the stub `open_weyl_traceless`. -/
+theorem weyl_traceless (R : Fin 4 → Fin 4 → Fin 4 → Fin 4 → ℝ) (μ ν : Fin 4) :
+    ∑ α, weyl R α μ α ν = 0 :=
+  weyl_trace_zero (by decide) R μ ν
 
 /-- Bianchi identity: ∇_μ G^{μν} = 0 (divergence-free). -/
 lemma open_bianchi_identity : True := trivial
