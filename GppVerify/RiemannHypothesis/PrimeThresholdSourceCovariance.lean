@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Analysis.SpecificLimits.Basic
+import Mathlib.Tactic
 
 /-!
 # Prime occupation threshold source and covariance
