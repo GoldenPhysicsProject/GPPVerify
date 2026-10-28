@@ -116,7 +116,13 @@ private theorem innovationCov_of_le (x : ℝ) (N : ℕ) (k l : Fin N)
   unfold innovationCov
   change (∑ j : Fin N, (fun t : ℕ =>
     weight x t * feature x k.val t * feature x l.val t) j.val) = _
-  rw [Fin.sum_univ_eq_sum_range]
+  have hfin : (∑ j : Fin N,
+        (fun t : ℕ => weight x t * feature x k.val t * feature x l.val t) j.val)
+      = (∑ j ∈ Finset.range N,
+          weight x j * feature x k.val j * feature x l.val j) :=
+    Fin.sum_univ_eq_sum_range
+      (fun t : ℕ => weight x t * feature x k.val t * feature x l.val t) N
+  rw [hfin]
   have hs : Finset.range (k.val + 1) ⊆ Finset.range N := by
     exact Finset.range_mono (Nat.succ_le_of_lt k.isLt)
   have hcrop :
