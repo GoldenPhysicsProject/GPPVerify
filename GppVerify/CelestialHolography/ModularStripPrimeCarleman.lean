@@ -1,4 +1,5 @@
-import Mathlib
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Tactic
 
 /-!
 # Positive two-boundary modular strip, celestial cut, and prime-square Carleman bulk
