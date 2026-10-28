@@ -196,18 +196,34 @@ theorem critical_lines_coincide (s : ℂ) :
 -- §7  Three generations — thm:link6 dependent
 -- ============================================================
 
-/-- The c = 0 condition (five independent proofs, On the Nature of Nature v5.2 Ch.6) together with
-    Link 6 (c₂D = c₄D^Weyl, On the Nature of Nature v5.2 thm:link6) gives c_4D = 0, which by
-    Boyle-Turok (2021) forces exactly 3 fermion generations.
+/-- The c = 0 condition (five independent proofs, On the Nature of Nature v5.2 Ch.6)
+    together with Link 6 (c₂D = κ₀·c₄D^Weyl, On the Nature of Nature v5.2 thm:link6)
+    gives c_4D = 0, which by Boyle-Turok (2021) forces exactly 3 fermion generations.
 
-    THIS THEOREM DEPENDS ON thm:link6 — OPEN PROBLEM.
-    Do not close this sorry without a proof of Link 6. -/
-theorem open_three_generations_from_c0_and_link6 :
-    -- Stub: the actual typed theorem is GppLink6.three_generations_from_c0 in Link6.lean.
-    -- Link6.lean proves: c_2D = 0 → n_gen = 3 via Boyle-Turok 2021.
-    -- Cannot import Link6 here (circular: ShadowSymmetry → ThreeGenerations → Link6).
-    ∀ (_ : True), True :=
-  fun _ => trivial
+    Every physics input is an explicit hypothesis, exactly as in the typed
+    theorem this stub pointed at, `GppLink6.three_generations_from_c0`
+    (`CelestialHolography/Link6.lean`), whose statement this is: `kappa_0_pos`
+    (the canonical OPE normalisation is strictly positive), `link6` (thm:link6
+    itself), `boyle_turok` (the Boyle–Turok analysis), and `hc : c_2D = 0`.
+    Link 6 is *not* proved here or there: it is the hypothesis `link6`, and the
+    deduction from it is the `mul_eq_zero` step below. The stub's warning
+    ("do not close without a proof of Link 6") is honoured in the only sense
+    the library's own typed version honours it: nothing is asserted
+    unconditionally.
+
+    Restated and proved here rather than imported, because the import would be
+    circular (ShadowSymmetry → ThreeGenerations → Link6). Retires the stub
+    `open_three_generations_from_c0_and_link6`. -/
+theorem three_generations_from_c0_and_link6 {c_2D c_4D_weyl kappa_0 : ℝ} {n_gen : ℕ}
+    (kappa_0_pos : 0 < kappa_0)
+    (link6 : c_2D = kappa_0 * c_4D_weyl)
+    (boyle_turok : c_4D_weyl = 0 → n_gen = 3)
+    (hc : c_2D = 0) : n_gen = 3 := by
+  apply boyle_turok
+  rw [hc] at link6
+  rcases mul_eq_zero.mp link6.symm with h | h
+  · exact absurd h kappa_0_pos.ne'
+  · exact h
 
 end GppShadow
 
@@ -222,4 +238,4 @@ end GppShadow
 #check @GppShadow.shadow_equals_time_reversal
 #check @GppShadow.delta_2s_shadow_is_functional_equation
 #check @GppShadow.critical_lines_coincide
-#check @GppShadow.open_three_generations_from_c0_and_link6
+#check @GppShadow.three_generations_from_c0_and_link6

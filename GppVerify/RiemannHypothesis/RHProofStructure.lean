@@ -99,11 +99,67 @@ theorem off_line_forces_companion (σ : ℝ) (h : σ ≠ 1/2) :
 
 /-! ## Scaling eigenspace dimension -/
 
-/-- In log coordinates, the eigenvalue equation Aψ = γψ has unique solution e^{iγu} -/
-theorem open_scaling_eigenspace_ode (_ : ℝ) :
-    ∀ (_ : ℂ), True := fun _ => trivial
--- NOTE: The statement that the 1D eigenspace forces multiplicity 1
--- for each zero ordinate is the key content (rh_physics24_edited, lem:eigenspace).
+/-- The exponential `u ↦ e^{iγu}` satisfies the scaling eigenvalue equation
+    `ψ' = iγ · ψ` (the dilation generator's eigenvalue equation in log
+    coordinates). -/
+theorem scaling_exp_hasDerivAt (γ : ℝ) (u : ℝ) :
+    HasDerivAt (fun u : ℝ => Complex.exp (Complex.I * (γ : ℂ) * (u : ℂ)))
+      (Complex.I * (γ : ℂ) * Complex.exp (Complex.I * (γ : ℂ) * (u : ℂ))) u := by
+  have h1 : HasDerivAt (fun u : ℝ => (u : ℂ)) 1 u :=
+    (hasDerivAt_id u).ofReal_comp
+  have h2 := (h1.const_mul (Complex.I * (γ : ℂ))).cexp
+  simp only [mul_one] at h2
+  rw [mul_comm (Complex.exp (Complex.I * (γ : ℂ) * (u : ℂ)))
+    (Complex.I * (γ : ℂ))] at h2
+  exact h2
+
+/-- **The scaling eigenspace is one-dimensional** (rh_physics24_edited,
+    lem:eigenspace). In log coordinates, the eigenvalue equation
+    `Aψ = γψ` of the dilation generator — that is, `ψ' = iγ · ψ` — has as
+    its only solutions the constant multiples of `e^{iγu}`: every solution
+    satisfies `ψ u = ψ 0 · e^{iγu}`.
+
+    This is the content the stub `open_scaling_eigenspace_ode` stood for:
+    its own note records that "the statement that the 1D eigenspace forces
+    multiplicity 1 for each zero ordinate is the key content". The proof is
+    the integrating-factor argument: `ψ · e^{-iγu}` has derivative `0`
+    everywhere, hence is constant. Retires `open_scaling_eigenspace_ode`. -/
+theorem scaling_eigenspace_ode (γ : ℝ) {ψ : ℝ → ℂ}
+    (hψ : ∀ u : ℝ, HasDerivAt ψ (Complex.I * (γ : ℂ) * ψ u) u) (u : ℝ) :
+    ψ u = ψ 0 * Complex.exp (Complex.I * (γ : ℂ) * (u : ℂ)) := by
+  have hg : ∀ x : ℝ, HasDerivAt
+      (fun u : ℝ => ψ u * Complex.exp (-((Complex.I * (γ : ℂ)) * (u : ℂ)))) 0 x := by
+    intro x
+    have he : HasDerivAt
+        (fun u : ℝ => Complex.exp (-((Complex.I * (γ : ℂ)) * (u : ℂ))))
+        (Complex.exp (-((Complex.I * (γ : ℂ)) * (x : ℂ))) * (-(Complex.I * (γ : ℂ)))) x := by
+      have h1 : HasDerivAt (fun u : ℝ => (u : ℂ)) 1 x :=
+        (hasDerivAt_id x).ofReal_comp
+      have h2 := ((h1.const_mul (Complex.I * (γ : ℂ))).neg).cexp
+      simpa using h2
+    have hsum := (hψ x).mul he
+    have hder : (Complex.I * (γ : ℂ) * ψ x)
+          * Complex.exp (-((Complex.I * (γ : ℂ)) * (x : ℂ)))
+        + ψ x * (Complex.exp (-((Complex.I * (γ : ℂ)) * (x : ℂ)))
+          * (-(Complex.I * (γ : ℂ)))) = 0 := by ring
+    rwa [hder] at hsum
+  have hdiff : Differentiable ℝ
+      (fun u : ℝ => ψ u * Complex.exp (-((Complex.I * (γ : ℂ)) * (u : ℂ)))) :=
+    fun x => (hg x).differentiableAt
+  have hf0 : ∀ x : ℝ, fderiv ℝ
+      (fun u : ℝ => ψ u * Complex.exp (-((Complex.I * (γ : ℂ)) * (u : ℂ)))) x = 0 := by
+    intro x
+    rw [(hg x).hasFDerivAt.fderiv]
+    ext v
+    simp
+  have hconst := is_const_of_fderiv_eq_zero hdiff hf0 u 0
+  simp only [Complex.ofReal_zero, mul_zero, neg_zero, Complex.exp_zero,
+    mul_one] at hconst
+  calc ψ u = (ψ u * Complex.exp (-((Complex.I * (γ : ℂ)) * (u : ℂ))))
+          * Complex.exp ((Complex.I * (γ : ℂ)) * (u : ℂ)) := by
+          rw [mul_assoc, ← Complex.exp_add, neg_add_cancel, Complex.exp_zero,
+            mul_one]
+    _ = ψ 0 * Complex.exp ((Complex.I * (γ : ℂ)) * (u : ℂ)) := by rw [hconst]
 -- This requires adèlic L² theory; axiomatized in AdelicL2.lean.
 
 /- Multiplicity constraint: spectral atom at γ equals 1 = dim(eigenspace)

@@ -64,14 +64,39 @@ theorem epsilon_sq : epsilon * epsilon = -1 := by
 theorem epsilon_det : epsilon.det = 1 := by
   simp [epsilon, Matrix.det_fin_two_of]
 
-/-- Charge conjugation C satisfies C² = -1 for Dirac spinors. The matrix
-    part is `epsilon_sq`; the full antiunitary statement (including
-    complex conjugation) is a further Mathlib gap, recorded here as
-    before. -/
-theorem open_charge_conjugation_sq : True := trivial
--- NOTE: full antiunitary Clifford algebra / spinor bundle formalism
--- needed for the complex-conjugation half; the matrix half is
--- `epsilon_sq` above.
+/-- Charge conjugation on 2-component spinors: the antilinear map
+    `C : ψ ↦ ε ψ̄`, with `ε` as above and `ψ̄` componentwise conjugation. -/
+def chargeConj (ψ : Fin 2 → ℂ) : Fin 2 → ℂ := epsilon.mulVec (star ψ)
+
+/-- Conjugation passes through the `ε` action unchanged: the entries of
+    `ε` are real, so conjugating `ε · φ` entrywise gives `ε · φ̄`. (This is
+    entrywise conjugation; `star` on a *matrix* would be the conjugate
+    transpose, which is not what appears here.) -/
+lemma star_epsilon_mulVec (φ : Fin 2 → ℂ) :
+    star (epsilon.mulVec φ) = epsilon.mulVec (star φ) := by
+  ext i
+  fin_cases i <;>
+    simp (config := { decide := true })
+      [Matrix.mulVec, Fin.sum_univ_two, epsilon, Pi.star_apply, map_add,
+        map_mul] <;> rfl
+
+/-- **Charge conjugation squares to `-1`**: `C² = -1` for the antilinear map
+    `C ψ = ε ψ̄` on 2-component spinors.
+
+    `C (C ψ) = ε · conj (ε · ψ̄) = ε · ε · ψ = ε² · ψ = -ψ`: the conjugation
+    passes through `ε` unchanged (`star_epsilon_mulVec`), and the matrix
+    part is `epsilon_sq`.
+
+    Retires the stub `open_charge_conjugation_sq`, whose docstring recorded
+    the complex-conjugation half as a Mathlib gap. On this file's model of a
+    Weyl spinor (`Fin 2 → ℂ`, with `C ψ = ε ψ̄` as stated at `epsilon`) the
+    conjugation is `star` and the antiunitary statement is the computation
+    above; no spinor-bundle formalism enters at this dimension. -/
+theorem charge_conjugation_sq (ψ : Fin 2 → ℂ) :
+    chargeConj (chargeConj ψ) = -ψ := by
+  unfold chargeConj
+  rw [star_epsilon_mulVec, star_star, Matrix.mulVec_mulVec, epsilon_sq,
+    Matrix.neg_mulVec, Matrix.one_mulVec]
 
 /-- Majorana condition: ψ = Cψ̄ is self-consistent for Weyl spinors -/
 theorem open_majorana_self_consistency : True := trivial
