@@ -1,6 +1,7 @@
 import Mathlib.Algebra.Group.Basic
 import Mathlib.Data.Real.Basic
 import Mathlib.Tactic
+import GppVerify.YangMills.AffineCurrentAlgebra
 
 /-!
 # Yang-Mills Existence and Mass Gap
@@ -155,15 +156,34 @@ theorem mass_gap_ratio_strict_anti (N : ℕ) (hN : 1 ≤ N) {k1 k2 : ℕ} (hk : 
   have hklt : (k1 : ℚ) < (k2 : ℚ) := by exact_mod_cast hk
   nlinarith
 
-/-- Kac-Moody commutation relation: the central term of `[J^a_m, J^b_n]` carries the
-    level `k`, as `k·m·δ^{ab}·δ_{m+n,0}`.
+/-- **Kac–Moody commutation relation: the level appears in the commutator.**
+    In the level-`k` affine current algebra of `d` abelian currents
+    constructed in `GppVerify.YangMills.AffineCurrentAlgebra` — the
+    centrally extended loop algebra of `u(1)^d`, with current modes
+    `J^a_m`, central element `C`, and a genuine `LieAlgebra ℂ` structure —
+    the commutator of two current modes is
 
-    Gap: the currents `J^a_m` are not constructed here and there is no bracket to compute,
-    so the relation cannot be stated, let alone proved — the same WZW/2D-CFT operator
-    formalism gap recorded for `open_sugawara_construction` below. Until 2026-09-01 this
-    was `k * m * δ_ab * δ_mn = k * m * δ_ab * δ_mn := rfl`: four unconstrained integers,
-    the same product on both sides, named after the commutator it does not mention. -/
-theorem open_kac_moody_level_appears_in_commutator : True := trivial
+    `[J^a_m, J^b_n] = k·m·δ^{ab}·δ_{m+n,0}·C`:
+
+    the central term of the commutator carries the level `k`, exactly with
+    the stated coefficient. This is `AffineCurrentAlgebra.kac_moody_commutator`.
+
+    Retires `open_kac_moody_level_appears_in_commutator`, whose gap note
+    recorded that the currents and a bracket did not exist in the tree;
+    both are now constructed. The construction is the abelian
+    (Heisenberg / free-boson) current algebra, where the central term is
+    the whole commutator; the nonabelian case has the additional
+    `f^{ab}{}_c J^c_{m+n}` term and its own Sugawara/Kac–Peterson theory,
+    which remains open below. (Until 2026-09-01 the stub was an `rfl`
+    identity between two copies of the same product; see git history.) -/
+theorem kac_moody_level_appears_in_commutator (k : ℂ) (d : ℕ)
+    (a b : Fin d) (m n : ℤ) :
+    ⁅AffineCurrentAlgebra.mode (k := k) a m,
+      AffineCurrentAlgebra.mode (k := k) b n⁆
+      = (k * (m : ℂ) * (if a = b then 1 else 0)
+        * (if m + n = 0 then 1 else 0))
+        • (AffineCurrentAlgebra.central : AffineCurrentAlgebra d k) :=
+  AffineCurrentAlgebra.kac_moody_commutator a b m n
 
 /-- Sugawara energy-momentum tensor construction: T = :JJ:/(k+h^∨) -/
 theorem open_sugawara_construction : True := trivial
