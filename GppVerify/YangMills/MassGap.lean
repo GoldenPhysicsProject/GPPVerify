@@ -311,6 +311,25 @@ theorem open_wightman_axioms_satisfied : True := trivial
 theorem open_yang_mills_mass_gap : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:main (item 3)
 -- OPEN PROBLEM: Yang-Mills existence and mass gap (Clay Millennium Prize).
+-- CLOSURE CONTRACT (2026-10-28): this stub closes exactly when there is a construction,
+-- for every compact simple gauge group G, of a quantum Yang-Mills theory on R^4
+-- satisfying the Osterwalder-Schrader axioms, whose reconstructed Hamiltonian H
+-- satisfies spec(H) ⊆ {0} ∪ [Δ, ∞) for some Δ > 0, with a unique vacuum.
+-- ROUTE (lattice road): the finite-stage lattice theory (finite volume, finite gauge
+-- group; `GppVerify/YangMills/LatticeGaugeFinite.lean`) and OS reconstruction
+-- (Osterwalder-Schrader 1973/75; known mathematics, a library target) are the supplied
+-- stages. The open content is exactly the two uniformity statements:
+--   (U1) the finite-volume spectral gap stays open as the volume grows, at fixed
+--        lattice spacing;
+--   (U2) correlations decay at a physical rate m > 0 uniform in the lattice spacing
+--        along the renormalised trajectory (the continuum limit).
+-- A proof of (U1) + (U2) for the lattice theory closes this stub via reconstruction,
+-- and nothing weaker does. In particular the Sugawara ratio arithmetic above does not:
+-- it is a rational function of (N, k) and reads as a mass gap only once existence and
+-- the level-quantization claim of the module header are supplied.
+-- REFERENCE: "Constructing Quantum Yang–Mills on R⁴ with a Mass Gap: Programme"
+-- (YM-PROGRAMME.md, metaproblem goal files, 2026-10-28); audit of the v5 source
+-- manuscripts: YM-V5-AUDIT.md (same location).
 
 /-- Yang-Mills existence: Wightman QFT with gauge group G exists.
 
