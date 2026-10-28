@@ -96,7 +96,7 @@ private theorem reversed_geometric (x : ℝ) (k l : ℕ) :
     calc
       _ = ∑ j ∈ Finset.range (k + 1),
             x ^ ((k + 1) + (l + 1) - (((k + 1) - 1 - j) + 1)) := by
-              rw [Finset.sum_range_reflect]
+              rw [← Finset.sum_range_reflect]
       _ = _ := by
               apply Finset.sum_congr rfl
               intro j hj
@@ -114,6 +114,8 @@ private theorem innovationCov_of_le (x : ℝ) (N : ℕ) (k l : Fin N)
       (1 - x) * (∑ j ∈ Finset.range (k.val + 1),
        x ^ ((k.val + 1) + (l.val + 1) - (j + 1))) := by
   unfold innovationCov
+  change (∑ j : Fin N, (fun t : ℕ =>
+    weight x t * feature x k.val t * feature x l.val t) j.val) = _
   rw [Fin.sum_univ_eq_sum_range]
   have hs : Finset.range (k.val + 1) ⊆ Finset.range N := by
     exact Finset.range_mono (Nat.succ_le_of_lt k.isLt)
@@ -154,13 +156,11 @@ theorem innovationCov_eq_thresholdCov (x : ℝ) (N : ℕ) (k l : Fin N) :
   · rw [innovationCov_of_le x N k l hkl, reversed_geometric]
     rw [GppPrimeThresholdSourceCovariance.covariance_of_le x (k.val + 1)
       (l.val + 1) (Nat.succ_le_succ hkl)]
-    ring
   · rw [innovationCov_symm x N k l, innovationCov_of_le x N l k hlk,
         reversed_geometric,
         GppPrimeThresholdSourceCovariance.covariance_symm x (k.val + 1) (l.val + 1)]
     rw [GppPrimeThresholdSourceCovariance.covariance_of_le x (l.val + 1)
       (k.val + 1) (Nat.succ_le_succ hlk)]
-    ring
 
 /-- All-dimensional PSD for the actual centered geometric threshold covariance. -/
 theorem thresholdCov_full_psd (x : ℝ) (hx0 : 0 ≤ x) (hx1 : x ≤ 1)
