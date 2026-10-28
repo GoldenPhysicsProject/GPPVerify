@@ -2320,3 +2320,9 @@ import GppVerify.RiemannHypothesis.Sylvester3
 import GppVerify.RiemannHypothesis.ThetaHalfWave
 import GppVerify.RiemannHypothesis.ThetaSplit
 import GppVerify.CelestialHolography.HiddenZeros
+
+-- October 28: local Fock source and covariance, positive modular strip,
+-- and Wave234 doubled-sector parity criterion; none assumes RH.
+import GppVerify.RiemannHypothesis.PrimeThresholdSourceCovariance
+import GppVerify.CelestialHolography.ModularStripPrimeCarleman
+import GppVerify.RiemannHypothesis.Wave234SectorParity
