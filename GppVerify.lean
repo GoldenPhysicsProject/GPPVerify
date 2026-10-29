@@ -2326,3 +2326,6 @@ import GppVerify.CelestialHolography.HiddenZeros
 import GppVerify.RiemannHypothesis.PrimeThresholdSourceCovariance
 import GppVerify.CelestialHolography.ModularStripPrimeCarleman
 import GppVerify.RiemannHypothesis.Wave234SectorParity
+
+-- Exact cross-window falsifiers: pairwise PSD does not imply multiwindow PSD.
+import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
