@@ -22,7 +22,7 @@ direction on the two nulls unless further diagonal compensation is added.
 
 namespace GppMultiWindow
 
-def threeWindowForm (a b c : ℝ) : ℝ :=
+noncomputable def threeWindowForm (a b c : ℝ) : ℝ :=
   a ^ 2 + b ^ 2 + c ^ 2 - (6 / 5 : ℝ) * (a*b + a*c + b*c)
 
 /-- Every two-window restriction is nonnegative, with a strict pairwise margin. -/
@@ -47,10 +47,10 @@ theorem pairwise_not_global :
   norm_num [threeWindowForm] at hbad
 
 /-- A sharp positive local contact/threshold block at x=1/2, L=1. -/
-def primeBlockOne (t a : ℝ) : ℝ := (a - 2*t) ^ 2 / 4
+noncomputable def primeBlockOne (t a : ℝ) : ℝ := (a - 2*t) ^ 2 / 4
 
 /-- A second sharp positive local block at x=1/3, L=2. -/
-def primeBlockTwo (t a : ℝ) : ℝ := (2 / 9 : ℝ) * (a - 3*t) ^ 2
+noncomputable def primeBlockTwo (t a : ℝ) : ℝ := (2 / 9 : ℝ) * (a - 3*t) ^ 2
 
 theorem primeBlockOne_nonneg (t a : ℝ) : 0 ≤ primeBlockOne t a := by
   unfold primeBlockOne
@@ -61,7 +61,7 @@ theorem primeBlockTwo_nonneg (t a : ℝ) : 0 ≤ primeBlockTwo t a := by
   positivity
 
 /-- An unrestricted cross-window term need not preserve local PSD. -/
-def coupledBlock (eps t₁ a₁ t₂ a₂ : ℝ) : ℝ :=
+noncomputable def coupledBlock (eps t₁ a₁ t₂ a₂ : ℝ) : ℝ :=
   primeBlockOne t₁ a₁ + primeBlockTwo t₂ a₂ + 2*eps*t₁*t₂
 
 theorem coupledBlock_negative_on_nulls (eps : ℝ) :
