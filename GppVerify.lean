@@ -2324,8 +2324,9 @@ import GppVerify.CelestialHolography.HiddenZeros
 -- October 28: local Fock source and covariance, positive modular strip,
 -- and Wave234 doubled-sector parity criterion; none assumes RH.
 import GppVerify.RiemannHypothesis.PrimeThresholdSourceCovariance
+import GppVerify.RiemannHypothesis.PrimeThresholdFullGram
 import GppVerify.CelestialHolography.ModularStripPrimeCarleman
 import GppVerify.RiemannHypothesis.Wave234SectorParity
 
--- Exact cross-window falsifiers: pairwise PSD does not imply multiwindow PSD.
+-- Exact cross-window falsifiers and conditional one-sided normalized PSD.
 import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
