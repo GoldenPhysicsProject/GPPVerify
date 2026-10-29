@@ -76,4 +76,37 @@ theorem any_positive_cross_creates_negative_direction
   rw [coupledBlock_negative_on_nulls] at hbad
   linarith
 
+/-- The basic signed-cross inequality, valid for either sign of the coupling. -/
+theorem signed_cross_lower_bound (u a b : ℝ) :
+    -|u| * (a ^ 2 + b ^ 2) ≤ 2 * u * a * b := by
+  by_cases hu : 0 ≤ u
+  · rw [abs_of_nonneg hu]
+    have hs := mul_nonneg hu (sq_nonneg (a + b))
+    nlinarith
+  · have hu' : u < 0 := lt_of_not_ge hu
+    rw [abs_of_neg hu']
+    have hs := mul_nonneg (le_of_lt (neg_pos.mpr hu')) (sq_nonneg (a - b))
+    nlinarith
+
+/-- A genuine positive 3-window *aggregate* certificate. Unlike a pairwise
+margin, each diagonal must dominate the sum of its two normalized cross
+couplings. This is the 3x3 form of Gershgorin/Schur row dominance. -/
+theorem threeWindow_row_dominant_nonneg
+    (u v w a b c : ℝ)
+    (hA : |u| + |v| ≤ 1)
+    (hB : |u| + |w| ≤ 1)
+    (hC : |v| + |w| ≤ 1) :
+    0 ≤ a ^ 2 + b ^ 2 + c ^ 2 +
+      2*u*a*b + 2*v*a*c + 2*w*b*c := by
+  have h1 := signed_cross_lower_bound u a b
+  have h2 := signed_cross_lower_bound v a c
+  have h3 := signed_cross_lower_bound w b c
+  have ha : 0 ≤ (1 - |u| - |v|) * a ^ 2 :=
+    mul_nonneg (by linarith) (sq_nonneg a)
+  have hb : 0 ≤ (1 - |u| - |w|) * b ^ 2 :=
+    mul_nonneg (by linarith) (sq_nonneg b)
+  have hc : 0 ≤ (1 - |v| - |w|) * c ^ 2 :=
+    mul_nonneg (by linarith) (sq_nonneg c)
+  nlinarith only [h1, h2, h3, ha, hb, hc]
+
 end GppMultiWindow
