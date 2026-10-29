@@ -1,4 +1,5 @@
 import Mathlib.Data.Real.Basic
+import Mathlib.LinearAlgebra.Matrix.PosDef
 import Mathlib.Tactic.Linarith
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Positivity
@@ -113,3 +114,45 @@ theorem threeWindow_row_dominant_nonneg
   nlinarith only [h1, h2, h3, ha, hb, hc]
 
 end GppMultiWindow
+
+/-! ## Conditional normalized one-sided PSD and congruence transport
+Ported unchanged from green DiscoveryLean/OneSidedNormalized.lean at 55fe1857.
+This establishes the implication, not global Weil positivity. -/
+
+namespace GppOneSidedNormalized
+
+open Matrix
+
+variable {n : Type*} [Fintype n] [DecidableEq n]
+
+/-- The one-sided energy bound, unlike a two-sided operator norm bound,
+allows arbitrarily large positive eigenvalues of T. -/
+theorem normalized_psd_of_one_sided
+    (T : Matrix n n ℝ)
+    (hHerm : (1 + T).IsHermitian)
+    (hLower : ∀ v : n → ℝ,
+      -(star v ⬝ᵥ v) ≤ star v ⬝ᵥ (T *ᵥ v)) :
+    (1 + T).PosSemidef := by
+  apply Matrix.PosSemidef.of_dotProduct_mulVec_nonneg hHerm
+  intro v
+  have h := hLower v
+  have heq : star v ⬝ᵥ ((1 + T) *ᵥ v) =
+      star v ⬝ᵥ v + star v ⬝ᵥ (T *ᵥ v) := by
+    simp only [Matrix.add_mulVec, Matrix.one_mulVec, dotProduct_add]
+  rw [heq]
+  linarith
+
+/-- General congruence transport of normalized one-sided positivity.
+The exact factorization is an explicit hypothesis, never inferred from
+positive diagonal entries alone. -/
+theorem congruent_psd_of_one_sided
+    (M S T : Matrix n n ℝ)
+    (hFactor : M = Sᴴ * (1 + T) * S)
+    (hHerm : (1 + T).IsHermitian)
+    (hLower : ∀ v : n → ℝ,
+      -(star v ⬝ᵥ v) ≤ star v ⬝ᵥ (T *ᵥ v)) :
+    M.PosSemidef := by
+  rw [hFactor]
+  exact (normalized_psd_of_one_sided T hHerm hLower).conjTranspose_mul_mul_same S
+
+end GppOneSidedNormalized
