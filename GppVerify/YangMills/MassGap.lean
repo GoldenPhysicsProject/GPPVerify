@@ -337,6 +337,26 @@ theorem open_yang_mills_mass_gap : True := trivial
 theorem open_yang_mills_existence : True := trivial
 -- SOURCE: YM_PAPER35.tex, thm:main
 -- OPEN PROBLEM: Yang-Mills existence (Clay Millennium Prize).
+-- CLOSURE CONTRACT (2026-10-28): this stub closes exactly when there is a construction,
+-- for every compact simple gauge group G, of a quantum Yang-Mills theory on R^4
+-- satisfying the Osterwalder-Schrader axioms:
+--   (E0) temperedness/regularity,
+--   (E1) Euclidean covariance,
+--   (E2) reflection positivity,
+--   (E3) permutation symmetry,
+--   (E4) the cluster property.
+-- This is the existence half of the Jaffe-Witten statement. The mass gap
+-- (spec(H) ⊆ {0} ∪ [Δ, ∞), Δ > 0, unique vacuum) is the separate content of
+-- `open_yang_mills_mass_gap` above and is not part of this stub.
+-- ROUTE (lattice road): the supplied stages are the finite-stage lattice theory
+-- (finite volume, finite gauge group; `GppVerify/YangMills/LatticeGaugeFinite.lean`)
+-- and OS reconstruction (Osterwalder-Schrader 1973/75; known mathematics, a library
+-- target). The open content is continuum/infinite-volume limit control: without the
+-- uniformity statements (U1) and (U2) named in the companion contract above, passage
+-- to the limit does not establish the OS properties (E0)–(E4) for the limiting
+-- theory, so nothing weaker closes this stub.
+-- REFERENCE: "Constructing Quantum Yang–Mills on R⁴ with a Mass Gap: Programme"
+-- (YM-PROGRAMME.md, metaproblem goal files, 2026-10-28).
 
 /-! ## Celestial/shadow connection -/
 
