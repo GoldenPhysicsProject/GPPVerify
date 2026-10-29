@@ -2327,3 +2327,6 @@ import GppVerify.RiemannHypothesis.PrimeThresholdSourceCovariance
 import GppVerify.RiemannHypothesis.PrimeThresholdFullGram
 import GppVerify.CelestialHolography.ModularStripPrimeCarleman
 import GppVerify.RiemannHypothesis.Wave234SectorParity
+
+-- Exact cross-window falsifiers and conditional one-sided normalized PSD.
+import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
