@@ -2330,3 +2330,7 @@ import GppVerify.RiemannHypothesis.Wave234SectorParity
 
 -- Exact cross-window falsifiers and conditional one-sided normalized PSD.
 import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
+
+-- Sharp two- and three-layer path overlap inequalities used in the short-support
+-- completed Weil coercivity program; whole integral theorem still analytical.
+import GppVerify.RiemannHypothesis.CausalShortWindowShift
