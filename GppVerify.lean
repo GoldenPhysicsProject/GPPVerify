@@ -2338,3 +2338,6 @@ import GppVerify.RiemannHypothesis.CausalShortWindowShift
 -- Convolution squares are positive-type on any abelian group with an invariant measure; the
 -- abstract statement behind the idèle-class-group stub.
 import GppVerify.RiemannHypothesis.ConvolutionSquareGroup
+-- Grok ARP.md G.6 items 3, 4, 6: local Euler-factor unitarity on the critical line, density sign,
+-- and the Kakutani-type divergence of the mirror-overlap product.
+import GppVerify.RiemannHypothesis.ARPLocalFactors
