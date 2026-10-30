@@ -2334,3 +2334,7 @@ import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
 -- Sharp two- and three-layer path overlap inequalities used in the short-support
 -- completed Weil coercivity program; whole integral theorem still analytical.
 import GppVerify.RiemannHypothesis.CausalShortWindowShift
+
+-- Codex's finite positive-ground-state transform (PR #11, 2026-10-30): Picone form identity and
+-- Poincare transport, building on GroundStatePicone.
+import GppVerify.RiemannHypothesis.GroundStateTransform
