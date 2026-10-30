@@ -8104,7 +8104,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{124} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{122} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -8748,6 +8748,13 @@ content only once $(v,U_t)$ is constructed from the boundary state, which is ope
 not formalized. RH is not claimed.
 
 
+\section{Convolution squares are positive-type on any abelian group with an invariant measure}
+\lean{GppConvolutionSquareGroup.integrable_shift_mul_shift_group,GppConvolutionSquareGroup.convolution_shift_group,GppConvolutionSquareGroup.convolution_square_positive_type_group}
+Source: \texttt{haar\_positivity\_weil\_wightman.tex}, thm:haar-square-positive. The proof for $\mathbb R$ uses only translation invariance of the measure, so for an additive commutative group $G$
+with a right-invariant measure $\mu$ and integrable bounded real $f$, $P(x)=\int f(y)f(y-x)\,d\mu$ satisfies $0\le\sum_{i,j}\bar c_ic_jP(x_i-x_j)$ for all finite families (as a complex number).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. This is the abstract statement only: instantiating it to the id\`ele class group needs that group as a topological
+group with a Haar measure, which Mathlib lacks, so the $C_k$ case stays a named stub. Positivity of a Haar square is unconditional and is not Weil positivity (RH-equivalent); a Haar square
+need not be reflection positive (\texttt{HaarSquareNotReflection}). No claim about RH.
 \section{Local Euler factors on the critical line: unitarity, density sign, mirror overlap}
 \lean{GppARPLocalFactors.norm_one_sub_cpow_conj,GppARPLocalFactors.local_gamma_unitary,GppARPLocalFactors.twisted_gamma_pair_unitary,GppARPLocalFactors.re_div_one_sub,GppARPLocalFactors.local_density_sign_pos,GppARPLocalFactors.local_density_sign_neg,GppARPLocalFactors.mirror_overlap_sq,GppARPLocalFactors.defect_lower,GppARPLocalFactors.mirror_product_tendsto_zero,GppARPLocalFactors.mirror_product_tendsto_zero_sigma}
 Source: Grok, \texttt{GPPDiscovery5/derivation/ARP.md} \S G.6 items 3, 4 and 6; the mirror overlap and its Kakutani-type dichotomy are due to Astra (PR \#11, 26 October).
