@@ -2334,3 +2334,7 @@ import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
 -- Sharp two- and three-layer path overlap inequalities used in the short-support
 -- completed Weil coercivity program; whole integral theorem still analytical.
 import GppVerify.RiemannHypothesis.CausalShortWindowShift
+
+-- Convolution squares are positive-type on any abelian group with an invariant measure; the
+-- abstract statement behind the idèle-class-group stub.
+import GppVerify.RiemannHypothesis.ConvolutionSquareGroup

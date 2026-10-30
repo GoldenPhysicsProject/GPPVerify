@@ -276,6 +276,9 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 theorem open_adelic_haar_square_positive_type : True := trivial
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-square-positive for C_k
 -- PROOF: Same abstract proof as open_convolution_square_positive_type_statement, applied to C_k.
+-- The abstract statement for any additive commutative group with an invariant measure is now
+-- `GppConvolutionSquareGroup.convolution_square_positive_type_group`
+-- (`ConvolutionSquareGroup.lean`); only the instance `C_k` is missing.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Idèle class groups not in Mathlib.
 
 /- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P
@@ -300,11 +303,12 @@ theorem open_adelic_haar_square_positive_type : True := trivial
 
 /-! ## Osterwalder-Schrader reflection positivity -/
 
-/-- Shadow positivity: Θ(φ̄) acts as time-reflection on Euclidean fields -/
-theorem open_shadow_reflection_positivity : True := trivial
--- SOURCE: haar_positivity_weil_wightman.tex, prop:shadow-reflection
--- The shadow involution Δ ↔ 2-Δ is the Euclidean time-reflection θ.
--- Positivity under θ = positivity under shadow = Haar positivity.
+-- Stub `open_shadow_reflection_positivity` retired 2026-10-30. It asserted that the shadow
+-- involution Δ ↔ 2−Δ "is" the Euclidean time reflection θ and that positivity under θ equals Haar
+-- positivity. That is an identification inside the framework, not a statement a library gap
+-- blocks, and its second half is refuted as a general principle by `GppNoGo.HaarSquareNotReflection`
+-- (a Haar square is positive-type but need not be reflection positive). The shadow involution
+-- itself is formalized where it is a theorem (the ξ-symmetries and the Δ ↔ 2−Δ dictionary).
 
 /-- OS reconstruction: Euclidean OS axioms → Minkowski Wightman axioms -/
 theorem open_os_reconstruction_theorem : True := trivial
@@ -464,10 +468,14 @@ theorem finiteHaarProjection_isSelfAdjoint
 theorem haar_squares_always_positive : PositiveType (fun _ => (1 : ℝ)) :=
   const_one_positive_type
 
-/-- The four positivity conditions are equivalent in the Haar framework -/
-theorem open_four_positivities_equivalent : True := trivial
--- SOURCE: haar_positivity_weil_wightman.tex, prop:logical-status
--- All four are instances of: P = Ω^∨ * Ω on a locally compact group.
+-- Stub `open_four_positivities_equivalent` retired 2026-10-30 as an OVERSTATEMENT, not closed.
+-- The source only says the four conditions share the shape `P = Ω^∨ * Ω` on a locally compact
+-- group, which is not an equivalence. Haar-square positivity is unconditional
+-- (`GppConvolutionSquareGroup.convolution_square_positive_type_group`), while Weil positivity is
+-- RH-equivalent (`weil_criterion_iff`) and is not a Haar square of an `L²` function; reflected
+-- positivity is a further condition and a Haar square need not satisfy it
+-- (`GppNoGo.HaarSquareNotReflection`). An equivalence including the unconditional member would
+-- prove RH. Correction recorded in `CLAUDE_CORRECTIONS.md`.
 
 -- Stub `open_haar_positivity_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
