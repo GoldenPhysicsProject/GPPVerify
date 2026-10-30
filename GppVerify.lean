@@ -2334,3 +2334,7 @@ import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
 -- Sharp two- and three-layer path overlap inequalities used in the short-support
 -- completed Weil coercivity program; whole integral theorem still analytical.
 import GppVerify.RiemannHypothesis.CausalShortWindowShift
+
+-- Grok ARP.md G.6 items 3, 4, 6: local Euler-factor unitarity on the critical line, density sign,
+-- and the Kakutani-type divergence of the mirror-overlap product.
+import GppVerify.RiemannHypothesis.ARPLocalFactors
