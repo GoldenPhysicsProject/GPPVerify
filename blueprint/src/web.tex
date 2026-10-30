@@ -8766,6 +8766,15 @@ so by $\sum_p1/p=\infty$ the partial products $\prod_{p<N}R_p^2\to0$; the same h
 Daniel Toupin / Golden Physics Project, with AI assistance from Grok, Astra and Claude Code. Finite local identities and the divergence of the partial products only: the twisted factor
 $\gamma_p^{(\theta)}$ alone being non-unimodular is not formalized, and no measure-theoretic Kakutani equivalence is claimed. No claim about RH.
 
+\section{Finite Gibbs/Fisher algebra in the energy eigenbasis}
+\lean{GppGibbsFisher.trace_double_commutator,GppGibbsFisher.fisher_term,GppGibbsFisher.fisher_form_eq,GppGibbsFisher.ground_double_commutator}
+Source: Codex, GPP-bridge PR \#11 handoff of 30 October (Priority 2). With $H=\operatorname{diag}(E)$, $p_i=e^{-\beta E_i}/Z$, $\rho_\beta=\operatorname{diag}(p)$, $A=(a_{ij})$ Hermitian and $X=i[A,\rho_\beta]$:
+$\operatorname{Tr}(\rho_\beta[A,[H,A]])=\sum_{ij}p_i\cdot2(E_j-E_i)|a_{ij}|^2$ (as a matrix-trace identity), and
+$\sum_{ij}|X_{ij}|^2\,\frac{\log p_i-\log p_j}{p_i-p_j}=\beta\operatorname{Tr}(\rho_\beta[A,[H,A]])$, with the divided difference taken as $1/p_i$ when $p_i=p_j$ (where $X_{ij}=0$ anyway). For $\Omega=e_0$,
+$\sum_j2(E_j-E_0)|a_{0j}|^2=2\langle A_c\Omega,(H-E_0)A_c\Omega\rangle$ with $A_c\Omega=A\Omega-\langle\Omega,A\Omega\rangle\Omega$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite eigenbasis algebra only: the analytic statement that the Hessian of the relative entropy along $e^{isA}\rho_\beta e^{-isA}$ equals this form
+(matrix logarithm, second derivative in $s$) is not formalized, nor is zero-temperature convergence or any infinite-dimensional or uniform-in-volume extension. No claim about RH or Yang--Mills.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
