@@ -12,7 +12,7 @@ has an explicit cosh series). Daniel Toupin / Golden Physics Project, with AI as
 
 * `hardy_series`: for `z > 0`, `HasSum (k ↦ 2/(2k+1) · e^{-(2k+1)z}) (log (cosh(z/2)/sinh(z/2)))`
   (the Mercator-type series for `log((1+x)/(1−x))` at `x = e^{-z}`).
-* `hardy_sum_two`: for `0 < a`, `|u| < a`, the sum `H(a+u) + H(a−u)` has the series
+* `hardy_sum_two`: for `|u| < a` (so `a > 0`), the sum `H(a+u) + H(a−u)` has the series
   `Σ_k 4/(2k+1) · e^{-(2k+1)a} · cosh((2k+1)u)`.
 
 **Scope.** The series and the two-point cosh series only. The derivatives `H'' = cosh/sinh²`,
@@ -59,7 +59,7 @@ theorem hardy_series {z : ℝ} (hz : 0 < z) :
   simpa only [hterm] using hs
 
 /-- The two-point series: `H(a+u) + H(a−u) = Σ_k 4/(2k+1) e^{-(2k+1)a} cosh((2k+1)u)`. -/
-theorem hardy_sum_two {a u : ℝ} (ha : 0 < a) (hu : |u| < a) :
+theorem hardy_sum_two {a u : ℝ} (hu : |u| < a) :
     HasSum (fun k : ℕ => 4 / (2 * (k : ℝ) + 1) * Real.exp (-((2 * (k : ℝ) + 1) * a)) *
         Real.cosh ((2 * (k : ℝ) + 1) * u))
       (Real.log (Real.cosh ((a + u) / 2) / Real.sinh ((a + u) / 2)) +

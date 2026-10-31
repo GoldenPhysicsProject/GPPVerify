@@ -8899,4 +8899,9 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude
 Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact all-scale thermal/KMS identity for the completed prime--Archimedean form). For $y>0$, $\dfrac{e^{y/2}}{2\sinh y}=\sum_{k\ge0}e^{-(2k+1/2)y}$ (a geometric series); with $D=\|f-T_yf\|^2$ and $q=2N-D$, $\dfrac{2N-e^{y/2}q}{2\sinh y}=\dfrac{e^{y/2}}{2\sinh y}D-2N\dfrac{e^{y/2}-1}{2\sinh y}$; and for isometries $U_i$ and weights $c_i$ on a finite index set, $\sum c_i\|f-U_if\|^2-2(\sum c_i)\|f\|^2=-2\sum c_i\operatorname{Re}\langle f,U_if\rangle$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The elementary identities only: the Bost--Connes algebra and its KMS state, the midpoint identity, the value $\int_0^\infty r=\tfrac12\log2+\pi/4$ and the constant $\kappa_\infty$, the stabilization of the cutoff limit on compact supports, the signed pole and any positivity of the completed form are not formalized. The completed form is not a positive norm in this picture. No claim about RH.
 
+\section{The Hardy potential series}
+\lean{GppHardySeries.hardy_series,GppHardySeries.hardy_sum_two}
+Source: Codex/Discovery2, PR~\#11 comments of 2026-10-31 (quartic Hardy curvature). For $z>0$, $\log\coth(z/2)=\sum_{k\ge0}\frac{2}{2k+1}e^{-(2k+1)z}$ (the series for $\log\frac{1+x}{1-x}$ at $x=e^{-z}$), and for $|u|<a$, $\log\coth\frac{a+u}2+\log\coth\frac{a-u}2=\sum_{k\ge0}\frac{4}{2k+1}e^{-(2k+1)a}\cosh((2k+1)u)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The series only: the derivatives $H''=\cosh/\sinh^2$ and $H''''=(\cosh^2+5)\cosh/\sinh^4$, the quartic lower bound $V\ge H(a)+H''(a)u^2/2+H''''(a)u^4/24$ and every use in the Weil form are not formalized. No claim about RH.
+
 \end{document}

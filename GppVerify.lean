@@ -2356,6 +2356,7 @@ import GppVerify.RiemannHypothesis.TwistConvolution
 -- conjugate pole pair; pointwise Im m > 0 with negative determinant.
 import GppVerify.RiemannHypothesis.PickConjugatePole
 import GppVerify.RiemannHypothesis.GammaSurplus
+import GppVerify.RiemannHypothesis.HardySeries
 import GppVerify.RiemannHypothesis.MeanVarianceSupplier
 import GppVerify.RiemannHypothesis.SchurLift
 import GppVerify.RiemannHypothesis.ThermalKmsPieces
