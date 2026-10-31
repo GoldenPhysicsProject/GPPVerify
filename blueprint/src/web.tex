@@ -8803,6 +8803,11 @@ Source: Codex, GPP-bridge PR \#11 comment 6539964860 (31 October), from \texttt{
 $2\cos\theta\sum_{j=1}^k|a_j|^2-2\operatorname{Re}\sum_{j=1}^{k-1}\bar a_ja_{j+1}=\sum_{j=1}^{k-1}w_jw_{j+1}\,|a_j/w_j-a_{j+1}/w_{j+1}|^2\ge0$, so $2\operatorname{Re}\sum\bar a_ja_{j+1}\le2\cos\theta\sum|a_j|^2$
 (the Dirichlet ground-state transform of the path Laplacian, ground state $w$).
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite algebraic identity only: the analytic content of Codex's theorem ($Q_L[f]>\|f\|^2/200$ for $L\le5/32$, the 256-bit Arb certificate, the fiber disintegration, the gamma-tilt discount) is not formalized. No claim about RH.
+\section{Endpoint-moment tail: the exact geometric remainder}
+\lean{GppEndpointMomentTail.geom_remainder,GppEndpointMomentTail.tail_remainder_bound,GppEndpointMomentTail.sin_scaled_remainder_bound}
+Source: Astra, \texttt{work/2026-10-20\_astra\_endpoint\_moment\_arithmetic\_tail.md}. For $t,a\in\mathbb C$ with $t\ne0$, $t+a\ne0$: $\frac1{t+a}-\sum_{r<m}\frac{(-a)^r}{t^{r+1}}=\frac{(-a)^m}{t^m(t+a)}$. For complex $c_j$, real $a_j$ with $|a_j|\le A<|t|$,
+$M_r=\sum c_ja_j^r$ and $B_m=\sum|c_j||a_j|^m$: $\bigl\|\sum_j\frac{c_j}{t+a_j}-\sum_{r<m}\frac{(-1)^rM_r}{t^{r+1}}\bigr\|\le\frac{B_m}{|t|^m(|t|-A)}$, and with the prefactor $K\sin(tL)$, $K\ge0$, the bound is multiplied by $K$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Finite geometric division and the pointwise bound only: the digamma envelope for the arithmetic multiplier, the integrated error theorem, the Plancherel bookkeeping and the numerical evaluations in the note are not formalized. No claim about RH.
 
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}

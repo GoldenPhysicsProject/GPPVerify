@@ -2358,3 +2358,6 @@ import GppVerify.RiemannHypothesis.PickConjugatePole
 -- Codex's exact path sum-of-squares identity from the short-support Weil positivity tower
 -- (PR #11 comment 6539964860); finite algebra only.
 import GppVerify.RiemannHypothesis.PathSOS
+-- Astra's endpoint-moment arithmetic tail (work/2026-10-20): exact geometric remainder and the
+-- pointwise tail bound; the arithmetic-multiplier envelope and integrated error are not formalized.
+import GppVerify.RiemannHypothesis.EndpointMomentTail
