@@ -8748,6 +8748,14 @@ content only once $(v,U_t)$ is constructed from the boundary state, which is ope
 not formalized. RH is not claimed.
 
 
+\section{Finite positive-ground-state transform and Poincar\'e transport}
+\lean{GppGroundStateTransform.transformed_apply,GppGroundStateTransform.picone_form_identity,GppGroundStateTransform.picone_form_nonneg,GppGroundStateTransform.poincare_transport}
+Source: Codex, GPP-bridge PR \#11 handoff of 30 October (Priority 1), building on the edge identity of \texttt{GroundStatePicone}. On a finite set $X$ let $w$ be symmetric, $V$ real and
+$(H\psi)(x)=V(x)\psi(x)-\sum_yw(x,y)\psi(y)$. If $H\varphi=E_0\varphi$ then for every real $f$: $((H-E_0)(\varphi f))(x)=\sum_yw(x,y)\varphi(y)(f(x)-f(y))$ and
+$\sum_x\varphi f\,((H-E_0)(\varphi f))=\tfrac12\sum_{x,y}w\,\varphi(x)\varphi(y)(f(x)-f(y))^2$, which is $\ge0$ when $w\ge0$. A Poincar\'e inequality $\operatorname{Var}_{\varphi^2}(f)\le C\,D_\varphi(f)$ then gives
+$\sum\psi^2\le C\langle\psi,(H-E_0)\psi\rangle$ for every $\psi\perp\varphi$, via $f=\psi/\varphi$ (needs $\varphi>0$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Real scalars on a finite set only; the complex case, uniqueness of the ground state, the Gibbs/Fisher algebra (Priority 2) and any uniform-in-volume constant $C$
+are not formalized, and the Poincar\'e inequality is a hypothesis. Not a gap certificate for any Yang--Mills Hamiltonian. No claim about RH.
 \section{Convolution squares are positive-type on any abelian group with an invariant measure}
 \lean{GppConvolutionSquareGroup.integrable_shift_mul_shift_group,GppConvolutionSquareGroup.convolution_shift_group,GppConvolutionSquareGroup.convolution_square_positive_type_group}
 Source: \texttt{haar\_positivity\_weil\_wightman.tex}, thm:haar-square-positive. The proof for $\mathbb R$ uses only translation invariance of the measure, so for an additive commutative group $G$
