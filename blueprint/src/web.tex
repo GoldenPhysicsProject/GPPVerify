@@ -8816,6 +8816,12 @@ $\sum_kC_{mk}C_{nk}=1/\max(m,n)$ (the reciprocal Brownian kernel is the Ces\`aro
 The one-sided $\tfrac14$ floor: $\tfrac14\sum_{n\le M}h_n^2\le\sum_{n\le M}n(n+1)(h_n-h_{n+1})^2$ for $h$ vanishing from $M+1$ on, by summing the Picone edge inequality for the ground profile $n^{-1/2}$ and the numerical bound $b^3(2b-a-c)\ge\tfrac14$ for $a=\sqrt{b^2-1}$, $c=\sqrt{b^2+1}$, $b^2\ge2$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite identities and the lower bound only: the sharpness of $\tfrac14$, the identification with Stampach's Hilbert $L$-matrix, the exact spectrum $\sigma(L)=[\tfrac14,\infty)$ and \S\S4--6 of the note are not formalized. No claim about RH.
 
+\section{Arithmetic Poisson bulk: the logarithmic Hamiltonian as a Dirichlet-to-Neumann operator}
+\lean{GppArithmeticPoissonBulk.bulk_eq_cpow,GppArithmeticPoissonBulk.bulk_hasDerivAt_r,GppArithmeticPoissonBulk.bulk_hasDerivAt_t,GppArithmeticPoissonBulk.bulk_cauchy_riemann,GppArithmeticPoissonBulk.bulk_second_r,GppArithmeticPoissonBulk.bulk_second_t,GppArithmeticPoissonBulk.bulk_laplace,GppArithmeticPoissonBulk.dtn_eigen,GppArithmeticPoissonBulk.vonMangoldt_projection}
+Source: Codex/Discovery2, \texttt{research/2026-09-27\_arithmetic\_poisson\_bulk\_dtn\_hamiltonian.md} \S\S2, 3, 8. For one basis vector, $u(r,t)=a\,n^{-(r+it)}=a\,e^{-(r+it)L}$ with $L=\log n$: $\partial_ru=-Lu$, $\partial_tu=-iLu$, so $(\partial_r+i\partial_t)u=0$ and $\partial_r^2u+\partial_t^2u=0$ (the positive-frequency harmonic Hardy condition);
+at $r=t=0$ the outward normal derivative $-\partial_ru$ equals $L\,a$, i.e.\ the Dirichlet-to-Neumann operator acts as $H|n\rangle=(\log n)|n\rangle$; and $\sum_{d\ge2}\Lambda(d)[d\mid n]=\log n$, the decomposition $H=\sum_{d\ge2}\Lambda(d)P_d$ on the basis.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Termwise identities for one basis vector: the summation over $n$, convergence of the Dirichlet series, the Hardy-space interpretation, $\operatorname{Tr}e^{-\beta H}=\zeta(\beta)$ and $\|k_s\|^2=\zeta(2\sigma)$ are not formalized here. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}

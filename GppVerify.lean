@@ -2365,3 +2365,7 @@ import GppVerify.RiemannHypothesis.EndpointMomentTail
 -- Codex/Discovery2 Cesaro Gram = discrete Casimir Green operator (2026-09-20): exact finite
 -- identities and the sharp-floor direction of the Hardy inequality.
 import GppVerify.RiemannHypothesis.CesaroCasimirJacobi
+
+-- Codex/Discovery2 arithmetic Poisson bulk (2026-09-27): termwise harmonic extension, DtN = log n,
+-- and the von Mangoldt projection decomposition of H.
+import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
