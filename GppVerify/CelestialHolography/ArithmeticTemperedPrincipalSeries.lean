@@ -16,10 +16,18 @@ defines a tempered distribution on Schwartz space.  The existing theorem
 exponent vanishes.  This file transports that criterion into the arithmetic split-signature
 notation and isolates the precise zero-to-temperedness bridge still required.
 
-Important dependency boundary: `GppRH.temperedness_iff_critical_line` currently depends on
-the custom axiom `GppRH.exp_growth_not_tempered`.  Therefore the theorems below are exact
-conditional consequences of that axiom until it is retired; they are not an unconditional
-proof of RH.
+Implementation/provenance: the former custom exponential-growth axiom was retired.
+`GppVerify.RiemannHypothesis.ExpNotTempered` now proves
+`ExpNotTempered.exp_growth_not_tempered` using compactly supported Schwartz translates,
+so the centered-character temperedness equivalence is no longer conditional on that
+custom axiom. This is NOT a proof of RH: the zero-to-temperedness arithmetic bridge
+(`all_strip_zeros_principal_of_tempered_bridge`'s explicit `hbridge` input) remains open.
+
+Casimir sign conventions: `GppCasimirCriticalLine.casimir s = s * (1-s)` already
+has a Lean-verified principal-series threshold `Im casimir=0 ∧ Re casimir ≥ 1/4`
+iff `Re s=1/2`; the alternate conformal convention `h(h-1)` is its negative,
+and thus has threshold `≤ -1/4`. These are algebraic scalar criteria, not
+an independent arithmetic spectral-membership construction.
 -/
 
 namespace GppArithmeticTemperedPrincipalSeries
