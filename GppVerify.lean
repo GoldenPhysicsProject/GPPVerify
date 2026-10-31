@@ -2375,6 +2375,32 @@ import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
 import GppVerify.RiemannHypothesis.PrimeTfdDictionary
 import GppVerify.RiemannHypothesis.PoissonResolventInner
 
+-- Codex's graded-sphere countermodel (GPPVerify PR #440, re-landed on current main): an ungraded
+-- whole-product mirror does not force one global spectral line.
+import GppVerify.RiemannHypothesis.GradedSphereFalsifier
 -- Discovery2 arithmetic free field (2026-09-27): per-mode Gaussian Laplace transform and the
 -- limit of the four-component vacuum partition function, (pi lam / sinh pi lam)^2.
 import GppVerify.QuantumGravity.GaussianBpyLaplace
+-- Completed from stale Codex draft PRs #402 and #367 (build fixes only: one redundant tactic; `λ`
+-- is a reserved token and was renamed `lam`): rank-one Weil pole Schur inequality and the
+-- positive-pole completion certificate.
+import GppVerify.RiemannHypothesis.RankOneThresholdInequality
+import GppVerify.RiemannHypothesis.EvenPositivePoleCompletion
+-- Codex's York / causal-diamond volume-reduction modules (GPPVerify PR #452, draft), completed
+-- on current main by Claude Code.
+import GppVerify.GeneralRelativity.DiamondADMHessianYork
+import GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction
+import GppVerify.GeneralRelativity.DiamondExplicitBoundaryCancellation
+import GppVerify.GeneralRelativity.DiamondFlatFirstLawFromGreen
+import GppVerify.GeneralRelativity.DiamondHaarNormalMoment
+import GppVerify.GeneralRelativity.DiamondLapseMomentRecovery
+import GppVerify.GeneralRelativity.DiamondRadiusModularNoGo
+import GppVerify.GeneralRelativity.DiamondWeightedLocalization
+import GppVerify.GeneralRelativity.OrientationYorkMomentMap
+import GppVerify.GeneralRelativity.TimeReversalEntropyGravity
+import GppVerify.GeneralRelativity.YorkClockConstraintCountermodel
+import GppVerify.GeneralRelativity.YorkVolumeContinuum
+import GppVerify.GeneralRelativity.YorkVolumeReduction
+import GppVerify.QuantumGravity.OrientationObservableObstruction
+import GppVerify.GeneralRelativity.DiamondObserverTomography
+import GppVerify.GeneralRelativity.DoubledYorkOrientation
