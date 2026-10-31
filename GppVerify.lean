@@ -2347,3 +2347,7 @@ import GppVerify.RiemannHypothesis.ARPLocalFactors
 
 -- Codex's finite Gibbs/Fisher algebra (PR #11, 2026-10-30, Priority 2): eigenbasis sum identity.
 import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
+
+-- Grok ARP.md G.6 items 1, 2: cos/cosh twisted convolution-square polarization identities
+-- (item 1 proved with the corrected factor; see the module docstring).
+import GppVerify.RiemannHypothesis.TwistConvolution
