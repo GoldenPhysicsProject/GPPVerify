@@ -2351,3 +2351,7 @@ import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
 -- Grok ARP.md G.6 items 1, 2: cos/cosh twisted convolution-square polarization identities
 -- (item 1 proved with the corrected factor; see the module docstring).
 import GppVerify.RiemannHypothesis.TwistConvolution
+
+-- Codex's exact path sum-of-squares identity from the short-support Weil positivity tower
+-- (PR #11 comment 6539964860); finite algebra only.
+import GppVerify.RiemannHypothesis.PathSOS
