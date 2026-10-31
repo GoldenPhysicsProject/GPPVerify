@@ -8889,4 +8889,9 @@ Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact gamma surplus use
 $\dfrac{e^{y/2}}{2\sinh y}\ge\dfrac1{2y}+\dfrac16$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The elementary real inequality only: the stronger constant $11/50$ on $(0,7/10]$, the completed Weil form, the triangle variance integral and the Legendre spectrum are not formalized. No claim about RH.
 
+\section{Abstract low/high Schur lift}
+\lean{GppSchurLift.schur_pointwise,GppSchurLift.schur_lift}
+Source: Codex/Discovery2, PR~\#11 comments of 2026-10-31 (finite-low / infinite-high one-sided Schur used in the prime-free completed Weil positivity chain). For a real inner product space $F$, a normed space $E$, $a:E\to\mathbb R$, a cross vector $u:E\to F$ and $c:F\to\mathbb R$ with $c(y)\ge d\|y\|^2$: for $\delta<d$, $-\|u\|^2/(d-\delta)\le(d-\delta)\|y\|^2+2\langle u,y\rangle$; and if $\delta\|x\|^2+\|u(x)\|^2/(d-\delta)\le a(x)$ for all $x$ then $\delta(\|x\|^2+\|y\|^2)\le a(x)+2\langle u(x),y\rangle+c(y)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The abstract completion of the square only: no Weil form, no Legendre spectrum, no verification of the Schur condition (Codex's Arb/LDL certificates are not formalized), and complex forms (realification) are not treated. No claim about RH.
+
 \end{document}
