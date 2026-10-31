@@ -157,4 +157,23 @@ theorem path_sos_nonneg (m : ℕ) (a : ℕ → ℂ) :
     positivity
   linarith
 
+/-- **Weighted edge AM–GM** (the graph SOS of Codex's Hardy–Schur absorption, PR #11 comments
+6540017178 / 6540047604, for one edge): for positive weights `u, v`,
+`2 Re(x̄ y) ≤ (v/u)|x|² + (u/v)|y|²`. -/
+theorem edge_amgm (x y : ℂ) {u v : ℝ} (hu : 0 < u) (hv : 0 < v) :
+    2 * ((starRingEnd ℂ) x * y).re ≤ v / u * ‖x‖ ^ 2 + u / v * ‖y‖ ^ 2 := by
+  have h := term_identity x y hu hv
+  have hnn : 0 ≤ u * v * ‖x / (u : ℂ) - y / (v : ℂ)‖ ^ 2 := by positivity
+  linarith
+
+/-- **Finite weighted edge sum.** For nonnegative edge weights `w_e` and positive comparison weights
+`h`, `Σ_e w_e · 2 Re(conj f(s e) · f(t e)) ≤ Σ_e w_e ((h(t e)/h(s e))|f(s e)|² + (h(s e)/h(t e))|f(t e)|²)`
+for any edge list with endpoints `s, t`. -/
+theorem edge_sum_le {ε ι : Type*} (E : Finset ε) (s t : ε → ι) (w : ε → ℝ) (h : ι → ℝ)
+    (f : ι → ℂ) (hw : ∀ e ∈ E, 0 ≤ w e) (hh : ∀ i, 0 < h i) :
+    ∑ e ∈ E, w e * (2 * ((starRingEnd ℂ) (f (s e)) * f (t e)).re) ≤
+      ∑ e ∈ E, w e * (h (t e) / h (s e) * ‖f (s e)‖ ^ 2 + h (s e) / h (t e) * ‖f (t e)‖ ^ 2) := by
+  refine Finset.sum_le_sum (fun e he => ?_)
+  exact mul_le_mul_of_nonneg_left (edge_amgm _ _ (hh (s e)) (hh (t e))) (hw e he)
+
 end GppPathSOS
