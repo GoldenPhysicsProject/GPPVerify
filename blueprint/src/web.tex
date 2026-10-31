@@ -8872,4 +8872,10 @@ rotations; the definition includes the additional reflected three-term
 orbit required by the full triangulation sum. Formalization: Turbo;
 integration and independent orbit audit: Astra, Golden Physics Project.
 
+\section{The rank-one pole as a cosh-kernel form}
+\lean{GppPoleCoshSinh.pole_identity}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact completed semilocal Weil sum of squares): the pole term is $2|\int f\cosh|^2-2|\int f\sinh|^2$. For finitely many complex weights $c_j$ and real nodes $a_j$,
+$\bigl|\sum_j c_j\cosh a_j\bigr|^2-\bigl|\sum_j c_j\sinh a_j\bigr|^2=\sum_{i,j}\overline{c_i}\,c_j\cosh(a_i-a_j)$, from $\cosh a\cosh b-\sinh a\sinh b=\cosh(a-b)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite-sum identity only: the integral version, the shift $a=(x-L/2)/2$ and any sign statement about the completed form are not formalized. No claim about RH.
+
 \end{document}
