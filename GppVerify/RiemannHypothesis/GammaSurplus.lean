@@ -59,7 +59,7 @@ theorem gamma_surplus {y : ℝ} (h0 : 0 < y) (h1 : y ≤ 1) :
   have hy7 : y ^ 7 ≤ y ^ 6 := by nlinarith [pow_nonneg h0.le 6]
   have hy8 : y ^ 8 ≤ y ^ 7 := by nlinarith [pow_nonneg h0.le 7]
   have hy9 : y ^ 9 ≤ y ^ 8 := by nlinarith [pow_nonneg h0.le 8]
-  nlinarith [mul_le_mul_of_nonneg_left hsp (by positivity : (0 : ℝ) ≤ 2 * y + 1 / 3 * (2 * y) ^ 0 * 0),
+  nlinarith [mul_le_mul_of_nonneg_left hsp (by positivity : (0 : ℝ) ≤ 2 * y + 2 / 3 * y ^ 2),
     mul_pos h0 hs]
 
 end GppGammaSurplus

@@ -8883,4 +8883,10 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude
 Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (completed Weil positivity for $L\le 29/100$ by a mean/fluctuation split $f=a+g$, $\int g=0$). Scalar pieces only: for complex $u,v$ and $0<\eta$, $\|u+v\|^2\ge(1-\eta)\|u\|^2-(\eta^{-1}-1)\|v\|^2$; for $\eta\le1$, $\|c\|\le d$, $\|S\|\le s$, $2\|c_0+c\|^2-2\|S\|^2\ge 2(1-\eta)\|c_0\|^2-2(\eta^{-1}-1)d^2-2s^2$; for $w$ antitone on $(0,L]$ and $h\ge0$ integrable, $w(L)\int_0^L h\le\int_0^L wh$; and if $Q\ge Ma^2+FG^2$ with $M\ge\kappa L$, $F\ge\kappa$ and $\|f\|^2=La^2+G^2$ then $Q\ge\kappa\|f\|^2$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The continuous variance identity $\iint|f(x+y)-f(x)|^2=L\|g\|^2$, the Cauchy bounds on the centered moments, the Weil form itself and the Arb endpoint values (hypotheses of the two-channel step) are not formalized; Codex's CI receipts are not checked here. No claim about RH.
 
+\section{Elementary gamma surplus on $(0,1]$}
+\lean{GppGammaSurplus.sinh_le_poly,GppGammaSurplus.gamma_surplus}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact gamma surplus used to improve the completed gamma jump). For $0<y\le 1$, $\sinh y\le y+y^3/6+y^5/120+y^7/5040+\tfrac{9}{322560}y^8$ (Mathlib's exponential Taylor bound at $\pm y$, $n=8$), and
+$\dfrac{e^{y/2}}{2\sinh y}\ge\dfrac1{2y}+\dfrac16$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The elementary real inequality only: the stronger constant $11/50$ on $(0,7/10]$, the completed Weil form, the triangle variance integral and the Legendre spectrum are not formalized. No claim about RH.
+
 \end{document}
