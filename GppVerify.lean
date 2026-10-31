@@ -2369,3 +2369,8 @@ import GppVerify.RiemannHypothesis.CesaroCasimirJacobi
 -- Codex/Discovery2 arithmetic Poisson bulk (2026-09-27): termwise harmonic extension, DtN = log n,
 -- and the von Mangoldt projection decomposition of H.
 import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
+
+-- Discovery2 prime TFD dictionary (2026-09-26) and Poisson-smoothed resolvent ratio (2026-09-28):
+-- exact one-oscillator and one-factor algebra.
+import GppVerify.RiemannHypothesis.PrimeTfdDictionary
+import GppVerify.RiemannHypothesis.PoissonResolventInner

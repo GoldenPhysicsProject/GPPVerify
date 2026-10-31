@@ -8822,6 +8822,17 @@ Source: Codex/Discovery2, \texttt{research/2026-09-27\_arithmetic\_poisson\_bulk
 at $r=t=0$ the outward normal derivative $-\partial_ru$ equals $L\,a$, i.e.\ the Dirichlet-to-Neumann operator acts as $H|n\rangle=(\log n)|n\rangle$; and $\sum_{d\ge2}\Lambda(d)[d\mid n]=\log n$, the decomposition $H=\sum_{d\ge2}\Lambda(d)P_d$ on the basis.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Termwise identities for one basis vector: the summation over $n$, convergence of the Dirichlet series, the Hardy-space interpretation, $\operatorname{Tr}e^{-\beta H}=\zeta(\beta)$ and $\|k_s\|^2=\zeta(2\sigma)$ are not formalized here. No claim about RH.
 
+\section{The prime thermofield-double dictionary}
+\lean{GppPrimeTfd.geometric_trace,GppPrimeTfd.tanh_kappa,GppPrimeTfd.tfd_norm,GppPrimeTfd.mean_occupation,GppPrimeTfd.mass_sq,GppPrimeTfd.energy_of_mass,GppPrimeTfd.mu_eq_one_iff,GppPrimeTfd.sinh_kappa_five,GppPrimeTfd.kappa_five}
+Source: Codex/Discovery2, \texttt{research/2026-09-26\_prime\_tfd\_modular\_horizon\_dictionary.md} \S\S1, 2, 5. For $p>1$ and $\kappa_p=\operatorname{arsinh}(1/\sqrt{p-1})$: the Haar valuation law $(1-1/p)p^{-a}$ sums to $1$; $\tanh\kappa_p=p^{-1/2}$; the purification is normalised, $\cosh^{-2}\kappa_p\sum_a\tanh^{2a}\kappa_p=1$;
+the mean occupation is $\sum_aa(1-1/p)p^{-a}=\frac1{p-1}=\sinh^2\kappa_p$; with $\mu_p=2\sinh\kappa_p$, $\mu_p^2=\frac4{p-1}=\frac4{e^{\log p}-1}$ and $\log p=\log(1+4/\mu_p^2)$; $\mu_p=1\iff p=5$, where $\sinh\kappa_5=\tfrac12$ and $\kappa_5=\log\varphi$, $\varphi=\frac{1+\sqrt5}2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The one-oscillator algebra only: the identification of the arithmetic and geometric modular generators (\S\S3--4), the global TFD and Hagedorn boundary (\S6) and all physical interpretation are not formalized. No claim about RH.
+
+\section{Shifted resolvent ratios of a finite real spectrum}
+\lean{GppPoissonResolventInner.norm_theta,GppPoissonResolventInner.norm_prod_theta,GppPoissonResolventInner.theta_hasDerivAt,GppPoissonResolventInner.phase_density_pos}
+Source: Codex/Discovery2, \texttt{research/2026-09-28\_poisson\_resolvent\_inner\_closure.md} \S\S1--2. For real $\gamma$ and $\omega>0$ let $\theta_\gamma(x)=\frac{\gamma-x+i\omega}{\gamma-x-i\omega}$. Then $|\theta_\gamma(x)|=1$ for real $x$ (hence $|\prod_k\theta_{\gamma_k}(x)|=1$), $\theta_\gamma'(x)=\theta_\gamma(x)\frac{2i\omega}{(\gamma-x)^2+\omega^2}$, and for a nonempty finite spectrum the phase density $2\omega\sum_k\frac1{(x-\gamma_k)^2+\omega^2}$ is strictly positive.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite algebra and calculus of the shifted ratio on the real axis only: that $\Theta$ is Schur/inner in the upper half-plane, the comparison with $\xi(\frac12\mp\omega-iz)$ and Suzuki's criterion, the CCM finite triples and the closure theorem (\S\S3--4) are not formalized. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
