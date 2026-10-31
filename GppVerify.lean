@@ -2358,6 +2358,7 @@ import GppVerify.RiemannHypothesis.PickConjugatePole
 import GppVerify.RiemannHypothesis.GammaSurplus
 import GppVerify.RiemannHypothesis.MeanVarianceSupplier
 import GppVerify.RiemannHypothesis.SchurLift
+import GppVerify.RiemannHypothesis.ThermalKmsPieces
 import GppVerify.RiemannHypothesis.PoleCoshSinh
 -- Codex's exact path sum-of-squares identity from the short-support Weil positivity tower
 -- (PR #11 comment 6539964860); finite algebra only.
