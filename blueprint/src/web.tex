@@ -8791,6 +8791,12 @@ $(h_+*\tilde h_-)(r)+(h_-*\tilde h_+)(r)=2\cosh(\theta r)\,(f*\tilde f)(r)$; als
 Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. Correction to the source: item 1 is stated there with a factor $2$ on the left, but $\cos a\cos b+\sin a\sin b=\cos(a-b)$ gives $\cos(\theta r)$ with no factor $2$ under the stated convention; the $2$ is correct for item 2.
 Real $f$ on $\mathbb R$ with Lebesgue measure. No claim about RH.
 
+\section{Endpoint-moment tail: the exact geometric remainder}
+\lean{GppEndpointMomentTail.geom_remainder,GppEndpointMomentTail.tail_remainder_bound,GppEndpointMomentTail.sin_scaled_remainder_bound}
+Source: Astra, \texttt{work/2026-10-20\_astra\_endpoint\_moment\_arithmetic\_tail.md}. For $t,a\in\mathbb C$ with $t\ne0$, $t+a\ne0$: $\frac1{t+a}-\sum_{r<m}\frac{(-a)^r}{t^{r+1}}=\frac{(-a)^m}{t^m(t+a)}$. For complex $c_j$, real $a_j$ with $|a_j|\le A<|t|$,
+$M_r=\sum c_ja_j^r$ and $B_m=\sum|c_j||a_j|^m$: $\bigl\|\sum_j\frac{c_j}{t+a_j}-\sum_{r<m}\frac{(-1)^rM_r}{t^{r+1}}\bigr\|\le\frac{B_m}{|t|^m(|t|-A)}$, and with the prefactor $K\sin(tL)$, $K\ge0$, the bound is multiplied by $K$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Finite geometric division and the pointwise bound only: the digamma envelope for the arithmetic multiplier, the integrated error theorem, the Plancherel bookkeeping and the numerical evaluations in the note are not formalized. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}

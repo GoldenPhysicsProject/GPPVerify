@@ -2351,3 +2351,7 @@ import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
 -- Grok ARP.md G.6 items 1, 2: cos/cosh twisted convolution-square polarization identities
 -- (item 1 proved with the corrected factor; see the module docstring).
 import GppVerify.RiemannHypothesis.TwistConvolution
+
+-- Astra's endpoint-moment arithmetic tail (work/2026-10-20): exact geometric remainder and the
+-- pointwise tail bound; the arithmetic-multiplier envelope and integrated error are not formalized.
+import GppVerify.RiemannHypothesis.EndpointMomentTail
