@@ -47,8 +47,17 @@ A stub cannot hide behind a comment in the middle of its own statement.
 
 Exit 1 (failing the build) if any `True`-stub declaration lacks the prefix, or if the
 count stated in the blueprint has drifted from the real one.
+
+Since 2026-10-31 the gate also enforces closure contracts on stubs (canonization
+rule 4): a new stub, or an old stub whose declaration/attached comments have been
+touched, fails unless its contract text states the intended statement, a source, and
+a closing criterion. Pre-adoption stubs are exempt through
+`scripts/stub_contract_baseline.txt`; regenerate that file with
+`python3 scripts/check_stub_naming.py --write-baseline`. See the "Closure contracts"
+section below for the exact accepted forms.
 """
 
+import hashlib
 import re
 import sys
 from pathlib import Path
@@ -262,9 +271,273 @@ def declarations(src: str):
 GAP_LABEL = re.compile(r"^[ \t]*(?:--[ \t]*)?MATHLIB[ \t]+GAPS?[ \t]*:", re.M)
 
 
+# --------------------------------------------------------------------------------------
+# Closure contracts on stubs (canonization rule 4, added 2026-10-31)
+# --------------------------------------------------------------------------------------
+#
+# The `open_` prefix says a result is open. It does not say what the result *is*, what
+# fixes its statement, or what would close it -- so closing a stub used to cost
+# archaeology before it cost proof. (The five stubs closed on 2026-10-28 were exactly
+# the ones whose content was already pinned down in writing.) Rule 4 of the
+# canonization protocol (GPP-bridge, adopted 2026-10-31) therefore requires every stub
+# to carry a closure contract with three parts:
+#
+#   (a) the intended statement -- the exact claim the stub is a placeholder for;
+#   (b) a source -- the paper/book/section that fixes that statement;
+#   (c) a closing criterion -- what counts as closing the stub.
+#
+# Canonical form (in the stub's docstring, or in attached comments -- the tree's
+# existing contracts, e.g. `open_yang_mills_mass_gap`, put SOURCE / CLOSURE CONTRACT
+# lines in `--` comments directly under the declaration, and those count):
+#
+#   /-- <one-line claim>.
+#
+#       Intended statement: <exact statement to be proved>.
+#       Source: <reference that fixes the statement>.
+#       Closes when: <what counts as closing this stub>. -/
+#   theorem open_foo : True := trivial
+#
+# Accepted forms (case-insensitive; the check searches the stub's whole contract
+# text, defined below):
+#   (a) "Intended statement", a line beginning "Intended:", or a line beginning
+#       "Statement:".
+#   (b) "Source:" or "Sources:" anywhere.
+#   (c) "closes when" / "closes exactly when" / "closed when" (any `clos\w*` verb),
+#       "closing criterion", "closure criterion", or "closure contract".
+#
+# The *contract text* of a stub is its attached comments: the comment run immediately
+# preceding the declaration (whitespace-only gaps -- this catches the docstring) plus
+# every comment inside the declaration's block (up to the next declaration -- this
+# catches the under-declaration SOURCE / CLOSURE CONTRACT lines).
+#
+# Scope: the requirement applies to NEW stubs and to stubs TOUCHED since adoption --
+# not as a bulk rewrite of the existing census. `scripts/stub_contract_baseline.txt`
+# lists every stub exempted at adoption, keyed by (file, name) with a short hash of
+# its source block (contract text + declaration text). If a baselined stub's block
+# changes, its hash no longer matches, the exemption lapses, and the stub must carry
+# the contract like any new one. Regenerate the baseline (deliberately, in review)
+# with:  python3 scripts/check_stub_naming.py --write-baseline
+
+CONTRACT_PARTS: list[tuple[str, list[re.Pattern]]] = [
+    (
+        "intended statement",
+        [
+            re.compile(r"intended\s+statement", re.I),
+            re.compile(r"^\s*intended\s*:", re.I | re.M),
+            re.compile(r"^\s*statement\s*:", re.I | re.M),
+        ],
+    ),
+    (
+        "source",
+        [re.compile(r"\bsources?\s*:", re.I)],
+    ),
+    (
+        "closing criterion",
+        [
+            re.compile(r"clos\w*\s+(?:exactly\s+)?when", re.I),
+            re.compile(r"closing\s+criterion", re.I),
+            re.compile(r"closure\s+criterion", re.I),
+            re.compile(r"closure\s+contract", re.I),
+        ],
+    ),
+]
+
+BASELINE = Path("scripts/stub_contract_baseline.txt")
+
+
+def comment_spans(src: str) -> list[tuple[int, int, str]]:
+    """(start, end, inner_text) for every comment in `src`, doc comments included.
+
+    Mirrors `strip_comments`' nesting rules. Inner text excludes the delimiters.
+    """
+    spans: list[tuple[int, int, str]] = []
+    i, n = 0, len(src)
+    while i < n:
+        if src.startswith("/-", i):
+            depth = 0
+            j = i
+            while j < n:
+                if src.startswith("/-", j):
+                    depth += 1
+                    j += 2
+                    continue
+                if src.startswith("-/", j) and depth:
+                    depth -= 1
+                    j += 2
+                    if depth == 0:
+                        break
+                    continue
+                j += 1
+            spans.append((i, j, src[i + 2 : j - 2] if j - i >= 4 else ""))
+            i = j
+            continue
+        if src.startswith("--", i):
+            j = src.find("\n", i)
+            if j < 0:
+                j = n
+            spans.append((i, j, src[i + 2 : j]))
+            i = j
+            continue
+        i += 1
+    return spans
+
+
+def strip_comments_preserving(src: str) -> str:
+    """`strip_comments`, but length-preserving: the `/-` / `-/` delimiters become
+    spaces instead of vanishing.
+
+    The project's `strip_comments` drops the two delimiter characters at each end of
+    a block comment, so offsets in its output drift from the raw source by four per
+    block comment (line numbers survive; byte offsets do not). `stub_blocks` needs
+    true offsets to recover docstrings from the raw source, so it strips with this
+    variant. The text content is otherwise identical, and declaration detection on
+    it is unchanged (delimiters become whitespace, which the declaration flattening
+    already collapses).
+    """
+    out: list[str] = []
+    i = 0
+    depth = 0
+    n = len(src)
+    while i < n:
+        if src.startswith("/-", i):
+            depth += 1
+            out.append("  ")
+            i += 2
+            continue
+        if src.startswith("-/", i) and depth:
+            depth -= 1
+            out.append("  ")
+            i += 2
+            continue
+        if depth:
+            out.append("\n" if src[i] == "\n" else " ")
+            i += 1
+            continue
+        if src.startswith("--", i):
+            j = src.find("\n", i)
+            if j < 0:
+                out.append(" " * (n - i))
+                break
+            out.append(" " * (j - i))
+            i = j
+            continue
+        out.append(src[i])
+        i += 1
+    return "".join(out)
+
+
+def stub_blocks(raw: str):
+    """Yield (name, line_number, contract_text, block_hash) for each True-stub.
+
+    Declaration offsets are taken from `strip_comments_preserving` output, whose
+    offsets index the raw source directly -- which is what lets the docstring and
+    attached comments be recovered here.
+    """
+    stripped = strip_comments_preserving(raw)
+    spans = comment_spans(raw)
+    starts = [m.start() for m in DECL_START.finditer(stripped)] + [len(stripped)]
+    for a, b in zip(starts, starts[1:]):
+        chunk = stripped[a:b]
+        m = NAME.match(chunk)
+        if not m:
+            continue
+        flat = re.sub(r"\s+", " ", chunk).strip()
+        stub = STUB.search(flat)
+        if not stub:
+            continue
+        # The comment run immediately before the declaration (whitespace-only gaps).
+        before: list[str] = []
+        boundary = a
+        for s, e, text in reversed([sp for sp in spans if sp[1] <= a]):
+            if raw[e:boundary].strip() == "":
+                before.append(text)
+                boundary = s
+            else:
+                break
+        before.reverse()
+        # Every comment inside the declaration's own block.
+        inside = [text for s, _e, text in spans if a <= s < b]
+        contract = "\n".join(before + inside)
+        digest = hashlib.sha256(
+            (contract + "\x00" + flat[: stub.end()]).encode("utf-8")
+        ).hexdigest()[:12]
+        yield m.group(1), stripped.count("\n", 0, a) + 1, contract, digest
+
+
+def missing_contract_parts(contract: str) -> list[str]:
+    """Names of the contract parts absent from `contract` (empty list = complete)."""
+    return [
+        label
+        for label, patterns in CONTRACT_PARTS
+        if not any(p.search(contract) for p in patterns)
+    ]
+
+
+def load_baseline(repo: Path) -> dict[tuple[str, str], set[str]]:
+    """(relative_path, stub_name) -> set of exempting block hashes."""
+    out: dict[tuple[str, str], set[str]] = {}
+    path = repo / BASELINE
+    if not path.exists():
+        return out
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        parts = line.split("\t")
+        if len(parts) != 3:
+            continue
+        name, rel, digest = parts
+        out.setdefault((rel, name), set()).add(digest)
+    return out
+
+
+def collect_stub_census(repo: Path, root: Path, baseline) -> list[tuple]:
+    """(rel_path, name, line, missing_parts, digest, exempt) for every True-stub."""
+    census: list[tuple] = []
+    for path in sorted(root.rglob("*.lean")):
+        rel = str(path.relative_to(repo))
+        for name, lineno, contract, digest in stub_blocks(path.read_text(encoding="utf-8")):
+            exempt = digest in baseline.get((rel, name), set())
+            census.append(
+                (rel, name, lineno, missing_contract_parts(contract), digest, exempt)
+            )
+    return census
+
+
+def write_baseline(repo: Path, census: list[tuple]) -> Path:
+    path = repo / BASELINE
+    lines = [
+        "# Stub-contract baseline for scripts/check_stub_naming.py (canonization rule 4).",
+        "#",
+        "# Every stub listed here is exempt from the closure-contract requirement.",
+        "# The exemption lapses automatically when the stub's declaration or attached",
+        "# comments change: the stored hash of its source block stops matching, and the",
+        "# stub is then checked like a new one. Regenerate deliberately, in review,",
+        "# with:  python3 scripts/check_stub_naming.py --write-baseline",
+        "#",
+        "# Format: <stub name>\\t<file>\\t<sha256(block)[:12]>",
+    ]
+    for rel, name, _lineno, _missing, digest, _exempt in sorted(
+        census, key=lambda c: (c[0], c[1])
+    ):
+        lines.append(f"{name}\t{rel}\t{digest}")
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parent.parent
     root = repo / "GppVerify"
+
+    if "--write-baseline" in sys.argv:
+        census = collect_stub_census(repo, root, load_baseline(repo))
+        path = write_baseline(repo, census)
+        print(
+            f"Wrote {BASELINE}: {len(census)} stub(s) exempted at the current tree. "
+            "Review the diff before committing it -- regenerating the baseline is how "
+            "a touched stub is deliberately re-exempted, so it should never be routine."
+        )
+        return 0
+
     offenders: list[str] = []
     tautologies: list[str] = []
     gap_labels: list[str] = []
@@ -324,6 +597,32 @@ def main() -> int:
             print(f"  {entry}")
     else:
         print("No ambiguous 'MATHLIB GAP' labels (LIBRARY / OPEN PROBLEM / FRAMEWORK CLAIM).")
+
+    # Closure contracts (canonization rule 4; see the section above). Baselined stubs
+    # are exempt until touched; every other stub must state what it is, what fixes its
+    # statement, and what closes it.
+    census = collect_stub_census(repo, root, load_baseline(repo))
+    contract_failures = [c for c in census if not c[5] and c[3]]
+    n_checked = sum(1 for c in census if not c[5])
+    n_exempt = len(census) - n_checked
+    print(
+        f"Stub contracts: {n_checked} checked, {n_exempt} exempt under the baseline"
+        f" ({BASELINE}), {len(contract_failures)} without a full contract."
+    )
+    if contract_failures:
+        failed = True
+        print(
+            f"::error::{len(contract_failures)} stub(s) lack a closure contract "
+            "(canonization rule 4)."
+        )
+        print("A stub without a contract costs archaeology before it costs proof. Give")
+        print("it the three parts, in its docstring or in attached comments:")
+        print("  Intended statement: <exact statement to be proved>")
+        print("  Source: <reference that fixes the statement>")
+        print("  Closes when: <what counts as closing this stub>")
+        print("Offenders (name -- missing parts):")
+        for rel, name, lineno, missing, _digest, _exempt in contract_failures:
+            print(f"  {rel}:{lineno}: {name} -- missing: {', '.join(missing)}")
 
     # The blueprint states the stub count in prose. A hand-maintained number drifts --
     # it already had (141 published against 150 actual) -- so check it here rather than
