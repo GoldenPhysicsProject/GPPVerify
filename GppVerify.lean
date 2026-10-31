@@ -2374,3 +2374,9 @@ import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
 -- exact one-oscillator and one-factor algebra.
 import GppVerify.RiemannHypothesis.PrimeTfdDictionary
 import GppVerify.RiemannHypothesis.PoissonResolventInner
+
+-- Completed from stale Codex draft PRs #402 and #367 (build fixes only: one redundant tactic; `λ`
+-- is a reserved token and was renamed `lam`): rank-one Weil pole Schur inequality and the
+-- positive-pole completion certificate.
+import GppVerify.RiemannHypothesis.RankOneThresholdInequality
+import GppVerify.RiemannHypothesis.EvenPositivePoleCompletion

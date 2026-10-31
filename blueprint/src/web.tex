@@ -8833,6 +8833,17 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude
 Source: Codex/Discovery2, \texttt{research/2026-09-28\_poisson\_resolvent\_inner\_closure.md} \S\S1--2. For real $\gamma$ and $\omega>0$ let $\theta_\gamma(x)=\frac{\gamma-x+i\omega}{\gamma-x-i\omega}$. Then $|\theta_\gamma(x)|=1$ for real $x$ (hence $|\prod_k\theta_{\gamma_k}(x)|=1$), $\theta_\gamma'(x)=\theta_\gamma(x)\frac{2i\omega}{(\gamma-x)^2+\omega^2}$, and for a nonempty finite spectrum the phase density $2\omega\sum_k\frac1{(x-\gamma_k)^2+\omega^2}$ is strictly positive.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite algebra and calculus of the shifted ratio on the real axis only: that $\Theta$ is Schur/inner in the upper half-plane, the comparison with $\xi(\frac12\mp\omega-iz)$ and Suzuki's criterion, the CCM finite triples and the closure theorem (\S\S3--4) are not formalized. No claim about RH.
 
+\section{Rank-one Weil pole: the full negative-threshold Schur inequality}
+\lean{GppRankOneControls.pole_threshold_neg_iff}
+Source: Codex, GPPVerify PR \#402 (\texttt{codex/rankone-signed-schur-ineq-20261021}); completed on current main by Claude Code (one redundant tactic removed). For a symmetric invertible real matrix $A$ that is positive on $c^\perp$ and $s=c^{\mathsf T}A^{-1}c<0$:
+$A+\tfrac12cc^{\mathsf T}\succeq0\iff s\le-2$, by the exact decomposition $x=\alpha u+y$, $y\perp c$, $x^{\mathsf T}(A+\tfrac12cc^{\mathsf T})x=y^{\mathsf T}Ay+\alpha^2s(1+s/2)$. The threshold is $s\le-2$, not merely $s=-2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite linear algebra; no zeta-zero or Weil-form positivity is assumed. No claim about RH.
+
+\section{Positive-pole completion: a direct-sum quadratic certificate}
+\lean{GppEvenPositivePoleCompletion.two_channel_cauchy,GppEvenPositivePoleCompletion.positive_pole_completion,GppEvenPositivePoleCompletion.positive_pole_coercivity,GppEvenPositivePoleCompletion.two_component_positive_pole,GppEvenPositivePoleCompletion.pole_lambda_square_identity,GppEvenPositivePoleCompletion.pole_lambda_lower_bound,GppEvenPositivePoleCompletion.necessary_pole_lambda_budget}
+Source: Astra's 2026-10-15 even-sector lemma (audited by Grok S26), Codex formalization, GPPVerify PR \#367 (\texttt{codex/even-positive-pole-direct-sum-20261015}); completed on current main by Claude Code (the variable $\lambda$, a reserved token in Lean, renamed \texttt{lam}). The two-channel weighted Cauchy--Schwarz inequality: if $x^2\le\beta E$ then $(x+\lambda w)^2\le(\beta+\lambda^2/2)(E+2w^2)$, with its componentwise and coercivity corollaries. The factor $\lambda^2/2$ is essential.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra, Grok, Codex and Claude Code. Finite algebra only: the continuous Fourier multiplier, its Arb interval bounds, the DC-lift integral identity and RH/GRH are not formalized. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
