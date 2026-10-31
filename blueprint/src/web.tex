@@ -8797,6 +8797,12 @@ Source: Astra, \texttt{work/2026-10-10\_astra\_pick\_continuation.md} \S2. For $
 the Pick kernel $\frac{m(k_i)-\overline{m(k_j)}}{k_i-\overline{k_j}}$ equals the real number $\frac{2(u_i+u_j)}{y_i+y_j}$ with $u=\frac{y}{y^2-a^2}$; the diagonal entries are positive; and
 $\det\operatorname{Pick}(k_1,k_2)=\frac{-4a^2(y_1-y_2)^2}{(y_1^2-a^2)^2(y_2^2-a^2)^2}<0$ for $y_1\ne y_2$. So pointwise correct sign does not imply a jointly positive (Pick) extension.
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The exact two-node computation only: the note's criterion (RH iff all real-node Pick matrices are positive semidefinite, via Nevanlinna--Pick interpolation and analytic continuation), the polynomial $G(k)$ control values and the binary64 diagnostics are not formalized. No claim about RH.
+\section{The exact path sum-of-squares identity}
+\lean{GppPathSOS.term_identity,GppPathSOS.path_sos,GppPathSOS.sin_pos_idx,GppPathSOS.path_sos_nonneg}
+Source: Codex, GPP-bridge PR \#11 comment 6539964860 (31 October), from \texttt{short\_support\_nilpotent\_tower.md}. For $k\ge1$, $\theta=\pi/(k+1)$, $w_j=\sin(j\theta)$ and complex $a_1,\dots,a_k$:
+$2\cos\theta\sum_{j=1}^k|a_j|^2-2\operatorname{Re}\sum_{j=1}^{k-1}\bar a_ja_{j+1}=\sum_{j=1}^{k-1}w_jw_{j+1}\,|a_j/w_j-a_{j+1}/w_{j+1}|^2\ge0$, so $2\operatorname{Re}\sum\bar a_ja_{j+1}\le2\cos\theta\sum|a_j|^2$
+(the Dirichlet ground-state transform of the path Laplacian, ground state $w$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite algebraic identity only: the analytic content of Codex's theorem ($Q_L[f]>\|f\|^2/200$ for $L\le5/32$, the 256-bit Arb certificate, the fiber disintegration, the gamma-tilt discount) is not formalized. No claim about RH.
 
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
