@@ -14,11 +14,11 @@ namespace GppPrimeStripDoubleParity
 variable {N : ℕ}
 
 /-- Local reflection-even part of the first endpoint strip. -/
-def localEven (g : Fin N → ℝ) (R : Fin N → Fin N) (i : Fin N) : ℝ :=
+noncomputable def localEven (g : Fin N → ℝ) (R : Fin N → Fin N) (i : Fin N) : ℝ :=
   (g i + g (R i)) / 2
 
 /-- Local reflection-odd part of the first endpoint strip. -/
-def localOdd (g : Fin N → ℝ) (R : Fin N → Fin N) (i : Fin N) : ℝ :=
+noncomputable def localOdd (g : Fin N → ℝ) (R : Fin N → Fin N) (i : Fin N) : ℝ :=
   (g i - g (R i)) / 2
 
 /-- Pointwise two-reflection square identity. This requires no presumed
