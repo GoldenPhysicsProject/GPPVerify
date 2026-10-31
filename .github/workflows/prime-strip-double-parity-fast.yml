@@ -1,0 +1,41 @@
+name: Prime Strip Double Parity Fast
+
+on:
+  pull_request:
+    paths:
+      - 'GppVerify/RiemannHypothesis/PrimeStripDoubleParity.lean'
+      - '.github/workflows/prime-strip-double-parity-fast.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lean-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lean elan
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Cache toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+      - name: Cache Lake
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+      - name: Restore mathlib cache
+        run: lake exe cache get
+      - name: Compile exact signed first-prime reflection algebra
+        run: lake build GppVerify.RiemannHypothesis.PrimeStripDoubleParity
+      - name: Reject axioms and placeholders
+        run: |
+          if grep -nE '(^|[[:space:]])(sorry|admit|axiom)([[:space:]]|$)' GppVerify/RiemannHypothesis/PrimeStripDoubleParity.lean; then exit 1; fi
