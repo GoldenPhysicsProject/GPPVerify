@@ -2378,3 +2378,6 @@ import GppVerify.RiemannHypothesis.PoissonResolventInner
 -- Codex's graded-sphere countermodel (GPPVerify PR #440, re-landed on current main): an ungraded
 -- whole-product mirror does not force one global spectral line.
 import GppVerify.RiemannHypothesis.GradedSphereFalsifier
+-- Discovery2 arithmetic free field (2026-09-27): per-mode Gaussian Laplace transform and the
+-- limit of the four-component vacuum partition function, (pi lam / sinh pi lam)^2.
+import GppVerify.QuantumGravity.GaussianBpyLaplace
