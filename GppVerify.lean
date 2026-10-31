@@ -2344,3 +2344,6 @@ import GppVerify.RiemannHypothesis.ConvolutionSquareGroup
 -- Grok ARP.md G.6 items 3, 4, 6: local Euler-factor unitarity on the critical line, density sign,
 -- and the Kakutani-type divergence of the mirror-overlap product.
 import GppVerify.RiemannHypothesis.ARPLocalFactors
+
+-- Codex's finite Gibbs/Fisher algebra (PR #11, 2026-10-30, Priority 2): eigenbasis sum identity.
+import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
