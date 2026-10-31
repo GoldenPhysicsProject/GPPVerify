@@ -8783,6 +8783,14 @@ $\sum_j2(E_j-E_0)|a_{0j}|^2=2\langle A_c\Omega,(H-E_0)A_c\Omega\rangle$ with $A_
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite eigenbasis algebra only: the analytic statement that the Hessian of the relative entropy along $e^{isA}\rho_\beta e^{-isA}$ equals this form
 (matrix logarithm, second derivative in $s$) is not formalized, nor is zero-temperature convergence or any infinite-dimensional or uniform-in-volume extension. No claim about RH or Yang--Mills.
 
+\section{Twisted convolution squares: cos and cosh polarization}
+\lean{GppTwistConvolution.twist_cos_sum,GppTwistConvolution.twist_cosh_krein,GppTwistConvolution.parallelogram_cplx}
+Source: Grok, \texttt{GPPDiscovery5/derivation/ARP.md} \S G.6 items 1 and 2. With $\tilde f(u)=f(-u)$ and $(f*\tilde g)(r)=\int f(u)g(u-r)\,du$: the cos and sin twists satisfy
+$(fc*\widetilde{fc})(r)+(fs*\widetilde{fs})(r)=\cos(\theta r)\,(f*\tilde f)(r)$ with $fc=f\cos\theta\cdot$, $fs=f\sin\theta\cdot$, and for $h_\pm=e^{\pm\theta u}f$,
+$(h_+*\tilde h_-)(r)+(h_-*\tilde h_+)(r)=2\cosh(\theta r)\,(f*\tilde f)(r)$; also $|A+iB|^2+|A-iB|^2=2|A|^2+2|B|^2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. Correction to the source: item 1 is stated there with a factor $2$ on the left, but $\cos a\cos b+\sin a\sin b=\cos(a-b)$ gives $\cos(\theta r)$ with no factor $2$ under the stated convention; the $2$ is correct for item 2.
+Real $f$ on $\mathbb R$ with Lebesgue measure. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
