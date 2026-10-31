@@ -2381,3 +2381,8 @@ import GppVerify.RiemannHypothesis.GradedSphereFalsifier
 -- Discovery2 arithmetic free field (2026-09-27): per-mode Gaussian Laplace transform and the
 -- limit of the four-component vacuum partition function, (pi lam / sinh pi lam)^2.
 import GppVerify.QuantumGravity.GaussianBpyLaplace
+-- Completed from stale Codex draft PRs #402 and #367 (build fixes only: one redundant tactic; `λ`
+-- is a reserved token and was renamed `lam`): rank-one Weil pole Schur inequality and the
+-- positive-pole completion certificate.
+import GppVerify.RiemannHypothesis.RankOneThresholdInequality
+import GppVerify.RiemannHypothesis.EvenPositivePoleCompletion

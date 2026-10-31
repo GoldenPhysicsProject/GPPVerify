@@ -8841,6 +8841,16 @@ The polynomial $f(s)=(s-\frac12)^2$ satisfies $f(1-s)=f(s)$, and the product $F(
 Source: Codex/Discovery2, \texttt{research/2026-09-27\_arithmetic\_free\_field\_holographic\_ladder.md} \S\S3--4. For $v>0$, $t\ge0$: $\int(2\pi v)^{-1/2}e^{-x^2/2v}e^{-tx^2}dx=(1+2tv)^{-1/2}$. One standard-normal mode with rate $t/(2\pi n^2)$ contributes $(1+t/(\pi n^2))^{-1/2}$, four components contribute $(1+t/(\pi n^2))^{-2}$, and for $\lambda>0$ ($t=\pi\lambda^2$) the partial products
 $\prod_{n\le N}(1+\lambda^2/n^2)^{-2}$ converge to $(\pi\lambda/\sinh\pi\lambda)^2$, using the Weierstrass product for $\sinh$ already in the tree; this is the squared celestial Plancherel weight.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The per-mode Gaussian integral and the limit of the product of per-mode transforms only: the cylindrical Gaussian measure on $\ell^2(\mathbb N)$, independence of the modes, the Fredholm determinant form $\det(I+2tC)^{-4/2}$ and the Mellin face $E[Q^{s/2}]=2\xi(s)$ (\S5) are not formalized. No claim about RH.
+\section{Rank-one Weil pole: the full negative-threshold Schur inequality}
+\lean{GppRankOneControls.pole_threshold_neg_iff}
+Source: Codex, GPPVerify PR \#402 (\texttt{codex/rankone-signed-schur-ineq-20261021}); completed on current main by Claude Code (one redundant tactic removed). For a symmetric invertible real matrix $A$ that is positive on $c^\perp$ and $s=c^{\mathsf T}A^{-1}c<0$:
+$A+\tfrac12cc^{\mathsf T}\succeq0\iff s\le-2$, by the exact decomposition $x=\alpha u+y$, $y\perp c$, $x^{\mathsf T}(A+\tfrac12cc^{\mathsf T})x=y^{\mathsf T}Ay+\alpha^2s(1+s/2)$. The threshold is $s\le-2$, not merely $s=-2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite linear algebra; no zeta-zero or Weil-form positivity is assumed. No claim about RH.
+
+\section{Positive-pole completion: a direct-sum quadratic certificate}
+\lean{GppEvenPositivePoleCompletion.two_channel_cauchy,GppEvenPositivePoleCompletion.positive_pole_completion,GppEvenPositivePoleCompletion.positive_pole_coercivity,GppEvenPositivePoleCompletion.two_component_positive_pole,GppEvenPositivePoleCompletion.pole_lambda_square_identity,GppEvenPositivePoleCompletion.pole_lambda_lower_bound,GppEvenPositivePoleCompletion.necessary_pole_lambda_budget}
+Source: Astra's 2026-10-15 even-sector lemma (audited by Grok S26), Codex formalization, GPPVerify PR \#367 (\texttt{codex/even-positive-pole-direct-sum-20261015}); completed on current main by Claude Code (the variable $\lambda$, a reserved token in Lean, renamed \texttt{lam}). The two-channel weighted Cauchy--Schwarz inequality: if $x^2\le\beta E$ then $(x+\lambda w)^2\le(\beta+\lambda^2/2)(E+2w^2)$, with its componentwise and coercivity corollaries. The factor $\lambda^2/2$ is essential.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra, Grok, Codex and Claude Code. Finite algebra only: the continuous Fourier multiplier, its Arb interval bounds, the DC-lift integral identity and RH/GRH are not formalized. No claim about RH.
 
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
