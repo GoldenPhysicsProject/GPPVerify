@@ -2374,3 +2374,7 @@ import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
 -- exact one-oscillator and one-factor algebra.
 import GppVerify.RiemannHypothesis.PrimeTfdDictionary
 import GppVerify.RiemannHypothesis.PoissonResolventInner
+
+-- Discovery2 arithmetic free field (2026-09-27): per-mode Gaussian Laplace transform and the
+-- limit of the four-component vacuum partition function, (pi lam / sinh pi lam)^2.
+import GppVerify.QuantumGravity.GaussianBpyLaplace

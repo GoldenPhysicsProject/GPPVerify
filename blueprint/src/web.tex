@@ -8833,6 +8833,12 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude
 Source: Codex/Discovery2, \texttt{research/2026-09-28\_poisson\_resolvent\_inner\_closure.md} \S\S1--2. For real $\gamma$ and $\omega>0$ let $\theta_\gamma(x)=\frac{\gamma-x+i\omega}{\gamma-x-i\omega}$. Then $|\theta_\gamma(x)|=1$ for real $x$ (hence $|\prod_k\theta_{\gamma_k}(x)|=1$), $\theta_\gamma'(x)=\theta_\gamma(x)\frac{2i\omega}{(\gamma-x)^2+\omega^2}$, and for a nonempty finite spectrum the phase density $2\omega\sum_k\frac1{(x-\gamma_k)^2+\omega^2}$ is strictly positive.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite algebra and calculus of the shifted ratio on the real axis only: that $\Theta$ is Schur/inner in the upper half-plane, the comparison with $\xi(\frac12\mp\omega-iz)$ and Suzuki's criterion, the CCM finite triples and the closure theorem (\S\S3--4) are not formalized. No claim about RH.
 
+\section{The Gaussian vacuum partition function of the four-component arithmetic field}
+\lean{GppGaussianBpy.gaussian_laplace,GppGaussianBpy.mode_laplace,GppGaussianBpy.four_components,GppGaussianBpy.partition_tendsto}
+Source: Codex/Discovery2, \texttt{research/2026-09-27\_arithmetic\_free\_field\_holographic\_ladder.md} \S\S3--4. For $v>0$, $t\ge0$: $\int(2\pi v)^{-1/2}e^{-x^2/2v}e^{-tx^2}dx=(1+2tv)^{-1/2}$. One standard-normal mode with rate $t/(2\pi n^2)$ contributes $(1+t/(\pi n^2))^{-1/2}$, four components contribute $(1+t/(\pi n^2))^{-2}$, and for $\lambda>0$ ($t=\pi\lambda^2$) the partial products
+$\prod_{n\le N}(1+\lambda^2/n^2)^{-2}$ converge to $(\pi\lambda/\sinh\pi\lambda)^2$, using the Weierstrass product for $\sinh$ already in the tree; this is the squared celestial Plancherel weight.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The per-mode Gaussian integral and the limit of the product of per-mode transforms only: the cylindrical Gaussian measure on $\ell^2(\mathbb N)$, independence of the modes, the Fredholm determinant form $\det(I+2tC)^{-4/2}$ and the Mellin face $E[Q^{s/2}]=2\xi(s)$ (\S5) are not formalized. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
