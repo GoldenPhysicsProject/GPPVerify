@@ -2361,3 +2361,7 @@ import GppVerify.RiemannHypothesis.PathSOS
 -- Astra's endpoint-moment arithmetic tail (work/2026-10-20): exact geometric remainder and the
 -- pointwise tail bound; the arithmetic-multiplier envelope and integrated error are not formalized.
 import GppVerify.RiemannHypothesis.EndpointMomentTail
+
+-- Codex/Discovery2 Cesaro Gram = discrete Casimir Green operator (2026-09-20): exact finite
+-- identities and the sharp-floor direction of the Hardy inequality.
+import GppVerify.RiemannHypothesis.CesaroCasimirJacobi

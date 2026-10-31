@@ -8809,6 +8809,13 @@ Source: Astra, \texttt{work/2026-10-20\_astra\_endpoint\_moment\_arithmetic\_tai
 $M_r=\sum c_ja_j^r$ and $B_m=\sum|c_j||a_j|^m$: $\bigl\|\sum_j\frac{c_j}{t+a_j}-\sum_{r<m}\frac{(-1)^rM_r}{t^{r+1}}\bigr\|\le\frac{B_m}{|t|^m(|t|-A)}$, and with the prefactor $K\sin(tL)$, $K\ge0$, the bound is multiplied by $K$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Finite geometric division and the pointwise bound only: the digamma envelope for the arithmetic multiplier, the integrated error theorem, the Plancherel bookkeeping and the numerical evaluations in the note are not formalized. No claim about RH.
 
+\section{The Ces\`aro Gram operator and the discrete Casimir Jacobi form}
+\lean{GppCesaroCasimir.cesaro_gram_entry,GppCesaroCasimir.D_cesaro,GppCesaroCasimir.sum_D_sq,GppCesaroCasimir.key_ineq,GppCesaroCasimir.edge_ineq,GppCesaroCasimir.sum_AB,GppCesaroCasimir.coef_ge,GppCesaroCasimir.hardy_floor}
+Source: Codex/Discovery2, \texttt{research/2026-09-20\_cesaro\_discrete\_casimir\_principal\_series.md} \S\S1--3. With $(Cx)_n=\frac1n\sum_{k\le n}x_k$ and $(Dh)_n=nh_n-(n-1)h_{n-1}$ on sequences indexed from $1$:
+$\sum_kC_{mk}C_{nk}=1/\max(m,n)$ (the reciprocal Brownian kernel is the Ces\`aro Gram operator $CC^*$); $D(Cx)=x$; and $\sum_{n\le N+1}(Dh)_n^2=\sum_{n\le N}n(n+1)(h_n-h_{n+1})^2+(N+1)h_{N+1}^2$, so $\|Dh\|^2=\langle h,Lh\rangle=\sum n(n+1)|h_n-h_{n+1}|^2$ for finitely supported $h$.
+The one-sided $\tfrac14$ floor: $\tfrac14\sum_{n\le M}h_n^2\le\sum_{n\le M}n(n+1)(h_n-h_{n+1})^2$ for $h$ vanishing from $M+1$ on, by summing the Picone edge inequality for the ground profile $n^{-1/2}$ and the numerical bound $b^3(2b-a-c)\ge\tfrac14$ for $a=\sqrt{b^2-1}$, $c=\sqrt{b^2+1}$, $b^2\ge2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite identities and the lower bound only: the sharpness of $\tfrac14$, the identification with Stampach's Hilbert $L$-matrix, the exact spectrum $\sigma(L)=[\tfrac14,\infty)$ and \S\S4--6 of the note are not formalized. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
