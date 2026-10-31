@@ -2352,6 +2352,12 @@ import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
 -- (item 1 proved with the corrected factor; see the module docstring).
 import GppVerify.RiemannHypothesis.TwistConvolution
 
+-- Astra's Pick continuation (work/2026-10-10) section 2: exact two-node Pick determinant of a
+-- conjugate pole pair; pointwise Im m > 0 with negative determinant.
+import GppVerify.RiemannHypothesis.PickConjugatePole
 -- Codex's exact path sum-of-squares identity from the short-support Weil positivity tower
 -- (PR #11 comment 6539964860); finite algebra only.
 import GppVerify.RiemannHypothesis.PathSOS
+-- Astra's endpoint-moment arithmetic tail (work/2026-10-20): exact geometric remainder and the
+-- pointwise tail bound; the arithmetic-multiplier envelope and integrated error are not formalized.
+import GppVerify.RiemannHypothesis.EndpointMomentTail

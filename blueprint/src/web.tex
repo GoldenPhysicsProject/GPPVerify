@@ -8791,12 +8791,23 @@ $(h_+*\tilde h_-)(r)+(h_-*\tilde h_+)(r)=2\cosh(\theta r)\,(f*\tilde f)(r)$; als
 Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. Correction to the source: item 1 is stated there with a factor $2$ on the left, but $\cos a\cos b+\sin a\sin b=\cos(a-b)$ gives $\cos(\theta r)$ with no factor $2$ under the stated convention; the $2$ is correct for item 2.
 Real $f$ on $\mathbb R$ with Lebesgue measure. No claim about RH.
 
+\section{Pick matrix of a conjugate pole pair}
+\lean{GppPickConjugatePole.pickM_eq,GppPickConjugatePole.pickM_im_pos,GppPickConjugatePole.pick_kernel_eq,GppPickConjugatePole.pick_diag_pos,GppPickConjugatePole.pick_det,GppPickConjugatePole.pick_det_neg}
+Source: Astra, \texttt{work/2026-10-10\_astra\_pick\_continuation.md} \S2. For $m(k)=\frac1{\gamma+ia-k}+\frac1{\gamma-ia-k}$ ($a>0$) and nodes $k_j=\gamma+iy_j$, $y_j>a$: $m(\gamma+iy)=\frac{2iy}{y^2-a^2}$, so $\operatorname{Im}m>0$ at every node;
+the Pick kernel $\frac{m(k_i)-\overline{m(k_j)}}{k_i-\overline{k_j}}$ equals the real number $\frac{2(u_i+u_j)}{y_i+y_j}$ with $u=\frac{y}{y^2-a^2}$; the diagonal entries are positive; and
+$\det\operatorname{Pick}(k_1,k_2)=\frac{-4a^2(y_1-y_2)^2}{(y_1^2-a^2)^2(y_2^2-a^2)^2}<0$ for $y_1\ne y_2$. So pointwise correct sign does not imply a jointly positive (Pick) extension.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The exact two-node computation only: the note's criterion (RH iff all real-node Pick matrices are positive semidefinite, via Nevanlinna--Pick interpolation and analytic continuation), the polynomial $G(k)$ control values and the binary64 diagnostics are not formalized. No claim about RH.
 \section{The exact path sum-of-squares identity}
-\lean{GppPathSOS.term_identity,GppPathSOS.path_sos,GppPathSOS.sin_pos_idx,GppPathSOS.path_sos_nonneg}
+\lean{GppPathSOS.term_identity,GppPathSOS.path_sos,GppPathSOS.sin_pos_idx,GppPathSOS.path_sos_nonneg,GppPathSOS.edge_amgm,GppPathSOS.edge_sum_le}
 Source: Codex, GPP-bridge PR \#11 comment 6539964860 (31 October), from \texttt{short\_support\_nilpotent\_tower.md}. For $k\ge1$, $\theta=\pi/(k+1)$, $w_j=\sin(j\theta)$ and complex $a_1,\dots,a_k$:
 $2\cos\theta\sum_{j=1}^k|a_j|^2-2\operatorname{Re}\sum_{j=1}^{k-1}\bar a_ja_{j+1}=\sum_{j=1}^{k-1}w_jw_{j+1}\,|a_j/w_j-a_{j+1}/w_{j+1}|^2\ge0$, so $2\operatorname{Re}\sum\bar a_ja_{j+1}\le2\cos\theta\sum|a_j|^2$
-(the Dirichlet ground-state transform of the path Laplacian, ground state $w$).
+(the Dirichlet ground-state transform of the path Laplacian, ground state $w$). The same exact square gives the weighted edge AM--GM $2\operatorname{Re}(\bar xy)\le\frac vu|x|^2+\frac uv|y|^2$ for $u,v>0$ and its finite weighted edge sum, the graph-SOS step of Codex's Hardy--Schur prime absorption (PR \#11, 31 October); the Hardy potential and the Arb interval checks are not formalized.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite algebraic identity only: the analytic content of Codex's theorem ($Q_L[f]>\|f\|^2/200$ for $L\le5/32$, the 256-bit Arb certificate, the fiber disintegration, the gamma-tilt discount) is not formalized. No claim about RH.
+\section{Endpoint-moment tail: the exact geometric remainder}
+\lean{GppEndpointMomentTail.geom_remainder,GppEndpointMomentTail.tail_remainder_bound,GppEndpointMomentTail.sin_scaled_remainder_bound}
+Source: Astra, \texttt{work/2026-10-20\_astra\_endpoint\_moment\_arithmetic\_tail.md}. For $t,a\in\mathbb C$ with $t\ne0$, $t+a\ne0$: $\frac1{t+a}-\sum_{r<m}\frac{(-a)^r}{t^{r+1}}=\frac{(-a)^m}{t^m(t+a)}$. For complex $c_j$, real $a_j$ with $|a_j|\le A<|t|$,
+$M_r=\sum c_ja_j^r$ and $B_m=\sum|c_j||a_j|^m$: $\bigl\|\sum_j\frac{c_j}{t+a_j}-\sum_{r<m}\frac{(-1)^rM_r}{t^{r+1}}\bigr\|\le\frac{B_m}{|t|^m(|t|-A)}$, and with the prefactor $K\sin(tL)$, $K\ge0$, the bound is multiplied by $K$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Finite geometric division and the pointwise bound only: the digamma envelope for the arithmetic multiplier, the integrated error theorem, the Plancherel bookkeeping and the numerical evaluations in the note are not formalized. No claim about RH.
 
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
