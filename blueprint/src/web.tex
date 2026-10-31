@@ -8878,4 +8878,9 @@ Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact completed semiloc
 $\bigl|\sum_j c_j\cosh a_j\bigr|^2-\bigl|\sum_j c_j\sinh a_j\bigr|^2=\sum_{i,j}\overline{c_i}\,c_j\cosh(a_i-a_j)$, from $\cosh a\cosh b-\sinh a\sinh b=\cosh(a-b)$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite-sum identity only: the integral version, the shift $a=(x-L/2)/2$ and any sign statement about the completed form are not formalized. No claim about RH.
 
+\section{Mean/variance supplier: Young step, decreasing jump weight, two-channel criterion}
+\lean{GppMeanVarianceSupplier.young_sq,GppMeanVarianceSupplier.pole_lower_bound,GppMeanVarianceSupplier.jump_weight_bound,GppMeanVarianceSupplier.two_channel}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (completed Weil positivity for $L\le 29/100$ by a mean/fluctuation split $f=a+g$, $\int g=0$). Scalar pieces only: for complex $u,v$ and $0<\eta$, $\|u+v\|^2\ge(1-\eta)\|u\|^2-(\eta^{-1}-1)\|v\|^2$; for $\eta\le1$, $\|c\|\le d$, $\|S\|\le s$, $2\|c_0+c\|^2-2\|S\|^2\ge 2(1-\eta)\|c_0\|^2-2(\eta^{-1}-1)d^2-2s^2$; for $w$ antitone on $(0,L]$ and $h\ge0$ integrable, $w(L)\int_0^L h\le\int_0^L wh$; and if $Q\ge Ma^2+FG^2$ with $M\ge\kappa L$, $F\ge\kappa$ and $\|f\|^2=La^2+G^2$ then $Q\ge\kappa\|f\|^2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The continuous variance identity $\iint|f(x+y)-f(x)|^2=L\|g\|^2$, the Cauchy bounds on the centered moments, the Weil form itself and the Arb endpoint values (hypotheses of the two-channel step) are not formalized; Codex's CI receipts are not checked here. No claim about RH.
+
 \end{document}
