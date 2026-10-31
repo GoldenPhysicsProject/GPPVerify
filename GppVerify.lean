@@ -2374,3 +2374,7 @@ import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
 -- exact one-oscillator and one-factor algebra.
 import GppVerify.RiemannHypothesis.PrimeTfdDictionary
 import GppVerify.RiemannHypothesis.PoissonResolventInner
+
+-- Codex's graded-sphere countermodel (GPPVerify PR #440, re-landed on current main): an ungraded
+-- whole-product mirror does not force one global spectral line.
+import GppVerify.RiemannHypothesis.GradedSphereFalsifier
