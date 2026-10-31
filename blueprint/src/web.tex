@@ -8791,6 +8791,13 @@ $(h_+*\tilde h_-)(r)+(h_-*\tilde h_+)(r)=2\cosh(\theta r)\,(f*\tilde f)(r)$; als
 Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. Correction to the source: item 1 is stated there with a factor $2$ on the left, but $\cos a\cos b+\sin a\sin b=\cos(a-b)$ gives $\cos(\theta r)$ with no factor $2$ under the stated convention; the $2$ is correct for item 2.
 Real $f$ on $\mathbb R$ with Lebesgue measure. No claim about RH.
 
+\section{Pick matrix of a conjugate pole pair}
+\lean{GppPickConjugatePole.pickM_eq,GppPickConjugatePole.pickM_im_pos,GppPickConjugatePole.pick_kernel_eq,GppPickConjugatePole.pick_diag_pos,GppPickConjugatePole.pick_det,GppPickConjugatePole.pick_det_neg}
+Source: Astra, \texttt{work/2026-10-10\_astra\_pick\_continuation.md} \S2. For $m(k)=\frac1{\gamma+ia-k}+\frac1{\gamma-ia-k}$ ($a>0$) and nodes $k_j=\gamma+iy_j$, $y_j>a$: $m(\gamma+iy)=\frac{2iy}{y^2-a^2}$, so $\operatorname{Im}m>0$ at every node;
+the Pick kernel $\frac{m(k_i)-\overline{m(k_j)}}{k_i-\overline{k_j}}$ equals the real number $\frac{2(u_i+u_j)}{y_i+y_j}$ with $u=\frac{y}{y^2-a^2}$; the diagonal entries are positive; and
+$\det\operatorname{Pick}(k_1,k_2)=\frac{-4a^2(y_1-y_2)^2}{(y_1^2-a^2)^2(y_2^2-a^2)^2}<0$ for $y_1\ne y_2$. So pointwise correct sign does not imply a jointly positive (Pick) extension.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The exact two-node computation only: the note's criterion (RH iff all real-node Pick matrices are positive semidefinite, via Nevanlinna--Pick interpolation and analytic continuation), the polynomial $G(k)$ control values and the binary64 diagnostics are not formalized. No claim about RH.
+
 \section{Hidden zeros of planar scalar tree amplitudes}
 \label{sec:hidden-zeros}
 \lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}

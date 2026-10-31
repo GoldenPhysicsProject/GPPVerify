@@ -2351,3 +2351,7 @@ import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
 -- Grok ARP.md G.6 items 1, 2: cos/cosh twisted convolution-square polarization identities
 -- (item 1 proved with the corrected factor; see the module docstring).
 import GppVerify.RiemannHypothesis.TwistConvolution
+
+-- Astra's Pick continuation (work/2026-10-10) section 2: exact two-node Pick determinant of a
+-- conjugate pole pair; pointwise Im m > 0 with negative determinant.
+import GppVerify.RiemannHypothesis.PickConjugatePole
