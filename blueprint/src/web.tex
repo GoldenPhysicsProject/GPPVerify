@@ -8904,4 +8904,9 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude
 Source: Codex/Discovery2, PR~\#11 comments of 2026-10-31 (quartic Hardy curvature). For $z>0$, $\log\coth(z/2)=\sum_{k\ge0}\frac{2}{2k+1}e^{-(2k+1)z}$ (the series for $\log\frac{1+x}{1-x}$ at $x=e^{-z}$), and for $|u|<a$, $\log\coth\frac{a+u}2+\log\coth\frac{a-u}2=\sum_{k\ge0}\frac{4}{2k+1}e^{-(2k+1)a}\cosh((2k+1)u)$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The series only: the derivatives $H''=\cosh/\sinh^2$ and $H''''=(\cosh^2+5)\cosh/\sinh^4$, the quartic lower bound $V\ge H(a)+H''(a)u^2/2+H''''(a)u^4/24$ and every use in the Weil form are not formalized. No claim about RH.
 
+\section{The intermediate-value step of the source-site spectral flow}
+\lean{GppSpectralFlowIVT.det_zero_of_sign_change,GppSpectralFlowIVT.exists_det_zero_Ioo_quarter}
+Source: Codex/Discovery2, PR~\#11 comment 6390537686. For a family $Q:\mathbb R\to M_n(\mathbb R)$ with entries continuous on $[a,b]$, if $\det Q(a)$ and $\det Q(b)$ have opposite strict signs then $\det Q(\theta)=0$ for some $\theta\in(a,b)$; the case $[0,\tfrac14]$ is stated separately.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Only the intermediate-value step: the certified endpoint signs, the definition of the matrix $Q(\theta)$, continuity of its entries and uniqueness of the zero are hypotheses or open, not formalized. No claim about RH.
+
 \end{document}
