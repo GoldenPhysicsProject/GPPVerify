@@ -8909,4 +8909,10 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude
 Source: Codex/Discovery2, PR~\#11 comment 6390537686. For a family $Q:\mathbb R\to M_n(\mathbb R)$ with entries continuous on $[a,b]$, if $\det Q(a)$ and $\det Q(b)$ have opposite strict signs then $\det Q(\theta)=0$ for some $\theta\in(a,b)$; the case $[0,\tfrac14]$ is stated separately.
 Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Only the intermediate-value step: the certified endpoint signs, the definition of the matrix $Q(\theta)$, continuity of its entries and uniqueness of the zero are hypotheses or open, not formalized. No claim about RH.
 
+\section{Laplace representation of the power-law Hankel form}
+\lean{GppLaplaceHankelPSD.integrableOn_term,GppLaplaceHankelPSD.laplace_hankel_identity,GppLaplaceHankelPSD.hankel_psd}
+Source: Astra, \texttt{work/2026-10-22\_astra\_regulator\_hankel\_eigenvalue\_scaling.md}. For $a>0$, positive times $t_i$ and real weights $c_i$,
+$\Gamma(a)\sum_{i,j}c_ic_j(t_i+t_j)^{-a}=\int_0^\infty x^{a-1}\bigl(\sum_ic_ie^{-t_ix}\bigr)^2dx$, hence $\sum_{i,j}c_ic_j(t_i+t_j)^{-a}\ge0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Positive semidefiniteness only: strict definiteness for distinct $t_i$ (independence of distinct exponentials), the Poisson-summation limit, the eigenvalue scaling $\lambda_{\min}(M_\varepsilon)\sim\varepsilon^{-(N-1)/2}\lambda_{\min}(B)$ and the numerical constants are not formalized. No claim about RH.
+
 \end{document}
