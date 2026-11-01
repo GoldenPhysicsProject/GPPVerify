@@ -8915,4 +8915,9 @@ Source: Astra, \texttt{work/2026-10-22\_astra\_regulator\_hankel\_eigenvalue\_sc
 $\Gamma(a)\sum_{i,j}c_ic_j(t_i+t_j)^{-a}=\int_0^\infty x^{a-1}\bigl(\sum_ic_ie^{-t_ix}\bigr)^2dx$, hence $\sum_{i,j}c_ic_j(t_i+t_j)^{-a}\ge0$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Positive semidefiniteness only: strict definiteness for distinct $t_i$ (independence of distinct exponentials), the Poisson-summation limit, the eigenvalue scaling $\lambda_{\min}(M_\varepsilon)\sim\varepsilon^{-(N-1)/2}\lambda_{\min}(B)$ and the numerical constants are not formalized. No claim about RH.
 
+\section{The regulator matrix $\varepsilon I+ww^{\mathsf T}$ and its explicit inverse}
+\lean{GppRegulatorMatrix.vecMulVec_self_mul,GppRegulatorMatrix.regulator_mul_inv}
+Source: Astra, \texttt{work/2026-10-22\_astra\_torus\_regulator\_limit.md}. For $w\in\mathbb R^n$, $\varepsilon\ne0$ and $s=w\cdot w$ with $\varepsilon+s\ne0$: $(ww^{\mathsf T})^2=s\,ww^{\mathsf T}$, and $(\varepsilon I+ww^{\mathsf T})\cdot\varepsilon^{-1}\bigl(I-(\varepsilon+s)^{-1}ww^{\mathsf T}\bigr)=I$ (the Sherman--Morrison form behind the dual quadratic form in the Poisson sum).
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The explicit inverse only: the determinant formula, the splitting of the quadratic form along $w$, the Gaussian Poisson summation on $\mathbb Z^N$, the irrationality of ratios of prime logarithms, the limit $\varepsilon^{(N-1)/2}Z_\varepsilon(t)\to(\pi/t)^{N/2}/|w|$ and the idele-class-group discussion are not formalized. No claim about RH.
+
 \end{document}
