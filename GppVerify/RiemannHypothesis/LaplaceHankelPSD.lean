@@ -57,10 +57,10 @@ theorem laplace_hankel_identity {ι : Type*} (s : Finset ι) (t : ι → ℝ) (h
   have hint : ∀ i ∈ s, ∀ j ∈ s, IntegrableOn
       (fun x : ℝ => (c i * c j) * (x ^ (a - 1) * Real.exp (-((t i + t j) * x)))) (Ioi 0) :=
     fun i hi j hj => (integrableOn_term ha (add_pos (ht i hi) (ht j hj))).const_mul _
-  rw [integral_finset_sum _ (fun i hi => integrable_finset_sum _ (fun j hj => hint i hi j hj))]
+  rw [integral_finsetSum _ (fun i hi => integrable_finsetSum _ (fun j hj => hint i hi j hj))]
   rw [Finset.sum_mul]
   refine Finset.sum_congr rfl (fun i hi => ?_)
-  rw [integral_finset_sum _ (fun j hj => hint i hi j hj), Finset.sum_mul]
+  rw [integral_finsetSum _ (fun j hj => hint i hi j hj), Finset.sum_mul]
   refine Finset.sum_congr rfl (fun j hj => ?_)
   rw [integral_const_mul, integral_rpow_mul_exp_neg_mul_Ioi ha (add_pos (ht i hi) (ht j hj))]
   ring
