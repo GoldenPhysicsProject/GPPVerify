@@ -2359,6 +2359,7 @@ import GppVerify.RiemannHypothesis.GammaSurplus
 import GppVerify.RiemannHypothesis.HardySeries
 import GppVerify.RiemannHypothesis.LaplaceHankelPSD
 import GppVerify.RiemannHypothesis.MeanVarianceSupplier
+import GppVerify.RiemannHypothesis.RegulatorMatrix
 import GppVerify.RiemannHypothesis.SchurLift
 import GppVerify.RiemannHypothesis.SpectralFlowIVT
 import GppVerify.RiemannHypothesis.ThermalKmsPieces
