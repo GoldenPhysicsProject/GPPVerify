@@ -8921,3 +8921,10 @@ Source: Astra, \texttt{work/2026-10-22\_astra\_torus\_regulator\_limit.md}. For 
 Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The explicit inverse only: the determinant formula, the splitting of the quadratic form along $w$, the Gaussian Poisson summation on $\mathbb Z^N$, the irrationality of ratios of prime logarithms, the limit $\varepsilon^{(N-1)/2}Z_\varepsilon(t)\to(\pi/t)^{N/2}/|w|$ and the idele-class-group discussion are not formalized. No claim about RH.
 
 \end{document}
+
+\section{The sharp S1 constant as the top eigenvalue of a weighted 4-path}
+\lean{GppS1PathConstant.c0star_sq,GppS1PathConstant.path_identity,GppS1PathConstant.path_form_le,GppS1PathConstant.path_form_witness}
+Source: Grok sub-team handoff of 2026-11-03 (GPPDiscovery5 ARP.md \S P.16: the sharp joint S1 constant on the $\{2,3\}$ window from a fibre decomposition into weighted $4$-paths). For $c_2,c_3>0$ put $c_0^*=\tfrac12\bigl(c_3+\sqrt{c_3^2+4c_2^2}\bigr)$, so $c_0^{*2}=c_3c_0^*+c_2^2$. Then for all $x\in\mathbb R^4$,
+$c_0^*\|x\|^2-(2c_2x_1x_2+2c_3x_2x_3+2c_2x_3x_4)=\dfrac{(c_0^*x_1-c_2x_2)^2}{c_0^*}+c_3(x_2-x_3)^2+\dfrac{(c_0^*x_4-c_2x_3)^2}{c_0^*}\ge0,$
+with equality at $(c_2,c_0^*,c_0^*,c_2)$, so $c_0^*$ is the top eigenvalue of the weighted path.
+Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. The finite quadratic-form fact only: that the S1 constant of the Weil form equals this eigenvalue (the fibre decomposition), the numerical value $0.90093$ for $c_2=\log 2/\sqrt2$, $c_3=\log 3/\sqrt3$, and all Arb/Schur steps are not formalized. No claim about RH.
