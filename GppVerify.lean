@@ -2175,3 +2175,4 @@ import GppVerify.StandardModel.WhichWayForwardDeckAntilinear
 import GppVerify.StandardModel.WhichWayForwardDeterminantCover
 import GppVerify.StandardModel.WhichWayForwardFamilySigns
 import GppVerify.StandardModel.WhichWayForwardNewCPT
+import GppVerify.StandardModel.WhichWayForwardPauliStrings
