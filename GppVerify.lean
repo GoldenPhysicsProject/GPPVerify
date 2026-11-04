@@ -2178,3 +2178,6 @@ import GppVerify.StandardModel.WhichWayForwardNewCPT
 import GppVerify.StandardModel.WhichWayForwardPauliStrings
 import GppVerify.StandardModel.WhichWayForwardParentFamilies
 import GppVerify.StandardModel.WhichWayForwardParentSigns
+import GppVerify.StandardModel.FeynmanCheckerboard
+import GppVerify.StandardModel.WhichWayForward
+import GppVerify.StandardModel.WhichWayForwardV26Gaps
