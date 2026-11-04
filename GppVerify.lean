@@ -2176,3 +2176,5 @@ import GppVerify.StandardModel.WhichWayForwardDeterminantCover
 import GppVerify.StandardModel.WhichWayForwardFamilySigns
 import GppVerify.StandardModel.WhichWayForwardNewCPT
 import GppVerify.StandardModel.WhichWayForwardPauliStrings
+import GppVerify.StandardModel.WhichWayForwardParentFamilies
+import GppVerify.StandardModel.WhichWayForwardParentSigns
