@@ -94,6 +94,55 @@ theorem all_xi_zeros_principal_iff_zero_characters_unitary
   · intro h rho hz
     exact (one_dimensional_principal_iff_unitary ha ha1).mpr (h rho hz)
 
+/-! ## Physical massless Klein-Gordon normalization in one boundary dimension -/
+
+/-- The real radial growth factor in the massless Klein-Gordon overlap after
+setting the positive energy scale omega = exp(u).  For boundary dimension d,
+Pasterski-Shao, "A Conformal Basis for Flat Space Amplitudes", (4.7), gives
+the radial density omega^(2*c-d-1) d omega. In logarithmic energy u this is
+exp((2*c-d)*u) du. We record its exact scale dependence here; the
+distributional delta-normalization of the full inner product is not
+formalized in this module. -/
+noncomputable def masslessKgLogRadialWeight (d c u : ℝ) : ℝ :=
+  Real.exp ((2 * c - d) * u)
+
+/-- For any nontrivial logarithmic rescaling, the physical radial KG weight
+is scale invariant exactly at the principal-series real conformal weight. -/
+theorem massless_kg_radial_scale_invariant_iff_principal
+    (d c : ℝ) {u : ℝ} (hu : u ≠ 0) :
+    masslessKgLogRadialWeight d c u = 1 ↔ c = d / 2 := by
+  constructor
+  · intro h
+    have he : Real.exp ((2 * c - d) * u) = Real.exp 0 := by
+      simpa [masslessKgLogRadialWeight] using h
+    have hz : (2 * c - d) * u = 0 := Real.exp_injective he
+    have hc : 2 * c - d = 0 := (mul_eq_zero.mp hz).resolve_right hu
+    linarith
+  · intro hc
+    have hz : 2 * c - d = 0 := by linarith
+    simp [masslessKgLogRadialWeight, hz]
+
+/-- The physical massless one-dimensional KG radial growth is exactly
+the squared norm of the existing half-density-normalized arithmetic dilation
+character. This is the nontrivial norm-level bridge between the two
+realizations of the same positive-scale Mellin representation. -/
+theorem physical_one_dimensional_kg_growth_eq_arithmetic_norm_sq
+    (s : ℂ) (u : ℝ) :
+    masslessKgLogRadialWeight 1 s.re u =
+      ‖dilationCharacter s (Real.exp u)‖ ^ 2 := by
+  unfold masslessKgLogRadialWeight
+  rw [norm_dilationCharacter, Real.log_exp, pow_two, ← Real.exp_add]
+  congr 1
+  ring
+
+/-- Consequently the physical one-dimensional massless KG normalization
+selects exactly the same principal axis as the arithmetic Mellin character. -/
+theorem physical_massless_one_dimensional_principal_iff_kg_unitary
+    {s : ℂ} {u : ℝ} (hu : u ≠ 0) :
+    IsPrincipalDimensionOne s ↔ masslessKgLogRadialWeight 1 s.re u = 1 := by
+  change s.re = 1 / 2 ↔ masslessKgLogRadialWeight 1 s.re u = 1
+  exact (massless_kg_radial_scale_invariant_iff_principal 1 s.re hu).symm
+
 end GppOneDimensionalMellinWeight
 
 #print axioms GppOneDimensionalMellinWeight.mellin_character_equals_1d_conformal_weight
