@@ -1,4 +1,4 @@
-import GppVerify.RiemannHypothesis.FunctionalEquation
+import GppVerify.RiemannHypothesis.ConditionalWeightStateLine
 import Mathlib.Analysis.InnerProductSpace.Spectrum
 import Mathlib.Tactic
 
@@ -67,10 +67,19 @@ theorem no_realization_of_off_line_zero {F : ℂ → ℂ} {ρ : ℂ} (hρ : F ρ
     (hoff : ρ.re ≠ 1 / 2) : IsEmpty (HilbertPolyaRealization F) :=
   ⟨fun R => hoff (re_eq_half_of_realization R hρ)⟩
 
-/-- RH for the completed xi function follows from a realization of its zeros. -/
-theorem xi_zeros_on_line_of_realization (R : HilbertPolyaRealization GppFE.riemannXi) :
-    ∀ ρ : ℂ, GppFE.riemannXi ρ = 0 → ρ.re = 1 / 2 :=
+/-- A realization for the entire completed xi puts its zeros on the line. (The
+legacy product `GppFE.riemannXi` has spurious zeros at 0 and 1, so it admits no
+realization; the entire `GppLogDerivZeroFree.xi` is the right target.) -/
+theorem xi_zeros_on_line_of_realization (R : HilbertPolyaRealization GppLogDerivZeroFree.xi) :
+    ∀ ρ : ℂ, GppLogDerivZeroFree.xi ρ = 0 → ρ.re = 1 / 2 :=
   fun _ hρ => re_eq_half_of_realization R hρ
+
+/-- **Conditional RH.** A realization for the entire xi (not constructed) gives
+Mathlib's `RiemannHypothesis`. -/
+theorem riemannHypothesis_of_realization (R : HilbertPolyaRealization GppLogDerivZeroFree.xi) :
+    RiemannHypothesis :=
+  GppConditionalWeightState.riemannHypothesis_of_entire_xi_zeros_on_line
+    (xi_zeros_on_line_of_realization R)
 
 end GppHilbertPolyaTarget
 
