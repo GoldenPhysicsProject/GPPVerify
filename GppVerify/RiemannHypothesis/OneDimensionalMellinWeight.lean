@@ -1,5 +1,6 @@
 import GppVerify.RiemannHypothesis.ArithmeticConformalKinematics
 import GppVerify.RiemannHypothesis.FunctionalEquation
+import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
 import Mathlib.Tactic
 
 /-!
@@ -72,12 +73,12 @@ theorem one_dimensional_principal_iff_unitary
 /-- The exact completed-xi zero-location statement. This is a proposition
 specifying the arithmetic spectral objective, not an asserted proof of RH. -/
 def AllXiZerosPrincipalOne : Prop :=
-  ∀ rho : ℂ, GppFE.riemannXi rho = 0 → IsPrincipalDimensionOne rho
+  ∀ rho : ℂ, GppLogDerivZeroFree.xi rho = 0 → IsPrincipalDimensionOne rho
 
 /-- The corresponding one-dimensional principal-series *spectral obligation*:
 each completed-zeta zero has a unit-modulus normalized character. -/
 def AllXiZeroCharactersUnitaryAt (a : ℝ) : Prop :=
-  ∀ rho : ℂ, GppFE.riemannXi rho = 0 → ‖dilationCharacter rho a‖ = 1
+  ∀ rho : ℂ, GppLogDerivZeroFree.xi rho = 0 → ‖dilationCharacter rho a‖ = 1
 
 /-- **Exact bridge between RH and unitary occupancy of the 1D Mellin spectrum.**
 At any fixed positive, nonidentity dilation, all xi zeros have principal-series
@@ -86,8 +87,8 @@ theorem all_xi_zeros_principal_iff_zero_characters_unitary
     {a : ℝ} (ha : 0 < a) (ha1 : a ≠ 1) :
     AllXiZerosPrincipalOne ↔ AllXiZeroCharactersUnitaryAt a := by
   change
-    (∀ rho : ℂ, GppFE.riemannXi rho = 0 → IsPrincipalDimensionOne rho) ↔
-    (∀ rho : ℂ, GppFE.riemannXi rho = 0 → ‖dilationCharacter rho a‖ = 1)
+    (∀ rho : ℂ, GppLogDerivZeroFree.xi rho = 0 → IsPrincipalDimensionOne rho) ↔
+    (∀ rho : ℂ, GppLogDerivZeroFree.xi rho = 0 → ‖dilationCharacter rho a‖ = 1)
   constructor
   · intro h rho hz
     exact (one_dimensional_principal_iff_unitary ha ha1).mp (h rho hz)
@@ -142,6 +143,79 @@ theorem physical_massless_one_dimensional_principal_iff_kg_unitary
     IsPrincipalDimensionOne s ↔ masslessKgLogRadialWeight 1 s.re u = 1 := by
   change s.re = 1 / 2 ↔ masslessKgLogRadialWeight 1 s.re u = 1
   exact (massless_kg_radial_scale_invariant_iff_principal 1 s.re hu).symm
+
+
+/-! ## Entire completion and endpoint regression checks
+
+The legacy product GppFE.riemannXi has artificial zeros at 0 and 1 because
+Lean assigns finite values to completedRiemannZeta at its poles. Use the
+existing entire completion for all zero-location propositions above.
+-/
+
+theorem legacy_xi_zero : GppFE.riemannXi 0 = 0 := by
+  simp [GppFE.riemannXi]
+
+theorem legacy_xi_one : GppFE.riemannXi 1 = 0 := by
+  simp [GppFE.riemannXi]
+
+theorem entire_xi_zero : GppLogDerivZeroFree.xi 0 = (1 / 2 : ℂ) := by
+  norm_num [GppLogDerivZeroFree.xi]
+
+theorem entire_xi_one : GppLogDerivZeroFree.xi 1 = (1 / 2 : ℂ) := by
+  norm_num [GppLogDerivZeroFree.xi]
+
+/-- The old unrestricted zero-location target was false, independently of RH. -/
+theorem legacy_all_zeros_principal_false :
+    ¬ (∀ rho : ℂ, GppFE.riemannXi rho = 0 → IsPrincipalDimensionOne rho) := by
+  intro h
+  have h0 := h 0 legacy_xi_zero
+  norm_num [IsPrincipalDimensionOne] at h0
+
+/-- Away from the two removable singularities, the correction changes no values. -/
+theorem entire_xi_eq_legacy {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
+    GppLogDerivZeroFree.xi s = GppFE.riemannXi s := by
+  have h1s : (1 : ℂ) - s ≠ 0 := sub_ne_zero.mpr (Ne.symm h1)
+  unfold GppLogDerivZeroFree.xi GppFE.riemannXi
+  rw [completedRiemannZeta_eq]
+  field_simp
+  <;> ring
+
+/-- The precise remaining arithmetic normalization statement, with the entire xi. -/
+def AllXiZerosKGNormalized : Prop :=
+  ∀ rho : ℂ, GppLogDerivZeroFree.xi rho = 0 →
+    masslessKgLogRadialWeight 1 rho.re 1 = 1
+
+theorem all_xi_zeros_kg_normalized_iff_principal :
+    AllXiZerosKGNormalized ↔ AllXiZerosPrincipalOne := by
+  constructor
+  · intro h rho hz
+    exact (physical_massless_one_dimensional_principal_iff_kg_unitary
+      (s := rho) (u := 1) (by norm_num)).mpr (h rho hz)
+  · intro h rho hz
+    exact (physical_massless_one_dimensional_principal_iff_kg_unitary
+      (s := rho) (u := 1) (by norm_num)).mp (h rho hz)
+
+/-- Conditional only: this theorem does not assert AllXiZerosKGNormalized. -/
+theorem riemannHypothesis_of_all_xi_zeros_kg_normalized
+    (hkg : AllXiZerosKGNormalized) : RiemannHypothesis := by
+  have hprincipal := all_xi_zeros_kg_normalized_iff_principal.mp hkg
+  intro s hz htriv h1
+  have hs0 : s ≠ 0 := by
+    rintro rfl
+    rw [riemannZeta_zero] at hz
+    norm_num at hz
+  have hg : Gammaℝ s ≠ 0 := by
+    rw [Ne, Gammaℝ_eq_zero_iff]
+    rintro ⟨n, hn⟩
+    rcases Nat.eq_zero_or_pos n with rfl | hpos
+    · exact hs0 (by simpa using hn)
+    · obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+      exact htriv ⟨m, by rw [hn]; push_cast; ring⟩
+  exact hprincipal s (GppLogDerivZeroFree.xi_eq_zero_of_zeta_zero hz hs0 h1 hg)
+
+#print axioms legacy_all_zeros_principal_false
+#print axioms entire_xi_eq_legacy
+#print axioms riemannHypothesis_of_all_xi_zeros_kg_normalized
 
 end GppOneDimensionalMellinWeight
 
