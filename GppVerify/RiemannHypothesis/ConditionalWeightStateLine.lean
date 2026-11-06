@@ -1,5 +1,6 @@
 import GppVerify.RiemannHypothesis.ScaleMassDiagnostic
 import GppVerify.RiemannHypothesis.FunctionalEquation
+import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
 import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Tactic
 
@@ -13,8 +14,11 @@ Two premises are kept separate and named.
   space has a nonzero state `ψ` with `U a ψ = χ_s(a) ψ`, where `χ_s` is the
   half-density-normalized dilation character, then `Re s = 1/2`.
 * **Arithmetic-physics correspondence (a hypothesis, `ArithmeticPhysicsCorrespondence`).**
-  Every zero of the completed Riemann xi function is the weight of such a
-  normalizable state. This is NOT proved and NOT asserted as an axiom. For
+  Every zero of the entire completed xi function `GppLogDerivZeroFree.xi` is the
+  weight of such a normalizable state. (Repair 2026-11-06, after Codex #488: the
+  legacy product `GppFE.riemannXi` vanishes at 0 and 1 because Lean totalizes the
+  completed zeta at its poles, which made the earlier form of this premise
+  unsatisfiable; `legacy_correspondence_empty` records that.) This is NOT proved and NOT asserted as an axiom. For
   any fixed `U` it implies that all xi zeros lie on `Re s = 1/2`, so it is at
   least as strong as RH. RH remains open.
 
@@ -25,7 +29,7 @@ weights include every zero. It constructs no such space.
 
 namespace GppConditionalWeightState
 
-open GppScaleMass
+open GppScaleMass Complex
 
 variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
 
@@ -50,14 +54,49 @@ theorem weight_state_re_half {U : ℝ → H →ₗᵢ[ℂ] H} {s : ℂ}
 /-- The correspondence premise, named as a hypothesis: every zero of the
 completed xi function is the weight of a normalizable state of `U`. -/
 def ArithmeticPhysicsCorrespondence (U : ℝ → H →ₗᵢ[ℂ] H) : Prop :=
-  ∀ ρ : ℂ, GppFE.riemannXi ρ = 0 → IsWeightState U ρ
+  ∀ ρ : ℂ, GppLogDerivZeroFree.xi ρ = 0 → IsWeightState U ρ
 
 /-- **Conditional theorem.** Physical unitarity plus the arithmetic-physics
 correspondence put every xi zero on `Re s = 1/2`. -/
 theorem xi_zeros_on_critical_line_of_correspondence
     {U : ℝ → H →ₗᵢ[ℂ] H} (hcorr : ArithmeticPhysicsCorrespondence U) :
-    ∀ ρ : ℂ, GppFE.riemannXi ρ = 0 → ρ.re = 1 / 2 :=
+    ∀ ρ : ℂ, GppLogDerivZeroFree.xi ρ = 0 → ρ.re = 1 / 2 :=
   fun ρ hρ => weight_state_re_half (hcorr ρ hρ)
+
+/-- Zeros of the entire xi on the line give Mathlib's `RiemannHypothesis`.
+(Proof pattern from Codex #488.) -/
+theorem riemannHypothesis_of_entire_xi_zeros_on_line
+    (h : ∀ ρ : ℂ, GppLogDerivZeroFree.xi ρ = 0 → ρ.re = 1 / 2) : RiemannHypothesis := by
+  intro s hz htriv h1
+  have hs0 : s ≠ 0 := by
+    rintro rfl
+    rw [riemannZeta_zero] at hz
+    norm_num at hz
+  have hg : Gammaℝ s ≠ 0 := by
+    rw [Ne, Gammaℝ_eq_zero_iff]
+    rintro ⟨n, hn⟩
+    rcases Nat.eq_zero_or_pos n with rfl | hpos
+    · exact hs0 (by simpa using hn)
+    · obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hpos.ne'
+      exact htriv ⟨m, by rw [hn]; push_cast; ring⟩
+  exact h s (GppLogDerivZeroFree.xi_eq_zero_of_zeta_zero hz hs0 h1 hg)
+
+/-- **Conditional RH.** The correspondence premise (not proved) gives Mathlib's
+`RiemannHypothesis`. -/
+theorem riemannHypothesis_of_correspondence
+    {U : ℝ → H →ₗᵢ[ℂ] H} (hcorr : ArithmeticPhysicsCorrespondence U) :
+    RiemannHypothesis :=
+  riemannHypothesis_of_entire_xi_zeros_on_line
+    (xi_zeros_on_critical_line_of_correspondence hcorr)
+
+/-- Regression: the legacy form of the premise, with `GppFE.riemannXi`, is
+unsatisfiable, because `GppFE.riemannXi 0 = 0` and `Re 0 ≠ 1/2`. -/
+theorem legacy_correspondence_empty (U : ℝ → H →ₗᵢ[ℂ] H) :
+    ¬ (∀ ρ : ℂ, GppFE.riemannXi ρ = 0 → IsWeightState U ρ) := by
+  intro h
+  have h0 : GppFE.riemannXi 0 = 0 := by simp [GppFE.riemannXi]
+  have := weight_state_re_half (h 0 h0)
+  norm_num at this
 
 end GppConditionalWeightState
 
