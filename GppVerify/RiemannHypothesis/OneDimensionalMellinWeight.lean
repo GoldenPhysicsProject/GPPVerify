@@ -25,8 +25,9 @@ zero), not a new route to it, and neither side is established here.
 
 The third part records the radial scale dependence of the massless
 Klein-Gordon overlap, `omega^(2 c - d - 1) d omega`, following Pasterski-Shao,
-arXiv:1705.01027 (the equation numbers (4.7)-(4.9) were NOT checked by the
-author of this port). It shows the radial weight is scale invariant exactly at
+arXiv:1705.01027, Section 4: (4.4)-(4.5) the Mellin kernel and its boost
+weight, (4.7)-(4.9) the Klein-Gordon overlap, divergent unless c = d/2 (equation
+numbers checked against the paper). It shows the radial weight is scale invariant exactly at
 `c = d/2` and equals `|dilationCharacter|^2` in `d = 1`. The delta-function
 normalization and the full inner product are not formalized here; see
 `GppMellinPlancherel` for the Schwartz-class Plancherel step.
