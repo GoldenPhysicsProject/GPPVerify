@@ -3410,30 +3410,11 @@ This file formalizes `thm:spectral-weil` (On the Nature of Nature v5.2, cited 10
   \item \lean{GppSpectralWeil.test_function_fe_symmetric}\leanok\ \texttt{test\_function\_fe\_symmetric}
 \end{itemize}
 
-\noindent\textbf{Open (1 declaration):}
-\begin{itemize}
-  \item \lean{GppSpectralWeil.open_digamma_series_form} \texttt{open\_digamma\_series\_form} ---
-    a \texttt{True}-stub. It carried \texttt{\textbackslash leanok} until 2026-08-31, i.e.\ this
-    blueprint published it as machine-verified while it asserted nothing. It was unprefixed at the
-    time and so invisible to the stub-naming gate; see \S\ref{sec:axiom-inventory}.
-
-    \textbf{Narrowed 2026-09-02.} The stub is still open, but it now stands for one step rather
-    than for the whole series. \texttt{RiemannHypothesis/DigammaSeries.lean} proves,
-    unconditionally, that the Gauss series converges absolutely off the non-positive integers
-    (\lean{GppDigammaSeries.summable_digammaSeriesTerm}\leanok), that it satisfies
-    $F(s+1) = F(s) + 1/s$ --- the functional equation Mathlib's
-    \texttt{Complex.digamma\_apply\_add\_one} proves for $\psi$ ---
-    (\lean{GppDigammaSeries.digammaSeries_add_one}\leanok), and that at $s = 1$ it telescopes
-    to $-\gamma$, agreeing with \texttt{Complex.digamma\_one}
-    (\lean{GppDigammaSeries.digammaSeries_one}\leanok). Mathlib derives that value from the
-    derivative of $\Gamma$ at $1$, so the agreement is a genuine check of the formula at a point.
-
-    What remains is the identification $F = \psi$ itself. The difference of the two is
-    $1$-periodic and vanishes at $1$; eliminating it requires a growth or convexity input
-    (Wielandt / Bohr--Mollerup uniqueness), which is a \emph{library gap}: Mathlib 4.33.1 has
-    \texttt{Complex.digamma} but lists Gauss' representation under \texttt{TODO} in its own
-    module header.
-\end{itemize}
+\noindent\textbf{Retired 2026-11-07:} the stub \texttt{open\_digamma\_series\_form} (Gauss's
+series for $\psi$) is closed by \lean{GppDigammaGaussSeries.digammaSeries_eq_digamma}\leanok; see
+the section on Gauss's series for the digamma function. It had carried \texttt{\textbackslash leanok}
+until 2026-08-31 while asserting nothing (see \S\ref{sec:axiom-inventory}); on 2026-09-02 it was
+narrowed to the uniqueness step, and that step is what the new module supplies.
 
 \subsection{WeightedVarianceInfinite}
 This file passes the finite weighted Cauchy--Schwarz inequality to an infinite
@@ -8104,7 +8085,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{121} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{120} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -9004,3 +8985,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude
 \lean{GppMellinInterpolation.expChar_injective,GppMellinInterpolation.linearIndependent_exp,GppMellinInterpolation.span_spectralVectors_eq_top}
 Input to the Step 4 bridge (Weil's localization argument). Blueprint by Gemini, revision 2 audited by Turbo. For a finite $S\subset\mathbb C$, the vectors $(\hat g(s))_{s\in S}$, $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$, with $g$ ranging over real smooth compactly supported test functions, span $\mathbb C^S$. Proof: the exponentials $u\mapsto e^{au}$ for distinct $a$ are linearly independent (Dedekind--Artin independence of characters $\mathbb R\to\mathbb C^\times$); a functional killing every spectral vector gives a kernel $\sum_s c_se^{(s-1/2)u}$ orthogonal to every smooth bump, hence zero, hence $c=0$; a proper subspace of $\mathbb C^S$ would be killed by a nonzero functional.
 Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo and Claude Code. Span form, since real test functions satisfy $\hat g(\bar s)=\overline{\hat g(s)}$; the bridge to RH that consumes it is not here. No claim about RH.
+
+\section{Gauss's series for the digamma function}
+\lean{GppDigammaGaussSeries.digammaSeries_eq_digamma,GppDigammaGaussSeries.digammaSeries_ofReal,GppDigammaGaussSeries.eqOn_integerComplement,GppDigammaGaussSeries.analyticAt_digammaSeries,GppDigammaGaussSeries.analyticAt_digamma}
+For every $s\notin\{0,-1,-2,\dots\}$, $\psi(s)=\Gamma'(s)/\Gamma(s)=-\gamma-1/s+\sum_{n\ge1}\bigl(1/n-1/(n+s)\bigr)$. Mathlib defines \texttt{Complex.digamma} as the logarithmic derivative of $\Gamma$ and lists Gauss' representation as a TODO; this supplies it. On the positive reals the partial sums split as $(H_N-\log(N+1))+(\log(N+1)-\log(x+N+1))+(\log(x+N+1)-\sum_{k\le N}1/(x+k))+1/x$, with limits $\gamma$, $0$ and $\psi(x)$ (Gauss's limit, from Bohr--Mollerup convexity). Both sides are holomorphic on $\mathbb C\setminus\mathbb Z$ (for the series, a finite sum plus a tail bounded uniformly on a ball by $2R/(n+1)^2$), which is connected, so the identity theorem extends agreement from real points near $1/2$; positive integers come from the real case. Retires \texttt{open\_digamma\_series\_form}. Stage E2a (complex) of the explicit-formula plan.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Upstreamable to Mathlib as Gauss' representation of \texttt{Complex.digamma}. No claim about RH.
