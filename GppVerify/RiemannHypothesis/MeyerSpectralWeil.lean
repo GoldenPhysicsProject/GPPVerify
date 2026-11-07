@@ -34,6 +34,14 @@ RH-strength and open.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (statement, audit) and
 Claude Code (Lean).
+
+## Sources
+
+R. Meyer, "On a representation of the idele class group related to primes
+and zeros of L-functions", Duke Math. J. 127(3) (2005), 519–595,
+DOI 10.1215/S0012-7094-04-12734-4; arXiv:math/0311468.
+The external result is represented by explicit premises as described above.
+
 -/
 
 namespace GppMeyerSpectralWeil

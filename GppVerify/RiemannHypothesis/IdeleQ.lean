@@ -39,6 +39,16 @@ Hypothesis, which remains open.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Written to be
 upstreamable to Mathlib.
+
+## Sources
+
+The idèle-class-group framework, the product formula
+formalized here are Tate's: J. Tate, *Fourier analysis in number fields and Hecke's
+zeta-functions*, Ph.D. thesis, Princeton (1950), reprinted in J. W. S. Cassels and
+A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press (1967), pp. 305–347.
+The compactness of `𝔸¹/ℚˣ` is Fujisaki's lemma; the argument is Weil's (see e.g.
+P. Garrett, "Fujisaki's lemma (after Weil)", Univ. of Minnesota lecture notes).
+
 -/
 
 open IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Rat.HeightOneSpectrum

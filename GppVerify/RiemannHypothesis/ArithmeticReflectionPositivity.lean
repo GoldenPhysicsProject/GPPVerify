@@ -41,6 +41,16 @@ theta-weight deformation violate their analogues at small primes, so any
 argument for it must use a xi-specific prime-side input. No claim about RH.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+## Sources
+
+Reflection positivity is the Osterwalder–Schrader axiom: K. Osterwalder and
+R. Schrader, "Axioms for Euclidean Green's functions", *Comm. Math. Phys.* 31
+(1973), 83–112, and Part II, *Comm. Math. Phys.* 42 (1975), 281–305. That
+positivity of the Weil form on autocorrelations is equivalent to RH is Weil's
+theorem (A. Weil, *Comm. Sém. Math. Univ. Lund*, Tome Supplémentaire (1952),
+pp. 252–265; E. Bombieri, Clay Mathematics Institute (2000)).
+
 -/
 
 namespace GppArithmeticReflection

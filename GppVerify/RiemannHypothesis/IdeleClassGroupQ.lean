@@ -26,6 +26,16 @@ concerns the specific distribution `D_k` (see `NoGo/HaarSquareNotReflection.lean
 about RH, which remains open.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+## Sources
+
+The idele class group `C_ℚ = 𝔸ˣ/ℚˣ` and its Haar measure are Tate's setting:
+J. Tate, *Fourier analysis in number fields and Hecke's zeta-functions*, Ph.D.
+thesis, Princeton (1950), reprinted in Cassels–Fröhlich (eds.), *Algebraic Number
+Theory*, Academic Press (1967), pp. 305–347. That a Haar square
+`x ↦ ∫ Ω(y) Ω(yx⁻¹) dμ(y)` is of positive type is the standard convolution-square
+fact of harmonic analysis on locally compact groups.
+
 -/
 
 set_option autoImplicit false
