@@ -88,6 +88,7 @@ import GppVerify.QuantumGravity.BornRuleHaar
 -- ── General Relativity ───────────────────────────────────────
 -- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
 import GppVerify.GeneralRelativity.Rigidity
+import GppVerify.GeneralRelativity.WeylTraceless
 
 -- ── Number Theory (New) ──────────────────────────────────────
 -- Shadow Euler Identity and Hadamard product stubs
@@ -139,6 +140,7 @@ import GppVerify.CelestialHolography.HolographicChain
 -- ── Decoding Reality (New) ───────────────────────────────────
 -- Standard Model parameters as L-function values
 import GppVerify.NumberTheory.DecodingReality
+import GppVerify.StandardModel.WeinbergSU5
 
 -- ── Spin-Statistics Eta (New, 2026-08-19, from On the Nature of Nature v5.2.1.3) ─────
 -- η(2n)/ζ(2n) = 1 - 2^{1-2n} for all n ≥ 1, and η(4)/ζ(4) = 7/8
@@ -728,6 +730,7 @@ import GppVerify.Cosmology.AbelHaloPair
 -- reflection trick doesn't apply and Mathlib has no multiple-zeta-value
 -- library -- named honestly as an open gap, not faked.
 import GppVerify.NumberTheory.EulerSumCapstone
+import GppVerify.NumberTheory.EulerSumTwo
 
 -- ── The idele group of Q, first steps (New) ───────────────────────
 -- Not paper-sourced. Builds on Mathlib's NumberField.AdeleRing (added

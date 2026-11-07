@@ -36,8 +36,10 @@ namespace GppRigidity
 -- §1  Algebraic facts (proved clean)
 -- ============================================================
 
-/-- In 4D, the Weyl tensor is traceless: g^{αβ} C_{αμβν} = 0. -/
-lemma open_weyl_traceless : True := trivial
+-- Weyl tracelessness: retired 2026-11-07. The `True` stub that stood here
+-- (`g^{αβ} C_{αμβν} = 0` in 4D) is proved as `GppWeylTensor.weyl_traceless` (any symmetric
+-- invertible metric, any `d ≥ 3`, any 4-index array) and `GppWeylTensor.weyl_traceless_minkowski`
+-- (`GeneralRelativity/WeylTraceless.lean`). Pointwise linear algebra; no connection involved.
 
 /-- Bianchi identity: ∇_μ G^{μν} = 0 (divergence-free). -/
 lemma open_bianchi_identity : True := trivial
