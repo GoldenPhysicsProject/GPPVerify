@@ -7778,6 +7778,7 @@ This file formalizes `thm:rigidity` (On the Nature of Nature v5.2, cited 10×):
 \begin{itemize}
   \item \lean{GppRigidity.graviton_shadow_dimension}\leanok\ \texttt{graviton\_shadow\_dimension}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_weyl\_traceless}, now \lean{GppWeylTensor.weyl_traceless}\leanok; see the section on the Weyl tensor.
 
 \section{Cosmology}
 
@@ -8994,3 +8995,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo an
 \lean{GppDigammaGaussSeries.digammaSeries_eq_digamma,GppDigammaGaussSeries.digammaSeries_ofReal,GppDigammaGaussSeries.eqOn_integerComplement,GppDigammaGaussSeries.analyticAt_digammaSeries,GppDigammaGaussSeries.analyticAt_digamma}
 For every $s\notin\{0,-1,-2,\dots\}$, $\psi(s)=\Gamma'(s)/\Gamma(s)=-\gamma-1/s+\sum_{n\ge1}\bigl(1/n-1/(n+s)\bigr)$. Mathlib defines \texttt{Complex.digamma} as the logarithmic derivative of $\Gamma$ and lists Gauss' representation as a TODO; this supplies it. On the positive reals the partial sums split as $(H_N-\log(N+1))+(\log(N+1)-\log(x+N+1))+(\log(x+N+1)-\sum_{k\le N}1/(x+k))+1/x$, with limits $\gamma$, $0$ and $\psi(x)$ (Gauss's limit, from Bohr--Mollerup convexity). Both sides are holomorphic on $\mathbb C\setminus\mathbb Z$ (for the series, a finite sum plus a tail bounded uniformly on a ball by $2R/(n+1)^2$), which is connected, so the identity theorem extends agreement from real points near $1/2$; positive integers come from the real case. Retires \texttt{open\_digamma\_series\_form}. Stage E2a (complex) of the explicit-formula plan.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Upstreamable to Mathlib as Gauss' representation of \texttt{Complex.digamma}. No claim about RH.
+
+\section{The Weyl tensor is traceless}
+\lean{GppWeylTensor.ricci,GppWeylTensor.scalarCurv,GppWeylTensor.weyl,GppWeylTensor.weyl_traceless,GppWeylTensor.weyl_traceless_minkowski}
+For a symmetric metric $g$ with symmetric inverse on a $d$-dimensional index set, $d\ge3$, and any 4-index array $R$, with $\mathrm{Ric}_{\mu\nu}=g^{\alpha\beta}R_{\alpha\mu\beta\nu}$ and $R=g^{\mu\nu}\mathrm{Ric}_{\mu\nu}$, the Weyl combination $C_{\alpha\mu\beta\nu}=R_{\alpha\mu\beta\nu}-\frac{1}{d-2}(g_{\alpha\beta}\mathrm{Ric}_{\mu\nu}-g_{\alpha\nu}\mathrm{Ric}_{\mu\beta}-g_{\mu\beta}\mathrm{Ric}_{\alpha\nu}+g_{\mu\nu}\mathrm{Ric}_{\alpha\beta})+\frac{R}{(d-1)(d-2)}(g_{\alpha\beta}g_{\mu\nu}-g_{\alpha\nu}g_{\mu\beta})$ satisfies $g^{\alpha\beta}C_{\alpha\mu\beta\nu}=0$. No curvature symmetries are used. Specialized to the 4D Minkowski metric, which is its own inverse. Retires \texttt{open\_weyl\_traceless}.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Pointwise linear algebra only; no manifold or connection.
