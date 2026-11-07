@@ -7793,6 +7793,7 @@ This file formalizes `thm:rigidity` (On the Nature of Nature v5.2, cited 10×):
 \begin{itemize}
   \item \lean{GppRigidity.graviton_shadow_dimension}\leanok\ \texttt{graviton\_shadow\_dimension}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_weyl\_traceless}, now \lean{GppWeylTensor.weyl_traceless}\leanok; see the section on the Weyl tensor.
 
 \section{Cosmology}
 
@@ -8104,7 +8105,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{121} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{120} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -9004,3 +9005,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude
 \lean{GppMellinInterpolation.expChar_injective,GppMellinInterpolation.linearIndependent_exp,GppMellinInterpolation.span_spectralVectors_eq_top}
 Input to the Step 4 bridge (Weil's localization argument). Blueprint by Gemini, revision 2 audited by Turbo. For a finite $S\subset\mathbb C$, the vectors $(\hat g(s))_{s\in S}$, $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$, with $g$ ranging over real smooth compactly supported test functions, span $\mathbb C^S$. Proof: the exponentials $u\mapsto e^{au}$ for distinct $a$ are linearly independent (Dedekind--Artin independence of characters $\mathbb R\to\mathbb C^\times$); a functional killing every spectral vector gives a kernel $\sum_s c_se^{(s-1/2)u}$ orthogonal to every smooth bump, hence zero, hence $c=0$; a proper subspace of $\mathbb C^S$ would be killed by a nonzero functional.
 Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo and Claude Code. Span form, since real test functions satisfy $\hat g(\bar s)=\overline{\hat g(s)}$; the bridge to RH that consumes it is not here. No claim about RH.
+
+\section{The Weyl tensor is traceless}
+\lean{GppWeylTensor.ricci,GppWeylTensor.scalarCurv,GppWeylTensor.weyl,GppWeylTensor.weyl_traceless,GppWeylTensor.weyl_traceless_minkowski}
+For a symmetric metric $g$ with symmetric inverse on a $d$-dimensional index set, $d\ge3$, and any 4-index array $R$, with $\mathrm{Ric}_{\mu\nu}=g^{\alpha\beta}R_{\alpha\mu\beta\nu}$ and $R=g^{\mu\nu}\mathrm{Ric}_{\mu\nu}$, the Weyl combination $C_{\alpha\mu\beta\nu}=R_{\alpha\mu\beta\nu}-\frac{1}{d-2}(g_{\alpha\beta}\mathrm{Ric}_{\mu\nu}-g_{\alpha\nu}\mathrm{Ric}_{\mu\beta}-g_{\mu\beta}\mathrm{Ric}_{\alpha\nu}+g_{\mu\nu}\mathrm{Ric}_{\alpha\beta})+\frac{R}{(d-1)(d-2)}(g_{\alpha\beta}g_{\mu\nu}-g_{\alpha\nu}g_{\mu\beta})$ satisfies $g^{\alpha\beta}C_{\alpha\mu\beta\nu}=0$. No curvature symmetries are used. Specialized to the 4D Minkowski metric, which is its own inverse. Retires \texttt{open\_weyl\_traceless}.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Pointwise linear algebra only; no manifold or connection.
