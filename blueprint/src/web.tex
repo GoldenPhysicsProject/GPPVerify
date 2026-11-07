@@ -7410,6 +7410,7 @@ Source: decoding\_reality\_v4322.tex
   \item \lean{GppDecodingReality.georgi_jarlskog_casimir}\leanok\ \texttt{georgi\_jarlskog\_casimir}
   \item \emph{\ldots and 14 further results in this module.}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_weinberg\_angle\_full\_derivation}, now \lean{GppWeinbergSU5.weinberg_su5}\leanok; see the section on the SU(5) Weinberg angle.
 
 \subsection{ShadowEulerIdentity}
 Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
@@ -9000,3 +9001,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Ups
 \lean{GppWeylTensor.ricci,GppWeylTensor.scalarCurv,GppWeylTensor.weyl,GppWeylTensor.weyl_traceless,GppWeylTensor.weyl_traceless_minkowski}
 For a symmetric metric $g$ with symmetric inverse on a $d$-dimensional index set, $d\ge3$, and any 4-index array $R$, with $\mathrm{Ric}_{\mu\nu}=g^{\alpha\beta}R_{\alpha\mu\beta\nu}$ and $R=g^{\mu\nu}\mathrm{Ric}_{\mu\nu}$, the Weyl combination $C_{\alpha\mu\beta\nu}=R_{\alpha\mu\beta\nu}-\frac{1}{d-2}(g_{\alpha\beta}\mathrm{Ric}_{\mu\nu}-g_{\alpha\nu}\mathrm{Ric}_{\mu\beta}-g_{\mu\beta}\mathrm{Ric}_{\alpha\nu}+g_{\mu\nu}\mathrm{Ric}_{\alpha\beta})+\frac{R}{(d-1)(d-2)}(g_{\alpha\beta}g_{\mu\nu}-g_{\alpha\nu}g_{\mu\beta})$ satisfies $g^{\alpha\beta}C_{\alpha\mu\beta\nu}=0$. No curvature symmetries are used. Specialized to the 4D Minkowski metric, which is its own inverse. Retires \texttt{open\_weyl\_traceless}.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Pointwise linear algebra only; no manifold or connection.
+
+\section{The SU(5) Weinberg angle}
+\lean{GppWeinbergSU5.trace_T3_Y,GppWeinbergSU5.hypercharge_normalization,GppWeinbergSU5.sin_sq_eq_trace_ratio,GppWeinbergSU5.weinberg_su5,GppWeinbergSU5.weinberg_su5_ten,GppWeinbergSU5.hypercharge_normalization_ten}
+The Georgi--Glashow derivation as finite algebra. On the $\mathbf 5$, $T_3=\mathrm{diag}(0,0,0,\tfrac12,-\tfrac12)$ and $Y=\mathrm{diag}(-\tfrac13,-\tfrac13,-\tfrac13,\tfrac12,\tfrac12)$ are traceless and trace-orthogonal, with $Q=T_3+Y$. One simple group means one coupling, so the hypercharge coupling is fixed by $\mathrm{Tr}(Y^2)/\mathrm{Tr}(T_3^2)=5/3$: $g'^2=\tfrac35g^2$. For any trace-orthogonal pair, $g'^2/(g^2+g'^2)=\mathrm{Tr}(T_3^2)/\mathrm{Tr}(Q^2)$, which on the $\mathbf 5$ is $3/8$; the $\mathbf{10}=\Lambda^2\mathbf 5$ gives the same ratios. Retires \texttt{open\_weinberg\_angle\_full\_derivation}.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Tree level at the unification scale; renormalization-group running to $M_Z$ is not included.
