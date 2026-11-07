@@ -40,13 +40,20 @@ namespace GppMeyerSpectralWeil
 
 open MeasureTheory Complex GppWeilLadder GppArchimedeanFloor GppArithmeticReflection
   GppConditionalWeightState
+open scoped ContDiff
 
 /-- Spectral transform in the half-density centering: `ĝ(s) = ∫ g(u) e^{(s − 1/2) u} du`. -/
 noncomputable def spectralTransform (g : ℝ → ℝ) (s : ℂ) : ℂ :=
   ∫ u : ℝ, (g u : ℂ) * Complex.exp ((s - 1 / 2) * u)
 
-/-- The test class: smooth, compactly supported, in the log variable. -/
-def IsTestFunction (g : ℝ → ℝ) : Prop := ContDiff ℝ ⊤ g ∧ HasCompactSupport g
+/-- The test class: smooth (`C^∞`, not analytic), compactly supported, in the log variable.
+(Corrected 2026-11-07 from `ContDiff ℝ ⊤`, the analytic class, which made the class `{0}`.) -/
+def IsTestFunction (g : ℝ → ℝ) : Prop := ContDiff ℝ ∞ g ∧ HasCompactSupport g
+
+/-- The test class is not `{0}`. -/
+theorem exists_isTestFunction_ne_zero : ∃ g : ℝ → ℝ, IsTestFunction g ∧ g 0 = 1 := by
+  obtain ⟨f, h1, h2, h3⟩ := exists_test_function_ne_zero
+  exact ⟨f, ⟨h1, h2⟩, h3⟩
 
 /-- **Meyer's spectral realization, as data.** -/
 structure MeyerSpectralWeil where
