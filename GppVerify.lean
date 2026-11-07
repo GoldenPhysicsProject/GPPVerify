@@ -2425,3 +2425,4 @@ import GppVerify.RiemannHypothesis.SamenessIffRH
 import GppVerify.RiemannHypothesis.ArithmeticReflectionPositivity
 import GppVerify.RiemannHypothesis.WeilDistributionMultiplicative
 import GppVerify.RiemannHypothesis.MeyerSpectralWeil
+import GppVerify.RiemannHypothesis.LocalTateEvaluations
