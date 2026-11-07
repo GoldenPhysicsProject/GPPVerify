@@ -21,7 +21,6 @@ Source: decoding_reality_v4322.tex
 - `cabibbo_from_casimir` — sin²θ₁₂ = m_d/m_s = C₂(1)/C₂(2) = 2/5
 
 ### Axioms (needs GUT gauge theory, exceptional algebras):
-- `weinberg_angle_derivation` — full derivation from SU(5) embedding
 - `quark_masses_from_casimir` — full mass spectrum prediction
 - `koide_from_triality` — K = 2/3 from Spin(8) triality
 - `cp_phase_jacobi` — δ_CKM = 137π/360 from Jacobi sum
@@ -142,11 +141,11 @@ theorem cp_phase_fraction_simplified :
 
 /-! ## Axioms (deep: GUT symmetry, exceptional algebras, Jacobi sums) -/
 
-/-- Full derivation of sin²θ_W = 3/8 from SU(5) symmetry breaking and
-    hypercharge normalization. Requires GUT representation theory. Not an
-    axiom: the statement is content-free (`True`); left as a documented
-    stub rather than adding an unnecessary axiom to the trust base. -/
-theorem open_weinberg_angle_full_derivation : True := trivial
+-- Full derivation of sin²θ_W = 3/8: retired 2026-11-07. The `True` stub that stood here is
+-- proved in `StandardModel/WeinbergSU5.lean`: the SU(5) embedding of `T₃`, `Y` (traceless,
+-- trace-orthogonal), the hypercharge normalization `Tr(Y²)/Tr(T₃²) = 5/3`, and
+-- `GppWeinbergSU5.weinberg_su5` (`g'²/(g²+g'²) = 3/8` at unification), checked on the `5` and
+-- the `10`. Tree level at the unification scale; running to `M_Z` is not included.
 
 /-- The full quark mass spectrum m_u:m_c:m_t and m_d:m_s:m_b from
     Casimir eigenvalues and κ corrections. Requires fitting procedure. -/

@@ -28,9 +28,9 @@ multiple zeta values), which Mathlib does not have a library for (no
   `(1/m)·(1/n³)` for `m ≤ n` is *not* symmetric under swapping `m,n`, so the reflection trick
   above does not apply; the reindexing needed is a different (asymmetric) double-sum identity
   (`Σₙ Hₙ/n³ = ζ(3,1) + ζ(4)` in MZV language, using the classical but unformalized fact
-  `ζ(3,1) = π⁴/360`). **Not formalized here** — left as an honest, explicitly-named gap,
-  exactly as `docs/FORMALIZATION_PLAN.md` anticipates ("if it resists, land the first sum +
-  the assembly with the second's exact gap named").
+  `ζ(3,1) = π⁴/360`). Not formalized in this file; **closed 2026-11-07 in
+  `EulerSumTwo.lean`**, where a different summand, `1/(m²n(m+n))`, is swap-symmetric up to
+  `1/(m²n²)` and its rows telescope to `H_m/m³`.
 -/
 
 namespace GppEulerSum
@@ -194,16 +194,10 @@ theorem M2_eq : (Real.pi ^ 4 / 90) / Real.pi ^ 4 = 1 / 90 := by
   have hpi4 : Real.pi ^ 4 ≠ 0 := by positivity
   field_simp [hpi4]
 
-/-- **Euler's second sum, `Σₙ Hₙ/n³ = (5/4)ζ(4) = π⁴/72`, is NOT formalized.**
-
-    In the notation above it equals `Σ_{m≤n} (1/m)·(1/n³)`, i.e. `ζ(3,1) + ζ(4)` in
-    multiple-zeta-value language, where `ζ(3,1) := Σ_{m<n} 1/(m·n³) = π⁴/360` is a classical
-    Euler identity. Unlike `euler_sum_one`, the summand `(1/m)·(1/n³)` is **not symmetric**
-    under swapping `m,n`, so the reflection-`Equiv` argument used above does not apply; the
-    actual proof (partial-fraction reindexing of the double sum, or the classical
-    generating-function/shuffle-relation argument for `ζ(3,1)`) needs genuinely different
-    machinery that Mathlib does not currently provide (no
-    `Mathlib.NumberTheory.MultipleZetaValues`). Named honestly rather than faked. -/
-theorem open_euler_sum_two_gap : True := trivial
+-- Euler's second sum `Σₙ Hₙ/n³ = (5/4)ζ(4) = π⁴/72`: retired 2026-11-07. Proved as
+-- `GppEulerSumTwo.hasSum_harmonic_div_cube` (`NumberTheory/EulerSumTwo.lean`). The reflection
+-- trick does apply after one change of summand: `f(m,n) = 1/(m²n(m+n))` satisfies
+-- `f(m,n) + f(n,m) = 1/(m²n²)`, and its rows telescope to `H_m/m³`. The assembly with the first
+-- sum is `GppEulerSumTwo.euler_sums_assemble`.
 
 end GppEulerSum
