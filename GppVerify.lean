@@ -1394,6 +1394,7 @@ import GppVerify.Upstream.OrderOfGrowth
 import GppVerify.Upstream.ZeroCounting
 import GppVerify.Upstream.DyadicSummability
 import GppVerify.Upstream.ZeroSummability
+import GppVerify.Upstream.TwoVectorProjection
 
 -- ── Orientation / mass-time / googly topic branch staging ─────────────
 -- Direct root imports are intentional: scripts/check_import_graph.py requires every

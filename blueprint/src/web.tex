@@ -7965,6 +7965,11 @@ On the big cell of the Grassmannian Gr(2,4), a 2-plane is represented in the
   \item \lean{GppGrassmannian.transition_transition_eq_neg}\leanok\ \texttt{transition\_transition\_eq\_neg}
 \end{itemize}
 
+\section{Explicit projection onto a two-vector span}
+\lean{InnerProductSpace.starProjection_span_pair,InnerProductSpace.norm_sub_starProjection_span_pair_sq}
+In any real inner product space, let $A=\langle u,u\rangle$, $B=\langle u,v\rangle$, $C=\langle v,v\rangle$, $p=\langle u,x\rangle$, $q=\langle v,x\rangle$ and $d=AC-B^2\ne0$. Mathlib's orthogonal projection onto $\operatorname{span}\{u,v\}$ is $((Cp-Bq)/d)u+((Aq-Bp)/d)v$, and the squared residual is $\|x\|^2-(Cp^2-2Bpq+Aq^2)/d$. The proof solves the Gram normal equations and uses Mathlib's projection uniqueness and Pythagorean theorem. Only the pair span must be finite-dimensional, which is automatic; no completeness assumption on the ambient space is needed.
+Daniel Toupin / Golden Physics Project, with AI assistance from Principal series. This is classical finite linear algebra, not a new positivity principle. Tests use exact real vectors and the existing spectral-orbital parity coordinates. A certificate for rationalized input data certifies those data only; comparison with exact analytic amplitudes needs separate error bounds. No numerical AUG2 bound, explicit formula, continuum tail or RH claim is asserted.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
