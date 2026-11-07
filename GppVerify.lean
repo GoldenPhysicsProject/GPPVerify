@@ -88,6 +88,7 @@ import GppVerify.QuantumGravity.BornRuleHaar
 -- ── General Relativity ───────────────────────────────────────
 -- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
 import GppVerify.GeneralRelativity.Rigidity
+import GppVerify.GeneralRelativity.ContractedBianchi
 
 -- ── Number Theory (New) ──────────────────────────────────────
 -- Shadow Euler Identity and Hadamard product stubs

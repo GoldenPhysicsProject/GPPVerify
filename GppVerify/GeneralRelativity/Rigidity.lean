@@ -39,8 +39,9 @@ namespace GppRigidity
 /-- In 4D, the Weyl tensor is traceless: g^{αβ} C_{αμβν} = 0. -/
 lemma open_weyl_traceless : True := trivial
 
-/-- Bianchi identity: ∇_μ G^{μν} = 0 (divergence-free). -/
-lemma open_bianchi_identity : True := trivial
+-- Bianchi identity ∇_μ G^{μν} = 0: retired 2026-11-07. Proved as
+-- `GppContractedBianchi.divEinstein_eq_zero` (GeneralRelativity/ContractedBianchi.lean)
+-- from the second Bianchi identity, the Riemann symmetries and ∇g = 0, in any dimension.
 
 /-- The shadow dimension of the graviton is Δ_h = 2 (spin 2 in 4D).
     Under shadow Δ ↦ 2-Δ: Δ_h ↦ 2-2 = 0, the shadow is the conformal factor. -/
