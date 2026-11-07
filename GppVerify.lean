@@ -2437,4 +2437,5 @@ import GppVerify.RiemannHypothesis.DigammaGaussSeries
 import GppVerify.RiemannHypothesis.AutocorrTransport
 import GppVerify.RiemannHypothesis.SpectralOrbitals
 import GppVerify.RiemannHypothesis.IdeleQ
+import GppVerify.RiemannHypothesis.IdeleClassGroupQ
 import GppVerify.RiemannHypothesis.MellinInterpolation

@@ -272,8 +272,10 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 
 /-! ## Weil positivity -/
 
-/-- Haar square on idèle class group: P = Ω^∨ * Ω is positive-type -/
-theorem open_adelic_haar_square_positive_type : True := trivial
+-- Haar square on idèle class group: P = Ω^∨ * Ω is positive-type. Retired 2026-11-07: proved
+-- for `ℚ` as `GppIdeleClassGroupQ.adelic_haar_square_positive_type` (every right-invariant
+-- measure on `C_ℚ = 𝔸ˣ/ℚˣ`) and `haar_square_positive_type_haarCQ` (its Haar measure), in
+-- RiemannHypothesis/IdeleClassGroupQ.lean.
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-square-positive for C_k
 -- PROOF: Same abstract proof as open_convolution_square_positive_type_statement, applied to C_k.
 -- The abstract statement for any additive commutative group with an invariant measure is now

@@ -8095,7 +8095,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{108} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{107} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -8995,6 +8995,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude
 \lean{GppIdeleQ.exists_rat_norm,GppIdeleQ.eq_one_or_neg_one,GppIdeleQ.finNorm_rat,GppIdeleQ.ideleNorm_diag,GppIdeleQ.isCompact_unitIdeles,GppIdeleQ.exists_diag_mul,GppIdeleQ.compactSpace_A1_quotient,GppIdeleQ.isFiniteMeasure_quotient,GppIdeleQ.eq_one_of_near_one,GppIdeleQ.haarK1,GppIdeleQ.exists_haar_probability,GppIdeleQ.T_preserves_L2}
 Retires \texttt{open\_adelic\_quotient\_compact\_factor}, \texttt{open\_K\_compact}, \texttt{open\_K1\_compact\_haar}, \texttt{open\_K1\_haar\_probability}, \texttt{open\_haar\_volume\_normalized} and \texttt{open\_T\_preserves\_L2} (Retired 2026-11-07). The id\`ele group of $\mathbb Q$ is $\mathbb R^\times\times\mathbb A_f^\times$ over Mathlib's finite adele ring, with the units topology. Every finite id\`ele has, place by place, the absolute values of a positive rational; a rational that is a $p$-adic unit for every $p$ is $\pm1$; hence the product formula $|q|_\infty\prod_p|q|_p=1$, the decomposition $\mathbb A^1=\mathbb Q^\times\cdot(\{\pm1\}\times\prod_p\mathbb Z_p^\times)$, compactness of $\prod_p\mathbb Z_p^\times$, and compactness of $\mathbb A^1/\mathbb Q^\times$. Every measure on the quotient that is finite on compacts is finite. $\mathbb Q^\times$ is discrete (a neighbourhood $|x_\infty-1|<\tfrac12$, $x_p\in\mathbb Z_p$ meets it only in $1$), hence closed, so $K^1=\mathbb A^1/\mathbb Q^\times$ is a compact Hausdorff group, and its normalized Haar measure is a probability measure: $\mathrm{vol}(K^1)=1$. The Haar measure is inversion invariant, so the shadow involution $a\mapsto a^{-1}$ is an isometry of $L^2(K^1)$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. $\mathbb Q$ only. No claim about RH.
+
+\section{Haar squares on the id\`ele class group of $\mathbb Q$}
+\lean{GppIdeleClassGroupQ.MulPositiveType,GppIdeleClassGroupQ.haar_square_positive_type,GppIdeleClassGroupQ.haarCQ,GppIdeleClassGroupQ.haarCQ_ne_zero,GppIdeleClassGroupQ.adelic_haar_square_positive_type,GppIdeleClassGroupQ.haar_square_positive_type_haarCQ}
+Retires \texttt{open\_adelic\_haar\_square\_positive\_type} (Retired 2026-11-07). $\mathbb A_f$ is locally compact (restricted product of locally compact $\mathbb Q_p$ over compact $\mathbb Z_p$), $\mathbb Q^\times$ is discrete hence closed in the id\`eles, so $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$ is a locally compact Hausdorff abelian group with a nonzero Haar measure. For every right-invariant measure on it and every integrable bounded real $\Omega$, $P(x)=\int\Omega(y)\Omega(yx^{-1})\,d\mu(y)$ is of positive type: $\sum_{ij}\bar c_ic_jP(x_ix_j^{-1})\ge0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Positivity of a Haar square is unconditional and is not Weil positivity. No claim about RH.
 
 \section{The contracted Bianchi identity: the Einstein tensor is divergence free}
 \lean{GppContractedBianchi.dRic_symm,GppContractedBianchi.twice_div_ricci,GppContractedBianchi.divEinstein_eq_zero}
