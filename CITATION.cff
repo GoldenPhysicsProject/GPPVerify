@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "GPPVerify: Lean 4 formalization of shadow holography (Golden Physics Project)"
+abstract: "A Lean 4 + Mathlib library of kernel-checked theorems formalizing the shadow-holography framework of the Golden Physics Project, with every open step named as an explicit open_ stub and zero custom axioms."
+authors:
+  - family-names: "Toupin"
+    given-names: "Daniel"
+    orcid: "https://orcid.org/0009-0003-7682-9579"
+url: "https://github.com/GoldenPhysicsProject/GPPVerify"
+repository-code: "https://github.com/GoldenPhysicsProject/GPPVerify"
+keywords:
+  - "Lean 4"
+  - "formalization"
+  - "Riemann hypothesis"
+  - "celestial holography"
+  - "shadow transform"
+license: "Apache-2.0"
