@@ -7429,6 +7429,7 @@ Source: decoding\_reality\_v4322.tex
   \item \lean{GppDecodingReality.georgi_jarlskog_casimir}\leanok\ \texttt{georgi\_jarlskog\_casimir}
   \item \emph{\ldots and 14 further results in this module.}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_weinberg\_angle\_full\_derivation}, now \lean{GppWeinbergSU5.weinberg_su5}\leanok; see the section on the SU(5) Weinberg angle.
 
 \subsection{ShadowEulerIdentity}
 Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
@@ -8104,7 +8105,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{121} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{120} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -9004,3 +9005,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude
 \lean{GppMellinInterpolation.expChar_injective,GppMellinInterpolation.linearIndependent_exp,GppMellinInterpolation.span_spectralVectors_eq_top}
 Input to the Step 4 bridge (Weil's localization argument). Blueprint by Gemini, revision 2 audited by Turbo. For a finite $S\subset\mathbb C$, the vectors $(\hat g(s))_{s\in S}$, $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$, with $g$ ranging over real smooth compactly supported test functions, span $\mathbb C^S$. Proof: the exponentials $u\mapsto e^{au}$ for distinct $a$ are linearly independent (Dedekind--Artin independence of characters $\mathbb R\to\mathbb C^\times$); a functional killing every spectral vector gives a kernel $\sum_s c_se^{(s-1/2)u}$ orthogonal to every smooth bump, hence zero, hence $c=0$; a proper subspace of $\mathbb C^S$ would be killed by a nonzero functional.
 Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo and Claude Code. Span form, since real test functions satisfy $\hat g(\bar s)=\overline{\hat g(s)}$; the bridge to RH that consumes it is not here. No claim about RH.
+
+\section{The SU(5) Weinberg angle}
+\lean{GppWeinbergSU5.trace_T3_Y,GppWeinbergSU5.hypercharge_normalization,GppWeinbergSU5.sin_sq_eq_trace_ratio,GppWeinbergSU5.weinberg_su5,GppWeinbergSU5.weinberg_su5_ten,GppWeinbergSU5.hypercharge_normalization_ten}
+The Georgi--Glashow derivation as finite algebra. On the $\mathbf 5$, $T_3=\mathrm{diag}(0,0,0,\tfrac12,-\tfrac12)$ and $Y=\mathrm{diag}(-\tfrac13,-\tfrac13,-\tfrac13,\tfrac12,\tfrac12)$ are traceless and trace-orthogonal, with $Q=T_3+Y$. One simple group means one coupling, so the hypercharge coupling is fixed by $\mathrm{Tr}(Y^2)/\mathrm{Tr}(T_3^2)=5/3$: $g'^2=\tfrac35g^2$. For any trace-orthogonal pair, $g'^2/(g^2+g'^2)=\mathrm{Tr}(T_3^2)/\mathrm{Tr}(Q^2)$, which on the $\mathbf 5$ is $3/8$; the $\mathbf{10}=\Lambda^2\mathbf 5$ gives the same ratios. Retires \texttt{open\_weinberg\_angle\_full\_derivation}.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Tree level at the unification scale; renormalization-group running to $M_Z$ is not included.
