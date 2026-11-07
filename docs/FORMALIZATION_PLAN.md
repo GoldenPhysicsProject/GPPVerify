@@ -2756,3 +2756,38 @@ name that is simply gone, which is the failure that actually occurred, at no bui
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
+
+
+## Real Tate parity test vectors (2026-11-07)
+
+`RiemannHypothesis/ArchimedeanTateParity.lean` restricts parity to `Fin 2`.
+It reuses the Gaussian from `LocalTateEvaluations` and the existing Gaussian Fourier
+calculations in `NoGo/HermiteFourierIndefinite`; neither is reimplemented.
+The sign-character integral uses additive Lebesgue measure as
+`f(x) sign(x)^a |x|^(s-1) dx`, equivalently the usual `dx/|x|` convention,
+without an extra factor of one half.
+
+For the actual test vectors `x^a exp(-pi*x^2)`, `parityZeta_testVector` gives
+`GammaR(s+a)` for `Re(s+a)>0`, and actual weighted and unweighted integrability
+are proved. `fourier_testVector` gives phases `+1` and `-i` under Mathlib's
+`exp(-2*pi*i*x*y)` convention. `localFE_testVector` gives the cross-multiplied
+local FE on the common open strip. The constant Fourier phase is distinct from
+the full, s-dependent gamma ratio. The odd moment uses a.e. equality: the
+totalized integrands may differ at zero, including at `s=0`.
+
+Governing source: [Turbo's GRH-D specification, section 1](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/64a43efe/MuseResearch/turbo-note-2026-11-07-grh-d-formalization-spec.md).
+Existing evaluation: [Claude Code's merged PR #499](https://github.com/GoldenPhysicsProject/GPPVerify/pull/499),
+from Gemini's blueprint and Turbo's audit. Fourier source attribution is retained
+in Codex's `HermiteFourierIndefinite` module. The even specialization reuses #499;
+it is not a new independent proof of the Gaussian normalization.
+
+Tests: `lake env lean scripts/check_archimedean_tate_parity.lean` after building
+the module. Coverage includes both parities, even API compatibility, negative-x
+sign compensation, odd `s=0` and `s=-1/2`, actual integrability, phases, the
+restricted FE, an exact countercontrol to false factor self-invariance and
+axiom traces. No numerical approximation is a proof input.
+
+Remaining gap: the local FE for arbitrary Schwartz functions is not proved by
+checking these eigenfunctions. There is no SectorData/positivity construction,
+continuous CFT shift API, ramified-place generalization or global sewing here.
+RH and GRH remain open.

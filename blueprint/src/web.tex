@@ -7965,6 +7965,11 @@ On the big cell of the Grassmannian Gr(2,4), a 2-plane is represented in the
   \item \lean{GppGrassmannian.transition_transition_eq_neg}\leanok\ \texttt{transition\_transition\_eq\_neg}
 \end{itemize}
 
+\section{Real Tate parity test vectors and their restricted local functional equation}
+\lean{LocalTate.Archimedean.parityZeta_testVector,LocalTate.Archimedean.archFactor_ne_zero,LocalTate.Archimedean.integrable_parityZeta_testVector,LocalTate.Archimedean.integrable_testVector,LocalTate.Archimedean.norm_archPhase,LocalTate.Archimedean.fourier_testVector,LocalTate.Archimedean.localFE_testVector}
+For $a\in\{0,1\}$ let $\phi_a(x)=x^a e^{-\pi x^2}$, $A_a(s)=\Gamma_{\mathbb R}(s+a)$ and $\varepsilon_a=(-i)^a$. With additive Lebesgue measure and the Fourier kernel $e^{-2\pi ixy}$, define $Z_a(f,s)=\int_{\mathbb R}f(x)\operatorname{sign}(x)^a|x|^{s-1}\,dx$, with no extra factor of one half. Proved: $Z_a(\phi_a,s)=A_a(s)$, actual integrability and nonvanishing for $\operatorname{Re}(s+a)>0$, and $\widehat\phi_a=\varepsilon_a\phi_a$. On $0<\operatorname{Re}s<1$, the cross-multiplied test-vector equation is $A_a(s)Z_a(\widehat\phi_a,1-s)=\varepsilon_a A_a(1-s)Z_a(\phi_a,s)$. The phases are $+1$ and $-i$, not a universal $1$ and not the full gamma ratio. The even evaluation agrees with the existing local Tate Gaussian integral; the odd sign character contributes an absolute-value moment; the integrands agree away from the measure-zero origin.
+Daniel Toupin / Golden Physics Project, with AI assistance from Principal series; Turbo's governing GRH-D specification, Claude Code's local Tate evaluation (Gemini blueprint, Turbo audit), and Codex's existing Gaussian Fourier calculations are reused. This proves the FE only for these two test vectors, not arbitrary Schwartz functions. No continuous CFT shift, sector data, global positivity or RH/GRH conclusion.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

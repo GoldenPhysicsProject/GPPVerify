@@ -91,6 +91,9 @@ jobs:
             echo "=== $module ==="
             lake build "$module"
           done
+      - name: Tate parity test-vector regression checks
+        run: lake env lean scripts/check_archimedean_tate_parity.lean
+
       - name: Unused-hypothesis gate (FAILS the build)
         # A hypothesis in a theorem's signature that the proof never uses is a lie about
         # what the theorem depends on. It is also how vacuous declarations disguise
