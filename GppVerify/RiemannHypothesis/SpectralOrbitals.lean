@@ -1,6 +1,7 @@
 import Mathlib.Analysis.SpecialFunctions.Exponential
 import Mathlib.Analysis.InnerProductSpace.Projection.FiniteDimensional
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
+import Mathlib.Analysis.InnerProductSpace.PiL2
 
 /-!
 # Spectral orbitals: the per-zero Gram object and the finite-sector ledger
@@ -217,5 +218,44 @@ theorem norm_complement_le (L : ExplicitFormulaLedger W ι) (U : Submodule ℝ V
   exact Submodule.norm_starProjection_apply_le Uᗮ (L.orb γ)
 
 end ExplicitFormulaLedger
+
+/-! ## Linking the ledger to the per-zero parity blocks -/
+
+/-- A `K × K` parity block as a vector of the Euclidean space on pair indices (the `PiLp`
+route to the Frobenius inner product). Linear. -/
+noncomputable def parityVec (K : ℕ) :
+    Matrix (Fin K) (Fin K) ℝ →ₗ[ℝ] EuclideanSpace ℝ (Fin K × Fin K) where
+  toFun P := (WithLp.linearEquiv 2 ℝ (Fin K × Fin K → ℝ)).symm fun ij => P ij.1 ij.2
+  map_add' P Q := by rw [← map_add]; rfl
+  map_smul' c P := by rw [← map_smul]; rfl
+
+/-- A ledger on the `K × K` parity channel whose orbitals are the parity blocks of the
+per-zero matrices: `blk = Pplus K` or `blk = Pminus K`. The sector explicit formula is still
+a premise, stated against the measured block `∑_γ blk γ`. -/
+noncomputable def ExplicitFormulaLedger.ofParity (K : ℕ) (blk : ℝ → Matrix (Fin K) (Fin K) ℝ)
+    (W : Submodule ℝ (EuclideanSpace ℝ (Fin K × Fin K))) (zeros : Finset ℝ)
+    (arch prime pole : EuclideanSpace ℝ (Fin K × Fin K)) (hpole : pole ∈ W)
+    (hbal : arch - prime = parityVec K (∑ γ ∈ zeros, blk γ) - pole) :
+    ExplicitFormulaLedger W ℝ where
+  zeros := zeros
+  orb γ := parityVec K (blk γ)
+  arch := arch
+  prime := prime
+  pole := pole
+  pole_mem := hpole
+  balance_eq := by rw [hbal, map_sum]
+
+/-- On the parity channel, the complement of the pole span sees exactly the parity blocks of
+the zeros left outside the span. -/
+theorem parity_complement_eq_sum (K : ℕ) (blk : ℝ → Matrix (Fin K) (Fin K) ℝ)
+    (W : Submodule ℝ (EuclideanSpace ℝ (Fin K × Fin K))) (zeros : Finset ℝ)
+    (arch prime pole : EuclideanSpace ℝ (Fin K × Fin K)) (hpole : pole ∈ W)
+    (hbal : arch - prime = parityVec K (∑ γ ∈ zeros, blk γ) - pole)
+    (U : Submodule ℝ (EuclideanSpace ℝ (Fin K × Fin K))) (hWU : W ≤ U) (S : Finset ℝ)
+    (hS : ∀ γ ∈ S, parityVec K (blk γ) ∈ U) :
+    Uᗮ.starProjection (arch - prime) =
+      ∑ γ ∈ zeros \ S, Uᗮ.starProjection (parityVec K (blk γ)) :=
+  (ExplicitFormulaLedger.ofParity K blk W zeros arch prime pole hpole hbal).complement_eq_sum_remaining
+    U hWU S hS
 
 end GppSpectralOrbitals
