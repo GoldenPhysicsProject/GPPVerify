@@ -2,6 +2,9 @@ import Mathlib.NumberTheory.Padics.HeightOneSpectrum
 import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
 import Mathlib.NumberTheory.Padics.ProperSpace
 import Mathlib.MeasureTheory.Measure.Typeclasses.Finite
+import Mathlib.MeasureTheory.Measure.Haar.Basic
+import Mathlib.Topology.Algebra.IsUniformGroup.Basic
+import Mathlib.Topology.Algebra.ProperAction.Basic
 
 /-!
 # The idèles of `ℚ` and Fujisaki's lemma: `𝔸¹/ℚˣ` is compact
@@ -23,11 +26,13 @@ single infinite place is `ℝ`.
 * `compactSpace_A1_quotient`: **Fujisaki's lemma for `ℚ`** — `𝔸¹/ℚˣ` is compact.
 * `isFiniteMeasure_quotient`: every measure on `𝔸¹/ℚˣ` that is finite on compacts (in
   particular any Haar measure) is finite.
+* `eq_one_of_near_one`, the `DiscreteTopology Qdiag` instance: `ℚˣ` is discrete, hence closed,
+  in `𝔸¹`, so `𝔸¹/ℚˣ` is a compact Hausdorff group.
+* `haarK1`, `exists_haar_probability`: the normalized Haar measure on `K¹ = 𝔸¹/ℚˣ` is a
+  probability measure (`vol(K¹) = 1`).
 
-**Scope.** `ℚ` only (not a general number field). The quotient is the group quotient with the
-quotient topology; that `ℚˣ` is discrete and closed in `𝔸¹` (so the quotient is Hausdorff) is
-not proved here, and no Haar measure on the quotient is constructed. Nothing here bears on
-the Riemann Hypothesis, which remains open.
+**Scope.** `ℚ` only (not a general number field). Nothing here bears on the Riemann
+Hypothesis, which remains open.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Written to be
 upstreamable to Mathlib.
@@ -437,5 +442,118 @@ theorem isFiniteMeasure_quotient {m : MeasurableSpace (A1 ⧸ Qdiag)}
     MeasureTheory.IsFiniteMeasure μ := by
   have := compactSpace_A1_quotient
   infer_instance
+
+/-! ## Discreteness of `ℚˣ` and the Haar probability measure on `K¹` -/
+
+lemma isOpen_integers (v : HeightOneSpectrum ℤ) :
+    IsOpen (v.adicCompletionIntegers ℚ : Set (v.adicCompletion ℚ)) := by
+  have : (v.adicCompletionIntegers ℚ : Set (v.adicCompletion ℚ)) =
+      (adicCompletion.padicEquiv v) ⁻¹' Metric.closedBall (0 : ℚ_[pr v]) 1 := by
+    ext x
+    simp only [SetLike.mem_coe, mem_integers_iff, Set.mem_preimage, Metric.mem_closedBall,
+      dist_zero_right, lnorm]
+  rw [this]
+  exact (IsUltrametricDist.isOpen_closedBall _ one_ne_zero).preimage
+    (adicCompletion.padicEquiv v).continuous
+
+/-- A rational that is a `p`-adic integer for every `p` is an integer. -/
+lemma den_eq_one_of_norm_le (x : ℚ) (hx : ∀ w : HeightOneSpectrum ℤ, ‖(x : ℚ_[pr w])‖ ≤ 1) :
+    x.den = 1 := by
+  by_contra hd
+  obtain ⟨w, hw⟩ := exists_pr_eq (Nat.minFac_prime hd)
+  have hpd : pr w ∣ x.den := hw ▸ Nat.minFac_dvd _
+  have h1 := hx w
+  rw [norm_rat_eq] at h1
+  have hnum : ‖((x.num.natAbs : ℕ) : ℚ_[pr w])‖ = 1 := by
+    by_contra hne
+    have hpn := dvd_of_norm_natCast_ne_one hne
+    exact (Fact.out : (pr w).Prime).ne_one (Nat.dvd_one.1 (x.reduced ▸ Nat.dvd_gcd hpn hpd))
+  have hden_lt : ‖((x.den : ℕ) : ℚ_[pr w])‖ < 1 :=
+    lt_of_le_of_ne (by simpa using Padic.norm_int_le_one (p := pr w) (x.den : ℤ))
+      (norm_natCast_ne_one hpd)
+  have hden_pos : 0 < ‖((x.den : ℕ) : ℚ_[pr w])‖ := by
+    rw [norm_pos_iff]; exact_mod_cast x.den_ne_zero
+  rw [hnum, div_le_one hden_pos] at h1
+  linarith
+
+lemma eq_one_of_near_one (q : ℚˣ) (hinf : |((q : ℚ) : ℝ) - 1| < 1 / 2)
+    (hf : ∀ v, ((FiniteAdeleRing.unitEmbedding ℤ ℚ q : Afˣ) : Af) v ∈ v.adicCompletionIntegers ℚ) :
+    q = 1 := by
+  have hden : (q : ℚ).den = 1 := den_eq_one_of_norm_le _ fun w => by
+    have := (mem_integers_iff w _).1 (hf w)
+    rwa [unitEmbedding_apply, lnorm_algebraMap] at this
+  have hq : (q : ℚ) = ((q : ℚ).num : ℚ) := (Rat.coe_int_num_of_den_eq_one hden).symm
+  have hnum : (q : ℚ).num = 1 := by
+    have h' : |(((q : ℚ).num : ℤ) : ℝ) - 1| < 1 / 2 := by
+      rw [hq] at hinf; exact_mod_cast hinf
+    have h2 : |(((q : ℚ).num - 1 : ℤ) : ℝ)| < 1 := by push_cast; linarith
+    have h3 : |(q : ℚ).num - 1| < 1 := by exact_mod_cast h2
+    have := abs_sub_lt_iff.1 h3
+    omega
+  exact Units.ext (by rw [hq, hnum]; simp)
+
+/-- A neighbourhood of `1` in the idèles: `|x_∞ - 1| < 1/2` and every finite component integral. -/
+def nbhdOne : Set Idele :=
+  {x | |(x.1 : ℝ) - 1| < 1 / 2} ∩ {x | ∀ v, ((x.2 : Af) v) ∈ v.adicCompletionIntegers ℚ}
+
+lemma isOpen_nbhdOne : IsOpen nbhdOne := by
+  refine IsOpen.inter ?_ ?_
+  · exact (isOpen_lt (continuous_abs.comp ((Units.continuous_val.comp continuous_fst).sub
+      continuous_const)) continuous_const)
+  · have hO : IsOpen {f : Af | ∀ v, f v ∈ v.adicCompletionIntegers ℚ} :=
+      RestrictedProduct.isOpen_forall_mem (R := fun v : HeightOneSpectrum ℤ => v.adicCompletion ℚ)
+        (A := fun v : HeightOneSpectrum ℤ => (v.adicCompletionIntegers ℚ : Set (v.adicCompletion ℚ)))
+        fun v => isOpen_integers v
+    exact hO.preimage (Units.continuous_val.comp continuous_snd)
+
+lemma one_mem_nbhdOne : (1 : Idele) ∈ nbhdOne := by
+  refine ⟨by simp, fun v => ?_⟩
+  exact (v.adicCompletionIntegers ℚ).one_mem
+
+instance : DiscreteTopology Qdiag := by
+  apply discreteTopology_of_isOpen_singleton_one
+  have : ({1} : Set Qdiag) = (fun y : Qdiag => ((y : A1) : Idele)) ⁻¹' nbhdOne := by
+    ext ⟨y, hy⟩
+    simp only [Set.mem_singleton_iff, Set.mem_preimage]
+    constructor
+    · intro h; rw [show y = 1 from congrArg Subtype.val h]; exact one_mem_nbhdOne
+    · intro h
+      obtain ⟨q, rfl⟩ := hy
+      have hq : q = 1 := eq_one_of_near_one q h.1 h.2
+      subst hq
+      apply Subtype.ext; apply Subtype.ext; simp
+  rw [this]
+  exact isOpen_nbhdOne.preimage (continuous_subtype_val.comp continuous_subtype_val)
+
+/-- `ℚˣ` is closed in `𝔸¹`. -/
+instance : IsClosed (Qdiag : Set A1) := Subgroup.isClosed_of_discrete
+
+/-- The norm-one idèle class group is Hausdorff. -/
+example : T2Space (A1 ⧸ Qdiag) := inferInstance
+
+instance : CompactSpace (A1 ⧸ Qdiag) := compactSpace_A1_quotient
+
+/-- The Borel σ-algebra on the norm-one idèle class group. -/
+noncomputable instance : MeasurableSpace (A1 ⧸ Qdiag) := borel _
+
+instance : BorelSpace (A1 ⧸ Qdiag) := ⟨rfl⟩
+
+/-- The normalized Haar measure on `𝔸¹/ℚˣ`. -/
+noncomputable def haarK1 : MeasureTheory.Measure (A1 ⧸ Qdiag) :=
+  MeasureTheory.Measure.haarMeasure ⊤
+
+instance : haarK1.IsHaarMeasure := by
+  unfold haarK1; infer_instance
+
+/-- **The Haar measure on `K¹ = 𝔸¹/ℚˣ` is a probability measure** (`vol(K¹) = 1`). -/
+instance : MeasureTheory.IsProbabilityMeasure haarK1 := by
+  constructor
+  unfold haarK1
+  simpa using MeasureTheory.Measure.haarMeasure_self
+    (K₀ := (⊤ : TopologicalSpace.PositiveCompacts (A1 ⧸ Qdiag)))
+
+theorem exists_haar_probability :
+    ∃ μ : MeasureTheory.Measure (A1 ⧸ Qdiag), μ.IsHaarMeasure ∧ MeasureTheory.IsProbabilityMeasure μ :=
+  ⟨haarK1, inferInstance, inferInstance⟩
 
 end GppIdeleQ

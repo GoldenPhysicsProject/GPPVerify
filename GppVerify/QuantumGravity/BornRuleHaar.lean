@@ -60,9 +60,9 @@ lemma haar_circle_uniform :
 -- §2  Infrastructure axioms
 -- ============================================================
 
-/-- The adèlic Haar measure restricts to a probability measure on K¹.
-    Gap: requires normalized Haar measure on K¹ (Fujisaki). -/
-theorem open_K1_haar_probability : True := trivial
+-- The adèlic Haar measure on K¹ is a probability measure: retired 2026-11-07. Proved for `ℚ`
+-- as `GppIdeleQ.exists_haar_probability` / `GppIdeleQ.haarK1` (RiemannHypothesis/IdeleQ.lean),
+-- after Fujisaki's lemma `GppIdeleQ.compactSpace_A1_quotient`.
 
 /-- The Born rule probability P(A|ψ) = ‖P_A ψ‖² / ‖ψ‖² arises from
     the Haar measure on the unitary group U(H) ⊂ L²(K¹).
