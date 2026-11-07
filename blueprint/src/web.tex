@@ -7758,7 +7758,10 @@ Sources:
   \item \lean{GppMajorana.zitterbewegung_period}\leanok\ \texttt{zitterbewegung\_period}
   \item \lean{GppMajorana.weylC_weylC}\leanok\ \texttt{weylC\_weylC}, \lean{GppMajorana.weylC_smul}\leanok\ \texttt{weylC\_smul}
   \item \lean{GppMajorana.gamma2_sq}\leanok\ \texttt{gamma2\_sq}, \lean{GppMajorana.diracC_diracC}\leanok\ \texttt{diracC\_diracC}, \lean{GppMajorana.diracC_smul}\leanok\ \texttt{diracC\_smul}
+  \item \lean{GppMajorana.weyl_majorana_eq_zero}\leanok\ \texttt{weyl\_majorana\_eq\_zero}, \lean{GppMajorana.diracC_add_self}\leanok\ \texttt{diracC\_add\_self}, \lean{GppMajorana.majorana_real_combination}\leanok\ \texttt{majorana\_real\_combination}, \lean{GppMajorana.majorana_self_consistency}\leanok\ \texttt{majorana\_self\_consistency}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_majorana\_self\_consistency}. The Majorana condition $\psi=C\bar\psi$ has nonzero solutions on Dirac spinors (e.g.\ $(1,0,0,1)$ in the Dirac representation), every $v+Cv$ is one, and they form a real subspace. Correction: the stub said ``self-consistent for Weyl spinors''; on a 2-component Weyl spinor $C^2=-1$ forces $\psi=0$. The T-boundary derivation of the condition is not addressed.
+
 \noindent\textbf{Retired 2026-11-07:} \texttt{open\_charge\_conjugation\_sq}. With complex conjugation included, charge conjugation on a 2-component Weyl spinor, $\psi\mapsto\varepsilon\bar\psi$, squares to $-1$; on a 4-component Dirac spinor, $\psi\mapsto i\gamma^2\bar\psi$ (Dirac representation), it squares to $+1$. Both are antilinear. The stub's wording ``$C^2=-1$ for Dirac spinors'' was wrong for Dirac spinors; the $-1$ is the Weyl case. Nothing here bears on the Majorana framework claims or the objection recorded in the module.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
@@ -8092,7 +8095,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{115} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{114} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth

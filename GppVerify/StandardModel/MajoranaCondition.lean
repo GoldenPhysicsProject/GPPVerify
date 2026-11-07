@@ -130,8 +130,39 @@ theorem diracC_smul (c : ℂ) (v : Fin 4 → ℂ) :
   funext i
   fin_cases i <;> simp [diracC, gamma2, mulVec, dotProduct, Fin.sum_univ_four]
 
-/-- Majorana condition: ψ = Cψ̄ is self-consistent for Weyl spinors -/
-theorem open_majorana_self_consistency : True := trivial
+/-- **Correction to the source statement.** On a 2-component Weyl spinor the Majorana
+condition `ψ = Cψ̄` is *not* self-consistent: since `C² = -1` there, it forces `ψ = 0`.
+(The stub this replaces, retired 2026-11-07, read "self-consistent for Weyl spinors".) -/
+theorem weyl_majorana_eq_zero {v : Fin 2 → ℂ} (h : weylC v = v) : v = 0 := by
+  have h2 : v = -v := by
+    calc v = weylC (weylC v) := by rw [h, h]
+      _ = -v := weylC_weylC v
+  have : (2 : ℂ) • v = 0 := by rw [two_smul]; nth_rewrite 1 [h2]; simp
+  exact (smul_eq_zero.mp this).resolve_left two_ne_zero
+
+/-- On Dirac spinors, where `C² = +1`, every `v + Cv` satisfies the Majorana condition. -/
+theorem diracC_add_self (v : Fin 4 → ℂ) : diracC (v + diracC v) = v + diracC v := by
+  rw [diracC_add, diracC_diracC, add_comm]
+
+/-- The Majorana spinors form a real subspace: closed under real linear combinations. -/
+theorem majorana_real_combination {v w : Fin 4 → ℂ} (hv : diracC v = v) (hw : diracC w = w)
+    (r s : ℝ) : diracC ((r : ℂ) • v + (s : ℂ) • w) = (r : ℂ) • v + (s : ℂ) • w := by
+  rw [diracC_add, diracC_smul, diracC_smul, hv, hw, Complex.conj_ofReal, Complex.conj_ofReal]
+
+open Matrix in
+/-- **Majorana self-consistency** (on Dirac spinors): the condition `ψ = Cψ̄` has nonzero
+solutions, e.g. `(1, 0, 0, 1)` in the Dirac representation, and is consistent because
+`C² = +1` (`diracC_diracC`). Replaces the stub `open_majorana_self_consistency : True`,
+retired 2026-11-07; see `weyl_majorana_eq_zero` for why "Weyl" in the old statement was
+wrong. The T-boundary derivation of the condition (the source's further claim) is not
+addressed here. -/
+theorem majorana_self_consistency : ∃ v : Fin 4 → ℂ, diracC v = v ∧ v ≠ 0 := by
+  refine ⟨![1, 0, 0, 1], ?_, ?_⟩
+  · funext i
+    fin_cases i <;> simp [diracC, gamma2, mulVec, dotProduct, Fin.sum_univ_four]
+  · intro h
+    have := congrFun h 0
+    simp at this
 -- SOURCE: zitterbewegung paper, thm:majorana
 -- The T-boundary condition ψ|_{t=0} = ψ̄|_{t=0} forces ψ = Cψ̄.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Spinor bundles re-verified absent in Mathlib 4.33.1 (2026-09-01).
