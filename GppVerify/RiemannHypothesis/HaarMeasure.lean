@@ -33,7 +33,7 @@ declaration (`adelic_quotient_locally_compact`) that does not exist here — cor
 | Name | Status | Reference |
 |------|--------|-----------|
 | `adelic_haar_self_dual` | proved (CommGroup assumption) | Tate 1950 §2.4 |
-| `open_adelic_quotient_compact_factor` | open — Fujisaki's lemma, parked as a stub | Weil 1974, Ch.IV §2 |
+| `GppIdeleQ.compactSpace_A1_quotient` | proved for `ℚ` (retired the stub `open_adelic_quotient_compact_factor`, 2026-11-07) | Weil 1974, Ch.IV §2 |
 | `open_peter_weyl_adelic_discrete_spectrum` | open — needs Peter–Weyl + a real K¹ | Hewitt–Ross I, §27 |
 | `open_l2_constraint_forces_critical_line` | open — downstream of the two above | On the Nature of Nature v5.2 L16806 |
 
@@ -105,7 +105,7 @@ theorem adelic_haar_self_dual
 -- §2  Compactness: the compact factor K¹ = A¹/Q×
 -- ============================================================
 
-/-- **Open**: the norm-1 idèle class group K¹ = {a ∈ A× | ‖a‖_A = 1} / Q× is compact.
+/- **Was open (retired 2026-11-07)**: the norm-1 idèle class group K¹ = {a ∈ A× | ‖a‖_A = 1} / Q× is compact.
 
     This is Fujisaki's lemma (Weil 1974, *Basic Number Theory*, Ch. IV §2). It uses:
     (1) the product formula ‖x‖_∞ · ∏_p ‖x‖_p = 1 for x ∈ Q×;
@@ -142,7 +142,9 @@ theorem adelic_haar_self_dual
     mathematical content, because there was none to lose.
 
     On the Nature of Nature v5.2: needed by thm:peter-weyl-compact (L16592) and thm:l2-constraint (L16806). -/
-theorem open_adelic_quotient_compact_factor : True := trivial
+-- Retired 2026-11-07: Fujisaki's lemma for `ℚ` is proved as
+-- `GppIdeleQ.compactSpace_A1_quotient` (RiemannHypothesis/IdeleQ.lean), with the idèles of `ℚ`
+-- modelled as `ℝˣ × 𝔸_fˣ` over Mathlib's `FiniteAdeleRing ℤ ℚ`.
 
 -- ============================================================
 -- §3  Peter-Weyl decomposition on K¹
@@ -196,6 +198,5 @@ end GppHaar
 -- Summary checks
 -- ============================================================
 #check @GppHaar.adelic_haar_self_dual
-#check @GppHaar.open_adelic_quotient_compact_factor
 #check @GppHaar.open_peter_weyl_adelic_discrete_spectrum
 #check @GppHaar.open_l2_constraint_forces_critical_line

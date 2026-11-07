@@ -71,17 +71,9 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
 -- §2  L² infrastructure axioms (awaiting Mathlib adèlic theory)
 -- ============================================================
 
-/-- K¹ = A¹/Q× is compact with finite Haar measure.
-    (Fujisaki's lemma; Weil 1974 Ch. IV §2.)
-
-    Gap, restated 2026-09-01 against Mathlib 4.33.1. The old wording named a *module* —
-    "Gap: Mathlib.NumberTheory.NumberField.Adeles" — and that module now exists, so as
-    written the gap reads as closed when the mathematics is untouched. What is actually
-    missing: the idèle group `A×` (Mathlib has the adele *ring* only), its norm-1
-    subgroup, the quotient by `Q×`, and any compactness statement about it — there is no
-    `CompactSpace`/`IsCompact` anywhere in `AdeleRing.lean`. Fujisaki's lemma itself is
-    absent. Name the missing theorem, not the module. -/
-theorem open_K1_compact_haar : True := trivial
+-- K¹ = A¹/Q× is compact with finite Haar measure: retired 2026-11-07. Compactness is
+-- `GppIdeleQ.compactSpace_A1_quotient` and finiteness of every measure that is finite on compacts
+-- is `GppIdeleQ.isFiniteMeasure_quotient` (RiemannHypothesis/IdeleQ.lean, Fujisaki's lemma for `ℚ`).
 
 /-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).
     Follows from adelic_haar_self_dual. -/
@@ -94,7 +86,7 @@ theorem open_T_preserves_L2 : True := trivial
     conclusion unconditionally would make the resulting `axiom` — and everything
     built on it — logically inconsistent: instantiated at any `s` with `s.re ≠ 1/2`
     (e.g. `s = 2`) it proves `False`. Left as a documented, content-free stub instead,
-    exactly like `open_K1_compact_haar` and `open_T_preserves_L2` above. -/
+    exactly like `open_T_preserves_L2` above. -/
 theorem open_l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
 
 -- ============================================================

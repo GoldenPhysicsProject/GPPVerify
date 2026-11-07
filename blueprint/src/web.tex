@@ -172,10 +172,10 @@ the Lean source.
 
 \begin{lemma}[Compact Factor $K^1 = \mathbb{A}^1/\mathbb{Q}^\times$]
   \label{lem:fujisaki}
-  \lean{GppHaar.open_adelic_quotient_compact_factor}
+  \lean{GppIdeleQ.compactSpace_A1_quotient}\leanok
   \uses{thm:adelic-haar}
   The norm-$1$ id\`ele class group $K^1$ is compact
-  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2).
+  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2). Proved for $\mathbb Q$ (Retired 2026-11-07); see the section on the id\`eles of $\mathbb Q$.
 \end{lemma}
 
 \begin{theorem}[Peter-Weyl on $K^1$]
@@ -8095,7 +8095,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{114} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{111} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -8991,6 +8991,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Rea
 \lean{GppAutocorrTransport.autocorr_eq_convolution,GppAutocorrTransport.isTestFunction_autocorr,GppAutocorrTransport.integrable_spectral,GppAutocorrTransport.spectralTransform_autocorr}
 The two named hypotheses of the Step 4 bridge spec (Turbo audit, revision 5), proved for the repo's autocorrelation $g^{\mathrm{auto}}(x)=\int g(y)g(y-x)\,dy$: it is the convolution $g\star(g\circ(-))$, hence smooth with compact support whenever $g$ is (T1); and its spectral transform is $\hat g(s)\,\hat g(1-s)$ (T2), by Fubini and the substitution $v=y-x$. At a zero $\rho$ this is the paired-form summand with coefficients $\hat g$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The bridge's remaining obligation, the tail of the spectral sum over all zeros, needs the assembled explicit formula and is not here. No claim about RH.
+\section{The id\`eles of $\mathbb Q$ and Fujisaki's lemma}
+\lean{GppIdeleQ.exists_rat_norm,GppIdeleQ.eq_one_or_neg_one,GppIdeleQ.finNorm_rat,GppIdeleQ.ideleNorm_diag,GppIdeleQ.isCompact_unitIdeles,GppIdeleQ.exists_diag_mul,GppIdeleQ.compactSpace_A1_quotient,GppIdeleQ.isFiniteMeasure_quotient}
+Retires \texttt{open\_adelic\_quotient\_compact\_factor}, \texttt{open\_K\_compact} and \texttt{open\_K1\_compact\_haar} (Retired 2026-11-07). The id\`ele group of $\mathbb Q$ is $\mathbb R^\times\times\mathbb A_f^\times$ over Mathlib's finite adele ring, with the units topology. Every finite id\`ele has, place by place, the absolute values of a positive rational; a rational that is a $p$-adic unit for every $p$ is $\pm1$; hence the product formula $|q|_\infty\prod_p|q|_p=1$, the decomposition $\mathbb A^1=\mathbb Q^\times\cdot(\{\pm1\}\times\prod_p\mathbb Z_p^\times)$, compactness of $\prod_p\mathbb Z_p^\times$, and compactness of $\mathbb A^1/\mathbb Q^\times$. Every measure on the quotient that is finite on compacts is finite.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. $\mathbb Q$ only; discreteness of $\mathbb Q^\times$ in $\mathbb A^1$ (Hausdorffness of the quotient) and the Haar measure on it are not constructed here. No claim about RH.
+
 \section{The contracted Bianchi identity: the Einstein tensor is divergence free}
 \lean{GppContractedBianchi.dRic_symm,GppContractedBianchi.twice_div_ricci,GppContractedBianchi.divEinstein_eq_zero}
 Retires the stub \texttt{open\_bianchi\_identity : True} (Retired 2026-11-07). In components at a point, with $\nabla_lR_{abcd}$ having the Riemann symmetries $R_{abcd}=-R_{bacd}=-R_{abdc}=R_{cdab}$, satisfying the second Bianchi identity $\nabla_lR_{abcd}+\nabla_aR_{blcd}+\nabla_bR_{lacd}=0$, and with contractions by a symmetric inverse metric commuting with $\nabla$ ($\nabla g=0$): $\nabla_lR=2g^{ac}\nabla_aR_{cl}$, and hence $g^{lb}\nabla_l\bigl(R_{b\nu}-\tfrac12g_{b\nu}R\bigr)=0$ whenever $g^{-1}g=1$. Any dimension, any signature.
