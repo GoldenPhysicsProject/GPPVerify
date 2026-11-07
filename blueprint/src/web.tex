@@ -7392,6 +7392,7 @@ From `haar\_qg\_paper\_v2151.tex` base case `L = 2`: the physics paper reconstru
   \item \lean{GppEulerSum.diagEquiv}\leanok\ \texttt{diagEquiv}
   \item \emph{\ldots and 16 further results in this module.}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_euler\_sum\_two\_gap}, now \lean{GppEulerSumTwo.hasSum_harmonic_div_cube}\leanok; see the section on Euler's second sum.
 
 \subsection{DecodingReality}
 Source: decoding\_reality\_v4322.tex
@@ -9006,3 +9007,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Poi
 \lean{GppWeinbergSU5.trace_T3_Y,GppWeinbergSU5.hypercharge_normalization,GppWeinbergSU5.sin_sq_eq_trace_ratio,GppWeinbergSU5.weinberg_su5,GppWeinbergSU5.weinberg_su5_ten,GppWeinbergSU5.hypercharge_normalization_ten}
 The Georgi--Glashow derivation as finite algebra. On the $\mathbf 5$, $T_3=\mathrm{diag}(0,0,0,\tfrac12,-\tfrac12)$ and $Y=\mathrm{diag}(-\tfrac13,-\tfrac13,-\tfrac13,\tfrac12,\tfrac12)$ are traceless and trace-orthogonal, with $Q=T_3+Y$. One simple group means one coupling, so the hypercharge coupling is fixed by $\mathrm{Tr}(Y^2)/\mathrm{Tr}(T_3^2)=5/3$: $g'^2=\tfrac35g^2$. For any trace-orthogonal pair, $g'^2/(g^2+g'^2)=\mathrm{Tr}(T_3^2)/\mathrm{Tr}(Q^2)$, which on the $\mathbf 5$ is $3/8$; the $\mathbf{10}=\Lambda^2\mathbf 5$ gives the same ratios. Retires \texttt{open\_weinberg\_angle\_full\_derivation}.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Tree level at the unification scale; renormalization-group running to $M_Z$ is not included.
+
+\section{Euler's second sum}
+\lean{GppEulerSumTwo.f_add_f_swap,GppEulerSumTwo.tsum_f,GppEulerSumTwo.hasSum_inner_shift,GppEulerSumTwo.tsum_inner,GppEulerSumTwo.hasSum_harmonic_div_cube,GppEulerSumTwo.euler_sums_assemble}
+$\sum_{n\ge1}H_n/n^3=\pi^4/72=\tfrac54\zeta(4)$. With $f(m,n)=1/(m^2n(m+n))$: $f(m,n)+f(n,m)=1/(m^2n^2)$, so the swap symmetry gives $\sum f=\zeta(2)^2/2=\pi^4/72$; and $f(m,n)=m^{-3}(1/n-1/(n+m))$, whose row sums telescope to $H_m/m^3$. Equivalently $\zeta(3,1)=\pi^4/360$. With the first Euler sum, $\pi^4/120+\pi^4/72=2\zeta(4)$, the paper's route to $M_2=1/90$. Retires \texttt{open\_euler\_sum\_two\_gap}, whose docstring said the swap trick could not apply; it applies after one change of summand.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
