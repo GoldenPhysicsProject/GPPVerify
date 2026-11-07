@@ -77,27 +77,11 @@ lemma test_function_fe_symmetric (h : ℂ → ℂ)
     (Formal identity: each ρ contributes h(ρ) with multiplicity m(ρ).) -/
 lemma open_spectral_sum_well_defined : True := trivial
 
-/-- The explicit formula error term involves the gamma factor.
-    Algebraic: Γ'/Γ(s) = -γ - 1/s + Σ_{n≥1} (1/n - 1/(n+s)).
-
-    Gap, sharpened 2026-09-02, and it is now much smaller than this docstring used to imply.
-    Most of this series is proved in `RiemannHypothesis/DigammaSeries.lean`:
-
-    * `summable_digammaSeriesTerm` — it converges absolutely off the non-positive integers;
-    * `digammaSeries_add_one` — it satisfies `F (s+1) = F s + 1/s`, exactly the functional
-      equation Mathlib's `Complex.digamma_apply_add_one` proves for `ψ`;
-    * `digammaSeries_one` — at `s = 1` it telescopes to `-γ`, agreeing with
-      `Complex.digamma_one`, which Mathlib derives from the derivative of `Gamma` at `1` —
-      an independent route, so this is a check rather than a restatement.
-
-    **LIBRARY GAP:** `digammaSeries = Complex.digamma`. Their difference is 1-periodic and
-    vanishes at 1; killing it needs a growth or convexity input (Wielandt / Bohr–Mollerup
-    uniqueness), not another functional-equation manipulation. Mathlib 4.33.1 gained
-    `Complex.digamma` but its module header still lists Gauss' representation under `TODO`.
-
-    The phantom `(_ : ℂ)` argument this stub used to carry is dropped: it made the stub look
-    like a statement about a complex number, and it was not one. -/
-lemma open_digamma_series_form : True := trivial
+-- Gauss's series for the digamma function: retired 2026-11-07. The `True` stub that stood here
+-- (`Γ'/Γ(s) = -γ - 1/s + Σ_{n≥1} (1/n - 1/(n+s))`) is proved as
+-- `GppDigammaGaussSeries.digammaSeries_eq_digamma` (`RiemannHypothesis/DigammaGaussSeries.lean`):
+-- agreement on the positive reals from Gauss's limit (Bohr–Mollerup convexity), analyticity of
+-- both sides off the integers, and the identity theorem on `ℂ ∖ ℤ`.
 
 /-- **Shadow symmetry of the spectral sum.** If `ρ` is a zero of `ζ` in the critical strip
     then so is its functional-equation partner `fePartner ρ = 1 - ρ̄`.
