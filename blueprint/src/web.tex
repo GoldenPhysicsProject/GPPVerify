@@ -7411,6 +7411,7 @@ From `haar\_qg\_paper\_v2151.tex` base case `L = 2`: the physics paper reconstru
   \item \lean{GppEulerSum.diagEquiv}\leanok\ \texttt{diagEquiv}
   \item \emph{\ldots and 16 further results in this module.}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_euler\_sum\_two\_gap}, now \lean{GppEulerSumTwo.hasSum_harmonic_div_cube}\leanok; see the section on Euler's second sum.
 
 \subsection{DecodingReality}
 Source: decoding\_reality\_v4322.tex
@@ -8104,7 +8105,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{121} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{120} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -9004,3 +9005,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude
 \lean{GppMellinInterpolation.expChar_injective,GppMellinInterpolation.linearIndependent_exp,GppMellinInterpolation.span_spectralVectors_eq_top}
 Input to the Step 4 bridge (Weil's localization argument). Blueprint by Gemini, revision 2 audited by Turbo. For a finite $S\subset\mathbb C$, the vectors $(\hat g(s))_{s\in S}$, $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$, with $g$ ranging over real smooth compactly supported test functions, span $\mathbb C^S$. Proof: the exponentials $u\mapsto e^{au}$ for distinct $a$ are linearly independent (Dedekind--Artin independence of characters $\mathbb R\to\mathbb C^\times$); a functional killing every spectral vector gives a kernel $\sum_s c_se^{(s-1/2)u}$ orthogonal to every smooth bump, hence zero, hence $c=0$; a proper subspace of $\mathbb C^S$ would be killed by a nonzero functional.
 Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo and Claude Code. Span form, since real test functions satisfy $\hat g(\bar s)=\overline{\hat g(s)}$; the bridge to RH that consumes it is not here. No claim about RH.
+
+\section{Euler's second sum}
+\lean{GppEulerSumTwo.f_add_f_swap,GppEulerSumTwo.tsum_f,GppEulerSumTwo.hasSum_inner_shift,GppEulerSumTwo.tsum_inner,GppEulerSumTwo.hasSum_harmonic_div_cube,GppEulerSumTwo.euler_sums_assemble}
+$\sum_{n\ge1}H_n/n^3=\pi^4/72=\tfrac54\zeta(4)$. With $f(m,n)=1/(m^2n(m+n))$: $f(m,n)+f(n,m)=1/(m^2n^2)$, so the swap symmetry gives $\sum f=\zeta(2)^2/2=\pi^4/72$; and $f(m,n)=m^{-3}(1/n-1/(n+m))$, whose row sums telescope to $H_m/m^3$. Equivalently $\zeta(3,1)=\pi^4/360$. With the first Euler sum, $\pi^4/120+\pi^4/72=2\zeta(4)$, the paper's route to $M_2=1/90$. Retires \texttt{open\_euler\_sum\_two\_gap}, whose docstring said the swap trick could not apply; it applies after one change of summand.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.

@@ -728,6 +728,7 @@ import GppVerify.Cosmology.AbelHaloPair
 -- reflection trick doesn't apply and Mathlib has no multiple-zeta-value
 -- library -- named honestly as an open gap, not faked.
 import GppVerify.NumberTheory.EulerSumCapstone
+import GppVerify.NumberTheory.EulerSumTwo
 
 -- ── The idele group of Q, first steps (New) ───────────────────────
 -- Not paper-sourced. Builds on Mathlib's NumberField.AdeleRing (added
