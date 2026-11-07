@@ -319,12 +319,8 @@ theorem simpleStripZeros_iff_deriv_ne_zero :
     exact (zeta_analyticAt_of_strip hr).analyticOrderAt_eq_one_of_zero_deriv_ne_zero
       hr.1 (h r hr)
 
-/-- K = A¹/Q* is compact. (Tate 1950) -/
-theorem open_K_compact : True := by
-  -- Placeholder: Full formalization requires Fujisaki's lemma / adelic topology in Mathlib.
-  -- This is the compactness of the norm-1 idèle class group, standard in class field theory.
-  -- See also HaarMeasure.lean sorries.
-  trivial
+-- K = A¹/Q× is compact: retired 2026-11-07, proved as `GppIdeleQ.compactSpace_A1_quotient`
+-- (RiemannHypothesis/IdeleQ.lean, Fujisaki's lemma for `ℚ`).
 
 /-- Haar-square convolution operators are positive trace-class on H_1.
     (vol(K) = 1, Hilbert-Schmidt, Reed-Simon VI.22) -/

@@ -172,10 +172,10 @@ the Lean source.
 
 \begin{lemma}[Compact Factor $K^1 = \mathbb{A}^1/\mathbb{Q}^\times$]
   \label{lem:fujisaki}
-  \lean{GppHaar.open_adelic_quotient_compact_factor}
+  \lean{GppIdeleQ.compactSpace_A1_quotient}\leanok
   \uses{thm:adelic-haar}
   The norm-$1$ id\`ele class group $K^1$ is compact
-  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2).
+  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2). Proved for $\mathbb Q$ (Retired 2026-11-07); see the section on the id\`eles of $\mathbb Q$.
 \end{lemma}
 
 \begin{theorem}[Peter-Weyl on $K^1$]
@@ -7758,7 +7758,10 @@ Sources:
   \item \lean{GppMajorana.zitterbewegung_period}\leanok\ \texttt{zitterbewegung\_period}
   \item \lean{GppMajorana.weylC_weylC}\leanok\ \texttt{weylC\_weylC}, \lean{GppMajorana.weylC_smul}\leanok\ \texttt{weylC\_smul}
   \item \lean{GppMajorana.gamma2_sq}\leanok\ \texttt{gamma2\_sq}, \lean{GppMajorana.diracC_diracC}\leanok\ \texttt{diracC\_diracC}, \lean{GppMajorana.diracC_smul}\leanok\ \texttt{diracC\_smul}
+  \item \lean{GppMajorana.weyl_majorana_eq_zero}\leanok\ \texttt{weyl\_majorana\_eq\_zero}, \lean{GppMajorana.diracC_add_self}\leanok\ \texttt{diracC\_add\_self}, \lean{GppMajorana.majorana_real_combination}\leanok\ \texttt{majorana\_real\_combination}, \lean{GppMajorana.majorana_self_consistency}\leanok\ \texttt{majorana\_self\_consistency}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_majorana\_self\_consistency}. The Majorana condition $\psi=C\bar\psi$ has nonzero solutions on Dirac spinors (e.g.\ $(1,0,0,1)$ in the Dirac representation), every $v+Cv$ is one, and they form a real subspace. Correction: the stub said ``self-consistent for Weyl spinors''; on a 2-component Weyl spinor $C^2=-1$ forces $\psi=0$. The T-boundary derivation of the condition is not addressed.
+
 \noindent\textbf{Retired 2026-11-07:} \texttt{open\_charge\_conjugation\_sq}. With complex conjugation included, charge conjugation on a 2-component Weyl spinor, $\psi\mapsto\varepsilon\bar\psi$, squares to $-1$; on a 4-component Dirac spinor, $\psi\mapsto i\gamma^2\bar\psi$ (Dirac representation), it squares to $+1$. Both are antilinear. The stub's wording ``$C^2=-1$ for Dirac spinors'' was wrong for Dirac spinors; the $-1$ is the Weyl case. Nothing here bears on the Majorana framework claims or the objection recorded in the module.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
@@ -8092,7 +8095,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{116} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{107} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -8988,6 +8991,26 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Rea
 \lean{GppAutocorrTransport.autocorr_eq_convolution,GppAutocorrTransport.isTestFunction_autocorr,GppAutocorrTransport.integrable_spectral,GppAutocorrTransport.spectralTransform_autocorr}
 The two named hypotheses of the Step 4 bridge spec (Turbo audit, revision 5), proved for the repo's autocorrelation $g^{\mathrm{auto}}(x)=\int g(y)g(y-x)\,dy$: it is the convolution $g\star(g\circ(-))$, hence smooth with compact support whenever $g$ is (T1); and its spectral transform is $\hat g(s)\,\hat g(1-s)$ (T2), by Fubini and the substitution $v=y-x$. At a zero $\rho$ this is the paired-form summand with coefficients $\hat g$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The bridge's remaining obligation, the tail of the spectral sum over all zeros, needs the assembled explicit formula and is not here. No claim about RH.
+\section{The id\`eles of $\mathbb Q$ and Fujisaki's lemma}
+\lean{GppIdeleQ.exists_rat_norm,GppIdeleQ.eq_one_or_neg_one,GppIdeleQ.finNorm_rat,GppIdeleQ.ideleNorm_diag,GppIdeleQ.isCompact_unitIdeles,GppIdeleQ.exists_diag_mul,GppIdeleQ.compactSpace_A1_quotient,GppIdeleQ.isFiniteMeasure_quotient,GppIdeleQ.eq_one_of_near_one,GppIdeleQ.haarK1,GppIdeleQ.exists_haar_probability,GppIdeleQ.T_preserves_L2}
+Retires \texttt{open\_adelic\_quotient\_compact\_factor}, \texttt{open\_K\_compact}, \texttt{open\_K1\_compact\_haar}, \texttt{open\_K1\_haar\_probability}, \texttt{open\_haar\_volume\_normalized} and \texttt{open\_T\_preserves\_L2} (Retired 2026-11-07). The id\`ele group of $\mathbb Q$ is $\mathbb R^\times\times\mathbb A_f^\times$ over Mathlib's finite adele ring, with the units topology. Every finite id\`ele has, place by place, the absolute values of a positive rational; a rational that is a $p$-adic unit for every $p$ is $\pm1$; hence the product formula $|q|_\infty\prod_p|q|_p=1$, the decomposition $\mathbb A^1=\mathbb Q^\times\cdot(\{\pm1\}\times\prod_p\mathbb Z_p^\times)$, compactness of $\prod_p\mathbb Z_p^\times$, and compactness of $\mathbb A^1/\mathbb Q^\times$. Every measure on the quotient that is finite on compacts is finite. $\mathbb Q^\times$ is discrete (a neighbourhood $|x_\infty-1|<\tfrac12$, $x_p\in\mathbb Z_p$ meets it only in $1$), hence closed, so $K^1=\mathbb A^1/\mathbb Q^\times$ is a compact Hausdorff group, and its normalized Haar measure is a probability measure: $\mathrm{vol}(K^1)=1$. The Haar measure is inversion invariant, so the shadow involution $a\mapsto a^{-1}$ is an isometry of $L^2(K^1)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. $\mathbb Q$ only. No claim about RH.
+
+\section{Haar squares on the id\`ele class group of $\mathbb Q$}
+\lean{GppIdeleClassGroupQ.MulPositiveType,GppIdeleClassGroupQ.haar_square_positive_type,GppIdeleClassGroupQ.haarCQ,GppIdeleClassGroupQ.haarCQ_ne_zero,GppIdeleClassGroupQ.adelic_haar_square_positive_type,GppIdeleClassGroupQ.haar_square_positive_type_haarCQ}
+Retires \texttt{open\_adelic\_haar\_square\_positive\_type} (Retired 2026-11-07). $\mathbb A_f$ is locally compact (restricted product of locally compact $\mathbb Q_p$ over compact $\mathbb Z_p$), $\mathbb Q^\times$ is discrete hence closed in the id\`eles, so $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$ is a locally compact Hausdorff abelian group with a nonzero Haar measure. For every right-invariant measure on it and every integrable bounded real $\Omega$, $P(x)=\int\Omega(y)\Omega(yx^{-1})\,d\mu(y)$ is of positive type: $\sum_{ij}\bar c_ic_jP(x_ix_j^{-1})\ge0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Positivity of a Haar square is unconditional and is not Weil positivity. No claim about RH.
+
+\section{The contracted Bianchi identity: the Einstein tensor is divergence free}
+\lean{GppContractedBianchi.dRic_symm,GppContractedBianchi.twice_div_ricci,GppContractedBianchi.divEinstein_eq_zero}
+Retires the stub \texttt{open\_bianchi\_identity : True} (Retired 2026-11-07). In components at a point, with $\nabla_lR_{abcd}$ having the Riemann symmetries $R_{abcd}=-R_{bacd}=-R_{abdc}=R_{cdab}$, satisfying the second Bianchi identity $\nabla_lR_{abcd}+\nabla_aR_{blcd}+\nabla_bR_{lacd}=0$, and with contractions by a symmetric inverse metric commuting with $\nabla$ ($\nabla g=0$): $\nabla_lR=2g^{ac}\nabla_aR_{cl}$, and hence $g^{lb}\nabla_l\bigl(R_{b\nu}-\tfrac12g_{b\nu}R\bigr)=0$ whenever $g^{-1}g=1$. Any dimension, any signature.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The second Bianchi identity is a hypothesis (Mathlib has no Levi-Civita connection yet); everything after it is proved.
+
+\section{Spectral orbitals: the per-zero Gram object and the finite-sector ledger}
+\lean{GppSpectralOrbitals.Ec_zero,GppSpectralOrbitals.mul_Ec,GppSpectralOrbitals.Ec_eq_div,GppSpectralOrbitals.Zgamma_symm,GppSpectralOrbitals.quadForm_outer,GppSpectralOrbitals.Zgamma_quadForm,GppSpectralOrbitals.Zgamma_quadForm_nonneg,GppSpectralOrbitals.sum_Zgamma_quadForm_nonneg,GppSpectralOrbitals.ExplicitFormulaLedger,GppSpectralOrbitals.ExplicitFormulaLedger.complement_eq_sum_remaining,GppSpectralOrbitals.ExplicitFormulaLedger.complement_eq_sum,GppSpectralOrbitals.ExplicitFormulaLedger.norm_complement_le,GppSpectralOrbitals.parityVec,GppSpectralOrbitals.ExplicitFormulaLedger.ofParity,GppSpectralOrbitals.parity_complement_eq_sum}
+The passing core of Turbo's SpectralOrbitals audits (revisions 1--3, 2026-11-07), in the shape of the pipeline's own code. The kernel $E_c(z)=\sum_n z^n/(n+1)!$ satisfies $zE_c(z)=e^z-1$ and $E_c(0)=1$. The amplitude is a vector over the signed basis $\mathrm{Fin}\,K\oplus\mathrm{Fin}\,K$, $A_{\pm j}(s)=e^{\pm(s-1/2)a_j}S(\pm(s-1/2))$ with $a_j=0.35+0.7j$ and $S(z)=E_c(z)/2-(E_c(z+2\pi i)+E_c(z-2\pi i))/4$; the per-zero matrix is the outer product $Z_{ik}(\gamma)=2\operatorname{Re}[A_i(\rho)\overline{A_k(\rho)}]$ at $\rho=\tfrac12+i\gamma$, with $Q,C$ by index restriction and $P_\pm=Q\pm C$. Proved: $Z$ is symmetric and $c^{\mathsf T}Z(\gamma)c=2|\sum_ic_iA_i(\rho)|^2\ge0$, so every finite spectral block is positive semidefinite. The ledger carries the sector explicit formula $\mathrm{arch}-\mathrm{prime}=\sum_\gamma\mathrm{orb}(\gamma)-\mathrm{pole}$ as a premise field; for any $U$ containing the pole subspace and the orbitals of a chosen zero set $S$, the $U^\perp$ component of $\mathrm{arch}-\mathrm{prime}$ is exactly the sum of the $U^\perp$ components of the remaining orbitals, and its norm is at most their total norm ($S=\emptyset$: pole-only; $S=\{\gamma_1\},\{\gamma_1,\gamma_2\}$: the augmented spans of the K\,=\,5 note). On the parity channels the ledger is instantiated with the orbitals $\mathrm{orb}(\gamma)=P_\pm(\gamma)$ (blocks \emph{extracted} from $Z(\gamma)$, as in the pipeline) viewed in the Euclidean space on pair indices, and the balance stated against the measured block $\sum_\gamma P_\pm(\gamma)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The explicit formula is a hypothesis, not proved here (stages E3--E6); no continuum tail and none of the numerical agreements are asserted. Not a positivity source. No claim about RH.
+
 \section{Mellin interpolation: the spectral transform hits any finite set of values}
 \lean{GppMellinInterpolation.expChar_injective,GppMellinInterpolation.linearIndependent_exp,GppMellinInterpolation.span_spectralVectors_eq_top}
 Input to the Step 4 bridge (Weil's localization argument). Blueprint by Gemini, revision 2 audited by Turbo. For a finite $S\subset\mathbb C$, the vectors $(\hat g(s))_{s\in S}$, $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$, with $g$ ranging over real smooth compactly supported test functions, span $\mathbb C^S$. Proof: the exponentials $u\mapsto e^{au}$ for distinct $a$ are linearly independent (Dedekind--Artin independence of characters $\mathbb R\to\mathbb C^\times$); a functional killing every spectral vector gives a kernel $\sum_s c_se^{(s-1/2)u}$ orthogonal to every smooth bump, hence zero, hence $c=0$; a proper subspace of $\mathbb C^S$ would be killed by a nonzero functional.

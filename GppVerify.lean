@@ -88,6 +88,8 @@ import GppVerify.QuantumGravity.BornRuleHaar
 -- ── General Relativity ───────────────────────────────────────
 -- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
 import GppVerify.GeneralRelativity.Rigidity
+import GppVerify.GeneralRelativity.ContractedBianchi
+
 import GppVerify.GeneralRelativity.WeylTraceless
 
 -- ── Number Theory (New) ──────────────────────────────────────
@@ -2433,4 +2435,7 @@ import GppVerify.RiemannHypothesis.ExplicitFormulaE1Decay
 import GppVerify.RiemannHypothesis.DigammaGaussLimit
 import GppVerify.RiemannHypothesis.DigammaGaussSeries
 import GppVerify.RiemannHypothesis.AutocorrTransport
+import GppVerify.RiemannHypothesis.SpectralOrbitals
+import GppVerify.RiemannHypothesis.IdeleQ
+import GppVerify.RiemannHypothesis.IdeleClassGroupQ
 import GppVerify.RiemannHypothesis.MellinInterpolation

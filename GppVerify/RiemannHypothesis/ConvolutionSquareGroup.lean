@@ -20,9 +20,9 @@ group). This file states it at that generality.
 * `convolution_square_positive_type_group`: for integrable bounded real `f`, the convolution
   square `P(x) = ∫ f(y) f(y − x) dμ` is of positive type.
 
-**Scope.** This is the abstract statement only. Instantiating it to the idèle class group `C_k`
-needs `C_k` as a topological abelian group with a Haar measure, which Mathlib does not provide, so
-`open_adelic_haar_square_positive_type` stays a stub. Positivity of a Haar square is unconditional
+**Scope.** This is the abstract statement only. Its multiplicative form is instantiated on the
+idèle class group of `ℚ` in `IdeleClassGroupQ.lean` (2026-11-07), which retired
+`open_adelic_haar_square_positive_type`. Positivity of a Haar square is unconditional
 and is *not* Weil positivity, which concerns the specific distribution `D_k`; see
 `NoGo/HaarSquareNotReflection.lean`. No claim about RH.
 -/
