@@ -99,8 +99,12 @@ theorem poleSpectral_eq_poleTerm (g : ℝ → ℝ)
     have e2 : ((1 : ℂ) - 1 / 2) * u = (u : ℂ) / 2 := by ring
     rw [e1, e2]
     ring
-  rw [← integral_ofReal]
+  rw [show ((∫ u, g u * (2 * Real.cosh (u / 2)) : ℝ) : ℂ) =
+      ∫ u, ((g u * (2 * Real.cosh (u / 2)) : ℝ) : ℂ) from integral_ofReal.symm]
   simp_rw [hc]
   exact (integral_add h0 h1).symm
 
 end GppMeyerSpectralWeil
+
+#print axioms GppMeyerSpectralWeil.rh_of_meyer
+#print axioms GppMeyerSpectralWeil.poleSpectral_eq_poleTerm

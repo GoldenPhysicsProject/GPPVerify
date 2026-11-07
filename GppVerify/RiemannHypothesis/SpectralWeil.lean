@@ -134,9 +134,11 @@ theorem fePartner_zero_of_strip (rho : ℂ) (hzero : riemannZeta rho = 0)
     Gap: re-verified absent in Mathlib 4.33.1 (2026-09-01). Reference: Weil (1952), Bombieri (2000). -/
 theorem open_weil_explicit_formula : True := trivial
 
-/-- Meyer spectral-Weil identity: zeros of ζ = eigenvalues of adelic shadow operator.
-    Gap: requires distributional spectral theory on idèle class group. -/
-theorem open_meyer_spectral_weil_identity : True := trivial
+-- Meyer spectral-Weil identity: retired 2026-11-07. The `True` stub that stood here is
+-- replaced by the real statement, carried as data: `GppMeyerSpectralWeil.MeyerSpectralWeil`
+-- (poles in π₊, nontrivial zeros in π₋ with multiplicity, trace expansions and the
+-- character identity as fields; Meyer, Duke Math. J. 127 (2005), a named external input),
+-- with the open target `MeyerTarget` and `rh_of_meyer`.
 
 /-- Positivity of Weil distribution: the explicit formula has non-negative contributions.
     Gap: this is an open positivity step on the spectral route to RH (RH is not claimed), related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
