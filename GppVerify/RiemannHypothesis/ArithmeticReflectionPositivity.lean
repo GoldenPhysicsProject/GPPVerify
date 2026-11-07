@@ -1,5 +1,6 @@
 import GppVerify.RiemannHypothesis.WeilSupportLadder
 import GppVerify.RiemannHypothesis.ArchimedeanFloor
+import Mathlib.Analysis.Calculus.BumpFunction.InnerProduct
 
 /-!
 # The physical premise, zero-free: arithmetic reflection positivity
@@ -45,6 +46,7 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 namespace GppArithmeticReflection
 
 open MeasureTheory GppWeilLadder GppArchimedeanFloor
+open scoped ContDiff
 
 /-- Autocorrelation `g(x) = ∫ f(y) f(y - x) dy` (the Weil test class `f ⋆ f̃`). -/
 noncomputable def autocorr (f : ℝ → ℝ) : ℝ → ℝ := fun x => ∫ y : ℝ, f y * f (y - x)
@@ -56,13 +58,24 @@ noncomputable def poleTerm (g : ℝ → ℝ) : ℝ := ∫ u : ℝ, g u * (2 * Re
 noncomputable def weilForm (g : ℝ → ℝ) : ℝ := poleTerm g + archimedeanTerm g - primeSide g
 
 /-- **The physical premise (named, not asserted):** arithmetic reflection
-positivity on smooth compactly supported test functions. -/
+positivity on smooth compactly supported test functions.
+
+Correction 2026-11-07: this was first stated with `ContDiff ℝ ⊤`, which in current Mathlib
+is the *analytic* class `ω`. An analytic function on `ℝ` with compact support is zero, so
+the premise quantified over `f = 0` only and was vacuously true. It is now `C^∞`
+(`ContDiff ℝ ∞`); `exists_test_function_ne_zero` exhibits a nonzero member. -/
 def ArithmeticReflectionPositivity : Prop :=
-  ∀ f : ℝ → ℝ, ContDiff ℝ ⊤ f → HasCompactSupport f → 0 ≤ weilForm (autocorr f)
+  ∀ f : ℝ → ℝ, ContDiff ℝ ∞ f → HasCompactSupport f → 0 ≤ weilForm (autocorr f)
+
+/-- **Non-vacuity of the test class:** a smooth bump with compact support and value 1 at 0. -/
+theorem exists_test_function_ne_zero :
+    ∃ f : ℝ → ℝ, ContDiff ℝ ∞ f ∧ HasCompactSupport f ∧ f 0 = 1 := by
+  let b : ContDiffBump (0 : ℝ) := ⟨1, 2, one_pos, one_lt_two⟩
+  exact ⟨b, b.contDiff, b.hasCompactSupport, b.one_of_mem_closedBall (by simpa using b.rIn_pos.le)⟩
 
 /-- The premise restricted to test functions supported in `[-L/2, L/2]` (rung `L`). -/
 def ReflectionPositiveOnRung (L : ℝ) : Prop :=
-  ∀ f : ℝ → ℝ, ContDiff ℝ ⊤ f → HasCompactSupport f →
+  ∀ f : ℝ → ℝ, ContDiff ℝ ∞ f → HasCompactSupport f →
     (∀ y : ℝ, L / 2 < |y| → f y = 0) → 0 ≤ weilForm (autocorr f)
 
 /-- The full premise gives every rung. -/
