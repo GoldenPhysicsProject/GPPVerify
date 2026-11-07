@@ -75,9 +75,9 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
 -- `GppIdeleQ.compactSpace_A1_quotient` and finiteness of every measure that is finite on compacts
 -- is `GppIdeleQ.isFiniteMeasure_quotient` (RiemannHypothesis/IdeleQ.lean, Fujisaki's lemma for `ℚ`).
 
-/-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).
-    Follows from adelic_haar_self_dual. -/
-theorem open_T_preserves_L2 : True := trivial
+-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹): retired 2026-11-07. Proved for `ℚ` as
+-- `GppIdeleQ.T_preserves_L2` (isometrically), from inversion invariance of the Haar measure
+-- `GppIdeleQ.haarK1` on the compact abelian group `K¹ = 𝔸¹/ℚˣ` (RiemannHypothesis/IdeleQ.lean).
 
 /-- A T-eigenfunction in L²(K¹) forces Re(s) = 1/2. This is *not* an axiom: the real
     claim is conditional on `χ_s ∈ L²(K¹)` and `χ_s` being a `T`-eigenfunction, neither
@@ -86,7 +86,7 @@ theorem open_T_preserves_L2 : True := trivial
     conclusion unconditionally would make the resulting `axiom` — and everything
     built on it — logically inconsistent: instantiated at any `s` with `s.re ≠ 1/2`
     (e.g. `s = 2`) it proves `False`. Left as a documented, content-free stub instead,
-    exactly like `open_T_preserves_L2` above. -/
+    exactly like the (now retired) stubs above. -/
 theorem open_l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
 
 -- ============================================================

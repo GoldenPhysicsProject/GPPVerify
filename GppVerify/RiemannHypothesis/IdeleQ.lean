@@ -5,6 +5,8 @@ import Mathlib.MeasureTheory.Measure.Typeclasses.Finite
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Topology.Algebra.IsUniformGroup.Basic
 import Mathlib.Topology.Algebra.ProperAction.Basic
+import Mathlib.MeasureTheory.Measure.Haar.Unique
+import Mathlib.MeasureTheory.Function.LpSeminorm.Basic
 
 /-!
 # The idèles of `ℚ` and Fujisaki's lemma: `𝔸¹/ℚˣ` is compact
@@ -30,6 +32,7 @@ single infinite place is `ℝ`.
   in `𝔸¹`, so `𝔸¹/ℚˣ` is a compact Hausdorff group.
 * `haarK1`, `exists_haar_probability`: the normalized Haar measure on `K¹ = 𝔸¹/ℚˣ` is a
   probability measure (`vol(K¹) = 1`).
+* `T_preserves_L2`: the shadow involution `a ↦ a⁻¹` is an isometry of `L²(K¹)`.
 
 **Scope.** `ℚ` only (not a general number field). Nothing here bears on the Riemann
 Hypothesis, which remains open.
@@ -555,5 +558,17 @@ instance : MeasureTheory.IsProbabilityMeasure haarK1 := by
 theorem exists_haar_probability :
     ∃ μ : MeasureTheory.Measure (A1 ⧸ Qdiag), μ.IsHaarMeasure ∧ MeasureTheory.IsProbabilityMeasure μ :=
   ⟨haarK1, inferInstance, inferInstance⟩
+
+/-- The Haar measure on `K¹` is invariant under the shadow involution `T : a ↦ a⁻¹`. -/
+instance : haarK1.IsInvInvariant := inferInstance
+
+/-- **The shadow involution `T : a ↦ a⁻¹` preserves `L²(K¹)`**, isometrically: for `f ∈ L²`,
+`f ∘ T ∈ L²` with the same norm. -/
+theorem T_preserves_L2 {f : A1 ⧸ Qdiag → ℂ} (hf : MeasureTheory.MemLp f 2 haarK1) :
+    MeasureTheory.MemLp (fun x => f x⁻¹) 2 haarK1 ∧
+      MeasureTheory.eLpNorm (fun x => f x⁻¹) 2 haarK1 = MeasureTheory.eLpNorm f 2 haarK1 :=
+  ⟨hf.comp_measurePreserving (MeasureTheory.Measure.measurePreserving_inv haarK1),
+    MeasureTheory.eLpNorm_comp_measurePreserving hf.1
+      (MeasureTheory.Measure.measurePreserving_inv haarK1)⟩
 
 end GppIdeleQ
