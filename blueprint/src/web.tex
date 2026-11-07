@@ -8990,3 +8990,8 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo an
 \lean{GppExplicitFormulaE1.shifted_hasCompactSupport,GppExplicitFormulaE1.shifted_contDiff,GppExplicitFormulaE1.spectralTransform_eq_fourier,GppExplicitFormulaE1.spectralTransform_decay}
 First stage of the explicit formula (layer 1.5 of the full-construction brief). For a smooth compactly supported $g$ and every real $\sigma$, $u\mapsto g(u)e^{(\sigma-1/2)u}$ is a Schwartz function, the spectral transform $\hat g(\sigma+it)=\int g(u)e^{(\sigma+it-1/2)u}\,du$ is its Fourier transform at $-t/2\pi$, and hence for every $k$ there is $C$ with $|t|^k|\hat g(\sigma+it)|\le C$ for all $t$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Fixed $\sigma$ only (uniformity on compact $\sigma$-intervals is not proved); stages E2 to E6 of the explicit formula are not here. No claim about RH.
+
+\section{Explicit formula, stage E2a (real): Gauss's limit for the digamma function}
+\lean{GppDigammaGauss.tendsto_digamma_real}
+For real $x>0$, $\psi(x)=(\log\Gamma)'(x)=\lim_{n\to\infty}\bigl(\log(x+n)-\sum_{k<n}\frac1{x+k}\bigr)$. The recurrence gives $(\log\Gamma)'(x+n)=\psi(x)+\sum_{k<n}\frac1{x+k}$, and log-convexity of $\Gamma$ (Bohr--Mollerup) squeezes $\log(x+n-1)\le(\log\Gamma)'(x+n)\le\log(x+n)$; this is the argument of Mathlib's \texttt{Real.deriv\_Gamma\_nat} at a general point.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Real variable only: the complex extension and the vertical-line bound $\psi(\sigma+it)=O(\log|t|)$ (stage E2b) are not here. No claim about RH.
