@@ -2816,3 +2816,50 @@ Remaining gap: the local FE for arbitrary Schwartz functions is not proved by
 checking these eigenfunctions. There is no SectorData/positivity construction,
 continuous CFT shift API, ramified-place generalization or global sewing here.
 RH and GRH remain open.
+
+## Scalar Casimir parameter geography (2026-11-07)
+
+This extends the already-imported `RiemannHypothesis/ArithmeticUnitaryDual.lean`;
+there is no new Casimir carrier or module. It reuses Codex / Claude Code's
+`CasimirCriticalLine.casimir`, its real/imaginary projections, real-Casimir
+classification and unconditional threshold equivalence. The corrected identity
+`c(s)=1/4-(s-1/2)^2` is already proved in `CasimirRiemannHypothesis` and is reused,
+not re-proved under another name. The one-dimensional dictionary remains Delta=s.
+
+The scalar predicate `Tempered` is real Casimir at least 1/4, equivalent to
+Re(s)=1/2 without a strip or nonzero-height assumption. `Complementary` is the
+strict real Casimir range (0,1/4), equivalent to a real parameter in (0,1)
+excluding its midpoint. A parameter off both the line and real axis has complex
+Casimir; these cases cover the open strip. These are scalar parameter predicates,
+not constructions or identifications of unitary representations.
+
+`casimir_shifted_principal` proves the actual value at s=1/2+theta+i*gamma:
+`1/4+gamma^2-theta^2-2*i*gamma*theta`. It is non-real exactly when both theta and
+gamma are nonzero. The negative shift is the same theorem at -theta, reversing
+the imaginary sign. No hypothesis that every strip parameter is unitary-able is
+used; a large real part of the Casimir does not substitute for its being real.
+
+`scripts/check_casimir_parameter_geography.lean` tests both shift signs at nonzero
+height, real complementary points, the midpoint and segment endpoints, the
+corrected centering sign, and axiom traces. Its named `Ftheta_nonzero_height_control`
+uses the actual existing `CelestialNodal.Ftheta` (theta=1/4) and existing zero
+transfer: given a critical-line xi zero rho with Im(rho) nonzero, rho+/-1/4 are
+Ftheta zeros with imaginary Casimir -/+Im(rho)/2, neither Tempered nor Complementary.
+This retains the explicit xi-zero hypothesis; it does not prove Hardy existence
+or assert a numerical approximation is an exact zero.
+
+Sources: Turbo's [1d-resolution audit](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/main/MuseResearch/turbo-note-2026-11-07-one-d-resolution-audit.md),
+[tempered-naming audit](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/main/MuseResearch/turbo-note-2026-11-07-tempered-naming-audit.md),
+and [tempered-geography audit](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/main/MuseResearch/turbo-note-2026-11-07-tempered-geography-audit.md),
+PR11 comments 6715094238, 6715112611, 6715124525. Original Casimir / Ftheta source
+attributions are retained; this extension is Daniel Toupin / Golden Physics
+Project, with AI assistance from Principal series.
+
+Boundary: pointwise classification does not locate zeros, establish a global
+positivity premise, or solve RH/GRH. The calibration at 1/2 is Casimir-value-level
+only, not a metaplectic representation identification. No saturation field,
+general CFT unitary restriction, or relabeling of reflection channels as character
+parities is introduced. General Schwartz Tate FE and global sewing remain queued
+and open; this bounded algebraic slice does not replace them. No independent
+Mathlib extraction is proposed: the core identities/equivalence already exist,
+and the added polynomial specializations use standard complex ring algebra.
