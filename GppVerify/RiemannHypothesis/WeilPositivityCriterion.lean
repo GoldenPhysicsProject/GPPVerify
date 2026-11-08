@@ -37,6 +37,16 @@ expressing the form through prime sums, or Yakaboylu's operator compression `Ŵ 
 not formalized. What IS proved unconditionally: the finite-support positivity statement
 and RH are materially equivalent, with the zero-set reflection symmetry (often waved
 through in expositions) carried as a real theorem, not an assumption.
+
+## Sources
+
+The positivity criterion is Weil's: A. Weil, "Sur les «formules explicites» de
+la théorie des nombres premiers", *Comm. Sém. Math. Univ. Lund*, Tome
+Supplémentaire (1952), pp. 252–265; see E. Bombieri, "Problems of the
+Millennium: The Riemann Hypothesis", Clay Mathematics Institute (2000), for the
+modern statement. The finite paired form follows E. Yakaboylu, "Nontrivial
+Riemann zeros as spectrum", arXiv:2408.15135, Thm 5.1 and Prop 5.3.
+
 -/
 
 namespace GppWeilCriterion

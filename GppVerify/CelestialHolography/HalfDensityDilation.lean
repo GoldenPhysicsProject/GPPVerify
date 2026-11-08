@@ -30,6 +30,19 @@ Hilbert-space completion is not constructed here. In particular, the axis being
 "one-dimensional" (one real parameter `ν` in `Δ = d/2 + iν`) does not reduce the boundary to one
 spatial dimension. No intertwiner from the equatorial `S¹` (`d = 1`) to the horizon `S²`
 (`d = 2`) is constructed. No claim about RH, BSD or black-hole entropy.
+
+## Sources
+
+Background for the principal-series conformal primary basis and shadow transform:
+S. Pasterski and S.-H. Shao, "Conformal basis for flat space amplitudes",
+Phys. Rev. D 96 (2017) 065022, arXiv:1705.01027; S. Pasterski, S.-H. Shao
+and A. Strominger, "Flat space amplitudes and conformal symmetry of the
+celestial sphere", Phys. Rev. D 96 (2017) 065026, arXiv:1701.00049.
+General intertwining-operator background: A. W. Knapp and E. M. Stein,
+"Intertwining operators for semisimple groups", Ann. of Math. (2) 93
+(1971), 489–578. This module formalizes the stated algebraic identities;
+it does not construct the full physical conformal primary basis.
+
 -/
 
 set_option autoImplicit false

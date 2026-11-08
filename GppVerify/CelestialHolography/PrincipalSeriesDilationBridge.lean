@@ -10,6 +10,19 @@ dilation character at any fixed nontrivial positive scale.
 
 For scales `a > 1`, it also classifies the two off-axis regions: `Re Δ > 1` gives
 strict amplification and `Re Δ < 1` gives strict contraction.
+
+## Sources
+
+Background for the principal-series conformal primary basis and shadow transform:
+S. Pasterski and S.-H. Shao, "Conformal basis for flat space amplitudes",
+Phys. Rev. D 96 (2017) 065022, arXiv:1705.01027; S. Pasterski, S.-H. Shao
+and A. Strominger, "Flat space amplitudes and conformal symmetry of the
+celestial sphere", Phys. Rev. D 96 (2017) 065026, arXiv:1701.00049.
+General intertwining-operator background: A. W. Knapp and E. M. Stein,
+"Intertwining operators for semisimple groups", Ann. of Math. (2) 93
+(1971), 489–578. This module formalizes the stated algebraic identities;
+it does not construct the full physical conformal primary basis.
+
 -/
 
 namespace GppPrincipalSeriesDilationBridge
