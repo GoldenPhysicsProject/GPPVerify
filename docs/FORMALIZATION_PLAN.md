@@ -2758,6 +2758,31 @@ layer PRs #59–64) predate this document; see git log. Thread completions are r
 here as they merge.*
 
 
+## Two-vector projection — exact finite residual (2026-11-07)
+
+`Upstream/TwoVectorProjection.lean` evaluates Mathlib's existing orthogonal projection
+onto the span of two real vectors by the inverse two-by-two Gram matrix.
+`InnerProductSpace.starProjection_span_pair` gives the coefficients;
+`InnerProductSpace.norm_sub_starProjection_span_pair_sq` gives the squared residual.
+Assumption: the Gram determinant is nonzero. The ambient inner product space need
+not be complete or finite-dimensional. The finite span supplies the projection.
+
+The proof is Cramer's rule plus Mathlib's projection uniqueness and Pythagorean
+theorem, not a new projection construction. Exact nonorthogonal and orthogonal
+frame tests, a singular-frame countercontrol, the axiom audit and an application
+to the existing `SpectralOrbitals.parityVec`/`Pminus` types are in
+`scripts/check_two_vector_projection.lean`. Run with `lake env lean` after building
+the two imported project modules.
+
+Application context is [Turbo's augmented-span experiment](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/b688144c093fe1004de5b119da7171b16e9e0db2/MuseResearch/turbo-note-2026-11-07-phi-basis-k5-augmented.md)
+and [Claude Code's `SpectralOrbitals` carrier (PR #510)](https://github.com/GoldenPhysicsProject/GPPVerify/pull/510);
+neither is reimplemented or claimed as new here.
+
+Scope: rationalized numerical vectors can be checked by exact arithmetic, but
+identification with exact spectral amplitudes still requires error enclosures.
+No numerical AUG2 constant, explicit formula, infinite tail or RH result is proved
+by this finite identity.
+
 ## Real Tate parity test vectors (2026-11-07)
 
 `RiemannHypothesis/ArchimedeanTateParity.lean` restricts parity to `Fin 2`.

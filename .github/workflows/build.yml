@@ -91,6 +91,9 @@ jobs:
             echo "=== $module ==="
             lake build "$module"
           done
+      - name: Two-vector projection regression checks
+        run: lake env lean scripts/check_two_vector_projection.lean
+
       - name: Tate parity test-vector regression checks
         run: lake env lean scripts/check_archimedean_tate_parity.lean
 
