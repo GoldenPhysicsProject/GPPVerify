@@ -26,14 +26,34 @@ open strip (`integrable_K1`, `integrable_K2` and their odd versions), with norm 
 controlled by W1/W2; no regularization or limit is involved. The raw kernel
 `f(x) e^(-2πixy) |y|^(-s)` is never used.
 
+The proof uses only continuity and rapid decay of `f` and `𝓕 f` (`RapidDecay`), so the
+equation is proved for that class (`localFE_cross_of_rapidDecay`) and the Schwartz
+statements are corollaries. The #513 test vectors decay rapidly (`testVector_rapidDecay`),
+and specializing recovers #513's `localFE_testVector`, proved there by direct evaluation
+(`localFE_testVector_of_general`): an independent control on factors, phases and
+normalization. This stands in for the statement sheet's T1/T2, which asked for a Gaussian
+`SchwartzMap`; no such map exists in Mathlib, and the rapid-decay class makes it unneeded.
+
 Governing specification: Principal series's Schwartz Tate statement sheet (GPP-bridge
-`5fa0d320`, obligations L1, X1, X2), audited PASS by Turbo (`1d8e695`).
+`5fa0d320`, obligations L1, X1, X2, T1, T2), audited PASS by Turbo (`1d8e695`).
 -/
 
 open MeasureTheory Complex Asymptotics Filter Set
 open scoped Topology FourierTransform SchwartzMap
 
 namespace LocalTate.Archimedean
+
+/-- Continuous and `O(‖x‖^r)` at infinity for every real `r`. Every Schwartz function
+qualifies; the local FE below is proved under this hypothesis on `f` and `𝓕 f`. -/
+def RapidDecay (g : ℝ → ℂ) : Prop :=
+  Continuous g ∧ ∀ r : ℝ, g =O[cocompact ℝ] (‖·‖ ^ r)
+
+theorem _root_.SchwartzMap.rapidDecay (g : 𝓢(ℝ, ℂ)) : RapidDecay g :=
+  ⟨g.continuous, g.isBigO_cocompact_rpow⟩
+
+theorem RapidDecay.integrable {g : ℝ → ℂ} (hg : RapidDecay g) : Integrable g := by
+  have h := integrable_parityZeta_of_rapid_decay hg.1 hg.2 0 (s := 1) (by simp)
+  simpa using h
 
 /-- `(1/(π x²))^z = π^(-z) |x|^(-2z)` for `x ≠ 0`. -/
 theorem one_div_pi_sq_cpow {x : ℝ} (hx : x ≠ 0) (z : ℂ) :
@@ -180,10 +200,10 @@ theorem integrable_kernel {h : ℝ → ℂ} (hh : Continuous h) {φ : ℝ → �
     rw [integral_const_mul, hnorm x hx]
 
 /-- The profile `‖g x‖ |x|^(-2c)` is integrable for Schwartz `g` and `0 < c < 1/2`. -/
-theorem integrable_profile (g : 𝓢(ℝ, ℂ)) {c : ℝ} (hc1 : c < 1 / 2) (K : ℝ) :
+theorem integrable_profile {g : ℝ → ℂ} (hg : RapidDecay g) {c : ℝ} (hc1 : c < 1 / 2) (K : ℝ) :
     Integrable (fun x : ℝ => ‖g x‖ * (Real.pi ^ (-c) * |x| ^ (-(2 * c)) * K)) := by
   have hw : 0 < (((1 - 2 * c : ℝ)) : ℂ).re := by simp; linarith
-  refine ((schwartz_parityZeta_integrable g 0 hw).norm.mul_const (Real.pi ^ (-c) * K)).congr ?_
+  refine ((integrable_parityZeta_of_rapid_decay hg.1 hg.2 0 hw).norm.mul_const (Real.pi ^ (-c) * K)).congr ?_
   filter_upwards [volume.ae_ne (0 : ℝ)] with x hx
   have hax : 0 < |x| := abs_pos.mpr hx
   simp only [Fin.val_zero, pow_zero, mul_one, norm_mul]
@@ -192,31 +212,31 @@ theorem integrable_profile (g : 𝓢(ℝ, ℂ)) {c : ℝ} (hc1 : c < 1 / 2) (K :
   ring_nf
 
 /-- Swap-1 kernel: product integrable for `0 < Re a < 1/2`. -/
-theorem integrable_K1 (g : 𝓢(ℝ, ℂ)) {a : ℂ} (ha : 0 < a.re) (ha1 : a.re < 1 / 2) :
+theorem integrable_K1 {g : ℝ → ℂ} (hg : RapidDecay g) {a : ℂ} (ha : 0 < a.re) (ha1 : a.re < 1 / 2) :
     Integrable (fun p : ℝ × ℝ => g p.1 * ((p.2 : ℂ) ^ (a - 1) *
       cexp (-(((Real.pi * p.1 ^ 2 : ℝ) : ℂ) * p.2))))
       ((volume : Measure ℝ).prod (volume.restrict (Ioi 0))) := by
-  refine integrable_kernel g.continuous (by fun_prop) (fun x hx => subord_integrableOn hx ha)
+  refine integrable_kernel hg.1 (by fun_prop) (fun x hx => subord_integrableOn hx ha)
     (fun x => Real.pi ^ (-a.re) * |x| ^ (-(2 * a.re)) * Real.Gamma a.re) (fun x hx => ?_)
-    (integrable_profile g ha1 _)
+    (integrable_profile hg ha1 _)
   rw [← real_subord_integral hx ha]
   refine setIntegral_congr_fun measurableSet_Ioi (fun t ht => ?_)
   rw [norm_subord ht]
 
 /-- Swap-2 kernel: product integrable for `0 < Re b < 1/2`. -/
-theorem integrable_K2 (g : 𝓢(ℝ, ℂ)) {b : ℂ} (hb : 0 < b.re) (hb1 : b.re < 1 / 2) :
+theorem integrable_K2 {g : ℝ → ℂ} (hg : RapidDecay g) {b : ℂ} (hb : 0 < b.re) (hb1 : b.re < 1 / 2) :
     Integrable (fun p : ℝ × ℝ => g p.1 * ((p.2 : ℂ) ^ (-b - 1) *
       cexp (-(((Real.pi * p.1 ^ 2 : ℝ) : ℂ) / p.2))))
       ((volume : Measure ℝ).prod (volume.restrict (Ioi 0))) := by
-  refine integrable_kernel g.continuous (by fun_prop) (fun x hx => subord_inv_integrableOn hx hb)
+  refine integrable_kernel hg.1 (by fun_prop) (fun x hx => subord_inv_integrableOn hx hb)
     (fun x => Real.pi ^ (-b.re) * |x| ^ (-(2 * b.re)) * Real.Gamma b.re) (fun x hx => ?_)
-    (integrable_profile g hb1 _)
+    (integrable_profile hg hb1 _)
   rw [← real_subord_inv_integral hx hb]
   refine setIntegral_congr_fun measurableSet_Ioi (fun t ht => ?_)
   rw [norm_subord_inv ht]
 
 /-- Fourier transform of the subordinated Gaussian, paired against `𝓕 f`. -/
-theorem fourier_pair_gaussian (f : 𝓢(ℝ, ℂ)) {t : ℝ} (ht : 0 < t) :
+theorem fourier_pair_gaussian {f : ℝ → ℂ} (hf : Integrable f) {t : ℝ} (ht : 0 < t) :
     ∫ x, 𝓕 (f : ℝ → ℂ) x * cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t)) =
       ∫ y, f y * (1 / (t : ℂ) ^ (1 / 2 : ℂ) * cexp (-Real.pi / t * y ^ 2)) := by
   have htc : 0 < (t : ℂ).re := by simpa using ht
@@ -228,48 +248,48 @@ theorem fourier_pair_gaussian (f : 𝓢(ℝ, ℂ)) {t : ℝ} (ht : 0 < t) :
       (by simpa using mul_pos Real.pi_pos ht)
     simpa [neg_mul] using this
   rw [← hG] at hGi
-  have h := integral_fourier_mul_flip f.integrable hGi
+  have h := integral_fourier_mul_flip hf hGi
   rw [hG, fourier_gaussian_pi htc] at h
   exact h
 
 /-- **L1, even character.** For every Schwartz `f` and `0 < Re s < 1`,
 `Γℝ(s) Z₀(𝓕 f, 1 - s) = Γℝ(1 - s) Z₀(f, s)`. -/
-theorem localFE_schwartz_even (f : 𝓢(ℝ, ℂ)) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
+theorem localFE_even_of_rapidDecay {f : ℝ → ℂ} (hf : RapidDecay f)
+    (hF : RapidDecay (𝓕 f)) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
     Gammaℝ s * parityZeta 0 (𝓕 (f : ℝ → ℂ)) (1 - s) =
       Gammaℝ (1 - s) * parityZeta 0 f s := by
   have ha : 0 < (s / 2).re := by simp; linarith
   have ha1 : (s / 2).re < 1 / 2 := by simp; linarith
   have hb : 0 < ((1 - s) / 2).re := by simp; linarith
   have hb1 : ((1 - s) / 2).re < 1 / 2 := by simp; linarith
-  have hg : ((𝓕 f : 𝓢(ℝ, ℂ)) : ℝ → ℂ) = 𝓕 (f : ℝ → ℂ) := SchwartzMap.fourier_coe f
   -- Step A: subordinate `|x|^(-s)`.
   have hA : Gammaℝ s * parityZeta 0 (𝓕 (f : ℝ → ℂ)) (1 - s) =
-      ∫ x, ∫ t : ℝ in Ioi 0, (𝓕 f : 𝓢(ℝ, ℂ)) x * ((t : ℂ) ^ (s / 2 - 1) *
+      ∫ x, ∫ t : ℝ in Ioi 0, (𝓕 f : ℝ → ℂ) x * ((t : ℂ) ^ (s / 2 - 1) *
         cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))) := by
     unfold parityZeta
     rw [← integral_const_mul]
     refine integral_congr_ae ?_
     filter_upwards [volume.ae_ne (0 : ℝ)] with x hx
-    rw [integral_const_mul, subord_integral hx ha, hg]
+    rw [integral_const_mul, subord_integral hx ha]
     simp only [Fin.val_zero, pow_zero, mul_one, Gammaℝ]
     rw [show (1 - s) - 1 = -s by ring, show -(2 * (s / 2)) = -s by ring,
       show -s / 2 = -(s / 2) by ring]
     ring
   -- Step C: the inner `x`-integral, for fixed `t > 0`.
   have hC : ∀ t ∈ Ioi (0 : ℝ),
-      ∫ x, (𝓕 f : 𝓢(ℝ, ℂ)) x * ((t : ℂ) ^ (s / 2 - 1) *
+      ∫ x, (𝓕 f : ℝ → ℂ) x * ((t : ℂ) ^ (s / 2 - 1) *
         cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))) =
       ∫ y, f y * ((t : ℂ) ^ (-((1 - s) / 2) - 1) *
         cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t))) := by
     intro t ht
     have ht : (0 : ℝ) < t := ht
     have htc : (t : ℂ) ≠ 0 := ofReal_ne_zero.mpr ht.ne'
-    calc _ = (t : ℂ) ^ (s / 2 - 1) * ∫ x, (𝓕 f : 𝓢(ℝ, ℂ)) x *
+    calc _ = (t : ℂ) ^ (s / 2 - 1) * ∫ x, (𝓕 f : ℝ → ℂ) x *
           cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t)) := by
             rw [← integral_const_mul]; congr 1; funext x; ring
       _ = (t : ℂ) ^ (s / 2 - 1) * ∫ y, f y *
           (1 / (t : ℂ) ^ (1 / 2 : ℂ) * cexp (-Real.pi / t * y ^ 2)) := by
-            rw [hg, fourier_pair_gaussian f ht]
+            rw [fourier_pair_gaussian hf.integrable ht]
       _ = _ := by
             rw [← integral_const_mul]; congr 1; funext y
             rw [show (t : ℂ) ^ (-((1 - s) / 2) - 1) = (t : ℂ) ^ (s / 2 - 1) / (t : ℂ) ^ (1 / 2 : ℂ) by
@@ -278,11 +298,11 @@ theorem localFE_schwartz_even (f : 𝓢(ℝ, ℂ)) {s : ℂ} (hs0 : 0 < s.re) (h
                 cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t)) := by
               congr 1; push_cast; ring
             rw [he]; field_simp
-  rw [hA, integral_integral_swap (f := fun (x t : ℝ) => (𝓕 f : 𝓢(ℝ, ℂ)) x * ((t : ℂ) ^ (s / 2 - 1) *
-        cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t)))) (integrable_K1 _ ha ha1),
+  rw [hA, integral_integral_swap (f := fun (x t : ℝ) => (𝓕 f : ℝ → ℂ) x * ((t : ℂ) ^ (s / 2 - 1) *
+        cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t)))) (integrable_K1 hF ha ha1),
     setIntegral_congr_fun measurableSet_Ioi hC,
     ← integral_integral_swap (f := fun (y t : ℝ) => f y * ((t : ℂ) ^ (-((1 - s) / 2) - 1) *
-        cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t)))) (integrable_K2 f hb hb1)]
+        cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t)))) (integrable_K2 hf hb hb1)]
   -- Step E: evaluate the inverse subordination.
   unfold parityZeta
   rw [← integral_const_mul]
@@ -350,10 +370,10 @@ theorem mul_abs_cpow_neg_succ {x : ℝ} (hx : x ≠ 0) (w : ℂ) :
   rw [neg_add, cpow_add _ _ hax, cpow_neg_one, hxs]
   field_simp
 
-theorem integrable_profile_odd (g : 𝓢(ℝ, ℂ)) {c : ℝ} (hc1 : c < 1) (K : ℝ) :
+theorem integrable_profile_odd {g : ℝ → ℂ} (hg : RapidDecay g) {c : ℝ} (hc1 : c < 1) (K : ℝ) :
     Integrable (fun x : ℝ => ‖(x : ℂ) * g x‖ * (Real.pi ^ (-c) * |x| ^ (-(2 * c)) * K)) := by
   have hw : 0 < (((2 - 2 * c : ℝ)) : ℂ).re := by simp; linarith
-  refine ((schwartz_parityZeta_integrable g 0 hw).norm.mul_const (Real.pi ^ (-c) * K)).congr ?_
+  refine ((integrable_parityZeta_of_rapid_decay hg.1 hg.2 0 hw).norm.mul_const (Real.pi ^ (-c) * K)).congr ?_
   filter_upwards [volume.ae_ne (0 : ℝ)] with x hx
   have hax : 0 < |x| := abs_pos.mpr hx
   simp only [Fin.val_zero, pow_zero, mul_one, norm_mul, norm_real, Real.norm_eq_abs]
@@ -362,31 +382,31 @@ theorem integrable_profile_odd (g : 𝓢(ℝ, ℂ)) {c : ℝ} (hc1 : c < 1) (K :
   rw [show 2 - 2 * c - 1 = 1 + -(2 * c) by ring, Real.rpow_add hax, Real.rpow_one]
   ring
 
-theorem integrable_K1_odd (g : 𝓢(ℝ, ℂ)) {a : ℂ} (ha : 0 < a.re) (ha1 : a.re < 1) :
+theorem integrable_K1_odd {g : ℝ → ℂ} (hg : RapidDecay g) {a : ℂ} (ha : 0 < a.re) (ha1 : a.re < 1) :
     Integrable (fun p : ℝ × ℝ => ((p.1 : ℂ) * g p.1) * ((p.2 : ℂ) ^ (a - 1) *
       cexp (-(((Real.pi * p.1 ^ 2 : ℝ) : ℂ) * p.2))))
       ((volume : Measure ℝ).prod (volume.restrict (Ioi 0))) := by
-  refine integrable_kernel (continuous_ofReal.mul g.continuous) (by fun_prop)
+  refine integrable_kernel (continuous_ofReal.mul hg.1) (by fun_prop)
     (fun x hx => subord_integrableOn hx ha)
     (fun x => Real.pi ^ (-a.re) * |x| ^ (-(2 * a.re)) * Real.Gamma a.re) (fun x hx => ?_)
-    (integrable_profile_odd g ha1 _)
+    (integrable_profile_odd hg ha1 _)
   rw [← real_subord_integral hx ha]
   refine setIntegral_congr_fun measurableSet_Ioi (fun t ht => ?_)
   rw [norm_subord ht]
 
-theorem integrable_K2_odd (g : 𝓢(ℝ, ℂ)) {b : ℂ} (hb : 0 < b.re) (hb1 : b.re < 1) :
+theorem integrable_K2_odd {g : ℝ → ℂ} (hg : RapidDecay g) {b : ℂ} (hb : 0 < b.re) (hb1 : b.re < 1) :
     Integrable (fun p : ℝ × ℝ => ((p.1 : ℂ) * g p.1) * ((p.2 : ℂ) ^ (-b - 1) *
       cexp (-(((Real.pi * p.1 ^ 2 : ℝ) : ℂ) / p.2))))
       ((volume : Measure ℝ).prod (volume.restrict (Ioi 0))) := by
-  refine integrable_kernel (continuous_ofReal.mul g.continuous) (by fun_prop)
+  refine integrable_kernel (continuous_ofReal.mul hg.1) (by fun_prop)
     (fun x hx => subord_inv_integrableOn hx hb)
     (fun x => Real.pi ^ (-b.re) * |x| ^ (-(2 * b.re)) * Real.Gamma b.re) (fun x hx => ?_)
-    (integrable_profile_odd g hb1 _)
+    (integrable_profile_odd hg hb1 _)
   rw [← real_subord_inv_integral hx hb]
   refine setIntegral_congr_fun measurableSet_Ioi (fun t ht => ?_)
   rw [norm_subord_inv ht]
 
-theorem fourier_pair_x_gaussian (f : 𝓢(ℝ, ℂ)) {t : ℝ} (ht : 0 < t) :
+theorem fourier_pair_x_gaussian {f : ℝ → ℂ} (hf : Integrable f) {t : ℝ} (ht : 0 < t) :
     ∫ x, 𝓕 (f : ℝ → ℂ) x * ((x : ℂ) * cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))) =
       ∫ y, f y * (-I * y / t * (1 / (t : ℂ) ^ (1 / 2 : ℂ) * cexp (-Real.pi / t * y ^ 2))) := by
   have hb : 0 < ((Real.pi : ℂ) * t).re := by simpa using mul_pos Real.pi_pos ht
@@ -396,28 +416,28 @@ theorem fourier_pair_x_gaussian (f : 𝓢(ℝ, ℂ)) {t : ℝ} (ht : 0 < t) :
   have hGi : Integrable (fun x : ℝ => (x : ℂ) * cexp (-Real.pi * t * x ^ 2)) := by
     simpa [neg_mul] using integrable_mul_cexp_neg_mul_sq hb
   rw [← hG] at hGi
-  have h := integral_fourier_mul_flip f.integrable hGi
+  have h := integral_fourier_mul_flip hf hGi
   rw [hG, fourier_x_gaussian ht] at h
   exact h
 
 /-- **L1, odd character.** For every Schwartz `f` and `0 < Re s < 1`,
 `Γℝ(s + 1) Z₁(𝓕 f, 1 - s) = -i Γℝ(2 - s) Z₁(f, s)`. -/
-theorem localFE_schwartz_odd (f : 𝓢(ℝ, ℂ)) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
+theorem localFE_odd_of_rapidDecay {f : ℝ → ℂ} (hf : RapidDecay f)
+    (hF : RapidDecay (𝓕 f)) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
     Gammaℝ (s + 1) * parityZeta 1 (𝓕 (f : ℝ → ℂ)) (1 - s) =
       -I * Gammaℝ (1 - s + 1) * parityZeta 1 f s := by
   have ha : 0 < ((s + 1) / 2).re := by simp; linarith
   have ha1 : ((s + 1) / 2).re < 1 := by simp; linarith
   have hb : 0 < ((1 - s + 1) / 2).re := by simp; linarith
   have hb1 : ((1 - s + 1) / 2).re < 1 := by simp; linarith
-  have hg : ((𝓕 f : 𝓢(ℝ, ℂ)) : ℝ → ℂ) = 𝓕 (f : ℝ → ℂ) := SchwartzMap.fourier_coe f
   have hA : Gammaℝ (s + 1) * parityZeta 1 (𝓕 (f : ℝ → ℂ)) (1 - s) =
-      ∫ x : ℝ, ∫ t : ℝ in Ioi 0, ((x : ℂ) * (𝓕 f : 𝓢(ℝ, ℂ)) x) * ((t : ℂ) ^ ((s + 1) / 2 - 1) *
+      ∫ x : ℝ, ∫ t : ℝ in Ioi 0, ((x : ℂ) * (𝓕 f : ℝ → ℂ) x) * ((t : ℂ) ^ ((s + 1) / 2 - 1) *
         cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))) := by
     unfold parityZeta
     rw [← integral_const_mul]
     refine integral_congr_ae ?_
     filter_upwards [volume.ae_ne (0 : ℝ)] with x hx
-    rw [integral_const_mul, subord_integral hx ha, hg]
+    rw [integral_const_mul, subord_integral hx ha]
     simp only [Fin.val_one, pow_one, Gammaℝ]
     rw [show -(2 * ((s + 1) / 2)) = -(s + 1) by ring, show -(s + 1) / 2 = -((s + 1) / 2) by ring,
       show (1 - s) - 1 = -s by ring]
@@ -425,19 +445,19 @@ theorem localFE_schwartz_odd (f : 𝓢(ℝ, ℂ)) {s : ℂ} (hs0 : 0 < s.re) (hs
     linear_combination -((Real.pi : ℂ) ^ (-((s + 1) / 2)) * Gamma ((s + 1) / 2) *
       𝓕 (f : ℝ → ℂ) x) * h
   have hC : ∀ t ∈ Ioi (0 : ℝ),
-      ∫ x : ℝ, ((x : ℂ) * (𝓕 f : 𝓢(ℝ, ℂ)) x) * ((t : ℂ) ^ ((s + 1) / 2 - 1) *
+      ∫ x : ℝ, ((x : ℂ) * (𝓕 f : ℝ → ℂ) x) * ((t : ℂ) ^ ((s + 1) / 2 - 1) *
         cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))) =
       -I * ∫ y : ℝ, ((y : ℂ) * f y) * ((t : ℂ) ^ (-((1 - s + 1) / 2) - 1) *
         cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t))) := by
     intro t ht
     have ht : (0 : ℝ) < t := ht
     have htc : (t : ℂ) ≠ 0 := ofReal_ne_zero.mpr ht.ne'
-    calc _ = (t : ℂ) ^ ((s + 1) / 2 - 1) * ∫ x, (𝓕 f : 𝓢(ℝ, ℂ)) x *
+    calc _ = (t : ℂ) ^ ((s + 1) / 2 - 1) * ∫ x, (𝓕 f : ℝ → ℂ) x *
           ((x : ℂ) * cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))) := by
             rw [← integral_const_mul]; congr 1; funext x; ring
       _ = (t : ℂ) ^ ((s + 1) / 2 - 1) * ∫ y, f y *
           (-I * y / t * (1 / (t : ℂ) ^ (1 / 2 : ℂ) * cexp (-Real.pi / t * y ^ 2))) := by
-            rw [hg, fourier_pair_x_gaussian f ht]
+            rw [fourier_pair_x_gaussian hf.integrable ht]
       _ = _ := by
             rw [← integral_const_mul, ← integral_const_mul]; congr 1; funext y
             rw [show (t : ℂ) ^ (-((1 - s + 1) / 2) - 1) =
@@ -448,13 +468,13 @@ theorem localFE_schwartz_odd (f : 𝓢(ℝ, ℂ)) {s : ℂ} (hs0 : 0 < s.re) (hs
                 cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t)) := by
               congr 1; push_cast; ring
             rw [he]; field_simp
-  rw [hA, integral_integral_swap (f := fun (x t : ℝ) => ((x : ℂ) * (𝓕 f : 𝓢(ℝ, ℂ)) x) *
+  rw [hA, integral_integral_swap (f := fun (x t : ℝ) => ((x : ℂ) * (𝓕 f : ℝ → ℂ) x) *
         ((t : ℂ) ^ ((s + 1) / 2 - 1) * cexp (-(((Real.pi * x ^ 2 : ℝ) : ℂ) * t))))
-      (integrable_K1_odd _ ha ha1),
+      (integrable_K1_odd hF ha ha1),
     setIntegral_congr_fun measurableSet_Ioi hC, integral_const_mul,
     ← integral_integral_swap (f := fun (y t : ℝ) => ((y : ℂ) * f y) *
         ((t : ℂ) ^ (-((1 - s + 1) / 2) - 1) * cexp (-(((Real.pi * y ^ 2 : ℝ) : ℂ) / t))))
-      (integrable_K2_odd f hb hb1)]
+      (integrable_K2_odd hf hb hb1)]
   unfold parityZeta
   rw [mul_assoc]
   congr 1
@@ -469,20 +489,72 @@ theorem localFE_schwartz_odd (f : 𝓢(ℝ, ℂ)) {s : ℂ} (hs0 : 0 < s.re) (hs
   rw [show -(1 - s) = s - 1 by ring] at h
   linear_combination (Real.pi : ℂ) ^ (-((1 - s + 1) / 2)) * Gamma ((1 - s + 1) / 2) * f y * h
 
-/-- **L1.** The Schwartz local functional equation, cross-multiplied, both characters:
+/-- **L1** under rapid decay of `f` and `𝓕 f`, cross-multiplied, both characters:
 `Aₐ(s) Zₐ(𝓕 f, 1 - s) = cₐ Aₐ(1 - s) Zₐ(f, s)` on `0 < Re s < 1`. -/
-theorem localFE_schwartz_cross (f : 𝓢(ℝ, ℂ)) (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re)
+theorem localFE_cross_of_rapidDecay {f : ℝ → ℂ} (hf : RapidDecay f) (hF : RapidDecay (𝓕 f))
+    (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re)
     (hs1 : s.re < 1) :
     archFactor a s * parityZeta a (𝓕 (f : ℝ → ℂ)) (1 - s) =
       archPhase a * archFactor a (1 - s) * parityZeta a f s := by
   rcases (show a = 0 ∨ a = 1 by fin_cases a <;> decide) with rfl | rfl
-  · simpa [archFactor, archPhase] using localFE_schwartz_even f hs0 hs1
-  · simpa [archFactor, archPhase] using localFE_schwartz_odd f hs0 hs1
+  · simpa [archFactor, archPhase] using localFE_even_of_rapidDecay hf hF hs0 hs1
+  · simpa [archFactor, archPhase] using localFE_odd_of_rapidDecay hf hF hs0 hs1
+
+/-- **L1, ratio form.** `Zₐ(𝓕 f, 1 - s) = γ(s, a) Zₐ(f, s)` on `0 < Re s < 1`. -/
+theorem localFE_ratio_of_rapidDecay {f : ℝ → ℂ} (hf : RapidDecay f) (hF : RapidDecay (𝓕 f))
+    (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
+    parityZeta a (𝓕 f) (1 - s) = gammaRatio a s * parityZeta a f s :=
+  ratio_of_cross a (archFactor_ne_zero_strip a hs0 hs1).1
+    (localFE_cross_of_rapidDecay hf hF a hs0 hs1)
+
+/-! ### The Schwartz statements -/
+
+theorem fourier_rapidDecay (f : 𝓢(ℝ, ℂ)) : RapidDecay (𝓕 (f : ℝ → ℂ)) := by
+  rw [← SchwartzMap.fourier_coe]; exact (𝓕 f).rapidDecay
+
+/-- **L1.** The Schwartz local functional equation, cross-multiplied, both characters. -/
+theorem localFE_schwartz_cross (f : 𝓢(ℝ, ℂ)) (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re)
+    (hs1 : s.re < 1) :
+    archFactor a s * parityZeta a (𝓕 (f : ℝ → ℂ)) (1 - s) =
+      archPhase a * archFactor a (1 - s) * parityZeta a f s :=
+  localFE_cross_of_rapidDecay f.rapidDecay (fourier_rapidDecay f) a hs0 hs1
 
 /-- **L1, ratio form.** `Zₐ(𝓕 f, 1 - s) = γ(s, a) Zₐ(f, s)` on `0 < Re s < 1`. -/
 theorem localFE_schwartz_ratio (f : 𝓢(ℝ, ℂ)) (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re)
     (hs1 : s.re < 1) :
     parityZeta a (𝓕 (f : ℝ → ℂ)) (1 - s) = gammaRatio a s * parityZeta a f s :=
-  ratio_of_cross a (archFactor_ne_zero_strip a hs0 hs1).1 (localFE_schwartz_cross f a hs0 hs1)
+  localFE_ratio_of_rapidDecay f.rapidDecay (fourier_rapidDecay f) a hs0 hs1
+
+/-! ### T1/T2: recovery of the #513 test-vector equation -/
+
+/-- **T1.** The two #513 test vectors `x^a e^(-πx²)` are rapidly decaying. -/
+theorem testVector_rapidDecay (a : Fin 2) : RapidDecay (testVector a) := by
+  refine ⟨by unfold testVector gaussian; fun_prop, fun r => ?_⟩
+  set u : ℝ → ℝ := fun y => y ^ (a.val : ℝ) * Real.exp (-Real.pi * y ^ 2)
+  have hu : u =O[atTop] (· ^ r) :=
+    (rpow_mul_exp_neg_mul_sq_isLittleO_exp_neg Real.pi_pos _).isBigO.trans
+      (isLittleO_exp_neg_mul_rpow_atTop (by norm_num : (0 : ℝ) < 1 / 2) r).isBigO
+  refine (IsBigO.of_bound 1 (Eventually.of_forall fun x => ?_)).trans
+    (hu.comp_tendsto tendsto_norm_cocompact_atTop)
+  simp only [Function.comp_apply, u, testVector, gaussian, norm_mul, norm_pow, norm_real,
+    Real.norm_eq_abs, one_mul, Real.rpow_natCast, sq_abs, abs_abs,
+    Real.abs_exp]
+  rfl
+
+/-- **T1.** Their Fourier transforms (`archPhase a • testVector a`) are rapidly decaying. -/
+theorem fourier_testVector_rapidDecay (a : Fin 2) : RapidDecay (𝓕 (testVector a)) := by
+  rw [fourier_testVector]
+  obtain ⟨hc, hd⟩ := testVector_rapidDecay a
+  exact ⟨continuous_const.mul hc, fun r => (hd r).const_mul_left _⟩
+
+/-- **T2.** The general local FE specializes to #513's `localFE_testVector`: same factors,
+same phases `+1` and `-i`, same normalization. The two proofs are independent (#513
+evaluates both sides; this one is Gaussian subordination), so agreement is a regression
+control on conventions. -/
+theorem localFE_testVector_of_general (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
+    archFactor a s * parityZeta a (𝓕 (testVector a)) (1 - s) =
+      archPhase a * archFactor a (1 - s) * parityZeta a (testVector a) s :=
+  localFE_cross_of_rapidDecay (testVector_rapidDecay a) (fourier_testVector_rapidDecay a)
+    a hs0 hs1
 
 end LocalTate.Archimedean
