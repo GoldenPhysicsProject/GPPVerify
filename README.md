@@ -40,8 +40,9 @@ The same equator appears in celestial scattering as the scale sector: boosts act
 by dilation. The framework's central hypothesis is that `ξ(s)` is a physical operator, and
 this library builds, theorem by theorem, the exact dictionary that hypothesis stands on.
 
-The work is to carry the dictionary as far as it goes. Each transfer is either
-kernel-checked or located at a specific, named step, and both are recorded here.
+The goal is to map the full **arithmetic ↔ celestial CFT correspondence**, carrying the
+dictionary as far as it goes. Each transfer is either kernel-checked or located at a
+specific, named step, and both are recorded here.
 
 ## What is here
 
@@ -52,7 +53,7 @@ kernel-checked or located at a specific, named step, and both are recorded here.
 - **Physics on the same involution.** Half-flip / CPT and time reversal, Majorana
   conditions, complete positivity, Grassmannian `Gr(2,4)` geometry, and a
   Standard Model sector. Physics inputs enter as explicit, named hypotheses.
-- **The Riemann Hypothesis, as the framework's central target.** Holographically, the
+- **The Riemann Hypothesis, one of the framework's targets.** Holographically, the
   functional equation says the hologram is *symmetric*, and RH says it is also *positive*
   (reflection-positive across the equator). The finite core is proved:
   `GppHolographicRP.reflectionForm_nonneg_iff` shows that positivity across the equator
@@ -80,7 +81,7 @@ Each point below is a command or a file.
   carries real content), `check_blueprint_refs.py` (every `\lean{}` in the blueprint must name a real
   declaration), `check_landing_claims.py` (the public page matches the tree), `check_import_graph.py`, and `check_axioms.lean` (`#print axioms` on the flagship
   theorems). Each script's header records the audit that produced it.
-- **The central question is an exact equivalence.**
+- **The Riemann Hypothesis is stated as an exact equivalence.**
   `rh_iff_weil_pairedForm_nonneg` (RH iff a positivity statement) and
   `GppHolographicRP.reflectionForm_nonneg_iff` (positivity across the equator iff
   every zero pairs on the equator) are proved, and the positivity step is named.
