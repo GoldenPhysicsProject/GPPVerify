@@ -2,7 +2,7 @@
 
 Lean 4 + Mathlib formalization of **shadow holography**, the organizing idea of the Golden
 Physics Project. It is a library of kernel-checked theorems, with every open step named
-explicitly. It is not a proof of any famous conjecture.
+explicitly.
 
 **Public site:** https://lean.goldenphysics.org (plain-language overview) · technical blueprint at https://lean.goldenphysics.org/blueprint/  
 **Source text:** Daniel Toupin, *On the Nature of Nature* — https://goldenphysics.org  
