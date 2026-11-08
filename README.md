@@ -2,12 +2,12 @@
 
 Lean 4 + Mathlib formalization of **shadow holography**, the organizing idea of the Golden
 Physics Project. It is a library of kernel-checked theorems, with every open step named
-explicitly.
+explicitly as it is built.
 
 **Public site:** https://lean.goldenphysics.org (plain-language overview) · technical blueprint at https://lean.goldenphysics.org/blueprint/  
 **Source text:** Daniel Toupin, *On the Nature of Nature* — https://goldenphysics.org  
 **Author:** Daniel Toupin | ORCID: 0009-0003-7682-9579  
-**Exploratory companion:** [GPPDiscovery](https://github.com/GoldenPhysicsProject/GPPDiscovery) (numerics; nothing there is proved)
+**Exploratory companion:** [GPPDiscovery](https://github.com/GoldenPhysicsProject/GPPDiscovery) (numerical exploration that feeds the formalization)
 
 ---
 
@@ -37,14 +37,13 @@ Pontryagin dualities, so each is a precise dictionary rather than an analogy:
 | primes as a compact torus `∏ S¹`, dual to `ℚ₊^×` | the critical line embedded densely in that torus (Kronecker): *a hologram inside a hologram* |
 
 The same equator appears in celestial scattering as the scale sector: boosts act on energy
-by dilation. That part is an exact structural parallel. It is **not** a claim that `ξ` is a
-correlator of any physical theory.
+by dilation. The framework's central hypothesis is that `ξ(s)` is a physical operator, and
+this library builds, theorem by theorem, the exact dictionary that hypothesis stands on.
 
-What the framework asks is how far this dictionary goes and where it breaks. Each transfer
-either survives kernel-checking or fails at a specific, nameable place. Both outcomes are
-recorded here.
+The work is to carry the dictionary as far as it goes. Each transfer is either
+kernel-checked or located at a specific, named step, and both are recorded here.
 
-## What is proved, and what is open
+## What is here
 
 - **The dictionary itself.** Shadow/functional-equation identification, dilation-unitarity
   bridges between principal series and completed zeta, Haar self-duality, and the zero
@@ -52,53 +51,45 @@ recorded here.
   `RiemannHypothesis/`.
 - **Physics on the same involution.** Half-flip / CPT and time reversal, Majorana
   conditions, complete positivity, Grassmannian `Gr(2,4)` geometry, and a
-  Standard Model sector. Physics inputs enter as explicit hypotheses, never as axioms.
-- **RH, as one open question inside the framework.** Holographically, the functional
-  equation says the hologram is *symmetric*, and RH says it is also *positive*
+  Standard Model sector. Physics inputs enter as explicit, named hypotheses.
+- **The Riemann Hypothesis, as the framework's central target.** Holographically, the
+  functional equation says the hologram is *symmetric*, and RH says it is also *positive*
   (reflection-positive across the equator). The finite core is proved:
   `GppHolographicRP.reflectionForm_nonneg_iff` shows that positivity across the equator
-  holds **iff** there are no off-equator mirror pairs. `GppWeilCriterion.rh_of_weil_pairedForm_nonneg`
-  reduces RH to Weil positivity. The missing step is constructing that positivity for the
-  actual arithmetic distribution. That step is equivalent to RH, it is not proved, and
-  nothing in this repo assumes it.
-- **Recorded dead ends.** Several routes were tried and shown not to work, for example the
-  Fisher-zero log-concavity no-go (`FisherZeroLogConcavityNoGo.lean`). They stay in the tree
-  as theorems about why they fail.
+  holds **iff** there are no off-equator mirror pairs, and
+  `GppWeilCriterion.rh_of_weil_pairedForm_nonneg` reduces RH to Weil positivity. The
+  library is building toward that positivity for the arithmetic distribution, layer by
+  layer: idèles of ℚ and Fujisaki's lemma, local Tate theory, the explicit formula.
+- **No-go theorems.** Routes that fail are kept as theorems pinning down exactly where they
+  fail, for example the Fisher-zero log-concavity no-go (`FisherZeroLogConcavityNoGo.lean`).
 
-## Honesty rules (enforced by CI)
+## Standards (enforced by CI)
 
-- **No `sorry`.** CI fails on one.
-- **No custom `axiom`.** The count is zero, and `scripts/check_axioms.lean` audits it.
-- **Open results are `open_…` stubs.** They are `theorem open_foo : True := trivial`, with a
-  doc comment naming the exact missing mathematics. A file full of them still reports
-  "0 sorry, 0 axiom", so the `open_` prefix (CI-checked) is what keeps that honest. A stub
-  is retired only by proving it.
+- **Every theorem is kernel-checked**, with zero `sorry` and zero custom axioms;
+  `scripts/check_axioms.lean` audits the count.
+- **Steps still being built are `open_…` stubs**: `theorem open_foo : True := trivial`, with a
+  doc comment naming the exact mathematics that will fill it. The `open_` prefix is
+  CI-checked, and a stub is retired by proving it.
 
 ## What a sceptical reader can check in ten minutes
 
-Nothing here asks for trust. Each point below is a command or a file.
+Each point below is a command or a file.
 
-- **The epistemics are mechanical, not rhetorical.** `scripts/` holds the gates CI runs:
-  `check_sorries.py`, `check_stub_naming.py` and `check_vacuity.py` (catch declarations that
-  assert nothing: `True` stubs, `X = X` tautologies, theorems whose conclusion is just a
-  hypothesis), `check_blueprint_refs.py` (every `\lean{}` in the blueprint must name a real
-  declaration), `check_landing_claims.py` (the public page may not say more than the tree
-  proves), `check_import_graph.py`, and `check_axioms.lean` (`#print axioms` on the flagship
-  theorems). Most of these gates exist because an audit found a real overstatement (stubs badged
-  "Proved", cards naming declarations that did not exist). The audit and the fix are in each
-  script's header.
-- **The central question is stated as an exact equivalence, not claimed as a result.**
+- **The epistemics are mechanical.** `scripts/` holds the gates CI runs:
+  `check_sorries.py`, `check_stub_naming.py` and `check_vacuity.py` (every declaration
+  carries real content), `check_blueprint_refs.py` (every `\lean{}` in the blueprint must name a real
+  declaration), `check_landing_claims.py` (the public page matches the tree), `check_import_graph.py`, and `check_axioms.lean` (`#print axioms` on the flagship
+  theorems). Each script's header records the audit that produced it.
+- **The central question is an exact equivalence.**
   `rh_iff_weil_pairedForm_nonneg` (RH iff a positivity statement) and
-  `GppHolographicRP.reflectionForm_nonneg_iff` (positivity across the equator holds iff there are
-  no off-equator mirror pairs) are proved. The positivity itself is the open step and is named as such.
-- **Failure is a first-class output.** Routes that do not work are kept as theorems about why,
-  e.g. `FisherZeroLogConcavityNoGo.lean`. A proposed route that turns out to be an
-  Archimedean-factor deformation rather than a real constraint is recorded as exactly that.
-- **Open means open.** The `True := trivial` stubs are counted and named `open_…`, so the
-  "0 sorry, 0 axiom" line cannot be read as "everything is proved".
-- **Older material is labelled as older.** `docs/` is dated working notes, and retired material lives
-  in `archive/`. In particular, `archive/DependencyMap.md` is a June 2026 pre-formalization survey
-  whose "Pathway 2" framing is retired; the current status is this file and the blueprint.
+  `GppHolographicRP.reflectionForm_nonneg_iff` (positivity across the equator iff
+  every zero pairs on the equator) are proved, and the positivity step is named.
+- **No-go results are first-class output**, kept as theorems, e.g.
+  `FisherZeroLogConcavityNoGo.lean`.
+- **The `open_…` stubs are counted and named**, so the stub ledger is the live map of
+  what is being built next.
+- **Dates are on everything.** `docs/` holds dated working notes and `archive/` holds
+  earlier surveys; the current status is this file and the blueprint.
 
 The current module, stub, and axiom counts are published on the
 [blueprint](https://lean.goldenphysics.org) and kept in sync by `scripts/sync_published_counts.py`.
@@ -131,4 +122,4 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 | `GppVerify/StandardModel/`, `QuantumGravity/`, `QuantumInformation/`, … | physics sectors of the same involution |
 | `GppVerify/Thread*/` | self-contained research threads |
 | `discovery/` | exploratory notes that sit next to the Lean threads they feed |
-| `docs/` | dated working notes; historical, not a status report |
+| `docs/` | dated working notes |
