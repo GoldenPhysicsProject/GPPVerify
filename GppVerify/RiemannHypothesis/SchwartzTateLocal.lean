@@ -99,4 +99,45 @@ theorem schwartz_localFE_sides_integrable (f : 𝓢(ℝ, ℂ)) (a : Fin 2) {s : 
   ⟨schwartz_parityZeta_integrable f a hs0,
     schwartz_fourier_parityZeta_integrable f a (by simp; linarith)⟩
 
+/-! ### A1: the gamma ratio and its algebra -/
+
+/-- The local gamma ratio `γ(s, a) = (-i)^a · Γℝ(1 - s + a) / Γℝ(s + a)`. -/
+noncomputable def gammaRatio (a : Fin 2) (s : ℂ) : ℂ :=
+  archPhase a * archFactor a (1 - s) / archFactor a s
+
+/-- Both gamma factors are nonzero on the common strip. -/
+theorem archFactor_ne_zero_strip (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re) (hs1 : s.re < 1) :
+    archFactor a s ≠ 0 ∧ archFactor a (1 - s) ≠ 0 := by
+  constructor <;> apply archFactor_ne_zero <;> simp <;> positivity
+
+/-- The ratio form follows from the cross-multiplied form, using only nonvanishing of
+`Γℝ(s + a)`. -/
+theorem ratio_of_cross (a : Fin 2) {s Z Z' : ℂ} (hA : archFactor a s ≠ 0)
+    (hcross : archFactor a s * Z' = archPhase a * archFactor a (1 - s) * Z) :
+    Z' = gammaRatio a s * Z := by
+  unfold gammaRatio
+  field_simp
+  linear_combination hcross
+
+/-- Convention control: `γ(s, a) γ(1 - s, a) = (-1)^a` on the strip: `+1` even, `-1` odd. -/
+theorem gammaRatio_mul_gammaRatio_one_sub (a : Fin 2) {s : ℂ} (hs0 : 0 < s.re)
+    (hs1 : s.re < 1) :
+    gammaRatio a s * gammaRatio a (1 - s) = (-1 : ℂ) ^ a.val := by
+  obtain ⟨h1, h2⟩ := archFactor_ne_zero_strip a hs0 hs1
+  unfold gammaRatio
+  rw [sub_sub_cancel]
+  field_simp
+  rcases (show a = 0 ∨ a = 1 by fin_cases a <;> decide) with rfl | rfl <;>
+    simp [archPhase]
+
+/-- The two parity ratios, explicitly. -/
+theorem gammaRatio_zero (s : ℂ) :
+    gammaRatio 0 s = Gammaℝ (1 - s) / Gammaℝ s := by
+  simp [gammaRatio, archPhase, archFactor]
+
+theorem gammaRatio_one (s : ℂ) :
+    gammaRatio 1 s = -I * Gammaℝ (2 - s) / Gammaℝ (s + 1) := by
+  simp only [gammaRatio, archPhase, archFactor, Fin.val_one, pow_one, Nat.cast_one]
+  rw [show 1 - s + 1 = 2 - s by ring]
+
 end LocalTate.Archimedean
