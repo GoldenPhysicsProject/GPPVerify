@@ -169,4 +169,13 @@ theorem localFE_testVector (a : Fin 2) {s : ℂ}
     parityZeta_testVector a hdual, parityZeta_testVector a hpos]
   ring
 
+/-- The Step 1 integrability residual, under its blueprint name: `e^{-πx²}|x|^{s-1}` is
+Bochner integrable on `Re s > 0`. This is `integrable_parityZeta_testVector` at the even
+parity `a = 0` (Step 1 blueprint, GPP-bridge `turbo-note-2026-11-06-step1-blueprint-revised.md`;
+closed 2026-11-08 at Turbo's request, PR11 6724419374). -/
+theorem localZeta_integrable {s : ℂ} (hs : 0 < s.re) :
+    Integrable (fun x : ℝ => (gaussian x : ℂ) * ((|x| : ℝ) : ℂ) ^ (s - 1)) := by
+  have h := integrable_parityZeta_testVector (0 : Fin 2) (s := s) (by simpa using hs)
+  simpa [testVector] using h
+
 end LocalTate.Archimedean
