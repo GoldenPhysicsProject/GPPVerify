@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Daniel Toupin (with AI assistance from Claude Code)
 -/
 import Mathlib.NumberTheory.Padics.PadicNorm
+import GppVerify.Upstream.RatFiniteAdeleRingApprox
 
 
 /-!
@@ -25,26 +26,8 @@ namespace GlobalTate.Poisson
 
 /-- A rational that is `p`-integral for every prime `p` is an integer. -/
 theorem den_eq_one_of_padicNorm_le_one (q : ℚ)
-    (h : ∀ p : ℕ, p.Prime → padicNorm p q ≤ 1) : q.den = 1 := by
-  by_contra hden
-  obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd hden
-  have : Fact p.Prime := ⟨hp⟩
-  have hq : q ≠ 0 := by rintro rfl; simp at hden
-  have hnum : ¬ (p : ℤ) ∣ q.num := by
-    intro hn
-    have h1 : p ∣ q.num.natAbs := Int.natCast_dvd.mp hn
-    exact hp.one_lt.ne' ((Nat.Coprime.coprime_dvd_left h1 q.reduced).eq_one_of_dvd hpd)
-  have hv : padicValRat p q ≤ -1 := by
-    have hden1 : 1 ≤ padicValNat p q.den := one_le_padicValNat_of_dvd q.den_ne_zero hpd
-    rw [padicValRat, padicValInt.eq_zero_of_not_dvd hnum]
-    omega
-  have hn := padicNorm.eq_zpow_of_nonzero (p := p) hq
-  have hp1 : (1 : ℚ) < p := by exact_mod_cast hp.one_lt
-  have : (1 : ℚ) < padicNorm p q := by
-    rw [hn]
-    calc (1 : ℚ) < (p : ℚ) ^ (1 : ℤ) := by simpa using hp1
-      _ ≤ (p : ℚ) ^ (-padicValRat p q) := zpow_le_zpow_right₀ hp1.le (by omega)
-  exact absurd (h p hp) (not_le.mpr this)
+    (h : ∀ p : ℕ, p.Prime → padicNorm p q ≤ 1) : q.den = 1 :=
+  Rat.FiniteAdeleRing.den_eq_one_of_padicNorm_le_one q h
 
 /-- An integer of absolute value less than one is zero; with the previous lemma, the box
 `(-1/2, 1/2) × ∏ ℤ_p` meets `ℚ` only in `0` (the arithmetic core of GP1). -/
