@@ -8003,6 +8003,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sta
 A rational number that is $p$-integral for every prime $p$ is an integer, and if moreover $|q|<1$ then $q=0$. This is the arithmetic content of the discreteness of $\mathbb Q$ in the adeles: the box $(-\tfrac12,\tfrac12)\times\prod_p\mathbb Z_p$ meets the principal adeles only in $0$. The topological statements (discreteness, cocompactness, fundamental domain, covolume) are built on top of it.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
 
+\section{Discreteness of $\mathbb Q$ in the adeles}
+\lean{GlobalTate.Poisson.isOpen_box,GlobalTate.Poisson.principal_mem_box,GlobalTate.Poisson.principal_discrete}
+On the adele carrier $\mathbb R\times\mathbb A_f$, the principal adeles $q\mapsto(q,(q)_v)$ form a discrete subgroup: the open box $(-\tfrac12,\tfrac12)\times\prod_v\mathbb Z_v$ meets them only in $0$, since a rational integral at every prime is an integer and an integer of absolute value below $\tfrac12$ is $0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
