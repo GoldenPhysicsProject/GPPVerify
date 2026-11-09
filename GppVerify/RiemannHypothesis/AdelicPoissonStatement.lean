@@ -42,13 +42,13 @@ character `adeleChar` (GP-DUAL, `AdelicCharacter.lean`).
 
 ## Open, stated exactly (named `Prop`s, never assumed as axioms)
 
-* `AdelicPoissonSummation`: for every `f` in the adelic Schwartz class, both sums over `ℚ`
-  converge and are equal, at covolume 1.
+* ~~`AdelicPoissonSummation`~~: proved in `AdelicPoissonSummation.lean`
+  (`adelicPoissonSummation`); the statement stays here.
 * ~~`AdelicFourierInversion`, `AdelicPlancherel`~~: proved in `AdelicFourierInversion.lean`
   (`adelicFourierInversion`, `adelicPlancherel`); the statements stay here.
-* `AdelicPoissonScaled`, the idele-scaled form (GZ5), through the idele norm `ideleNorm` from
-  `IdeleQ` (#510). Its Haar-measure input `HaarScaling` is proved in `AdelicHaarScaling.lean`
-  (`haarScaling`).
+* ~~`AdelicPoissonScaled`~~, the idele-scaled form (GZ5), through the idele norm `ideleNorm` from
+  `IdeleQ` (#510): proved in `AdelicPoissonScaled.lean` (`adelicPoissonScaled`), from
+  `adelicPoissonSummation` and `HaarScaling` (`AdelicHaarScaling.lean`, `haarScaling`).
 * `FinFourierIntegralSelfDual`: the self-duality of `∏ ℤ_v` for the finite character.
 * **GW-EF**, the link from Poisson summation to the Weil form of #520, is OPEN. It is not
   stated here: it belongs to the explicit-formula layer, and no lemma below carries it as
@@ -162,7 +162,8 @@ def PoissonSummationFor (f : AQ → ℂ) : Prop :=
     Summable (fun q : ℚ => adelicFourier f (principal q)) ∧
       ∑' q : ℚ, f (principal q) = ∑' q : ℚ, adelicFourier f (principal q)
 
-/-- **Adelic Poisson summation** at covolume 1 (`covolume_eq_one`). OPEN. -/
+/-- **Adelic Poisson summation** at covolume 1 (`covolume_eq_one`). Proved as
+`adelicPoissonSummation` (`AdelicPoissonSummation.lean`). -/
 def AdelicPoissonSummation : Prop := ∀ f ∈ AdelicSchwartz, PoissonSummationFor f
 
 /-- Fourier inversion for the self-dual measure `adeleHaar`. Proved as `adelicFourierInversion`
@@ -183,7 +184,8 @@ def HaarScaling : Prop :=
   ∀ a : Idele, adeleHaar.map (ideleToAdele a * ·) = ENNReal.ofReal (ideleNorm a)⁻¹ • adeleHaar
 
 /-- **The idele-scaled Poisson summation (GZ5)**:
-`∑ f(aq) = |a|⁻¹ ∑ 𝓕f(a⁻¹q)`. OPEN. -/
+`∑ f(aq) = |a|⁻¹ ∑ 𝓕f(a⁻¹q)`. Proved as `adelicPoissonScaled`
+(`AdelicPoissonScaled.lean`). -/
 def AdelicPoissonScaled : Prop :=
   ∀ f ∈ AdelicSchwartz, ∀ a : Idele,
     ∑' q : ℚ, f (ideleToAdele a * principal q) =
