@@ -8037,6 +8037,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sta
 The rational numbers have a single infinite place, and it is real, so the infinite adele ring of $\mathbb Q$ is a one-factor product whose factor is $\mathbb R$. Hence Mathlib's adele ring of $\mathbb Q$ is $\mathbb R\times\mathbb A_f$ as a ring and as a topological space, and the diagonal $q\mapsto(q)_v$ goes to $q\mapsto(q,(q)_p)$. This identification is written against Mathlib only, for upstreaming. Discreteness and cocompactness of $\mathbb Q$, proved on the concrete carrier, are carried across it to Mathlib's adele ring.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sequencing by Turbo.
 
+\section{The integral adeles are self-dual}
+\lean{GlobalTate.Poisson.finChar_eq_one_iff,GlobalTate.Poisson.exists_natCast_mul_not_mem,GlobalTate.Poisson.finFourierIntegralSelfDual}
+The finite part of the standard character is trivial exactly on $\prod_v\mathbb Z_v$: if $a$ is a rational integer plus an element of $\prod_v\mathbb Z_v$ the value is $e^{-2\pi i q}$ with $q$ the rational part, which is $1$ only when $q$ is an integer. Hence for $b\notin\prod_v\mathbb Z_v$ some integer $m$ (a power of a prime) moves $mb$ out of $\prod_v\mathbb Z_v$, so $a\mapsto\psi_f(-ab)$ is a nontrivial character of $\prod_v\mathbb Z_v$, and its integral against Haar measure vanishes by translation invariance; for $b\in\prod_v\mathbb Z_v$ the integrand is $1$ on a set of volume $1$. So the finite Fourier transform of the indicator of $\prod_v\mathbb Z_v$ is that indicator. This discharges the single local input of the classical-Poisson control for the adelic Poisson statements.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
