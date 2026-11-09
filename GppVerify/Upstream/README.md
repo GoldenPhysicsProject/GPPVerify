@@ -1,0 +1,43 @@
+# GppVerify/Upstream
+
+The staging area for Mathlib contribution: files written Mathlib-only,
+in Mathlib's naming and header conventions, proved here and intended for
+`leanprover-community/mathlib4`. Nine files, about 1,400 lines. Status
+is recorded per file; at the time of writing one pull request is open
+and the rest are staged, none merged yet.
+
+## The entire-function cluster
+
+Hadamard theory Mathlib does not have: the order of growth of an entire
+function and its consequences.
+
+- `OrderOfGrowth.lean`: order of growth of an entire function.
+- `ZeroCounting.lean`: the zero-counting bound for finite order.
+- `ZeroSummability.lean`: the zeros are summable beyond the order.
+- `DyadicSummability.lean`: summability from a polynomial counting bound.
+- `WeierstrassFactor.lean`: the elementary factors.
+- `WeierstrassProduct.lean`: the product theorem.
+
+## The adele files
+
+From the Tate layer ([`../../docs/TATE-GUIDE.md`](../../docs/TATE-GUIDE.md)),
+written against Mathlib's own adele API:
+
+- `RatAdeleRingEquiv.lean`: Mathlib's `AdeleRing ℤ ℚ` is `ℝ × 𝔸_f`, as a
+  ring equivalence and a homeomorphism, with the diagonal law.
+- `RatFiniteAdeleRingHaar.lean`: Haar measure on the finite adeles of ℚ,
+  with `vol(∏_p ℤ_p) = 1` under the normalization.
+- `RatFiniteAdeleRingApprox.lean`: strong approximation for the finite
+  adeles of ℚ, upstream-style.
+- `RatFiniteAdeleRingLattice.lean`: the lattices `N·∏ℤ_v` and their Haar
+  volumes.
+
+## Linear algebra
+
+- `TwoVectorProjection.lean`: the orthogonal projection onto the span of
+  two vectors, evaluated by Cramer's rule for the Gram matrix, and the
+  squared distance formula. **Status: open as
+  [mathlib4 PR #45825](https://github.com/leanprover-community/mathlib4/pull/45825)**,
+  in adapted form at `Mathlib/Analysis/InnerProductSpace/Projection/SpanPair.lean`.
+
+Back to the [library README](../../README.md).
