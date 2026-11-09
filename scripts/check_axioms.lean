@@ -379,3 +379,6 @@ import GppVerify
 #print axioms GppHiddenZeros.amp4_eq_zero_of_u_eq_zero
 #print axioms GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero
 #print axioms GppHiddenZeros.amp6_eq_zero_skinny_rectangle
+
+#print axioms GlobalTate.Poisson.adelicFourierInversion
+#print axioms GlobalTate.Poisson.adelicPlancherel
