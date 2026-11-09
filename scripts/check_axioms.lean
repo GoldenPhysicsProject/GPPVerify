@@ -385,3 +385,4 @@ import GppVerify
 #print axioms GlobalTate.Poisson.haarScaling
 #print axioms GlobalTate.Poisson.adelicPoissonSummation
 #print axioms GlobalTate.Poisson.adelicPoissonScaled
+#print axioms GppDigammaVertical.norm_digamma_le
