@@ -44,7 +44,8 @@ character `adeleChar` (GP-DUAL, `AdelicCharacter.lean`).
 
 * `AdelicPoissonSummation`: for every `f` in the adelic Schwartz class, both sums over `ℚ`
   converge and are equal, at covolume 1.
-* `AdelicFourierInversion`, `AdelicPlancherel`.
+* ~~`AdelicFourierInversion`, `AdelicPlancherel`~~: proved in `AdelicFourierInversion.lean`
+  (`adelicFourierInversion`, `adelicPlancherel`); the statements stay here.
 * `HaarScaling`, the scaling law of `adeleHaar` under an idele, through the idele norm
   `ideleNorm` from `IdeleQ` (#510). `AdelicPoissonScaled` is the idele-scaled form (GZ5).
 * `FinFourierIntegralSelfDual`: the self-duality of `∏ ℤ_v` for the finite character.
@@ -163,11 +164,12 @@ def PoissonSummationFor (f : AQ → ℂ) : Prop :=
 /-- **Adelic Poisson summation** at covolume 1 (`covolume_eq_one`). OPEN. -/
 def AdelicPoissonSummation : Prop := ∀ f ∈ AdelicSchwartz, PoissonSummationFor f
 
-/-- Fourier inversion for the self-dual measure `adeleHaar`. OPEN. -/
+/-- Fourier inversion for the self-dual measure `adeleHaar`. Proved as `adelicFourierInversion`
+(`AdelicFourierInversion.lean`). -/
 def AdelicFourierInversion : Prop :=
   ∀ f ∈ AdelicSchwartz, ∀ x, adelicFourier (adelicFourier f) x = f (-x)
 
-/-- Plancherel for `adeleHaar`. OPEN. -/
+/-- Plancherel for `adeleHaar`. Proved as `adelicPlancherel` (`AdelicFourierInversion.lean`). -/
 def AdelicPlancherel : Prop :=
   ∀ f ∈ AdelicSchwartz,
     ∫ x, ‖adelicFourier f x‖ ^ 2 ∂adeleHaar = ∫ x, ‖f x‖ ^ 2 ∂adeleHaar
