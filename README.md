@@ -59,9 +59,10 @@ README with the map of that layer; this section is the index of them.
   the standard adelic character with `ℚ^⊥ = ℚ` (GP-DUAL), the Haar normalization with
   covolume one, the self-duality of `∏_p ℤ_p`, and the classical Poisson control made
   unconditional. The guide to the layer, with every file, its principal results, and its
-  dependencies, is [`docs/TATE-GUIDE.md`](docs/TATE-GUIDE.md). The remaining steps are
-  named propositions in the statement file: Fourier inversion, Plancherel, the scaled
-  Poisson formula, and GW-EF, the link from Poisson summation to the Weil form.
+  dependencies, is [`docs/TATE-GUIDE.md`](docs/TATE-GUIDE.md). Fourier inversion
+  and Plancherel on the adelic Schwartz class are proved. The remaining steps are
+  named propositions in the statement file: Poisson summation for the whole class, the
+  scaled Poisson formula, and GW-EF, the link from Poisson summation to the Weil form.
 - **The Riemann Hypothesis, one of the framework's targets.** Holographically, the
   functional equation says the hologram is *symmetric*, and RH says it is also *positive*
   (reflection-positive across the equator). The finite core is proved:
@@ -143,7 +144,7 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 
 | Directory | Files | Contents |
 |---|---|---|
-| `GppVerify/RiemannHypothesis/` | 584 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
+| `GppVerify/RiemannHypothesis/` | 585 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
 | `GppVerify/CelestialHolography/` | 329 | [the celestial side](GppVerify/CelestialHolography/README.md): shadow transform, principal series, Penrose and ambitwistor geometry |
 | `GppVerify/StandardModel/` | 132 | [the Standard Model sector](GppVerify/StandardModel/README.md): CPT and orientation, charge, Pati–Salam |
 | `GppVerify/QuantumGravity/` | 53 | [quantum gravity](GppVerify/QuantumGravity/README.md): causal diamonds, equator thermodynamics, Fisher geometry |
@@ -151,7 +152,7 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 | `GppVerify/GeneralRelativity/` | 20 | causal diamonds and boundary charges in GR form |
 | `GppVerify/NumberTheory/` | 19 | zeta values, Euler sums, BSD point counts, shadow Euler identities |
 | `GppVerify/ThreadWeilParity/` | 16 | the Weil parity thread |
-| `GppVerify/Upstream/` | 11 | [Mathlib staging](GppVerify/Upstream/README.md) |
+| `GppVerify/Upstream/` | 13 | [Mathlib staging](GppVerify/Upstream/README.md) |
 | `GppVerify/Analysis/` | 5 | Landau and Pringsheim theory for Dirichlet series |
 | `GppVerify/Cosmology/` | 4 | cosmological sectors |
 | `GppVerify/QuantumInformation/` | 4 | quantum information sectors |

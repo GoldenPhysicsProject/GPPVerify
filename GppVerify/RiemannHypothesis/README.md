@@ -1,6 +1,6 @@
 # GppVerify/RiemannHypothesis
 
-The Riemann Hypothesis programme of the library: 584 files carrying the
+The Riemann Hypothesis programme of the library: 585 files carrying the
 functional equation, the Tate layer, the explicit formula, the Weil
 positivity reductions, and the finite certificates. Everything here is
 kernel-checked with zero `sorry` and no axioms beyond the standard three;
@@ -27,8 +27,10 @@ Tate's thesis for ℚ: `SchwartzTateLocal.lean` and `SchwartzTateLocalFE.lean`
 `IdeleClassGroupQ.lean` (Fujisaki for ℚ), `AdelicDiscrete.lean`,
 `AdelicFundamentalDomain.lean`, `AdelicCovolume.lean` (covolume one),
 `AdelicCharacter.lean` (the standard character, GP-DUAL: ℚ^⊥ = ℚ),
-`AdelicPoissonStatement.lean` (the statement file; inversion, Plancherel,
-and the scaled formula stand as named open propositions),
+`AdelicPoissonStatement.lean` (the statement file; Poisson summation for the
+whole class and the scaled formula stand as named open propositions),
+`AdelicFiniteFourier.lean` and `AdelicFourierInversion.lean` (Fourier
+inversion and Plancherel on the adelic Schwartz class, proved),
 `AdelicFiniteDuality.lean` (self-duality of ∏_p ℤ_p, proved, which makes
 the classical Poisson control unconditional), and `AdelicCarrier.lean`
 (the bridge to Mathlib's adele ring). The full map is

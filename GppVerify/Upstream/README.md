@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Nine files, about 1,400 lines. Status
+`leanprover-community/mathlib4`. Thirteen files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -31,6 +31,11 @@ written against Mathlib's own adele API:
   adeles of ℚ, upstream-style.
 - `RatFiniteAdeleRingLattice.lean`: the lattices `N·∏ℤ_v` and their Haar
   volumes.
+- `RatFiniteAdeleRingNhds.lean`: the lattices `N·∏ℤ_v` are a neighbourhood
+  basis of `0`.
+- `RatFiniteAdeleRingSchwartzBruhat.lean`: locally constant, compactly
+  supported functions are uniformly locally constant and finite combinations
+  of coset indicators.
 
 ## Linear algebra
 
