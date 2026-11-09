@@ -8017,6 +8017,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sta
 Every finite adele of $\mathbb Q$ is a rational number plus an adele integral at every place (strong approximation): locally every $x\in\mathbb Q_p$ lies within $\mathbb Z_p$ of some $m/p^k$, which is integral at every other prime, and the global statement follows by induction on the finitely many non-integral places. Consequently every adele is uniquely a principal adele plus a point of $[0,1)\times\prod_v\mathbb Z_v$, and $\mathbb A_{\mathbb Q}/\mathbb Q$ is compact, as the image of the compact set $[0,1]\times\prod_v\mathbb Z_v$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
 
+\section{Haar measure on the finite adeles and the covolume of $\mathbb Q$}
+\lean{Rat.FiniteAdeleRing.mem_adicCompletionIntegers_iff,Rat.FiniteAdeleRing.isCompact_adicCompletionIntegers,Rat.FiniteAdeleRing.isOpen_integralAdeles,Rat.FiniteAdeleRing.isCompact_integralAdeles,Rat.FiniteAdeleRing.exists_nat_mul_mem_integralAdeles,Rat.FiniteAdeleRing.haar_integralAdeles,GlobalTate.Poisson.covolume_eq_one}
+The finite adele ring of $\mathbb Q$ is locally compact and $\sigma$-compact: each local ring of integers is compact (it is homeomorphic to $\mathbb Z_p$), $\prod_v\mathbb Z_v$ is compact and open, and every finite adele has bounded denominators, so $\mathbb A_f=\bigcup_N N^{-1}\prod_v\mathbb Z_v$. Its Haar measure is normalized by $\operatorname{vol}(\prod_v\mathbb Z_v)=1$. With Lebesgue measure at infinity, the fundamental domain $[0,1)\times\prod_v\mathbb Z_v$ of $\mathbb Q$ in the adeles has measure $1$: the covolume is computed from the normalizations, not assumed. The finite-adele part is written against Mathlib only, for upstreaming.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
