@@ -63,7 +63,7 @@ theorem mulHomeo_mul (u v : Afˣ) (x : Af) :
 
 theorem finNorm_nonneg (u : Afˣ) : 0 ≤ finNorm u :=
   finprod_induction (fun x : ℝ => 0 ≤ x) zero_le_one (fun _ _ ha hb => mul_nonneg ha hb)
-    (fun v => norm_nonneg _)
+    (fun _ => norm_nonneg _)
 
 /-- The statement to be proved for each finite idele. -/
 def FinScaling (u : Afˣ) : Prop :=
