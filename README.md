@@ -7,7 +7,7 @@ explicitly as it is built.
 **Public site:** https://lean.goldenphysics.org (plain-language overview) · technical blueprint at https://lean.goldenphysics.org/blueprint/  
 **Source text:** Daniel Toupin, *On the Nature of Nature* — https://goldenphysics.org  
 **Author:** Daniel Toupin | ORCID: 0009-0003-7682-9579  
-**Exploratory companion:** [GPPDiscovery](https://github.com/GoldenPhysicsProject/GPPDiscovery) (numerical exploration that feeds the formalization)
+**Exploratory companions:** the five numeric workbenches [GPPDiscovery](https://github.com/GoldenPhysicsProject/GPPDiscovery), [GPPDiscovery2](https://github.com/GoldenPhysicsProject/GPPDiscovery2), [GPPDiscovery3](https://github.com/GoldenPhysicsProject/GPPDiscovery3), [GPPDiscovery4](https://github.com/GoldenPhysicsProject/GPPDiscovery4), [GPPDiscovery5](https://github.com/GoldenPhysicsProject/GPPDiscovery5) (numerical exploration that feeds the formalization)
 
 ---
 
