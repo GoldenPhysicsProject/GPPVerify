@@ -18,7 +18,8 @@ On the concrete adele carrier `AQ = ℝ × 𝔸_f`:
   `ψ(x) = e^{2πi(x_∞ - q)}`. That value does not depend on `q`, because two such `q` differ by
   an integer (`adeleChar_eq_of_isRep`).
 * `continuous_adeleChar`: `ψ` is continuous.
-* `adeleChar_principal`: `ψ` is trivial on `ℚ`.
+* `adeleChar_principal`: `ψ` is trivial on `ℚ`; `adeleChar_integral`: its finite part is trivial
+  on `∏ ℤ_v`; `adeleChar_nontrivial`: `ψ(1/2, 0) ≠ 1`.
 * **GP-DUAL** (`forall_adeleChar_principal_mul_eq_one_iff`): `ℚ^⊥ = ℚ`. An adele `a` with
   `ψ(q a) = 1` for every `q ∈ ℚ` is principal. The proof uses `q = 1` to make the real part
   rational, then `q = p^{-k}` to force the finite part into `p^k ℤ_p` for every `k`.
@@ -144,6 +145,19 @@ theorem adeleChar_real (t : ℝ) : adeleChar ((t, 0) : AQ) = e t := by
   rw [adeleChar_eq_of_isRep (q := 0) (fun v => by
     show (0 : v.adicCompletion ℚ) - _ ∈ _; simp)]
   simp
+
+/-- `ψ` is nontrivial: `ψ(1/2, 0) = -1 ≠ 1`. -/
+theorem adeleChar_nontrivial : adeleChar ((1 / 2 : ℝ), (0 : Af)) ≠ 1 := by
+  rw [adeleChar_real, Ne, e_eq_one_iff]
+  rintro ⟨n, hn⟩
+  have h2 : ((2 * n : ℤ) : ℝ) = 1 := by push_cast; linarith
+  have : 2 * n = 1 := by exact_mod_cast h2
+  omega
+
+/-- The finite part of `ψ` is trivial on `∏ ℤ_v`. -/
+theorem adeleChar_integral {z : Af} (hz : z ∈ intBox) : adeleChar ((0 : ℝ), z) = 1 := by
+  rw [adeleChar_eq_of_isRep (q := 0) (fun v => by simpa using hz v)]
+  simp [e_zero]
 
 theorem isOpen_setOf_isRep (q : ℚ) : IsOpen {x : AQ | IsRep x q} := by
   have : {x : AQ | IsRep x q} = (fun x : AQ => x.2 - algebraMap ℚ Af q) ⁻¹' intBox := by
