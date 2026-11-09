@@ -2453,6 +2453,7 @@ import GppVerify.Upstream.RatFiniteAdeleRingNhds
 import GppVerify.Upstream.RatFiniteAdeleRingSchwartzBruhat
 import GppVerify.RiemannHypothesis.AdelicFiniteFourier
 import GppVerify.RiemannHypothesis.AdelicFourierInversion
+import GppVerify.RiemannHypothesis.AdelicHaarScaling
 import GppVerify.RiemannHypothesis.ExplicitFormulaE1Decay
 import GppVerify.RiemannHypothesis.DigammaGaussLimit
 import GppVerify.RiemannHypothesis.DigammaGaussSeries

@@ -382,3 +382,4 @@ import GppVerify
 
 #print axioms GlobalTate.Poisson.adelicFourierInversion
 #print axioms GlobalTate.Poisson.adelicPlancherel
+#print axioms GlobalTate.Poisson.haarScaling
