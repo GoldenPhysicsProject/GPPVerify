@@ -7998,6 +7998,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sta
 The Weil form $W(g)=\mathrm{pole}(g)+A_\infty(g)-\sum_n\frac{\Lambda(n)}{\sqrt n}\,(g(\log n)+g(-\log n))$ splits as a global pole term plus one term per place of $\mathbb Q$: $W(g)=W_{\mathrm{pole}}(g)+W_\infty(g)+\sum_p W_p(g)$, where $W_p$ collects the prime powers $p^{k+1}$. The only input is summability of the prime side; the regrouping uses injectivity of $(p,k)\mapsto p^{k+1}$ and that $\Lambda$ is supported on prime powers. The Weil form is linear on test functions with integrable pole and archimedean integrands and summable prime side. These statements concern the arithmetic-side functional only; its link to the zero-side criterion is the explicit formula, which remains open.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
 
+\section{Adelic Poisson layer: arithmetic core of discreteness}
+\lean{GlobalTate.Poisson.den_eq_one_of_padicNorm_le_one,GlobalTate.Poisson.eq_zero_of_integral_of_abs_lt_one}
+A rational number that is $p$-integral for every prime $p$ is an integer, and if moreover $|q|<1$ then $q=0$. This is the arithmetic content of the discreteness of $\mathbb Q$ in the adeles: the box $(-\tfrac12,\tfrac12)\times\prod_p\mathbb Z_p$ meets the principal adeles only in $0$. The topological statements (discreteness, cocompactness, fundamental domain, covolume) are built on top of it.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
