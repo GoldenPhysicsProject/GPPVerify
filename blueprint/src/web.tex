@@ -8008,6 +8008,11 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sta
 On the adele carrier $\mathbb R\times\mathbb A_f$, the principal adeles $q\mapsto(q,(q)_v)$ form a discrete subgroup: the open box $(-\tfrac12,\tfrac12)\times\prod_v\mathbb Z_v$ meets them only in $0$, since a rational integral at every prime is an integer and an integer of absolute value below $\tfrac12$ is $0$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
 
+\section{Strong approximation and the adelic fundamental domain}
+\lean{GlobalTate.Poisson.exists_rat_sub_norm_le_one,GlobalTate.Poisson.exists_rat_sub_mem_integers,GlobalTate.Poisson.existsUnique_sub_principal_mem_fundBox,GlobalTate.Poisson.isCompact_intBox,GlobalTate.Poisson.principal_cocompact}
+Every finite adele of $\mathbb Q$ is a rational number plus an adele integral at every place (strong approximation): locally every $x\in\mathbb Q_p$ lies within $\mathbb Z_p$ of some $m/p^k$, which is integral at every other prime, and the global statement follows by induction on the finitely many non-integral places. Consequently every adele is uniquely a principal adele plus a point of $[0,1)\times\prod_v\mathbb Z_v$, and $\mathbb A_{\mathbb Q}/\mathbb Q$ is compact, as the image of the compact set $[0,1]\times\prod_v\mathbb Z_v$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
