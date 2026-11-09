@@ -46,8 +46,9 @@ character `adeleChar` (GP-DUAL, `AdelicCharacter.lean`).
   converge and are equal, at covolume 1.
 * ~~`AdelicFourierInversion`, `AdelicPlancherel`~~: proved in `AdelicFourierInversion.lean`
   (`adelicFourierInversion`, `adelicPlancherel`); the statements stay here.
-* `HaarScaling`, the scaling law of `adeleHaar` under an idele, through the idele norm
-  `ideleNorm` from `IdeleQ` (#510). `AdelicPoissonScaled` is the idele-scaled form (GZ5).
+* `AdelicPoissonScaled`, the idele-scaled form (GZ5), through the idele norm `ideleNorm` from
+  `IdeleQ` (#510). Its Haar-measure input `HaarScaling` is proved in `AdelicHaarScaling.lean`
+  (`haarScaling`).
 * `FinFourierIntegralSelfDual`: the self-duality of `∏ ℤ_v` for the finite character.
 * **GW-EF**, the link from Poisson summation to the Weil form of #520, is OPEN. It is not
   stated here: it belongs to the explicit-formula layer, and no lemma below carries it as
@@ -177,7 +178,7 @@ def AdelicPlancherel : Prop :=
 /-- An idele as an adele. -/
 def ideleToAdele (a : Idele) : AQ := ((a.1 : ℝ), (a.2 : Af))
 
-/-- The scaling law of `adeleHaar` under an idele, through the idele norm of `IdeleQ`. OPEN. -/
+/-- The scaling law of `adeleHaar` under an idele, through the idele norm of `IdeleQ`. Proved as `haarScaling` (`AdelicHaarScaling.lean`). -/
 def HaarScaling : Prop :=
   ∀ a : Idele, adeleHaar.map (ideleToAdele a * ·) = ENNReal.ofReal (ideleNorm a)⁻¹ • adeleHaar
 
