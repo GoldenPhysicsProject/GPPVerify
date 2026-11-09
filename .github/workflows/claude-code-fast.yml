@@ -1,0 +1,84 @@
+name: Claude Code Fast Lane
+
+# Iteration gate for `claude-code/**` branches (Turbo's CI note, relayed 2026-11-09).
+#
+# It rebuilds ONLY the Lean modules the branch changed plus the modules that import them
+# (scripts/changed_modules.py), and runs the gates that read the tree and do not depend on
+# cache state. It returns well before the full clean build, so the prove-fix-prove loop does
+# not pay the full price on every push.
+#
+# It is an ITERATION aid, not a replacement. `Build` (clean `.lake/build`, build-log sorry
+# gate, axiom audit, native stub audit) is still the merge gate and still has to be green on
+# the exact head. Nothing here weakens or replaces any gate in `Build`; and because a module
+# replayed from cache emits no `sorry` diagnostic, this lane's build-log check only covers the
+# modules it actually recompiles -- the source-level sorry gate below is what reads the tree.
+
+on:
+  push:
+    branches: ["claude-code/**"]
+  workflow_dispatch:
+
+jobs:
+  fast:
+    name: changed modules and tree gates
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install elan
+        # Retried: an HTTP 504 from the release download killed a whole build slot on 2026-11-09.
+        run: |
+          curl -sSfL --retry 5 --retry-all-errors --retry-delay 10 \
+            https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz \
+            | tar xz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Cache Lean toolchain
+        uses: actions/cache@v4
+        with:
+          path: ~/.elan/toolchains
+          key: lean-toolchain-${{ hashFiles('lean-toolchain') }}
+
+      - name: Cache lake packages
+        uses: actions/cache@v4
+        with:
+          path: .lake
+          key: lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-${{ runner.os }}
+          restore-keys: |
+            lake-${{ hashFiles('lakefile.toml', 'lean-toolchain') }}-
+
+      - name: Get Mathlib cache
+        run: lake exe cache get || true
+
+      - name: Tree gates (read the tree; no cache state can hide anything)
+        run: |
+          python3 scripts/check_import_graph.py
+          python3 scripts/check_sorries.py
+          python3 scripts/check_stub_naming.py
+          python3 scripts/check_vacuity.py
+          python3 scripts/check_blueprint_refs.py
+          python3 scripts/check_landing_claims.py
+
+      - name: Build changed modules and their dependents
+        run: |
+          set -o pipefail
+          git fetch origin main --quiet
+          python3 scripts/changed_modules.py origin/main | tee /tmp/modules.txt
+          if [ ! -s /tmp/modules.txt ]; then
+            echo "No changed Lean modules."
+            : > /tmp/fast.log
+            exit 0
+          fi
+          xargs lake build < /tmp/modules.txt 2>&1 | tee /tmp/fast.log
+
+      - name: Sorry gate (recompiled modules)
+        run: |
+          if grep -F "declaration uses 'sorry'" /tmp/fast.log; then
+            echo "::error::A declaration uses 'sorry'. Standing rule: no sorry ever committed."
+            exit 1
+          fi
+          echo "No sorry in the recompiled modules."
