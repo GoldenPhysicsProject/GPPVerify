@@ -60,7 +60,9 @@ specific, named step, and both are recorded here.
   holds **iff** there are no off-equator mirror pairs, and
   `GppWeilCriterion.rh_of_weil_pairedForm_nonneg` reduces RH to Weil positivity. The
   library is building toward that positivity for the arithmetic distribution, layer by
-  layer: idèles of ℚ and Fujisaki's lemma, local Tate theory, the explicit formula.
+  layer: idèles of ℚ and Fujisaki's lemma, local Tate theory, the explicit formula. A guide to
+  the local and global Tate layer, with the file and principal declarations for each result, is
+  in [`docs/TATE-GUIDE.md`](docs/TATE-GUIDE.md).
 - **No-go theorems.** Routes that fail are kept as theorems pinning down exactly where they
   fail, for example the Fisher-zero log-concavity no-go (`FisherZeroLogConcavityNoGo.lean`).
 
