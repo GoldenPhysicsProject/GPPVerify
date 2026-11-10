@@ -351,4 +351,86 @@ theorem exists_horizontal {g : ℝ → ℝ} (hg : IsTestFunction g) :
   calc _ ≤ C1 * |Cd| / t * 3 + C1 * |Cd| / t * 3 := add_le_add b1 b2
     _ = 6 * C1 * |Cd| / t := by ring
 
+
+/-- `ξ'/ξ` on the left line `Re s = -1` (by `s ↦ 1 - s` from the right line). -/
+theorem norm_logDeriv_xi_left_le :
+    ∃ C : ℝ, ∀ y : ℝ, ‖logDeriv xi ((-1 : ℂ) + y * Complex.I)‖ ≤ C * (1 + |y|) := by
+  obtain ⟨C, hC⟩ := GppXiLineBounds.norm_logDeriv_xi_line_le
+  refine ⟨C, fun y => ?_⟩
+  have h1 : ((-1 : ℂ) + y * Complex.I) = 1 - (((2 : ℝ) : ℂ) + ((-y : ℝ) : ℂ) * Complex.I) := by
+    apply Complex.ext
+    · simp; norm_num
+    · simp
+  rw [h1, logDeriv_xi_one_sub, norm_neg]
+  have := hC (-y)
+  rwa [abs_neg] at this
+
+theorem continuous_logDeriv_xi_line {σ : ℝ} (hσ : σ = 2 ∨ σ = -1) :
+    Continuous fun y : ℝ => logDeriv xi ((σ : ℂ) + y * Complex.I) := by
+  have hne : ∀ y : ℝ, xi ((σ : ℂ) + y * Complex.I) ≠ 0 := by
+    intro y
+    rcases hσ with rfl | rfl
+    · exact xi_ne_zero_of_one_le_re (by simp)
+    · exact xi_ne_zero_of_re_le_zero (by simp)
+  have hlin : Continuous fun y : ℝ => (σ : ℂ) + y * Complex.I := by fun_prop
+  have hd : Continuous (deriv xi) := (differentiable_xi.contDiff (n := 2)).continuous_deriv (by norm_num)
+  have hx : Continuous xi := differentiable_xi.continuous
+  have : (fun y : ℝ => logDeriv xi ((σ : ℂ) + y * Complex.I)) =
+      fun y : ℝ => deriv xi ((σ : ℂ) + y * Complex.I) / xi ((σ : ℂ) + y * Complex.I) := by
+    funext y; rw [logDeriv_apply]
+  rw [this]
+  exact (hd.comp hlin).div (hx.comp hlin) hne
+
+/-- The vertical edges' integrands are integrable over the whole line. -/
+theorem integrable_line {g : ℝ → ℝ} (hg : IsTestFunction g) {σ : ℝ} (hσ : σ = 2 ∨ σ = -1) :
+    Integrable fun y : ℝ => logDeriv xi ((σ : ℂ) + y * Complex.I) *
+      spectralTransform g ((σ : ℂ) + y * Complex.I) := by
+  obtain ⟨C1, hC1⟩ : ∃ C : ℝ, ∀ y : ℝ, ‖logDeriv xi ((σ : ℂ) + y * Complex.I)‖ ≤ C * (1 + |y|) := by
+    rcases hσ with rfl | rfl
+    · exact GppXiLineBounds.norm_logDeriv_xi_line_le
+    · obtain ⟨C, hC⟩ := norm_logDeriv_xi_left_le
+      exact ⟨C, fun y => by simpa using hC y⟩
+  obtain ⟨Cd, hCd⟩ := poly_decay hg (3 / 2) 3
+  have hcont : Continuous fun y : ℝ => logDeriv xi ((σ : ℂ) + y * Complex.I) *
+      spectralTransform g ((σ : ℂ) + y * Complex.I) :=
+    (continuous_logDeriv_xi_line hσ).mul
+      ((differentiable_spectralTransform hg).continuous.comp (by fun_prop))
+  have hint : Integrable (fun y : ℝ => (1 + ‖y‖) ^ (-(2 : ℝ))) :=
+    integrable_one_add_norm (E := ℝ) (μ := volume) (by simp)
+  refine (hint.const_mul (|C1| * |Cd|)).mono' hcont.aestronglyMeasurable
+    (Filter.Eventually.of_forall fun y => ?_)
+  have hσr : |σ - 1 / 2| ≤ 3 / 2 := by rcases hσ with rfl | rfl <;> norm_num [abs_of_pos, abs_of_neg]
+  have hre : |((σ : ℂ) + y * Complex.I).re - 1 / 2| ≤ 3 / 2 := by simpa using hσr
+  have hs := hCd _ hre
+  have hn : |y| ≤ ‖((σ : ℂ) + y * Complex.I) - 1 / 2‖ := by
+    have h := Complex.abs_im_le_norm (((σ : ℂ) + y * Complex.I) - 1 / 2)
+    have e : (((σ : ℂ) + y * Complex.I) - 1 / 2).im = y := by simp
+    rwa [e] at h
+  have hp : (1 + |y|) ^ 3 ≤ (1 + ‖((σ : ℂ) + y * Complex.I) - 1 / 2‖) ^ 3 :=
+    pow_le_pow_left₀ (by positivity) (by linarith) _
+  set P := ‖spectralTransform g ((σ : ℂ) + y * Complex.I)‖ with hP
+  have hP0 : 0 ≤ P := norm_nonneg _
+  have hPb : (1 + |y|) ^ 3 * P ≤ |Cd| := by
+    calc (1 + |y|) ^ 3 * P ≤ (1 + ‖((σ : ℂ) + y * Complex.I) - 1 / 2‖) ^ 3 * P :=
+          mul_le_mul_of_nonneg_right hp hP0
+      _ ≤ |Cd| := hs.trans (le_abs_self _)
+  have hy0 : 0 < 1 + |y| := by positivity
+  rw [norm_mul]
+  have hL := hC1 y
+  have hrp : (1 + ‖y‖) ^ (-(2 : ℝ)) = ((1 + |y|) ^ 2)⁻¹ := by
+    rw [Real.norm_eq_abs, Real.rpow_neg hy0.le, show (2 : ℝ) = ((2 : ℕ) : ℝ) by norm_num,
+      Real.rpow_natCast]
+  rw [hrp]
+  have hP' : P ≤ |Cd| / (1 + |y|) ^ 3 := by
+    rw [le_div_iff₀ (by positivity)]; linarith
+  calc ‖logDeriv xi ((σ : ℂ) + y * Complex.I)‖ * P ≤ (C1 * (1 + |y|)) * (|Cd| / (1 + |y|) ^ 3) :=
+        mul_le_mul hL hP' hP0 (by
+          have : 0 ≤ ‖logDeriv xi ((σ : ℂ) + y * Complex.I)‖ := norm_nonneg _
+          have := hL
+          nlinarith [abs_nonneg C1, le_abs_self C1, norm_nonneg (logDeriv xi ((σ : ℂ) + y * Complex.I))])
+    _ ≤ (|C1| * (1 + |y|)) * (|Cd| / (1 + |y|) ^ 3) := by
+        apply mul_le_mul_of_nonneg_right _ (by positivity)
+        exact mul_le_mul_of_nonneg_right (le_abs_self _) hy0.le
+    _ = |C1| * |Cd| * ((1 + |y|) ^ 2)⁻¹ := by field_simp
+
 end GppContourLimit
