@@ -398,8 +398,13 @@ import GppVerify
 #print axioms Complex.exists_exp_eq_of_ne_zero_ball
 #print axioms Complex.norm_deriv_le_of_re_le
 #print axioms Complex.logDeriv_canonicalFactor
+#print axioms Complex.exists_blaschke_decomposition
 #print axioms Complex.norm_logDeriv_le
 #print axioms Complex.rect_boundary_integral_inv_sub
+#print axioms Complex.rectInt_div_sub
+#print axioms Complex.rectInt_div_sub_of_notMem
+#print axioms Complex.rectInt_finset_sum
+#print axioms Complex.rectInt_logDeriv_mul
 #print axioms Real.exists_mem_Icc_far_from_finset
 #print axioms GppXiZeroCounting.exists_radius_no_zero
 #print axioms GppXiZeroCounting.sum_orderNat_le

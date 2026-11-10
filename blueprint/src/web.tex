@@ -8095,7 +8095,7 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
 \section{Explicit formula, stage E4a: Landau's lemma for the logarithmic derivative}
-\lean{Complex.exists_exp_eq_of_ne_zero_ball,Complex.norm_deriv_le_of_re_le,Complex.logDeriv_canonicalFactor,Complex.norm_logDeriv_le}
+\lean{Complex.exists_exp_eq_of_ne_zero_ball,Complex.norm_deriv_le_of_re_le,Complex.logDeriv_canonicalFactor,Complex.exists_blaschke_decomposition,Complex.norm_logDeriv_le}
 Let $f$ be entire with $f(0)\ne0$, $|f|\le M$ on $|z|\le R$, and no zero on $|z|=R$. Mathlib's extended canonical (Blaschke) decomposition writes $f=B\,g$ on the closed disc with $B=\prod_\rho\bigl(R(z-\rho)/(R^2-\bar\rho z)\bigr)^{m_\rho}$ over the zeros in $|z|<R$ and $g$ analytic and zero-free; $|B|=1$ on the circle, so $|g|=|f|\le M$ there, hence on the disc by the maximum principle, and $|B(0)|=\prod(|\rho|/R)^{m_\rho}\le1$ gives $|g(0)|\ge|f(0)|$. A zero-free holomorphic function on a disc is the exponential of a holomorphic function (a primitive of $g'/g$), $g=e^{h}$, and $\mathrm{Re}\,(h-h(0))=\log|g|-\log|g(0)|\le\log M-\log|f(0)|$. Borel--Carath\'eodory and Cauchy's estimate bound $h'=g'/g$ by $24(\log(M/|f(0)|)+1)/R$ on $|z|\le R/2$. The logarithmic derivative of a canonical factor is $-\bar\rho/(R^2-\bar\rho z)-1/(z-\rho)$, and the first term has modulus at most $2/R$ there. Hence
 \[
 \Bigl|\frac{f'}{f}(z)\Bigr|\le\sum_\rho m_\rho\Bigl(\frac1{|z-\rho|}+\frac2R\Bigr)+\frac{24\bigl(\log(M/|f(0)|)+1\bigr)}{R}\qquad(|z|\le R/2,\ f(z)\ne0).
@@ -8111,6 +8111,16 @@ Mathlib proves Cauchy's theorem for a rectangle with holomorphic interior but ha
 \lean{Real.exists_mem_Icc_far_from_finset,GppXiZeroCounting.one_le_orderNat_xi,GppXiZeroCounting.finite_zeros_xi,GppXiZeroCounting.exists_radius_no_zero,GppXiZeroCounting.sum_orderNat_le,GppXiZeroCounting.exists_good_height}
 For every $T\ge1$ there is a height $t\in[T,T+1]$ such that $\xi$ has no zero on the segment $\{\sigma+it:-1\le\sigma\le2\}$ and $|\xi'/\xi|\le C\,t^{6}$ there, with $C$ independent of $T$. Choose a radius $R\in[2T+8,2T+9]$ with no zero of $\xi$ on $|z|=R$ (the zeros in a ball are finitely many, so only finitely many radii are excluded). By Jensen's bound (stage E3a: $\xi$ has order at most $2$) the zeros in $|z|\le R$ number at most $N\le A+BR^{3}$ counted with multiplicity. A unit interval contains a point at distance at least $1/(2(N+1))$ from each of at most $N$ reals, by comparing Lebesgue measures; this is the good height $t$. Every point $s$ of the segment has $|s|\le T+3\le R/2$ and $|\operatorname{Im}(s-\rho)|\ge1/(2(N+1))$ for every zero $\rho$, so Landau's lemma (stage E4a) with $M=C_0e^{R^{3}}$ gives
 $|\xi'/\xi(s)|\le N\bigl(2(N+1)+2\bigr)+48(\,|\log C_0|+|\log|\xi(0)||+2)R^{3}\le C\,R^{6}\le C'\,t^{6}$. Because the spectral transform decays faster than any polynomial on the strip (stage E1b), a polynomial bound is all the horizontal sides of the rectangular contour need.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E5b: the residue sum of $(f'/f)\,\Phi$ over a rectangle}
+\lean{Complex.exists_blaschke_decomposition,Complex.rectInt_div_sub,Complex.rectInt_div_sub_of_notMem,Complex.rectInt_finset_sum,Complex.rectInt_logDeriv_mul}
+Let $f$ be entire with $f(0)\ne0$, $\Phi$ entire, and $Q$ a rectangle with no zero of $f$ on its boundary, contained in a disc $|z|<R$ whose circle carries no zero. Then
+\[
+\oint_{\partial Q}\frac{f'}{f}\,\Phi\;=\;2\pi i\sum_{\rho\in Q^\circ}m_\rho\,\Phi(\rho),
+\]
+summed over the zeros $\rho$ strictly inside $Q$ with multiplicity $m_\rho$. Mathlib has Cauchy--Goursat for rectangles but no residue theorem, so the proof uses only boundary values. On the disc, $f'/f=g'/g-\sum_\rho m_\rho\,(\text{canonical factor})'/(\text{canonical factor})$ with $g$ analytic and zero-free (stage E4a), and the canonical-factor logarithmic derivative is $-\bar\rho/(R^2-\bar\rho s)-1/(s-\rho)$. Hence on $\partial Q$ the integrand is $g'\Phi/g+\sum_\rho m_\rho\bigl(\tfrac{\bar\rho}{R^2-\bar\rho s}\Phi+\tfrac{\Phi}{s-\rho}\bigr)$. The first two kinds of term are holomorphic on $Q$, so their boundary integrals vanish by Cauchy--Goursat. For $\Phi/(s-\rho)$ write $\Phi(s)/(s-\rho)=\mathrm{dslope}\,\Phi\,\rho\,(s)+\Phi(\rho)/(s-\rho)$ with the first part entire: if $\rho$ lies outside $Q$ the whole term is holomorphic and contributes $0$; if $\rho$ lies inside, stage E5a gives $2\pi i\,\Phi(\rho)$. A zero on $\partial Q$ never arises, because no zero is assumed to lie there.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
