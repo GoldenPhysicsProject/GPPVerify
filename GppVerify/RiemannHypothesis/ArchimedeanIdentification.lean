@@ -174,4 +174,78 @@ theorem inversion {g : ℝ → ℝ} (hg : IsTestFunction g) (v : ℝ) :
   rw [hcomp]
   simp only [Complex.real_smul]
 
+/-- `hline g` is continuous and integrable. -/
+theorem hline_integrable {g : ℝ → ℝ} (hg : IsTestFunction g) : Integrable (hline g) := by
+  have h : hline g = fun r => (𝓕 (shiftedSchwartz hg (1 / 2))) (-r / (2 * Real.pi)) :=
+    funext (hline_eq_fourier hg)
+  rw [h]
+  have hI : Integrable (fun x => (𝓕 (shiftedSchwartz hg (1 / 2))) x) volume :=
+    (𝓕 (shiftedSchwartz hg (1 / 2))).integrable
+  have := hI.comp_mul_left' (R := -(2 * Real.pi)⁻¹) (by simp [Real.pi_ne_zero])
+  refine this.congr (Filter.Eventually.of_forall fun r => ?_)
+  show (𝓕 (shiftedSchwartz hg (1 / 2))) (-(2 * Real.pi)⁻¹ * r) = _
+  congr 1
+  field_simp
+
+theorem hline_continuous {g : ℝ → ℝ} (hg : IsTestFunction g) : Continuous (hline g) := by
+  have h : hline g = fun r => (𝓕 (shiftedSchwartz hg (1 / 2))) (-r / (2 * Real.pi)) :=
+    funext (hline_eq_fourier hg)
+  rw [h]
+  exact (𝓕 (shiftedSchwartz hg (1 / 2))).continuous.comp (by fun_prop)
+
+theorem integrable_exp_mul_hline {g : ℝ → ℝ} (hg : IsTestFunction g) (v : ℝ) :
+    Integrable (fun r : ℝ => Complex.exp (-(Complex.I * r * v)) * hline g r) := by
+  refine (hline_integrable hg).norm.mono' ?_ ?_
+  · exact (Continuous.mul (by fun_prop) (hline_continuous hg)).aestronglyMeasurable
+  · refine Filter.Eventually.of_forall fun r => ?_
+    rw [norm_mul, Complex.norm_exp]
+    have : (-(Complex.I * (r : ℂ) * (v : ℂ))).re = 0 := by simp
+    rw [this, Real.exp_zero, one_mul]
+
+/-- The `r`-integral of the kernel against `h` at a fixed height `t > 0`. -/
+theorem inner_integral {g : ℝ → ℝ} (hg : IsTestFunction g) {t : ℝ} (ht : 0 < t) :
+    ∫ r : ℝ, hline g r * K ((1 / 4 : ℂ) + (r / 2 : ℝ) * Complex.I) t =
+      ((2 * Real.pi : ℝ) : ℂ) *
+        ((Complex.exp (-(t : ℂ)) * (g 0 : ℂ) - Complex.exp (-(t : ℂ) / 4) * (g (t / 2) : ℂ)) /
+          (1 - Complex.exp (-(t : ℂ)))) := by
+  have hD : (1 - Complex.exp (-(t : ℂ))) ≠ 0 := by
+    intro h
+    have h1 : Complex.exp (-(t : ℂ)) = 1 := by linear_combination -h
+    have hr : ‖Complex.exp (-(t : ℂ))‖ < 1 := by
+      rw [Complex.norm_exp]
+      have := Real.exp_lt_exp.2 (by linarith : -t < 0)
+      simpa using this
+    rw [h1] at hr
+    simp at hr
+  have hK : ∀ r : ℝ, hline g r * K ((1 / 4 : ℂ) + (r / 2 : ℝ) * Complex.I) t =
+      (Complex.exp (-(t : ℂ)) * hline g r -
+        Complex.exp (-(t : ℂ) / 4) * (Complex.exp (-(Complex.I * r * ((t / 2 : ℝ) : ℂ))) * hline g r)) /
+        (1 - Complex.exp (-(t : ℂ))) := by
+    intro r
+    unfold K
+    have e : Complex.exp (-((1 / 4 : ℂ) + (r / 2 : ℝ) * Complex.I) * t) =
+        Complex.exp (-(t : ℂ) / 4) * Complex.exp (-(Complex.I * r * ((t / 2 : ℝ) : ℂ))) := by
+      rw [← Complex.exp_add]
+      congr 1
+      push_cast
+      ring
+    rw [e]
+    ring
+  simp_rw [hK]
+  rw [integral_div, integral_sub ((hline_integrable hg).const_mul _)
+    ((integrable_exp_mul_hline hg (t / 2)).const_mul _), integral_const_mul, integral_const_mul]
+  have h0 := inversion hg 0
+  have h1 := inversion hg (t / 2)
+  simp only [Complex.ofReal_zero, mul_zero, neg_zero, Complex.exp_zero, one_mul] at h0
+  have hpi : ((2 * Real.pi : ℝ) : ℂ) ≠ 0 := by exact_mod_cast (by positivity : (2 * Real.pi) ≠ 0)
+  have i0 : ∫ r : ℝ, hline g r = ((2 * Real.pi : ℝ) : ℂ) * (g 0 : ℂ) := by
+    generalize (∫ r : ℝ, hline g r) = J at h0 ⊢
+    rw [h0]; push_cast; field_simp
+  have i1 : ∫ r : ℝ, Complex.exp (-(Complex.I * r * ((t / 2 : ℝ) : ℂ))) * hline g r =
+      ((2 * Real.pi : ℝ) : ℂ) * (g (t / 2) : ℂ) := by
+    generalize (∫ r : ℝ, Complex.exp (-(Complex.I * r * ((t / 2 : ℝ) : ℂ))) * hline g r) = J at h1 ⊢
+    rw [h1]; push_cast; field_simp
+  rw [i0, i1]
+  ring
+
 end GppArchimedeanId
