@@ -8134,6 +8134,12 @@ with $\psi=\Gamma'/\Gamma$ Mathlib's digamma function. It follows from $\xi(s)=\
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E6c: reflection symmetry and the location of the zeros of $\xi$}
+\lean{GppXiReflection.logDeriv_xi_one_sub,GppXiReflection.isTestFunction_neg,GppXiReflection.spectralTransform_one_sub,GppXiReflection.xi_ne_zero_of_one_le_re,GppXiReflection.xi_ne_zero_of_re_le_zero,GppXiReflection.xi_zero_mem_strip,GppXiReflection.xi_eq_zero_iff_nontrivial}
+The functional equation $\xi(1-s)=\xi(s)$ gives $\xi'/\xi(1-s)=-\xi'/\xi(s)$, and the substitution $u\mapsto-u$ gives $\Phi_g(1-s)=\Phi_{g(-\cdot)}(s)$ for the spectral transform; together they turn the integral over the left vertical line of the contour into an integral over the right line against $\Phi_g(s)+\Phi_g(1-s)$. The zeros of $\xi$ are exactly the nontrivial zeros of $\zeta$: for $\mathrm{Re}\,s\ge1$ one has $\xi(s)=\tfrac12 s(s-1)\Gamma_{\mathbb R}(s)\zeta(s)\ne0$ ($\xi(1)=\tfrac12$, and $\zeta\ne0$ on $\mathrm{Re}\,s\ge1$ by Mathlib's non-vanishing theorem), and for $\mathrm{Re}\,s\le0$ the reflection reduces to that case, so every zero lies in $0<\mathrm{Re}\,s<1$, where $\xi(s)=0\iff\zeta(s)=0$. In particular $\xi$ has no zero on the vertical lines $\mathrm{Re}\,s=2$ and $\mathrm{Re}\,s=-1$ that bound the contour.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

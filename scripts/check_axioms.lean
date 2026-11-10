@@ -412,3 +412,7 @@ import GppVerify
 #print axioms GppXiZeroCounting.logDeriv_Gammaℝ
 #print axioms GppXiZeroCounting.xi_eq_mul
 #print axioms GppXiZeroCounting.logDeriv_xi_eq
+#print axioms GppXiReflection.logDeriv_xi_one_sub
+#print axioms GppXiReflection.spectralTransform_one_sub
+#print axioms GppXiReflection.xi_zero_mem_strip
+#print axioms GppXiReflection.xi_eq_zero_iff_nontrivial
