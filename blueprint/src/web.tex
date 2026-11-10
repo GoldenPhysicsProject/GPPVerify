@@ -8144,6 +8144,26 @@ Mathlib states this integral representation only as a TODO. It is obtained here 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E6 (Archimedean term), part 2: the identification}
+\lean{GppArchimedeanId.norm_K_le,GppArchimedeanId.hline_integrable,GppArchimedeanId.inversion,GppArchimedeanId.integrable_weight_hline,GppArchimedeanId.inner_integral,GppArchimedeanId.integrable_prod,GppArchimedeanId.archimedean_identification}
+For a test function $g$ with $h(r)=\hat g(\tfrac12+ir)=\int g(u)e^{iru}\,du$,
+\[
+\frac1{2\pi}\int_{\mathbb R}h(r)\,\psi\!\Bigl(\frac14+\frac{ir}2\Bigr)\,dr\;=\;A_\infty(g)+g(0)\log\pi ,
+\]
+where $A_\infty$ is the repository's \texttt{archimedeanTerm}; for even $g$ this is the classical $A_\infty(g)=-g(0)\log\pi+\frac1{2\pi}\int h(r)\,\mathrm{Re}\,\psi(\tfrac14+\tfrac{ir}2)\,dr$. Insert Gauss's integral for $\psi$ (part 1) and swap the integrals. The kernel $K(z,t)=(e^{-t}-e^{-zt})/(1-e^{-t})$ at $z=\tfrac14+\tfrac{ir}2$ is bounded by $(4+|r|)e^{1/4}e^{-t/4}$ uniformly in $t>0$ (split at $t=1$, using $\|1-e^{-w}\|\le\|w\|$ and $1-e^{-t}\ge t/2$ on $(0,1]$), and $(4+|r|)\|h(r)\|$ is integrable by the rapid decay of stage E1, so Fubini applies. For fixed $t$, Fourier inversion $g(v)=\frac1{2\pi}\int e^{-irv}h(r)\,dr$ evaluates the $r$-integral at $v=0$ and $v=t/2$, giving $2\pi\,(e^{-t}g(0)-e^{-t/4}g(t/2))/(1-e^{-t})$. The substitution $t=2u$ turns the remaining integral into $2\int_0^\infty(e^{-2u}g(0)-e^{-u/2}g(u))/(1-e^{-2u})\,du$, and the $-\gamma$ of Gauss's integral contributes $-\gamma\,g(0)$, which together give $A_\infty(g)+g(0)\log\pi$. A numerical check of the final identity, to 30 digits, is in GPPDiscovery.
+\section{Explicit formula, stage E6b: the prime terms on the line $\mathrm{Re}\,s=2$}
+\lean{GppSpectralInversion.line_inversion,GppPrimeLine.line_integrable,GppPrimeLine.natCast_cpow_line,GppPrimeLine.term_integral,GppPrimeLine.prime_line}
+For a test function $g$ and $\Phi(s)=\int g(u)e^{(s-1/2)u}\,du$,
+\[
+\frac1{2\pi}\int_{\mathbb R}\Bigl(-\frac{\zeta'}{\zeta}\Bigr)(2+it)\,\Phi(2+it)\,dt\;=\;\sum_{n\ge1}\frac{\Lambda(n)\,g(\log n)}{\sqrt n}.
+\]
+On $\mathrm{Re}\,s=\sigma$ the transform $t\mapsto\Phi(\sigma+it)$ is the Fourier transform of the Schwartz function $u\mapsto g(u)e^{(\sigma-1/2)u}$, so Fourier inversion gives $g(v)e^{(\sigma-1/2)v}=\frac1{2\pi}\int e^{-itv}\Phi(\sigma+it)\,dt$. For $\sigma=2$ and $v=\log n$ this evaluates the $n$-th Dirichlet term $\Lambda(n)\,n^{-(2+it)}=\Lambda(n)\,n^{-2}e^{-it\log n}$ to $\Lambda(n)n^{-2}\cdot n^{3/2}g(\log n)=\Lambda(n)g(\log n)/\sqrt n$. Mathlib's $-\zeta'/\zeta=\sum_n\Lambda(n)n^{-s}$ on $\mathrm{Re}\,s>1$ is then integrated term by term: the sum and the integral commute because $\sum_n\Lambda(n)n^{-2}<\infty$ and $\Phi(2+i\,\cdot)$ is integrable. Applied to $u\mapsto g(-u)$, whose transform at $s$ is $\Phi(1-s)$, the same statement gives the terms $\Lambda(n)g(-\log n)/\sqrt n$, completing the prime side of the Weil form.
+\section{Explicit formula, stage E6c: reflection symmetry and the location of the zeros of $\xi$}
+\lean{GppXiReflection.logDeriv_xi_one_sub,GppXiReflection.isTestFunction_neg,GppXiReflection.spectralTransform_one_sub,GppXiReflection.xi_ne_zero_of_one_le_re,GppXiReflection.xi_ne_zero_of_re_le_zero,GppXiReflection.xi_zero_mem_strip,GppXiReflection.xi_eq_zero_iff_nontrivial}
+The functional equation $\xi(1-s)=\xi(s)$ gives $\xi'/\xi(1-s)=-\xi'/\xi(s)$, and the substitution $u\mapsto-u$ gives $\Phi_g(1-s)=\Phi_{g(-\cdot)}(s)$ for the spectral transform; together they turn the integral over the left vertical line of the contour into an integral over the right line against $\Phi_g(s)+\Phi_g(1-s)$. The zeros of $\xi$ are exactly the nontrivial zeros of $\zeta$: for $\mathrm{Re}\,s\ge1$ one has $\xi(s)=\tfrac12 s(s-1)\Gamma_{\mathbb R}(s)\zeta(s)\ne0$ ($\xi(1)=\tfrac12$, and $\zeta\ne0$ on $\mathrm{Re}\,s\ge1$ by Mathlib's non-vanishing theorem), and for $\mathrm{Re}\,s\le0$ the reflection reduces to that case, so every zero lies in $0<\mathrm{Re}\,s<1$, where $\xi(s)=0\iff\zeta(s)=0$. In particular $\xi$ has no zero on the vertical lines $\mathrm{Re}\,s=2$ and $\mathrm{Re}\,s=-1$ that bound the contour.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
