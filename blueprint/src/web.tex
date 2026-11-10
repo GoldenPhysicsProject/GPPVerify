@@ -8104,6 +8104,13 @@ This is the pointwise bound on $\xi'/\xi$ that the contour shift of the explicit
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E4b: a polynomial bound for $\xi'/\xi$ at good heights}
+\lean{Real.exists_mem_Icc_far_from_finset,GppXiZeroCounting.one_le_orderNat_xi,GppXiZeroCounting.finite_zeros_xi,GppXiZeroCounting.exists_radius_no_zero,GppXiZeroCounting.sum_orderNat_le,GppXiZeroCounting.exists_good_height}
+For every $T\ge1$ there is a height $t\in[T,T+1]$ such that $\xi$ has no zero on the segment $\{\sigma+it:-1\le\sigma\le2\}$ and $|\xi'/\xi|\le C\,t^{6}$ there, with $C$ independent of $T$. Choose a radius $R\in[2T+8,2T+9]$ with no zero of $\xi$ on $|z|=R$ (the zeros in a ball are finitely many, so only finitely many radii are excluded). By Jensen's bound (stage E3a: $\xi$ has order at most $2$) the zeros in $|z|\le R$ number at most $N\le A+BR^{3}$ counted with multiplicity. A unit interval contains a point at distance at least $1/(2(N+1))$ from each of at most $N$ reals, by comparing Lebesgue measures; this is the good height $t$. Every point $s$ of the segment has $|s|\le T+3\le R/2$ and $|\operatorname{Im}(s-\rho)|\ge1/(2(N+1))$ for every zero $\rho$, so Landau's lemma (stage E4a) with $M=C_0e^{R^{3}}$ gives
+$|\xi'/\xi(s)|\le N\bigl(2(N+1)+2\bigr)+48(\,|\log C_0|+|\log|\xi(0)||+2)R^{3}\le C\,R^{6}\le C'\,t^{6}$. Because the spectral transform decays faster than any polynomial on the strip (stage E1b), a polynomial bound is all the horizontal sides of the rectangular contour need.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
