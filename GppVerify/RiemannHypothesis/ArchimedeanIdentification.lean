@@ -248,4 +248,38 @@ theorem inner_integral {g : ℝ → ℝ} (hg : IsTestFunction g) {t : ℝ} (ht :
   rw [i0, i1]
   ring
 
+/-- `r ↦ (4 + |r|) ‖h(r)‖` is integrable. -/
+theorem integrable_weight_hline {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    Integrable (fun r : ℝ => (4 + |r|) * ‖hline g r‖) := by
+  obtain ⟨C0, hC0⟩ := spectralTransform_decay hg (1 / 2) 0
+  obtain ⟨C3, hC3⟩ := spectralTransform_decay hg (1 / 2) 3
+  have hb : ∀ r : ℝ, (4 + |r|) * ‖hline g r‖ ≤ (20 * (|C0| + |C3|)) * (1 / (1 + r ^ 2)) := by
+    intro r
+    have h0 := hC0 r
+    have h3 := hC3 r
+    have e : (((1 / 2 : ℝ) : ℂ) + (r : ℂ) * Complex.I) = (1 / 2 : ℂ) + (r : ℂ) * Complex.I := by
+      push_cast; ring
+    rw [e] at h0 h3
+    change |r| ^ 0 * ‖hline g r‖ ≤ C0 at h0
+    change |r| ^ 3 * ‖hline g r‖ ≤ C3 at h3
+    simp only [pow_zero, one_mul] at h0
+    have hh : 0 ≤ ‖hline g r‖ := norm_nonneg _
+    have ha : 0 ≤ |r| := abs_nonneg r
+    rw [mul_one_div, le_div_iff₀ (by positivity)]
+    have hsq : r ^ 2 = |r| ^ 2 := (sq_abs r).symm
+    rw [hsq]
+    have hC : ‖hline g r‖ * (1 + |r| ^ 3) ≤ |C0| + |C3| := by
+      have := le_abs_self C0
+      have := le_abs_self C3
+      nlinarith
+    nlinarith [mul_nonneg hh ha, mul_nonneg (mul_nonneg hh ha) ha, mul_nonneg hh (sq_nonneg |r|),
+      mul_nonneg (mul_nonneg hh ha) (sq_nonneg |r|), hC]
+  have hmaj : Integrable (fun r : ℝ => (20 * (|C0| + |C3|)) * (1 / (1 + r ^ 2))) := by
+    simpa [one_div] using integrable_inv_one_add_sq.const_mul (20 * (|C0| + |C3|))
+  refine Integrable.mono' hmaj ?_ ?_
+  · exact (Continuous.mul (by fun_prop) (hline_continuous hg).norm).aestronglyMeasurable
+  · refine Filter.Eventually.of_forall fun r => ?_
+    rw [Real.norm_of_nonneg (by positivity)]
+    exact hb r
+
 end GppArchimedeanId
