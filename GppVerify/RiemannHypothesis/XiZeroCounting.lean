@@ -7,6 +7,7 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.Analysis.Analytic.Order
 import Mathlib.Analysis.Meromorphic.Divisor
 import GppVerify.Upstream.ZeroCounting
+import GppVerify.Upstream.DyadicSummability
 import GppVerify.RiemannHypothesis.WeilPositivityCriterion
 import GppVerify.RiemannHypothesis.XiOrder
 import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
@@ -146,5 +147,97 @@ theorem sum_zeroMult_le :
       ((∑ᶠ u, (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)) u : ℤ) : ℝ) := by
     exact_mod_cast hsum ▸ hle
   simpa using this
+
+/-- Nontrivial zeros have multiplicity at least one. -/
+theorem one_le_zeroMult {ρ : ℂ} (hρ : ρ ∈ GppWeilCriterion.nontrivialZeros) : 1 ≤ zeroMult ρ := by
+  have hρ' := hρ
+  obtain ⟨hz, h0, h1⟩ := hρ'
+  rw [zeroMult_eq_orderNat_xi hρ]
+  have hρ0 : ρ ≠ 0 := fun h => by simp [h] at h0
+  have hρ1 : ρ ≠ 1 := fun h => by simp [h] at h1
+  have hxi0 : xi ρ = 0 :=
+    xi_eq_zero_of_zeta_zero hz hρ0 hρ1 (Gammaℝ_ne_zero_of_re_pos h0)
+  have hne0 : analyticOrderAt xi ρ ≠ 0 := by
+    rw [Ne, (differentiable_xi.analyticAt ρ).analyticOrderAt_eq_zero]
+    simpa using hxi0
+  have htop := analyticOrderAt_xi_ne_top ρ
+  unfold analyticOrderNatAt
+  obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.1 htop
+  rw [← hn] at hne0 ⊢
+  simp only [ENat.toNat_natCast]
+  have : n ≠ 0 := fun h => hne0 (by simp [h])
+  omega
+
+/-- **E3b: polynomial zero counting.** Counting the nontrivial zeros of `ζ` with multiplicity,
+`∑ mult(ρ) (1 + ‖ρ‖)⁻⁴` converges. -/
+theorem zeroCountingPolynomial :
+    ∃ N : ℕ, Summable (fun ρ : GppWeilCriterion.nontrivialZeros =>
+      (zeroMult ρ : ℝ) * ((1 + ‖(ρ : ℂ)‖) ^ N)⁻¹) := by
+  obtain ⟨A, B, hB, hcount⟩ := sum_zeroMult_le
+  refine ⟨4, ?_⟩
+  let ι := Σ ρ : GppWeilCriterion.nontrivialZeros, Fin (zeroMult ρ)
+  let a : ι → ℝ := fun i => 1 + ‖(i.1 : ℂ)‖
+  have hpos : ∀ i, 0 < a i := fun i => by simp only [a]; positivity
+  -- finiteness of the zeros in a ball
+  have hZfin : ∀ r : ℝ, {ρ : GppWeilCriterion.nontrivialZeros | ‖(ρ : ℂ)‖ ≤ r}.Finite := by
+    intro r
+    by_cases hr : 0 < r
+    · have hon : AnalyticOnNhd ℂ xi (Metric.closedBall (0 : ℂ) r) :=
+        fun z _ => differentiable_xi.analyticAt z
+      have hfin := (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)).finiteSupport
+        (isCompact_closedBall 0 r)
+      refine Set.Finite.of_finite_image (f := Subtype.val) ?_ Subtype.val_injective.injOn
+      refine hfin.subset ?_
+      rintro _ ⟨ρ, hρ, rfl⟩
+      have hmem : (ρ : ℂ) ∈ Metric.closedBall (0 : ℂ) r := by simpa using hρ
+      rw [Function.mem_support, divisor_xi_apply hmem, ← zeroMult_eq_orderNat_xi ρ.2]
+      have := one_le_zeroMult ρ.2
+      omega
+    · refine (Set.finite_empty).subset ?_
+      intro ρ hρ
+      exfalso
+      have : ‖(ρ : ℂ)‖ ≤ r := hρ
+      have hρ0 : (ρ : ℂ) ≠ 0 := fun h => by
+        have := ρ.2.2.1; simp [h] at this
+      have := norm_pos_iff.2 hρ0
+      exact hr (lt_of_lt_of_le this ‹_›)
+  have hfin : ∀ r : ℝ, {i : ι | a i ≤ r}.Finite := by
+    intro r
+    refine ((hZfin (r - 1)).biUnion (fun ρ _ => Set.finite_range (Sigma.mk ρ))).subset ?_
+    intro i hi
+    have : ‖(i.1 : ℂ)‖ ≤ r - 1 := by have : a i ≤ r := hi; simp only [a] at this; linarith
+    exact Set.mem_biUnion (x := i.1) this ⟨i.2, rfl⟩
+  have hcard : ∀ r : ℝ, 0 < r →
+      (((hfin r).toFinset.card : ℕ) : ℝ) ≤ A + B * r ^ ((2 : ℝ) + 1) := by
+    intro r hr
+    set Tf := (hZfin (r - 1)).toFinset with hTf
+    have hsub : (hfin r).toFinset ⊆ Tf.sigma (fun ρ => (Finset.univ : Finset (Fin (zeroMult ρ)))) := by
+      intro i hi
+      have hi' : a i ≤ r := (hfin r).mem_toFinset.1 hi
+      have : ‖(i.1 : ℂ)‖ ≤ r - 1 := by simp only [a] at hi'; linarith
+      exact Finset.mem_sigma.2 ⟨(hZfin (r - 1)).mem_toFinset.2 this, Finset.mem_univ _⟩
+    have hc1 := Finset.card_le_card hsub
+    rw [Finset.card_sigma] at hc1
+    simp only [Finset.card_univ, Fintype.card_fin] at hc1
+    set T : Finset ℂ := Tf.image Subtype.val with hT
+    have hsumT : ∑ ρ ∈ T, zeroMult ρ = ∑ ρ ∈ Tf, zeroMult (ρ : ℂ) :=
+      Finset.sum_image (fun x _ y _ h => Subtype.val_injective h)
+    have hbound := hcount r hr T (by
+      intro ρ hρ
+      obtain ⟨x, hx, rfl⟩ := Finset.mem_image.1 hρ
+      refine ⟨x.2, ?_⟩
+      have := (hZfin (r - 1)).mem_toFinset.1 hx
+      have : ‖(x : ℂ)‖ ≤ r - 1 := this
+      linarith)
+    refine le_trans ?_ hbound
+    rw [hsumT]
+    exact_mod_cast hc1
+  have hsum := Real.summable_inv_pow_of_counting_le hpos hfin hB (by norm_num : (0:ℝ) ≤ 2 + 1)
+    (m := 4) (by norm_num) hcard
+  have hfib := hsum.sigma
+  refine hfib.congr (fun ρ => ?_)
+  simp only [a, tsum_fintype, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
+    nsmul_eq_mul]
+  rw [inv_pow]
 
 end GppXiZeroCounting
