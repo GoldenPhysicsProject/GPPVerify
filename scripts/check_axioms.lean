@@ -412,3 +412,6 @@ import GppVerify
 #print axioms GppXiZeroCounting.logDeriv_Gammaℝ
 #print axioms GppXiZeroCounting.xi_eq_mul
 #print axioms GppXiZeroCounting.logDeriv_xi_eq
+#print axioms GppSpectralInversion.line_inversion
+#print axioms GppPrimeLine.term_integral
+#print axioms GppPrimeLine.prime_line

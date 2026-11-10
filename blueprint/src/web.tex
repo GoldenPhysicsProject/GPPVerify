@@ -8134,6 +8134,16 @@ with $\psi=\Gamma'/\Gamma$ Mathlib's digamma function. It follows from $\xi(s)=\
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E6b: the prime terms on the line $\mathrm{Re}\,s=2$}
+\lean{GppSpectralInversion.line_inversion,GppPrimeLine.line_integrable,GppPrimeLine.natCast_cpow_line,GppPrimeLine.term_integral,GppPrimeLine.prime_line}
+For a test function $g$ and $\Phi(s)=\int g(u)e^{(s-1/2)u}\,du$,
+\[
+\frac1{2\pi}\int_{\mathbb R}\Bigl(-\frac{\zeta'}{\zeta}\Bigr)(2+it)\,\Phi(2+it)\,dt\;=\;\sum_{n\ge1}\frac{\Lambda(n)\,g(\log n)}{\sqrt n}.
+\]
+On $\mathrm{Re}\,s=\sigma$ the transform $t\mapsto\Phi(\sigma+it)$ is the Fourier transform of the Schwartz function $u\mapsto g(u)e^{(\sigma-1/2)u}$, so Fourier inversion gives $g(v)e^{(\sigma-1/2)v}=\frac1{2\pi}\int e^{-itv}\Phi(\sigma+it)\,dt$. For $\sigma=2$ and $v=\log n$ this evaluates the $n$-th Dirichlet term $\Lambda(n)\,n^{-(2+it)}=\Lambda(n)\,n^{-2}e^{-it\log n}$ to $\Lambda(n)n^{-2}\cdot n^{3/2}g(\log n)=\Lambda(n)g(\log n)/\sqrt n$. Mathlib's $-\zeta'/\zeta=\sum_n\Lambda(n)n^{-s}$ on $\mathrm{Re}\,s>1$ is then integrated term by term: the sum and the integral commute because $\sum_n\Lambda(n)n^{-2}<\infty$ and $\Phi(2+i\,\cdot)$ is integrable. Applied to $u\mapsto g(-u)$, whose transform at $s$ is $\Phi(1-s)$, the same statement gives the terms $\Lambda(n)g(-\log n)/\sqrt n$, completing the prime side of the Weil form.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
