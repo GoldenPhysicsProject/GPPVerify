@@ -1395,6 +1395,7 @@ import GppVerify.Upstream.ZeroCounting
 import GppVerify.Upstream.DyadicSummability
 import GppVerify.Upstream.LogDerivativeLandau
 import GppVerify.Upstream.RectangleWinding
+import GppVerify.Upstream.AvoidFiniteSet
 import GppVerify.Upstream.ZeroSummability
 import GppVerify.Upstream.TwoVectorProjection
 
@@ -2464,6 +2465,7 @@ import GppVerify.RiemannHypothesis.ExplicitFormulaE1Strip
 import GppVerify.RiemannHypothesis.XiOrder
 import GppVerify.RiemannHypothesis.XiZeroCounting
 import GppVerify.RiemannHypothesis.XiZeroSymmetry
+import GppVerify.RiemannHypothesis.XiLogDerivative
 import GppVerify.RiemannHypothesis.ExplicitFormulaE1Decay
 import GppVerify.RiemannHypothesis.DigammaGaussLimit
 import GppVerify.RiemannHypothesis.DigammaGaussSeries

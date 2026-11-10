@@ -400,3 +400,7 @@ import GppVerify
 #print axioms Complex.logDeriv_canonicalFactor
 #print axioms Complex.norm_logDeriv_le
 #print axioms Complex.rect_boundary_integral_inv_sub
+#print axioms Real.exists_mem_Icc_far_from_finset
+#print axioms GppXiZeroCounting.exists_radius_no_zero
+#print axioms GppXiZeroCounting.sum_orderNat_le
+#print axioms GppXiZeroCounting.exists_good_height
