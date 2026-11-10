@@ -395,3 +395,7 @@ import GppVerify
 #print axioms GppXiZeroCounting.analyticOrderAt_xi_conj
 #print axioms GppXiZeroCounting.analyticOrderAt_xi_one_sub
 #print axioms GppXiZeroCounting.zeroData_symmetric
+#print axioms Complex.exists_exp_eq_of_ne_zero_ball
+#print axioms Complex.norm_deriv_le_of_re_le
+#print axioms Complex.logDeriv_canonicalFactor
+#print axioms Complex.norm_logDeriv_le
