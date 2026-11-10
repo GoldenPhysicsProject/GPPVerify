@@ -173,7 +173,5 @@ theorem inversion {g : ℝ → ℝ} (hg : IsTestFunction g) (v : ℝ) :
   rw [habs] at hcomp
   rw [hcomp]
   simp only [Complex.real_smul]
-  push_cast
-  field_simp
 
 end GppArchimedeanId
