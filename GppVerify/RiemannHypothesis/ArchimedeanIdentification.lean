@@ -282,4 +282,42 @@ theorem integrable_weight_hline {g : ℝ → ℝ} (hg : IsTestFunction g) :
     rw [Real.norm_of_nonneg (by positivity)]
     exact hb r
 
+/-- Joint integrability of `h(r) K(z_r, t)` over `ℝ × (0, ∞)`. -/
+theorem integrable_prod {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    Integrable (fun p : ℝ × ℝ => hline g p.1 * K ((1 / 4 : ℂ) + (p.1 / 2 : ℝ) * Complex.I) p.2)
+      (volume.prod (volume.restrict (Ioi (0 : ℝ)))) := by
+  have hf : Integrable (fun r : ℝ => (4 + |r|) * ‖hline g r‖ * Real.exp (1 / 4)) :=
+    (integrable_weight_hline hg).mul_const _
+  have hgt : Integrable (fun t : ℝ => Real.exp (-t / 4)) (volume.restrict (Ioi (0 : ℝ))) := by
+    have h : IntegrableOn (fun t : ℝ => ‖Complex.exp (-(1 / 4 : ℂ) * t)‖) (Ioi 0) :=
+      (GppDigammaIntegral.integrableOn_exp_neg (a := (1 / 4 : ℂ)) (by simp)).norm
+    refine h.congr_fun (fun t _ => ?_) measurableSet_Ioi
+    simp only [Complex.norm_exp]
+    congr 1
+    simp
+    ring
+  have hM := hf.mul_prod hgt
+  refine hM.mono' ?_ ?_
+  · -- measurability
+    have hc : Continuous (hline g) := hline_continuous hg
+    have h1 : Measurable (fun p : ℝ × ℝ => hline g p.1) := hc.measurable.comp measurable_fst
+    have h2 : Measurable (fun p : ℝ × ℝ =>
+        K ((1 / 4 : ℂ) + (p.1 / 2 : ℝ) * Complex.I) p.2) := by
+      unfold K
+      refine Measurable.div ?_ ?_
+      · refine Measurable.sub (by fun_prop) ?_
+        exact Complex.measurable_exp.comp (by fun_prop)
+      · exact measurable_const.sub (Complex.measurable_exp.comp (by fun_prop))
+    exact (h1.mul h2).aestronglyMeasurable
+  · rw [← Measure.restrict_univ (μ := (volume : Measure ℝ)), Measure.prod_restrict,
+      Measure.restrict_univ]
+    rw [ae_restrict_iff' (MeasurableSet.univ.prod measurableSet_Ioi)]
+    refine Filter.Eventually.of_forall fun p hp => ?_
+    have ht : 0 < p.2 := hp.2
+    rw [norm_mul]
+    have := norm_K_le p.1 ht
+    calc ‖hline g p.1‖ * ‖K ((1 / 4 : ℂ) + (p.1 / 2 : ℝ) * Complex.I) p.2‖
+        ≤ ‖hline g p.1‖ * ((4 + |p.1|) * Real.exp (1 / 4) * Real.exp (-p.2 / 4)) := by gcongr
+      _ = (4 + |p.1|) * ‖hline g p.1‖ * Real.exp (1 / 4) * Real.exp (-p.2 / 4) := by ring
+
 end GppArchimedeanId
