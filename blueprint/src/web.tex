@@ -8114,6 +8114,16 @@ $|\xi'/\xi(s)|\le N\bigl(2(N+1)+2\bigr)+48(\,|\log C_0|+|\log|\xi(0)||+2)R^{3}\l
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E5b: the residue sum of $(f'/f)\,\Phi$ over a rectangle}
+\lean{Complex.exists_blaschke_decomposition,Complex.rectInt_div_sub,Complex.rectInt_div_sub_of_notMem,Complex.rectInt_finset_sum,Complex.rectInt_logDeriv_mul}
+Let $f$ be entire with $f(0)\ne0$, $\Phi$ entire, and $Q$ a rectangle with no zero of $f$ on its boundary, contained in a disc $|z|<R$ whose circle carries no zero. Then
+\[
+\oint_{\partial Q}\frac{f'}{f}\,\Phi\;=\;2\pi i\sum_{\rho\in Q^\circ}m_\rho\,\Phi(\rho),
+\]
+summed over the zeros $\rho$ strictly inside $Q$ with multiplicity $m_\rho$. Mathlib has Cauchy--Goursat for rectangles but no residue theorem, so the proof uses only boundary values. On the disc, $f'/f=g'/g-\sum_\rho m_\rho\,(\text{canonical factor})'/(\text{canonical factor})$ with $g$ analytic and zero-free (stage E4a), and the canonical-factor logarithmic derivative is $-\bar\rho/(R^2-\bar\rho s)-1/(s-\rho)$. Hence on $\partial Q$ the integrand is $g'\Phi/g+\sum_\rho m_\rho\bigl(\tfrac{\bar\rho}{R^2-\bar\rho s}\Phi+\tfrac{\Phi}{s-\rho}\bigr)$. The first two kinds of term are holomorphic on $Q$, so their boundary integrals vanish by Cauchy--Goursat. For $\Phi/(s-\rho)$ write $\Phi(s)/(s-\rho)=\mathrm{dslope}\,\Phi\,\rho\,(s)+\Phi(\rho)/(s-\rho)$ with the first part entire: if $\rho$ lies outside $Q$ the whole term is holomorphic and contributes $0$; if $\rho$ lies inside, stage E5a gives $2\pi i\,\Phi(\rho)$. A zero on $\partial Q$ never arises, because no zero is assumed to lie there.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
