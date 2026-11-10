@@ -8088,6 +8088,12 @@ Near a point $\rho$ of the open strip $0<{\rm Re}\,s<1$ one has $\xi(s)/\Gamma_{
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E3b (continued): symmetry of the zero multiplicities}
+\lean{GppXiZeroCounting.analyticOrderAt_xi_conj,GppXiZeroCounting.analyticOrderAt_xi_one_sub,GppXiZeroCounting.conj_mem_nontrivialZeros,GppXiZeroCounting.zeroData_symmetric}
+The nontrivial zeros of $\zeta$ with their multiplicities are invariant under $\rho\mapsto\bar\rho$ and $\rho\mapsto1-\rho$, hence under $\rho\mapsto1-\bar\rho$. The functional equation $\xi(1-s)=\xi(s)$ gives the second, because composing with the affine map $s\mapsto1-s$ (derivative $-1$) preserves the order of vanishing. Conjugation is antiholomorphic, so the composition lemma does not apply; instead, if $\xi(s)=(s-z)^n g(s)$ near $z$ with $g$ analytic and $g(z)\ne0$, then reality $\xi(\bar s)=\overline{\xi(s)}$ gives $\xi(s)=\overline{\xi(\bar s)}=(s-\bar z)^n\,\overline{g(\bar s)}$ near $\bar z$, and $s\mapsto\overline{g(\bar s)}$ is again analytic and nonvanishing at $\bar z$. Orders of $\xi$ are finite because $\xi(0)\ne0$, so the argument runs both ways. This discharges the symmetry hypothesis of the GW-EF density step (the four-point witness needs multiplicity-equal companions $\rho,\ 1-\rho,\ \bar\rho,\ 1-\bar\rho$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

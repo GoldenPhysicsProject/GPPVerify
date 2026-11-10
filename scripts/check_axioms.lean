@@ -392,3 +392,6 @@ import GppVerify
 #print axioms GppXiZeroCounting.sum_zeroMult_le
 #print axioms GppXiZeroCounting.one_le_zeroMult
 #print axioms GppXiZeroCounting.zeroCountingPolynomial
+#print axioms GppXiZeroCounting.analyticOrderAt_xi_conj
+#print axioms GppXiZeroCounting.analyticOrderAt_xi_one_sub
+#print axioms GppXiZeroCounting.zeroData_symmetric
