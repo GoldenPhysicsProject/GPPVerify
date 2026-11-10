@@ -197,4 +197,53 @@ theorem integral_Odd' {g : ℝ → ℝ} (hev : ∀ u, g (-u) = g u) : ∫ y : �
     exact integral_congr_ae (Filter.Eventually.of_forall fun y => Odd'_neg hev y)
   linear_combination (1 / 2 : ℂ) * h
 
+
+/-- **The critical line gives the archimedean term:**
+`(1/2π) ∫ H(1/2 + iy) dy = archimedeanTerm g` for even `g`. -/
+theorem half_line {g : ℝ → ℝ} (hg : IsTestFunction g) (hev : ∀ u, g (-u) = g u) :
+    ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ y : ℝ, H g (sh y) =
+      ((GppArchimedeanFloor.archimedeanTerm g : ℝ) : ℂ) := by
+  have hHint : Integrable fun y : ℝ => H g (sh y) :=
+    integrable_H_line hg (σ := 1 / 2) (Or.inl rfl)
+  have hRest : Integrable (Rest' g) := by
+    have : Rest' g = fun y => H g (sh y) - Odd' g y := by
+      funext y; rw [H_half_eq hev]; ring
+    rw [this]; exact hHint.sub (integrable_Odd' hg)
+  have hhl : Integrable fun y : ℝ => spectralTransform g (sh y) := integrable_hline hg
+  have hψ : Integrable fun y : ℝ => spectralTransform g (sh y) *
+      Complex.digamma (sh y / 2) := by
+    have : (fun y : ℝ => spectralTransform g (sh y) * Complex.digamma (sh y / 2)) =
+        fun y => Rest' g y + (Real.log Real.pi : ℂ) * spectralTransform g (sh y) := by
+      funext y; unfold Rest'; ring
+    rw [this]; exact hRest.add (hhl.const_mul _)
+  have hsplit : ∫ y : ℝ, H g (sh y) = ∫ y : ℝ, Rest' g y := by
+    have : (fun y : ℝ => H g (sh y)) = fun y => Odd' g y + Rest' g y := by
+      funext y; exact H_half_eq hev y
+    rw [this, integral_add (integrable_Odd' hg) hRest, integral_Odd' hev, zero_add]
+  have hRest_eq : ∫ y : ℝ, Rest' g y = -(Real.log Real.pi : ℂ) * (∫ y : ℝ, spectralTransform g (sh y)) +
+      (∫ y : ℝ, spectralTransform g (sh y) * Complex.digamma (sh y / 2)) := by
+    have : Rest' g = fun y => (-(Real.log Real.pi : ℂ)) * spectralTransform g (sh y) +
+        spectralTransform g (sh y) * Complex.digamma (sh y / 2) := by
+      funext y; unfold Rest'; ring
+    rw [this, integral_add (hhl.const_mul _) hψ, integral_const_mul]
+  have hid := GppArchimedeanId.archimedean_identification hg
+  have hid2 : ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ y : ℝ, spectralTransform g (sh y) *
+        Complex.digamma (sh y / 2) =
+      ((GppArchimedeanFloor.archimedeanTerm g + g 0 * Real.log Real.pi : ℝ) : ℂ) := by
+    rw [← hid]
+    congr 2
+    funext y
+    unfold GppArchimedeanId.hline sh
+    congr 2
+    · push_cast; ring_nf
+    · push_cast; ring_nf
+  have hinv := integral_hline hg
+  rw [hsplit, hRest_eq, mul_add]
+  have e1 : ((1 / (2 * Real.pi) : ℝ) : ℂ) * (-(Real.log Real.pi : ℂ) * (∫ y : ℝ, spectralTransform g (sh y))) =
+      -(Real.log Real.pi : ℂ) * (g 0 : ℂ) := by
+    rw [← hinv]; unfold sh; ring
+  rw [e1, hid2]
+  push_cast
+  ring
+
 end GppExplicitFormulaAssembly
