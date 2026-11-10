@@ -8124,6 +8124,16 @@ summed over the zeros $\rho$ strictly inside $Q$ with multiplicity $m_\rho$. Mat
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E6a: the logarithmic derivative of $\xi$}
+\lean{GppXiZeroCounting.logDeriv_Gammaℝ,GppXiZeroCounting.xi_eq_mul,GppXiZeroCounting.logDeriv_xi_eq}
+For $\mathrm{Re}\,s>0$, $s\ne1$ and $\xi(s)\ne0$,
+\[
+\frac{\xi'}{\xi}(s)=\frac1s+\frac1{s-1}-\frac{\log\pi}2+\frac12\,\psi\!\Bigl(\frac s2\Bigr)+\frac{\zeta'}{\zeta}(s),
+\]
+with $\psi=\Gamma'/\Gamma$ Mathlib's digamma function. It follows from $\xi(s)=\tfrac12s(s-1)\,\Gamma_{\mathbb R}(s)\,\zeta(s)$ on $\mathrm{Re}\,s>0$, $s\ne1$, by taking the logarithmic derivative of the product (each factor is differentiable and nonzero there), and $\Gamma_{\mathbb R}(s)=\pi^{-s/2}\Gamma(s/2)$ gives $\Gamma_{\mathbb R}'/\Gamma_{\mathbb R}=-\tfrac12\log\pi+\tfrac12\psi(s/2)$. This splits the integrand of the contour integral of the explicit formula into the pole term ($1/s+1/(s-1)$), the Archimedean term ($\psi$ and $\log\pi$) and the prime term ($\zeta'/\zeta$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

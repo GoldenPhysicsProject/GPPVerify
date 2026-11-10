@@ -409,3 +409,6 @@ import GppVerify
 #print axioms GppXiZeroCounting.exists_radius_no_zero
 #print axioms GppXiZeroCounting.sum_orderNat_le
 #print axioms GppXiZeroCounting.exists_good_height
+#print axioms GppXiZeroCounting.logDeriv_Gammaℝ
+#print axioms GppXiZeroCounting.xi_eq_mul
+#print axioms GppXiZeroCounting.logDeriv_xi_eq
