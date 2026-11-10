@@ -154,4 +154,33 @@ theorem rectInt_div_sub_of_notMem {Φ : ℂ → ℂ} (hΦ : Differentiable ℂ �
   have hne : s - ρ ≠ 0 := sub_ne_zero.mpr fun h => hρ (h ▸ hs)
   exact ((hΦ s).div (differentiableAt_id.sub_const ρ) hne).differentiableWithinAt
 
+theorem EdgeInt.add {F G : ℂ → ℂ} {z w : ℂ} (hF : EdgeInt F z w) (hG : EdgeInt G z w) :
+    EdgeInt (fun s => F s + G s) z w :=
+  ⟨hF.1.add hG.1, hF.2.1.add hG.2.1, hF.2.2.1.add hG.2.2.1, hF.2.2.2.add hG.2.2.2⟩
+
+theorem EdgeInt.zero (z w : ℂ) : EdgeInt (fun _ => (0 : ℂ)) z w :=
+  edgeInt_of_continuous continuous_const z w
+
+theorem EdgeInt.finset_sum {ι : Type*} (t : Finset ι) {F : ι → ℂ → ℂ} {z w : ℂ}
+    (h : ∀ i ∈ t, EdgeInt (F i) z w) : EdgeInt (fun s => ∑ i ∈ t, F i s) z w := by
+  classical
+  induction t using Finset.induction_on with
+  | empty => simpa using EdgeInt.zero z w
+  | insert a t ha ih =>
+    simp only [Finset.sum_insert ha]
+    exact (h a (Finset.mem_insert_self _ _)).add (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+
+theorem rectInt_finset_sum {ι : Type*} (t : Finset ι) {F : ι → ℂ → ℂ} {z w : ℂ}
+    (h : ∀ i ∈ t, EdgeInt (F i) z w) :
+    rectInt (fun s => ∑ i ∈ t, F i s) z w = ∑ i ∈ t, rectInt (F i) z w := by
+  classical
+  induction t using Finset.induction_on with
+  | empty =>
+    simp [rectInt]
+  | insert a t ha ih =>
+    simp only [Finset.sum_insert ha]
+    rw [rectInt_add (h a (Finset.mem_insert_self _ _))
+      (EdgeInt.finset_sum t fun i hi => h i (Finset.mem_insert_of_mem hi)),
+      ih fun i hi => h i (Finset.mem_insert_of_mem hi)]
+
 end Complex
