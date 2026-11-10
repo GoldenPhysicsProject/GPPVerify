@@ -128,4 +128,103 @@ theorem logDeriv_canonicalFactor {R : ℝ} {w z : ℂ} (hR : R ≠ 0) (hzw : z �
   simp only [Pi.div_apply]
   field_simp
 
+/-- **Landau's lemma for the logarithmic derivative** (centre `0`, interior point `z`).
+
+For `f` entire with `f 0 ≠ 0`, `‖f‖ ≤ M` on `closedBall 0 R`, no zeros on `sphere 0 R`, and a
+point `z` with `‖z‖ ≤ R / 2` and `f z ≠ 0`,
+
+  `‖f'(z)/f(z)‖ ≤ ∑_ρ m_ρ (1/‖z - ρ‖ + 2/R) + 24 (log M - log ‖f 0‖ + 1) / R`,
+
+the sum over the zeros `ρ` of `f` in the open ball, with multiplicity `m_ρ`. -/
+theorem norm_logDeriv_le {f : ℂ → ℂ} (hf : Differentiable ℂ f) (h0 : f 0 ≠ 0) {R M : ℝ}
+    (hR : 0 < R) (hsph : ∀ z : ℂ, ‖z‖ = R → f z ≠ 0) (hM : ∀ z : ℂ, ‖z‖ ≤ R → ‖f z‖ ≤ M)
+    {z : ℂ} (hz : ‖z‖ ≤ R / 2) (hfz : f z ≠ 0) :
+    ‖logDeriv f z‖ ≤
+      ∑ᶠ u, (((MeromorphicOn.divisor f (ball (0 : ℂ) R)) u).toNat : ℝ) * (1 / ‖z - u‖ + 2 / R)
+        + 24 * (Real.log M - Real.log ‖f 0‖ + 1) / R := by
+  have hon : AnalyticOnNhd ℂ f univ := fun x _ => hf.analyticAt x
+  have hmer : MeromorphicOn f (closedBall (0 : ℂ) R) := fun x _ => (hf.analyticAt x).meromorphicAt
+  have hord : ∀ u : closedBall (0 : ℂ) R, meromorphicOrderAt f u ≠ ⊤ := by
+    intro u hu
+    rw [(hf.analyticAt u).meromorphicOrderAt_eq] at hu
+    have htop : analyticOrderAt f u = ⊤ := by
+      by_contra hne
+      obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.1 hne
+      rw [← hn] at hu
+      simp at hu
+    have hev : f =ᶠ[nhds (u : ℂ)] 0 := analyticOrderAt_eq_top.1 htop
+    have hzero := hon.eqOn_zero_of_preconnected_of_eventuallyEq_zero isPreconnected_univ
+      (Set.mem_univ (u : ℂ)) hev
+    exact h0 (hzero (Set.mem_univ 0))
+  obtain ⟨g, D⟩ := MeromorphicOn.exists_ecanonicalDecomp hmer hord
+  have hsd : ∀ i, MeromorphicOn.divisor f (sphere (0 : ℂ) R) i = 0 := by
+    intro i
+    by_cases hi : i ∈ sphere (0 : ℂ) R
+    · rw [MeromorphicOn.divisor_apply (hmer.mono_set sphere_subset_closedBall) hi]
+      have hfi : f i ≠ 0 := hsph i (by simpa using hi)
+      have : meromorphicOrderAt f i = 0 := by
+        rw [(hf.analyticAt i).meromorphicOrderAt_eq,
+          (hf.analyticAt i).analyticOrderAt_eq_zero.2 hfi]
+        simp
+      simp [this]
+    · exact Function.locallyFinsuppWithin.apply_eq_zero_of_notMem _ hi
+  have hord0 : ∀ w, f w ≠ 0 → meromorphicOrderAt f w = 0 := by
+    intro w hw
+    rw [(hf.analyticAt w).meromorphicOrderAt_eq, (hf.analyticAt w).analyticOrderAt_eq_zero.2 hw]
+    simp
+  -- the logarithm of the norm of `g`
+  have hlog : ∀ w ∈ closedBall (0 : ℂ) R, f w ≠ 0 →
+      Real.log ‖g w‖ = (∑ᶠ i, ((MeromorphicOn.divisor f (ball (0 : ℂ) R) i : ℤ) : ℝ) *
+        Real.log ‖canonicalFactor R i w‖) + Real.log ‖f w‖ := by
+    intro w hw hfw
+    have := D.log_norm_eq hw (hord0 w hfw) hR
+    simp only [hsd, Int.cast_zero, zero_mul, finsum_zero, sub_zero] at this
+    rw [this, (hf.analyticAt w).meromorphicTrailingCoeffAt_of_ne_zero hfw]
+  have hsupp : ∀ i, MeromorphicOn.divisor f (ball (0 : ℂ) R) i ≠ 0 → i ∈ ball (0 : ℂ) R :=
+    fun i hi => (MeromorphicOn.divisor f (ball (0 : ℂ) R)).supportWithinDomain
+      (Function.mem_support.2 hi)
+  have hdn : ∀ i, 0 ≤ MeromorphicOn.divisor f (ball (0 : ℂ) R) i := fun i =>
+    MeromorphicOn.AnalyticOnNhd.divisor_nonneg (fun x _ => hf.analyticAt x) i
+  -- on the sphere, `‖g‖ = ‖f‖`
+  have hgsph : ∀ w : ℂ, ‖w‖ = R → ‖g w‖ = ‖f w‖ := by
+    intro w hw
+    have hfw := hsph w hw
+    have hgw : g w ≠ 0 := D.ne_zero w (by simp [hw])
+    have h1 := hlog w (by simp [hw]) hfw
+    have h2 : (∑ᶠ i, ((MeromorphicOn.divisor f (ball (0 : ℂ) R) i : ℤ) : ℝ) *
+        Real.log ‖canonicalFactor R i w‖) = 0 := by
+      refine finsum_eq_zero_of_forall_eq_zero fun i => ?_
+      by_cases hi : MeromorphicOn.divisor f (ball (0 : ℂ) R) i = 0
+      · simp [hi]
+      · rw [norm_canonicalFactor_eval_circle_eq_one (hsupp i hi) (by simpa using hw)]
+        simp
+    rw [h2, zero_add] at h1
+    exact Real.log_injOn_pos (norm_pos_iff.2 hgw) (norm_pos_iff.2 hfw) h1
+  -- `g` at the centre is at least as large as `f` at the centre
+  have hg0 : Real.log ‖f 0‖ ≤ Real.log ‖g 0‖ := by
+    rw [hlog 0 (by simp [hR.le]) h0]
+    have : 0 ≤ ∑ᶠ i, ((MeromorphicOn.divisor f (ball (0 : ℂ) R) i : ℤ) : ℝ) *
+        Real.log ‖canonicalFactor R i 0‖ := by
+      refine finsum_nonneg fun i => ?_
+      by_cases hi : MeromorphicOn.divisor f (ball (0 : ℂ) R) i = 0
+      · simp [hi]
+      · have hib := hsupp i hi
+        have hi0 : i ≠ 0 := by
+          rintro rfl
+          have : MeromorphicOn.divisor f (ball (0 : ℂ) R) 0 = 0 := by
+            rw [MeromorphicOn.divisor_apply (fun x hx => hmer x (ball_subset_closedBall hx))
+              (by simpa using hR)]
+            simp [hord0 0 h0]
+          exact hi this
+        refine mul_nonneg (by exact_mod_cast hdn i) (Real.log_nonneg ?_)
+        rw [canonicalFactor_apply]
+        simp only [mul_zero, sub_zero, zero_sub, norm_div, norm_neg, norm_mul]
+        have hn : ‖i‖ < R := by simpa using hib
+        have hnpos : 0 < ‖i‖ := norm_pos_iff.2 hi0
+        rw [norm_pow, Complex.norm_real, Real.norm_of_nonneg hR.le,
+          one_le_div (by positivity)]
+        nlinarith
+    linarith
+  sorry
+
 end Complex
