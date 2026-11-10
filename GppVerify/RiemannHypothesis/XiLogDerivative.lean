@@ -67,4 +67,45 @@ theorem exists_radius_no_zero (R₀ : ℝ) :
   rw [Set.Finite.mem_toFinset]
   exact ⟨z, ⟨by rw [hz]; exact hR.2, hx⟩, hz⟩
 
+/-- The divisor of `ξ` on any set is its order of vanishing, on that set. -/
+theorem divisor_xi_apply_set {U : Set ℂ} {ρ : ℂ} (hρ : ρ ∈ U) :
+    MeromorphicOn.divisor xi U ρ = (analyticOrderNatAt xi ρ : ℤ) := by
+  have hon : AnalyticOnNhd ℂ xi U := fun z _ => differentiable_xi.analyticAt z
+  rw [MeromorphicOn.AnalyticOnNhd.divisor_apply hon hρ]
+  obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.1 (analyticOrderAt_xi_ne_top ρ)
+  simp [analyticOrderNatAt, ← hn]
+
+/-- **Jensen counting in terms of the orders of vanishing.** -/
+theorem sum_orderNat_le :
+    ∃ A B : ℝ, 0 ≤ B ∧ ∀ r : ℝ, 0 < r →
+      ((∑ u ∈ (finite_zeros_xi r).toFinset, analyticOrderNatAt xi u : ℕ) : ℝ)
+        ≤ A + B * r ^ ((2 : ℝ) + 1) := by
+  obtain ⟨A, B, hB, hb⟩ := Complex.HasOrderLE.sum_divisor_le differentiable_xi
+    (by simpa using xi_zero_ne) GppXiOrder.xi_hasOrderLE_two (ε := 1) one_pos
+  refine ⟨A, B, hB, fun r hr => le_trans (le_of_eq ?_) (hb r hr)⟩
+  have hfin := (MeromorphicOn.divisor xi (closedBall (0 : ℂ) r)).finiteSupport
+    (isCompact_closedBall 0 r)
+  have hsub : Function.support (MeromorphicOn.divisor xi (closedBall (0 : ℂ) r)) ⊆
+      ↑(finite_zeros_xi r).toFinset := by
+    intro u hu
+    have hu' : u ∈ closedBall (0 : ℂ) r :=
+      (MeromorphicOn.divisor xi (closedBall (0 : ℂ) r)).supportWithinDomain hu
+    have := (mem_support_divisor_xi_iff hu').1 hu
+    rw [Finset.mem_coe, Set.Finite.mem_toFinset]
+    exact ⟨by simpa using hu', this⟩
+  have hfs : ∑ᶠ u, MeromorphicOn.divisor xi (closedBall (0 : ℂ) r) u =
+      ∑ u ∈ (finite_zeros_xi r).toFinset, MeromorphicOn.divisor xi (closedBall (0 : ℂ) r) u :=
+    finsum_eq_sum_of_support_subset _ hsub
+  rw [hfs]
+  have : ∑ u ∈ (finite_zeros_xi r).toFinset, MeromorphicOn.divisor xi (closedBall (0 : ℂ) r) u =
+      ((∑ u ∈ (finite_zeros_xi r).toFinset, analyticOrderNatAt xi u : ℕ) : ℤ) := by
+    push_cast
+    refine Finset.sum_congr rfl fun u hu => ?_
+    rw [Set.Finite.mem_toFinset] at hu
+    have hu' : u ∈ closedBall (0 : ℂ) r := by simpa using hu.1
+    exact divisor_xi_apply_set hu'
+  rw [this]
+  push_cast
+  rfl
+
 end GppXiZeroCounting
