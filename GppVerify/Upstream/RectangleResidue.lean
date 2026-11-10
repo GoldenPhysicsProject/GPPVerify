@@ -128,4 +128,30 @@ theorem rectInt_div_sub {Φ : ℂ → ℂ} (hΦ : Differentiable ℂ Φ) {z w ρ
   rw [h2]
   ring
 
+/-- The edge integrands are interval integrable when `F` is continuous at every boundary point. -/
+theorem edgeInt_of_continuousAt_boundary {F : ℂ → ℂ} {z w : ℂ}
+    (h : ∀ s, OnRectBoundary z w s → ContinuousAt F s) : EdgeInt F z w := by
+  have hc1 : ContinuousOn (fun x : ℝ => F (x + z.im * I)) (uIcc z.re w.re) := fun x hx =>
+    ((h _ (Or.inl ⟨Or.inl (by simp), by simpa using hx⟩)).comp
+      (by fun_prop : Continuous fun x : ℝ => (x : ℂ) + z.im * I).continuousAt).continuousWithinAt
+  have hc2 : ContinuousOn (fun x : ℝ => F (x + w.im * I)) (uIcc z.re w.re) := fun x hx =>
+    ((h _ (Or.inl ⟨Or.inr (by simp), by simpa using hx⟩)).comp
+      (by fun_prop : Continuous fun x : ℝ => (x : ℂ) + w.im * I).continuousAt).continuousWithinAt
+  have hc3 : ContinuousOn (fun y : ℝ => F (w.re + y * I)) (uIcc z.im w.im) := fun y hy =>
+    ((h _ (Or.inr ⟨Or.inr (by simp), by simpa using hy⟩)).comp
+      (by fun_prop : Continuous fun y : ℝ => (w.re : ℂ) + y * I).continuousAt).continuousWithinAt
+  have hc4 : ContinuousOn (fun y : ℝ => F (z.re + y * I)) (uIcc z.im w.im) := fun y hy =>
+    ((h _ (Or.inr ⟨Or.inl (by simp), by simpa using hy⟩)).comp
+      (by fun_prop : Continuous fun y : ℝ => (z.re : ℂ) + y * I).continuousAt).continuousWithinAt
+  exact ⟨hc1.intervalIntegrable, hc2.intervalIntegrable, hc3.intervalIntegrable,
+    hc4.intervalIntegrable⟩
+
+/-- **A pole outside the closed rectangle contributes nothing.** -/
+theorem rectInt_div_sub_of_notMem {Φ : ℂ → ℂ} (hΦ : Differentiable ℂ Φ) {z w ρ : ℂ}
+    (hρ : ρ ∉ [[z.re, w.re]] ×ℂ [[z.im, w.im]]) :
+    rectInt (fun s => Φ s / (s - ρ)) z w = 0 := by
+  refine rectInt_eq_zero_of_differentiableOn z w fun s hs => ?_
+  have hne : s - ρ ≠ 0 := sub_ne_zero.mpr fun h => hρ (h ▸ hs)
+  exact ((hΦ s).div (differentiableAt_id.sub_const ρ) hne).differentiableWithinAt
+
 end Complex
