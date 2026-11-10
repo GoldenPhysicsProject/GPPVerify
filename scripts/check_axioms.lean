@@ -422,3 +422,7 @@ import GppVerify
 #print axioms GppSpectralInversion.line_inversion
 #print axioms GppPrimeLine.term_integral
 #print axioms GppPrimeLine.prime_line
+#print axioms GppXiReflection.logDeriv_xi_one_sub
+#print axioms GppXiReflection.spectralTransform_one_sub
+#print axioms GppXiReflection.xi_zero_mem_strip
+#print axioms GppXiReflection.xi_eq_zero_iff_nontrivial
