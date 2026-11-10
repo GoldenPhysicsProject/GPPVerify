@@ -426,3 +426,9 @@ import GppVerify
 #print axioms GppXiReflection.spectralTransform_one_sub
 #print axioms GppXiReflection.xi_zero_mem_strip
 #print axioms GppXiReflection.xi_eq_zero_iff_nontrivial
+#print axioms GppContourLimit.differentiable_spectralTransform
+#print axioms GppContourLimit.rect_identity
+#print axioms GppContourLimit.summable_zeroSum
+#print axioms GppContourLimit.exists_horizontal
+#print axioms GppContourLimit.hasSum_zeroSum_lines
+#print axioms GppXiLineBounds.norm_logDeriv_xi_line_le

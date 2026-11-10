@@ -15,7 +15,7 @@ import GppVerify.Upstream.RectangleLogDerivative
 -/
 
 open Complex Set MeasureTheory Metric Filter Topology GppMeyerSpectralWeil
-open scoped Interval
+open scoped Interval Topology
 
 namespace GppContourLimit
 
@@ -432,5 +432,116 @@ theorem integrable_line {g : ℝ → ℝ} (hg : IsTestFunction g) {σ : ℝ} (h�
         apply mul_le_mul_of_nonneg_right _ (by positivity)
         exact mul_le_mul_of_nonneg_right (le_abs_self _) hy0.le
     _ = |C1| * |Cd| * ((1 + |y|) ^ 2)⁻¹ := by field_simp
+
+
+/-- The rectangle integral over `Q_t`, in the coordinates used below. -/
+theorem rectInt_Q (F : ℂ → ℂ) (t : ℝ) :
+    Complex.rectInt F ((-1 : ℂ) - (t : ℂ) * Complex.I) ((2 : ℂ) + (t : ℂ) * Complex.I) =
+      (∫ x : ℝ in (-1 : ℝ)..2, F ((x : ℂ) - (t : ℂ) * Complex.I)) -
+        (∫ x : ℝ in (-1 : ℝ)..2, F ((x : ℂ) + (t : ℂ) * Complex.I)) +
+        Complex.I * (∫ y : ℝ in (-t)..t, F (((2 : ℝ) : ℂ) + (y : ℂ) * Complex.I)) -
+        Complex.I * (∫ y : ℝ in (-t)..t, F (((-1 : ℝ) : ℂ) + (y : ℂ) * Complex.I)) := by
+  unfold Complex.rectInt
+  have e1 : ((-1 : ℂ) - (t : ℂ) * Complex.I).re = -1 := by simp
+  have e2 : ((2 : ℂ) + (t : ℂ) * Complex.I).re = 2 := by simp
+  have e3 : ((-1 : ℂ) - (t : ℂ) * Complex.I).im = -t := by simp
+  have e4 : ((2 : ℂ) + (t : ℂ) * Complex.I).im = t := by simp
+  rw [e1, e2, e3, e4]
+  simp only [smul_eq_mul, Complex.ofReal_neg, neg_mul, ← sub_eq_add_neg, Complex.ofReal_one,
+    Complex.ofReal_ofNat]
+
+
+/-- **E6d: the zero sum equals the two-line integral.** For a test function `g`,
+`∑_ρ m_ρ Φ_g(ρ) = (1/2π) (∫ (ξ'/ξ Φ_g)(2+iy) dy − ∫ (ξ'/ξ Φ_g)(-1+iy) dy)`,
+with the sum over the nontrivial zeros absolutely convergent. -/
+theorem hasSum_zeroSum_lines {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    HasSum (fun ρ : nontrivialZeros => (zeroMult ρ : ℂ) * spectralTransform g ρ)
+      (((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ((∫ y : ℝ, logDeriv xi (((2 : ℝ) : ℂ) + y * Complex.I) *
+            spectralTransform g (((2 : ℝ) : ℂ) + y * Complex.I)) -
+          ∫ y : ℝ, logDeriv xi (((-1 : ℝ) : ℂ) + y * Complex.I) *
+            spectralTransform g (((-1 : ℝ) : ℂ) + y * Complex.I))) := by
+  classical
+  set F : ℂ → ℂ := fun s => logDeriv xi s * spectralTransform g s with hF
+  obtain ⟨C, hC⟩ := exists_horizontal hg
+  choose! t htI hgood hhor using hC
+  have ht1 : ∀ T, 1 ≤ T → 1 ≤ t T := fun T hT => hT.trans (htI T hT).1
+  have hS : ∀ T : ℝ, 1 ≤ T → ∃ S : Finset ℂ, (∀ ρ, ρ ∈ S ↔ ρ ∈ nontrivialZeros ∧ |ρ.im| < t T) ∧
+      Complex.rectInt F ((-1 : ℂ) - (t T : ℂ) * Complex.I) ((2 : ℂ) + (t T : ℂ) * Complex.I) =
+        2 * Real.pi * Complex.I * ∑ ρ ∈ S, (zeroMult ρ : ℂ) * spectralTransform g ρ :=
+    fun T hT => rect_identity hg (ht1 T hT) (hgood T hT)
+  choose! S hSmem hSeq using hS
+  have htT : Tendsto t atTop atTop :=
+    tendsto_atTop_mono' atTop (by
+      filter_upwards [eventually_ge_atTop (1 : ℝ)] with T hT using (htI T hT).1) tendsto_id
+  set P : ℝ → ℂ := fun T => ∑ ρ ∈ (S T).subtype (fun ρ => ρ ∈ nontrivialZeros),
+    (zeroMult ρ : ℂ) * spectralTransform g ρ with hP
+  have hsum := (summable_zeroSum hg).hasSum
+  -- partial sums converge to the full sum
+  have hA : Tendsto P atTop (nhds (∑' ρ : nontrivialZeros, (zeroMult ρ : ℂ) * spectralTransform g ρ)) := by
+    refine hsum.comp (Filter.tendsto_atTop.2 fun Fin => ?_)
+    obtain ⟨M, hM⟩ := (Fin.image (fun ρ : nontrivialZeros => |(ρ : ℂ).im|)).bddAbove
+    filter_upwards [eventually_ge_atTop (max 1 (M + 1))] with T hT
+    intro ρ hρ
+    rw [Finset.mem_subtype, hSmem T (le_trans (le_max_left _ _) hT)]
+    refine ⟨ρ.2, ?_⟩
+    have : |(ρ : ℂ).im| ≤ M := hM (Finset.mem_image_of_mem _ hρ)
+    have h1 : T ≤ t T := (htI T (le_trans (le_max_left _ _) hT)).1
+    linarith [le_max_right 1 (M + 1)]
+  -- partial sums converge to the line integrals
+  have hVR := intervalIntegral_tendsto_integral (integrable_line hg (σ := 2) (Or.inl rfl))
+    (tendsto_neg_atTop_atBot.comp htT) htT
+  have hVL := intervalIntegral_tendsto_integral (integrable_line hg (σ := -1) (Or.inr rfl))
+    (tendsto_neg_atTop_atBot.comp htT) htT
+  have hH : Tendsto (fun T : ℝ => C / t T) atTop (nhds 0) :=
+    tendsto_const_nhds.div_atTop htT
+  have hB : Tendsto P atTop (nhds (((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ((∫ y : ℝ, F (((2 : ℝ) : ℂ) + y * Complex.I)) -
+          ∫ y : ℝ, F (((-1 : ℝ) : ℂ) + y * Complex.I)))) := by
+    have hlim : Tendsto (fun T : ℝ => (1 / (2 * Real.pi * Complex.I)) *
+          ((∫ x : ℝ in (-1 : ℝ)..2, F ((x : ℂ) - (t T : ℂ) * Complex.I)) -
+            (∫ x : ℝ in (-1 : ℝ)..2, F ((x : ℂ) + (t T : ℂ) * Complex.I))) +
+        ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+          ((∫ y : ℝ in (-(t T))..(t T), F (((2 : ℝ) : ℂ) + (y : ℂ) * Complex.I)) -
+           ∫ y : ℝ in (-(t T))..(t T), F (((-1 : ℝ) : ℂ) + (y : ℂ) * Complex.I)))
+        atTop (nhds (((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ((∫ y : ℝ, F (((2 : ℝ) : ℂ) + y * Complex.I)) -
+          ∫ y : ℝ, F (((-1 : ℝ) : ℂ) + y * Complex.I)))) := by
+      have h0 : Tendsto (fun T : ℝ => (1 / (2 * Real.pi * Complex.I)) *
+          ((∫ x : ℝ in (-1 : ℝ)..2, F ((x : ℂ) - (t T : ℂ) * Complex.I)) -
+            (∫ x : ℝ in (-1 : ℝ)..2, F ((x : ℂ) + (t T : ℂ) * Complex.I)))) atTop (nhds 0) := by
+        rw [tendsto_zero_iff_norm_tendsto_zero]
+        refine squeeze_zero' (Filter.Eventually.of_forall fun _ => norm_nonneg _) ?_
+          (by simpa using hH.const_mul (1 / (2 * Real.pi)))
+        filter_upwards [eventually_ge_atTop (1 : ℝ)] with T hT
+        rw [norm_mul]
+        have hn : ‖(1 / (2 * Real.pi * Complex.I) : ℂ)‖ = 1 / (2 * Real.pi) := by
+          rw [norm_div, norm_one, norm_mul, norm_mul, Complex.norm_I, Complex.norm_real]
+          simp [abs_of_pos Real.pi_pos]
+        rw [hn]
+        calc 1 / (2 * Real.pi) * ‖_‖ ≤ 1 / (2 * Real.pi) * (C / t T) :=
+              mul_le_mul_of_nonneg_left (hhor T hT) (by positivity)
+          _ = _ := by ring
+      simpa using h0.add ((hVR.sub hVL).const_mul _)
+    refine hlim.congr' ?_
+    filter_upwards [eventually_ge_atTop (1 : ℝ)] with T hT
+    have h1 := hSeq T hT
+    rw [rectInt_Q] at h1
+    have hsub : ∑ ρ ∈ (S T).subtype (fun ρ => ρ ∈ nontrivialZeros),
+        (zeroMult ρ : ℂ) * spectralTransform g ρ =
+        ∑ ρ ∈ S T, (zeroMult ρ : ℂ) * spectralTransform g ρ := by
+      refine Finset.sum_subtype_of_mem (fun ρ : ℂ => (zeroMult ρ : ℂ) * spectralTransform g ρ) ?_
+      intro ρ hρ
+      exact ((hSmem T hT ρ).1 hρ).1
+    have hpi : (2 * Real.pi * Complex.I : ℂ) ≠ 0 := by
+      simp [Real.pi_ne_zero, Complex.I_ne_zero]
+    have hP' : P T = (1 / (2 * Real.pi * Complex.I)) * (2 * Real.pi * Complex.I *
+        ∑ ρ ∈ S T, (zeroMult ρ : ℂ) * spectralTransform g ρ) := by
+      rw [hP]; simp only []; rw [hsub]; field_simp
+    rw [hP', ← h1]
+    push_cast
+    field_simp
+    ring
+  exact (tendsto_nhds_unique hA hB) ▸ hsum
 
 end GppContourLimit
