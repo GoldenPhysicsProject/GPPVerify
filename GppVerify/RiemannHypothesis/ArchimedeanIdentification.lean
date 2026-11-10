@@ -18,7 +18,7 @@ Proof: Gauss's integral for `ψ` (part 1), Fubini in `(r, t)`, and Fourier inver
 `(1/2π) ∫ h(r) cos(r v) dr = g(v)`.
 -/
 
-open Complex Set MeasureTheory
+open Complex Set MeasureTheory FourierTransform SchwartzMap GppMeyerSpectralWeil GppExplicitFormulaE1
 
 namespace GppArchimedeanId
 
@@ -131,5 +131,49 @@ theorem norm_K_le (r : ℝ) {t : ℝ} (ht : 0 < t) :
         (4 + |r|) * (Real.exp (1 / 4) * Real.exp (-t / 4)) * (1 - Real.exp (-t)) := by
       gcongr
     nlinarith
+
+/-- The spectral transform on the critical line: `h(r) = ∫ g(u) e^{i r u} du`. -/
+noncomputable def hline (g : ℝ → ℝ) (r : ℝ) : ℂ := spectralTransform g ((1 / 2 : ℂ) + r * Complex.I)
+
+theorem hline_eq_fourier {g : ℝ → ℝ} (hg : IsTestFunction g) (r : ℝ) :
+    hline g r = (𝓕 (shiftedSchwartz hg (1 / 2))) (-r / (2 * Real.pi)) := by
+  have := spectralTransform_eq_fourier hg (1 / 2) r
+  simpa [hline] using this
+
+/-- **Fourier inversion for the critical-line transform.**
+`g(v) = (1/2π) ∫ e^{-i r v} h(r) dr`. -/
+theorem inversion {g : ℝ → ℝ} (hg : IsTestFunction g) (v : ℝ) :
+    (g v : ℂ) = (1 / (2 * Real.pi) : ℝ) * ∫ r : ℝ, Complex.exp (-(Complex.I * r * v)) * hline g r := by
+  set Gs := shiftedSchwartz hg (1 / 2) with hGs
+  have hshift : ∀ u, Gs u = (g u : ℂ) := by
+    intro u
+    show shifted g (1 / 2) u = _
+    unfold shifted
+    simp
+  have h1 := congrFun (Gs.continuous.fourierInv_fourier_eq Gs.integrable (𝓕 Gs).integrable) v
+  rw [Real.fourierInv_eq_fourier_neg] at h1
+  rw [Real.fourier_real_eq_integral_exp_smul] at h1
+  have hpi : (Real.pi : ℝ) ≠ 0 := Real.pi_ne_zero
+  have hF : ∀ ξ : ℝ, Complex.exp (-(Complex.I * ((-2 * Real.pi * ξ : ℝ) : ℂ) * v)) *
+      hline g (-2 * Real.pi * ξ) =
+      Complex.exp (((-2 * Real.pi * ξ * -v : ℝ) : ℂ) * Complex.I) • 𝓕 (⇑Gs) ξ := by
+    intro ξ
+    rw [hline_eq_fourier hg, smul_eq_mul]
+    have e : -(-2 * Real.pi * ξ) / (2 * Real.pi) = ξ := by field_simp
+    rw [e]
+    congr 2
+    push_cast
+    ring
+  have hcomp := MeasureTheory.Measure.integral_comp_mul_left
+    (fun r : ℝ => Complex.exp (-(Complex.I * (r : ℂ) * v)) * hline g r) (-2 * Real.pi)
+  simp only [hF] at hcomp
+  rw [h1, hshift] at hcomp
+  have habs : |(-2 * Real.pi)⁻¹| = (1 / (2 * Real.pi) : ℝ) := by
+    rw [abs_inv, abs_mul, abs_neg, abs_two, abs_of_pos Real.pi_pos, one_div]
+  rw [habs] at hcomp
+  rw [hcomp]
+  simp only [Complex.real_smul]
+  push_cast
+  field_simp
 
 end GppArchimedeanId
