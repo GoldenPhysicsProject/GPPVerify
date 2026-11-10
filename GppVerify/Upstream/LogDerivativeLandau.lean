@@ -8,6 +8,8 @@ import Mathlib.Analysis.Complex.BorelCaratheodory
 import Mathlib.Analysis.Complex.CauchyIntegral
 import Mathlib.Analysis.Complex.Liouville
 import Mathlib.Analysis.SpecialFunctions.Complex.Log
+import Mathlib.Analysis.Complex.CanonicalDecomposition
+import Mathlib.Analysis.Calculus.LogDeriv
 
 /-!
 # Landau's lemma for the logarithmic derivative
@@ -104,5 +106,26 @@ theorem norm_deriv_le_of_re_le {h : ℂ → ℂ} {c : ℂ} {R M : ℝ} (hM : 0 <
   refine this.trans (le_of_eq ?_)
   field_simp
   ring
+
+/-- The logarithmic derivative of the canonical (Blaschke) factor at a point `z ≠ w` where the
+numerator does not vanish. -/
+theorem logDeriv_canonicalFactor {R : ℝ} {w z : ℂ} (hR : R ≠ 0) (hzw : z ≠ w)
+    (hnum : (R : ℂ) ^ 2 - (starRingEnd ℂ) w * z ≠ 0) :
+    logDeriv (canonicalFactor R w) z =
+      -(starRingEnd ℂ) w / ((R : ℂ) ^ 2 - (starRingEnd ℂ) w * z) - 1 / (z - w) := by
+  have hR' : (R : ℂ) ≠ 0 := by exact_mod_cast hR
+  have hzw' : z - w ≠ 0 := sub_ne_zero.mpr hzw
+  have hnum_d : HasDerivAt (fun x : ℂ => (R : ℂ) ^ 2 - (starRingEnd ℂ) w * x)
+      (-(starRingEnd ℂ) w) z := by
+    simpa using ((hasDerivAt_id z).const_mul ((starRingEnd ℂ) w)).const_sub ((R : ℂ) ^ 2)
+  have hden_d : HasDerivAt (fun x : ℂ => (R : ℂ) * (x - w)) (R : ℂ) z := by
+    simpa using ((hasDerivAt_id z).sub_const w).const_mul (R : ℂ)
+  have hd := hnum_d.div hden_d (mul_ne_zero hR' hzw')
+  rw [logDeriv_apply]
+  have hcf : canonicalFactor R w = (fun x : ℂ => (R : ℂ) ^ 2 - (starRingEnd ℂ) w * x) /
+      fun x => (R : ℂ) * (x - w) := rfl
+  rw [hcf, hd.deriv]
+  simp only [Pi.div_apply]
+  field_simp
 
 end Complex
