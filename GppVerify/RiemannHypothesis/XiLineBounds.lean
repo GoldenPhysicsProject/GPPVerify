@@ -49,6 +49,27 @@ theorem norm_zeta_logDeriv_line_le :
   refine (norm_tsum_le_tsum_norm hs).trans (le_of_eq ?_)
   exact tsum_congr hnorm
 
+/-- `ψ` is continuous on the open right half-plane. -/
+theorem continuousAt_digamma {z : ℂ} (hz : 0 < z.re) : ContinuousAt Complex.digamma z := by
+  have hne : ∀ m : ℕ, z ≠ -(m : ℂ) := by
+    intro m h
+    have := congrArg Complex.re h
+    simp at this
+    linarith [(Nat.cast_nonneg m : (0:ℝ) ≤ m)]
+  have hopen : IsOpen {w : ℂ | 0 < w.re} := isOpen_lt continuous_const Complex.continuous_re
+  have hG : AnalyticAt ℂ Complex.Gamma z := by
+    rw [Complex.analyticAt_iff_eventually_differentiableAt]
+    filter_upwards [hopen.mem_nhds hz] with w hw
+    refine Complex.differentiableAt_Gamma w (fun m h => ?_)
+    have := congrArg Complex.re h
+    simp at this
+    have hw' : 0 < w.re := hw
+    linarith [(Nat.cast_nonneg m : (0:ℝ) ≤ m)]
+  have h : Complex.digamma = fun w => deriv Complex.Gamma w / Complex.Gamma w := by
+    funext w; rw [Complex.digamma_def, logDeriv_apply]
+  rw [h]
+  exact (hG.deriv.div hG (Complex.Gamma_ne_zero hne)).continuousAt
+
 /-- `ψ((2 + i y)/2)` grows at most linearly in `y`. -/
 theorem norm_digamma_half_line_le :
     ∃ C : ℝ, ∀ y : ℝ, ‖Complex.digamma ((((2 : ℝ) : ℂ) + y * Complex.I) / 2)‖ ≤ C * (1 + |y|) := by
@@ -56,29 +77,9 @@ theorem norm_digamma_half_line_le :
   -- continuity on the compact piece
   have hcont : Continuous fun y : ℝ => Complex.digamma ((((2 : ℝ) : ℂ) + y * Complex.I) / 2) := by
     have hlin : Continuous fun y : ℝ => (((2 : ℝ) : ℂ) + y * Complex.I) / 2 := by fun_prop
-    have hdig : ∀ z : ℂ, 0 < z.re → ContinuousAt Complex.digamma z := by
-      intro z hz
-      have hne : ∀ m : ℕ, z ≠ -(m : ℂ) := by
-        intro m h
-        have := congrArg Complex.re h
-        simp at this
-        linarith [(Nat.cast_nonneg m : (0:ℝ) ≤ m)]
-      have hopen : IsOpen {w : ℂ | 0 < w.re} := isOpen_lt continuous_const Complex.continuous_re
-      have hG : AnalyticAt ℂ Complex.Gamma z := by
-        rw [Complex.analyticAt_iff_eventually_differentiableAt]
-        filter_upwards [hopen.mem_nhds hz] with w hw
-        refine Complex.differentiableAt_Gamma w (fun m h => ?_)
-        have := congrArg Complex.re h
-        simp at this
-        have hw' : 0 < w.re := hw
-        linarith [(Nat.cast_nonneg m : (0:ℝ) ≤ m)]
-      have h : Complex.digamma = fun w => deriv Complex.Gamma w / Complex.Gamma w := by
-        funext w; rw [Complex.digamma_def, logDeriv_apply]
-      rw [h]
-      exact (hG.deriv.div hG (Complex.Gamma_ne_zero hne)).continuousAt
     refine continuous_iff_continuousAt.2 fun y => ?_
     have hy : 0 < ((((2 : ℝ) : ℂ) + y * Complex.I) / 2).re := by simp
-    exact (hdig _ hy).comp (f := fun y : ℝ => (((2 : ℝ) : ℂ) + y * Complex.I) / 2)
+    exact (continuousAt_digamma hy).comp (f := fun y : ℝ => (((2 : ℝ) : ℂ) + y * Complex.I) / 2)
       hlin.continuousAt
   obtain ⟨B, hB⟩ := (isCompact_Icc (a := (-2 : ℝ)) (b := 2)).exists_bound_of_continuousOn
     hcont.continuousOn
