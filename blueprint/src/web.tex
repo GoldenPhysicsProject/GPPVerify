@@ -8070,6 +8070,12 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 For $|{\rm Re}\,s|\le M$ and $|{\rm Im}\,s|\ge1$ the digamma function satisfies $|\psi(s)|\le C\log(|{\rm Im}\,s|+1)$, with $C$ depending only on $M$. It follows from Gauss's series $\psi(s)=-\gamma-1/s+\sum_{n\ge1}\bigl(1/n-1/(n+s)\bigr)$ (stage E2a): the $n$-th term is $s/(n(n+s))$, at most $M+1$ for the finitely many $n<2M$, and at most $4(M+1)L/(n(n+L))$ for $L=|{\rm Im}\,s|$ once $n\ge2M$, because then $|n+s|\ge\max(L,n/2)\ge(L+n)/4$; and $\sum_{n}L/(n(n+L))\le3+\log(L+1)$, by the harmonic bound on $n\le\lceil L\rceil$ and $\sum_{m>K}m^{-2}\le2/(K+1)$ beyond. This is the growth input for $\xi'/\xi$ on horizontal lines in the contour-shift proof of the explicit formula; Mathlib has no Stirling-type bound for $\Gamma'/\Gamma$.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
+
+\section{Explicit formula, stage E1b: decay of the spectral transform, uniform on the strip}
+\lean{GppExplicitFormulaE1.spectralTransform_deriv,GppExplicitFormulaE1.spectralTransform_iterate_deriv,GppExplicitFormulaE1.norm_spectralTransform_le,GppExplicitFormulaE1.spectralTransform_decay_strip}
+For a test function $g$ (smooth, compactly supported, log variable) and every $k$, the spectral transform $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$ satisfies $|s-\tfrac12|^k\,|\hat g(s)|\le C$ for all $s$ with $0\le{\rm Re}\,s\le1$, with one constant for the whole closed strip. Integration by parts gives $\widehat{g'}(s)=-(s-\tfrac12)\hat g(s)$, hence $\widehat{g^{(k)}}(s)=(-(s-\tfrac12))^k\hat g(s)$, and on the strip $|\hat h(s)|\le\int|h(u)|e^{|u|/2}\,du$ because $|({\rm Re}\,s-\tfrac12)u|\le|u|/2$. Stage E1 has the decay on each vertical line; the uniform statement is what a sum over zeros needs, since no zero is assumed to lie on a particular line. It is used by the explicit formula (sum over zeros, horizontal segments) and by the density step of GW-EF-3.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
