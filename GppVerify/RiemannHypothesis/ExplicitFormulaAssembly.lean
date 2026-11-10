@@ -246,4 +246,120 @@ theorem half_line {g : ℝ → ℝ} (hg : IsTestFunction g) (hev : ∀ u, g (-u)
   push_cast
   ring
 
+
+theorem split_right {g : ℝ → ℝ} (hev : ∀ u, g (-u) = g u) (y : ℝ) :
+    logDeriv xi (((2 : ℝ) : ℂ) + y * Complex.I) * spectralTransform g (((2 : ℝ) : ℂ) + y * Complex.I) =
+      (1 / 2 : ℂ) * H g (((2 : ℝ) : ℂ) + y * Complex.I) +
+        (deriv riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I) /
+          riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I)) *
+          spectralTransform g (((2 : ℝ) : ℂ) + y * Complex.I) := by
+  have hre : 0 < (((2 : ℝ) : ℂ) + y * Complex.I).re := by simp
+  have hs1 : (((2 : ℝ) : ℂ) + y * Complex.I) ≠ 1 := fun h => by
+    have := congrArg Complex.re h; simp at this
+  have hxi := xi_ne_zero_of_one_le_re (s := ((2 : ℝ) : ℂ) + y * Complex.I) (by simp)
+  rw [logDeriv_xi_eq hre hs1 hxi]
+  unfold H R0
+  rw [Psi_even hev]
+  rw [show logDeriv riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I) =
+    deriv riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I) /
+      riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I) from rfl]
+  ring
+
+theorem Psi_one {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    Psi g 1 = (GppArithmeticReflection.poleTerm g : ℂ) := by
+  unfold Psi GppArithmeticReflection.poleTerm
+  have hc : Continuous g := hg.1.continuous
+  have i1 : Integrable fun u : ℝ => (g u : ℂ) * Complex.exp (((1 : ℂ) - 1 / 2) * u) :=
+    (by fun_prop : Continuous fun u : ℝ => (g u : ℂ) * Complex.exp (((1 : ℂ) - 1 / 2) * u)).integrable_of_hasCompactSupport
+      ((hg.2.comp_left Complex.ofReal_zero).mul_right)
+  have i2 : Integrable fun u : ℝ => (g u : ℂ) * Complex.exp (((1 - 1 : ℂ) - 1 / 2) * u) :=
+    (by fun_prop : Continuous fun u : ℝ => (g u : ℂ) * Complex.exp (((1 - 1 : ℂ) - 1 / 2) * u)).integrable_of_hasCompactSupport
+      ((hg.2.comp_left Complex.ofReal_zero).mul_right)
+  unfold spectralTransform
+  rw [← integral_add i1 i2, ← integral_complex_ofReal]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun u => ?_)
+  simp only []
+  rw [Real.cosh_eq]
+  push_cast
+  have e1 : ((1 : ℂ) - 1 / 2) * u = u / 2 := by ring
+  have e2 : ((1 - 1 : ℂ) - 1 / 2) * u = -(u / 2) := by ring
+  rw [e1, e2]
+  ring
+
+
+/-- **GW-EF-1 for even test functions.** The zero sum converges absolutely and equals `weilForm g`. -/
+theorem explicit_formula_even {g : ℝ → ℝ} (hg : IsTestFunction g) (hev : ∀ u, g (-u) = g u) :
+    Summable (fun ρ : nontrivialZeros => (zeroMult ρ : ℂ) * spectralTransform g ρ) ∧
+      ∑' ρ : nontrivialZeros, (zeroMult ρ : ℂ) * spectralTransform g ρ =
+        (GppArithmeticReflection.weilForm g : ℂ) := by
+  have hS := hasSum_even hg hev
+  refine ⟨hS.summable, hS.tsum_eq.trans ?_⟩
+  set Φ2 : ℝ → ℂ := fun y => spectralTransform g (((2 : ℝ) : ℂ) + y * Complex.I) with hΦ2
+  set Z : ℝ → ℂ := fun y => deriv riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I) /
+    riemannZeta (((2 : ℝ) : ℂ) + y * Complex.I) with hZ
+  have hGint := GppContourLimit.integrable_line hg (σ := 2) (Or.inl rfl)
+  have hHint := integrable_H_line hg (σ := 2) (Or.inr rfl)
+  have hsplit : (fun y : ℝ => logDeriv xi (((2 : ℝ) : ℂ) + y * Complex.I) * Φ2 y) =
+      fun y : ℝ => (1 / 2 : ℂ) * H g (((2 : ℝ) : ℂ) + y * Complex.I) + Z y * Φ2 y := by
+    funext y; exact split_right hev y
+  have hZint : Integrable fun y : ℝ => Z y * Φ2 y := by
+    have : (fun y : ℝ => Z y * Φ2 y) = fun y : ℝ => logDeriv xi (((2 : ℝ) : ℂ) + y * Complex.I) * Φ2 y -
+        (1 / 2 : ℂ) * H g (((2 : ℝ) : ℂ) + y * Complex.I) := by
+      funext y
+      have := congrFun hsplit y
+      rw [this]; ring
+    rw [this]; exact hGint.sub (hHint.const_mul _)
+  have hint1 : ∫ y : ℝ, logDeriv xi (((2 : ℝ) : ℂ) + y * Complex.I) * Φ2 y =
+      (1 / 2 : ℂ) * (∫ y : ℝ, H g (((2 : ℝ) : ℂ) + y * Complex.I)) + (∫ y : ℝ, Z y * Φ2 y) := by
+    rw [hsplit, integral_add (hHint.const_mul _) hZint, integral_const_mul]
+  -- prime side
+  have hprime := GppPrimeLine.prime_line hg
+  have hP : (∑' n : ℕ, (ArithmeticFunction.vonMangoldt n : ℂ) * (g (Real.log n) : ℂ) /
+      (Real.sqrt n : ℂ)) * 2 = (GppWeilLadder.primeSide g : ℂ) := by
+    unfold GppWeilLadder.primeSide
+    have hterm : ∀ n : ℕ, (ArithmeticFunction.vonMangoldt n / Real.sqrt n) *
+        (g (Real.log n) + g (-Real.log n)) =
+        2 * (ArithmeticFunction.vonMangoldt n * g (Real.log n) / Real.sqrt n) := by
+      intro n; rw [hev]; ring
+    simp_rw [hterm]
+    rw [tsum_mul_left, Complex.ofReal_mul, Complex.ofReal_tsum]
+    push_cast
+    ring
+  have hprime2 : ((1 / (2 * Real.pi) : ℝ) : ℂ) * ∫ y : ℝ, (-(Z y) * Φ2 y) =
+      ∑' n : ℕ, (ArithmeticFunction.vonMangoldt n : ℂ) * (g (Real.log n) : ℂ) / (Real.sqrt n : ℂ) := by
+    rw [← hprime]
+    congr 2
+    funext y
+    simp only [hZ, hΦ2, GppSpectralInversion.line, neg_div]
+  have hshift := shift_identity hg
+  have hhalf := half_line hg hev
+  have hPsi := Psi_one hg
+  have hpi : (Real.pi : ℂ) ≠ 0 := Complex.ofReal_ne_zero.2 Real.pi_ne_zero
+  have hnegint : ∫ y : ℝ, (-(Z y) * Φ2 y) = -∫ y : ℝ, Z y * Φ2 y := by
+    rw [← integral_neg]; congr 1; funext y; ring
+  rw [hnegint] at hprime2
+  unfold GppArithmeticReflection.weilForm
+  rw [hint1]
+  have hshift' : ∫ y : ℝ, H g (((2 : ℝ) : ℂ) + y * Complex.I) =
+      (∫ y : ℝ, H g (sh y)) + 2 * Real.pi * Psi g 1 := by
+    have := hshift
+    unfold sh
+    linear_combination this
+  rw [hshift', hPsi]
+  push_cast
+  have hhalf' : ∫ y : ℝ, H g (sh y) = (2 * Real.pi : ℂ) * (GppArchimedeanFloor.archimedeanTerm g : ℂ) := by
+    have := hhalf
+    push_cast at this
+    field_simp at this
+    linear_combination this
+  have hZ' : ∫ y : ℝ, Z y * Φ2 y = -(2 * Real.pi : ℂ) * ∑' n : ℕ, (ArithmeticFunction.vonMangoldt n : ℂ) *
+      (g (Real.log n) : ℂ) / (Real.sqrt n : ℂ) := by
+    push_cast at hprime2
+    field_simp at hprime2
+    linear_combination (-1 : ℂ) * hprime2
+  rw [hhalf', hZ']
+  rw [← hP]
+  field_simp
+  ring
+
 end GppExplicitFormulaAssembly
