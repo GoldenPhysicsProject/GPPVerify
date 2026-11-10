@@ -320,4 +320,36 @@ theorem integrable_prod {g : ℝ → ℝ} (hg : IsTestFunction g) :
         ≤ ‖hline g p.1‖ * ((4 + |p.1|) * Real.exp (1 / 4) * Real.exp (-p.2 / 4)) := by gcongr
       _ = (4 + |p.1|) * ‖hline g p.1‖ * Real.exp (1 / 4) * Real.exp (-p.2 / 4) := by ring
 
+/-- **The Archimedean term from the digamma line integral.** For every test function `g`,
+`(1/2π) ∫ h(r) ψ(1/4 + i r/2) dr = archimedeanTerm g + g(0) log π`, where
+`h(r) = ĝ(1/2 + i r)`. (For even `g` this is the classical
+`archimedeanTerm g = -g(0) log π + (1/2π) ∫ h(r) Re ψ(1/4 + i r/2) dr`.) -/
+theorem archimedean_identification {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    ((1 / (2 * Real.pi) : ℝ) : ℂ) *
+        ∫ r : ℝ, hline g r * Complex.digamma ((1 / 4 : ℂ) + (r / 2 : ℝ) * Complex.I) =
+      ((GppArchimedeanFloor.archimedeanTerm g + g 0 * Real.log Real.pi : ℝ) : ℂ) := by
+  set z : ℝ → ℂ := fun r => (1 / 4 : ℂ) + (r / 2 : ℝ) * Complex.I with hzdef
+  have hzre : ∀ r, 0 < (z r).re := fun r => by simp [hzdef]
+  have hdig : ∀ r, Complex.digamma (z r) = -(Real.eulerMascheroniConstant : ℂ) +
+      ∫ t : ℝ in Ioi 0, K (z r) t := fun r => GppDigammaIntegral.digamma_eq_integral (hzre r)
+  have hInt := integrable_prod hg
+  -- the `r`-integrable inner integral
+  have hinner : Integrable (fun r : ℝ => ∫ t : ℝ in Ioi 0, hline g r * K (z r) t) := hInt.integral_prod_left
+  have hpull : ∀ r : ℝ, ∫ t : ℝ in Ioi 0, hline g r * K (z r) t =
+      hline g r * ∫ t : ℝ in Ioi 0, K (z r) t := fun r => integral_const_mul _ _
+  have hstep1 : ∫ r : ℝ, hline g r * Complex.digamma (z r) =
+      -(Real.eulerMascheroniConstant : ℂ) * (∫ r : ℝ, hline g r) +
+        (∫ r : ℝ, ∫ t : ℝ in Ioi 0, hline g r * K (z r) t) := by
+    have e : ∀ r : ℝ, hline g r * Complex.digamma (z r) =
+        -(Real.eulerMascheroniConstant : ℂ) * hline g r + ∫ t : ℝ in Ioi 0, hline g r * K (z r) t := by
+      intro r
+      rw [hdig r, hpull r]
+      ring
+    rw [integral_congr_ae (Filter.Eventually.of_forall e),
+      integral_add ((hline_integrable hg).const_mul _) hinner, integral_const_mul]
+  have hswap : ∫ r : ℝ, ∫ t : ℝ in Ioi 0, hline g r * K (z r) t =
+      ∫ t : ℝ in Ioi 0, ∫ r : ℝ, hline g r * K (z r) t :=
+    MeasureTheory.integral_integral_swap hInt
+  sorry
+
 end GppArchimedeanId
