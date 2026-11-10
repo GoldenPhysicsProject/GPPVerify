@@ -432,3 +432,9 @@ import GppVerify
 #print axioms GppContourLimit.exists_horizontal
 #print axioms GppContourLimit.hasSum_zeroSum_lines
 #print axioms GppXiLineBounds.norm_logDeriv_xi_line_le
+#print axioms GppShiftContour.shift_identity
+#print axioms GppShiftContour.rectInt_H
+#print axioms GppShiftContour.norm_H_le
+#print axioms GppExplicitFormulaAssembly.half_line
+#print axioms GppExplicitFormulaAssembly.explicit_formula_even
+#print axioms GppExplicitFormulaAssembly.explicit_formula_zeroSum

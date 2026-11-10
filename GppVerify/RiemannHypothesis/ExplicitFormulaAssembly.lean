@@ -362,4 +362,25 @@ theorem explicit_formula_even {g : ℝ → ℝ} (hg : IsTestFunction g) (hev : �
   field_simp
   ring
 
+
+/-- The autocorrelation is even. -/
+theorem autocorr_even (f : ℝ → ℝ) (x : ℝ) :
+    GppArithmeticReflection.autocorr f (-x) = GppArithmeticReflection.autocorr f x := by
+  unfold GppArithmeticReflection.autocorr
+  rw [← integral_sub_right_eq_self (fun y : ℝ => f y * f (y - -x)) x]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun y => ?_)
+  simp only [sub_neg_eq_add, sub_add_cancel]
+  ring
+
+/-- **GW-EF-1 (the explicit formula).** For every test function `f`, the zero sum of the spectral
+transform of `autocorr f` over the nontrivial zeros (with multiplicity) converges absolutely and
+equals `weilForm (autocorr f)`. -/
+theorem explicit_formula_zeroSum {f : ℝ → ℝ} (hf : IsTestFunction f) :
+    Summable (fun ρ : nontrivialZeros =>
+      (zeroMult ρ : ℂ) * spectralTransform (GppArithmeticReflection.autocorr f) ρ) ∧
+    ∑' ρ : nontrivialZeros, (zeroMult ρ : ℂ) *
+        spectralTransform (GppArithmeticReflection.autocorr f) ρ =
+      (GppArithmeticReflection.weilForm (GppArithmeticReflection.autocorr f) : ℂ) :=
+  explicit_formula_even (GppAutocorrTransport.isTestFunction_autocorr hf) (autocorr_even f)
+
 end GppExplicitFormulaAssembly
