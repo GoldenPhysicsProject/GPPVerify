@@ -1393,6 +1393,7 @@ import GppVerify.Upstream.WeierstrassProduct
 import GppVerify.Upstream.OrderOfGrowth
 import GppVerify.Upstream.ZeroCounting
 import GppVerify.Upstream.DyadicSummability
+import GppVerify.Upstream.LogDerivativeLandau
 import GppVerify.Upstream.ZeroSummability
 import GppVerify.Upstream.TwoVectorProjection
 

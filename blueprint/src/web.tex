@@ -8094,6 +8094,16 @@ The nontrivial zeros of $\zeta$ with their multiplicities are invariant under $\
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E4a: Landau's lemma for the logarithmic derivative}
+\lean{Complex.exists_exp_eq_of_ne_zero_ball,Complex.norm_deriv_le_of_re_le,Complex.logDeriv_canonicalFactor,Complex.norm_logDeriv_le}
+Let $f$ be entire with $f(0)\ne0$, $|f|\le M$ on $|z|\le R$, and no zero on $|z|=R$. Mathlib's extended canonical (Blaschke) decomposition writes $f=B\,g$ on the closed disc with $B=\prod_\rho\bigl(R(z-\rho)/(R^2-\bar\rho z)\bigr)^{m_\rho}$ over the zeros in $|z|<R$ and $g$ analytic and zero-free; $|B|=1$ on the circle, so $|g|=|f|\le M$ there, hence on the disc by the maximum principle, and $|B(0)|=\prod(|\rho|/R)^{m_\rho}\le1$ gives $|g(0)|\ge|f(0)|$. A zero-free holomorphic function on a disc is the exponential of a holomorphic function (a primitive of $g'/g$), $g=e^{h}$, and $\mathrm{Re}\,(h-h(0))=\log|g|-\log|g(0)|\le\log M-\log|f(0)|$. Borel--Carath\'eodory and Cauchy's estimate bound $h'=g'/g$ by $24(\log(M/|f(0)|)+1)/R$ on $|z|\le R/2$. The logarithmic derivative of a canonical factor is $-\bar\rho/(R^2-\bar\rho z)-1/(z-\rho)$, and the first term has modulus at most $2/R$ there. Hence
+\[
+\Bigl|\frac{f'}{f}(z)\Bigr|\le\sum_\rho m_\rho\Bigl(\frac1{|z-\rho|}+\frac2R\Bigr)+\frac{24\bigl(\log(M/|f(0)|)+1\bigr)}{R}\qquad(|z|\le R/2,\ f(z)\ne0).
+\]
+This is the pointwise bound on $\xi'/\xi$ that the contour shift of the explicit formula needs on horizontal segments at good heights; a polynomial bound suffices because the spectral transform decays faster than any polynomial on the strip.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
