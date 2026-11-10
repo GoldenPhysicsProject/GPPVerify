@@ -6,6 +6,9 @@ Authors: Daniel Toupin
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.Analysis.Analytic.Order
 import Mathlib.Analysis.Meromorphic.Divisor
+import GppVerify.Upstream.ZeroCounting
+import GppVerify.RiemannHypothesis.WeilPositivityCriterion
+import GppVerify.RiemannHypothesis.XiOrder
 import GppVerify.RiemannHypothesis.LogDerivativeZeroFree
 
 /-!
@@ -99,5 +102,49 @@ theorem divisor_xi_apply {r : ℝ} {ρ : ℂ} (hρ : ρ ∈ Metric.closedBall (0
   rw [MeromorphicOn.AnalyticOnNhd.divisor_apply hon hρ]
   obtain ⟨n, hn⟩ := ENat.ne_top_iff_exists.1 (analyticOrderAt_xi_ne_top ρ)
   simp [analyticOrderNatAt, ← hn]
+
+/-- Multiplicity of a zero of `ζ`: the order of vanishing. -/
+noncomputable def zeroMult (ρ : ℂ) : ℕ := analyticOrderNatAt riemannZeta ρ
+
+/-- Nontrivial zeros of `ζ` have `ξ`-order equal to `ζ`-multiplicity. -/
+theorem zeroMult_eq_orderNat_xi {ρ : ℂ} (hρ : ρ ∈ GppWeilCriterion.nontrivialZeros) :
+    zeroMult ρ = analyticOrderNatAt xi ρ := by
+  obtain ⟨-, h0, h1⟩ := hρ
+  unfold zeroMult analyticOrderNatAt
+  rw [analyticOrderAt_xi_eq h0 h1]
+
+/-- **Polynomial zero counting, finite form.** There are constants `A`, `B` such that any finite
+set of nontrivial zeros inside the closed ball of radius `r` has total multiplicity at most
+`A + B r ^ 3`. (`ξ` has order `≤ 2`, and Jensen gives exponent `2 + 1`.) -/
+theorem sum_zeroMult_le :
+    ∃ A B : ℝ, 0 ≤ B ∧ ∀ (r : ℝ), 0 < r → ∀ T : Finset ℂ,
+      (∀ ρ ∈ T, ρ ∈ GppWeilCriterion.nontrivialZeros ∧ ‖ρ‖ ≤ r) →
+      ((∑ ρ ∈ T, zeroMult ρ : ℕ) : ℝ) ≤ A + B * r ^ ((2 : ℝ) + 1) := by
+  obtain ⟨A, B, hB, hb⟩ := Complex.HasOrderLE.sum_divisor_le differentiable_xi
+    (by simpa using xi_zero_ne) GppXiOrder.xi_hasOrderLE_two (ε := 1) one_pos
+  refine ⟨A, B, hB, fun r hr T hT => ?_⟩
+  have hon : AnalyticOnNhd ℂ xi (Metric.closedBall (0 : ℂ) r) :=
+    fun z _ => differentiable_xi.analyticAt z
+  have hnn := MeromorphicOn.AnalyticOnNhd.divisor_nonneg hon
+  have hfin := (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)).finiteSupport
+    (isCompact_closedBall 0 r)
+  refine le_trans ?_ (hb r hr)
+  have hmem : ∀ ρ ∈ T, ρ ∈ Metric.closedBall (0 : ℂ) r := fun ρ h => by
+    simpa using (hT ρ h).2
+  have hsum : ∑ ρ ∈ T, (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)) ρ
+      = ((∑ ρ ∈ T, zeroMult ρ : ℕ) : ℤ) := by
+    push_cast
+    refine Finset.sum_congr rfl fun ρ h => ?_
+    rw [divisor_xi_apply (hmem ρ h), zeroMult_eq_orderNat_xi (hT ρ h).1]
+  have hle : ∑ ρ ∈ T, (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)) ρ
+      ≤ ∑ᶠ u, (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)) u := by
+    rw [finsum_eq_sum_of_support_subset _
+      (s := hfin.toFinset ∪ T) (by intro u hu; exact Finset.mem_union_left _ (hfin.mem_toFinset.2 hu))]
+    exact Finset.sum_le_sum_of_subset_of_nonneg Finset.subset_union_right
+      (fun u _ _ => hnn u)
+  have : (((∑ ρ ∈ T, zeroMult ρ : ℕ) : ℤ) : ℝ) ≤
+      ((∑ᶠ u, (MeromorphicOn.divisor xi (Metric.closedBall (0 : ℂ) r)) u : ℤ) : ℝ) := by
+    exact_mod_cast hsum ▸ hle
+  simpa using this
 
 end GppXiZeroCounting
