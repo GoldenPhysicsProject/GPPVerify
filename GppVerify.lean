@@ -2469,6 +2469,8 @@ import GppVerify.RiemannHypothesis.XiZeroCounting
 import GppVerify.RiemannHypothesis.XiZeroSymmetry
 import GppVerify.RiemannHypothesis.XiLogDerivative
 import GppVerify.RiemannHypothesis.XiLogDerivativeFormula
+import GppVerify.RiemannHypothesis.SpectralInversion
+import GppVerify.RiemannHypothesis.PrimeLine
 import GppVerify.RiemannHypothesis.ExplicitFormulaE1Decay
 import GppVerify.RiemannHypothesis.DigammaGaussLimit
 import GppVerify.RiemannHypothesis.DigammaGaussSeries

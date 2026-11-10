@@ -419,3 +419,6 @@ import GppVerify
 #print axioms GppArchimedeanId.inner_integral
 #print axioms GppArchimedeanId.integrable_prod
 #print axioms GppArchimedeanId.archimedean_identification
+#print axioms GppSpectralInversion.line_inversion
+#print axioms GppPrimeLine.term_integral
+#print axioms GppPrimeLine.prime_line
