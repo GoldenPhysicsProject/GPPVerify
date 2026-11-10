@@ -12,33 +12,39 @@ import Mathlib.Analysis.Real.Cardinality
 import Mathlib.Analysis.Normed.Group.Tannery
 import Mathlib.Tactic.Push
 
-/-!
-# GW-EF interpolation (ported from Codex's audited scratch)
+import GppVerify.RiemannHypothesis.ExplicitFormulaE1Strip
+import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
+import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
+import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
 
-Source: Codex, GW-EF interpolation scratch, run 2 (fixed), deposited by Turbo
+/-!
+# GW-EF interpolation (ported from Codex's audited scratch, run 3)
+
+Source: Codex, GW-EF interpolation scratch, run 3 (C1 closed), deposited by Turbo
 (Muse, GPPDiscovery4) at GPP-bridge `MuseResearch/gwefinterp-scratch-2026-11-10.lean`,
-commit `3c48d9cb`, SHA-256 `8470b21e…ce41` (39,141 bytes, 787 lines); audited by
-Turbo on GPP-bridge PR #11 (issuecomment-6781494232). Ported into GPPVerify by
-Heart of the Cosmos / Grok. Credit: Daniel Toupin / Golden Physics Project,
-with AI assistance (Codex, Turbo, Grok).
+commit `e399cf19`, SHA-256 `144f933f…6321` (70,341 bytes, 1,398 lines); verified by
+Turbo on GPP-bridge PR #11 (issuecomment-6782134494). Ported into GPPVerify by
+Heart of the Cosmos / Grok, superseding the conditional port of PR #553.
+Credit: Daniel Toupin / Golden Physics Project, with AI assistance (Codex, Turbo, Grok).
 
 Phase 1 (Vandermonde core, finite evaluation surjectivity, translated bump
-interpolation, the weighted `ℓ²` carrier, density ⇔ annihilator) and the
-Gaussian C2 step (`coefficients_zero_of_gaussian_identity`) are proved.
+interpolation, the weighted `ℓ²` carrier, density ⇔ annihilator), the Gaussian
+C2 step (`coefficients_zero_of_gaussian_identity`) and C1 (the cutoff transform
+bound uniform in the cutoff index, `GppGwefC1.gaussian_cutoff_uniform_bound`,
+and the passage to the Gaussian identity, `StripData.gaussian_identity`) are
+proved, so `gaussian_annihilator` holds under its original hypotheses.
 
-Port changes (only these): the single proof hole (C1, the Gaussian identity from
-the annihilator hypothesis) is replaced by the explicit hypothesis
-`StripData.GaussianIdentityC1`, stated exactly as the goal it replaced, plus
-the named stub `open_gaussian_identity_c1`; `gaussian_annihilator` therefore
-takes `hC1` and is conditional on C1. The trailing `#print axioms` block is
-dropped (CI runs its own axiom gate). All other declarations are byte-identical.
+Port changes (only these): this header replaces the scratch header, and the
+trailing `#print axioms` block is dropped (CI runs its own axiom gate). All other
+declarations are byte-identical to the deposit. The PR #553 hypothesis
+`StripData.GaussianIdentityC1` and stub `open_gaussian_identity_c1` are removed.
 
 The Hilbert carrier uses coordinates `sqrt(m(rho)) * Psi(f)(rho)`, so its norm
 is exactly the weighted square sum. Density is relative to the real subspace
 `v(conj rho) = conj(v rho)`, not the whole complex Hilbert space.
 
-Honest boundary: C1 is OPEN. Nothing here proves density of the spectral image
-unconditionally, and nothing here bears on RH, which remains OPEN.
+Honest boundary: this is the interpolation (density) link of the GW-EF chain.
+It does not prove ARP, and RH remains OPEN.
 -/
 
 open Complex MeasureTheory Filter
@@ -47,6 +53,431 @@ open scoped ContDiff lp ComplexConjugate Topology
 
 noncomputable section
 set_option maxHeartbeats 800000
+namespace GppGwefC1
+
+def transform (g : ℝ → ℂ) (z : ℂ) : ℂ :=
+  ∫ u : ℝ, g u * Complex.exp ((z - 1 / 2) * u)
+
+theorem transform_deriv {g : ℝ → ℂ} (hg : ContDiff ℝ ∞ g)
+    (hgc : HasCompactSupport g) (z : ℂ) :
+    transform (deriv g) z = -(z - 1 / 2) * transform g z := by
+  have hd : ContDiff ℝ ∞ (deriv g) := (contDiff_infty_iff_deriv.1 hg).2
+  let e : ℝ → ℂ := fun u => Complex.exp ((z - 1 / 2) * u)
+  let e' : ℝ → ℂ := fun u => (z - 1 / 2) * e u
+  have he : ∀ u, HasDerivAt e (e' u) u := by
+    intro u
+    convert ((Complex.ofRealCLM.hasDerivAt (x := u)).const_mul (z - 1 / 2)).cexp using 1 <;>
+      dsimp [e, e'] <;> ring
+  have hc : Continuous e := by dsimp [e]; fun_prop
+  have hi : Integrable (e * deriv g) :=
+    (hc.mul hd.continuous).integrable_of_hasCompactSupport hgc.deriv.mul_left
+  have hi' : Integrable (e' * g) :=
+    ((continuous_const.mul hc).mul hg.continuous).integrable_of_hasCompactSupport hgc.mul_left
+  have hi₀ : Integrable (e * g) :=
+    (hc.mul hg.continuous).integrable_of_hasCompactSupport hgc.mul_left
+  have h := integral_mul_deriv_eq_deriv_mul_of_integrable
+    (fun u _ => he u) (fun u _ => (hg.differentiable (by simp) u).hasDerivAt) hi hi' hi₀
+  have h₁ : transform (deriv g) z = ∫ u, e u * deriv g u := by
+    unfold transform
+    apply integral_congr_ae
+    exact Eventually.of_forall (fun u => mul_comm _ _)
+  rw [h₁, h]
+  dsimp only [Pi.mul_apply, e', e]
+  rw [show (fun u : ℝ => (z - 1 / 2) * Complex.exp ((z - 1 / 2) * u) * g u) =
+    (fun u : ℝ => (z - 1 / 2) * (g u * Complex.exp ((z - 1 / 2) * u))) by
+    funext u; ring, integral_const_mul]
+  simp only [transform, neg_mul]
+
+theorem transform_iteratedDeriv {g : ℝ → ℂ} (hg : ContDiff ℝ ∞ g)
+    (hgc : HasCompactSupport g) (n : ℕ) (z : ℂ) :
+    transform (iteratedDeriv n g) z = (-(z - 1 / 2)) ^ n * transform g z := by
+  rw [iteratedDeriv_eq_iterate]
+  induction n generalizing g with
+  | zero => simp
+  | succ n ih =>
+    rw [Function.iterate_succ_apply,
+      ih (contDiff_infty_iff_deriv.1 hg).2 hgc.deriv, transform_deriv hg hgc, pow_succ]
+    ring
+
+theorem norm_transform_le {g : ℝ → ℂ} (hg : ContDiff ℝ ∞ g)
+    (hgc : HasCompactSupport g) {z : ℂ} (h₀ : 0 ≤ z.re) (h₁ : z.re ≤ 1) :
+    ‖transform g z‖ ≤ ∫ u : ℝ, ‖g u‖ * Real.exp (|u| / 2) := by
+  apply (norm_integral_le_integral_norm _).trans
+  apply integral_mono_of_nonneg (Eventually.of_forall (fun _ => norm_nonneg _))
+    ((by fun_prop : Continuous (fun u => ‖g u‖ * Real.exp (|u| / 2))).integrable_of_hasCompactSupport
+      hgc.norm.mul_right)
+  apply Eventually.of_forall
+  intro u
+  simp only [norm_mul, Complex.norm_exp]
+  gcongr
+  simp only [Complex.mul_re, Complex.sub_re, Complex.ofReal_re, Complex.ofReal_im, mul_zero,
+    sub_zero, Complex.div_ofNat_re, Complex.one_re]
+  have hb : |z.re - 1 / 2| ≤ 1 / 2 := abs_le.mpr ⟨by linarith, by linarith⟩
+  calc (z.re - 1 / 2) * u ≤ |(z.re - 1 / 2) * u| := le_abs_self _
+    _ = |z.re - 1 / 2| * |u| := abs_mul _ _
+    _ ≤ 1 / 2 * |u| := mul_le_mul_of_nonneg_right hb (abs_nonneg _)
+    _ = _ := by ring
+
+theorem norm_iteratedDeriv_cutoff_le (χ : ℝ → ℂ) (hχ : ContDiff ℝ ∞ χ)
+    (M : ℕ → ℝ) (_hM₀ : ∀ j, 0 ≤ M j) (hM : ∀ j u, ‖iteratedDeriv j χ u‖ ≤ M j)
+    (t : ℝ) (ht₀ : 0 ≤ t) (ht₁ : t ≤ 1) (j : ℕ) (u : ℝ) :
+    ‖iteratedDeriv j (fun x => χ (t * x)) u‖ ≤ M j := by
+  rw [iteratedDeriv_comp_const_smul (n := j) (hχ.of_le (by exact_mod_cast (show (j : ℕ∞) ≤ ⊤ from le_top))) t]
+  simp only [norm_smul, norm_pow, Real.norm_eq_abs, abs_of_nonneg ht₀]
+  calc t ^ j * ‖iteratedDeriv j χ (t * u)‖ ≤ 1 * M j :=
+    mul_le_mul (pow_le_one₀ ht₀ ht₁) (hM _ _) (norm_nonneg _) (by norm_num)
+    _ = _ := one_mul _
+
+theorem cutoff_derivative_bound (g χ : ℝ → ℂ)
+    (hg : ContDiff ℝ ∞ g) (hχ : ContDiff ℝ ∞ χ)
+    (M : ℕ → ℝ) (hM₀ : ∀ j, 0 ≤ M j) (hM : ∀ j u, ‖iteratedDeriv j χ u‖ ≤ M j)
+    (t : ℝ) (ht₀ : 0 ≤ t) (ht₁ : t ≤ 1) (n : ℕ) (u : ℝ) :
+    ‖iteratedDeriv n (fun x => g x * χ (t * x)) u‖ ≤
+      ∑ j ∈ Finset.range (n + 1), (n.choose j : ℝ) * ‖iteratedDeriv j g u‖ * M (n - j) := by
+  have hχt : ContDiff ℝ ∞ (fun x => χ (t * x)) :=
+    hχ.comp (contDiff_const.mul contDiff_id)
+  rw [iteratedDeriv_fun_mul (n := n) (hg.of_le (by exact_mod_cast (show (n : ℕ∞) ≤ ⊤ from le_top))).contDiffAt
+    (hχt.of_le (by exact_mod_cast (show (n : ℕ∞) ≤ ⊤ from le_top))).contDiffAt]
+  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun j hj => ?_)
+  simp only [norm_mul, Complex.norm_natCast]
+  exact mul_le_mul_of_nonneg_left
+    (norm_iteratedDeriv_cutoff_le χ hχ M hM₀ hM t ht₀ ht₁ _ _) (by positivity)
+
+theorem smooth_iteratedDeriv {g : ℝ → ℂ} (hg : ContDiff ℝ ∞ g) (n : ℕ) :
+    ContDiff ℝ ∞ (iteratedDeriv n g) := by
+  induction n with
+  | zero => simpa using hg
+  | succ n ih => rw [iteratedDeriv_succ]; exact (contDiff_infty_iff_deriv.1 ih).2
+
+theorem compact_iteratedDeriv {g : ℝ → ℂ} (hg : HasCompactSupport g) (n : ℕ) :
+    HasCompactSupport (iteratedDeriv n g) := by
+  induction n with
+  | zero => simpa using hg
+  | succ n ih => rw [iteratedDeriv_succ]; exact ih.deriv
+
+theorem exists_cutoff_constants {χ : ℝ → ℂ} (hχ : ContDiff ℝ ∞ χ)
+    (hχc : HasCompactSupport χ) :
+    ∃ M : ℕ → ℝ, (∀ j, 0 ≤ M j) ∧ ∀ j u, ‖iteratedDeriv j χ u‖ ≤ M j := by
+  have hb (j : ℕ) : ∃ C : ℝ, 0 ≤ C ∧ ∀ u, ‖iteratedDeriv j χ u‖ ≤ C := by
+    obtain ⟨C, hC⟩ := (smooth_iteratedDeriv hχ j).continuous.bounded_above_of_compact_support
+      (compact_iteratedDeriv hχc j)
+    exact ⟨max C 0, le_max_right _ _, fun u => (hC u).trans (le_max_left _ _)⟩
+  choose M hM₀ hM using hb
+  exact ⟨M, hM₀, hM⟩
+
+/-- A single derivative L1 bound for every scale t in (0,1]. -/
+theorem cutoff_integral_bound (g χ : ℝ → ℂ)
+    (hg : ContDiff ℝ ∞ g) (hχ : ContDiff ℝ ∞ χ) (hχc : HasCompactSupport χ)
+    (hL : ∀ j : ℕ, Integrable (fun u => ‖iteratedDeriv j g u‖ * Real.exp (|u| / 2)))
+    (n : ℕ) : ∃ B : ℝ, 0 ≤ B ∧ ∀ t : ℝ, 0 < t → t ≤ 1 →
+      ∫ u : ℝ, ‖iteratedDeriv n (fun x => g x * χ (t * x)) u‖ * Real.exp (|u| / 2) ≤ B := by
+  obtain ⟨M, hM₀, hM⟩ := exists_cutoff_constants hχ hχc
+  let H : ℝ → ℝ := fun u => ∑ j ∈ Finset.range (n + 1),
+    (n.choose j : ℝ) * ‖iteratedDeriv j g u‖ * M (n - j) * Real.exp (|u| / 2)
+  have hH : Integrable H := by
+    apply integrable_finsetSum
+    intro j hj
+    exact (((hL j).const_mul (n.choose j : ℝ)).mul_const (M (n - j))).congr
+      (Eventually.of_forall fun u => by dsimp; ring)
+  have hH₀ : ∀ u, 0 ≤ H u := by
+    intro u
+    apply Finset.sum_nonneg
+    intro j hj
+    have := hM₀ (n - j)
+    positivity
+  refine ⟨∫ u, H u, integral_nonneg hH₀, fun t ht ht₁ => ?_⟩
+  apply integral_mono_of_nonneg (Eventually.of_forall (fun u => by positivity)) hH
+  apply Eventually.of_forall
+  intro u
+  dsimp [H]
+  rw [← Finset.sum_mul]
+  exact mul_le_mul_of_nonneg_right
+    (cutoff_derivative_bound g χ hg hχ M hM₀ hM t ht.le ht₁ n u) (Real.exp_pos _).le
+
+/-- Uniform strip decay for all cutoffs, provided the original function has
+integrable exponentially weighted derivatives. B is chosen before t or z. -/
+theorem uniform_cutoff_bound (g χ : ℝ → ℂ)
+    (hg : ContDiff ℝ ∞ g) (hχ : ContDiff ℝ ∞ χ) (hχc : HasCompactSupport χ)
+    (hL : ∀ j : ℕ, Integrable (fun u => ‖iteratedDeriv j g u‖ * Real.exp (|u| / 2)))
+    (N : ℕ) : ∃ C : ℝ, 0 ≤ C ∧ ∀ t : ℝ, 0 < t → t ≤ 1 →
+      ∀ z : ℂ, 0 ≤ z.re → z.re ≤ 1 →
+        (1 + ‖z‖) ^ N * ‖transform (fun x => g x * χ (t * x)) z‖ ≤ C := by
+  obtain ⟨B₀, hB₀, hb₀⟩ := cutoff_integral_bound g χ hg hχ hχc hL 0
+  obtain ⟨Bₙ, hBₙ, hbₙ⟩ := cutoff_integral_bound g χ hg hχ hχc hL N
+  refine ⟨3 ^ N * (B₀ + Bₙ), by positivity, fun t ht ht₁ z hz₀ hz₁ => ?_⟩
+  let f : ℝ → ℂ := fun x => g x * χ (t * x)
+  have hf : ContDiff ℝ ∞ f := hg.mul (hχ.comp (contDiff_const.mul contDiff_id))
+  have hfc : HasCompactSupport f :=
+    (hχc.comp_homeomorph (Homeomorph.mulLeft₀ t ht.ne')).mul_left
+  have hb0 : ‖transform f z‖ ≤ B₀ :=
+    (norm_transform_le hf hfc hz₀ hz₁).trans (by simpa only [iteratedDeriv_zero] using hb₀ t ht ht₁)
+  have hbn : ‖z - 1 / 2‖ ^ N * ‖transform f z‖ ≤ Bₙ := by
+    have h := (norm_transform_le (smooth_iteratedDeriv hf N)
+      (compact_iteratedDeriv hfc N) hz₀ hz₁).trans (hbₙ t ht ht₁)
+    rwa [transform_iteratedDeriv hf hfc, norm_mul, norm_pow, norm_neg] at h
+  have htri : ‖z‖ ≤ ‖z - 1 / 2‖ + 1 / 2 := by
+    calc ‖z‖ = ‖(z - 1 / 2) + (1 / 2 : ℂ)‖ := by congr 1; ring
+      _ ≤ ‖z - 1 / 2‖ + ‖(1 / 2 : ℂ)‖ := norm_add_le _ _
+      _ = _ := by norm_num
+  change (1 + ‖z‖) ^ N * ‖transform f z‖ ≤ _
+  by_cases hsmall : ‖z - 1 / 2‖ ≤ 1
+  · have hp : (1 + ‖z‖) ^ N ≤ (3 : ℝ) ^ N := by gcongr; linarith
+    exact mul_le_mul hp (hb0.trans (by linarith)) (norm_nonneg _) (by positivity)
+  · have hp : (1 + ‖z‖) ^ N ≤ (3 * ‖z - 1 / 2‖) ^ N := by gcongr; linarith
+    calc (1 + ‖z‖) ^ N * ‖transform f z‖ ≤
+        (3 * ‖z - 1 / 2‖) ^ N * ‖transform f z‖ :=
+          mul_le_mul_of_nonneg_right hp (norm_nonneg _)
+      _ = 3 ^ N * (‖z - 1 / 2‖ ^ N * ‖transform f z‖) := by rw [mul_pow]; ring
+      _ ≤ 3 ^ N * Bₙ := mul_le_mul_of_nonneg_left hbn (by positivity)
+      _ ≤ _ := by gcongr; linarith
+
+def packet (q : ℝ) (v : ℂ) (u : ℝ) : ℂ :=
+  Complex.exp (-(q : ℂ) * (u : ℂ) ^ 2 + v * u)
+
+theorem packet_smooth (q : ℝ) (v : ℂ) : ContDiff ℝ ∞ (packet q v) := by
+  unfold packet
+  have hc : ContDiff ℝ ∞ (fun u : ℝ => (u : ℂ)) := Complex.ofRealCLM.contDiff
+  exact ((contDiff_const.mul (hc.pow 2)).add (contDiff_const.mul hc)).cexp
+
+theorem packet_norm (q : ℝ) (v : ℂ) (u : ℝ) :
+    ‖packet q v u‖ = Real.exp (-q * u ^ 2 + v.re * u) := by
+  simp [packet, Complex.norm_exp, Complex.mul_re, Complex.mul_im, pow_two]
+
+theorem integrable_abs_pow_gaussian (n : ℕ) {q : ℝ} (hq : 0 < q) :
+    Integrable (fun u : ℝ => |u| ^ n * Real.exp (-q * u ^ 2)) := by
+  simpa [Real.rpow_natCast, norm_mul, Real.norm_eq_abs, abs_mul, abs_pow,
+    abs_of_pos (Real.exp_pos _)] using
+    (integrable_rpow_mul_exp_neg_mul_sq hq (s := (n : ℝ)) (by
+      have := Nat.cast_nonneg (α := ℝ) n; linarith)).norm
+
+theorem packet_weight_le {q : ℝ} (hq : 0 < q) (v : ℂ) (u : ℝ) :
+    ‖packet q v u‖ * Real.exp (|u| / 2) ≤
+      Real.exp ((|v.re| + 1 / 2) ^ 2 / (2 * q)) * Real.exp (-(q / 2) * u ^ 2) := by
+  rw [packet_norm, ← Real.exp_add, ← Real.exp_add]
+  apply Real.exp_le_exp.mpr
+  have hlin : v.re * u ≤ |v.re| * |u| := (le_abs_self _).trans_eq (abs_mul _ _)
+  have hquad : 0 ≤ (q / 2) * u ^ 2 + (|v.re| + 1 / 2) ^ 2 / (2 * q) -
+      (|v.re| + 1 / 2) * |u| := by
+    have heq : (q / 2) * u ^ 2 + (|v.re| + 1 / 2) ^ 2 / (2 * q) -
+        (|v.re| + 1 / 2) * |u| = (q * |u| - (|v.re| + 1 / 2)) ^ 2 / (2 * q) := by
+      rw [← sq_abs u]
+      field_simp
+      ring
+    rw [heq]
+    positivity
+  linarith
+
+theorem packet_monomial_integrable {q : ℝ} (hq : 0 < q) (v : ℂ) (n : ℕ) :
+    Integrable (fun u : ℝ => |u| ^ n * (‖packet q v u‖ * Real.exp (|u| / 2))) := by
+  apply ((integrable_abs_pow_gaussian n (show 0 < q / 2 by positivity)).const_mul
+    (Real.exp ((|v.re| + 1 / 2) ^ 2 / (2 * q)))).mono'
+    (((continuous_abs.pow n).mul ((packet_smooth q v).continuous.norm.mul
+      (Real.continuous_exp.comp (continuous_abs.div_const 2)))).aestronglyMeasurable)
+  apply Eventually.of_forall
+  intro u
+  dsimp only [Pi.mul_apply, Pi.pow_apply, Function.comp_apply]
+  rw [Real.norm_eq_abs, abs_of_nonneg (by positivity)]
+  calc _ ≤ |u| ^ n * (Real.exp ((|v.re| + 1 / 2) ^ 2 / (2 * q)) *
+        Real.exp (-(q / 2) * u ^ 2)) :=
+      mul_le_mul_of_nonneg_left (packet_weight_le hq v u) (by positivity)
+    _ = _ := by ring
+
+theorem packet_polynomial_integrable {q : ℝ} (hq : 0 < q) (v : ℂ) (P : Polynomial ℂ) :
+    Integrable (fun u : ℝ => ‖P.eval (u : ℂ) * packet q v u‖ * Real.exp (|u| / 2)) := by
+  induction P using Polynomial.induction_on' with
+  | add P Q hP hQ =>
+    apply (hP.add hQ).mono'
+      ((((P + Q).continuous.comp Complex.continuous_ofReal).mul (packet_smooth q v).continuous).norm.mul
+        (Real.continuous_exp.comp (continuous_abs.div_const 2))).aestronglyMeasurable
+    apply Eventually.of_forall
+    intro u
+    dsimp only [Pi.mul_apply, Pi.add_apply, Function.comp_apply]
+    rw [Real.norm_eq_abs, abs_of_nonneg (by positivity), Polynomial.eval_add, add_mul]
+    calc _ ≤ (‖P.eval (u : ℂ) * packet q v u‖ +
+        ‖Q.eval (u : ℂ) * packet q v u‖) * Real.exp (|u| / 2) :=
+      mul_le_mul_of_nonneg_right (norm_add_le _ _) (Real.exp_pos _).le
+      _ = _ := by ring
+  | monomial n a =>
+    convert (packet_monomial_integrable hq v n).const_mul ‖a‖ using 1
+    funext u
+    simp only [Polynomial.eval_monomial, norm_mul, norm_pow, Complex.norm_real, Real.norm_eq_abs]
+    ring
+
+theorem packet_deriv (q : ℝ) (v : ℂ) (P : Polynomial ℂ) (u : ℝ) :
+    HasDerivAt (fun x : ℝ => P.eval (x : ℂ) * packet q v x)
+      ((P.derivative + P * (Polynomial.C v - Polynomial.C (2 * (q : ℂ)) * Polynomial.X)).eval
+        (u : ℂ) * packet q v u) u := by
+  have he : HasDerivAt (packet q v) ((-2 * (q : ℂ) * u + v) * packet q v u) u := by
+    unfold packet
+    convert (((Complex.ofRealCLM.hasDerivAt (x := u)).pow 2).const_mul (-(q : ℂ)) |>.add
+      ((Complex.ofRealCLM.hasDerivAt (x := u)).const_mul v)).cexp using 1 <;>
+      simp only [Pi.add_apply, Pi.pow_apply, Complex.ofRealCLM_apply, Complex.ofReal_one] <;> ring
+  have hP : (P.derivative + P * (Polynomial.C v - Polynomial.C (2 * (q : ℂ)) * Polynomial.X)).eval
+      (u : ℂ) * packet q v u =
+      P.derivative.eval (u : ℂ) * packet q v u +
+        P.eval (u : ℂ) * ((-2 * (q : ℂ) * u + v) * packet q v u) := by
+    simp only [Polynomial.eval_add, Polynomial.eval_mul, Polynomial.eval_sub, Polynomial.eval_C,
+      Polynomial.eval_X]
+    ring
+  rw [hP]
+  exact ((P.hasDerivAt (u : ℂ)).comp_ofReal).mul he
+
+theorem packet_derivative_polynomial (q : ℝ) (v : ℂ) (n : ℕ) :
+    ∃ P : Polynomial ℂ, iteratedDeriv n (packet q v) =
+      fun u : ℝ => P.eval (u : ℂ) * packet q v u := by
+  induction n with
+  | zero => exact ⟨1, by ext u; simp⟩
+  | succ n ih =>
+    obtain ⟨P, hP⟩ := ih
+    refine ⟨P.derivative + P * (Polynomial.C v - Polynomial.C (2 * (q : ℂ)) * Polynomial.X), ?_⟩
+    rw [iteratedDeriv_succ, hP]
+    funext u
+    exact (packet_deriv q v P u).deriv
+
+theorem packet_weighted_derivatives {q : ℝ} (hq : 0 < q) (v : ℂ) (n : ℕ) :
+    Integrable (fun u : ℝ => ‖iteratedDeriv n (packet q v) u‖ * Real.exp (|u| / 2)) := by
+  obtain ⟨P, hP⟩ := packet_derivative_polynomial q v n
+  rw [hP]
+  exact packet_polynomial_integrable hq v P
+
+def scale (k : ℕ) : ℝ := ((k : ℝ) + 1)⁻¹
+
+theorem scale_pos (k : ℕ) : 0 < scale k := by dsimp [scale]; positivity
+
+theorem scale_le_one (k : ℕ) : scale k ≤ 1 := by
+  dsimp [scale]
+  exact inv_le_one_of_one_le₀ (by have := Nat.cast_nonneg (α := ℝ) k; linarith)
+
+theorem scale_tendsto : Tendsto scale atTop (𝓝 0) :=
+  tendsto_inv_atTop_zero.comp (tendsto_atTop_add_const_right _ _ tendsto_natCast_atTop_atTop)
+
+theorem transform_cutoff_tendsto (g χ : ℝ → ℂ)
+    (hg : Continuous g) (hχ : Continuous χ) (hχ₀ : χ 0 = 1)
+    (M : ℝ) (hM : ∀ u, ‖χ u‖ ≤ M)
+    (hL : Integrable (fun u => ‖g u‖ * Real.exp (|u| / 2)))
+    (z : ℂ) (hz₀ : 0 ≤ z.re) (hz₁ : z.re ≤ 1) :
+    Tendsto (fun k : ℕ => transform (fun u => g u * χ (scale k * u)) z)
+      atTop (𝓝 (transform g z)) := by
+  have hnorm (u : ℝ) : ‖Complex.exp ((z - 1 / 2) * u)‖ ≤ Real.exp (|u| / 2) := by
+    rw [Complex.norm_exp]
+    apply Real.exp_le_exp.mpr
+    simp only [Complex.mul_re, Complex.sub_re, Complex.ofReal_re, Complex.ofReal_im,
+      mul_zero, sub_zero, Complex.div_ofNat_re, Complex.one_re]
+    have hb : |z.re - 1 / 2| ≤ 1 / 2 := abs_le.mpr ⟨by linarith, by linarith⟩
+    calc (z.re - 1 / 2) * u ≤ |(z.re - 1 / 2) * u| := le_abs_self _
+      _ = |z.re - 1 / 2| * |u| := abs_mul _ _
+      _ ≤ 1 / 2 * |u| := mul_le_mul_of_nonneg_right hb (abs_nonneg _)
+      _ = _ := by ring
+  apply tendsto_integral_of_dominated_convergence (fun u => M * (‖g u‖ * Real.exp (|u| / 2)))
+  · intro k
+    exact ((hg.mul (hχ.comp (continuous_const.mul continuous_id))).mul
+      (Complex.continuous_exp.comp (continuous_const.mul Complex.continuous_ofReal))).aestronglyMeasurable
+  · exact hL.const_mul M
+  · intro k
+    apply Eventually.of_forall
+    intro u
+    simp only [norm_mul]
+    calc ‖g u‖ * ‖χ (scale k * u)‖ * ‖Complex.exp ((z - 1 / 2) * u)‖ ≤
+        ‖g u‖ * M * Real.exp (|u| / 2) :=
+          mul_le_mul (mul_le_mul_of_nonneg_left (hM _) (norm_nonneg _))
+            (hnorm u) (norm_nonneg _) (by have := (norm_nonneg (χ 0)).trans (hM 0); positivity)
+      _ = _ := by ring
+  · apply Eventually.of_forall
+    intro u
+    have ht : Tendsto (fun k : ℕ => χ (scale k * u)) atTop (𝓝 1) := by
+      have := hχ.continuousAt.tendsto.comp (scale_tendsto.mul_const u)
+      simpa only [Function.comp_def, zero_mul, hχ₀] using this
+    simpa using (tendsto_const_nhds.mul ht).mul tendsto_const_nhds
+
+theorem packet_transform {q : ℝ} (hq : 0 < q) (v z : ℂ) :
+    transform (packet q v) z = (Real.pi / (q : ℂ)) ^ (1 / 2 : ℂ) *
+      Complex.exp ((v + z - 1 / 2) ^ 2 / (4 * (q : ℂ))) := by
+  have hb : (-(q : ℂ)).re < 0 := by simpa using neg_neg_of_pos hq
+  calc transform (packet q v) z =
+      ∫ u : ℝ, Complex.exp (-(q : ℂ) * (u : ℂ) ^ 2 + (v + z - 1 / 2) * u + 0) := by
+        apply integral_congr_ae
+        apply Eventually.of_forall
+        intro u
+        dsimp [packet]
+        rw [← Complex.exp_add]
+        congr 1
+        ring
+    _ = _ := by
+      rw [integral_cexp_quadratic hb]
+      congr 2
+      · simp
+      · ring
+
+def χ (u : ℝ) : ℂ := ((default : ContDiffBump (0 : ℝ)) u : ℂ)
+
+theorem χ_smooth : ContDiff ℝ ∞ χ :=
+  Complex.ofRealCLM.contDiff.comp (default : ContDiffBump (0 : ℝ)).contDiff
+
+theorem χ_compact : HasCompactSupport χ :=
+  (default : ContDiffBump (0 : ℝ)).hasCompactSupport.comp_left Complex.ofReal_zero
+
+theorem χ_zero : χ 0 = 1 := by
+  have h := (default : ContDiffBump (0 : ℝ)).one_of_mem_closedBall
+    (Metric.mem_closedBall_self (default : ContDiffBump (0 : ℝ)).rIn_pos.le)
+  simp only [χ, h, Complex.ofReal_one]
+
+theorem χ_norm (u : ℝ) : ‖χ u‖ ≤ 1 := by
+  rw [χ, Complex.norm_real, Real.norm_eq_abs,
+    abs_of_nonneg (default : ContDiffBump (0 : ℝ)).nonneg]
+  exact (default : ContDiffBump (0 : ℝ)).le_one
+
+def cutoff (q : ℝ) (v : ℂ) (k : ℕ) (u : ℝ) : ℂ :=
+  packet q v u * χ (scale k * u)
+
+theorem cutoff_smooth (q : ℝ) (v : ℂ) (k : ℕ) : ContDiff ℝ ∞ (cutoff q v k) :=
+  (packet_smooth q v).mul (χ_smooth.comp (contDiff_const.mul contDiff_id))
+
+theorem cutoff_compact (q : ℝ) (v : ℂ) (k : ℕ) : HasCompactSupport (cutoff q v k) :=
+  (χ_compact.comp_homeomorph (Homeomorph.mulLeft₀ (scale k) (scale_pos k).ne')).mul_left
+
+/-- The cutoff constant is independent of k, at every polynomial order N. -/
+theorem gaussian_cutoff_uniform_bound {q : ℝ} (hq : 0 < q) (v : ℂ) (N : ℕ) :
+    ∃ C : ℝ, 0 ≤ C ∧ ∀ k : ℕ, ∀ z : ℂ, 0 ≤ z.re → z.re ≤ 1 →
+      (1 + ‖z‖) ^ N * ‖transform (cutoff q v k) z‖ ≤ C := by
+  obtain ⟨C, hC, hb⟩ := uniform_cutoff_bound (packet q v) χ (packet_smooth q v)
+    χ_smooth χ_compact (packet_weighted_derivatives hq v) N
+  exact ⟨C, hC, fun k => hb (scale k) (scale_pos k) (scale_le_one k)⟩
+
+theorem gaussian_cutoff_transform_tendsto {q : ℝ} (hq : 0 < q) (v z : ℂ)
+    (hz₀ : 0 ≤ z.re) (hz₁ : z.re ≤ 1) :
+    Tendsto (fun k : ℕ => transform (cutoff q v k) z) atTop (𝓝 (transform (packet q v) z)) := by
+  apply transform_cutoff_tendsto (packet q v) χ (packet_smooth q v).continuous χ_smooth.continuous
+    χ_zero 1 χ_norm
+    (by simpa only [iteratedDeriv_zero] using packet_weighted_derivatives hq v 0) z hz₀ hz₁
+
+theorem gaussian_cutoff_series_tendsto (Z : Set ℂ) (m : ℂ → ℕ)
+    (hcount : ∃ N : ℕ, Summable (fun z : Z =>
+      (m z : ℝ) * ((1 + ‖(z : ℂ)‖) ^ N)⁻¹))
+    (hstrip : ∀ z ∈ Z, 0 < z.re ∧ z.re < 1)
+    (c : Z → ℂ) (A : ℝ) (hA : 0 ≤ A) (hc : ∀ z : Z, ‖c z‖ ≤ A * (m z : ℝ))
+    {q : ℝ} (hq : 0 < q) (v : ℂ) :
+    Tendsto (fun k : ℕ => ∑' z : Z, c z * transform (cutoff q v k) z) atTop
+      (𝓝 (∑' z : Z, c z * transform (packet q v) z)) := by
+  obtain ⟨N, hN⟩ := hcount
+  obtain ⟨C, hC, hbound⟩ := gaussian_cutoff_uniform_bound hq v N
+  apply tendsto_tsum_of_dominated_convergence (hN.mul_left (A * C))
+  · intro z
+    exact tendsto_const_nhds.mul
+      (gaussian_cutoff_transform_tendsto hq v z (hstrip z z.property).1.le (hstrip z z.property).2.le)
+  · apply Eventually.of_forall
+    intro k z
+    rw [norm_mul]
+    have hp : 0 < (1 + ‖(z : ℂ)‖) ^ N := by positivity
+    have hB : ‖transform (cutoff q v k) z‖ ≤ C * ((1 + ‖(z : ℂ)‖) ^ N)⁻¹ := by
+      rw [← div_eq_mul_inv, le_div_iff₀ hp]
+      simpa only [mul_comm] using hbound k z (hstrip z z.property).1.le (hstrip z z.property).2.le
+    calc ‖c z‖ * ‖transform (cutoff q v k) z‖ ≤
+        (A * (m z : ℝ)) * (C * ((1 + ‖(z : ℂ)‖) ^ N)⁻¹) :=
+          mul_le_mul (hc z) hB (norm_nonneg _) (by positivity)
+      _ = _ := by ring
+
+end GppGwefC1
+
 namespace GppGwefGaussian
 
 def score (a b : ℝ) (z : ℂ) : ℝ :=
@@ -741,40 +1172,134 @@ theorem StripData.annihilatorCoefficients_bound (D : StripData) (w : SpectralHil
   exact mul_le_mul (lp.norm_apply_le_norm (by norm_num) w ρ) hs
     (Real.sqrt_nonneg _) (norm_nonneg _)
 
-/-- **C1, registered obligation (exact statement from the audited scratch).**
-For every vector `w` of the real subspace that annihilates the image of the
-spectral map, the Gaussian identity holds for the annihilator coefficients:
-`∑' ρ, c ρ * exp (s * exponent a b ρ) = 0` for all real `a b` and `s > 0`.
-This is the statement that sat under the single proof hole in Codex's
-`gaussian_annihilator` (scratch line 736). The intended route: take
-`phi(u) = exp(-u^2/(2*s) - I*(a+I*b)*u)` and `phi_k = phi * chi(u/k)`; the
-polynomial transform bound must be uniform in `k` at the `N` supplied by
-`D.counting` before exchanging the two limits. That uniform bound is the
-named defect. It is **not** proved here; it enters only as a hypothesis. -/
-def StripData.GaussianIdentityC1 (D : StripData) : Prop :=
-  ∀ w : D.realSubspace,
-    (∀ f : testFunctions, inner ℝ w (D.realSpectralMap f) = 0) →
-    ∀ a b s : ℝ, 0 < s →
-      ∑' ρ : D.Z, D.annihilatorCoefficients (w : SpectralHilbert D.Z) ρ *
-        Complex.exp ((s : ℂ) * GppGwefGaussian.exponent a b ρ) = 0
+theorem StripData.inner_conjugation_real (D : StripData) (w v : D.realSubspace) :
+    conj (inner ℂ (w : SpectralHilbert D.Z) (v : SpectralHilbert D.Z)) =
+      inner ℂ (w : SpectralHilbert D.Z) (v : SpectralHilbert D.Z) := by
+  simp only [lp.inner_eq_tsum, RCLike.inner_apply, Complex.conj_tsum, map_mul, conj_conj]
+  have h := D.conjugate.tsum_eq (fun ρ => (v : SpectralHilbert D.Z) ρ *
+    conj ((w : SpectralHilbert D.Z) ρ))
+  rw [← h]
+  congr 1
+  funext ρ
+  rw [v.property, w.property]
+  simp only [conj_conj]
 
-/-- OPEN (C1): `StripData.GaussianIdentityC1` for every `StripData`, i.e. the
-passage from the annihilator hypothesis to the Gaussian sum via smooth cutoffs,
-with the polynomial transform bound uniform in the cutoff index. Parked as a
-named stub per GPPVerify honesty rules; nothing below assumes it silently. -/
-theorem open_gaussian_identity_c1 : True := trivial
+theorem StripData.real_inner_eq (D : StripData) (w v : SpectralHilbert D.Z) :
+    inner ℝ w v = (inner ℂ w v).re := by
+  rw [lp.inner_eq_tsum, lp.inner_eq_tsum,
+    Complex.re_tsum (lp.summable_inner (𝕜 := ℂ) w v)]
+  congr 1
 
-/-- (iii), conditional on C1. C2 is proved above, including the parameter
-construction and the tail bound from (P). Given the C1 Gaussian identity
-(`StripData.GaussianIdentityC1`, still OPEN), an annihilator of the spectral
-image is zero. Every other hypothesis is displayed in `StripData`. -/
-theorem gaussian_annihilator (D : StripData) (hC1 : D.GaussianIdentityC1)
-    (w : D.realSubspace)
+theorem StripData.annihilator_real_test (D : StripData) (w : D.realSubspace)
+    (hann : ∀ f : testFunctions, inner ℝ w (D.realSpectralMap f) = 0)
+    (f : testFunctions) :
+    ∑' ρ : D.Z, D.annihilatorCoefficients w ρ * spectralTransform f ρ = 0 := by
+  have hr := hann f
+  change inner ℝ (w : SpectralHilbert D.Z) (D.spectralLinearMap f) = 0 at hr
+  rw [D.real_inner_eq] at hr
+  have hi := D.inner_conjugation_real w (D.realSpectralMap f)
+  have hz : inner ℂ (w : SpectralHilbert D.Z) (D.spectralLinearMap f) = 0 := by
+    apply Complex.ext hr
+    have him := congrArg Complex.im hi
+    simp only [Complex.conj_im] at him
+    change -(inner ℂ (w : SpectralHilbert D.Z) (D.spectralLinearMap f)).im =
+      (inner ℂ (w : SpectralHilbert D.Z) (D.spectralLinearMap f)).im at him
+    change (inner ℂ (w : SpectralHilbert D.Z) (D.spectralLinearMap f)).im = 0
+    linarith
+  rw [lp.inner_eq_tsum] at hz
+  convert hz using 1
+  congr 1
+  funext ρ
+  simp [StripData.annihilatorCoefficients, spectralLinearMap, spectralMap, weightedValues,
+    RCLike.inner_apply, mul_comm, mul_assoc]
+
+theorem StripData.annihilator_real_test_summable (D : StripData) (w : SpectralHilbert D.Z)
+    (f : testFunctions) :
+    Summable (fun ρ : D.Z => D.annihilatorCoefficients w ρ * spectralTransform f ρ) := by
+  have h := lp.summable_inner (𝕜 := ℂ) w (D.spectralLinearMap f)
+  simpa [StripData.annihilatorCoefficients, StripData.spectralLinearMap, spectralMap, weightedValues,
+    RCLike.inner_apply, mul_comm, mul_left_comm, mul_assoc] using h
+
+theorem StripData.annihilator_complex_test (D : StripData) (w : D.realSubspace)
+    (hann : ∀ f : testFunctions, inner ℝ w (D.realSpectralMap f) = 0)
+    (g : complexTests) :
+    ∑' ρ : D.Z, D.annihilatorCoefficients w ρ * complexTransform g ρ = 0 := by
+  let f₁ : testFunctions := ⟨fun u => (g u).re,
+    Complex.reCLM.contDiff.comp g.property.1,
+    g.property.2.comp_left (by rfl)⟩
+  let f₂ : testFunctions := ⟨fun u => (g u).im,
+    Complex.imCLM.contDiff.comp g.property.1,
+    g.property.2.comp_left (by rfl)⟩
+  have heq (z : ℂ) : complexTransform g z =
+      spectralTransform f₁ z + Complex.I * spectralTransform f₂ z := by
+    have h₁ := transform_integrable (realTestComplex f₁) z
+    have h₂ := (transform_integrable (realTestComplex f₂) z).const_mul Complex.I
+    change Integrable (fun u : ℝ => (f₁ u : ℂ) * Complex.exp ((z - 1 / 2) * u)) at h₁
+    change Integrable (fun u : ℝ => Complex.I * ((f₂ u : ℂ) * Complex.exp ((z - 1 / 2) * u))) at h₂
+    change (∫ u : ℝ, g u * Complex.exp ((z - 1 / 2) * u)) = _
+    rw [show (fun u : ℝ => g u * Complex.exp ((z - 1 / 2) * u)) =
+      (fun u : ℝ => (f₁ u : ℂ) * Complex.exp ((z - 1 / 2) * u) +
+        Complex.I * ((f₂ u : ℂ) * Complex.exp ((z - 1 / 2) * u))) by
+      funext u
+      dsimp [f₁, f₂]
+      rw [← mul_assoc, mul_comm Complex.I, ← add_mul, Complex.re_add_im],
+      integral_add h₁ h₂, integral_const_mul]
+    rfl
+  simp_rw [heq, mul_add, mul_left_comm (D.annihilatorCoefficients w _) Complex.I]
+  rw [Summable.tsum_add (D.annihilator_real_test_summable w f₁)
+    ((D.annihilator_real_test_summable w f₂).mul_left Complex.I), tsum_mul_left,
+    D.annihilator_real_test w hann f₁, D.annihilator_real_test w hann f₂]
+  simp
+
+theorem StripData.gaussian_identity (D : StripData) (w : D.realSubspace)
+    (hann : ∀ f : testFunctions, inner ℝ w (D.realSpectralMap f) = 0)
+    (a b s : ℝ) (hs : 0 < s) :
+    ∑' ρ : D.Z, D.annihilatorCoefficients w ρ *
+      Complex.exp ((s : ℂ) * GppGwefGaussian.exponent a b ρ) = 0 := by
+  let q : ℝ := 1 / (2 * s)
+  let v : ℂ := -Complex.I * ((a : ℂ) + Complex.I * b)
+  have hq : 0 < q := by dsimp [q]; positivity
+  let f (k : ℕ) : complexTests := ⟨GppGwefC1.cutoff q v k,
+    GppGwefC1.cutoff_smooth q v k, GppGwefC1.cutoff_compact q v k⟩
+  have hzero (k : ℕ) : ∑' ρ : D.Z, D.annihilatorCoefficients w ρ *
+      GppGwefC1.transform (GppGwefC1.cutoff q v k) ρ = 0 :=
+    D.annihilator_complex_test w hann (f k)
+  have hlim := GppGwefC1.gaussian_cutoff_series_tendsto D.Z D.m D.counting D.strip
+    (D.annihilatorCoefficients w) ‖(w : SpectralHilbert D.Z)‖ (norm_nonneg _)
+    (D.annihilatorCoefficients_bound w) hq v
+  have hid : ∑' ρ : D.Z, D.annihilatorCoefficients w ρ *
+      GppGwefC1.transform (GppGwefC1.packet q v) ρ = 0 := by
+    have hlim₀ : Tendsto (fun k : ℕ => ∑' ρ : D.Z, D.annihilatorCoefficients w ρ *
+        GppGwefC1.transform (GppGwefC1.cutoff q v k) ρ) atTop (𝓝 0) := by
+      simpa only [hzero] using (tendsto_const_nhds : Tendsto (fun _ : ℕ => (0 : ℂ)) atTop (𝓝 0))
+    exact tendsto_nhds_unique hlim hlim₀
+  have hexp (z : ℂ) : (v + z - 1 / 2) ^ 2 / (4 * (q : ℂ)) =
+      (s : ℂ) * GppGwefGaussian.exponent a b z := by
+    have hsC : (s : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hs.ne'
+    dsimp [v, q, GppGwefGaussian.exponent]
+    push_cast
+    field_simp
+    <;> ring
+  simp_rw [GppGwefC1.packet_transform hq, hexp,
+    mul_left_comm (D.annihilatorCoefficients w _) ((Real.pi / (q : ℂ)) ^ (1 / 2 : ℂ))] at hid
+  rw [tsum_mul_left] at hid
+  have hK : (Real.pi / (q : ℂ)) ^ (1 / 2 : ℂ) ≠ 0 := by
+    apply Complex.cpow_ne_zero_iff.mpr
+    exact Or.inl (div_ne_zero (Complex.ofReal_ne_zero.mpr Real.pi_ne_zero)
+      (Complex.ofReal_ne_zero.mpr hq.ne'))
+  exact (mul_eq_zero.mp hid).resolve_left hK
+
+/-- The annihilator vanishes: C1 supplies the Gaussian identities through
+smooth cutoffs with one summable dominator; C2 separates a unique dominant
+coefficient and sends the normalized tail to zero. All data are explicit in
+`StripData`; neither step assumes a location for the points within the strip. -/
+theorem gaussian_annihilator (D : StripData) (w : D.realSubspace)
     (hann : ∀ f : testFunctions, inner ℝ w (D.realSpectralMap f) = 0) : w = 0 := by
   let c : D.Z → ℂ := D.annihilatorCoefficients w
   have hGaussian : ∀ a b s : ℝ, 0 < s →
-      ∑' ρ : D.Z, c ρ * Complex.exp ((s : ℂ) * GppGwefGaussian.exponent a b ρ) = 0 :=
-    hC1 w hann
+      ∑' ρ : D.Z, c ρ * Complex.exp ((s : ℂ) * GppGwefGaussian.exponent a b ρ) = 0 := by
+    intro a b s hs
+    exact D.gaussian_identity w hann a b s hs
   have hc := GppGwefGaussian.coefficients_zero_of_gaussian_identity D.Z D.m
     D.locallyFinite D.positive D.counting D.strip c ‖(w : SpectralHilbert D.Z)‖
     (norm_nonneg _) (D.annihilatorCoefficients_bound w) hGaussian
