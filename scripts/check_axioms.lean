@@ -412,3 +412,5 @@ import GppVerify
 #print axioms GppXiZeroCounting.logDeriv_Gammaℝ
 #print axioms GppXiZeroCounting.xi_eq_mul
 #print axioms GppXiZeroCounting.logDeriv_xi_eq
+#print axioms GppDigammaIntegral.norm_one_sub_exp_neg_le
+#print axioms GppDigammaIntegral.digamma_eq_integral

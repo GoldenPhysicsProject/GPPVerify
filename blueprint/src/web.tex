@@ -8134,6 +8134,16 @@ with $\psi=\Gamma'/\Gamma$ Mathlib's digamma function. It follows from $\xi(s)=\
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E6 (Archimedean term), part 1: Gauss's integral for the digamma function}
+\lean{GppDigammaIntegral.norm_one_sub_exp_neg_le,GppDigammaIntegral.integral_F,GppDigammaIntegral.summable_integral_norm_F,GppDigammaIntegral.tsum_F_eq,GppDigammaIntegral.norm_G_le,GppDigammaIntegral.digamma_eq_integral}
+For $\mathrm{Re}\,z>0$,
+\[
+\psi(z)=-\gamma+\int_0^\infty\frac{e^{-t}-e^{-zt}}{1-e^{-t}}\,dt .
+\]
+Mathlib states this integral representation only as a TODO. It is obtained here from the Gauss series of stage E2a: $1/(n+1)-1/(n+1+z)=\int_0^\infty e^{-(n+1)t}(1-e^{-zt})\,dt$, and the sum over $n$ may be taken under the integral because $|1-e^{-zt}|\le|z|\,t$ (mean-value bound for $\mathrm{Re}\,z\ge0$), so $\sum_n\int|e^{-(n+1)t}(1-e^{-zt})|\,dt\le|z|\sum_n(n+1)^{-2}<\infty$. Summing the geometric series gives $(1-e^{-zt})\,e^{-t}/(1-e^{-t})$, which is integrable on $(0,\infty)$ by the bound $t\,e^{-t}/(1-e^{-t})\le e^{-t/2}$, a consequence of $\sinh x\ge x$. Subtracting $1/z=\int_0^\infty e^{-zt}\,dt$ and combining the integrands gives the stated formula. The Archimedean term of the explicit formula is this integral, evaluated at $z=\tfrac14+\tfrac{ir}2$ and integrated against the Fourier transform of the test function (a numerical check of the final identification, to 30 digits, is in GPPDiscovery).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

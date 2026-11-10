@@ -220,4 +220,78 @@ theorem norm_G_le {z : ℂ} (hz : 0 ≤ z.re) {t : ℝ} (ht : 0 < t) :
     _ = ‖z‖ * (t * (Real.exp (-t) / (1 - Real.exp (-t)))) := by ring
     _ ≤ ‖z‖ * Real.exp (-(1 / 2) * t) := by gcongr
 
+theorem integrableOn_G {z : ℂ} (hz : 0 ≤ z.re) : IntegrableOn (G z) (Ioi 0) := by
+  have hdom : IntegrableOn (fun t : ℝ => ‖z‖ * Real.exp (-(1 / 2) * t)) (Ioi 0) := by
+    have h : IntegrableOn (fun t : ℝ => ‖z‖ * ‖Complex.exp (-(1 / 2 : ℂ) * t)‖) (Ioi 0) :=
+      (integrableOn_exp_neg (a := (1 / 2 : ℂ)) (by simp)).norm.const_mul ‖z‖
+    refine h.congr_fun (fun t _ => ?_) measurableSet_Ioi
+    simp only [Complex.norm_exp]
+    congr 2
+    simp
+  refine Integrable.mono' hdom ?_ ?_
+  · have : ContinuousOn (G z) (Ioi 0) := by
+      unfold G
+      refine ContinuousOn.mul (by fun_prop) (ContinuousOn.div (by fun_prop) (by fun_prop) ?_)
+      intro t ht h
+      have h1 : Complex.exp (-(t : ℂ)) = 1 := by linear_combination -h
+      have hr : ‖Complex.exp (-(t : ℂ))‖ < 1 := by
+        rw [Complex.norm_exp]
+        have := Real.exp_lt_exp.2 (by linarith [ht.out] : -t < 0)
+        simpa using this
+      rw [h1] at hr
+      simp at hr
+    exact this.aestronglyMeasurable measurableSet_Ioi
+  · filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
+    exact norm_G_le hz ht
+
+/-- **Gauss's integral for the digamma function.** For `Re z > 0`,
+`ψ(z) = -γ + ∫₀^∞ (e^{-t} - e^{-z t}) / (1 - e^{-t}) dt`. -/
+theorem digamma_eq_integral {z : ℂ} (hz : 0 < z.re) :
+    Complex.digamma z = -(Real.eulerMascheroniConstant : ℂ) +
+      ∫ t : ℝ in Ioi 0, (Complex.exp (-(t : ℂ)) - Complex.exp (-z * t)) /
+        (1 - Complex.exp (-(t : ℂ))) := by
+  have hpoles : ∀ m : ℕ, z ≠ -(m : ℂ) := by
+    intro m h
+    have := congrArg Complex.re h
+    simp at this
+    have hm : (0 : ℝ) ≤ m := Nat.cast_nonneg m
+    linarith
+  rw [← GppDigammaGaussSeries.digammaSeries_eq_digamma hpoles]
+  have hsum := MeasureTheory.hasSum_integral_of_summable_integral_norm
+    (μ := volume.restrict (Ioi (0 : ℝ))) (F := fun n : ℕ => F z n)
+    (fun n => integrableOn_F hz n) (summable_integral_norm_F hz)
+  have hterm : ∀ n : ℕ, ∫ t : ℝ in Ioi 0, F z n t = GppDigammaSeries.digammaSeriesTerm z n :=
+    fun n => integral_F hz n
+  have htsum : ∑' n : ℕ, GppDigammaSeries.digammaSeriesTerm z n =
+      ∫ t : ℝ in Ioi 0, G z t := by
+    have h1 := hsum.tsum_eq
+    simp only [hterm] at h1
+    rw [h1]
+    refine setIntegral_congr_fun measurableSet_Ioi (fun t ht => ?_)
+    exact tsum_F_eq ht
+  unfold GppDigammaSeries.digammaSeries
+  rw [htsum]
+  have hexp : ∫ t : ℝ in Ioi 0, Complex.exp (-z * t) = z⁻¹ := integral_exp_neg hz
+  have hint : ∫ t : ℝ in Ioi 0, (G z t - Complex.exp (-z * t)) =
+      (∫ t : ℝ in Ioi 0, G z t) - z⁻¹ := by
+    rw [integral_sub (integrableOn_G hz.le) (integrableOn_exp_neg hz), hexp]
+  have hcongr : ∫ t : ℝ in Ioi 0, (Complex.exp (-(t : ℂ)) - Complex.exp (-z * t)) /
+        (1 - Complex.exp (-(t : ℂ))) = ∫ t : ℝ in Ioi 0, (G z t - Complex.exp (-z * t)) := by
+    refine setIntegral_congr_fun measurableSet_Ioi (fun t ht => ?_)
+    have ht' : 0 < t := ht
+    have hne : (1 - Complex.exp (-(t : ℂ))) ≠ 0 := by
+      intro h
+      have h1 : Complex.exp (-(t : ℂ)) = 1 := by linear_combination -h
+      have hr : ‖Complex.exp (-(t : ℂ))‖ < 1 := by
+        rw [Complex.norm_exp]
+        have := Real.exp_lt_exp.2 (by linarith : -t < 0)
+        simpa using this
+      rw [h1] at hr
+      simp at hr
+    simp only [G]
+    field_simp
+    ring
+  rw [hcongr, hint]
+  ring
+
 end GppDigammaIntegral
