@@ -8104,6 +8104,12 @@ This is the pointwise bound on $\xi'/\xi$ that the contour shift of the explicit
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E5a: the winding number of a rectangle}
+\lean{Complex.log_sub_log_neg_of_im_pos,Complex.log_sub_log_neg_of_im_neg,Complex.integral_inv_sub_horizontal,Complex.I_mul_integral_inv_sub_right,Complex.I_mul_integral_inv_sub_left,Complex.rect_boundary_integral_inv_sub}
+Mathlib proves Cauchy's theorem for a rectangle with holomorphic interior but has no residue or winding-number statement for rectangles. For $\rho$ strictly inside the rectangle with corners $z,w$, the boundary integral of $1/(s-\rho)$ is $2\pi i$. The two horizontal edges and the right edge stay in the slit plane (the imaginary part, respectively the real part, of $s-\rho$ has a fixed sign), so $\log(s-\rho)$ is an antiderivative; on the left edge $\mathrm{Re}(s-\rho)<0$ and the antiderivative is $\log(-(s-\rho))$. The four contributions telescope to $\bigl[\log w_2-\log(-w_2)\bigr]-\bigl[\log w_1-\log(-w_1)\bigr]$ where $w_1,w_2$ are the lower and upper ends of the left edge, and $\log w-\log(-w)$ equals $+\pi i$ for $\mathrm{Im}\,w>0$ and $-\pi i$ for $\mathrm{Im}\,w<0$, which gives $2\pi i$. This is the residue computation needed to turn the contour integral of $(\xi'/\xi)\,\Phi$ into the zero sum of the explicit formula (stage E5).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
