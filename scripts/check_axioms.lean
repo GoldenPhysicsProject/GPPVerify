@@ -388,3 +388,7 @@ import GppVerify
 #print axioms GppDigammaVertical.norm_digamma_le
 #print axioms GppExplicitFormulaE1.spectralTransform_decay_strip
 #print axioms GppXiOrder.xi_hasOrderLE_two
+#print axioms GppXiZeroCounting.analyticOrderAt_xi_eq
+#print axioms GppXiZeroCounting.sum_zeroMult_le
+#print axioms GppXiZeroCounting.one_le_zeroMult
+#print axioms GppXiZeroCounting.zeroCountingPolynomial
