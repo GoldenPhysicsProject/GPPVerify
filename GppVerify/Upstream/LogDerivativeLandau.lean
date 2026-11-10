@@ -225,6 +225,154 @@ theorem norm_logDeriv_le {f : ℂ → ℂ} (hf : Differentiable ℂ f) (h0 : f 0
           one_le_div (by positivity)]
         nlinarith
     linarith
-  sorry
+  -- maximum principle: `‖g‖ ≤ M` on the closed ball
+  have hgan : AnalyticOnNhd ℂ g (closedBall (0 : ℂ) R) := D.analyticOnNhd
+  have hgM : ∀ w : ℂ, ‖w‖ ≤ R → ‖g w‖ ≤ M := by
+    intro w hw
+    have hd : DiffContOnCl ℂ g (ball (0 : ℂ) R) := by
+      refine DifferentiableOn.diffContOnCl ?_
+      rw [closure_ball _ hR.ne']
+      exact fun x hx => (hgan x hx).differentiableAt.differentiableWithinAt
+    refine Complex.norm_le_of_forall_mem_frontier_norm_le (Metric.isBounded_ball) hd ?_
+      (by rw [closure_ball _ hR.ne']; simpa using hw)
+    intro x hx
+    rw [frontier_ball _ hR.ne'] at hx
+    have hx' : ‖x‖ = R := by simpa using hx
+    rw [hgsph x hx']
+    exact hM x hx'.le
+  -- a holomorphic logarithm of `g`
+  have hgne : ∀ w ∈ ball (0 : ℂ) R, g w ≠ 0 := fun w hw => D.ne_zero w (ball_subset_closedBall hw)
+  obtain ⟨h, hhd, hgh⟩ := exists_exp_eq_of_ne_zero_ball
+    (fun x hx => (hgan x (ball_subset_closedBall hx)).differentiableAt.differentiableWithinAt) hgne
+  have hM0 : ‖f 0‖ ≤ M := hM 0 (by simp [hR.le])
+  have hf0pos : 0 < ‖f 0‖ := norm_pos_iff.2 h0
+  have hM1 : 0 < Real.log M - Real.log ‖f 0‖ + 1 := by
+    have := Real.log_le_log hf0pos hM0
+    linarith
+  have hre : ∀ w ∈ ball (0 : ℂ) R,
+      (h w - h 0).re ≤ Real.log M - Real.log ‖f 0‖ + 1 := by
+    intro w hw
+    have e : ∀ x ∈ ball (0 : ℂ) R, (h x).re = Real.log ‖g x‖ := by
+      intro x hx
+      rw [hgh x hx, Complex.norm_exp, Real.log_exp]
+    rw [sub_re, e w hw, e 0 (mem_ball_self hR)]
+    have : Real.log ‖g w‖ ≤ Real.log M :=
+      Real.log_le_log (norm_pos_iff.2 (hgne w hw)) (hgM w (mem_ball_zero_iff.1 hw).le)
+    linarith
+  have hzb : z ∈ ball (0 : ℂ) R := by
+    rw [mem_ball_zero_iff]; linarith
+  have hdh : ‖deriv h z‖ ≤ 24 * (Real.log M - Real.log ‖f 0‖ + 1) / R :=
+    norm_deriv_le_of_re_le hM1 hR hhd hre (by simpa using hz)
+  -- `logDeriv g = h'`
+  have hlogg : logDeriv g z = deriv h z := by
+    have hev : g =ᶠ[nhds z] fun w => exp (h w) := by
+      filter_upwards [isOpen_ball.mem_nhds hzb] with w hw using hgh w hw
+    have hhz : DifferentiableAt ℂ h z := (hhd z hzb).differentiableAt (isOpen_ball.mem_nhds hzb)
+    rw [logDeriv_apply, hev.deriv_eq, hev.eq_of_nhds]
+    rw [deriv_cexp hhz]
+    have := exp_ne_zero (h z)
+    field_simp
+  -- the Blaschke factor
+  have hfin := hmer.divisor_ball_support_finite
+  set t := hfin.toFinset with ht
+  set Dv : ℂ → ℤ := fun i => MeromorphicOn.divisor f (ball (0 : ℂ) R) i with hDv
+  have hball : ∀ i ∈ t, i ∈ ball (0 : ℂ) R := fun i hi =>
+    hsupp i (by simpa [ht] using hi)
+  have hzeros : ∀ i ∈ t, f i = 0 := by
+    intro i hi
+    by_contra hfi
+    have hi' : Dv i ≠ 0 := by simpa [ht] using hi
+    apply hi'
+    simp only [hDv]
+    rw [MeromorphicOn.divisor_apply (fun x hx => hmer x (ball_subset_closedBall hx)) (hball i hi),
+      hord0 i hfi]
+    simp
+  have hzi : ∀ i ∈ t, z ≠ i := fun i hi h => hfz (h ▸ hzeros i hi)
+  have hzc : z ∈ closedBall (0 : ℂ) R := ball_subset_closedBall hzb
+  have hcz : ∀ i ∈ t, canonicalFactor R i z ≠ 0 := fun i hi =>
+    canonicalFactor_ne_zero (hball i hi) hzc (hzi i hi)
+  have hcd : ∀ i ∈ t, DifferentiableAt ℂ (fun w => canonicalFactor R i w ^ Dv i) z := by
+    intro i hi
+    have h1 : DifferentiableAt ℂ (canonicalFactor R i) z :=
+      (analyticOnNhd_canonicalFactor R i z (by simpa using hzi i hi)).differentiableAt
+    exact h1.zpow (Or.inl (hcz i hi))
+  set P : ℂ → ℂ := fun w => ∏ i ∈ t, canonicalFactor R i w ^ Dv i with hP
+  have hgP : g =ᶠ[nhds z] fun w => P w * f w := by
+    filter_upwards [isOpen_ball.mem_nhds hzb, hf.continuous.continuousAt.eventually_ne hfz]
+      with w hw hfw
+    have := D.eq_smul_meromorphicTrailingCoeffAt_of_meromorphicOrderAt
+      (ball_subset_closedBall hw) (hord0 w hfw) hR
+    simp only [Function.locallyFinsuppWithin.coe_neg, Pi.neg_apply, hsd, neg_zero, zpow_zero,
+      finprod_one, mul_one, smul_eq_mul] at this
+    rw [this, (hf.analyticAt w).meromorphicTrailingCoeffAt_of_ne_zero hfw]
+    congr 1
+    refine finprod_eq_prod_of_mulSupport_subset _ ?_
+    intro i hi
+    rw [Function.mem_mulSupport] at hi
+    have : Dv i ≠ 0 := fun h0' => hi (by
+      have h00 : (MeromorphicOn.divisor f (ball (0 : ℂ) R)) i = 0 := h0'
+      rw [h00, zpow_zero])
+    simpa [ht] using this
+  have hPz : P z ≠ 0 := Finset.prod_ne_zero_iff.2 fun i hi => zpow_ne_zero _ (hcz i hi)
+  have hPd : DifferentiableAt ℂ P z := DifferentiableAt.fun_finsetProd hcd
+  have hcdiff : ∀ i ∈ t, DifferentiableAt ℂ (canonicalFactor R i) z := fun i hi =>
+    (analyticOnNhd_canonicalFactor R i z (by simpa using hzi i hi)).differentiableAt
+  have hlogP : logDeriv P z = ∑ i ∈ t, (Dv i : ℂ) * logDeriv (canonicalFactor R i) z := by
+    rw [hP, logDeriv_prod (f := fun i w => canonicalFactor R i w ^ Dv i) (s := t)
+      (fun i hi => zpow_ne_zero _ (hcz i hi)) hcd]
+    exact Finset.sum_congr rfl fun i hi => logDeriv_fun_zpow (hcdiff i hi) (Dv i)
+  have hsplit : logDeriv g z = logDeriv P z + logDeriv f z := by
+    have : logDeriv g z = logDeriv (fun w => P w * f w) z := by
+      rw [logDeriv_apply, logDeriv_apply, hgP.deriv_eq, hgP.eq_of_nhds]
+    rw [this, logDeriv_mul z hPz hfz hPd (hf.differentiableAt)]
+  have key : logDeriv f z = logDeriv g z - ∑ i ∈ t, (Dv i : ℂ) * logDeriv (canonicalFactor R i) z := by
+    rw [hsplit, hlogP]; ring
+  -- termwise bound
+  have hterm : ∀ i ∈ t, ‖(Dv i : ℂ) * logDeriv (canonicalFactor R i) z‖ ≤
+      ((Dv i).toNat : ℝ) * (1 / ‖z - i‖ + 2 / R) := by
+    intro i hi
+    have hib : ‖i‖ < R := by simpa using hball i hi
+    have hnum : (R : ℂ) ^ 2 - (starRingEnd ℂ) i * z ≠ 0 := by
+      have := hcz i hi
+      rw [canonicalFactor_apply] at this
+      exact (div_ne_zero_iff.1 this).1
+    have hlc := logDeriv_canonicalFactor hR.ne' (hzi i hi) hnum
+    have hDnat : (Dv i : ℂ) = ((Dv i).toNat : ℂ) := by
+      exact_mod_cast (Int.toNat_of_nonneg (hdn i)).symm
+    rw [norm_mul, hDnat, Complex.norm_natCast, hlc]
+    refine mul_le_mul_of_nonneg_left ?_ (Nat.cast_nonneg _)
+    refine (norm_sub_le _ _).trans ?_
+    have hzi' : 0 < ‖z - i‖ := norm_pos_iff.2 (sub_ne_zero.2 (hzi i hi))
+    have h1 : ‖(1 : ℂ) / (z - i)‖ = 1 / ‖z - i‖ := by simp
+    have h2 : ‖-(starRingEnd ℂ) i / ((R : ℂ) ^ 2 - (starRingEnd ℂ) i * z)‖ ≤ 2 / R := by
+      have hden : R ^ 2 / 2 ≤ ‖(R : ℂ) ^ 2 - (starRingEnd ℂ) i * z‖ := by
+        have h3 : ‖(R : ℂ) ^ 2‖ - ‖(starRingEnd ℂ) i * z‖ ≤
+            ‖(R : ℂ) ^ 2 - (starRingEnd ℂ) i * z‖ := norm_sub_norm_le _ _
+        have h4 : ‖(R : ℂ) ^ 2‖ = R ^ 2 := by
+          rw [norm_pow, Complex.norm_real, Real.norm_of_nonneg hR.le]
+        have h5 : ‖(starRingEnd ℂ) i * z‖ ≤ R * (R / 2) := by
+          rw [norm_mul, Complex.norm_conj]
+          exact mul_le_mul hib.le hz (norm_nonneg _) hR.le
+        nlinarith
+      rw [norm_div, norm_neg, Complex.norm_conj]
+      rw [div_le_div_iff₀ (lt_of_lt_of_le (by positivity) hden) hR]
+      nlinarith [norm_nonneg i]
+    linarith
+  -- assemble
+  rw [key]
+  refine (norm_sub_le _ _).trans ?_
+  rw [hlogg]
+  have hsum : ‖∑ i ∈ t, (Dv i : ℂ) * logDeriv (canonicalFactor R i) z‖ ≤
+      ∑ᶠ u, (((MeromorphicOn.divisor f (ball (0 : ℂ) R)) u).toNat : ℝ) * (1 / ‖z - u‖ + 2 / R) := by
+    refine (norm_sum_le _ _).trans ?_
+    rw [finsum_eq_sum_of_support_subset (s := t)]
+    · exact Finset.sum_le_sum hterm
+    · intro u hu
+      rw [Function.mem_support] at hu
+      have : Dv u ≠ 0 := fun h0' => hu (by
+        have h00 : (MeromorphicOn.divisor f (ball (0 : ℂ) R)) u = 0 := h0'
+        simp [h00])
+      simpa [ht] using this
+  linarith
 
 end Complex
