@@ -8144,6 +8144,16 @@ Mathlib states this integral representation only as a TODO. It is obtained here 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 
+\section{Explicit formula, stage E6 (Archimedean term), part 2: the identification}
+\lean{GppArchimedeanId.norm_K_le,GppArchimedeanId.hline_integrable,GppArchimedeanId.inversion,GppArchimedeanId.integrable_weight_hline,GppArchimedeanId.inner_integral,GppArchimedeanId.integrable_prod,GppArchimedeanId.archimedean_identification}
+For a test function $g$ with $h(r)=\hat g(\tfrac12+ir)=\int g(u)e^{iru}\,du$,
+\[
+\frac1{2\pi}\int_{\mathbb R}h(r)\,\psi\!\Bigl(\frac14+\frac{ir}2\Bigr)\,dr\;=\;A_\infty(g)+g(0)\log\pi ,
+\]
+where $A_\infty$ is the repository's \texttt{archimedeanTerm}; for even $g$ this is the classical $A_\infty(g)=-g(0)\log\pi+\frac1{2\pi}\int h(r)\,\mathrm{Re}\,\psi(\tfrac14+\tfrac{ir}2)\,dr$. Insert Gauss's integral for $\psi$ (part 1) and swap the integrals. The kernel $K(z,t)=(e^{-t}-e^{-zt})/(1-e^{-t})$ at $z=\tfrac14+\tfrac{ir}2$ is bounded by $(4+|r|)e^{1/4}e^{-t/4}$ uniformly in $t>0$ (split at $t=1$, using $\|1-e^{-w}\|\le\|w\|$ and $1-e^{-t}\ge t/2$ on $(0,1]$), and $(4+|r|)\|h(r)\|$ is integrable by the rapid decay of stage E1, so Fubini applies. For fixed $t$, Fourier inversion $g(v)=\frac1{2\pi}\int e^{-irv}h(r)\,dr$ evaluates the $r$-integral at $v=0$ and $v=t/2$, giving $2\pi\,(e^{-t}g(0)-e^{-t/4}g(t/2))/(1-e^{-t})$. The substitution $t=2u$ turns the remaining integral into $2\int_0^\infty(e^{-2u}g(0)-e^{-u/2}g(u))/(1-e^{-2u})\,du$, and the $-\gamma$ of Gauss's integral contributes $-\gamma\,g(0)$, which together give $A_\infty(g)+g(0)\log\pi$. A numerical check of the final identity, to 30 digits, is in GPPDiscovery.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

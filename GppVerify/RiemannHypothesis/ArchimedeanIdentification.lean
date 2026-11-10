@@ -320,6 +320,13 @@ theorem integrable_prod {g : ℝ → ℝ} (hg : IsTestFunction g) :
         ≤ ‖hline g p.1‖ * ((4 + |p.1|) * Real.exp (1 / 4) * Real.exp (-p.2 / 4)) := by gcongr
       _ = (4 + |p.1|) * ‖hline g p.1‖ * Real.exp (1 / 4) * Real.exp (-p.2 / 4) := by ring
 
+theorem integral_hline {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    ∫ r : ℝ, hline g r = ((2 * Real.pi : ℝ) : ℂ) * (g 0 : ℂ) := by
+  have h0 := inversion hg 0
+  simp only [Complex.ofReal_zero, mul_zero, neg_zero, Complex.exp_zero, one_mul] at h0
+  generalize (∫ r : ℝ, hline g r) = J at h0 ⊢
+  rw [h0]; push_cast; field_simp
+
 /-- **The Archimedean term from the digamma line integral.** For every test function `g`,
 `(1/2π) ∫ h(r) ψ(1/4 + i r/2) dr = archimedeanTerm g + g(0) log π`, where
 `h(r) = ĝ(1/2 + i r)`. (For even `g` this is the classical
@@ -350,6 +357,38 @@ theorem archimedean_identification {g : ℝ → ℝ} (hg : IsTestFunction g) :
   have hswap : ∫ r : ℝ, ∫ t : ℝ in Ioi 0, hline g r * K (z r) t =
       ∫ t : ℝ in Ioi 0, ∫ r : ℝ, hline g r * K (z r) t :=
     MeasureTheory.integral_integral_swap hInt
-  sorry
+  set F : ℝ → ℂ := fun t => (Complex.exp (-(t : ℂ)) * (g 0 : ℂ) -
+    Complex.exp (-(t : ℂ) / 4) * (g (t / 2) : ℂ)) / (1 - Complex.exp (-(t : ℂ))) with hF
+  have hstep3 : ∫ t : ℝ in Ioi 0, ∫ r : ℝ, hline g r * K (z r) t =
+      ((2 * Real.pi : ℝ) : ℂ) * ∫ t : ℝ in Ioi 0, F t := by
+    rw [← integral_const_mul]
+    exact setIntegral_congr_fun measurableSet_Ioi (fun t ht => inner_integral hg ht)
+  have hsub : ∫ t : ℝ in Ioi 0, F t = 2 * ∫ u : ℝ in Ioi 0, F (2 * u) := by
+    have := integral_comp_mul_left_Ioi' F 0 (b := 2) (by norm_num)
+    rw [mul_zero] at this
+    rw [← this]
+    simp [two_smul, two_mul]
+  have hF2 : ∀ u ∈ Ioi (0 : ℝ), F (2 * u) =
+      ((GppArchimedeanFloor.archimedeanIntegrand g u : ℝ) : ℂ) := by
+    intro u _
+    simp only [hF, GppArchimedeanFloor.archimedeanIntegrand]
+    push_cast
+    have e1 : -((2 : ℂ) * u) = -2 * u := by ring
+    have e2 : Complex.exp (-2 * (u : ℂ) / 4) = Complex.exp (-(u : ℂ) / 2) := by
+      congr 1; ring
+    have e3 : g (2 * u / 2) = g u := by congr 1; ring
+    simp only [e1]
+    rw [e2, e3]
+  have hint : ∫ u : ℝ in Ioi 0, F (2 * u) =
+      ((∫ u : ℝ in Ioi 0, GppArchimedeanFloor.archimedeanIntegrand g u : ℝ) : ℂ) := by
+    rw [setIntegral_congr_fun measurableSet_Ioi hF2]
+    exact integral_ofReal
+  -- assemble
+  rw [hstep1, hswap, hstep3, hsub, hint, integral_hline hg]
+  unfold GppArchimedeanFloor.archimedeanTerm
+  have hpi : (Real.pi : ℂ) ≠ 0 := by exact_mod_cast Real.pi_ne_zero
+  push_cast
+  field_simp
+  ring
 
 end GppArchimedeanId
