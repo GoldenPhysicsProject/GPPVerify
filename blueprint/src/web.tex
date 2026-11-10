@@ -8076,6 +8076,12 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 For a test function $g$ (smooth, compactly supported, log variable) and every $k$, the spectral transform $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$ satisfies $|s-\tfrac12|^k\,|\hat g(s)|\le C$ for all $s$ with $0\le{\rm Re}\,s\le1$, with one constant for the whole closed strip. Integration by parts gives $\widehat{g'}(s)=-(s-\tfrac12)\hat g(s)$, hence $\widehat{g^{(k)}}(s)=(-(s-\tfrac12))^k\hat g(s)$, and on the strip $|\hat h(s)|\le\int|h(u)|e^{|u|/2}\,du$ because $|({\rm Re}\,s-\tfrac12)u|\le|u|/2$. Stage E1 has the decay on each vertical line; the uniform statement is what a sum over zeros needs, since no zero is assumed to lie on a particular line. It is used by the explicit formula (sum over zeros, horizontal segments) and by the density step of GW-EF-3.
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
+
+\section{Explicit formula, stage E3a: the entire function $\xi$ has finite order}
+\lean{GppXiOrder.exists_kernel_bound,GppXiOrder.norm_f_modif_le,GppXiOrder.norm_Lambda0_le,GppXiOrder.quad_le_rpow_add,GppXiOrder.xi_hasOrderLE_two}
+Mathlib's entire completed zeta function $\Lambda_0$ is defined by a Mellin transform of the modified theta kernel and has no growth bound in the library. The theta kernel differs from $1$ by $O(e^{-pt})$ on $[1,\infty)$ (with explicit constants by continuity on the compact part), and the functional equation carries this to $(0,1)$ as $O(t^{-1/2}e^{-p/t})$. Bounding the Mellin integral $\int_0^\infty t^{\sigma-1}|f(t)|\,dt$ with $u^R\le(2R/p)^Re^{pu/2}$ gives $|\Lambda_0(s)|\le K\bigl(2(|\sigma|+2)/q\bigr)^{|\sigma|+2}$, uniformly in ${\rm Im}\,s$. Since $\log y\le y$, this is at most $K e^{c\,(1+|s|)^2}$, and $\xi(s)=\tfrac12\bigl(1+s(s-1)\Lambda_0(s)\bigr)$ therefore has order at most $2$: for every $\varepsilon>0$ it is bounded by $C\exp(|s|^{2+\varepsilon})$. The true order is $1$; the weaker exponent is all the zero counting needs. Combined with Jensen's formula (the Hadamard cluster) this gives the polynomial bound on the number of zeros that the explicit formula and the density step of the Weil-criterion converse require.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn

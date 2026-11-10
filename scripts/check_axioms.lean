@@ -387,3 +387,4 @@ import GppVerify
 #print axioms GlobalTate.Poisson.adelicPoissonScaled
 #print axioms GppDigammaVertical.norm_digamma_le
 #print axioms GppExplicitFormulaE1.spectralTransform_decay_strip
+#print axioms GppXiOrder.xi_hasOrderLE_two
