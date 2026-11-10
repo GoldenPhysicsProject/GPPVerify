@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Daniel Toupin (with AI assistance from Claude Code)
 -/
 import GppVerify.RiemannHypothesis.XiLineBounds
+import GppVerify.RiemannHypothesis.XiZeroCounting
 import GppVerify.RiemannHypothesis.XiLogDerivative
 import GppVerify.Upstream.RectangleLogDerivative
 
@@ -179,5 +180,175 @@ theorem rect_identity {g : ℝ → ℝ} (hg : IsTestFunction g) {t : ℝ} (ht : 
     rw [divisor_xi_apply_set hρball]
     rw [zeroMult_eq_orderNat_xi ((xi_eq_zero_iff_nontrivial ρ).1 h3)]
     simp
+
+
+/-- **The zero sum converges absolutely.** -/
+theorem summable_zeroSum {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    Summable (fun ρ : nontrivialZeros => (zeroMult ρ : ℂ) * spectralTransform g ρ) := by
+  obtain ⟨N, hN⟩ := zeroCountingPolynomial
+  obtain ⟨C0, hC0⟩ := GppExplicitFormulaE1.spectralTransform_decay_wide hg (1 / 2) 0
+  obtain ⟨CN, hCN⟩ := GppExplicitFormulaE1.spectralTransform_decay_wide hg (1 / 2) N
+  set C' : ℝ := 2 ^ N * ((3 / 2) ^ N * |C0| + |CN|) with hC'
+  refine Summable.of_norm_bounded (hN.mul_left C') fun ρ => ?_
+  have hre : |(ρ : ℂ).re - 1 / 2| ≤ 1 / 2 := by
+    obtain ⟨-, h0, h1⟩ := ρ.2
+    exact abs_le.2 ⟨by linarith, by linarith⟩
+  have h0 := hC0 ρ hre
+  have hN' := hCN ρ hre
+  simp only [pow_zero, one_mul] at h0
+  set x : ℝ := ‖(ρ : ℂ) - 1 / 2‖ with hx
+  have hx0 : 0 ≤ x := norm_nonneg _
+  have hΦ0 : 0 ≤ ‖spectralTransform g ρ‖ := norm_nonneg _
+  have hle : 1 + ‖(ρ : ℂ)‖ ≤ 3 / 2 + x := by
+    have : ‖(ρ : ℂ)‖ ≤ ‖(ρ : ℂ) - 1 / 2‖ + ‖(1 / 2 : ℂ)‖ := by
+      calc ‖(ρ : ℂ)‖ = ‖((ρ : ℂ) - 1 / 2) + 1 / 2‖ := by ring_nf
+        _ ≤ _ := norm_add_le _ _
+    have h2 : ‖(1 / 2 : ℂ)‖ = 1 / 2 := by simp
+    linarith
+  have hpow : (1 + ‖(ρ : ℂ)‖) ^ N ≤ 2 ^ N * ((3 / 2) ^ N + x ^ N) := by
+    calc (1 + ‖(ρ : ℂ)‖) ^ N ≤ (3 / 2 + x) ^ N :=
+          pow_le_pow_left₀ (by positivity) hle N
+      _ ≤ (2 * max (3 / 2) x) ^ N := by
+          apply pow_le_pow_left₀ (by positivity)
+          have := le_max_left (3 / 2 : ℝ) x
+          have := le_max_right (3 / 2 : ℝ) x
+          linarith
+      _ = 2 ^ N * max (3 / 2) x ^ N := mul_pow _ _ _
+      _ ≤ 2 ^ N * ((3 / 2) ^ N + x ^ N) := by
+          apply mul_le_mul_of_nonneg_left _ (by positivity)
+          rcases le_total (3 / 2 : ℝ) x with h | h
+          · rw [max_eq_right h]; have : 0 ≤ (3 / 2 : ℝ) ^ N := by positivity
+            linarith
+          · rw [max_eq_left h]; have : 0 ≤ x ^ N := by positivity
+            linarith
+  have hprod : (1 + ‖(ρ : ℂ)‖) ^ N * ‖spectralTransform g ρ‖ ≤ C' := by
+    calc (1 + ‖(ρ : ℂ)‖) ^ N * ‖spectralTransform g ρ‖
+        ≤ 2 ^ N * ((3 / 2) ^ N + x ^ N) * ‖spectralTransform g ρ‖ :=
+          mul_le_mul_of_nonneg_right hpow hΦ0
+      _ = 2 ^ N * ((3 / 2) ^ N * ‖spectralTransform g ρ‖ + x ^ N * ‖spectralTransform g ρ‖) := by ring
+      _ ≤ 2 ^ N * ((3 / 2) ^ N * |C0| + |CN|) := by
+          apply mul_le_mul_of_nonneg_left _ (by positivity)
+          have a1 : ‖spectralTransform g ρ‖ ≤ |C0| := h0.trans (le_abs_self _)
+          have a2 : x ^ N * ‖spectralTransform g ρ‖ ≤ |CN| := hN'.trans (le_abs_self _)
+          have := mul_le_mul_of_nonneg_left a1 (by positivity : (0 : ℝ) ≤ (3 / 2) ^ N)
+          linarith
+  have hm : (0 : ℝ) ≤ zeroMult ρ := Nat.cast_nonneg _
+  have hpos : (0 : ℝ) < (1 + ‖(ρ : ℂ)‖) ^ N := by positivity
+  rw [norm_mul, Complex.norm_natCast]
+  calc (zeroMult ρ : ℝ) * ‖spectralTransform g ρ‖
+      = (zeroMult ρ : ℝ) * (((1 + ‖(ρ : ℂ)‖) ^ N)⁻¹ * ((1 + ‖(ρ : ℂ)‖) ^ N * ‖spectralTransform g ρ‖)) := by
+        field_simp
+    _ ≤ (zeroMult ρ : ℝ) * (((1 + ‖(ρ : ℂ)‖) ^ N)⁻¹ * C') :=
+        mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_left hprod (by positivity)) hm
+    _ = C' * ((zeroMult ρ : ℝ) * ((1 + ‖(ρ : ℂ)‖) ^ N)⁻¹) := by ring
+
+
+/-- Polynomial decay of `Φ_g` of any order on the wide strip, in the form `(1+‖s-1/2‖)^N ‖Φ‖ ≤ C`. -/
+theorem poly_decay {g : ℝ → ℝ} (hg : IsTestFunction g) (M : ℝ) (N : ℕ) :
+    ∃ C, ∀ s : ℂ, |s.re - 1 / 2| ≤ M → (1 + ‖s - 1 / 2‖) ^ N * ‖spectralTransform g s‖ ≤ C := by
+  obtain ⟨C0, hC0⟩ := GppExplicitFormulaE1.spectralTransform_decay_wide hg M 0
+  obtain ⟨CN, hCN⟩ := GppExplicitFormulaE1.spectralTransform_decay_wide hg M N
+  refine ⟨2 ^ N * (|C0| + |CN|), fun s hs => ?_⟩
+  have h0 := hC0 s hs
+  have hN := hCN s hs
+  simp only [pow_zero, one_mul] at h0
+  set x : ℝ := ‖s - 1 / 2‖ with hx
+  have hx0 : 0 ≤ x := norm_nonneg _
+  have hΦ0 : 0 ≤ ‖spectralTransform g s‖ := norm_nonneg _
+  have hpow : (1 + x) ^ N ≤ 2 ^ N * (1 + x ^ N) := by
+    calc (1 + x) ^ N ≤ (2 * max 1 x) ^ N := by
+          apply pow_le_pow_left₀ (by positivity)
+          have := le_max_left (1 : ℝ) x
+          have := le_max_right (1 : ℝ) x
+          linarith
+      _ = 2 ^ N * max 1 x ^ N := mul_pow _ _ _
+      _ ≤ 2 ^ N * (1 + x ^ N) := by
+          apply mul_le_mul_of_nonneg_left _ (by positivity)
+          rcases le_total (1 : ℝ) x with h | h
+          · rw [max_eq_right h]; have : (0 : ℝ) ≤ 1 := by norm_num
+            linarith
+          · rw [max_eq_left h, one_pow]; have : 0 ≤ x ^ N := by positivity
+            linarith
+  calc (1 + x) ^ N * ‖spectralTransform g s‖ ≤ 2 ^ N * (1 + x ^ N) * ‖spectralTransform g s‖ :=
+        mul_le_mul_of_nonneg_right hpow hΦ0
+    _ = 2 ^ N * (‖spectralTransform g s‖ + x ^ N * ‖spectralTransform g s‖) := by ring
+    _ ≤ 2 ^ N * (|C0| + |CN|) := by
+        apply mul_le_mul_of_nonneg_left _ (by positivity)
+        linarith [le_abs_self C0, le_abs_self CN]
+
+/-- **Horizontal sides.** At suitable heights the two horizontal edges contribute `O(1/t)`. -/
+theorem exists_horizontal {g : ℝ → ℝ} (hg : IsTestFunction g) :
+    ∃ C : ℝ, ∀ T : ℝ, 1 ≤ T → ∃ t ∈ Icc T (T + 1),
+      (∀ σ ∈ Icc (-1 : ℝ) 2, xi ((σ : ℂ) + (t : ℂ) * Complex.I) ≠ 0) ∧
+      ‖(∫ x : ℝ in (-1 : ℝ)..2, logDeriv xi ((x : ℂ) - (t : ℂ) * Complex.I) *
+            spectralTransform g ((x : ℂ) - (t : ℂ) * Complex.I)) -
+        (∫ x : ℝ in (-1 : ℝ)..2, logDeriv xi ((x : ℂ) + (t : ℂ) * Complex.I) *
+            spectralTransform g ((x : ℂ) + (t : ℂ) * Complex.I))‖ ≤ C / t := by
+  obtain ⟨K, C1, hC1, hgood⟩ := exists_good_height
+  obtain ⟨Cd, hCd⟩ := poly_decay hg (3 / 2) (K + 1)
+  refine ⟨6 * C1 * |Cd|, fun T hT => ?_⟩
+  obtain ⟨t, htI, ht⟩ := hgood T hT
+  have ht1 : 1 ≤ t := hT.trans htI.1
+  have htpos : 0 < t := by linarith
+  refine ⟨t, htI, fun σ hσ => (ht σ hσ).1, ?_⟩
+  -- pointwise bound on both edges
+  have key : ∀ s : ℂ, |s.im| = t → |s.re - 1 / 2| ≤ 3 / 2 →
+      ‖logDeriv xi s‖ ≤ C1 * t ^ K → ‖logDeriv xi s * spectralTransform g s‖ ≤ C1 * |Cd| / t := by
+    intro s him hre hld
+    have hs := hCd s hre
+    have hn : t ≤ ‖s - 1 / 2‖ := by
+      have h := Complex.abs_im_le_norm (s - 1 / 2)
+      have e : (s - 1 / 2).im = s.im := by simp
+      rw [e] at h
+      rw [← him]; exact h
+    have hpowle : t ^ (K + 1) ≤ (1 + ‖s - 1 / 2‖) ^ (K + 1) :=
+      pow_le_pow_left₀ htpos.le (by linarith) _
+    have hΦ : ‖spectralTransform g s‖ ≤ |Cd| / t ^ (K + 1) := by
+      rw [le_div_iff₀ (by positivity)]
+      calc ‖spectralTransform g s‖ * t ^ (K + 1) ≤
+            ‖spectralTransform g s‖ * (1 + ‖s - 1 / 2‖) ^ (K + 1) :=
+            mul_le_mul_of_nonneg_left hpowle (norm_nonneg _)
+        _ = (1 + ‖s - 1 / 2‖) ^ (K + 1) * ‖spectralTransform g s‖ := by ring
+        _ ≤ |Cd| := hs.trans (le_abs_self _)
+    rw [norm_mul]
+    calc ‖logDeriv xi s‖ * ‖spectralTransform g s‖ ≤ (C1 * t ^ K) * (|Cd| / t ^ (K + 1)) :=
+          mul_le_mul hld hΦ (norm_nonneg _) (by positivity)
+      _ = C1 * |Cd| / t := by field_simp; ring
+  have hbound : ∀ (e : ℝ), (e = t ∨ e = -t) → ∀ x ∈ Ι (-1 : ℝ) 2,
+      ‖logDeriv xi ((x : ℂ) + (e : ℂ) * Complex.I) *
+        spectralTransform g ((x : ℂ) + (e : ℂ) * Complex.I)‖ ≤ C1 * |Cd| / t := by
+    intro e he x hx
+    rw [uIoc_of_le (by norm_num)] at hx
+    have hxI : x ∈ Icc (-1 : ℝ) 2 := ⟨hx.1.le, hx.2⟩
+    have him : |((x : ℂ) + (e : ℂ) * Complex.I).im| = t := by
+      simp; rcases he with he | he <;> rw [he] <;> simp [abs_of_pos htpos]
+    have hre : |((x : ℂ) + (e : ℂ) * Complex.I).re - 1 / 2| ≤ 3 / 2 := by
+      simp; exact abs_le.2 ⟨by linarith [hxI.1], by linarith [hxI.2]⟩
+    refine key _ him hre ?_
+    rcases he with he | he
+    · rw [he]; exact (ht x hxI).2
+    · rw [he]
+      have h1 : ((x : ℂ) + ((-t : ℝ) : ℂ) * Complex.I) =
+          1 - (((1 - x : ℝ) : ℂ) + (t : ℂ) * Complex.I) := by
+        apply Complex.ext <;> simp
+      rw [h1, logDeriv_xi_one_sub, norm_neg]
+      exact (ht (1 - x) ⟨by linarith [hxI.2], by linarith [hxI.1]⟩).2
+  have b1 := intervalIntegral.norm_integral_le_of_norm_le_const (a := (-1 : ℝ)) (b := 2)
+    (f := fun x : ℝ => logDeriv xi ((x : ℂ) + ((-t : ℝ) : ℂ) * Complex.I) *
+        spectralTransform g ((x : ℂ) + ((-t : ℝ) : ℂ) * Complex.I)) (hbound (-t) (Or.inr rfl))
+  have b2 := intervalIntegral.norm_integral_le_of_norm_le_const (a := (-1 : ℝ)) (b := 2)
+    (f := fun x : ℝ => logDeriv xi ((x : ℂ) + (t : ℂ) * Complex.I) *
+        spectralTransform g ((x : ℂ) + (t : ℂ) * Complex.I)) (hbound t (Or.inl rfl))
+  have e1 : (fun x : ℝ => logDeriv xi ((x : ℂ) + ((-t : ℝ) : ℂ) * Complex.I) *
+        spectralTransform g ((x : ℂ) + ((-t : ℝ) : ℂ) * Complex.I)) =
+      fun x : ℝ => logDeriv xi ((x : ℂ) - (t : ℂ) * Complex.I) *
+        spectralTransform g ((x : ℂ) - (t : ℂ) * Complex.I) := by
+    funext x; push_cast; ring_nf
+  rw [e1] at b1
+  have habs : |(2 : ℝ) - (-1)| = 3 := by norm_num
+  rw [habs] at b1 b2
+  refine (norm_sub_le _ _).trans ?_
+  calc _ ≤ C1 * |Cd| / t * 3 + C1 * |Cd| / t * 3 := add_le_add b1 b2
+    _ = 6 * C1 * |Cd| / t := by ring
 
 end GppContourLimit
