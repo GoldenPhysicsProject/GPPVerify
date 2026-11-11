@@ -74,7 +74,8 @@ either side easier. `fluxDefect_autocorr_eq_mirror` (proved below) checks that t
 and `c₀ = ∫ h(v) e^{v/2} dv`, using only that autocorrelations are even.
 
 Daniel Toupin / Golden Physics Project, with AI assistance (Turbo wrote the reduction and
-dictionary notes; Heart of the Cosmos / Grok registered the hypothesis).
+dictionary notes and the round-5 finite-window note; Heart of the Cosmos / Grok registered the
+hypothesis and its finite companion).
 -/
 
 namespace GppFluxBound
@@ -133,5 +134,44 @@ theorem fluxDefect_autocorr_eq_mirror (f : ℝ → ℝ) (W : ℝ) :
 (H1)–(H4); not formalized. Needs (H1), the windowed R4, GW-EF-2 and `rh_of_arp` in tree, and
 the compactly supported replacement for the Gaussian datum of F1. RH-strength; RH OPEN. -/
 theorem open_flux_bound_iff_arp : True := trivial
+
+/-! ## Round 5: the certified finite companion (seed datum)
+
+Source: GPP-bridge `MuseResearch/round5-finite-window-flux-2026-11-10.md` (commit `12deca7`,
+SHA-256 `3a6c47205091dd11e561c313202e92d40ab93733f966d13e5f84206b09d93852`), Turbo's round-5
+note. For the seed bump `φ(u) = sin²(πu)` on `[0,1]` and its autocorrelation `G₀`, the note
+proves on paper that `sup_{2 ≤ w ≤ W} |𝒟(w)| ≤ C₂(W) = Ztot + Triv + Tail(W)`, with
+`Ztot = 3.405373e-4` (the verified on-line zeros), `Triv = 2.12269391584518e-3` (trivial zeros,
+exact) and `Tail(W) ≤ 7.2e-25` for `W ≤ 12`. Its inputs are the Platt/LMFDB zero list to
+`T₀ = 1132490.66` (DATA), GW-EF-1, Rosser's explicit `N(T)` bound and Kadiri's (or Ford's)
+zero-free region. None of those external inputs is in this tree or in Mathlib, so the
+companion is registered here as a named statement with an `open_` stub: PROVED on paper,
+OPEN in Lean.
+
+Scope, stated exactly. The statement below is the tabulated window `[2, 12]` with the
+constant rounded up in the seventh digit. The seed bump is `C¹` but not `C²` at `0` and `1`,
+so `seedBump` is **not** in `FluxBound`'s smooth test class: the companion is a finite
+statement about a neighbouring datum, not an instance of `FluxBound`. The uniform statement
+over all windows is exactly (FLUX-BOUND), RH-strength, OPEN.
+-/
+
+/-- The seed bump `φ(u) = sin²(πu)` on `[0, 1]`, zero elsewhere (the programme's banked
+ladder/Hankel datum). -/
+noncomputable def seedBump : ℝ → ℝ :=
+  Set.indicator (Set.Icc (0 : ℝ) 1) fun u => Real.sin (Real.pi * u) ^ 2
+
+/-- **Round-5 finite companion, named, not asserted.** On the window `[2, 12]` the flux defect
+of the seed autocorrelation is at most `2.463232e-3` (Turbo's `C₂(W) = 2.463231e-3`, rounded
+up). PROVED on paper under DATA + cited classical inputs; not formalized. -/
+def FluxBoundFiniteSeed : Prop :=
+  ∀ w : ℝ, 2 ≤ w → w ≤ 12 →
+    |fluxDefect (GppArithmeticReflection.autocorr seedBump) w| ≤ 2463232 / 10 ^ 9
+
+/-- OPEN (round-5 finite companion): `FluxBoundFiniteSeed`. Proved on paper in GPP-bridge
+`MuseResearch/round5-finite-window-flux-2026-11-10.md` (`12deca7`) from the verified zero list
+to `T₀ = 1132490.66` (DATA), GW-EF-1, Rosser's explicit `N(T)` and an explicit zero-free region;
+none of these external inputs is in the tree, so it is parked as a named stub. Finite-window
+only: it says nothing about (FLUX-BOUND) or RH, which remain OPEN. -/
+theorem open_flux_bound_finite_seed : True := trivial
 
 end GppFluxBound
