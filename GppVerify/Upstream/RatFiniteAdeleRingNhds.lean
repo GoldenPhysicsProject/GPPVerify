@@ -42,14 +42,15 @@ theorem exists_pow_norm_le_mem_of_isOpen (v : HeightOneSpectrum ℤ)
   have h0' : (0 : ℚ_[(primesEquiv v : ℕ)]) ∈ e '' (Subtype.val '' u) :=
     ⟨0, ⟨0, h0, rfl⟩, map_zero _⟩
   obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 hopen 0 h0'
-  have hp : (1 : ℝ) < (primesEquiv v : ℕ) := by exact_mod_cast (primesEquiv v).2.one_lt
+  have hp : (1 : ℝ) < (primesEquiv v : ℕ) := Nat.one_lt_cast.mpr (primesEquiv v).2.one_lt
   obtain ⟨k, hk⟩ := exists_pow_lt_of_lt_one hε (inv_lt_one_of_one_lt₀ hp)
   refine ⟨k, fun x hx => ?_⟩
   have hlt : ‖e (x : v.adicCompletion ℚ)‖ < ε := by
     refine lt_of_le_of_lt hx ?_
-    simpa [zpow_neg, inv_pow] using hk
+    rw [zpow_neg, zpow_natCast, ← inv_pow]
+    exact hk
   have hmem : e (x : v.adicCompletion ℚ) ∈ e '' (Subtype.val '' u) :=
-    hball (by simpa [dist_zero_right] using hlt)
+    hball (Metric.mem_ball.2 (by rw [dist_zero_right]; exact hlt))
   obtain ⟨y, ⟨x', hx', rfl⟩, hy⟩ := hmem
   have : x' = x := Subtype.ext (e.injective hy)
   rwa [this] at hx'
@@ -113,11 +114,11 @@ theorem exists_natMulIntegral_subset {W : Set 𝔸f} (hW : IsOpen W) (h0 : (0 : 
     obtain ⟨m, hm⟩ := hdvd
     have hNn : ‖((N : ℕ) : ℚ_[(primesEquiv v : ℕ)])‖ ≤
         ((primesEquiv v : ℕ) : ℝ) ^ (-(k v : ℤ)) := by
-      rw [hm]
-      push_cast
+      rw [hm, Nat.cast_mul, Nat.cast_pow]
       rw [norm_mul, norm_pow, Padic.norm_p, inv_pow, zpow_neg, zpow_natCast]
       have hm1 : ‖((m : ℕ) : ℚ_[(primesEquiv v : ℕ)])‖ ≤ 1 := by
-        simpa using Padic.norm_int_le_one (p := (primesEquiv v : ℕ)) (m : ℤ)
+        have h := Padic.norm_int_le_one (p := (primesEquiv v : ℕ)) (m : ℤ)
+        rwa [Int.cast_natCast] at h
       exact mul_le_of_le_one_right (by positivity) hm1
     exact (mul_le_of_le_one_right (norm_nonneg _) hz1).trans hNn
   have h : φ y ∈ W := hsub hy

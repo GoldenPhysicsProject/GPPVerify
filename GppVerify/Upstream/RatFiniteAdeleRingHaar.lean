@@ -53,11 +53,14 @@ theorem mem_adicCompletionIntegers_iff (x : v.adicCompletion ℚ) :
 theorem exists_pow_mul_mem_adicCompletionIntegers (x : v.adicCompletion ℚ) :
     ∃ k : ℕ, ((primesEquiv v : ℕ) : v.adicCompletion ℚ) ^ k * x ∈ v.adicCompletionIntegers ℚ := by
   set y := adicCompletion.padicEquiv v x
-  have hp : (1 : ℝ) < (primesEquiv v : ℕ) := by exact_mod_cast (primesEquiv v).2.one_lt
+  have hp : (1 : ℝ) < (primesEquiv v : ℕ) := Nat.one_lt_cast.mpr (primesEquiv v).2.one_lt
   by_cases hy : y = 0
   · refine ⟨0, ?_⟩
     rw [mem_adicCompletionIntegers_iff, map_mul]
-    simp [y] at hy ⊢; simp [hy]
+    rw [pow_zero, map_one, one_mul]
+    change ‖y‖ ≤ 1
+    rw [hy, norm_zero]
+    exact zero_le_one
   refine ⟨(-y.valuation).toNat, ?_⟩
   rw [mem_adicCompletionIntegers_iff, map_mul, map_pow, map_natCast, norm_mul, norm_pow,
     Padic.norm_p, Padic.norm_eq_zpow_neg_valuation hy, inv_pow, ← zpow_natCast, ← zpow_neg,
