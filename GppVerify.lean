@@ -2491,6 +2491,8 @@ import GppVerify.RiemannHypothesis.IdeleClassGroupQ
 import GppVerify.RiemannHypothesis.MellinInterpolation
 import GppVerify.RiemannHypothesis.GwefInterp
 import GppVerify.RiemannHypothesis.FluxBound
+import GppVerify.RiemannHypothesis.GwefFactorisation
+import GppVerify.RiemannHypothesis.KernelTheory
 import GppVerify.RiemannHypothesis.GwefAssembly
 import GppVerify.RiemannHypothesis.BTSigma
 import GppVerify.RiemannHypothesis.GravitonDeltaIdentification
