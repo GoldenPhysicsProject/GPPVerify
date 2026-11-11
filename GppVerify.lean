@@ -268,6 +268,11 @@ import GppVerify.GrassmannianJacobian
 -- parity conjecture recorded as honest gaps (deep automorphic theory).
 import GppVerify.NumberTheory.BSDPointCounts
 import GppVerify.NumberTheory.WeightKShadow
+-- Finite core of the GRH(E)-conditional Mestre rank bound:
+-- Q = Q' + r vvᵀ with Q' ⪰ 0 ⇒ r ≤ 1/(vᵀQ⁻¹v). GRH(E) is a hypothesis; see GPP-bridge GOLDEN_EYE_NOTES.md.
+import GppVerify.NumberTheory.MestreRankBound
+-- Kernel-checked finite step of the Arb-certified 11a1 / 37a1 rank certificates (rational boxes from Arb).
+import GppVerify.NumberTheory.MestreRankCertificates
 
 -- ── Fubini-Study Antipodal Invariance, corrected (New) ────────
 -- qg_foundations.tex's antipodal lemma compares bare densities and is
