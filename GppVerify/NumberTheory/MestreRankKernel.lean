@@ -1,4 +1,7 @@
 import GppVerify.Upstream.BoseIntegral
+import GppVerify.Upstream.LogPiBounds
+import GppVerify.Upstream.TriangleFunction
+import GppVerify.Upstream.WeierstrassAffinePointCount
 import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Basic
 import Mathlib.Algebra.IsPrimePow
 import Mathlib.Analysis.Complex.ExponentialBounds
@@ -20,16 +23,17 @@ The test function is `f = 1_{[-1/2, 1/2]}`, so `F = f ∗ f̃ = tri = max (1 - |
 This is a different test function from the `cos((j+1/2)πx/L)` Galerkin basis used in
 `MestreRankCertificates`. Every term of the explicit formula is then elementary:
 
-* **Prime-power sum.** Since `log 3 > 1` (`e < 3`), only `n = 2` lies in the support. Here
-  `a_2 = -2` for both curves, decided by counting points of the Mathlib `WeierstrassCurve`
-  reduced over `ZMod 2`.
+* **Prime-power sum.** Since `log 3 > 1` (`Real.log_three_gt_d9`), only `n = 2` lies in the
+  support. Here `a_2 = -2` for both curves, decided by counting points of the Mathlib
+  `WeierstrassCurve` reduced over `ZMod 2` (`Upstream/WeierstrassAffinePointCount`).
 * **Archimedean term.** Mestre's x-space form `-2γF(0) + 2∫_{(0,∞)} (F(0)-F(x))/(eˣ-1) dx`. It
   splits as `∫_{(0,1]} x/(eˣ-1)`, bounded by `7/9` via the Bernoulli bound
   `x/(eˣ-1) ≤ 1 - x/2 + x²/12`, plus the closed form
-  `∫_{(1,∞)} 1/(eˣ-1) = -log(1-e⁻¹)` (`GppVerify.Upstream.BoseIntegral`).
-* **Constants.** `γ > 1/2`, `log 2`, `π`, `e` come from Mathlib. `log 11`, `log 37`, `log π` and
-  `-log(1-e⁻¹)` are bounded through Taylor bounds for `exp`.
-* **`F̂(0) = ∫ F = 1`.** Proved exactly.
+  `∫_{(1,∞)} 1/(eˣ-1) = -log(1-e⁻¹)` (both in `Upstream/BoseIntegral`).
+* **Constants.** `γ > 1/2`, `log 2`, `π` and `e` come from Mathlib, and `log π > 1.14` from
+  `Upstream/LogPiBounds`. The curve-specific `log 11`, `log 37` and `-log(1-e⁻¹)` are bounded
+  here, through Taylor bounds for `exp`.
+* **`F̂(0) = ∫ F = 1`.** This is `Real.integral_max_sub_abs` (`Upstream/TriangleFunction`).
 
 The result is `weilRHS ≤ log N - 1.76`. That gives `0.64 < 1` for 11a1 and `1.86 < 2` for 37a1.
 The interval-arithmetic values are 0.4656 and 1.678.
@@ -54,7 +58,7 @@ open Real MeasureTheory Set
 
 /-- Number of affine points of the reduction of `W` modulo `p`. -/
 noncomputable def affinePointCount (W : WeierstrassCurve ℤ) (p : ℕ) : ℕ :=
-  Nat.card {P : ZMod p × ZMod p // (W.map (Int.castRingHom (ZMod p))).toAffine.Equation P.1 P.2}
+  (W.map (Int.castRingHom (ZMod p))).toAffine.numAffinePoints
 
 /-- `a_p = p + 1 - #W(𝔽_p)`, where `#W(𝔽_p)` counts the point at infinity too. -/
 noncomputable def traceOfFrobenius (W : WeierstrassCurve ℤ) (p : ℕ) : ℤ :=
@@ -98,40 +102,24 @@ def W37a1 : WeierstrassCurve ℤ := ⟨0, 0, 1, -1, 0⟩
 /-! ### `a_2` by point counting -/
 
 theorem traceOfFrobenius_11a1_two : traceOfFrobenius W11a1 2 = -2 := by
-  have h : ∀ P : ZMod 2 × ZMod 2,
-      (W11a1.map (Int.castRingHom (ZMod 2))).toAffine.Equation P.1 P.2 ↔
-        P.2 ^ 2 + ((0 : ℤ) : ZMod 2) * P.1 * P.2 + ((1 : ℤ) : ZMod 2) * P.2 =
-          P.1 ^ 3 + ((-1 : ℤ) : ZMod 2) * P.1 ^ 2 + ((-10 : ℤ) : ZMod 2) * P.1 +
-            ((-20 : ℤ) : ZMod 2) := fun P => by
-    rw [WeierstrassCurve.Affine.equation_iff]; rfl
   unfold traceOfFrobenius affinePointCount
-  rw [Nat.card_congr (Equiv.subtypeEquivRight h), Nat.card_eq_fintype_card]
+  rw [WeierstrassCurve.Affine.numAffinePoints_eq_card_filter]
   decide
 
 theorem traceOfFrobenius_37a1_two : traceOfFrobenius W37a1 2 = -2 := by
-  have h : ∀ P : ZMod 2 × ZMod 2,
-      (W37a1.map (Int.castRingHom (ZMod 2))).toAffine.Equation P.1 P.2 ↔
-        P.2 ^ 2 + ((0 : ℤ) : ZMod 2) * P.1 * P.2 + ((1 : ℤ) : ZMod 2) * P.2 =
-          P.1 ^ 3 + ((0 : ℤ) : ZMod 2) * P.1 ^ 2 + ((-1 : ℤ) : ZMod 2) * P.1 +
-            ((0 : ℤ) : ZMod 2) := fun P => by
-    rw [WeierstrassCurve.Affine.equation_iff]; rfl
   unfold traceOfFrobenius affinePointCount
-  rw [Nat.card_congr (Equiv.subtypeEquivRight h), Nat.card_eq_fintype_card]
+  rw [WeierstrassCurve.Affine.numAffinePoints_eq_card_filter]
   decide
 
 /-! ### The prime-power sum collapses to `n = 2` -/
 
 theorem tri_zero : tri 0 = 1 := by norm_num [tri]
 
-theorem tri_of_one_le {x : ℝ} (hx : 1 ≤ |x|) : tri x = 0 := by
-  unfold tri; exact max_eq_right (by linarith)
+theorem tri_of_one_le {x : ℝ} (hx : 1 ≤ |x|) : tri x = 0 :=
+  Real.max_sub_abs_eq_zero_of_le hx
 
 theorem tri_of_mem_Icc {x : ℝ} (h0 : 0 ≤ x) (h1 : x ≤ 1) : tri x = 1 - x := by
   unfold tri; rw [abs_of_nonneg h0]; exact max_eq_left (by linarith)
-
-theorem one_lt_log_three : 1 < log 3 := by
-  rw [lt_log_iff_exp_lt (by norm_num)]
-  have := exp_one_lt_d9; norm_num at this ⊢; linarith
 
 theorem dirichletLogCoeff_two (W : WeierstrassCurve ℤ) {N : ℕ} (hN : ¬ 2 ∣ N) :
     dirichletLogCoeff W N 2 = traceOfFrobenius W 2 * log 2 := by
@@ -157,47 +145,11 @@ theorem tsum_dirichletLogCoeff_tri (W : WeierstrassCurve ℤ) {N : ℕ} (hN : ¬
     · have h3 : (3 : ℝ) ≤ n := by exact_mod_cast h
       have hl : 1 ≤ |log n| := by
         rw [abs_of_nonneg (log_nonneg (by linarith))]
-        exact one_lt_log_three.le.trans (log_le_log (by norm_num) h3)
+        have h3' : (1 : ℝ) < log 3 := by have := log_three_gt_d9; norm_num at this ⊢; linarith
+        exact h3'.le.trans (log_le_log (by norm_num) h3)
       rw [tri_of_one_le hl, mul_zero]
 
 /-! ### The archimedean integral -/
-
-theorem continuousOn_div_exp_sub_one :
-    ContinuousOn (fun x : ℝ => x / (exp x - 1)) (Ioc 0 1) :=
-  continuousOn_id.div (continuous_exp.sub continuous_const).continuousOn
-    (fun _ hx => (sub_pos.2 (one_lt_exp_iff.2 hx.1)).ne')
-
-theorem integrableOn_div_exp_sub_one :
-    IntegrableOn (fun x : ℝ => x / (exp x - 1)) (Ioc 0 1) := by
-  refine Integrable.mono' (integrableOn_const (C := (1 : ℝ)) measure_Ioc_lt_top.ne)
-    (continuousOn_div_exp_sub_one.aestronglyMeasurable measurableSet_Ioc) ?_
-  refine ae_restrict_of_forall_mem measurableSet_Ioc fun x hx => ?_
-  rw [Real.norm_eq_abs, abs_of_nonneg (div_exp_sub_one_nonneg hx.1.le)]
-  have hd : 0 < exp x - 1 := sub_pos.2 (one_lt_exp_iff.2 hx.1)
-  rw [div_le_one hd]
-  linarith [add_one_le_exp x]
-
-theorem integral_div_exp_sub_one_le :
-    ∫ x in Ioc (0 : ℝ) 1, x / (exp x - 1) ≤ 7 / 9 := by
-  have hpoly : IntegrableOn (fun x : ℝ => 1 - x / 2 + x ^ 2 / 12) (Ioc 0 1) :=
-    (by fun_prop : Continuous fun x : ℝ => 1 - x / 2 + x ^ 2 / 12).integrableOn_Ioc
-  calc ∫ x in Ioc (0 : ℝ) 1, x / (exp x - 1)
-      ≤ ∫ x in Ioc (0 : ℝ) 1, (1 - x / 2 + x ^ 2 / 12) :=
-        setIntegral_mono_on integrableOn_div_exp_sub_one hpoly measurableSet_Ioc
-          fun x hx => div_exp_sub_one_le hx.1
-    _ = 7 / 9 := by
-        rw [← intervalIntegral.integral_of_le zero_le_one,
-          intervalIntegral.integral_eq_sub_of_hasDerivAt
-            (f := fun x : ℝ => x - x ^ 2 / 4 + x ^ 3 / 36)
-            (fun x _ => by
-              have := (((hasDerivAt_id' x).sub ((hasDerivAt_pow 2 x).div_const 4)).add
-                ((hasDerivAt_pow 3 x).div_const 36))
-              convert this using 1
-              · funext y; simp only [Pi.add_apply, Pi.sub_apply]
-              · norm_num; ring)
-            ((by fun_prop : Continuous fun x : ℝ => 1 - x / 2 + x ^ 2 / 12).intervalIntegrable
-              _ _)]
-        norm_num
 
 theorem integral_tri_arch :
     ∫ x in Ioi (0 : ℝ), (tri 0 - tri x) / (exp x - 1) =
@@ -211,7 +163,7 @@ theorem integral_tri_arch :
     have : 1 ≤ |x| := by rw [abs_of_pos (zero_lt_one.trans hx)]; exact hx.le
     simp only [tri_zero, tri_of_one_le this, sub_zero]
   rw [hsplit, setIntegral_union (Ioc_disjoint_Ioi le_rfl) measurableSet_Ioi
-      (integrableOn_div_exp_sub_one.congr_fun h1.symm measurableSet_Ioc)
+      ((integrableOn_Ioc_div_exp_sub_one 1).congr_fun h1.symm measurableSet_Ioc)
       ((integrableOn_Ioi_one_div_exp_sub_one zero_lt_one).congr_fun h2.symm measurableSet_Ioi),
     setIntegral_congr_fun measurableSet_Ioc h1, setIntegral_congr_fun measurableSet_Ioi h2,
     integral_Ioi_one_div_exp_sub_one zero_lt_one]
@@ -219,14 +171,10 @@ theorem integral_tri_arch :
 
 /-! ### Elementary constants -/
 
-theorem exp_ge_sum6 {x : ℝ} (hx : 0 ≤ x) :
-    1 + x + x ^ 2 / 2 + x ^ 3 / 6 + x ^ 4 / 24 + x ^ 5 / 120 ≤ exp x :=
-  quintic_le_exp_of_nonneg hx
-
 theorem log_eleven_le : log 11 ≤ 2.4 := by
   rw [log_le_iff_le_exp (by norm_num)]
   have he := exp_one_gt_d9
-  have hs := exp_ge_sum6 (x := 0.4) (by norm_num)
+  have hs := quintic_le_exp_of_nonneg (x := 0.4) (by norm_num)
   have hsplit : exp 2.4 = exp 1 * exp 1 * exp 0.4 := by
     rw [← exp_add, ← exp_add]; norm_num
   rw [hsplit]
@@ -238,7 +186,7 @@ theorem log_eleven_le : log 11 ≤ 2.4 := by
 theorem log_thirtyseven_le : log 37 ≤ 3.62 := by
   rw [log_le_iff_le_exp (by norm_num)]
   have hE : (2.7182818283 : ℝ) ≤ exp 1 := exp_one_gt_d9.le
-  have hs := exp_ge_sum6 (x := 0.62) (by norm_num)
+  have hs := quintic_le_exp_of_nonneg (x := 0.62) (by norm_num)
   have hsplit : exp 3.62 = exp 1 * exp 1 * exp 1 * exp 0.62 := by
     rw [← exp_add, ← exp_add, ← exp_add]; norm_num
   rw [hsplit]
@@ -247,20 +195,10 @@ theorem log_thirtyseven_le : log 37 ≤ 3.62 := by
   have h3 := mul_le_mul h2 hE (by norm_num) (by positivity)
   nlinarith [mul_le_mul h3 hs (by norm_num) (by positivity)]
 
-theorem log_pi_ge : 1.14 ≤ log π := by
-  rw [le_log_iff_exp_le pi_pos]
-  have hb := Real.exp_bound' (x := 0.14) (by norm_num) (by norm_num) (n := 4) (by norm_num)
-  norm_num [Finset.sum_range_succ, Nat.factorial] at hb
-  have hsplit : exp 1.14 = exp 1 * exp 0.14 := by rw [← exp_add]; norm_num
-  rw [hsplit]
-  have hE := exp_one_lt_d9
-  have := pi_gt_d6
-  nlinarith [mul_le_mul hE.le hb (exp_pos _).le (by norm_num), exp_pos 0.14]
-
 theorem neg_log_one_sub_exp_neg_one_le : -log (1 - exp (-1)) ≤ 0.46 := by
   have hpos : 0 < 1 - exp (-1) := sub_pos.2 (exp_lt_one_iff.2 (by norm_num))
   rw [neg_le, le_log_iff_exp_le hpos, exp_neg, exp_neg]
-  have hs := exp_ge_sum6 (x := 0.46) (by norm_num)
+  have hs := quintic_le_exp_of_nonneg (x := 0.46) (by norm_num)
   have h1 : (exp 0.46)⁻¹ ≤ (1.584 : ℝ)⁻¹ :=
     (inv_le_inv₀ (exp_pos _) (by norm_num)).2 (by norm_num at hs ⊢; linarith)
   have h2 : (exp 1)⁻¹ ≤ (2.7182818283 : ℝ)⁻¹ :=
@@ -270,38 +208,10 @@ theorem neg_log_one_sub_exp_neg_one_le : -log (1 - exp (-1)) ≤ 0.46 := by
 
 /-! ### `F̂(0) = ∫ F = 1` -/
 
-theorem continuous_tri : Continuous tri := by unfold tri; fun_prop
-
 theorem integral_tri : ∫ x, tri x = 1 := by
-  have hout : ∀ x, x ∉ Ioc (-1 : ℝ) 1 → tri x = 0 := fun x hx => by
-    apply tri_of_one_le
-    rcases not_and_or.1 hx with h | h
-    · rw [abs_of_neg (by linarith [not_lt.1 h])]; linarith [not_lt.1 h]
-    · rw [abs_of_pos (by linarith [not_le.1 h])]; linarith [not_le.1 h]
-  rw [← setIntegral_eq_integral_of_forall_compl_eq_zero hout,
-    ← intervalIntegral.integral_of_le (by norm_num),
-    ← intervalIntegral.integral_add_adjacent_intervals (b := 0)
-      (continuous_tri.intervalIntegrable _ _) (continuous_tri.intervalIntegrable _ _)]
-  have hl : EqOn tri (fun x => 1 + x) (uIcc (-1) 0) := fun x hx => by
-    rw [uIcc_of_le (by norm_num)] at hx
-    unfold tri; rw [abs_of_nonpos hx.2, max_eq_left (by linarith [hx.1])]; ring
-  have hr : EqOn tri (fun x => 1 - x) (uIcc 0 1) := fun x hx => by
-    rw [uIcc_of_le (by norm_num)] at hx
-    exact tri_of_mem_Icc hx.1 hx.2
-  rw [intervalIntegral.integral_congr hl, intervalIntegral.integral_congr hr,
-    intervalIntegral.integral_eq_sub_of_hasDerivAt (f := fun x : ℝ => x + x ^ 2 / 2)
-      (fun x _ => by
-        convert (hasDerivAt_id' x).add ((hasDerivAt_pow 2 x).div_const 2) using 1
-        · rfl
-        · norm_num)
-      ((by fun_prop : Continuous fun x : ℝ => 1 + x).intervalIntegrable _ _),
-    intervalIntegral.integral_eq_sub_of_hasDerivAt (f := fun x : ℝ => x - x ^ 2 / 2)
-      (fun x _ => by
-        convert (hasDerivAt_id' x).sub ((hasDerivAt_pow 2 x).div_const 2) using 1
-        · rfl
-        · norm_num)
-      ((by fun_prop : Continuous fun x : ℝ => 1 - x).intervalIntegrable _ _)]
-  norm_num
+  have := Real.integral_max_sub_abs (a := 1) zero_le_one
+  rw [one_pow] at this
+  exact this
 
 /-! ### The explicit-formula side for `F = tri` -/
 
@@ -319,10 +229,10 @@ theorem weilRHS_tri_le (W : WeierstrassCurve ℤ) {N : ℕ} (hN : ¬ 2 ∣ N)
     (ha : traceOfFrobenius W 2 = -2) :
     weilRHS W N tri ≤ log N - 1.76 := by
   rw [weilRHS_tri W hN, ha]
-  have hI := integral_div_exp_sub_one_le
+  have hI := setIntegral_Ioc_div_exp_sub_one_le (b := 1) zero_le_one
   have hL := neg_log_one_sub_exp_neg_one_le
   have hγ := one_half_lt_eulerMascheroniConstant
-  have hπ := log_pi_ge
+  have hπ := log_pi_gt_d2
   have h2l := log_two_gt_d9
   have h2u := log_two_lt_d9
   have hprod : log 2 * (1 - log 2) ≤ 0.6931471808 * (1 - 0.6931471803) :=

@@ -1410,6 +1410,9 @@ import GppVerify.Upstream.AvoidFiniteSet
 import GppVerify.Upstream.ZeroSummability
 import GppVerify.Upstream.TwoVectorProjection
 import GppVerify.Upstream.BoseIntegral
+import GppVerify.Upstream.TriangleFunction
+import GppVerify.Upstream.LogPiBounds
+import GppVerify.Upstream.WeierstrassAffinePointCount
 
 -- ── Orientation / mass-time / googly topic branch staging ─────────────
 -- Direct root imports are intentional: scripts/check_import_graph.py requires every
