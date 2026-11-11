@@ -29,7 +29,10 @@ Daniel Toupin's running-coupling ("ribosome") proposal for (P-LOG). Audited by T
   the merged `BTSigmaEulerSkeleton` (#566); Turbo 6800991395 §4(a) lifted the standalone
   condition, so no duplicate is kept here.
 * **F_θ separation, local.** `runGTheta μ = μ/(e^{μ/4} − 1) + μ/(e^{3μ/4} − 1)` breaks the
-  beta law at `μ = log 2` (`runGTheta_not_beta`; residual ≈ 7.28, interval bounds).
+  beta law at `μ = log 2` (`runGTheta_not_beta`, interval bounds). Values (mpmath, 30 digits):
+  `G = runGTheta (log 2) ≈ 4.680084507606 = κ^θ_2`, actual `G' ≈ −0.885277407536`, beta-law value
+  `(G − G(G + μ)/2)/μ ≈ −11.387920060206`, divided gap `≈ 10.502642652670`; undivided residual
+  `μ G' − (G − G(G + μ)/2) = μ · (divided gap) ≈ 7.279877143127` (the "≈ 7.28" of earlier drafts).
 * **Commutator, function level.** `[u, U_a] = a U_a` pointwise (`comm_pos_shift`).
 
 ## Named premises (OPEN), provisional statements pending Turbo's approval
