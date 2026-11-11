@@ -2503,3 +2503,7 @@ import GppVerify.RiemannHypothesis.BTSigmaHjumpWitness
 import GppVerify.RiemannHypothesis.BTSigmaRunningCoupling
 import GppVerify.RiemannHypothesis.BTSigmaVertexProvenance
 import GppVerify.RiemannHypothesis.BTSigmaFockTFD
+import GppVerify.RiemannHypothesis.BTSigmaCovObstruction
+import GppVerify.RiemannHypothesis.BTSigmaCovGrowth
+import GppVerify.RiemannHypothesis.BTSigmaCovHalfType
+import GppVerify.RiemannHypothesis.BTSigmaCovPerturbation
