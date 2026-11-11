@@ -267,6 +267,7 @@ import GppVerify.GrassmannianJacobian
 -- Hasse bound a_p^2 <= 4p verified at each. BSD rank formula and
 -- parity conjecture recorded as honest gaps (deep automorphic theory).
 import GppVerify.NumberTheory.BSDPointCounts
+import GppVerify.NumberTheory.WeightKShadow
 
 -- ── Fubini-Study Antipodal Invariance, corrected (New) ────────
 -- qg_foundations.tex's antipodal lemma compares bare densities and is
