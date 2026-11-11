@@ -5,6 +5,7 @@ Authors: Daniel Toupin (with AI assistance: Turbo's reduction note, ported by He
 -/
 import GppVerify.RiemannHypothesis.ArithmeticReflectionPositivity
 import GppVerify.RiemannHypothesis.ExplicitFormulaAssembly
+import GppVerify.RiemannHypothesis.GwefAssembly
 import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 
 /-!
@@ -54,8 +55,11 @@ statement, in both directions, under exactly these hypotheses (its section 5):
   `s = 1`, STANDARD) and R4 (GW-EF-1, `GppExplicitFormulaAssembly.explicit_formula_zeroSum`,
   in tree, though only in its assembled form; the windowed form R4 uses is not formalized).
   R3 (PNT error term) is **not** used;
-* **(H3)** GW-EF-2 (the factorisation `Φ(f ⋆ f̃)(s) = Ψf(s) Ψf(1 - s)`) and `rh_of_arp`,
-  both Lean-checked on the bridge GW-EF sheet, not yet ported into this tree;
+* **(H3)** GW-EF-2 (the factorisation `Φ(f ⋆ f̃)(s) = Ψf(s) Ψf(1 - s)`) and `rh_of_arp`.
+  **In tree, PROVED** (`GppVerify/RiemannHypothesis/GwefAssembly.lean`):
+  `GppGwefAssembly.gwef2_factorisation` and `GppGwefAssembly.rh_of_arp`
+  (`ArithmeticReflectionPositivity → ∀ ρ ∈ nontrivialZeros, ρ.re = 1/2`, ARP its only
+  hypothesis; GW-EF-3 closed from the in-tree density theorem `gaussian_annihilator`);
 * **(H4)** the test class is the sheet's class.
 
 In its assembled form (the note's D3.2, `margin(h) ≥ 0` on every cone datum) (SIGN) is the
@@ -131,8 +135,11 @@ theorem fluxDefect_autocorr_eq_mirror (f : ℝ → ℝ) (W : ℝ) :
 /-- OPEN (round 4 dictionary): `FluxBound ↔ ArithmeticReflectionPositivity`, i.e.
 (FLUX-BOUND) ⟺ (SIGN) in (SIGN)'s assembled form. Proved on paper in GPP-bridge
 `MuseResearch/round4-sign-flux-dictionary-2026-11-10.md` (`d44e7d5`) under its hypotheses
-(H1)–(H4); not formalized. Needs (H1), the windowed R4, GW-EF-2 and `rh_of_arp` in tree, and
-the compactly supported replacement for the Gaussian datum of F1. RH-strength; RH OPEN. -/
+(H1)–(H4); not formalized. Its (H3) input is in tree and proved:
+`GppGwefAssembly.gwef2_factorisation` (GW-EF-2) and `GppGwefAssembly.rh_of_arp`. Still
+missing, and kept as named hypotheses of the paper argument, not assumed anywhere: (H1) the
+Hankel/trace pairing is the Weil form, the windowed form of R4, and the compactly supported
+replacement for the Gaussian datum of F1. RH-strength; ARP OPEN; RH OPEN. -/
 theorem open_flux_bound_iff_arp : True := trivial
 
 /-! ## Round 5: the certified finite companion (seed datum)
