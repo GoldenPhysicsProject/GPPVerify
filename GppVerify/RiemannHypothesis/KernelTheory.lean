@@ -202,7 +202,7 @@ def ZetaTest : Type := {f : ℝ → ℝ // IsTestFunction f}
 def zetaReflect (f : ZetaTest) : ZetaTest :=
   ⟨fun x => f.1 (-x), by
     refine ⟨f.2.1.comp contDiff_neg, ?_⟩
-    simpa [Function.comp_def] using f.2.2.comp_homeomorph (Homeomorph.neg ℝ)⟩
+    exact f.2.2.comp_homeomorph (Homeomorph.neg ℝ)⟩
 
 theorem spectralTransform_reflect (f : ℝ → ℝ) (s : ℂ) :
     spectralTransform (fun x => f (-x)) s = spectralTransform f (1 - s) := by
