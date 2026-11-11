@@ -51,12 +51,16 @@ exactly where the attack stops.
 3. The same distinction holds for the windowed prime stratum at `W = 0` on an
    even rung-1 profile (`primeStratum_ne_primeStratumFtheta_of_rung1`). The
    unit / pole term does not see `Λ`, so it cannot cancel the difference.
-4. Therefore a single numerical “prime block” cannot equal both
-   `I · primeStratumTerm` and `I · primeStratumFtheta` on such a profile
-   (`cannot_match_zeta_and_ftheta_strata`). Any construction whose boundary
-   form is identical for `ζ` and `F_θ` (the completed scale operator of
-   round 8A, whose boundary form vanishes for both) cannot satisfy
-   `BTSigmaTrace` for zeta's primes on that profile.
+4. Therefore a single block function cannot take both values
+   `I · primeStratumTerm` and `I · primeStratumFtheta` at `W = 0` on the
+   rung-1 profile `visibleTwoKick` (`cannot_match_zeta_and_ftheta_strata`).
+   Scope: this is the `ζ` vs `F_θ` hard test for any block function on
+   rung-1 profiles. `visibleTwoKick` is a discontinuous indicator, not of the
+   form `autocorr f` with `f` smooth and compactly supported, and no
+   `F_θ`-side trace statement is typed, so nothing here is a statement about
+   the typed `BTSigmaTrace` (BT3) itself. A typed-BT3 version would need a
+   smooth compact `f` with `autocorr f` rung-1 supported and
+   `(autocorr f)(log 2) ≠ 0`; that is not done here.
 
 No `sorry`, no `admit`, no custom axiom. No new `open_` stub: the remaining
 gaps are already named (`open_flux_bound`, `open_bt_sigma`,
@@ -308,9 +312,9 @@ theorem primeStratum_ne_primeStratumFtheta_of_rung1 {h : ℝ → ℝ} {L : ℝ}
   exact scaled_coeff_ne (by positivity) hvis ftheta_two_coeff_gt_one
 
 /-- A single numerical prime block cannot equal both `I ·` (zeta stratum)
-and `I ·` (`F_θ` stratum) on the visible-two profile. This is the formal
-content of the `ζ` vs `F_θ` hard test for any proposed (BT-Σ) clause BT3.
-PROVED. -/
+and `I ·` (`F_θ` stratum) on the visible-two profile (a rung-1 block-function
+test; `visibleTwoKick` is not an `autocorr` of a smooth compact `f`, so this
+is not a statement about typed `BTSigmaTrace`). PROVED. -/
 theorem cannot_match_zeta_and_ftheta_strata
     (block : (ℝ → ℝ) → ℝ → ℂ)
     (hζ : block visibleTwoKick 0 =
