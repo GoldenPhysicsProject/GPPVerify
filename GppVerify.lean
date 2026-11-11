@@ -268,6 +268,14 @@ import GppVerify.GrassmannianJacobian
 -- parity conjecture recorded as honest gaps (deep automorphic theory).
 import GppVerify.NumberTheory.BSDPointCounts
 import GppVerify.NumberTheory.WeightKShadow
+-- Finite core of the GRH(E)-conditional Mestre rank bound:
+-- Q = Q' + r vvᵀ with Q' ⪰ 0 ⇒ r ≤ 1/(vᵀQ⁻¹v). GRH(E) is a hypothesis; see GPP-bridge GOLDEN_EYE_NOTES.md.
+import GppVerify.NumberTheory.MestreRankBound
+-- Kernel-checked finite step of the Arb-certified 11a1 / 37a1 rank certificates (rational boxes from Arb).
+import GppVerify.NumberTheory.MestreRankCertificates
+-- Kernel-proved 11a1 / 37a1 rank bounds (Fejér test function): no trusted boxes; only the
+-- explicit formula and GRH(E) are hypotheses.
+import GppVerify.NumberTheory.MestreRankKernel
 
 -- ── Fubini-Study Antipodal Invariance, corrected (New) ────────
 -- qg_foundations.tex's antipodal lemma compares bare densities and is
@@ -1401,6 +1409,10 @@ import GppVerify.Upstream.RectangleLogDerivative
 import GppVerify.Upstream.AvoidFiniteSet
 import GppVerify.Upstream.ZeroSummability
 import GppVerify.Upstream.TwoVectorProjection
+import GppVerify.Upstream.BoseIntegral
+import GppVerify.Upstream.TriangleFunction
+import GppVerify.Upstream.LogPiBounds
+import GppVerify.Upstream.WeierstrassAffinePointCount
 
 -- ── Orientation / mass-time / googly topic branch staging ─────────────
 -- Direct root imports are intentional: scripts/check_import_graph.py requires every

@@ -438,3 +438,8 @@ import GppVerify
 #print axioms GppExplicitFormulaAssembly.half_line
 #print axioms GppExplicitFormulaAssembly.explicit_formula_even
 #print axioms GppExplicitFormulaAssembly.explicit_formula_zeroSum
+
+-- Mestre rank bounds for 11a1 / 37a1, fully kernel-proved numerics; the explicit formula and
+-- GRH(E) are explicit hypotheses in the statements.
+#print axioms GppMestreRankKernel.analyticRank_eq_zero_11a1
+#print axioms GppMestreRankKernel.analyticRank_eq_one_37a1
