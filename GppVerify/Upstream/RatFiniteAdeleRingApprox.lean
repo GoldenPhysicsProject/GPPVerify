@@ -85,7 +85,7 @@ theorem algebraMap_mem_adicCompletionIntegers_iff (q : ℚ) :
     algebraMap ℚ (v.adicCompletion ℚ) q ∈ v.adicCompletionIntegers ℚ ↔
       padicNorm (primesEquiv v : ℕ) q ≤ 1 := by
   rw [mem_adicCompletionIntegers_iff, padicEquiv_algebraMap, Padic.eq_padicNorm]
-  exact_mod_cast Iff.rfl
+  rw [← Rat.cast_one (α := ℝ), Rat.cast_le]
 
 theorem intCast_mem_adicCompletionIntegers (n : ℤ) :
     algebraMap ℚ (v.adicCompletion ℚ) n ∈ v.adicCompletionIntegers ℚ :=

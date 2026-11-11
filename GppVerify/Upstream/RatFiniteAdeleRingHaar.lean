@@ -53,9 +53,6 @@ theorem mem_adicCompletionIntegers_iff (x : v.adicCompletion ℚ) :
 theorem exists_pow_mul_mem_adicCompletionIntegers (x : v.adicCompletion ℚ) :
     ∃ k : ℕ, ((primesEquiv v : ℕ) : v.adicCompletion ℚ) ^ k * x ∈ v.adicCompletionIntegers ℚ := by
   set y := adicCompletion.padicEquiv v x
-  -- Direct cast lemma rather than `exact_mod_cast`: `norm_cast`/`simp` traversing `primesEquiv v`
-  -- materializes the auto-generated `primesEquiv.congr_simp` (statement `primesEquiv = primesEquiv`,
-  -- all arguments instance-implicit) in this module, which the native refl-stub audit reports.
   have hp : (1 : ℝ) < (primesEquiv v : ℕ) := Nat.one_lt_cast.mpr (primesEquiv v).2.one_lt
   by_cases hy : y = 0
   · refine ⟨0, ?_⟩

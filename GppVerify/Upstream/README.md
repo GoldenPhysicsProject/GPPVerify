@@ -37,6 +37,16 @@ written against Mathlib's own adele API:
   supported functions are uniformly locally constant and finite combinations
   of coset indicators.
 
+Staging constraint for the three files that use `Rat.HeightOneSpectrum.primesEquiv`
+(`Haar`, `Approx`, `Nhds`): avoid simp-family tactics (`simp`, `simpa`, `norm_cast`,
+`push_cast`, `exact_mod_cast`) on goals containing `primesEquiv v`. Such a call makes Lean
+realize the generated congruence lemma `primesEquiv.congr_simp`, whose statement is
+literally `primesEquiv = primesEquiv` because every argument is instance-implicit. It is
+then stored in whichever GppVerify module first needs it, and the native stub audit
+(`scripts/check_native_stubs.lean`) correctly rejects it as an `a = a` theorem. Direct
+lemma applications (`Nat.one_lt_cast.mpr`, `Rat.cast_le`, explicit `rw`) avoid it, and
+they are equally acceptable upstream.
+
 ## Linear algebra
 
 - `TwoVectorProjection.lean`: the orthogonal projection onto the span of
