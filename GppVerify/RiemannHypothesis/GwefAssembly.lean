@@ -55,7 +55,10 @@ namespace GppGwefAssembly
 
 /-- **GW-EF-2 (factorisation).** `Φ(f ⋆ f̃)(s) = Ψf(s) · Ψf(1 - s)` for a test function `f`,
 with `Ψ = spectralTransform` and `autocorr f x = ∫ f(y) f(y - x) dy`. Fubini on the compactly
-supported continuous integrand, then the substitution `x = y - z`. -/
+supported continuous integrand, then the substitution `x = y - z`.
+
+Sheet status: PROVED on the sheet (`GppGWEF.gwef2_factorisation`, Claude's GW-EF refresh,
+GPP-bridge `ef462ed`); the statement here is the sheet's, verbatim. In tree: PROVED. -/
 theorem gwef2_factorisation {f : ℝ → ℝ} (hf : IsTestFunction f) (s : ℂ) :
     spectralTransform (autocorr f) s = spectralTransform f s * spectralTransform f (1 - s) := by
   set c : ℂ := s - 1 / 2 with hc
@@ -335,7 +338,11 @@ lies on the critical line. Inputs, all in tree: GW-EF-1
 (`GppXiZeroCounting.zeroCountingPolynomial`), zero-data symmetry
 (`GppXiZeroCounting.zeroData_symmetric`), positive multiplicities
 (`GppXiZeroCounting.one_le_zeroMult`), GW-EF-2 (`gwef2_factorisation`) and GW-EF-3
-(`gwef3_interpolation`). ARP is a hypothesis here and is OPEN, so this does not prove RH. -/
+(`gwef3_interpolation`). ARP is a hypothesis here and is OPEN, so this does not prove RH.
+
+Sheet status: on the sheet `rh_of_arp` was PROVED modulo one `sorry` (`gwef3_interpolation`) and
+took the four premises below as hypotheses; this is the premise-discharged form. The sheet's exact
+statement is `rh_of_arp_sheet` below. In tree: PROVED (conditional on ARP, which is OPEN). -/
 theorem rh_of_arp (harp : ArithmeticReflectionPositivity) :
     ∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2 := by
   have hloc : ∀ R : ℝ, {ρ ∈ nontrivialZeros | ‖ρ‖ ≤ R}.Finite := fun R =>
@@ -359,5 +366,46 @@ theorem rh_of_arp (harp : ArithmeticReflectionPositivity) :
   simp_rw [hfac] at hsum
   rw [hsum, Complex.ofReal_re]
   exact harp f hf.1 hf.2
+
+/-! ### The sheet's statement of `rh_of_arp`, verbatim
+
+The four named premises and the five-hypothesis signature exactly as on Claude's GW-EF sheet
+(GPP-bridge `MuseResearch/claude-code-gwef-sheet-refresh-2026-11-10.lean`, `ef462ed`,
+namespace `GppGWEF`). Each premise is a theorem in the tree, so the premises are redundant, and
+`rh_of_arp_sheet` follows from `rh_of_arp`. -/
+
+/-- **GW-EF-1** as on the sheet. Sheet status: PROVED in-tree (PR #551). -/
+def ExplicitFormulaZeroSum : Prop :=
+  ∀ f : ℝ → ℝ, IsTestFunction f →
+    Summable (fun ρ : nontrivialZeros =>
+      (GppXiZeroCounting.zeroMult ρ : ℂ) * spectralTransform (autocorr f) ρ) ∧
+    ∑' ρ : nontrivialZeros, (GppXiZeroCounting.zeroMult ρ : ℂ) * spectralTransform (autocorr f) ρ =
+      (weilForm (autocorr f) : ℂ)
+
+/-- Polynomial zero counting as on the sheet. Sheet status: PROVED in-tree (E3). -/
+def ZeroCountingPolynomial : Prop :=
+  ∃ N : ℕ, Summable (fun ρ : nontrivialZeros =>
+    (GppXiZeroCounting.zeroMult ρ : ℝ) * ((1 + ‖(ρ : ℂ)‖) ^ N)⁻¹)
+
+/-- Zero-data symmetry as on the sheet. Sheet status: PROVED in-tree (E3). -/
+def ZeroDataSymmetric : Prop :=
+  ∀ ρ ∈ nontrivialZeros,
+    zetaInvolution ρ ∈ nontrivialZeros ∧
+      GppXiZeroCounting.zeroMult (zetaInvolution ρ) = GppXiZeroCounting.zeroMult ρ ∧
+    (starRingEnd ℂ) ρ ∈ nontrivialZeros ∧
+      GppXiZeroCounting.zeroMult ((starRingEnd ℂ) ρ) = GppXiZeroCounting.zeroMult ρ
+
+/-- Positive multiplicities as on the sheet. Sheet status: PROVED in-tree (E3). -/
+def ZeroMultPositive : Prop := ∀ ρ ∈ nontrivialZeros, 1 ≤ GppXiZeroCounting.zeroMult ρ
+
+/-- **`rh_of_arp`, the sheet's exact statement** (five hypotheses, conclusion
+`∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2`). Sheet status: PROVED modulo `gwef3_interpolation`.
+In tree: PROVED, from `rh_of_arp`; ARP is a hypothesis and is OPEN, so RH stays OPEN. -/
+theorem rh_of_arp_sheet
+    (_hEF : ExplicitFormulaZeroSum) (_hZC : ZeroCountingPolynomial)
+    (_hsym : ZeroDataSymmetric) (_hmult : ZeroMultPositive)
+    (harp : ArithmeticReflectionPositivity) :
+    ∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2 :=
+  rh_of_arp harp
 
 end GppGwefAssembly
