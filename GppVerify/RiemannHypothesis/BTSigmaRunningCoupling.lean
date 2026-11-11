@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Daniel Toupin (with AI assistance: Heart of the Cosmos / Grok)
 -/
 import GppVerify.RiemannHypothesis.BTSigmaLocalEuler
+import GppVerify.RiemannHypothesis.BTSigmaEulerSkeleton
 
 /-!
 # (BT-Σ) running coupling: real-analysis core
@@ -20,12 +21,13 @@ Daniel Toupin's running-coupling ("ribosome") proposal for (P-LOG). Audited by T
   (`hasDerivAt_runN`), and `runG = μ · runN` (`runG_eq_mul_runN`).
 * **Beta function.** `μ g' = g − g(g + μ)/2` (`runG_beta`, `runG_betaLaw`), and the
   occupation is logistic with rate `1/2` (`runG_logisticRate_half`).
-* **Tail charge, standalone (condition (a)).** `tailCharge p k N` is the finite sum of
+* **Tail charge.** `tailCharge p k N` is the finite sum of
   `Λ(p^j)(p^j)^{-1/2}` over `k < j ≤ N`. Each cut drops it by exactly the next weight
   (`tail_charge_jump`). Closed form `κ_p (p^{-k/2} − p^{-(k+n)/2})` (`tailCharge_closed`),
   ratio `p^{-1/2}` per cut (`tailCharge_succ_ratio`), infinite tail `κ_p p^{-k/2}`
-  (`tailCharge_hasSum`). The cut identity `kappa_cut_jump'` is reproved here from
-  `BTSigmaLocalEuler` without importing `BTSigmaEulerSkeleton`.
+  (`tailCharge_hasSum`). The cut identity is `GppBTSigmaEuler.kappa_cut_jump`, imported from
+  the merged `BTSigmaEulerSkeleton` (#566); Turbo 6800991395 §4(a) lifted the standalone
+  condition, so no duplicate is kept here.
 * **F_θ separation, local.** `runGTheta μ = μ/(e^{μ/4} − 1) + μ/(e^{3μ/4} − 1)` breaks the
   beta law at `μ = log 2` (`runGTheta_not_beta`; residual ≈ 7.28, interval bounds).
 * **Commutator, function level.** `[u, U_a] = a U_a` pointwise (`comm_pos_shift`).
@@ -100,7 +102,7 @@ theorem runG_beta {μ : ℝ} (hμ : μ ≠ 0) :
   field_simp
   ring
 
-/-! ## Tail charge, standalone finite geometric sum -/
+/-! ## Tail charge, finite geometric sum -/
 
 /-- Finite tail charge of the `p`-channel after `k` cuts, truncated at `N`. -/
 noncomputable def tailCharge (p k N : ℕ) : ℝ :=
@@ -113,12 +115,6 @@ theorem tail_charge_jump (p : ℕ) {k N : ℕ} (hkN : k < N) :
   rw [Finset.sum_eq_sum_Ico_succ_bot (by omega : k + 1 < N + 1)]
   ring
 
-/-- `κ_p (p^{-k/2} − p^{-(k+1)/2}) = Λ(p^{k+1}) (p^{k+1})^{-1/2}`, standalone. PROVED. -/
-theorem kappa_cut_jump' {p : ℕ} (hp : p.Prime) (k : ℕ) :
-    kappa p * (qp p ^ k - qp p ^ (k + 1)) = halfWeight (p ^ (k + 1)) := by
-  rw [qp_jump hp.one_lt, halfWeight_primePow hp (Nat.succ_ne_zero k), ← mul_assoc,
-    kappa_mul hp.one_lt]
-
 /-- Closed form of the finite tail (finite geometric sum). PROVED. -/
 theorem tailCharge_closed {p : ℕ} (hp : p.Prime) (k : ℕ) :
     ∀ n : ℕ, tailCharge p k (k + n) = kappa p * (qp p ^ k - qp p ^ (k + n)) := by
@@ -127,9 +123,12 @@ theorem tailCharge_closed {p : ℕ} (hp : p.Prime) (k : ℕ) :
   | zero => simp [tailCharge]
   | succ n ih =>
     have h := tail_charge_jump p (by omega : k + n < k + n + 1)
+    -- `GppBTSigmaEuler.kappa`/`qp` are the same closed forms as here (definitional).
+    have hj : kappa p * (qp p ^ (k + n) - qp p ^ (k + n + 1)) =
+        halfWeight (p ^ (k + n + 1)) := GppBTSigmaEuler.kappa_cut_jump hp (k + n)
     unfold tailCharge at *
     rw [← add_assoc, Finset.sum_Ico_succ_top (by omega : k + 1 ≤ k + n + 1), ih,
-      ← kappa_cut_jump' hp (k + n)]
+      ← hj]
     ring
 
 /-- The tail value `κ_p p^{-k/2}` is multiplied by `p^{-1/2}` per cut. PROVED. -/
