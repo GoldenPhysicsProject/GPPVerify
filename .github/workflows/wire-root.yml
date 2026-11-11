@@ -68,7 +68,10 @@ jobs:
         # nobody chose. Both were caught by self-test on 2026-09-02, one after the other:
         #   stat 'Lean Modules' says 187; the tree has 188
         #   blueprint/src/web.tex states 157 stubs; the tree has 158
+        # pipefail: without it `tee` masks a failure of either script, and the step would go on
+        # to commit whatever partial state it left behind.
         run: |
+          set -o pipefail
           python3 scripts/wire_root.py | tee /tmp/wire.log
           python3 scripts/sync_published_counts.py | tee /tmp/stats.log
           if git diff --quiet -- GppVerify.lean index.html blueprint/src/web.tex; then
