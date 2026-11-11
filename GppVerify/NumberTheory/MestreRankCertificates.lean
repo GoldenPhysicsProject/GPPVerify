@@ -28,6 +28,10 @@ Honest boundary: NOT kernel-checked.
 4. The root numbers, w(11a1) = +1 and w(37a1) = −1.
 
 Nothing here concerns BSD itself.
+
+Superseded on the trust side by `GppVerify.NumberTheory.MestreRankKernel`. That module proves the
+same conclusions (`r = 0` for 11a1, and `r ≤ 1`, or `r = 1` with odd parity, for 37a1) with
+every numerical input kernel-proved. It uses a Fejér test function instead of these Arb boxes.
 -/
 
 namespace GppMestreRankCertificates

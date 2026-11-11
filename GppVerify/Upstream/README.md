@@ -55,4 +55,14 @@ they are equally acceptable upstream.
   [mathlib4 PR #45825](https://github.com/leanprover-community/mathlib4/pull/45825)**,
   in adapted form at `Mathlib/Analysis/InnerProductSpace/Projection/SpanPair.lean`.
 
+## Real analysis
+
+- `BoseIntegral.lean`: `d/dx log(1 - e^{-x}) = 1/(e^x - 1)`, the improper
+  integral `∫_{(a,∞)} 1/(e^x - 1) dx = -log(1 - e^{-a})` for `a > 0` (with
+  integrability), the fifth-order Taylor lower bound for `exp` on `[0, ∞)`,
+  and the truncated Bernoulli bound `x/(e^x - 1) ≤ 1 - x/2 + x²/12`. Used by
+  `NumberTheory/MestreRankKernel.lean` for the archimedean term of the
+  elliptic explicit formula. Candidate homes: `Mathlib/Analysis/SpecialFunctions/
+  Exponential*` and `.../ImproperIntegrals.lean`. **Status: staged.**
+
 Back to the [library README](../../README.md).
