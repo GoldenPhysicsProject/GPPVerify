@@ -2504,4 +2504,5 @@ import GppVerify.RiemannHypothesis.BTSigmaRunningCoupling
 import GppVerify.RiemannHypothesis.BTSigmaVertexProvenance
 import GppVerify.RiemannHypothesis.BTSigmaFockTFD
 import GppVerify.RiemannHypothesis.BTSigmaCovObstruction
+import GppVerify.RiemannHypothesis.BTSigmaFixedWWitness
 import GppVerify.RiemannHypothesis.BTSigmaCovGrowth
