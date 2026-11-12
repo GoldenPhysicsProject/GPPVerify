@@ -24,7 +24,7 @@ Kernel (zero-free side; normalisation pinned by the hEF numerics):
   ψ_Γ = Γ'/Γ (`logDeriv Complex.Gamma`).
 -/
 import GppVerify.RiemannHypothesis.KreinBridge
-import Mathlib.NumberTheory.VonMangoldt
+import Mathlib.NumberTheory.ArithmeticFunction.VonMangoldt
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
 import Mathlib.Analysis.Calculus.LogDeriv
