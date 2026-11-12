@@ -2537,3 +2537,4 @@ import GppVerify.RiemannHypothesis.PoleMeroProof
 import GppVerify.RiemannHypothesis.ExpLaplaceMeroProof
 import GppVerify.RiemannHypothesis.HPsiPlan
 import GppVerify.RiemannHypothesis.WeilGramSemilocal
+import GppVerify.RiemannHypothesis.WeilGramContraction
