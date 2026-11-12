@@ -2512,3 +2512,5 @@ import GppVerify.RiemannHypothesis.BTSigmaFixedWWitness
 import GppVerify.RiemannHypothesis.BTSigmaCovGrowth
 import GppVerify.RiemannHypothesis.BTSigmaPrimeBlock
 import GppVerify.RiemannHypothesis.BTSigmaShiftedTheta
+import GppVerify.RiemannHypothesis.BTSigmaSEqDelta
+import GppVerify.RiemannHypothesis.WeilLocalIndefinite
