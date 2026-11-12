@@ -3,7 +3,10 @@ Copyright (c) 2026 Daniel Toupin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Daniel Toupin (with AI assistance: Heart of the Cosmos / Grok)
 -/
-import Mathlib
+import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.Complex
+import Mathlib.Algebra.Polynomial.Roots
+import Mathlib.Tactic
 
 /-!
 # (L), (R) and the assembly "one negative square ⇒ no off-line zero" (Turbo 6819511196)

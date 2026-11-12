@@ -3,7 +3,10 @@ Copyright (c) 2026 Daniel Toupin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Daniel Toupin (with AI assistance: Heart of the Cosmos / Grok)
 -/
-import Mathlib
+import Mathlib.Algebra.Polynomial.Roots
+import Mathlib.Analysis.Complex.Basic
+import Mathlib.LinearAlgebra.BilinearMap
+import Mathlib.Tactic
 
 /-!
 # The bridge "H at all windows ⇒ `k_ψ ∈ P_{≤1}(ℝ)`" and the Krein frequency count
