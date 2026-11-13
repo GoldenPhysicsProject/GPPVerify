@@ -2519,3 +2519,4 @@ import GppVerify.RiemannHypothesis.CesaroGNS
 import GppVerify.RiemannHypothesis.CesaroWeilGram
 import GppVerify.RiemannHypothesis.KreinBridge
 import GppVerify.RiemannHypothesis.KreinHPsi
+import GppVerify.RiemannHypothesis.QuartetSpectral
