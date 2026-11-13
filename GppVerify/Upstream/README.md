@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Thirteen files. Status
+`leanprover-community/mathlib4`. Fourteen files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -54,5 +54,22 @@ they are equally acceptable upstream.
   squared distance formula. **Status: open as
   [mathlib4 PR #45825](https://github.com/leanprover-community/mathlib4/pull/45825)**,
   in adapted form at `Mathlib/Analysis/InnerProductSpace/Projection/SpanPair.lean`.
+
+## Real analysis
+
+- `LogSubLogBound.lean`: the sharp bound `2 (x - y) / (x + y) ≤ log x - log y`
+  for `0 < y < x`, the first term of `Real.hasSum_log_one_add_inv`. Used by
+  `RiemannHypothesis/DigammaVerticalFloor.lean`. **Status: staged.**
+
+### Staging candidate, not yet moved: the digamma cluster
+
+Mathlib has `Complex.digamma` (`Analysis/SpecialFunctions/Gamma/Digamma.lean`) but not
+Gauss's series for it, and not a lower bound on vertical lines. The in-tree files
+`RiemannHypothesis/DigammaSeries.lean` and `DigammaGaussSeries.lean` (the series
+`ψ(s) = -γ - 1/s + Σ (1/(n+1) - 1/(n+1+s))`, proved for all `s` off the poles) and
+`DigammaVerticalFloor.lean` (the bound `Re ψ(a + i b) ≥ log b - (a + 1/4)/b²` for
+`a ≥ 0`, `b ≥ 1/2`) are Mathlib-only in content. They should move here together, renamed into
+`Complex` and stripped of GPP vocabulary; staging one without the others would leave a file
+that imports GPP code.
 
 Back to the [library README](../../README.md).

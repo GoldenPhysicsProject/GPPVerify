@@ -1,5 +1,6 @@
 import GppVerify.RiemannHypothesis.DigammaGaussSeries
 import Mathlib.NumberTheory.Harmonic.EulerMascheroni
+import GppVerify.Upstream.LogSubLogBound
 
 /-!
 # A lower envelope for `Re ψ` on vertical lines, and the rung-1 symbol floor
@@ -58,25 +59,11 @@ noncomputable def F (b y : ℝ) : ℝ := Real.log (y ^ 2 + b ^ 2) / 2
 /-- `H_b(y) = 1/(y² + b²)`. -/
 noncomputable def H (b y : ℝ) : ℝ := 1 / (y ^ 2 + b ^ 2)
 
-/-- The sharp logarithm bound: for `B > 0` and `A > B`, `log A - log B ≥ 2(A-B)/(A+B)`. -/
+/-- The sharp logarithm bound: for `B > 0` and `A > B`, `log A - log B ≥ 2(A-B)/(A+B)`.
+Staged for Mathlib as `Real.two_mul_sub_div_add_le_log_sub_log` (`GppVerify/Upstream`). -/
 theorem log_sub_log_ge {A B : ℝ} (hB : 0 < B) (hAB : B < A) :
-    2 * (A - B) / (A + B) ≤ Real.log A - Real.log B := by
-  set c : ℝ := B / (A - B) with hc
-  have hAB' : 0 < A - B := sub_pos.mpr hAB
-  have hc0 : 0 < c := div_pos hB hAB'
-  have hsum := Real.hasSum_log_one_add_inv hc0
-  have hterm0 : 2 * (1 / (2 * ((0 : ℕ) : ℝ) + 1)) * (1 / (2 * c + 1)) ^ (2 * 0 + 1)
-      ≤ Real.log (1 + c⁻¹) := by
-    refine le_hasSum hsum 0 (fun k _ => ?_)
-    have : 0 < 2 * c + 1 := by linarith
-    positivity
-  have h1 : 1 + c⁻¹ = A / B := by
-    rw [hc, inv_div]; field_simp; ring
-  rw [h1, Real.log_div (by linarith) hB.ne'] at hterm0
-  have h2 : 2 * (1 / (2 * ((0 : ℕ) : ℝ) + 1)) * (1 / (2 * c + 1)) ^ (2 * 0 + 1)
-      = 2 * (A - B) / (A + B) := by
-    rw [hc]; field_simp; ring
-  linarith [h2 ▸ hterm0]
+    2 * (A - B) / (A + B) ≤ Real.log A - Real.log B :=
+  Real.two_mul_sub_div_add_le_log_sub_log hB hAB
 
 /-- **Per-term telescoping bound.** For `x > 0` and `b² ≥ 1/4`,
 `φ(x) ≤ F(x+½) - F(x-½) + ¼ (H(x-½) - H(x+½))`. -/
