@@ -6,6 +6,7 @@ It turns the fast lane's green "build changed modules" into an axiom receipt.
 -/
 import GppVerify.RiemannHypothesis.QuartetO2
 import GppVerify.RiemannHypothesis.KreinHPsi
+import GppVerify.RiemannHypothesis.QuartetFiniteCore
 
 open Lean Elab Command
 
@@ -24,3 +25,27 @@ elab "#assert_std_axioms " ids:ident* : command => do
   GppKreinBridge.bridge_concrete GppKreinBridge.card_lower_freqs_le
   GppKreinBridge.quadruple_two_lower GppKreinBridge.quadruple_not_P1
   GppQuartetO2.O2mult_summable_norm GppQuartetO2.O2mult_of_premises
+
+#assert_std_axioms GppQuartetFiniteCore.triG_eq_zero_of_abs_ge
+  GppQuartetFiniteCore.triG_even
+  GppQuartetFiniteCore.triG_eq_triForm
+  GppQuartetFiniteCore.continuous_tri
+  GppQuartetFiniteCore.continuous_triG
+  GppQuartetFiniteCore.Rc_even
+  GppQuartetFiniteCore.Rc_eq_zero_of_abs_gt
+  GppQuartetFiniteCore.continuous_Rc
+  GppQuartetFiniteCore.rcAdmissible
+  GppQuartetFiniteCore.primeTerm_eq_sum_of_bound
+  GppQuartetFiniteCore.kform_primeTerm_finite
+  GppQuartetFiniteCore.kform_primeTerm
+  GppQuartetFiniteCore.kform_poleTerm
+  GppQuartetFiniteCore.kform_poleTerm_on_ker
+  GppQuartetFiniteCore.kform_Kpsi
+  GppQuartetFiniteCore.tri_integral_sinh
+  GppQuartetFiniteCore.tri_integral_cosh
+  GppQuartetFiniteCore.tri_integral_exp_half
+  GppQuartetFiniteCore.tri_integral_exp_neg_half
+  GppQuartetFiniteCore.Fhat_zero
+  GppQuartetFiniteCore.Fhat_one
+  GppQuartetFiniteCore.Fhat_zero_sq_add_one_sq
+  GppQuartetFiniteCore.O2_of_weilEF
