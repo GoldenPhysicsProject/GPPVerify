@@ -438,3 +438,15 @@ import GppVerify
 #print axioms GppExplicitFormulaAssembly.half_line
 #print axioms GppExplicitFormulaAssembly.explicit_formula_even
 #print axioms GppExplicitFormulaAssembly.explicit_formula_zeroSum
+-- Claude Code workbench audit (2026-11-13): QuartetSpectral and its KreinBridge base.
+#print axioms GppQuartetSpectral.Fhat_conj
+#print axioms GppQuartetSpectral.quartetSum_online
+#print axioms GppQuartetSpectral.quartetSum_online_nonneg
+#print axioms GppQuartetSpectral.conj_Sfin
+#print axioms GppKreinBridge.no_neg_plane_in_window
+#print axioms GppKreinBridge.bridge
+#print axioms GppKreinBridge.fit_translates
+#print axioms GppKreinBridge.bridge_concrete
+#print axioms GppKreinBridge.card_lower_freqs_le
+#print axioms GppKreinBridge.quadruple_two_lower
+#print axioms GppKreinBridge.quadruple_not_P1
