@@ -163,30 +163,19 @@ theorem tendsto_F_sub_log (b c : ℝ) :
     ((Real.continuousAt_log one_ne_zero).tendsto.comp hq).div_const 2
   rw [Real.log_one, zero_div] at hlog
   refine hlog.congr' ?_
-  filter_upwards [eventually_gt_atTop 0] with N hN
-  have hN' : (0 : ℝ) < N := by exact_mod_cast hN
+  obtain ⟨M, hM⟩ := exists_nat_gt |c|
+  filter_upwards [eventually_gt_atTop (max M 0)] with N hN
+  have hNM : (M : ℝ) < N := by exact_mod_cast (le_max_left M 0).trans_lt hN
+  have hN' : (0 : ℝ) < N := lt_of_le_of_lt (Nat.cast_nonneg M) hNM
+  have hNc : 0 < (N : ℝ) + c := by
+    have := neg_abs_le c; linarith
+  have hpos : 0 < ((N : ℝ) + c) ^ 2 + b ^ 2 := by positivity
   have hq' : (1 + c * ((N : ℝ))⁻¹) ^ 2 + b ^ 2 * (((N : ℝ))⁻¹) ^ 2
       = (((N : ℝ) + c) ^ 2 + b ^ 2) / (N : ℝ) ^ 2 := by
     field_simp
-  have hpos : 0 < ((N : ℝ) + c) ^ 2 + b ^ 2 ∨ ((N : ℝ) + c) ^ 2 + b ^ 2 = 0 := by
-    rcases (add_nonneg (sq_nonneg ((N : ℝ) + c)) (sq_nonneg b)).lt_or_eq with h | h
-    · exact Or.inl h
-    · exact Or.inr h.symm
   unfold F
-  rw [hq']
-  rcases hpos with hpos | hzero
-  · rw [Real.log_div hpos.ne' (by positivity), Real.log_pow]
-    push_cast; ring
-  · rw [hzero, zero_div, Real.log_zero]
-    -- impossible branch for large N is not needed: both sides are then expressible
-    have : ((N : ℝ) + c) ^ 2 + b ^ 2 = 0 := hzero
-    rw [this, Real.log_zero]; ring_nf
-    -- log 0 = 0, so LHS = 0/2 = 0 and RHS = -log N; this case forces N + c = 0 and b = 0
-    have hb0 : b = 0 := by nlinarith [sq_nonneg ((N : ℝ) + c), sq_nonneg b]
-    have hc0 : (N : ℝ) + c = 0 := by nlinarith [sq_nonneg ((N : ℝ) + c), sq_nonneg b]
-    -- `Real.log (N ^ 2) / 2 = log N` is what the RHS reduces to; it does not vanish in general,
-    -- so we instead avoid this branch by strengthening the filter below.
-    exact absurd hzero (by nlinarith [hN'])
+  rw [hq', Real.log_div hpos.ne' (by positivity), Real.log_pow]
+  push_cast; ring
 
 /-- **Main theorem.** For `a ≥ 0` and `b² ≥ 1/4`,
 `Re ψ(a+ib) ≥ -a/(a²+b²) + ½ log((a+½)²+b²) - ¼/((a+½)²+b²)`. -/
