@@ -43,7 +43,7 @@ import Mathlib.MeasureTheory.Integral.Bochner.Basic
 
 namespace GppCesaroAbel
 
-open MeasureTheory Complex Filter Topology Finset
+open MeasureTheory Complex Filter Topology Finset ComplexConjugate
 
 /-- The Abel–Cesàro kernel value `ω_ε(e^{β·}) = 2ε²/(ε² − β²)`. As a formula this
 is defined for all `β` (junk value at the poles); as a convergent positive integral
@@ -69,15 +69,14 @@ noncomputable def abelForm (ε : ℝ) {n : ℕ} (α : Fin n → ℂ) (c d : Fin 
 private theorem abel_integrand_Ioi {ε : ℝ} {β : ℂ} (u : ℝ) (hu : 0 ≤ u) :
     (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
       = (ε : ℂ) * Complex.exp ((β - ε) * u) := by
-  rw [abs_of_nonneg hu, ← Complex.exp_add]
+  rw [abs_of_nonneg hu, mul_assoc, ← Complex.exp_add]
   congr 2
-  push_cast
   ring
 
 private theorem abel_integrand_Iic {ε : ℝ} {β : ℂ} (u : ℝ) (hu : u ≤ 0) :
     (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
       = (ε : ℂ) * Complex.exp ((β + ε) * u) := by
-  rw [abs_of_nonpos hu, ← Complex.exp_add]
+  rw [abs_of_nonpos hu, mul_assoc, ← Complex.exp_add]
   congr 2
   push_cast
   ring
@@ -89,18 +88,40 @@ theorem integrable_abel_char {ε : ℝ} (hε : 0 < ε) {β : ℂ} (hβ : |β.re|
   have hβ' := abs_lt.mp hβ
   have hIoi : IntegrableOn (fun u : ℝ => w * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u))
       (Set.Ioi 0) := by
-    have h := (integrableOn_exp_mul_complex_Ioi (a := β - ε)
-      (by simp only [Complex.sub_re, Complex.ofReal_re]; linarith) 0).const_mul ((ε : ℂ) * w)
-    refine h.congr_fun (fun u hu => ?_) measurableSet_Ioi
+    have hbase : Integrable (fun u : ℝ => Complex.exp ((β - ε) * u))
+        (volume.restrict (Set.Ioi 0)) :=
+      integrableOn_exp_mul_complex_Ioi (a := β - ε)
+        (by simp only [Complex.sub_re, Complex.ofReal_re]; linarith) 0
+    have h := hbase.const_mul w
+    refine IntegrableOn.congr_fun h (fun u hu => ?_) measurableSet_Ioi
     have h2 := abel_integrand_Ioi (ε := ε) (β := β) u (le_of_lt hu)
-    linear_combination w * h2
+    have hεℂ : (ε : ℂ) ≠ 0 := by exact_mod_cast hε.ne'
+    have h3 : Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
+        = Complex.exp ((β - ε) * u) := by
+      have h4 := congrArg (fun z : ℂ => (ε : ℂ)⁻¹ * z) h2
+      simpa [mul_assoc, inv_mul_cancel_left₀ hεℂ] using h4
+    have h5 : w * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
+        = w * Complex.exp ((β - ε) * u) := by
+      rw [mul_assoc, h3]
+    rw [h5]
   have hIic : IntegrableOn (fun u : ℝ => w * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u))
       (Set.Iic 0) := by
-    have h := (integrableOn_exp_mul_complex_Iic (a := β + ε)
-      (by simp only [Complex.add_re, Complex.ofReal_re]; linarith) 0).const_mul ((ε : ℂ) * w)
-    refine h.congr_fun (fun u hu => ?_) measurableSet_Iic
+    have hbase : Integrable (fun u : ℝ => Complex.exp ((β + ε) * u))
+        (volume.restrict (Set.Iic 0)) :=
+      integrableOn_exp_mul_complex_Iic (a := β + ε)
+        (by simp only [Complex.add_re, Complex.ofReal_re]; linarith) 0
+    have h := hbase.const_mul w
+    refine IntegrableOn.congr_fun h (fun u hu => ?_) measurableSet_Iic
     have h2 := abel_integrand_Iic (ε := ε) (β := β) u hu
-    linear_combination w * h2
+    have hεℂ : (ε : ℂ) ≠ 0 := by exact_mod_cast hε.ne'
+    have h3 : Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
+        = Complex.exp ((β + ε) * u) := by
+      have h4 := congrArg (fun z : ℂ => (ε : ℂ)⁻¹ * z) h2
+      simpa [mul_assoc, inv_mul_cancel_left₀ hεℂ] using h4
+    have h5 : w * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
+        = w * Complex.exp ((β + ε) * u) := by
+      rw [mul_assoc, h3]
+    rw [h5]
   have hunion := hIic.union hIoi
   rwa [Set.Iic_union_Ioi_of_le le_rfl, integrableOn_univ] at hunion
 
@@ -134,10 +155,11 @@ theorem integral_abel_char {ε : ℝ} (hε : 0 < ε) {β : ℂ} (hβ : |β.re| <
   have hsplit : ∫ u : ℝ, (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
       = (∫ u in Set.Iic (0 : ℝ), (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u))
         + ∫ u in Set.Ioi (0 : ℝ), (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u) := by
-    rw [← integral_univ, ← Set.Iic_union_Ioi_of_le (le_refl (0 : ℝ)),
-      setIntegral_union₀ (Set.disjoint_left.mpr (fun u hu1 hu2 => by
-        simp only [Set.mem_Iic, Set.mem_Ioi] at hu1 hu2; linarith)).aedisjoint
-        measurableSet_Ioi.nullMeasurableSet hInt.integrableOn hInt.integrableOn]
+    have h := integral_add_compl (μ := volume) (s := Set.Iic (0 : ℝ))
+      (f := fun u : ℝ => (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u))
+      measurableSet_Iic hInt
+    rw [Set.compl_Iic] at h
+    exact h.symm
   rw [hsplit]
   have hIoi : ∫ u in Set.Ioi (0 : ℝ), (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)
       = (ε : ℂ) / (ε - β) := by
@@ -173,7 +195,6 @@ theorem integral_abel_char_mul {ε : ℝ} (hε : 0 < ε) {β : ℂ} (hβ : |β.r
       = fun u : ℝ => (w * (ε : ℂ)⁻¹) * ((ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp (β * u)) := by
     funext u
     field_simp
-    ring
   rw [hpt, integral_const_mul, integral_abel_char hε hβ]
 
 /-! ## Pointwise decomposition of the integrands -/
@@ -195,24 +216,19 @@ private theorem form_integrand_decomp {n : ℕ} (α : Fin n → ℂ) (c d : Fin 
       = ∑ i, conj (c i) * Complex.exp (conj (α i) * u) := by
     rw [evalSum, map_sum]
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [map_mul, Complex.conj_exp]
+    rw [map_mul, ← Complex.exp_conj]
     congr 1
-    rw [← Complex.conj_ofReal (u), ← map_mul]
+    rw [map_mul, Complex.conj_ofReal]
   have hexp : ∀ i j : Fin n, Complex.exp (conj (α i) * u) * Complex.exp (α j * u)
       = Complex.exp ((conj (α i) + α j) * u) := by
     intro i j
     rw [← Complex.exp_add, add_mul]
-  rw [hconj, evalSum, Finset.sum_mul_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [Finset.mul_sum]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  have h := hexp i j
-  calc (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|)
-        * (conj (c i) * Complex.exp (conj (α i) * u) * (d j * Complex.exp (α j * u)))
-      = ((ε : ℂ) * (conj (c i) * d j)) * Complex.exp (-(ε : ℂ) * |u|)
-          * (Complex.exp (conj (α i) * u) * Complex.exp (α j * u)) := by ring
-    _ = ((ε : ℂ) * (conj (c i) * d j)) * Complex.exp (-(ε : ℂ) * |u|)
-          * Complex.exp ((conj (α i) + α j) * u) := by rw [h]
+  rw [hconj, evalSum]
+  simp only [Finset.mul_sum, Finset.sum_mul]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+  rw [← hexp]
+  ring
 
 /-! ## The state and the form as integrals -/
 
@@ -222,14 +238,13 @@ theorem abelState_eq_integral {ε : ℝ} (hε : 0 < ε) {n : ℕ} {α : Fin n �
     (hα : ∀ i, |(α i).re| < ε) :
     abelState ε α c = ∫ u : ℝ, (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * evalSum α c u := by
   have hεℂ : (ε : ℂ) ≠ 0 := by exact_mod_cast hε.ne'
-  rw [integral_congr (fun u => state_integrand_decomp α c ε u),
+  rw [integral_congr_ae (Filter.Eventually.of_forall fun u => state_integrand_decomp α c ε u),
     integral_finsetSum _ (fun i _ => integrable_abel_char hε (hα i) _)]
   unfold abelState
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [integral_abel_char_mul hε (hα i) ((ε : ℂ) * c i)]
   show c i * abelValue ε (α i) = (↑ε * c i) * (↑ε)⁻¹ * abelValue ε (α i)
   field_simp
-  ring
 
 /-- **PROVED**: in the strip `|Re αᵢ| < ε/2` for all `i`, the Abel–Cesàro form is
 the integral `⟨F, G⟩_ε = ε ∫ e^{−ε|u|} F(u)̄ G(u) du`. -/
@@ -245,7 +260,7 @@ theorem abelForm_eq_integral {ε : ℝ} (hε : 0 < ε) {n : ℕ} {α : Fin n →
     have h2 := abs_lt.mp (hα j)
     rw [abs_lt]
     constructor <;> linarith
-  rw [integral_congr (fun u => form_integrand_decomp α c d ε u),
+  rw [integral_congr_ae (Filter.Eventually.of_forall fun u => form_integrand_decomp α c d ε u),
     integral_finsetSum _ (fun i _ => integrable_finsetSum _
       (fun j _ => integrable_abel_char hε (hβ i j) _))]
   unfold abelForm
@@ -256,7 +271,6 @@ theorem abelForm_eq_integral {ε : ℝ} (hε : 0 < ε) {n : ℕ} {α : Fin n →
   show conj (c i) * d j * abelValue ε (conj (α i) + α j)
     = (↑ε * (conj (c i) * d j)) * (↑ε)⁻¹ * abelValue ε (conj (α i) + α j)
   field_simp
-  ring
 
 /-! ## Positivity in the strip -/
 
@@ -278,7 +292,8 @@ theorem abelForm_self_nonneg {ε : ℝ} (hε : 0 < ε) {n : ℕ} {α : Fin n →
         * Complex.exp (-(ε : ℂ) * |u|) * Complex.exp ((conj (α i) + α j) * u)) :=
       integrable_finsetSum _ (fun i _ => integrable_finsetSum _
         (fun j _ => integrable_abel_char hε (hβ i j) _))
-    exact hInt0.congr (eventually_of_forall fun u => (form_integrand_decomp α c c ε u).symm)
+    exact Integrable.congr hInt0
+      (Filter.Eventually.of_forall fun u => (form_integrand_decomp α c c ε u).symm)
   have hform : ∀ u : ℝ, (ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|)
         * conj (evalSum α c u) * evalSum α c u
       = ((ε * Real.exp (-ε * |u|) * ‖evalSum α c u‖ ^ 2 : ℝ) : ℂ) := by
@@ -288,16 +303,19 @@ theorem abelForm_self_nonneg {ε : ℝ} (hε : 0 < ε) {n : ℕ} {α : Fin n →
       congr 2
       push_cast
       ring]
-    rw [Complex.ofReal_mul, ← Complex.conj_mul']
-    congr 1
-    simp [Complex.normSq_eq_norm_sq]
+    rw [mul_assoc, Complex.conj_mul']
+    push_cast
+    ring
   have hg : Integrable (fun u : ℝ => ε * Real.exp (-ε * |u|) * ‖evalSum α c u‖ ^ 2) := by
     have h := hInt.re
-    refine h.congr (eventually_of_forall fun u => ?_)
+    refine Integrable.congr h (Filter.Eventually.of_forall fun u => ?_)
+    show RCLike.re ((ε : ℂ) * Complex.exp (-(ε : ℂ) * |u|) * conj (evalSum α c u)
+        * evalSum α c u) = ε * Real.exp (-ε * |u|) * ‖evalSum α c u‖ ^ 2
     rw [hform u]
-    simp
-  rw [abelForm_eq_integral hε hα, integral_congr (fun u => hform u),
-    ← Complex.ofReal_integral hg]
+    exact Complex.ofReal_re _
+  rw [abelForm_eq_integral hε hα,
+    integral_congr_ae (Filter.Eventually.of_forall hform),
+    integral_complex_ofReal]
   constructor
   · simp
   · simp only [Complex.ofReal_re]
@@ -310,8 +328,10 @@ theorem abelForm_self_nonneg {ε : ℝ} (hε : 0 < ε) {n : ℕ} {α : Fin n →
 statement; no strip hypothesis.) -/
 theorem tendsto_abelValue {β : ℂ} (hβ : β ≠ 0) :
     Tendsto (fun ε : ℝ => abelValue ε β) (𝓝[>] 0) (𝓝 0) := by
-  have htend : Tendsto (fun ε : ℝ => (ε : ℂ)) (𝓝[>] (0 : ℝ)) (𝓝 0) :=
-    continuous_ofReal.tendsto.comp tendsto_nhdsWithin_of_tendsto_nhds tendsto_id
+  have htend : Tendsto (fun ε : ℝ => (ε : ℂ)) (𝓝[>] (0 : ℝ)) (𝓝 0) := by
+    have h : Tendsto (fun ε : ℝ => (ε : ℂ)) (𝓝[>] (0 : ℝ)) (𝓝 ((0 : ℝ) : ℂ)) :=
+      (continuous_ofReal.tendsto (0 : ℝ)).mono_left nhdsWithin_le_nhds
+    simpa using h
   have h1 : Tendsto (fun ε : ℝ => (2 : ℂ) * (ε : ℂ) ^ 2) (𝓝[>] 0) (𝓝 0) := by
     simpa using (htend.pow 2).const_mul (2 : ℂ)
   have h2 : Tendsto (fun ε : ℝ => (ε : ℂ) ^ 2 - β ^ 2) (𝓝[>] 0) (𝓝 (- β ^ 2)) := by
@@ -320,11 +340,14 @@ theorem tendsto_abelValue {β : ℂ} (hβ : β ≠ 0) :
     simp only [neg_ne_zero, ne_eq, sq_eq_zero_iff]
     exact hβ
   have := h1.div h2 hβ2
-  simpa [abelValue] using this
+  simpa only [Pi.div_def, zero_div, abelValue] using this
 
 /-- At `β = 0` the kernel value is constantly `2` (for `ε ≠ 0`). -/
 theorem abelValue_zero (ε : ℝ) (hε : ε ≠ 0) : abelValue ε 0 = 2 := by
+  have hεℂ : (ε : ℂ) ≠ 0 := by exact_mod_cast hε
+  have h2 : (ε : ℂ) ^ 2 - (0 : ℂ) ^ 2 = (ε : ℂ) ^ 2 := by ring
   unfold abelValue
+  rw [h2]
   field_simp
 
 /-- **PROVED (the selection limit)**: for every finite exponent family, the
@@ -345,8 +368,8 @@ theorem tendsto_abelForm {n : ℕ} (α : Fin n → ℂ) (c d : Fin n → ℂ) :
   · rw [if_pos h]
     have h2 : Tendsto (fun ε : ℝ => abelValue ε (conj (α i) + α j)) (𝓝[>] 0) (𝓝 2) := by
       rw [h]
-      exact tendsto_congr'
-        (eventually_nhdsWithin_of_forall fun ε hε => (abelValue_zero ε (ne_of_gt hε)).symm)
+      exact (tendsto_congr'
+        (eventually_nhdsWithin_of_forall fun ε hε => (abelValue_zero ε (ne_of_gt hε)).symm)).mp
         tendsto_const_nhds
     have h3 := h2.const_mul (conj (c i) * d j)
     rwa [show conj (c i) * d j * 2 = 2 * (conj (c i) * d j) by ring] at h3
@@ -367,19 +390,19 @@ theorem abelForm_limit_self_nonneg_onLine {n : ℕ} {α : Fin n → ℂ} (c : Fi
     have hε' : 0 < ε := hε
     refine abelForm_self_nonneg hε' fun i => ?_
     rw [hα i]
-    simp only [Complex.zero_re, abs_zero]
+    simp only [abs_zero]
     linarith
   have him : Tendsto (fun ε : ℝ => (abelForm ε α c c).im) (𝓝[>] 0)
       (𝓝 (2 * ∑ i, ∑ j, if conj (α i) + α j = 0 then conj (c i) * c j else 0).im) :=
-    (Complex.continuous_im.tendsto).comp hlim
+    (Complex.continuous_im.tendsto _).comp hlim
   have hre : Tendsto (fun ε : ℝ => (abelForm ε α c c).re) (𝓝[>] 0)
       (𝓝 (2 * ∑ i, ∑ j, if conj (α i) + α j = 0 then conj (c i) * c j else 0).re) :=
-    (Complex.continuous_re.tendsto).comp hlim
+    (Complex.continuous_re.tendsto _).comp hlim
   constructor
   · have him0 : Tendsto (fun ε : ℝ => (abelForm ε α c c).im) (𝓝[>] 0) (𝓝 0) :=
-      tendsto_congr' (eventually_nhdsWithin_of_forall
-        (fun ε hε => ((hmem ε hε).1).symm)) tendsto_const_nhds
-    exact tendsto_nhds_unique tendsto_nhdsWithin_of_tendsto_nhds him him0
+      (tendsto_congr' (eventually_nhdsWithin_of_forall
+        (fun ε hε => ((hmem ε hε).1).symm))).mp tendsto_const_nhds
+    exact tendsto_nhds_unique him him0
   · exact ge_of_tendsto hre (eventually_nhdsWithin_of_forall fun ε hε => (hmem ε hε).2)
 
 end GppCesaroAbel
