@@ -14,7 +14,8 @@ of `WindowMinorantL036` satisfies
 * `|mfun r| ≤ 8` on `[-25, 25]`.
 
 These two hypotheses are input (b) of the certificate. They are finite statements about 100 explicit
-polynomials against the digamma function, **not** proved here; nothing here asserts them.
+polynomials against the digamma function, not proved in this file; they are discharged in
+`WindowBL036` (`weilForm_autocorr_nonneg_l036_unconditional`).
 Everything else is proved:
 * input (a), the finite block (`GppWindowBlockL036.block_bound`, kernel-checked tables);
 * input (c), the identification of the minorant form (`GppWindowAssembly.minorantForm_eq_B`);

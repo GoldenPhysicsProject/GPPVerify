@@ -2565,3 +2565,16 @@ import GppVerify.RiemannHypothesis.WindowElementary
 import GppVerify.RiemannHypothesis.WindowCRat
 import GppVerify.RiemannHypothesis.KreinPontryaginFinite
 import GppVerify.RiemannHypothesis.KreinPontryaginKernel
+import GppVerify.RiemannHypothesis.WindowBCheck0L036
+import GppVerify.RiemannHypothesis.WindowBCheck1L036
+import GppVerify.RiemannHypothesis.WindowBCheck2L036
+import GppVerify.RiemannHypothesis.WindowBCheck3L036
+import GppVerify.RiemannHypothesis.WindowBCheck4L036
+import GppVerify.RiemannHypothesis.WindowBCheck5L036
+import GppVerify.RiemannHypothesis.WindowBCheck6L036
+import GppVerify.RiemannHypothesis.WindowBCheck7L036
+import GppVerify.RiemannHypothesis.WindowBCheck8L036
+import GppVerify.RiemannHypothesis.WindowBCheck9L036
+import GppVerify.RiemannHypothesis.WindowBL036
+import GppVerify.RiemannHypothesis.WindowBPiece
+import GppVerify.RiemannHypothesis.WindowBall
