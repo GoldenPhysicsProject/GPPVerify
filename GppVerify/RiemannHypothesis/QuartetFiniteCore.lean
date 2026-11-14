@@ -81,7 +81,7 @@ noncomputable def poleCorr {n : ℕ} (x c : Fin n → ℝ) : ℝ :=
   2 * bigPsiI2 ^ 2 * (∑ i, c i * Real.sinh (x i / 2)) ^ 2
 
 private lemma lagBound_nonneg {n : ℕ} (x : Fin n → ℝ) : 0 ≤ lagBound x :=
-  Finset.sum_nonneg fun i _ => Finset.sum_nonneg fun j _ => abs_nonneg _
+  Finset.sum_nonneg fun _i _ => Finset.sum_nonneg fun _j _ => abs_nonneg _
 
 private lemma lag_le_lagBound {n : ℕ} (x : Fin n → ℝ) (i j : Fin n) :
     |x i - x j| ≤ lagBound x := by
