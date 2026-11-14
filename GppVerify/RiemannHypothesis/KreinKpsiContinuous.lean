@@ -50,19 +50,19 @@ turns it into `2/3 - y^2 + |y|^3 / 2` there. -/
 theorem triG_eq (y : ℝ) :
     triG y = (max 0 (2 - |y|)) ^ 3 / 6 - (2 / 3) * (max 0 (1 - |y|)) ^ 3 := by
   unfold triG
-  rcases le_or_lt |y| 1 with h1 | h1
+  by_cases h1 : |y| ≤ 1
   · rw [if_pos h1]
     have h2 : max 0 (2 - |y|) = 2 - |y| := max_eq_right (by linarith)
     have h3 : max 0 (1 - |y|) = 1 - |y| := max_eq_right (by linarith)
-    rw [h2, h3, sq_abs]
+    rw [h2, h3, (sq_abs y).symm]
     ring
-  · rcases le_or_lt |y| 2 with h2 | h2
-    · rw [if_neg (not_le.mpr h1), if_pos h2]
+  · by_cases h2 : |y| ≤ 2
+    · rw [if_neg h1, if_pos h2]
       have h3 : max 0 (2 - |y|) = 2 - |y| := max_eq_right (by linarith)
       have h4 : max 0 (1 - |y|) = 0 := max_eq_left (by linarith)
       rw [h3, h4]
       simp
-    · rw [if_neg (not_le.mpr h1), if_neg (not_le.mpr h2)]
+    · rw [if_neg h1, if_neg h2]
       have h3 : max 0 (2 - |y|) = 0 := max_eq_left (by linarith)
       have h4 : max 0 (1 - |y|) = 0 := max_eq_left (by linarith)
       rw [h3, h4]
@@ -89,20 +89,19 @@ theorem primeTerm_eq_finite_sum {A : ℝ} {d : ℝ} (hd : d ∈ Set.Ioo (-A) A) 
       ∑ n ∈ Finset.range (⌈Real.exp (A + 2)⌉₊ + 1),
         ArithmeticFunction.vonMangoldt n / Real.sqrt n *
           (triG (Real.log n + d) + triG (-Real.log n + d)) := by
-  have hA : 0 < A := by linarith [hd.1, hd.2]
   have hdA : |d| < A := abs_lt.mpr hd
   unfold primeTerm
   rw [tsum_eq_sum]
   intro n hn
-  rw [Finset.mem_range] at hn
-  push_neg at hn
+  have hn : ⌈Real.exp (A + 2)⌉₊ + 1 ≤ n :=
+    Nat.le_of_not_gt (fun h => hn (Finset.mem_range.mpr h))
   have hn1 : 1 ≤ n := by
     have : 0 < ⌈Real.exp (A + 2)⌉₊ + 1 := Nat.succ_pos _
     omega
   have hexp : Real.exp (A + 2) < (n : ℝ) := by
     have h2 : (⌈Real.exp (A + 2)⌉₊ + 1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn
     have h6 : Real.exp (A + 2) ≤ (⌈Real.exp (A + 2)⌉₊ : ℝ) := Nat.le_ceil _
-    push_cast at h2
+    rw [Nat.cast_add, Nat.cast_one] at h2
     linarith
   have hn0 : (0 : ℝ) < (n : ℝ) := by exact_mod_cast hn1
   have hlog : A + 2 < Real.log (n : ℝ) := (Real.lt_log_iff_exp_lt hn0).mpr hexp
@@ -134,12 +133,17 @@ theorem continuous_primeTerm : Continuous primeTerm := by
     apply eventually_of_mem (Ioo_mem_nhds hd₀.1 hd₀.2)
     intro d hd
     exact primeTerm_eq_finite_sum hd
-  apply hEq.continuousAt
-  apply continuous_finset_sum
-  intro n _
-  exact continuous_const.mul
-    ((continuous_triG.comp (continuous_const.add continuous_id)).add
-      (continuous_triG.comp (continuous_const.add continuous_id)))
+  have hF : ContinuousAt
+      (fun d => ∑ n ∈ Finset.range (⌈Real.exp (A + 2)⌉₊ + 1),
+        ArithmeticFunction.vonMangoldt n / Real.sqrt n *
+          (triG (Real.log n + d) + triG (-Real.log n + d))) d₀ := by
+    apply Continuous.continuousAt
+    apply continuous_finset_sum
+    intro n _
+    exact continuous_const.mul
+      ((continuous_triG.comp (continuous_const.add continuous_id)).add
+        (continuous_triG.comp (continuous_const.add continuous_id)))
+  exact hEq.continuousAt hF
 
 /-- The digamma factor of `archTerm`, as it appears in the definition. -/
 noncomputable def archFactor (t : ℝ) : ℝ :=
@@ -207,11 +211,9 @@ theorem continuous_archTerm (hC : ArchGammaFactorContinuous)
     have hc : ContinuousAt (fun d => Real.cos (t * d)) d₀ :=
       (Real.continuous_cos.comp (continuous_const.mul continuous_id)).continuousAt
     exact ((continuousAt_const (x := d₀)).mul hc).mul continuousAt_const
-  have h := tendsto_integral_of_dominated_convergence
-    (F := fun d t => bigPsi t ^ 2 * Real.cos (t * d) * archFactor t)
-    (f := fun t => bigPsi t ^ 2 * Real.cos (t * d₀) * archFactor t)
+  have h := tendsto_integral_filter_of_dominated_convergence
     (bound := fun t => bigPsi t ^ 2 * |archFactor t|)
-    (μ := volume.restrict (Set.Ioi 0)) (l := 𝓝 d₀)
+    (μ := volume.restrict (Set.Ioi 0))
     (Filter.Eventually.of_forall hmeas) (Filter.Eventually.of_forall hbound) hE hlim
   have harch : ContinuousAt (fun d => ∫ t in Set.Ioi (0 : ℝ),
       bigPsi t ^ 2 * Real.cos (t * d) * archFactor t) d₀ := h
