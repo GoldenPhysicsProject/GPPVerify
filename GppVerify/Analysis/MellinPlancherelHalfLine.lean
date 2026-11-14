@@ -28,6 +28,12 @@ inner product itself (and hence the physical meaning of the density), and the fo
 `SL(2, ℂ)` version are NOT formalized. Nothing here says that any particular complex number, such
 as a zero of the completed zeta function, is a point of this spectrum: that is the same question
 as `Re s = 1/2` for it. No claim about RH.
+
+**Home.** Moved from `RiemannHypothesis/` to the neutral `Analysis/` on 2026-11-14 (Claude Code,
+ruling for the Pasterski–Shao formalisation spec, File 5). The file imports only Mathlib and
+states nothing arithmetic, so physics files in `CelestialHolography/` may import it without
+crossing the anti-smuggling wall, which forbids any physics file from reaching
+`GppVerify/RiemannHypothesis/` directly or transitively (`scripts/check_pss_wall.py`).
 -/
 
 set_option autoImplicit false
