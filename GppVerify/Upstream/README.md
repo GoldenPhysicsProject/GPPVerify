@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Twenty-five files. Status
+`leanprover-community/mathlib4`. Twenty-six files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
