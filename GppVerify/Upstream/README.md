@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Twenty-five files. Status
+`leanprover-community/mathlib4`. Twenty-six files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -99,5 +99,13 @@ they are equally acceptable upstream.
   `0 ≤ ∫∫ conj (g x) g y φ (x - y)` for continuous `φ` and continuous `g` on an interval or
   with compact support. Steps 1–2 of the Bochner route in
   `GPP-bridge/work/claude-code/KREIN-BOCHNER-SCOPE-2026-11-14.md`. **Status: staged.**
+- `Bochner.lean`: **Bochner's theorem on `ℝ`.** A continuous positive-definite `φ : ℝ → ℂ` is
+  the characteristic function of a unique finite measure
+  (`Complex.IsPositiveDefinite.exists_measure_charFun_eq`,
+  `existsUnique_measure_charFun_eq`). Along the way: integral positivity for continuous
+  integrable `g`, nonnegativity of the Gaussian-damped Fourier transform of `φ`, and
+  `Real.integrable_fourier_of_nonneg` (a nonnegative Fourier transform of an integrable function
+  continuous at `0` is integrable, by Gaussian duality and monotone convergence). The limit uses
+  Mathlib's Lévy continuity theorem and Prokhorov compactness. **Status: staged.**
 
 Back to the [library README](../../README.md).
