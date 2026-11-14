@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Fourteen files. Status
+`leanprover-community/mathlib4`. Fifteen files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -61,15 +61,15 @@ they are equally acceptable upstream.
   for `0 < y < x`, the first term of `Real.hasSum_log_one_add_inv`. Used by
   `RiemannHypothesis/DigammaVerticalFloor.lean`. **Status: staged.**
 
-### Staging candidate, not yet moved: the digamma cluster
-
-Mathlib has `Complex.digamma` (`Analysis/SpecialFunctions/Gamma/Digamma.lean`) but not
-Gauss's series for it, and not a lower bound on vertical lines. The in-tree files
-`RiemannHypothesis/DigammaSeries.lean` and `DigammaGaussSeries.lean` (the series
-`ψ(s) = -γ - 1/s + Σ (1/(n+1) - 1/(n+1+s))`, proved for all `s` off the poles) and
-`DigammaVerticalFloor.lean` (the bound `Re ψ(a + i b) ≥ log b - (a + 1/4)/b²` for
-`a ≥ 0`, `b ≥ 1/2`) are Mathlib-only in content. They should move here together, renamed into
-`Complex` and stripped of GPP vocabulary; staging one without the others would leave a file
-that imports GPP code.
+- `DigammaGaussSeries.lean`: Gauss's series for the digamma function and a lower bound on
+  vertical lines. `Complex.hasSum_digamma` / `Complex.digamma_eq_tsum`:
+  `ψ(s) = -γ - 1/s + Σ_{n ≥ 0} (1/(n+1) - 1/(n+1+s))` for `s ∉ {0, -1, -2, …}` (Mathlib's
+  `Analysis/SpecialFunctions/Gamma/Digamma.lean` lists this under `TODO`).
+  `Real.tendsto_log_add_sub_sum_inv`: Gauss's limit on the positive reals, from the convexity of
+  `log ∘ Γ`. `Complex.log_sub_le_re_digamma`: `log b - (a + 1/4)/b² ≤ Re ψ(a + b i)` for
+  `0 ≤ a`, `1/2 ≤ b`. Self-contained, imports Mathlib and `LogSubLogBound.lean` only. It is a
+  Mathlib-ready copy of `RiemannHypothesis/DigammaSeries.lean`, `DigammaGaussLimit.lean`,
+  `DigammaGaussSeries.lean` and `DigammaVerticalFloor.lean`, which stay in place because other
+  modules import them. **Status: staged.**
 
 Back to the [library README](../../README.md).
