@@ -26,6 +26,8 @@ certificate.
 * `Complex.hasDerivAt_expTaylor_I`: the derivative of the degree-`d+1` Taylor polynomial of
   `exp (I t)` is `I` times the degree-`d` one.
 * `Complex.norm_exp_I_mul_sub_taylor_le`: `‖exp (I y) - Σ_{m<d} (I y)^m/m!‖ ≤ |y|^d / d!`.
+* `Complex.norm_integral_mul_exp_I_sub_moments_le`: `‖∫ f e^{irx} - Σ_{m<d} (ir)^m/m! ∫ f x^m‖ ≤
+  (|r| ℓ)^d / d! * ∫ ‖f‖` on `[-ℓ, ℓ]`, the transform by its moments.
 * `Complex.norm_integral_mul_exp_I_le_of_moments`: for `f` interval-integrable on `[-ℓ, ℓ]` with
   `∫ f x * x^k = 0` for all `k < d`, `‖∫ f x * exp (I r x)‖ ≤ (|r| ℓ)^d / d! * ∫ ‖f x‖`.
 -/
@@ -153,6 +155,59 @@ theorem norm_exp_I_mul_sub_taylor_le (d : ℕ) (y : ℝ) :
     rw [expRemI_neg, RCLike.norm_conj] at h
     rwa [abs_of_nonpos hy]
 
+/-- **The Fourier transform on a window, by moments.** For `f` interval-integrable on `[-ℓ, ℓ]`,
+`‖∫ f e^{irx} - Σ_{m<d} (ir)^m/m! ∫ f x^m‖ ≤ (|r| ℓ)^d / d! · ∫ ‖f‖`. -/
+theorem norm_integral_mul_exp_I_sub_moments_le {f : ℝ → ℂ} {ℓ : ℝ} (hℓ : 0 ≤ ℓ)
+    (hf : IntervalIntegrable f volume (-ℓ) ℓ) (d : ℕ) (r : ℝ) :
+    ‖(∫ x in (-ℓ)..ℓ, f x * exp (I * (r * x : ℝ))) -
+        ∑ m ∈ range d, (I * r) ^ m / (m.factorial : ℂ) * ∫ x in (-ℓ)..ℓ, f x * (x : ℂ) ^ m‖ ≤
+      (|r| * ℓ) ^ d / d.factorial * ∫ x in (-ℓ)..ℓ, ‖f x‖ := by
+  have hle : -ℓ ≤ ℓ := by linarith
+  have hmulc : ∀ g : ℝ → ℂ, Continuous g → IntervalIntegrable (fun x => f x * g x) volume (-ℓ) ℓ :=
+    fun g hg => hf.mul_continuousOn hg.continuousOn
+  have htaylor : ∫ x in (-ℓ)..ℓ, f x * expTaylorI d (r * x) =
+      ∑ m ∈ range d, (I * r) ^ m / (m.factorial : ℂ) * ∫ x in (-ℓ)..ℓ, f x * (x : ℂ) ^ m := by
+    unfold expTaylorI
+    simp_rw [mul_sum]
+    rw [intervalIntegral.integral_finsetSum]
+    · refine sum_congr rfl fun m _ => ?_
+      have : (fun x : ℝ => f x * ((I * ((r * x : ℝ) : ℂ)) ^ m / (m.factorial : ℂ))) =
+          fun x => ((I * r) ^ m / (m.factorial : ℂ)) * (f x * (x : ℂ) ^ m) := by
+        funext x; push_cast; ring
+      rw [this, intervalIntegral.integral_const_mul]
+    · intro m _
+      exact hmulc _ (by fun_prop)
+  have hsplit : (∫ x in (-ℓ)..ℓ, f x * exp (I * (r * x : ℝ))) -
+      ∑ m ∈ range d, (I * r) ^ m / (m.factorial : ℂ) * ∫ x in (-ℓ)..ℓ, f x * (x : ℂ) ^ m =
+      ∫ x in (-ℓ)..ℓ, f x * expRemI d (r * x) := by
+    have h1 := intervalIntegral.integral_add (hmulc (fun x => expRemI d (r * x))
+      ((continuous_expRemI d).comp (continuous_const.mul continuous_id)))
+      (hmulc (fun x => expTaylorI d (r * x))
+      ((continuous_expTaylorI d).comp (continuous_const.mul continuous_id)))
+    rw [htaylor] at h1
+    have e : (fun x => f x * expRemI d (r * x) + f x * expTaylorI d (r * x)) =
+        fun x => f x * exp (I * (r * x : ℝ)) := by
+      funext x; unfold expRemI; ring
+    rw [e] at h1
+    rw [h1]; ring
+  rw [hsplit]
+  have hg : IntervalIntegrable (fun x => (|r| * ℓ) ^ d / d.factorial * ‖f x‖) volume (-ℓ) ℓ :=
+    hf.norm.const_mul _
+  calc ‖∫ x in (-ℓ)..ℓ, f x * expRemI d (r * x)‖
+      ≤ ∫ x in (-ℓ)..ℓ, (|r| * ℓ) ^ d / d.factorial * ‖f x‖ := by
+        refine norm_integral_le_of_norm_le hle (Filter.Eventually.of_forall fun x hx => ?_) hg
+        rw [norm_mul, mul_comm]
+        refine mul_le_mul_of_nonneg_right ?_ (norm_nonneg _)
+        have hR : ‖expRemI d (r * x)‖ ≤ |r * x| ^ d / d.factorial :=
+          norm_exp_I_mul_sub_taylor_le d (r * x)
+        refine hR.trans ?_
+        have hx' : |x| ≤ ℓ := abs_le.mpr ⟨hx.1.le, hx.2⟩
+        gcongr
+        rw [abs_mul]
+        exact mul_le_mul_of_nonneg_left hx' (abs_nonneg r)
+    _ = (|r| * ℓ) ^ d / d.factorial * ∫ x in (-ℓ)..ℓ, ‖f x‖ := by
+        rw [intervalIntegral.integral_const_mul]
+
 /-- **Fourier transforms with vanishing moments.** If `f` is interval-integrable on `[-ℓ, ℓ]` and its
 moments `∫ f x * x^k` vanish for all `k < d`, then
 `‖∫_{-ℓ}^{ℓ} f x * exp (I r x)‖ ≤ (|r| ℓ)^d / d! * ∫_{-ℓ}^{ℓ} ‖f x‖`. -/
@@ -208,3 +263,4 @@ end Complex
 
 #print axioms Complex.norm_exp_I_mul_sub_taylor_le
 #print axioms Complex.norm_integral_mul_exp_I_le_of_moments
+#print axioms Complex.norm_integral_mul_exp_I_sub_moments_le
