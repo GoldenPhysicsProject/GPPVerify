@@ -2549,3 +2549,12 @@ import GppVerify.RiemannHypothesis.WindowEntries
 import GppVerify.RiemannHypothesis.WindowBasisL036
 import GppVerify.RiemannHypothesis.WindowPolyBasis
 import GppVerify.RiemannHypothesis.WindowMinorantL036
+import GppVerify.RiemannHypothesis.WindowBlockCheck0L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck1L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck2L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck3L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck4L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck5L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck6L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck7L036
+import GppVerify.RiemannHypothesis.WindowBlockDataL036
