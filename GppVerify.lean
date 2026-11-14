@@ -2524,3 +2524,5 @@ import GppVerify.RiemannHypothesis.RungZeroWide
 import GppVerify.Upstream.LogArctanBounds
 import GppVerify.Upstream.QuadraticFormLDL
 import GppVerify.Upstream.PositiveDefiniteFunction
+import GppVerify.Upstream.DigammaVerticalBounds
+import GppVerify.RiemannHypothesis.ArchEnvelope
