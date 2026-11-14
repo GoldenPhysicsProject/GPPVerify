@@ -2546,3 +2546,5 @@ import GppVerify.RiemannHypothesis.WindowBilinear
 import GppVerify.RiemannHypothesis.WindowTail
 import GppVerify.RiemannHypothesis.WindowAssembly
 import GppVerify.RiemannHypothesis.WindowEntries
+import GppVerify.RiemannHypothesis.WindowBasisL036
+import GppVerify.RiemannHypothesis.WindowPolyBasis
