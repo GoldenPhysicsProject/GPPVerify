@@ -118,4 +118,113 @@ theorem quasiMeasurePreserving_neg_log :
   simp_rw [hR]
   rw [lintegral_indicator hB, Measure.restrict_eq_zero.mpr hB0, lintegral_zero_measure]
 
+/-! ## The half-density substitution on functions -/
+
+/-- `(T f)(u) = e^{-u/2} f(e^{-u})`. -/
+noncomputable def T (f : ℝ → ℂ) (u : ℝ) : ℂ := (Real.exp (-u / 2) : ℂ) * f (Real.exp (-u))
+
+/-- `(S g)(x) = x^{-1/2} g(-log x)`, the inverse substitution. -/
+noncomputable def S (g : ℝ → ℂ) (x : ℝ) : ℂ := ((x ^ (-(1 / 2 : ℝ)) : ℝ) : ℂ) * g (-Real.log x)
+
+theorem T_add (f g : ℝ → ℂ) : T (f + g) = T f + T g := by
+  funext u; simp [T, mul_add]
+
+theorem T_smul (c : ℂ) (f : ℝ → ℂ) : T (c • f) = c • T f := by
+  funext u; simp [T]; ring
+
+theorem S_add (f g : ℝ → ℂ) : S (f + g) = S f + S g := by
+  funext x; simp [S, mul_add]
+
+theorem S_smul (c : ℂ) (f : ℝ → ℂ) : S (c • f) = c • S f := by
+  funext x; simp [S]; ring
+
+theorem T_S (g : ℝ → ℂ) : T (S g) = g := by
+  funext u
+  simp only [T, S]
+  rw [Real.log_exp, neg_neg, ← mul_assoc, ← Complex.ofReal_mul,
+    Real.rpow_def_of_pos (Real.exp_pos _), Real.log_exp, ← Real.exp_add]
+  have : -u / 2 + -u * -(1 / 2 : ℝ) = 0 := by ring
+  rw [this, Real.exp_zero, Complex.ofReal_one, one_mul]
+
+theorem S_T_of_pos (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x) : S (T f) x = f x := by
+  simp only [T, S]
+  rw [neg_neg, Real.exp_log hx, ← mul_assoc, ← Complex.ofReal_mul,
+    Real.rpow_def_of_pos hx]
+  have : Real.exp (Real.log x * -(1 / 2 : ℝ)) * Real.exp (Real.log x / 2) = 1 := by
+    rw [← Real.exp_add]
+    have : Real.log x * -(1 / 2 : ℝ) + Real.log x / 2 = 0 := by ring
+    rw [this, Real.exp_zero]
+  rw [this, Complex.ofReal_one, one_mul]
+
+theorem enorm_ofReal_of_nonneg {r : ℝ} (hr : 0 ≤ r) : ‖(r : ℂ)‖ₑ = ENNReal.ofReal r := by
+  rw [← ofReal_norm, Complex.norm_real, Real.norm_of_nonneg hr]
+
+theorem enorm_sq_T (f : ℝ → ℂ) (u : ℝ) :
+    ‖T f u‖ₑ ^ (2 : ℝ) = ENNReal.ofReal (Real.exp (-u)) * ‖f (Real.exp (-u))‖ₑ ^ (2 : ℝ) := by
+  simp only [T, enorm_mul, ENNReal.rpow_two, mul_pow]
+  congr 1
+  rw [enorm_ofReal_of_nonneg (Real.exp_pos _).le, ← ENNReal.ofReal_pow (Real.exp_pos _).le,
+    ← Real.exp_nat_mul]
+  congr 2
+  push_cast; ring
+
+theorem enorm_sq_S (g : ℝ → ℂ) (u : ℝ) :
+    ENNReal.ofReal (Real.exp (-u)) * ‖S g (Real.exp (-u))‖ₑ ^ (2 : ℝ) = ‖g u‖ₑ ^ (2 : ℝ) := by
+  simp only [S, enorm_mul, ENNReal.rpow_two, mul_pow]
+  rw [Real.log_exp, neg_neg, ← mul_assoc]
+  have hpos : 0 < Real.exp (-u) ^ (-(1 / 2 : ℝ)) := Real.rpow_pos_of_pos (Real.exp_pos _) _
+  rw [enorm_ofReal_of_nonneg hpos.le, ← ENNReal.ofReal_pow hpos.le,
+    ← ENNReal.ofReal_mul (Real.exp_pos _).le]
+  have : Real.exp (-u) * (Real.exp (-u) ^ (-(1 / 2 : ℝ))) ^ 2 = 1 := by
+    rw [Real.rpow_def_of_pos (Real.exp_pos _), Real.log_exp, ← Real.exp_nat_mul, ← Real.exp_add]
+    have : -u + ((2 : ℕ) : ℝ) * (-u * -(1 / 2 : ℝ)) = 0 := by push_cast; ring
+    rw [this, Real.exp_zero]
+  rw [this, ENNReal.ofReal_one, one_mul]
+
+theorem lintegral_T (f : ℝ → ℂ) :
+    ∫⁻ u, ‖T f u‖ₑ ^ (2 : ℝ) = ∫⁻ x in Ioi (0 : ℝ), ‖f x‖ₑ ^ (2 : ℝ) := by
+  rw [lintegral_halfLine]
+  exact lintegral_congr fun u => enorm_sq_T f u
+
+theorem lintegral_S (g : ℝ → ℂ) :
+    ∫⁻ x in Ioi (0 : ℝ), ‖S g x‖ₑ ^ (2 : ℝ) = ∫⁻ u, ‖g u‖ₑ ^ (2 : ℝ) := by
+  rw [lintegral_halfLine]
+  exact lintegral_congr fun u => enorm_sq_S g u
+
+theorem eLpNorm_T (f : ℝ → ℂ) : eLpNorm (T f) 2 volume = eLpNorm f 2 μHalf := by
+  rw [eLpNorm_eq_lintegral_rpow_enorm_toReal two_ne_zero ENNReal.ofNat_ne_top,
+    eLpNorm_eq_lintegral_rpow_enorm_toReal two_ne_zero ENNReal.ofNat_ne_top]
+  simp only [ENNReal.toReal_ofNat]
+  rw [lintegral_T]
+
+theorem eLpNorm_S (g : ℝ → ℂ) : eLpNorm (S g) 2 μHalf = eLpNorm g 2 volume := by
+  rw [eLpNorm_eq_lintegral_rpow_enorm_toReal two_ne_zero ENNReal.ofNat_ne_top,
+    eLpNorm_eq_lintegral_rpow_enorm_toReal two_ne_zero ENNReal.ofNat_ne_top]
+  simp only [ENNReal.toReal_ofNat]
+  rw [lintegral_S]
+
+theorem aestronglyMeasurable_T {f : ℝ → ℂ} (hf : AEStronglyMeasurable f μHalf) :
+    AEStronglyMeasurable (T f) volume := by
+  have h := hf.comp_quasiMeasurePreserving quasiMeasurePreserving_exp_neg
+  exact (Complex.continuous_ofReal.comp (by fun_prop : Continuous fun u : ℝ =>
+    Real.exp (-u / 2))).aestronglyMeasurable.mul h
+
+theorem aestronglyMeasurable_S {g : ℝ → ℂ} (hg : AEStronglyMeasurable g volume) :
+    AEStronglyMeasurable (S g) μHalf := by
+  have h := hg.comp_quasiMeasurePreserving quasiMeasurePreserving_neg_log
+  have hm : Measurable fun x : ℝ => ((x ^ (-(1 / 2 : ℝ)) : ℝ) : ℂ) := by fun_prop
+  exact hm.aestronglyMeasurable.mul h
+
+theorem T_ae_congr {f f' : ℝ → ℂ} (h : f =ᵐ[μHalf] f') : T f =ᵐ[volume] T f' := by
+  have h' := quasiMeasurePreserving_exp_neg.ae_eq h
+  filter_upwards [h'] with u hu
+  simp only [T, Function.comp_apply] at hu ⊢
+  rw [hu]
+
+theorem S_ae_congr {g g' : ℝ → ℂ} (h : g =ᵐ[volume] g') : S g =ᵐ[μHalf] S g' := by
+  have h' := quasiMeasurePreserving_neg_log.ae_eq h
+  filter_upwards [h'] with x hx
+  simp only [S, Function.comp_apply] at hx ⊢
+  rw [hx]
+
 end GppMellinPlancherelL2
