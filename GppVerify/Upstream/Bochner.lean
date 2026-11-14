@@ -248,3 +248,122 @@ theorem fourier_gaussian_mul_nonneg (hφ : IsPositiveDefinite φ) (hφc : Contin
 end IsPositiveDefinite
 
 end Complex
+
+namespace Real
+
+open Complex
+open scoped RealInnerProductSpace
+
+set_option backward.isDefEq.respectTransparency false in
+/-- Gaussian duality at the origin: for integrable `f` continuous at `0`,
+`∫ w, exp (-‖w‖² / c) • 𝓕 f w → f 0` as `c → ∞`. No integrability of `𝓕 f` is assumed. -/
+theorem tendsto_integral_cexp_sq_smul_fourier {f : ℝ → ℂ} (hf : Integrable f)
+    (h0 : ContinuousAt f 0) :
+    Tendsto (fun c : ℝ => ∫ w : ℝ, cexp (-c⁻¹ * ‖w‖ ^ 2) • 𝓕 f w) atTop (𝓝 (f 0)) := by
+  have B := Real.tendsto_integral_gaussian_smul' hf h0
+  apply B.congr'
+  filter_upwards [Ioi_mem_atTop 0] with c (hc : 0 < c)
+  have J : Integrable (fun w : ℝ ↦ cexp (- c⁻¹ * ‖w‖ ^ 2 + 2 * π * I * ⟪(0 : ℝ), w⟫)) :=
+    GaussianFourier.integrable_cexp_neg_mul_sq_norm_add (by simpa) _ _
+  have key := VectorFourier.integral_fourierIntegral_smul_eq_flip (L := innerₗ ℝ)
+    Real.continuous_fourierChar continuous_inner J hf
+  have hG : ∀ w : ℝ, VectorFourier.fourierIntegral 𝐞 volume (innerₗ ℝ)
+      (fun w : ℝ ↦ cexp (- c⁻¹ * ‖w‖ ^ 2 + 2 * π * I * ⟪(0 : ℝ), w⟫)) w =
+      (π * c : ℂ) ^ (Module.finrank ℝ ℝ / 2 : ℂ) * cexp (-π ^ 2 * c * ‖(0 : ℝ) - w‖ ^ 2) := by
+    intro w
+    have := fourier_gaussian_innerProductSpace' (b := (c⁻¹ : ℂ)) (by simpa using hc) (0 : ℝ) w
+    have e : VectorFourier.fourierIntegral 𝐞 volume (innerₗ ℝ)
+        (fun w : ℝ ↦ cexp (- c⁻¹ * ‖w‖ ^ 2 + 2 * π * I * ⟪(0 : ℝ), w⟫)) w =
+        FourierTransform.fourier
+          (fun v : ℝ => cexp (-(c : ℂ)⁻¹ * ‖v‖ ^ 2 + 2 * π * I * ⟪(0 : ℝ), v⟫)) w := by
+      push_cast; rfl
+    rw [e, this]
+    congr 1
+    · congr 1; field_simp
+    · congr 1; field_simp
+  simp_rw [hG] at key
+  rw [key]
+  congr 1
+  funext w
+  simp
+  rfl
+
+/-- `𝓕 f` is continuous for integrable `f`. -/
+theorem continuous_fourier_of_integrable {f : ℝ → ℂ} (hf : Integrable f) :
+    Continuous (𝓕 f) :=
+  VectorFourier.fourierIntegral_continuous Real.continuous_fourierChar continuous_inner hf
+
+/-- `‖𝓕 f w‖ ≤ ∫ ‖f‖`. -/
+theorem norm_fourier_le {f : ℝ → ℂ} (w : ℝ) : ‖𝓕 f w‖ ≤ ∫ v, ‖f v‖ :=
+  VectorFourier.norm_fourierIntegral_le_integral_norm 𝐞 volume (innerₗ ℝ) f w
+
+/-- **A nonnegative Fourier transform is integrable.** If `f` is integrable and continuous at
+`0`, and `𝓕 f` is real and nonnegative everywhere, then `𝓕 f` is integrable. -/
+theorem integrable_fourier_of_nonneg {f : ℝ → ℂ} (hf : Integrable f) (h0 : ContinuousAt f 0)
+    (hpos : ∀ ξ, 0 ≤ 𝓕 f ξ) : Integrable (𝓕 f) := by
+  set q : ℝ → ℝ := fun ξ => (𝓕 f ξ).re with hq_def
+  have hq : ∀ ξ, 𝓕 f ξ = (q ξ : ℂ) := fun ξ =>
+    Complex.ext (by simp [q]) (by simp [q, ((Complex.nonneg_iff.mp (hpos ξ)).2).symm])
+  have hq0 : ∀ ξ, 0 ≤ q ξ := fun ξ => (Complex.nonneg_iff.mp (hpos ξ)).1
+  have hqc : Continuous q := Complex.continuous_re.comp (continuous_fourier_of_integrable hf)
+  set M : ℝ := ∫ v, ‖f v‖
+  have hqM : ∀ ξ, ‖q ξ‖ ≤ M := fun ξ => by
+    rw [Real.norm_of_nonneg (hq0 ξ)]
+    calc q ξ ≤ ‖𝓕 f ξ‖ := by rw [hq ξ, Complex.norm_real, Real.norm_of_nonneg (hq0 ξ)]
+      _ ≤ M := norm_fourier_le ξ
+  -- the damped sequence
+  set g : ℕ → ℝ → ℝ := fun n ξ => q ξ * Real.exp (-((n : ℝ) + 1)⁻¹ * ξ ^ 2) with hg_def
+  have hgi : ∀ n, Integrable (g n) := fun n =>
+    (integrable_exp_neg_mul_sq (b := ((n : ℝ) + 1)⁻¹) (by positivity)).bdd_mul
+      hqc.aestronglyMeasurable (ae_of_all _ hqM)
+  have hg0 : ∀ n ξ, 0 ≤ g n ξ := fun n ξ => mul_nonneg (hq0 ξ) (Real.exp_pos _).le
+  -- the real limit of the damped integrals
+  have hT := (tendsto_integral_cexp_sq_smul_fourier hf h0).comp
+    (tendsto_natCast_atTop_atTop.atTop_add (tendsto_const_nhds (x := (1 : ℝ))))
+  have hTre : Tendsto (fun n : ℕ => ∫ ξ, g n ξ) atTop (𝓝 (f 0).re) := by
+    have := (Complex.continuous_re.tendsto _).comp hT
+    refine this.congr (fun n => ?_)
+    simp only [Function.comp_apply]
+    have e : (fun w : ℝ => cexp (-((((n : ℝ) + 1)⁻¹ : ℝ) : ℂ) * ‖w‖ ^ 2) • 𝓕 f w) =
+        fun w => ((g n w : ℝ) : ℂ) := by
+      funext w
+      have hw : ‖w‖ ^ 2 = w ^ 2 := by rw [Real.norm_eq_abs, sq_abs]
+      rw [hq w, smul_eq_mul, hg_def, ← Complex.ofReal_pow, hw]
+      simp only [Complex.ofReal_mul, Complex.ofReal_exp]
+      push_cast
+      ring
+    rw [e, integral_complex_ofReal, Complex.ofReal_re]
+  -- monotone convergence in the lower integral
+  have hlin : Tendsto (fun n : ℕ => ∫⁻ ξ, ENNReal.ofReal (g n ξ)) atTop
+      (𝓝 (∫⁻ ξ, ENNReal.ofReal (q ξ))) := by
+    refine lintegral_tendsto_of_tendsto_of_monotone
+      (fun n => (hgi n).aemeasurable.ennreal_ofReal)
+      (ae_of_all _ fun ξ => ?_) (ae_of_all _ fun ξ => ?_)
+    · intro m n hmn
+      refine ENNReal.ofReal_le_ofReal (mul_le_mul_of_nonneg_left ?_ (hq0 ξ))
+      refine Real.exp_le_exp.mpr ?_
+      have hm : ((m : ℝ) + 1)⁻¹ ≥ ((n : ℝ) + 1)⁻¹ := by
+        have : (m : ℝ) ≤ n := by exact_mod_cast hmn
+        gcongr
+      nlinarith [sq_nonneg ξ]
+    · refine ENNReal.tendsto_ofReal ?_
+      have hinv : Tendsto (fun n : ℕ => ((n : ℝ) + 1)⁻¹) atTop (𝓝 0) :=
+        tendsto_inv_atTop_zero.comp
+          (tendsto_natCast_atTop_atTop.atTop_add (tendsto_const_nhds (x := (1 : ℝ))))
+      have : Tendsto (fun n : ℕ => q ξ * Real.exp (-((n : ℝ) + 1)⁻¹ * ξ ^ 2)) atTop
+          (𝓝 (q ξ * Real.exp (-0 * ξ ^ 2))) :=
+        tendsto_const_nhds.mul ((Real.continuous_exp.tendsto _).comp
+          ((hinv.neg).mul_const _))
+      simpa [hg_def] using this
+  have hlin' : Tendsto (fun n : ℕ => ∫⁻ ξ, ENNReal.ofReal (g n ξ)) atTop
+      (𝓝 (ENNReal.ofReal (f 0).re)) := by
+    refine (ENNReal.tendsto_ofReal hTre).congr (fun n => ?_)
+    exact ofReal_integral_eq_lintegral_ofReal (hgi n) (ae_of_all _ (hg0 n))
+  have hfin : ∫⁻ ξ, ENNReal.ofReal (q ξ) < ⊤ := by
+    rw [tendsto_nhds_unique hlin hlin']
+    exact ENNReal.ofReal_lt_top
+  have hqi : Integrable q :=
+    ⟨hqc.aestronglyMeasurable, (hasFiniteIntegral_iff_ofReal (ae_of_all _ hq0)).mpr hfin⟩
+  exact hqi.ofReal.congr (ae_of_all _ fun ξ => (hq ξ).symm)
+
+end Real
