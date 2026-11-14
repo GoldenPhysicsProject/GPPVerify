@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Twenty-two files. Status
+`leanprover-community/mathlib4`. Twenty-four files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -82,5 +82,16 @@ they are equally acceptable upstream.
   Mathlib-ready copy of `RiemannHypothesis/DigammaSeries.lean`, `DigammaGaussLimit.lean`,
   `DigammaGaussSeries.lean` and `DigammaVerticalFloor.lean`, which stay in place because other
   modules import them. **Status: staged.**
+
+## Positive-definite functions (towards Bochner)
+
+- `PositiveDefiniteFunction.lean`: positive-definite functions `ℝ → ℂ`
+  (`Complex.IsPositiveDefinite`, stated with `ComplexOrder`, as Mathlib does for positive
+  semidefinite complex matrices): `0 ≤ φ 0`, `φ (-x) = conj (φ x)`, `‖φ x‖ ≤ φ 0`; closure
+  under sums, nonnegative scaling, conjugation and dilation; characteristic functions of finite
+  measures are positive definite, hence so is `exp (-t²/2)`; and integral positivity
+  `0 ≤ ∫∫ conj (g x) g y φ (x - y)` for continuous `φ` and continuous `g` on an interval or
+  with compact support. Steps 1–2 of the Bochner route in
+  `GPP-bridge/work/claude-code/KREIN-BOCHNER-SCOPE-2026-11-14.md`. **Status: staged.**
 
 Back to the [library README](../../README.md).
