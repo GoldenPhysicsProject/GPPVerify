@@ -2543,3 +2543,4 @@ import GppVerify.RiemannHypothesis.RungOneReductionTwo
 import GppVerify.RiemannHypothesis.WindowGramForm
 import GppVerify.Upstream.GramTailBound
 import GppVerify.RiemannHypothesis.WindowBilinear
+import GppVerify.RiemannHypothesis.WindowTail
