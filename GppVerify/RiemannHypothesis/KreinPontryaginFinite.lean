@@ -88,7 +88,6 @@ theorem pontryagin_finite {B : LinearMap.BilinForm ℝ V}
   · exact Or.inl h
   · push_neg at h
     obtain ⟨u₀, hu⟩ := h
-    rw [not_le] at hu
     refine Or.inr ⟨u₀, hu, fun x => ?_⟩
     have hq : B u₀ u₀ ≠ 0 := ne_of_lt hu
     set t : ℝ := B x u₀ / B u₀ u₀ with ht_def
