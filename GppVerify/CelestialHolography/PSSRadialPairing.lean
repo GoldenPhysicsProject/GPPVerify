@@ -270,4 +270,103 @@ theorem tendsto_smeared_radialTrunc {ψ : ℝ → ℂ} (hc : Continuous ψ) (hi 
   filter_upwards [eventually_ge_atTop 1] with R hR
   exact (hstep R hR).symm
 
+/-! ## The reduction (4.7): plane-wave packets -/
+
+/-- A superposition of the massless plane waves `e^{iω q(w̃)·X}` (File 1's `planeWave` at
+`σ = 1`, `ε = 0`) with profile `F(ω, w̃)`. -/
+noncomputable def wavePacket {d : ℕ} (F : ℝ → (Fin d → ℝ) → ℂ) (X : Spacetime d) : ℂ :=
+  ∫ ω in Ioi (0 : ℝ), ∫ w, F ω w * cexp (I * ω * mink (nullVec w) X)
+
+/-- **Named obligation (OPEN, not asserted): the plane-wave Plancherel identity behind (4.7).**
+For smooth profiles `F, G` with compact support inside `{ω > 0}`, the Klein–Gordon pairing (3.6)
+of the two packets, on any slice, is
+
+  `(2π)^{d+1} · 2^{1−d} · ∫_{ω>0} ∫ ω^{1−d} F(ω, w̃) conj G(ω, w̃) dw̃ dω`.
+
+Derivation, for the record. On a slice the packet is a spatial Fourier integral in
+`k⃗ = ω q⃗(w̃)` with energy `E = ω(1 + |w̃|²)`. The pairing gives `(E₁ + E₂)(2π)^{d+1} δ(k⃗₁ − k⃗₂)`.
+The Jacobian of `(ω, w̃) ↦ k⃗` is `2^d ω^d (1 + |w̃|²)` (checked by hand at `d = 1`:
+`|det| = 2ω(1 + w²)`), which leaves `2^{1−d} ω^{1−d}`. Proving it needs Fourier inversion in
+`d + 1` variables and this change of variables. -/
+def PSSPacketPlancherel (d : ℕ) : Prop :=
+  ∀ F G : ℝ → (Fin d → ℝ) → ℂ,
+    ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Function.uncurry F) → ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Function.uncurry G) →
+    HasCompactSupport (Function.uncurry F) → HasCompactSupport (Function.uncurry G) →
+    tsupport (Function.uncurry F) ⊆ Ioi 0 ×ˢ univ →
+    tsupport (Function.uncurry G) ⊆ Ioi 0 ×ˢ univ →
+    ∀ t : ℝ, kgPairing t (wavePacket F) (wavePacket G) =
+      (2 * Real.pi) ^ (d + 1) * (2 / 2 ^ d) *
+        ∫ ω in Ioi (0 : ℝ), ∫ w, (ω : ℂ) ^ (1 - (d : ℂ)) * (F ω w * starRingEnd ℂ (G ω w))
+
+/-- For `ω > 0`, `conj (ω^z) = ω^{conj z}`. -/
+theorem conj_ofReal_cpow {ω : ℝ} (hω : 0 < ω) (z : ℂ) :
+    starRingEnd ℂ ((ω : ℂ) ^ z) = (ω : ℂ) ^ (starRingEnd ℂ z) := by
+  have harg : (ω : ℂ).arg ≠ Real.pi := by
+    rw [arg_ofReal_of_nonneg hω.le]; exact Real.pi_ne_zero.symm
+  have h := conj_cpow (ω : ℂ) (starRingEnd ℂ z) harg
+  rw [conj_ofReal, conj_conj] at h
+  exact h.symm
+
+/-- **The radial weight of (4.7).** For `ω > 0` and `Δ_j = c + iν_j`,
+`ω^{1−d} · ω^{Δ₁−1} · conj(ω^{Δ₂−1}) = ω^{2c − d + i(ν₁ − ν₂) − 1}`. -/
+theorem radial_weight {ω : ℝ} (hω : 0 < ω) (d : ℕ) (c ν₁ ν₂ : ℝ) :
+    (ω : ℂ) ^ (1 - (d : ℂ)) * ((ω : ℂ) ^ ((c : ℂ) + ν₁ * I - 1) *
+      starRingEnd ℂ ((ω : ℂ) ^ ((c : ℂ) + ν₂ * I - 1))) =
+      (ω : ℂ) ^ (((2 * c - d : ℝ) : ℂ) + (ν₁ - ν₂ : ℝ) * I - 1) := by
+  have hω0 : (ω : ℂ) ≠ 0 := by exact_mod_cast hω.ne'
+  rw [conj_ofReal_cpow hω, ← cpow_add _ _ hω0, ← cpow_add _ _ hω0]
+  congr 1
+  apply Complex.ext <;> simp <;> ring
+
+/-- **The reduction (4.7), conditional on `PSSPacketPlancherel`.** Take Mellin-weighted packets
+`F_j(ω, w̃) = a_j(ω) f_j(w̃)` with `a_j(ω) = χ_j(ω) ω^{Δ_j − 1}` on `ω > 0`, `Δ_j = c + iν_j`,
+and the regularity the obligation asks for. Then the pairing is the angular overlap times the
+windowed radial integral with exponent `2c − d + i(ν₁ − ν₂) − 1`:
+
+  `(2π)^{d+1} 2^{1−d} ⟨f₁, f₂⟩ ∫_{ω>0} χ₁ conj χ₂ ω^{2c − d + i(ν₁−ν₂) − 1} dω`.
+
+The window `χ₁ conj χ₂` replaces the sharp cut-off `[1/R, R]` of `radialTrunc`. -/
+theorem kgPairing_mellinPacket {d : ℕ} (hP : PSSPacketPlancherel d)
+    {a₁ a₂ χ₁ χ₂ : ℝ → ℂ} {f₁ f₂ : (Fin d → ℝ) → ℂ} (c ν₁ ν₂ : ℝ)
+    (hs₁ : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Function.uncurry fun ω w => a₁ ω * f₁ w))
+    (hs₂ : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Function.uncurry fun ω w => a₂ ω * f₂ w))
+    (hc₁ : HasCompactSupport (Function.uncurry fun ω w => a₁ ω * f₁ w))
+    (hc₂ : HasCompactSupport (Function.uncurry fun ω w => a₂ ω * f₂ w))
+    (ht₁ : tsupport (Function.uncurry fun ω w => a₁ ω * f₁ w) ⊆ Ioi 0 ×ˢ univ)
+    (ht₂ : tsupport (Function.uncurry fun ω w => a₂ ω * f₂ w) ⊆ Ioi 0 ×ˢ univ)
+    (ha₁ : ∀ ω : ℝ, 0 < ω → a₁ ω = χ₁ ω * (ω : ℂ) ^ ((c : ℂ) + ν₁ * I - 1))
+    (ha₂ : ∀ ω : ℝ, 0 < ω → a₂ ω = χ₂ ω * (ω : ℂ) ^ ((c : ℂ) + ν₂ * I - 1)) (t : ℝ) :
+    kgPairing t (wavePacket fun ω w => a₁ ω * f₁ w) (wavePacket fun ω w => a₂ ω * f₂ w) =
+      (2 * Real.pi) ^ (d + 1) * (2 / 2 ^ d) * (∫ w, f₁ w * starRingEnd ℂ (f₂ w)) *
+        ∫ ω in Ioi (0 : ℝ), χ₁ ω * starRingEnd ℂ (χ₂ ω) *
+          (ω : ℂ) ^ (((2 * c - d : ℝ) : ℂ) + (ν₁ - ν₂ : ℝ) * I - 1) := by
+  rw [hP _ _ hs₁ hs₂ hc₁ hc₂ ht₁ ht₂ t]
+  have hinner : ∀ ω : ℝ, (∫ w, (ω : ℂ) ^ (1 - (d : ℂ)) *
+      (a₁ ω * f₁ w * starRingEnd ℂ (a₂ ω * f₂ w))) =
+      ((ω : ℂ) ^ (1 - (d : ℂ)) * (a₁ ω * starRingEnd ℂ (a₂ ω))) *
+        ∫ w, f₁ w * starRingEnd ℂ (f₂ w) := by
+    intro ω
+    rw [← integral_const_mul]
+    congr 1; funext w; rw [map_mul]; ring
+  simp_rw [hinner]
+  rw [integral_mul_const]
+  have hrad : ∫ ω in Ioi (0 : ℝ), (ω : ℂ) ^ (1 - (d : ℂ)) * (a₁ ω * starRingEnd ℂ (a₂ ω)) =
+      ∫ ω in Ioi (0 : ℝ), χ₁ ω * starRingEnd ℂ (χ₂ ω) *
+        (ω : ℂ) ^ (((2 * c - d : ℝ) : ℂ) + (ν₁ - ν₂ : ℝ) * I - 1) := by
+    refine setIntegral_congr_fun measurableSet_Ioi (fun ω hω => ?_)
+    have hω' : (0 : ℝ) < ω := hω
+    rw [ha₁ ω hω', ha₂ ω hω', ← radial_weight hω' d c ν₁ ν₂, map_mul]
+    ring
+  rw [hrad]
+  ring
+
 end GppPSSRadialPairing
+
+#print axioms GppPSSRadialPairing.radialTrunc_eq
+#print axioms GppPSSRadialPairing.not_integrableOn_radial
+#print axioms GppPSSRadialPairing.radial_not_integrable
+#print axioms GppPSSRadialPairing.offDiagonalBounded_iff
+#print axioms GppPSSRadialPairing.radial_offDiagonalBounded_iff
+#print axioms GppPSSRadialPairing.tendsto_smeared_radialTrunc
+#print axioms GppPSSRadialPairing.radial_weight
+#print axioms GppPSSRadialPairing.kgPairing_mellinPacket
