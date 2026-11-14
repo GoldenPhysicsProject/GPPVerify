@@ -151,19 +151,19 @@ theorem tail_cond :
     have h2 : 8 * 25 * S ^ 2 / Real.pi ≤ 8 * 25 * (1 / 10 ^ 9) / 3 := by
       rw [div_le_div_iff₀ (by linarith) (by norm_num)]; nlinarith
     nlinarith
-  have hlam : ((lamPrimeQ : ℚ) : ℝ) ≥ 27 / 10 ^ 5 := by
-    have h : (27 / 10 ^ 5 : ℚ) ≤ lamPrimeQ := by
+  have hlam : ((lamPrimeQ : ℚ) : ℝ) ≥ 23 / 10 ^ 5 := by
+    have h : (23 / 10 ^ 5 : ℚ) ≤ lamPrimeQ := by
       unfold lamPrimeQ lamQ resQ ellQ; norm_num
     have := (Rat.cast_le (K := ℝ)).mpr h
     push_cast at this
     linarith
   have hfin : 32 * (2 * (9 / 25) * (2 * 3 * ((9 / 50 : ℝ) ^ 32 * 3) + 8 * 25 * (2 / 10 ^ 5) / 3)) ^ 2 ≤
-      27 / 10 ^ 5 * (36 / 100 - 2 * (9 / 25) * (2 * ((9 / 50 : ℝ) ^ 32 * 3) ^ 2 +
+      23 / 10 ^ 5 * (36 / 100 - 2 * (9 / 25) * (2 * ((9 / 50 : ℝ) ^ 32 * 3) ^ 2 +
         8 * 25 * (1 / 10 ^ 9) / 3)) := by norm_num
   have hmu0 : 0 ≤ 36 / 100 - 2 * (9 / 25) * (2 * ((9 / 50 : ℝ) ^ 32 * 3) ^ 2 +
       8 * 25 * (1 / 10 ^ 9) / 3) := by norm_num
   calc _ ≤ 32 * (2 * (9 / 25) * (2 * 3 * ((9 / 50) ^ 32 * 3) + 8 * 25 * (2 / 10 ^ 5) / 3)) ^ 2 := hL
-    _ ≤ 27 / 10 ^ 5 * (36 / 100 - 2 * (9 / 25) * (2 * ((9 / 50 : ℝ) ^ 32 * 3) ^ 2 +
+    _ ≤ 23 / 10 ^ 5 * (36 / 100 - 2 * (9 / 25) * (2 * ((9 / 50 : ℝ) ^ 32 * 3) ^ 2 +
           8 * 25 * (1 / 10 ^ 9) / 3)) := hfin
     _ ≤ _ := mul_le_mul hlam hmu_lo hmu0 (by linarith)
 
