@@ -6,6 +6,9 @@ Authors: Daniel Toupin
 import GppVerify.Upstream.PositiveDefiniteFunction
 import Mathlib.Analysis.Fourier.Inversion
 import Mathlib.MeasureTheory.Integral.IntegralEqImproper
+import Mathlib.MeasureTheory.Measure.LevyConvergence
+import Mathlib.MeasureTheory.Measure.Prokhorov
+import Mathlib.MeasureTheory.Measure.LevyProkhorovMetric
 
 /-!
 # Bochner's theorem on `ℝ`
@@ -423,6 +426,104 @@ theorem exists_measure_charFun_damped (hφ : IsPositiveDefinite φ) (hφc : Cont
   simp only [RCLike.inner_apply, conj_trivial]
   push_cast
   field_simp
+
+/-- For continuous positive-definite `φ` and `b > 0` there is a finite measure whose
+characteristic function is `t ↦ exp (-b t²) φ t`. -/
+theorem exists_measure_charFun_gaussian (hφ : IsPositiveDefinite φ) (hφc : Continuous φ)
+    {b : ℝ} (hb : 0 < b) :
+    ∃ μ : Measure ℝ, IsFiniteMeasure μ ∧ ∀ t : ℝ,
+      charFun μ t = cexp (-(b : ℂ) * (t : ℂ) ^ 2) * φ t := by
+  have hπ : (π : ℝ) ≠ 0 := Real.pi_ne_zero
+  obtain ⟨μ, hμ, hchar⟩ := (hφ.comp_mul (2 * π)).exists_measure_charFun_damped
+    (by fun_prop) (a := b * (2 * π) ^ 2) (by positivity)
+  refine ⟨μ, hμ, fun t => ?_⟩
+  rw [hchar t]
+  have e : 2 * π * (t / (2 * π)) = t := by field_simp
+  rw [e]
+  congr 2
+  push_cast
+  field_simp
+
+/-- **Bochner's theorem.** A continuous positive-definite function `φ : ℝ → ℂ` is the
+characteristic function of a finite measure on `ℝ`. -/
+theorem exists_measure_charFun_eq (hφ : IsPositiveDefinite φ) (hφc : Continuous φ) :
+    ∃ μ : Measure ℝ, IsFiniteMeasure μ ∧ ∀ t : ℝ, charFun μ t = φ t := by
+  by_cases h0 : (φ 0).re = 0
+  · refine ⟨0, inferInstance, fun t => ?_⟩
+    have h := hφ.norm_le t
+    rw [h0] at h
+    rw [charFun_zero_measure, norm_le_zero_iff.mp h]
+  set r : ℝ := (φ 0).re with hr
+  have hr0 : 0 < r := lt_of_le_of_ne hφ.re_zero_nonneg (Ne.symm h0)
+  have hφ0 : φ 0 = (r : ℂ) := Complex.ext (by simp [r]) (by simp [hφ.im_zero])
+  choose μ hμf hμ using fun n : ℕ =>
+    hφ.exists_measure_charFun_gaussian hφc (b := ((n : ℝ) + 1)⁻¹) (by positivity)
+  set ν : ℕ → Measure ℝ := fun n => ENNReal.ofReal r⁻¹ • μ n with hν
+  have hνf : ∀ n, IsFiniteMeasure (ν n) := fun n =>
+    ⟨by
+      simp only [hν, Measure.smul_apply, smul_eq_mul]
+      exact ENNReal.mul_lt_top ENNReal.ofReal_lt_top (measure_lt_top _ _)⟩
+  have hνchar : ∀ n t, charFun (ν n) t =
+      ((r⁻¹ : ℝ) : ℂ) * (cexp (-(((n : ℝ) + 1)⁻¹ : ℝ) * (t : ℂ) ^ 2) * φ t) := by
+    intro n t
+    rw [charFun_smul_measure, ENNReal.toReal_ofReal (inv_nonneg.mpr hr0.le), hμ n t]
+  have hνprob : ∀ n, IsProbabilityMeasure (ν n) := by
+    intro n
+    have h := charFun_zero (μ := ν n)
+    rw [hνchar n 0, hφ0] at h
+    simp only [Complex.ofReal_zero, ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, zero_pow,
+      mul_zero, Complex.exp_zero, one_mul] at h
+    have h' : (ν n).real univ = 1 := by
+      have : ((r⁻¹ : ℝ) : ℂ) * (r : ℂ) = 1 := by
+        rw [← Complex.ofReal_mul, inv_mul_cancel₀ hr0.ne', Complex.ofReal_one]
+      rw [this] at h
+      exact_mod_cast h.symm
+    constructor
+    rw [measureReal_def, ENNReal.toReal_eq_one_iff] at h'
+    exact h'
+  -- the limit of the characteristic functions
+  set F : ℝ → ℂ := fun t => ((r⁻¹ : ℝ) : ℂ) * φ t with hF
+  have hFc : ContinuousAt F 0 := by simp only [hF]; fun_prop
+  have hconv : ∀ t, Tendsto (fun n => charFun (ν n) t) atTop (𝓝 (F t)) := by
+    intro t
+    have hinv : Tendsto (fun n : ℕ => ((n : ℝ) + 1)⁻¹) atTop (𝓝 0) :=
+      tendsto_inv_atTop_zero.comp
+        (tendsto_natCast_atTop_atTop.atTop_add (tendsto_const_nhds (x := (1 : ℝ))))
+    have hexp : Tendsto (fun n : ℕ => cexp (-(((n : ℝ) + 1)⁻¹ : ℝ) * (t : ℂ) ^ 2)) atTop
+        (𝓝 (cexp (-((0 : ℝ) : ℂ) * (t : ℂ) ^ 2))) :=
+      (Complex.continuous_exp.tendsto _).comp
+        (((Complex.continuous_ofReal.tendsto _).comp hinv).neg.mul_const _)
+    have := (tendsto_const_nhds (x := ((r⁻¹ : ℝ) : ℂ))).mul (hexp.mul_const (φ t))
+    simp only [Complex.ofReal_zero, neg_zero, zero_mul, Complex.exp_zero, one_mul] at this
+    refine this.congr (fun n => ?_)
+    rw [hνchar n t]
+  have htight : IsTightMeasureSet (range ν) :=
+    isTightMeasureSet_of_tendsto_charFun (μ := ν) hFc hconv
+  -- Prokhorov
+  let P : ℕ → ProbabilityMeasure ℝ := fun n => ⟨ν n, hνprob n⟩
+  have hcomp : IsCompact (closure (range P)) := by
+    refine isCompact_closure_of_isTightMeasureSet (S := range P) ?_
+    convert htight using 1
+    ext m
+    constructor
+    · rintro ⟨_, ⟨n, rfl⟩, rfl⟩
+      exact ⟨n, rfl⟩
+    · rintro ⟨n, rfl⟩
+      exact ⟨P n, ⟨n, rfl⟩, rfl⟩
+  obtain ⟨Q, -, σ, hσ, hlim⟩ :=
+    hcomp.tendsto_subseq (x := P) (fun n => subset_closure (mem_range_self n))
+  have hQ : ∀ t, charFun (Q : Measure ℝ) t = F t := by
+    intro t
+    have h1 := (ProbabilityMeasure.tendsto_iff_tendsto_charFun.mp hlim) t
+    have h2 := (hconv t).comp hσ.tendsto_atTop
+    exact tendsto_nhds_unique h1 h2
+  refine ⟨ENNReal.ofReal r • (Q : Measure ℝ),
+    ⟨by
+      simp only [Measure.smul_apply, smul_eq_mul]
+      exact ENNReal.mul_lt_top ENNReal.ofReal_lt_top (measure_lt_top _ _)⟩, fun t => ?_⟩
+  rw [charFun_smul_measure, ENNReal.toReal_ofReal hr0.le, hQ t, hF]
+  simp only
+  rw [← mul_assoc, ← Complex.ofReal_mul, mul_inv_cancel₀ hr0.ne', Complex.ofReal_one, one_mul]
 
 end IsPositiveDefinite
 
