@@ -227,4 +227,137 @@ theorem S_ae_congr {g g' : ℝ → ℂ} (h : g =ᵐ[volume] g') : S g =ᵐ[μHal
   simp only [S, Function.comp_apply] at hx ⊢
   rw [hx]
 
+/-! ## The `L²` unitary -/
+
+theorem memLp_T (f : Lp ℂ 2 μHalf) : MemLp (T f) 2 volume :=
+  ⟨aestronglyMeasurable_T (Lp.aestronglyMeasurable f), by rw [eLpNorm_T]; exact Lp.eLpNorm_lt_top f⟩
+
+theorem memLp_S (g : Lp ℂ 2 (volume : Measure ℝ)) : MemLp (S g) 2 μHalf :=
+  ⟨aestronglyMeasurable_S (Lp.aestronglyMeasurable g), by rw [eLpNorm_S]; exact Lp.eLpNorm_lt_top g⟩
+
+/-- `T` as a linear isometry `L²((0,∞), dx) → L²(ℝ, du)`. -/
+noncomputable def Tli : Lp ℂ 2 μHalf →ₗᵢ[ℂ] Lp ℂ 2 (volume : Measure ℝ) where
+  toFun f := (memLp_T f).toLp (T f)
+  map_add' f g := by
+    rw [← MemLp.toLp_add]
+    refine MemLp.toLp_congr _ _ ?_
+    have h := T_ae_congr (Lp.coeFn_add f g)
+    rwa [T_add] at h
+  map_smul' c f := by
+    rw [RingHom.id_apply, ← MemLp.toLp_const_smul]
+    refine MemLp.toLp_congr _ _ ?_
+    have h := T_ae_congr (Lp.coeFn_smul c f)
+    rwa [T_smul] at h
+  norm_map' f := by
+    show ‖(memLp_T f).toLp (T f)‖ = ‖f‖
+    rw [Lp.norm_toLp, eLpNorm_T, Lp.norm_def]
+
+/-- `S` as a linear isometry `L²(ℝ, du) → L²((0,∞), dx)`. -/
+noncomputable def Sli : Lp ℂ 2 (volume : Measure ℝ) →ₗᵢ[ℂ] Lp ℂ 2 μHalf where
+  toFun g := (memLp_S g).toLp (S g)
+  map_add' f g := by
+    rw [← MemLp.toLp_add]
+    refine MemLp.toLp_congr _ _ ?_
+    have h := S_ae_congr (Lp.coeFn_add f g)
+    rwa [S_add] at h
+  map_smul' c f := by
+    rw [RingHom.id_apply, ← MemLp.toLp_const_smul]
+    refine MemLp.toLp_congr _ _ ?_
+    have h := S_ae_congr (Lp.coeFn_smul c f)
+    rwa [S_smul] at h
+  norm_map' g := by
+    show ‖(memLp_S g).toLp (S g)‖ = ‖g‖
+    rw [Lp.norm_toLp, eLpNorm_S, Lp.norm_def]
+
+theorem Tli_Sli (g : Lp ℂ 2 (volume : Measure ℝ)) : Tli (Sli g) = g := by
+  have h1 : (Tli (Sli g) : ℝ → ℂ) =ᵐ[volume] T (Sli g) := MemLp.coeFn_toLp (memLp_T (Sli g))
+  have h2 : (Sli g : ℝ → ℂ) =ᵐ[μHalf] S g := MemLp.coeFn_toLp (memLp_S g)
+  have h3 := T_ae_congr h2
+  rw [T_S] at h3
+  exact Lp.ext (h1.trans h3)
+
+theorem Sli_Tli (f : Lp ℂ 2 μHalf) : Sli (Tli f) = f := by
+  have h1 : (Sli (Tli f) : ℝ → ℂ) =ᵐ[μHalf] S (Tli f) := MemLp.coeFn_toLp (memLp_S (Tli f))
+  have h2 : (Tli f : ℝ → ℂ) =ᵐ[volume] T f := MemLp.coeFn_toLp (memLp_T f)
+  have h3 := S_ae_congr h2
+  have h4 : S (T f) =ᵐ[μHalf] f := by
+    rw [Filter.EventuallyEq, ae_restrict_iff' measurableSet_Ioi]
+    exact Filter.Eventually.of_forall fun x hx => S_T_of_pos f hx
+  exact Lp.ext (h1.trans (h3.trans h4))
+
+/-- **The half-density substitution is unitary.** `L²((0,∞), dx) ≃ₗᵢ L²(ℝ, du)`,
+`f ↦ (u ↦ e^{-u/2} f(e^{-u}))`. -/
+noncomputable def halfLineEquiv : Lp ℂ 2 μHalf ≃ₗᵢ[ℂ] Lp ℂ 2 (volume : Measure ℝ) :=
+  LinearIsometryEquiv.ofSurjective Tli fun g => ⟨Sli g, Tli_Sli g⟩
+
+/-- **The principal-line Mellin transform on `L²`.** `L²((0,∞), dx) ≃ₗᵢ L²(ℝ)`, the composite of the
+half-density substitution and the `L²` Fourier transform. -/
+noncomputable def mellinL2 : Lp ℂ 2 μHalf ≃ₗᵢ[ℂ] Lp ℂ 2 (volume : Measure ℝ) :=
+  halfLineEquiv.trans (Lp.fourierTransformₗᵢ ℝ ℂ)
+
+/-- **Plancherel on `L²`.** -/
+theorem mellinL2_norm (f : Lp ℂ 2 μHalf) : ‖mellinL2 f‖ = ‖f‖ := mellinL2.norm_map f
+
+/-- **Completeness.** Every `L²` function of the principal-line variable is the Mellin transform of
+an `L²` function on `(0, ∞)`: the principal series spans. -/
+theorem mellinL2_surjective : Function.Surjective mellinL2 := mellinL2.surjective
+
+/-- **`mellinL2` is the Mellin transform on the principal line.** If `f ∈ L²((0,∞))` and
+`u ↦ e^{-u/2} f(e^{-u})` is a Schwartz function `g`, then `mellinL2 f` is the class of
+`ξ ↦ 𝓜f(1/2 + 2πiξ)`. -/
+theorem mellinL2_apply {f : ℝ → ℂ} (hf : MemLp f 2 μHalf) (g : 𝓢(ℝ, ℂ))
+    (hg : ∀ u, T f u = g u) :
+    (mellinL2 (hf.toLp f) : ℝ → ℂ) =ᵐ[volume]
+      fun ξ : ℝ => mellin f ((1 / 2 : ℂ) + ((2 * π * ξ : ℝ) : ℂ) * Complex.I) := by
+  have hT : halfLineEquiv (hf.toLp f) = g.toLp 2 := by
+    have h1 : (halfLineEquiv (hf.toLp f) : ℝ → ℂ) =ᵐ[volume] T (hf.toLp f) :=
+      MemLp.coeFn_toLp (memLp_T (hf.toLp f))
+    have h2 := T_ae_congr (MemLp.coeFn_toLp hf)
+    have h3a : T f =ᵐ[volume] (g : ℝ → ℂ) := Filter.Eventually.of_forall hg
+    have h3 : T f =ᵐ[volume] (g.toLp 2 : ℝ → ℂ) :=
+      h3a.trans (SchwartzMap.coeFn_toLp g 2 volume).symm
+    exact Lp.ext (h1.trans (h2.trans h3))
+  have hF : mellinL2 (hf.toLp f) = (𝓕 g).toLp 2 := by
+    show Lp.fourierTransformₗᵢ ℝ ℂ (halfLineEquiv (hf.toLp f)) = _
+    rw [hT]
+    exact SchwartzMap.toLp_fourier_eq g
+  rw [hF]
+  refine (SchwartzMap.coeFn_toLp (𝓕 g) 2 volume).trans (Filter.Eventually.of_forall fun ξ => ?_)
+  have hfun : (fun u : ℝ => Real.exp (-((1 / 2 : ℂ) + ((2 * π * ξ : ℝ) : ℂ) * Complex.I).re * u) •
+      f (Real.exp (-u))) = (g : ℝ → ℂ) := by
+    funext u
+    rw [← hg u]
+    simp only [T, Complex.add_re, Complex.mul_re, Complex.ofReal_re, Complex.I_re,
+      Complex.ofReal_im, Complex.I_im, mul_zero, zero_mul, sub_zero, add_zero, Complex.real_smul]
+    congr 2
+    norm_num
+    ring
+  show (𝓕 g) ξ = mellin f ((1 / 2 : ℂ) + ((2 * π * ξ : ℝ) : ℂ) * Complex.I)
+  rw [mellin_eq_fourier, hfun]
+  simp only [Complex.add_im, Complex.mul_im, Complex.ofReal_re, Complex.I_re, Complex.ofReal_im,
+    Complex.I_im, mul_zero, mul_one]
+  have harg : ((1 / 2 : ℂ).im + (2 * π * ξ + 0)) / (2 * π) = ξ := by
+    have hpi : (2 * π : ℝ) ≠ 0 := by positivity
+    rw [show (1 / 2 : ℂ).im = 0 by norm_num, zero_add, add_zero]
+    field_simp
+  rw [harg, SchwartzMap.fourier_coe]
+
+/-! ## Inversion and the zero-energy mode -/
+
+/-- **Mellin inversion on the principal line** `Re s = 1/2`: the inverse-Mellin expansion
+(Pasterski–Shao (4.6), boundary dimension one). -/
+theorem mellinInv_mellin_half (f : ℝ → ℂ) {x : ℝ} (hx : 0 < x)
+    (hf : MellinConvergent f ((1 / 2 : ℝ) : ℂ))
+    (hFf : Complex.VerticalIntegrable (mellin f) (1 / 2)) (hfx : ContinuousAt f x) :
+    mellinInv (1 / 2) (mellin f) x = f x :=
+  mellinInv_mellin_eq (1 / 2) f hx hf hFf hfx
+
+/-- **The zero-energy mode is not spanned.** A nonzero constant on `(0, ∞)` is not in `L²`. -/
+theorem not_memLp_const_halfLine {c : ℂ} (hc : c ≠ 0) : ¬ MemLp (fun _ : ℝ => c) 2 μHalf := by
+  rw [memLp_const_iff_enorm enorm_ne_top two_ne_zero ENNReal.ofNat_ne_top]
+  rintro (h | h)
+  · exact hc (enorm_eq_zero.mp h)
+  · rw [Measure.restrict_apply_univ, Real.volume_Ioi] at h
+    exact lt_irrefl _ h
+
 end GppMellinPlancherelL2
