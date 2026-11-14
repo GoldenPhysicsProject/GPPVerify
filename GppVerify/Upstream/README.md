@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Fifteen files. Status
+`leanprover-community/mathlib4`. Twenty-four files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -49,6 +49,12 @@ they are equally acceptable upstream.
 
 ## Linear algebra
 
+- `QuadraticFormLDL.lean`: a quadratic form is bounded below by `δ Σ x_i²` whenever
+  `M = δ I + L D Lᵀ` entrywise with `D ≥ 0`, with a rational version
+  (`Matrix.le_quadForm_of_ldl_rat`). This is the positive-definiteness step of a computer-assisted
+  lower bound: the identity is checked by evaluation, the implication is proved once.
+  **Status: staged.**
+
 - `TwoVectorProjection.lean`: the orthogonal projection onto the span of
   two vectors, evaluated by Cramer's rule for the Gram matrix, and the
   squared distance formula. **Status: open as
@@ -60,6 +66,11 @@ they are equally acceptable upstream.
 - `LogSubLogBound.lean`: the sharp bound `2 (x - y) / (x + y) ≤ log x - log y`
   for `0 < y < x`, the first term of `Real.hasSum_log_one_add_inv`. Used by
   `RiemannHypothesis/DigammaVerticalFloor.lean`. **Status: staged.**
+- `LogArctanBounds.lean`: two-sided rational enclosures of `log x` (`1 ≤ x`, via
+  `u = (x-1)/(x+1)`: partial sums below, partial sum plus geometric tail above) and of
+  `arctan x` (`0 ≤ x < 1`, alternating partial sums), written so `norm_num
+  [Finset.sum_range_succ]` certifies ten-digit facts such as `log 2`, `log 3` and
+  `arctan (1/2)` in seconds. The rational-arithmetic base for certificates. **Status: staged.**
 
 - `DigammaGaussSeries.lean`: Gauss's series for the digamma function and a lower bound on
   vertical lines. `Complex.hasSum_digamma` / `Complex.digamma_eq_tsum`:
@@ -71,5 +82,16 @@ they are equally acceptable upstream.
   Mathlib-ready copy of `RiemannHypothesis/DigammaSeries.lean`, `DigammaGaussLimit.lean`,
   `DigammaGaussSeries.lean` and `DigammaVerticalFloor.lean`, which stay in place because other
   modules import them. **Status: staged.**
+
+## Positive-definite functions (towards Bochner)
+
+- `PositiveDefiniteFunction.lean`: positive-definite functions `ℝ → ℂ`
+  (`Complex.IsPositiveDefinite`, stated with `ComplexOrder`, as Mathlib does for positive
+  semidefinite complex matrices): `0 ≤ φ 0`, `φ (-x) = conj (φ x)`, `‖φ x‖ ≤ φ 0`; closure
+  under sums, nonnegative scaling, conjugation and dilation; characteristic functions of finite
+  measures are positive definite, hence so is `exp (-t²/2)`; and integral positivity
+  `0 ≤ ∫∫ conj (g x) g y φ (x - y)` for continuous `φ` and continuous `g` on an interval or
+  with compact support. Steps 1–2 of the Bochner route in
+  `GPP-bridge/work/claude-code/KREIN-BOCHNER-SCOPE-2026-11-14.md`. **Status: staged.**
 
 Back to the [library README](../../README.md).
