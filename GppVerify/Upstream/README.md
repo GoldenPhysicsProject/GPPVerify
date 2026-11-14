@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Twenty-four files. Status
+`leanprover-community/mathlib4`. Twenty-five files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -62,6 +62,12 @@ they are equally acceptable upstream.
   in adapted form at `Mathlib/Analysis/InnerProductSpace/Projection/SpanPair.lean`.
 
 ## Real analysis
+
+- `DigammaVerticalBounds.lean`: two-sided bounds for `Re ψ(a + b i)`, `a > 0`:
+  monotone in `b ≥ 0` (`Complex.monotoneOn_re_digamma`), the truncated Gauss series as a lower
+  bound (`Complex.re_digamma_ge_sum`), asymptotic two-sided bounds, and a shifted enclosure
+  (`Complex.re_digamma_mem_Icc`) of width `3/(4(a+M)²)`, i.e. `7.5·10⁻⁷` at `a = 1/4`,
+  `M = 1000`, uniformly in `b`. **Status: staged.**
 
 - `LogSubLogBound.lean`: the sharp bound `2 (x - y) / (x + y) ≤ log x - log y`
   for `0 < y < x`, the first term of `Real.hasSum_log_one_add_inv`. Used by
