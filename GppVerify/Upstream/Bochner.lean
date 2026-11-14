@@ -367,3 +367,63 @@ theorem integrable_fourier_of_nonneg {f : ℝ → ℂ} (hf : Integrable f) (h0 :
   exact hqi.ofReal.congr (ae_of_all _ fun ξ => (hq ξ).symm)
 
 end Real
+
+namespace Complex
+
+namespace IsPositiveDefinite
+
+variable {φ : ℝ → ℂ}
+
+/-- `charFun (c • μ) t = c.toReal * charFun μ t`. -/
+theorem charFun_smul_measure (μ : Measure ℝ) (c : ENNReal) (t : ℝ) :
+    charFun (c • μ) t = (c.toReal : ℂ) * charFun μ t := by
+  rw [charFun_apply_real, charFun_apply_real, integral_smul_measure, Complex.real_smul]
+
+/-- **Gaussian-damped Bochner.** For continuous positive-definite `φ` and `a > 0` there is a
+finite measure whose characteristic function is `t ↦ exp (-a (t/2π)²) φ (t/2π)`. -/
+theorem exists_measure_charFun_damped (hφ : IsPositiveDefinite φ) (hφc : Continuous φ)
+    {a : ℝ} (ha : 0 < a) :
+    ∃ μ : Measure ℝ, IsFiniteMeasure μ ∧ ∀ t : ℝ,
+      charFun μ t = cexp (-(a : ℂ) * ((t / (2 * π) : ℝ) : ℂ) ^ 2) * φ (t / (2 * π)) := by
+  set ψ : ℝ → ℂ := fun u => cexp (-(a : ℂ) * (u : ℂ) ^ 2) * φ u with hψ
+  have hψc : Continuous ψ := by simp only [hψ]; fun_prop
+  have hψi : Integrable ψ := by
+    refine ((integrable_exp_neg_mul_sq ha).const_mul (φ 0).re).mono' hψc.aestronglyMeasurable
+      (ae_of_all _ fun u => ?_)
+    simp only [hψ, norm_mul, Complex.norm_exp]
+    have h1 : (-(a : ℂ) * (u : ℂ) ^ 2).re = -a * u ^ 2 := by
+      simp [← Complex.ofReal_pow]
+    rw [h1, mul_comm]
+    exact mul_le_mul_of_nonneg_right (hφ.norm_le u) (Real.exp_pos _).le
+  have hpos : ∀ ξ, 0 ≤ 𝓕 ψ ξ := fun ξ => hφ.fourier_gaussian_mul_nonneg hφc ha ξ
+  have hpi : Integrable (𝓕 ψ) := Real.integrable_fourier_of_nonneg hψi hψc.continuousAt hpos
+  have hinv : 𝓕⁻ (𝓕 ψ) = ψ := hψc.fourierInv_fourier_eq hψi hpi
+  set q : ℝ → ℝ := fun ξ => (𝓕 ψ ξ).re with hq_def
+  have hq : ∀ ξ, 𝓕 ψ ξ = (q ξ : ℂ) := fun ξ =>
+    Complex.ext (by simp [q]) (by simp [q, ((Complex.nonneg_iff.mp (hpos ξ)).2).symm])
+  have hq0 : ∀ ξ, 0 ≤ q ξ := fun ξ => (Complex.nonneg_iff.mp (hpos ξ)).1
+  have hqc : Continuous q :=
+    Complex.continuous_re.comp (Real.continuous_fourier_of_integrable hψi)
+  have hqi : Integrable q := by
+    refine hpi.norm.mono' hqc.aestronglyMeasurable (ae_of_all _ fun ξ => ?_)
+    rw [hq ξ, Complex.norm_real]
+  refine ⟨volume.withDensity (fun ξ => ENNReal.ofReal (q ξ)),
+    isFiniteMeasure_withDensity_ofReal hqi.2, fun t => ?_⟩
+  rw [charFun_apply_real, integral_withDensity_eq_integral_toReal_smul
+    (f := fun ξ => ENNReal.ofReal (q ξ)) hqc.measurable.ennreal_ofReal
+    (ae_of_all _ fun _ => ENNReal.ofReal_lt_top)]
+  have hval : ψ (t / (2 * π)) = 𝓕⁻ (𝓕 ψ) (t / (2 * π)) := by rw [hinv]
+  rw [show cexp (-(a : ℂ) * ((t / (2 * π) : ℝ) : ℂ) ^ 2) * φ (t / (2 * π)) = ψ (t / (2 * π))
+    from rfl, hval, Real.fourierInv_eq']
+  congr 1
+  funext ξ
+  rw [ENNReal.toReal_ofReal (hq0 ξ), hq ξ, Complex.real_smul, smul_eq_mul, mul_comm]
+  congr 2
+  have hπ : (π : ℝ) ≠ 0 := Real.pi_ne_zero
+  simp only [RCLike.inner_apply, conj_trivial]
+  push_cast
+  field_simp
+
+end IsPositiveDefinite
+
+end Complex
