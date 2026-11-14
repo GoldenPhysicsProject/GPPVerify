@@ -101,7 +101,6 @@ theorem primeTerm_eq_finite_sum {A : ℝ} {d : ℝ} (hd : d ∈ Set.Ioo (-A) A) 
   have hexp : Real.exp (A + 2) < (n : ℝ) := by
     have h2 : (⌈Real.exp (A + 2)⌉₊ + 1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn
     have h6 : Real.exp (A + 2) ≤ (⌈Real.exp (A + 2)⌉₊ : ℝ) := Nat.le_ceil _
-    rw [Nat.cast_add, Nat.cast_one] at h2
     linarith
   have hn0 : (0 : ℝ) < (n : ℝ) := by exact_mod_cast hn1
   have hlog : A + 2 < Real.log (n : ℝ) := (Real.lt_log_iff_exp_lt hn0).mpr hexp
@@ -138,12 +137,20 @@ theorem continuous_primeTerm : Continuous primeTerm := by
         ArithmeticFunction.vonMangoldt n / Real.sqrt n *
           (triG (Real.log n + d) + triG (-Real.log n + d))) d₀ := by
     apply Continuous.continuousAt
-    apply continuous_finset_sum
+    apply continuous_finsetSum
     intro n _
     exact continuous_const.mul
       ((continuous_triG.comp (continuous_const.add continuous_id)).add
         (continuous_triG.comp (continuous_const.add continuous_id)))
-  exact hEq.continuousAt hF
+  have hval : primeTerm d₀ =
+      ∑ n ∈ Finset.range (⌈Real.exp (A + 2)⌉₊ + 1),
+        ArithmeticFunction.vonMangoldt n / Real.sqrt n *
+          (triG (Real.log n + d₀) + triG (-Real.log n + d₀)) :=
+    primeTerm_eq_finite_sum hd₀
+  have htend : Tendsto primeTerm (𝓝 d₀) (𝓝 (primeTerm d₀)) := by
+    rw [hval]
+    exact Filter.Tendsto.congr' hEq.symm hF
+  exact htend
 
 /-- The digamma factor of `archTerm`, as it appears in the definition. -/
 noncomputable def archFactor (t : ℝ) : ℝ :=
