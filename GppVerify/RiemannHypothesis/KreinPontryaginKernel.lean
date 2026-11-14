@@ -134,8 +134,10 @@ theorem kform_pontryagin {K : ℝ → ℝ} (hK : ∀ d, K (-d) = K d)
         + (kbilin K x c c₀ / kform K x c₀) * kbilin K x c c₀ := by
   have hNP : NoNegPlane (fun c => gramBilin K x c c) := by
     have h := hK1 n x
-    rwa [show (fun c => gramBilin K x c c) = kform K x from
-      funext fun c => kbilin_diag K x c] at h
+    have hfun : (fun c => gramBilin K x c c) = kform K x :=
+      funext fun c => kbilin_diag K x c
+    rw [hfun]
+    exact h
   have hsymm : ∀ c d, gramBilin K x c d = gramBilin K x d c :=
     fun c d => kbilin_symm hK x c d
   rcases GppKreinPontryaginFinite.pontryagin_finite hsymm hNP with h | ⟨c₀, hc₀, hdec⟩
