@@ -13,23 +13,41 @@ import Mathlib.MeasureTheory.Measure.LevyProkhorovMetric
 /-!
 # Bochner's theorem on `ℝ`
 
-A continuous positive-definite function `φ : ℝ → ℂ` is the characteristic function of a finite
-measure on `ℝ`.
+A continuous positive-definite function `φ : ℝ → ℂ` is the characteristic function of a unique
+finite measure on `ℝ`.
 
 ## Main results
 
-* `IsPositiveDefinite.integral_autocorr_mul_nonneg`: for continuous positive-definite `φ` and
-  continuous integrable `g`, `0 ≤ ∫ u, (∫ x, conj (g x) * g (x - u)) * φ u`.
-* `IsPositiveDefinite.fourier_gaussian_mul_nonneg`: for `a > 0`, the Fourier transform of
-  `u ↦ exp (-a u²) φ u` is real and nonnegative at every point.
+* `Complex.IsPositiveDefinite.exists_measure_charFun_eq`: **Bochner's theorem.** For continuous
+  positive-definite `φ` there is a finite measure `μ` with `charFun μ t = φ t` for all `t`.
+* `Complex.IsPositiveDefinite.existsUnique_measure_charFun_eq`: the measure is unique.
+* `Complex.IsPositiveDefinite.integral_integral_nonneg`: for continuous integrable `g`,
+  `0 ≤ ∫ x, ∫ y, conj (g x) * g y * φ (x - y)`.
+* `Complex.IsPositiveDefinite.integral_autocorr_mul_nonneg`: the same as the pairing
+  `0 ≤ ∫ u, (∫ x, conj (g x) * g (x - u)) * φ u`.
+* `Complex.IsPositiveDefinite.fourier_gaussian_mul_nonneg`: for `a > 0`, the Fourier transform
+  of `u ↦ exp (-a u²) φ u` is real and nonnegative.
+* `Real.integrable_fourier_of_nonneg`: if `f` is integrable and continuous at `0` and `𝓕 f` is
+  real and nonnegative, then `𝓕 f` is integrable.
+* `Complex.IsPositiveDefinite.exists_measure_charFun_gaussian`: for `b > 0`, a finite measure
+  with characteristic function `exp (-b t²) φ t`.
 
 ## Proof
 
-Integral positivity on intervals (`IsPositiveDefinite.intervalIntegral_nonneg`) passes to `ℝ` by
-dominated convergence. The substitution `y = x - u` and Fubini turn the double integral into the
-pairing of `φ` with the autocorrelation of `g`. For a Gaussian `g` modulated by a character, the
-autocorrelation is a Gaussian times the character (`integral_cexp_quadratic`). So the pairing is a
-positive multiple of the Fourier transform of `φ` damped by a Gaussian.
+1. Integral positivity on intervals (`IsPositiveDefinite.intervalIntegral_nonneg`) passes to
+   `ℝ` by dominated convergence. The substitution `y = x - u` and Fubini turn the double
+   integral into the pairing of `φ` with the autocorrelation of `g`.
+2. For a Gaussian `g` modulated by a character, the autocorrelation is a Gaussian times the
+   character (`integral_cexp_quadratic`). So the pairing is a positive multiple of the Fourier
+   transform of `φ` damped by a Gaussian, which is therefore nonnegative.
+3. Gaussian duality at the origin (as in Mathlib's proof of Fourier inversion, but with no
+   integrability assumption on `𝓕 f`) plus monotone convergence shows that a nonnegative
+   Fourier transform is integrable. Fourier inversion then exhibits the damped function as the
+   characteristic function of the measure with that density.
+4. Letting the damping go to zero: Lévy's continuity theorem gives tightness
+   (`isTightMeasureSet_of_tendsto_charFun`), Prokhorov compactness and the pseudo-metrisability
+   of `ProbabilityMeasure ℝ` give a convergent subsequence, and the limit has characteristic
+   function `φ / φ 0`. Uniqueness is `Measure.ext_of_charFun`.
 -/
 
 open MeasureTheory Filter Set
@@ -524,6 +542,14 @@ theorem exists_measure_charFun_eq (hφ : IsPositiveDefinite φ) (hφc : Continuo
   rw [charFun_smul_measure, ENNReal.toReal_ofReal hr0.le, hQ t, hF]
   simp only
   rw [← mul_assoc, ← Complex.ofReal_mul, mul_inv_cancel₀ hr0.ne', Complex.ofReal_one, one_mul]
+
+/-- **Bochner's theorem, with uniqueness.** The representing finite measure is unique. -/
+theorem existsUnique_measure_charFun_eq (hφ : IsPositiveDefinite φ) (hφc : Continuous φ) :
+    ∃! μ : Measure ℝ, IsFiniteMeasure μ ∧ ∀ t : ℝ, charFun μ t = φ t := by
+  obtain ⟨μ, hμ, h⟩ := hφ.exists_measure_charFun_eq hφc
+  refine ⟨μ, ⟨hμ, h⟩, fun ν hν => ?_⟩
+  obtain ⟨hνf, hν'⟩ := hν
+  exact Measure.ext_of_charFun (funext fun t => (hν' t).trans (h t).symm)
 
 end IsPositiveDefinite
 
