@@ -170,4 +170,81 @@ theorem integral_autocorr_mul_nonneg (hφ : IsPositiveDefinite φ) (hφc : Conti
 
 end IsPositiveDefinite
 
+/-- The modulated Gaussian `y ↦ exp (-2a y² + 2πiξ y)`. -/
+noncomputable def gaussChar (a ξ : ℝ) (y : ℝ) : ℂ :=
+  cexp (-(2 * a : ℂ) * (y : ℂ) ^ 2 + (2 * π * ξ * I) * y + 0)
+
+theorem continuous_gaussChar (a ξ : ℝ) : Continuous (gaussChar a ξ) := by
+  unfold gaussChar; fun_prop
+
+theorem integrable_gaussChar {a : ℝ} (ha : 0 < a) (ξ : ℝ) : Integrable (gaussChar a ξ) :=
+  integrable_cexp_quadratic (b := 2 * a) (by simpa using ha) _ _
+
+/-- The autocorrelation of the modulated Gaussian:
+`∫ x, conj (g x) * g (x - u) = (π / (4a))^(1/2) * exp (-a u² - 2πiξu)`. -/
+theorem integral_conj_gaussChar_mul {a : ℝ} (ha : 0 < a) (ξ u : ℝ) :
+    ∫ x, conj (gaussChar a ξ x) * gaussChar a ξ (x - u) =
+      ((π : ℂ) / (4 * a)) ^ (1 / 2 : ℂ) * cexp (-(a : ℂ) * u ^ 2 - 2 * π * ξ * I * u) := by
+  have ha' : (a : ℂ) ≠ 0 := by exact_mod_cast ha.ne'
+  have hpt : ∀ x : ℝ, conj (gaussChar a ξ x) * gaussChar a ξ (x - u) =
+      cexp (-(4 * a : ℂ) * (x : ℂ) ^ 2 + (4 * a * u : ℂ) * x
+        + (-(2 * a : ℂ) * u ^ 2 - 2 * π * ξ * I * u)) := by
+    intro x
+    simp only [gaussChar, ← Complex.exp_conj, ← Complex.exp_add]
+    congr 1
+    simp only [map_add, map_mul, map_neg, map_pow, map_ofNat, Complex.conj_ofReal,
+      Complex.conj_I, map_zero]
+    push_cast
+    ring
+  simp_rw [hpt]
+  rw [integral_cexp_quadratic (b := -(4 * a : ℂ)) (by simpa using ha)]
+  congr 1
+  · congr 1
+    ring
+  · congr 1
+    field_simp
+    ring
+
+namespace IsPositiveDefinite
+
+variable {φ : ℝ → ℂ}
+
+/-- **The Gaussian-damped Fourier transform of a positive-definite function is nonnegative.**
+For continuous positive-definite `φ`, `a > 0` and every `ξ`,
+`0 ≤ 𝓕 (fun u => exp (-a u²) * φ u) ξ` (real and nonnegative). -/
+theorem fourier_gaussian_mul_nonneg (hφ : IsPositiveDefinite φ) (hφc : Continuous φ)
+    {a : ℝ} (ha : 0 < a) (ξ : ℝ) :
+    0 ≤ 𝓕 (fun u : ℝ => cexp (-(a : ℂ) * u ^ 2) * φ u) ξ := by
+  have h := hφ.integral_autocorr_mul_nonneg hφc (continuous_gaussChar a ξ)
+    (integrable_gaussChar ha ξ)
+  simp_rw [integral_conj_gaussChar_mul ha ξ, mul_assoc] at h
+  rw [integral_const_mul] at h
+  set s : ℂ := ((π : ℂ) / (4 * a)) ^ (1 / 2 : ℂ) with hs
+  have hsr : s = ((Real.pi / (4 * a)) ^ (1 / 2 : ℝ) : ℝ) := by
+    rw [hs, Complex.ofReal_cpow (by positivity)]
+    push_cast
+    ring_nf
+  have hspos : (0 : ℝ) < (Real.pi / (4 * a)) ^ (1 / 2 : ℝ) := by positivity
+  have hF : 𝓕 (fun u : ℝ => cexp (-(a : ℂ) * u ^ 2) * φ u) ξ =
+      ∫ u : ℝ, cexp (-(a : ℂ) * u ^ 2 - 2 * π * ξ * I * u) * φ u := by
+    rw [Real.fourier_real_eq_integral_exp_smul]
+    congr 1
+    funext u
+    rw [smul_eq_mul, ← mul_assoc, ← Complex.exp_add]
+    congr 2
+    push_cast
+    ring
+  rw [hF]
+  have hinv : (0 : ℂ) ≤ s⁻¹ := by
+    rw [hsr, ← Complex.ofReal_inv]
+    exact Complex.zero_le_real.mpr (inv_nonneg.mpr hspos.le)
+  have hs0 : s ≠ 0 := by
+    rw [hsr]; exact_mod_cast hspos.ne'
+  have := mul_nonneg hinv h
+  rw [← mul_assoc, inv_mul_cancel₀ hs0, one_mul] at this
+  simp only [mul_assoc] at this ⊢
+  exact this
+
+end IsPositiveDefinite
+
 end Complex
