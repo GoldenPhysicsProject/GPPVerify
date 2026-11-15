@@ -117,8 +117,113 @@ theorem norm_H_le {w : ℂ} (hw : ‖w‖ ≤ 1 / 2) : ‖H w‖ ≤ 4 * ‖w‖
         rw [h5]; linarith
     _ ≤ 4 * ‖w‖ ^ 5 := by nlinarith [pow_nonneg hw0 5]
 
+
+/-! ### (B) The per-term identity `err = -Re H(1/(2v))` and `|err(x)| ≤ 1/(8x⁵)` -/
+
+theorem Q_eq_re (b t : ℝ) : Q b t = (((⟨t, b⟩ : ℂ))⁻¹ ^ 2).re := by
+  rw [sq, mul_re, inv_re, inv_im, normSq_apply]
+  unfold Q
+  rcases eq_or_ne (t ^ 2 + b ^ 2) 0 with h | h
+  · have ht : t = 0 := by nlinarith [sq_nonneg t, sq_nonneg b]
+    have hb : b = 0 := by nlinarith [sq_nonneg t, sq_nonneg b]
+    subst ht; subst hb; simp
+  · simp only
+    field_simp
+
+theorem logPot_eq (b t : ℝ) : logPot b t = Real.log ‖(⟨t, b⟩ : ℂ)‖ := by
+  unfold logPot
+  rw [Complex.norm_def, normSq_apply]
+  simp only
+  rw [Real.log_sqrt (by nlinarith [mul_self_nonneg t, mul_self_nonneg b])]
+  ring_nf
+
+theorem perTerm_eq {b x : ℝ} (hx : 1 ≤ x) :
+    err b x = -(H (1 / (2 * (⟨x, b⟩ : ℂ)))).re := by
+  set v : ℂ := ⟨x, b⟩ with hv
+  set w : ℂ := 1 / (2 * v) with hw
+  have hv0 : v ≠ 0 := by
+    intro h; have := congrArg Complex.re h; simp [hv] at this; linarith
+  have hvw : v * w = 1 / 2 := by rw [hw]; field_simp
+  have hp : (⟨x + 1 / 2, b⟩ : ℂ) = v * (1 + w) := by
+    rw [mul_add, mul_one, hvw]; apply Complex.ext <;> simp [hv]
+  have hm : (⟨x - 1 / 2, b⟩ : ℂ) = v * (1 - w) := by
+    rw [mul_sub, mul_one, hvw]; apply Complex.ext <;> simp [hv]
+  have h1w : 1 + w ≠ 0 := by
+    intro h; have : (⟨x + 1 / 2, b⟩ : ℂ) = 0 := by rw [hp, h, mul_zero]
+    have := congrArg Complex.re this; simp at this; linarith
+  have h1w' : 1 - w ≠ 0 := by
+    intro h; have : (⟨x - 1 / 2, b⟩ : ℂ) = 0 := by rw [hm, h, mul_zero]
+    have := congrArg Complex.re this; simp at this; linarith
+  -- φ
+  have hphi : phi b x = (2 * w).re := by
+    have : 2 * w = v⁻¹ := by rw [hw]; field_simp
+    rw [this, hv, re_inv]; rfl
+  -- log potentials
+  have hlog : logPot b (x + 1 / 2) - logPot b (x - 1 / 2) = (log (1 + w) - log (1 - w)).re := by
+    rw [logPot_eq, logPot_eq, hp, hm, norm_mul, norm_mul,
+      Real.log_mul (norm_ne_zero_iff.mpr hv0) (norm_ne_zero_iff.mpr h1w),
+      Real.log_mul (norm_ne_zero_iff.mpr hv0) (norm_ne_zero_iff.mpr h1w'), sub_re, log_re, log_re]
+    ring
+  -- the Q-difference, with `U = w³/(1 - w²)²`
+  set U : ℂ := w ^ 3 / (1 - w ^ 2) ^ 2 with hU
+  have hQ : Q b (x + 1 / 2) - Q b (x - 1 / 2) = (((-16 : ℝ) : ℂ) * U).re := by
+    rw [Q_eq_re, Q_eq_re, hp, hm, ← sub_re]
+    congr 1
+    have hvinv : v⁻¹ = 2 * w := by rw [hw]; field_simp
+    have h2 : (1 - w ^ 2) ≠ 0 := by
+      have : 1 - w ^ 2 = (1 + w) * (1 - w) := by ring
+      rw [this]; exact mul_ne_zero h1w h1w'
+    rw [mul_inv, mul_inv, hvinv, hU]
+    push_cast
+    field_simp
+    ring
+  have hH : (H w).re = (log (1 + w) - log (1 - w)).re - (2 * w).re - (((2 / 3 : ℝ) : ℂ) * U).re := by
+    simp only [H, hU, sub_re]
+    congr 2
+    push_cast; ring
+  unfold err
+  rw [hphi, hlog, hQ, hH, re_ofReal_mul, re_ofReal_mul]
+  ring
+
+theorem abs_err_le {b x : ℝ} (hx : 1 ≤ x) : |err b x| ≤ 1 / (8 * x ^ 5) := by
+  rw [perTerm_eq hx, abs_neg]
+  set v : ℂ := ⟨x, b⟩
+  have hx0 : 0 < x := by linarith
+  have hvx : x ≤ ‖v‖ := by
+    have := Complex.abs_re_le_norm v; simp [v] at this; exact (le_abs_self x).trans this
+  have hwn : ‖1 / (2 * v)‖ = 1 / (2 * ‖v‖) := by
+    rw [norm_div, norm_one, norm_mul]; norm_num
+  have hw2 : ‖1 / (2 * v)‖ ≤ 1 / (2 * x) := by
+    rw [hwn]; exact one_div_le_one_div_of_le (by positivity) (by linarith)
+  have hwh : ‖1 / (2 * v)‖ ≤ 1 / 2 := hw2.trans (by
+    rw [div_le_div_iff₀ (by positivity) (by norm_num)]; linarith)
+  refine (Complex.abs_re_le_norm _).trans ((norm_H_le hwh).trans ?_)
+  calc 4 * ‖1 / (2 * v)‖ ^ 5 ≤ 4 * (1 / (2 * x)) ^ 5 := by
+        gcongr
+    _ = 1 / (8 * x ^ 5) := by field_simp; ring
+
+/-! ### (D) The tail sum -/
+
+theorem inv_pow_five_le {x : ℝ} (hx : 1 / 2 < x) :
+    1 / x ^ 5 ≤ (1 / (x - 1 / 2) ^ 4 - 1 / (x + 1 / 2) ^ 4) / 4 := by
+  have h1 : 0 < x - 1 / 2 := by linarith
+  have h2 : 0 < x + 1 / 2 := by linarith
+  have hx0 : 0 < x := by linarith
+  have key : 1 / (x - 1 / 2) ^ 4 - 1 / (x + 1 / 2) ^ 4
+      = (4 * x ^ 3 + x) / ((x - 1 / 2) ^ 4 * (x + 1 / 2) ^ 4) := by
+    rw [div_sub_div _ _ (pow_ne_zero 4 h1.ne') (pow_ne_zero 4 h2.ne')]
+    congr 1; ring
+  have hD : (x - 1 / 2) ^ 4 * (x + 1 / 2) ^ 4 = (x ^ 2 - 1 / 4) ^ 4 := by ring
+  have hq : 0 < x ^ 2 - 1 / 4 := by nlinarith
+  have hle : (x ^ 2 - 1 / 4) ^ 4 ≤ (x ^ 2) ^ 4 :=
+    pow_le_pow_left₀ hq.le (by linarith) 4
+  rw [key, hD, div_div, div_le_div_iff₀ (by positivity) (by positivity)]
+  nlinarith [pow_pos hx0 3, pow_pos hx0 5, pow_pos hx0 6]
+
 end DigammaVertical4
 
 end Complex
 
 #print axioms Complex.DigammaVertical4.norm_H_le
+#print axioms Complex.DigammaVertical4.abs_err_le
+#print axioms Complex.DigammaVertical4.inv_pow_five_le
