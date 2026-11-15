@@ -220,10 +220,173 @@ theorem inv_pow_five_le {x : ℝ} (hx : 1 / 2 < x) :
   rw [key, hD, div_div, div_le_div_iff₀ (by positivity) (by positivity)]
   nlinarith [pow_pos hx0 3, pow_pos hx0 5, pow_pos hx0 6]
 
+
+theorem sum_inv_pow_five_le {y : ℝ} (hy : 1 / 2 < y) (N : ℕ) :
+    ∑ n ∈ range N, 1 / (y + n) ^ 5 ≤ 1 / (4 * (y - 1 / 2) ^ 4) := by
+  have key : ∀ N : ℕ, ∑ n ∈ range N, 1 / (y + n) ^ 5
+      ≤ (1 / (y - 1 / 2) ^ 4 - 1 / (y + N - 1 / 2) ^ 4) / 4 := by
+    intro N
+    induction N with
+    | zero => simp
+    | succ N ih =>
+      rw [sum_range_succ]
+      have h := inv_pow_five_le (x := y + N) (by have : (0 : ℝ) ≤ N := Nat.cast_nonneg N; linarith)
+      have e1 : y + (N : ℝ) + 1 / 2 = y + ((N + 1 : ℕ) : ℝ) - 1 / 2 := by push_cast; ring
+      have e2 : y + (N : ℝ) - 1 / 2 = y + (N : ℝ) - 1 / 2 := rfl
+      rw [e1] at h
+      linarith
+  refine (key N).trans ?_
+  have h1 : 0 < y - 1 / 2 := by linarith
+  have : 0 ≤ 1 / (y + N - 1 / 2) ^ 4 := by
+    have : 0 < y + (N : ℝ) - 1 / 2 := by have : (0 : ℝ) ≤ N := Nat.cast_nonneg N; linarith
+    positivity
+  calc (1 / (y - 1 / 2) ^ 4 - 1 / (y + N - 1 / 2) ^ 4) / 4 ≤ (1 / (y - 1 / 2) ^ 4) / 4 :=
+        div_le_div_of_nonneg_right (by linarith) (by norm_num)
+    _ = 1 / (4 * (y - 1 / 2) ^ 4) := by rw [div_div, mul_comm]
+
+theorem summable_err {b y : ℝ} (hy : 1 ≤ y) : Summable (fun n : ℕ => err b (y + n)) := by
+  have hs2 : Summable (fun n : ℕ => 1 / ((n + 1 : ℕ) : ℝ) ^ 2) :=
+    (summable_nat_add_iff 1).mpr (Real.summable_one_div_nat_pow.mpr (by norm_num))
+  refine Summable.of_norm_bounded hs2 (fun n => ?_)
+  have hn : (0 : ℝ) ≤ n := Nat.cast_nonneg n
+  rw [Real.norm_eq_abs]
+  refine (abs_err_le (by linarith)).trans ?_
+  have h1 : ((n + 1 : ℕ) : ℝ) ^ 2 ≤ 8 * (y + n) ^ 5 := by
+    push_cast
+    have hb : (n : ℝ) + 1 ≤ y + n := by linarith
+    have h1' : 1 ≤ y + n := by linarith
+    calc ((n : ℝ) + 1) ^ 2 ≤ (y + n) ^ 2 := pow_le_pow_left₀ (by linarith) hb 2
+      _ ≤ (y + n) ^ 5 := pow_le_pow_right₀ h1' (by norm_num)
+      _ ≤ 8 * (y + n) ^ 5 := by nlinarith [pow_pos (by linarith : (0 : ℝ) < y + n) 5]
+  exact one_div_le_one_div_of_le (by positivity) h1
+
+theorem abs_tsum_err_le {b y : ℝ} (hy : 1 ≤ y) :
+    |∑' n : ℕ, err b (y + n)| ≤ 1 / (32 * (y - 1 / 2) ^ 4) := by
+  have hs := summable_err (b := b) hy
+  have hb : ∀ N : ℕ, ∑ n ∈ range N, |err b (y + n)| ≤ 1 / (32 * (y - 1 / 2) ^ 4) := by
+    intro N
+    calc ∑ n ∈ range N, |err b (y + n)| ≤ ∑ n ∈ range N, 1 / (8 * (y + n) ^ 5) :=
+          sum_le_sum fun n _ => abs_err_le (by have : (0 : ℝ) ≤ n := Nat.cast_nonneg n; linarith)
+      _ = (1 / 8) * ∑ n ∈ range N, 1 / (y + n) ^ 5 := by
+          rw [mul_sum]; exact sum_congr rfl fun n _ => by field_simp
+      _ ≤ (1 / 8) * (1 / (4 * (y - 1 / 2) ^ 4)) :=
+          mul_le_mul_of_nonneg_left (sum_inv_pow_five_le (by linarith) N) (by norm_num)
+      _ = 1 / (32 * (y - 1 / 2) ^ 4) := by field_simp; ring
+  have habs : Summable (fun n : ℕ => |err b (y + n)|) := hs.abs
+  calc |∑' n : ℕ, err b (y + n)| ≤ ∑' n : ℕ, |err b (y + n)| := by
+        rw [← Real.norm_eq_abs]
+        exact (norm_tsum_le_tsum_norm (by simpa [Real.norm_eq_abs] using habs)).trans
+          (le_of_eq (by simp [Real.norm_eq_abs]))
+    _ ≤ 1 / (32 * (y - 1 / 2) ^ 4) :=
+        habs.tsum_le_of_sum_range_le (fun N => hb N)
+
+/-! ### (C) The limit identity -/
+
+theorem sum_phi_telescope (b y : ℝ) (N : ℕ) :
+    ∑ n ∈ range N, phi b (y + n) = logPot b (y + N - 1 / 2) - logPot b (y - 1 / 2)
+      + (Q b (y + N - 1 / 2) - Q b (y - 1 / 2)) / 24 + ∑ n ∈ range N, err b (y + n) := by
+  induction N with
+  | zero => simp
+  | succ N ih =>
+    rw [sum_range_succ, sum_range_succ, ih]
+    have e : y + ((N + 1 : ℕ) : ℝ) - 1 / 2 = y + (N : ℝ) + 1 / 2 := by push_cast; ring
+    have e' : y + (N : ℝ) - 1 / 2 = y + (N : ℝ) - 1 / 2 := rfl
+    rw [e]
+    unfold err
+    ring
+
+theorem tendsto_Q (b : ℝ) (c : ℝ) : Tendsto (fun N : ℕ => Q b ((N : ℝ) + c)) atTop (𝓝 0) := by
+  have hbound : ∀ t : ℝ, t ≠ 0 → |Q b t| ≤ 1 / t ^ 2 := by
+    intro t ht
+    unfold Q
+    have hp : 0 < t ^ 2 + b ^ 2 := by positivity
+    rw [abs_div, abs_of_pos (by positivity : (0 : ℝ) < (t ^ 2 + b ^ 2) ^ 2),
+      div_le_div_iff₀ (by positivity) (by positivity)]
+    have : |t ^ 2 - b ^ 2| ≤ t ^ 2 + b ^ 2 := by
+      rw [abs_le]; constructor <;> nlinarith [sq_nonneg t, sq_nonneg b]
+    nlinarith [sq_nonneg t, sq_nonneg b, sq_nonneg (t ^ 2), mul_nonneg (sq_nonneg t) (sq_nonneg b)]
+  have h2 : Tendsto (fun N : ℕ => 1 / ((N : ℝ) + c) ^ 2) atTop (𝓝 0) := by
+    have : Tendsto (fun N : ℕ => (N : ℝ) + c) atTop atTop :=
+      tendsto_atTop_add_const_right _ c tendsto_natCast_atTop_atTop
+    exact (((tendsto_pow_atTop two_ne_zero).comp this).inv_tendsto_atTop).congr
+      (fun N => by simp [Function.comp, one_div])
+  refine squeeze_zero_norm' ?_ h2
+  filter_upwards [eventually_gt_atTop (Nat.ceil (|c| + 1))] with N hN
+  rw [Real.norm_eq_abs]
+  apply hbound
+  have : (Nat.ceil (|c| + 1) : ℝ) < N := by exact_mod_cast hN
+  have := Nat.le_ceil (|c| + 1)
+  have := neg_abs_le c
+  intro h0; linarith
+
+/-- **`Re ψ(y + b i)` as the corrected telescoped sum.** For `y ≥ 1`. -/
+theorem re_digamma_eq_tsum {b y : ℝ} (hy : 1 ≤ y) :
+    (digamma ⟨y, b⟩).re
+      = logPot b (y - 1 / 2) + Q b (y - 1 / 2) / 24 - ∑' n : ℕ, err b (y + n) := by
+  have hy0 : 0 < y := by linarith
+  have hS := (hasSum_reTerm (b := b) hy0).tendsto_sum_nat
+  -- partial sums of the Gauss series via the telescoping identity
+  have hpart : ∀ N : ℕ, ∑ n ∈ range N, reTerm y b n
+      = (((harmonic N : ℚ) : ℝ) - logPot b ((N : ℝ) + (y + 1 / 2))) + logPot b (y - 1 / 2)
+        - (Q b ((N : ℝ) + (y + 1 / 2)) - Q b (y - 1 / 2)) / 24
+        - ∑ n ∈ range (N + 1), err b (y + n) + phi b y := by
+    intro N
+    rw [sum_reTerm]
+    have ht := sum_phi_telescope b y (N + 1)
+    rw [sum_range_succ'] at ht
+    have e1 : y + ((N + 1 : ℕ) : ℝ) - 1 / 2 = (N : ℝ) + (y + 1 / 2) := by push_cast; ring
+    rw [e1] at ht
+    have e2 : ∀ n : ℕ, phi b ((n : ℝ) + 1 + y) = phi b (y + ((n + 1 : ℕ) : ℝ)) := by
+      intro n; congr 1; push_cast; ring
+    simp only [e2, Nat.cast_zero, add_zero] at ht ⊢
+    linarith
+  have hL : Tendsto (fun N : ℕ => (((harmonic N : ℚ) : ℝ) - logPot b ((N : ℝ) + (y + 1 / 2)))
+      + logPot b (y - 1 / 2) - (Q b ((N : ℝ) + (y + 1 / 2)) - Q b (y - 1 / 2)) / 24
+      - ∑ n ∈ range (N + 1), err b (y + n) + phi b y) atTop
+      (𝓝 (Real.eulerMascheroniConstant + logPot b (y - 1 / 2) - (0 - Q b (y - 1 / 2)) / 24
+        - ∑' n : ℕ, err b (y + n) + phi b y)) := by
+    have h1 := tendsto_harmonic_sub_logPot b (y + 1 / 2)
+    have h2 := tendsto_Q b (y + 1 / 2)
+    have h3 : Tendsto (fun N : ℕ => ∑ n ∈ range (N + 1), err b (y + n)) atTop
+        (𝓝 (∑' n : ℕ, err b (y + n))) :=
+      ((summable_err (b := b) hy).hasSum.tendsto_sum_nat).comp (tendsto_add_atTop_nat 1)
+    exact ((((h1.add_const _).sub ((h2.sub_const _).div_const 24)).sub h3).add_const _)
+  have hU := tendsto_nhds_unique (hS.congr hpart) hL
+  have e : (y : ℝ) / (y ^ 2 + b ^ 2) = phi b y := rfl
+  rw [← e] at hU
+  linarith
+
+/-! ### (E) The enclosure -/
+
+/-- **Fourth-order two-sided enclosure of `Re ψ` on a vertical line.** For `a > 0`, `b` real and
+`M : ℕ` with `1 ≤ a + M`, with `y = a + M`:
+`|Re ψ(a + b i) - G₄| ≤ 1/(32 (y - ½)⁴)`, where
+`G₄ = ½ log((y-½)² + b²) + (1/24)((y-½)² - b²)/((y-½)² + b²)² - Σ_{k<M} (a+k)/((a+k)² + b²)`. -/
+theorem re_digamma_abs_sub_le4 {a : ℝ} (ha : 0 < a) (b : ℝ) (M : ℕ) (hy : 1 ≤ a + M) :
+    |(digamma ⟨a, b⟩).re - (Real.log ((a + M - 1 / 2) ^ 2 + b ^ 2) / 2
+        + ((a + M - 1 / 2) ^ 2 - b ^ 2) / ((a + M - 1 / 2) ^ 2 + b ^ 2) ^ 2 / 24
+        - ∑ k ∈ range M, (a + k) / ((a + k) ^ 2 + b ^ 2))|
+      ≤ 1 / (32 * (a + M - 1 / 2) ^ 4) := by
+  rw [re_digamma_shift ha b M, re_digamma_eq_tsum hy]
+  have := abs_tsum_err_le (b := b) hy
+  unfold logPot Q at *
+  rw [show ∀ u v w s : ℝ, u + v - w - s - (u + v - s) = -w by intros; ring]
+  rwa [abs_neg]
+
 end DigammaVertical4
+
+open DigammaVertical4 in
+/-- Re-export: the fourth-order enclosure in the `Complex` namespace. -/
+theorem re_digamma_mem_Icc4 {a : ℝ} (ha : 0 < a) (b : ℝ) (M : ℕ) (hy : 1 ≤ a + M) :
+    |(digamma ⟨a, b⟩).re - (Real.log ((a + M - 1 / 2) ^ 2 + b ^ 2) / 2
+        + ((a + M - 1 / 2) ^ 2 - b ^ 2) / ((a + M - 1 / 2) ^ 2 + b ^ 2) ^ 2 / 24
+        - ∑ k ∈ range M, (a + k) / ((a + k) ^ 2 + b ^ 2))|
+      ≤ 1 / (32 * (a + M - 1 / 2) ^ 4) :=
+  re_digamma_abs_sub_le4 ha b M hy
 
 end Complex
 
 #print axioms Complex.DigammaVertical4.norm_H_le
 #print axioms Complex.DigammaVertical4.abs_err_le
 #print axioms Complex.DigammaVertical4.inv_pow_five_le
+#print axioms Complex.re_digamma_mem_Icc4
