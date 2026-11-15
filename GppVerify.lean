@@ -2580,3 +2580,4 @@ import GppVerify.RiemannHypothesis.WindowBPiece
 import GppVerify.RiemannHypothesis.WindowBall
 import GppVerify.NoGo.BoundaryU2PontryaginDensity
 import GppVerify.YangMills.QuaternionicHopfClutching
+import GppVerify.YangMills.SU3HolonomyGeneration
