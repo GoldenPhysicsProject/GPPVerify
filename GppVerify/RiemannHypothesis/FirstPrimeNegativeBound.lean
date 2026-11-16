@@ -16,7 +16,7 @@ and needs `M₋ < 147/25 = 5.88`, with true value `5.87797…` — a margin of o
 Taylor-checked inputs:
 
 * `γ < 0.57749`   from `γ < H₂₀₄₈ − log 2048` with `H₂₀₄₈ < 8.2021` **kernel-checked** over ℚ and `log 2 > 0.6931471803`;
-* `log π < 1.1448` from `π < 3.141593` (`Real.pi_lt_d6`) and `exp 1.1448 > 3.141593` (20-term Taylor lower sum);
+* `log π < 1.1448` from `π < 3.141593` (`Real.pi_lt_d6`) and `exp 1.1448 > 3.141593` (10-term Taylor lower sum);
 * `2(sinh(9/25) − 9/25) < 0.0158` from the two-sided exponential Taylor bound `Real.exp_bound`;
 * `v < 0.4902` from `log 2 < 0.6931471808` and `√2 > 1.4142`.
 
