@@ -2633,3 +2633,4 @@ import GppVerify.RiemannHypothesis.BNNormOne
 import GppVerify.RiemannHypothesis.EdgeOverlap
 import GppVerify.RiemannHypothesis.ArchimedeanMultiplier
 import GppVerify.RiemannHypothesis.PrimeCapLegendre
+import GppVerify.RiemannHypothesis.KleinFourProjections
