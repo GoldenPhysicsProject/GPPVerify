@@ -44,9 +44,9 @@ namespace GppShadowTheory
 /-- The smooth compactly supported test functions, as a submodule of `ℝ → ℝ`. -/
 def testSubmodule : Submodule ℝ (ℝ → ℝ) where
   carrier := {f | IsTestFunction f}
-  add_mem' := fun {f g} hf hg => ⟨hf.1.add hg.1, hf.2.add hg.2⟩
+  add_mem' := fun {_ _} hf hg => ⟨hf.1.add hg.1, hf.2.add hg.2⟩
   zero_mem' := ⟨contDiff_const, HasCompactSupport.zero⟩
-  smul_mem' := fun c f hf => ⟨hf.1.const_smul c, hf.2.smul_left⟩
+  smul_mem' := fun c _ hf => ⟨hf.1.const_smul c, hf.2.smul_left⟩
 
 instance : AddCommGroup ZetaTest := inferInstanceAs (AddCommGroup testSubmodule)
 instance : Module ℝ ZetaTest := inferInstanceAs (Module ℝ testSubmodule)
