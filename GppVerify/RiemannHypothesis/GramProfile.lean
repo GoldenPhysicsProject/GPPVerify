@@ -16,6 +16,14 @@ elimination of the `Y` block and the border — is *not* defined here (it is owe
 no proposition in this file says anything about which family it is.** A statement of UB in this file's
 terms is therefore a *schema*, not UB.
 
+**Witnesses are not attributed here.** The `L = 0.5` witnesses (`c_A = 867483/500000`,
+`ρ = 3632727590/2³²`, `WeilHAFiniteRange` / `WeilHRho`) are witnesses for the **`St` / `S_Z^eff` frame** —
+the bordered Gram of the odd-face Σ-kernel `G(s,u) = ½[K_S(s−u) − K_S(s+u)]` after δ-elimination and the `Y`
+Schur complement — modulo the named ball hypotheses recorded in those files. `St` is **not** literally the
+matrix `B(φ_j, φ_k)` defined here, and no in-tree lemma identifies the two presentations; that identification
+is an open obligation, on the same footing as the definition of `𝔽_L`. Nothing in this file says that
+`UBR`/`UBA` for the `B`-Gram hold with those constants.
+
 The one theorem is the elementary normalised-frame consequence: `UBR φ ρ` with positive diagonal gives
 `(1 − ρ)‖x‖² ≤ xᵀ Ã x ≤ (1 + ρ)‖x‖²` (`gershgorin_normGram`), by the row-sum lemma of `WeilHRho`.
 This is the Gershgorin statement in *normalised* coordinates only; it is **not** a margin in original
