@@ -2602,3 +2602,5 @@ import GppVerify.RiemannHypothesis.OddFaceItem4Floor
 import GppVerify.RiemannHypothesis.ShadowTheory
 import GppVerify.RiemannHypothesis.ShadowTheoryOnline
 import GppVerify.RiemannHypothesis.FormGNS
+import GppVerify.RiemannHypothesis.LinearShadowTheory
+import GppVerify.RiemannHypothesis.LinearZetaTheory
