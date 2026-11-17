@@ -195,15 +195,15 @@ theorem cauchy_kernel_positive_type {ε : ℝ} (hε : 0 < ε) :
       ∫ t in Ioi (0:ℝ), ε * (Real.exp (-ε*t) * Real.cos ((x i - x j)*t)) =
       ∫ t in Ioi (0:ℝ), ∑ i : Fin n, ∑ j : Fin n, ((starRingEnd ℂ) (c i) * c j).re *
         (ε * (Real.exp (-ε*t) * Real.cos ((x i - x j)*t))) := by
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i _
-      rw [integral_finset_sum]
+      rw [integral_finsetSum]
       · apply Finset.sum_congr rfl
         intro j _
         simp only [integral_const_mul]
       · exact fun j _ => hint i j
-    · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
+    · exact fun i _ => integrable_finsetSum _ fun j _ => hint i j
   rw [hswap]
   -- Step 4: pointwise, the integrand splits into two Gram squares via cos(A−B).
   apply setIntegral_nonneg measurableSet_Ioi
