@@ -247,7 +247,7 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 -- `GppHaarPositivityWeil.convolution_square_positive_type` in
 -- `ConvolutionSquarePositive.lean`: integrability of the translated products via
 -- `Integrable.comp_add_right` + `Integrable.bdd_mul`, the ∑/∫ interchange via
--- `integral_finset_sum`, and the pointwise Gram-square identity above.
+-- `integral_finsetSum`, and the pointwise Gram-square identity above.
 --
 -- Corrected 2026-09-02: this block used to end "This stub is retained only so older
 -- references resolve" — but the stub it described had already been deleted, so the sentence

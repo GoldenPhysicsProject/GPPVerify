@@ -119,15 +119,15 @@ theorem positiveType_mul_convSquare {P f : ℝ → ℝ} (hP : PositiveType P)
       ∫ y, ∑ i : Fin n, ∑ j : Fin n,
         ((starRingEnd ℂ) (c i) * c j).re * P (x i - x j) *
           (f (y + x i) * f (y + x j)) := by
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i _
-      rw [integral_finset_sum]
+      rw [integral_finsetSum]
       · apply Finset.sum_congr rfl
         intro j _
         rw [integral_const_mul]
       · exact fun j _ => hint i j
-    · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
+    · exact fun i _ => integrable_finsetSum _ fun j _ => hint i j
   rw [hswap]
   -- Step 4: pointwise, the integrand is a P-weighted Gram form, nonnegative by
   -- `positiveType_weighted_gram` with Gram vectors the translates of `f`.
