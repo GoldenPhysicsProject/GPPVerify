@@ -2647,3 +2647,4 @@ import GppVerify.RiemannHypothesis.DigammaVerticalMonotone
 import GppVerify.RiemannHypothesis.ReferenceMultiplierZero
 import GppVerify.RiemannHypothesis.BoxCurvature
 import GppVerify.RiemannHypothesis.BoxArchimedean
+import GppVerify.RiemannHypothesis.EventParabola
