@@ -11,7 +11,7 @@ functionals, then no subspace on which `q ≤ 0` has dimension greater than `n`.
   `f ≠ 0`, every subspace `U` with `q ≤ 0` on `U` is finite-dimensional with `finrank U ≤ n`.
 * `momentFunctional`: the moment functionals `f ↦ ∫ xᵏ f(x) dx` as linear maps on the window space `V_L`,
   so the lemma applies with `φ_k` the first `n` moments.
-* `negIndex_le_of_pos_on_vanishing_moments`: if the Weil-type quadratic form is positive on window test
+* `index_le_of_pos_on_vanishing_moments`: if the Weil-type quadratic form is positive on window test
   functions with vanishing moments `0 … n−1`, the negative index on `V_L` is at most `n`.
 
 **Scope.** Pure linear algebra plus linearity of the moment integrals. The analytic inputs of the all-width
