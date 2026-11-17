@@ -21,7 +21,7 @@ the calculus behind that, in two steps (this is the first):
   `4cosh(L/2) − 2w(L) = 2·curv(L)` (`smoothBox_second`), where `curv = e^{t/2} − κ` is the curvature of
   `PlasticConstant.lean`;
 * the **prime part** is locally a polynomial of degree 1 on every gap `(log n₀, log(n₀+1))`
-  (`primeBox_eq_on_gap`), so contributes nothing: `boxModel_second` — the second derivative of
+  (`floor_eventually`, `hasDerivAt_primeBox`), so contributes nothing: `boxModel_second` — the second derivative of
   `smoothBox + primeBox` on a gap is `2·curv(L)`.
 
 **Scope.** `smoothBox` uses the lower limit `1` in `∫₁^L Gcl`, so it differs from the true box form's
