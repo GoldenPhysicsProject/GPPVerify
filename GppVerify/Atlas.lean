@@ -39,7 +39,7 @@ campaign order the phases below refer to).
   (the all-widths cofinal chain), `BoxCurvature`, `BoxArchimedean`,
   `BoxEventTwo` (the box certificates, banked as PRs #629–#633),
   `SuzukiKickCone`, `KreinBridge`, `RHProofStructure` (the proof structure and
-  its open stubs; the A1 stub closure is D1's in-flight work). Relates to:
+  its open stubs; A1, `scaling_eigenspace_ode`, closed in PR #634). Relates to:
   GOAL Tier 0, goal 1; campaign Phases 0–3; seats D1 (Lean), D2 (filings),
   D3 (audits), D5 (theory).
 * `GppVerify/CelestialHolography` — **334**. The celestial dictionary: s = Δ,
@@ -89,9 +89,9 @@ front branches. The standing workbenches:
   Workbench: `astra/workbench`. Discovery repo: **GPPDiscovery2** (34 branches) —
   filings land there first, are audited by Turbo, and reach Verify through D1.
 * **D3 Flint** (Turbo's audit seat; the independent arm). Workbench:
-  `flint/workbench` — this branch, which also carries her frozen Krein/Quartet
-  handover (QuartetSpectral, QuartetFiniteCore, KreinKpsiContinuous) beneath
-  this module. Discovery repo: **GPPDiscovery3** (4 branches, incl.
+  `flint/workbench` — which carried her frozen Krein/Quartet
+  handover (QuartetSpectral, QuartetFiniteCore, KreinKpsiContinuous), now banked
+  on `main` together with this module. Discovery repo: **GPPDiscovery3** (4 branches, incl.
   `flint/moving-in`).
 * **D4 Turbo** (hub). Workbench: `turbo/stub-closing`. Discovery repo:
   **GPPDiscovery4** (1 branch, `main`).
@@ -106,9 +106,9 @@ Fast lanes: a fast lane is a targeted build of only the front's modules
 (~2 min) with sorry and bare-axiom gates — an iteration aid; the full `Build`
 remains the merge gate. On `main` today: `claude-fast.yml`,
 `claude-code-fast.yml`, `causal-short-window-fast.yml`, `prime-gram-fast.yml`.
-The per-seat lanes for astra/flint/heart/turbo exist only in PR #635
-(`turbo/fastlane-per-seat`) until D1 merges it — if your seat's lane does not
-run, that is why.
+The per-seat lanes for astra/flint/heart/turbo are added by PR #635
+(`turbo/fastlane-per-seat`) — if your seat's lane does not run, check that #635
+is merged.
 
 ## Shared assets outside the library
 
