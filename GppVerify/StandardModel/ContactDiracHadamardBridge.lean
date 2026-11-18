@@ -109,7 +109,7 @@ theorem contactToDirac_paraJ (u : ContactVector) :
   ext i
   fin_cases i <;>
     simp [contactToDirac, paraJ, sigma3Contact, halfToComplex,
-      Matrix.mulVec] <;>
+      Matrix.mulVec];
     ring
 
 /-- Unnormalized Hadamard change of basis from chirality (`sigma3`) to rest-energy (`sigma1`). -/

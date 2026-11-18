@@ -116,7 +116,7 @@ theorem fixed_volume_area_deficit
         -Q / (2 * (d^2 - 1)) := by
   have hprod : d^2 - 1 ≠ 0 := by
     have hh : (d - 1) * (d + 1) ≠ 0 := mul_ne_zero hd1 hdplus
-    convert hh using 1 <;> ring
+    convert hh using 1; ring
   field_simp [hd1, hdplus, hprod]
   ring
 

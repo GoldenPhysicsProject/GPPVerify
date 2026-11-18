@@ -33,7 +33,7 @@ theorem hasDerivAt_gravityShellAntideriv (r : ℝ) :
   rw [div_eq_mul_one_div (Real.tanh r),
     show 1 / Real.cosh r ^ 8 = (1 / Real.cosh r ^ 2) ^ 4 by ring, one_div_cosh_sq]
   simp only [Pi.sub_apply, Pi.pow_apply]
-  norm_num <;> ring
+  norm_num; ring
 
 /-- Threshold value of the antiderivative. -/
 theorem gravityShellAntideriv_zero :

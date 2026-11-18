@@ -65,7 +65,7 @@ theorem abs_physical_structured_core_sub_D0_le
       lowerLogError (4 * m / U) (m / S) := by
     rw [GppScalarBoxRegulatorVanishing.lowerLogError_regulator_polynomial hS.ne' hU.ne']
     rw [hδ, hη] at haLog
-    convert haLog using 1 <;> ring
+    convert haLog using 1; ring
   have htLog := abs_log_t_sub_log_m_div_S_le
     hS hm hδ0 hη0 hηsmall hκlo hκhi
     hxlo hxhi hRlo hRhi hκsqScale hxsq hRsqScale hBdef hη ht
@@ -73,7 +73,7 @@ theorem abs_physical_structured_core_sub_D0_le
       poleLogError (4 * m / U) (m / S) := by
     rw [GppScalarBoxRegulatorVanishing.poleLogError_regulator_polynomial hS.ne' hU.ne']
     rw [hδ, hη] at htLog
-    convert htLog using 1 <;> ring
+    convert htLog using 1; ring
   have hE := abs_specialRemainder_le_physical
     hS hU hm hmS hmU hRlo hRhi hκlo hq ha hRsq hκsq hρ hη ht
     hBpair.1.le hBpair.2

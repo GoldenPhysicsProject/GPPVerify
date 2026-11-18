@@ -29,8 +29,7 @@ theorem normalized_doubled_halfline_moment_family {s : ℝ} (hs : 0 < s) :
   calc
     (4 / π) * ∫ lam in Ioi (0 : ℝ), lam ^ (s - 1) * P lam
         = 8 * ((1 / (2 * π)) * ∫ lam in Ioi (0 : ℝ), lam ^ (s - 1) * P lam) := by
-            field_simp [Real.pi_ne_zero]
-            <;> ring
+            field_simp [Real.pi_ne_zero]; ring
     _ = 8 * (π ^ (-(s + 1)) * (1 - 2 ^ (-(s + 1))) * Real.Gamma (s + 1) *
           ∑' n : ℕ, 1 / (n : ℝ) ^ (s + 1)) := by rw [h]
 
@@ -45,8 +44,7 @@ theorem normalized_spectral_weight_mass :
   calc
     (4 / π) * ∫ lam in Ioi (0 : ℝ), P lam
         = 8 * ((1 / (2 * π)) * ∫ lam in Ioi (0 : ℝ), P lam) := by
-            field_simp [hp]
-            <;> ring
+            field_simp [hp]; ring
     _ = 8 * (1 / 8) := by rw [← h]; ring
     _ = 1 := by norm_num
 

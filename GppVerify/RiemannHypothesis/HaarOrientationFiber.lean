@@ -131,7 +131,7 @@ theorem reflectedBoundary_sq (fplus fminus : ℂ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [reflectedBoundary, Matrix.mul_apply, Fin.sum_univ_two,
-      ] <;> ring
+      ]; ring
 
 /-- Reality relation f-=conj(f+) is exactly self-adjointness of the reflected block. -/
 theorem reflectedBoundary_selfAdjoint_of_reality

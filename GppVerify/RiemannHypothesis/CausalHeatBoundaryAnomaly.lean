@@ -78,7 +78,7 @@ theorem two_mul_integral_zero_a_add_two
     2 * (∫ x in (0 : ℝ)..a, g (a + 2 * x)) = ∫ y in a..(3 * a), g y := by
   have h := intervalIntegral.mul_integral_comp_add_mul_real g 2 a
     (a := (0 : ℝ)) (b := a)
-  convert h using 1 <;> ring
+  convert h using 1; ring
 
 /-- Affine substitution for `g(2x-a)` on the bulk interval. -/
 theorem two_mul_integral_a_R_two_sub
@@ -86,7 +86,7 @@ theorem two_mul_integral_a_R_two_sub
     2 * (∫ x in a..R, g (2 * x - a)) =
       ∫ y in a..(2 * R - a), g y := by
   have h := intervalIntegral.mul_integral_comp_mul_sub_real g 2 a (a := a) (b := R)
-  convert h using 1 <;> ring
+  convert h using 1; ring
 
 /-- Affine substitution for `g(2x+a)` on the bulk interval. -/
 theorem two_mul_integral_a_R_two_add
@@ -94,7 +94,7 @@ theorem two_mul_integral_a_R_two_add
     2 * (∫ x in a..R, g (2 * x + a)) =
       ∫ y in (3 * a)..(2 * R + a), g y := by
   have h := intervalIntegral.mul_integral_comp_mul_add_real g 2 a (a := a) (b := R)
-  convert h using 1 <;> ring
+  convert h using 1; ring
 
 /-- **Exact finite-cutoff boundary cancellation.** Continuity supplies the finite-interval
 integrability needed by subtraction and adjacent-interval additivity. The only remainder is a

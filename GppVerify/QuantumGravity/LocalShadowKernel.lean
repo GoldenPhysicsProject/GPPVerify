@@ -43,7 +43,7 @@ theorem archKernel_shadow_eq_conj (d t : ℝ) :
   apply Complex.ext <;>
     simp [Complex.sub_re, Complex.sub_im, Complex.add_re, Complex.add_im, Complex.mul_re,
       Complex.mul_im, Complex.I_re, Complex.I_im, Complex.conj_re, Complex.conj_im,
-      Complex.ofReal_re, Complex.ofReal_im, Complex.div_re, Complex.div_im] <;> ring
+      Complex.ofReal_re, Complex.ofReal_im, Complex.div_re, Complex.div_im]; ring
 
 /-- **Principal-series positivity**: on `a = d/2 + it` (`d > 0`), `K_{∞,d}(a)` is the positive
     real number `|Γ(d/2+it)|²/Γ(d)`, cast into `ℂ`. Shadow reflection becomes Hermitian

@@ -63,7 +63,7 @@ theorem inversionCombination_hasDerivAt_zero
   have hlogsq : HasDerivAt (fun t : ℝ => (Real.log t) ^ 2 / 2)
       (Real.log x / x) x := by
     refine ((hlog.pow 2).div_const 2).congr_deriv ?_
-    norm_num <;> ring
+    norm_num; ring
 
   have hsum := (hneg.add hinv).add hlogsq
   have hlog_identity :

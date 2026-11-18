@@ -102,8 +102,8 @@ theorem Uq_rayToDirac (u : RayState) :
   fin_cases i <;>
     simp [rayToDirac, act2, rayWeyl, Uq,
       Matrix.mulVec, Fin.sum_univ_two, dotProduct, 
-      ] <;>
-    ring_nf <;> simp [Complex.I_sq] <;> ring
+      ];
+    ring_nf; simp [Complex.I_sq] <;> ring
 
 /-- The Grassmannian quotient restricted to the elliptic ray plane is exactly twice the
 phase embedding into the Dirac carrier. -/

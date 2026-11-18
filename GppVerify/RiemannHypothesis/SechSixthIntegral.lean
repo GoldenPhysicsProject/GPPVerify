@@ -65,7 +65,7 @@ theorem hasDerivAt_sechSixthAntideriv (x : ℝ) :
     ((ht.pow 5).const_mul (1 / 5 : ℝ))
   refine h.congr_deriv ?_
   rw [show 1 / Real.cosh x ^ 6 = (1 / Real.cosh x ^ 2) ^ 3 by ring, one_div_cosh_sq]
-  norm_num <;> ring
+  norm_num; ring
 
 /-- The antiderivative vanishes at the origin. -/
 theorem sechSixthAntideriv_zero : sechSixthAntideriv 0 = 0 := by

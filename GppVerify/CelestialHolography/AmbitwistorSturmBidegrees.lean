@@ -230,7 +230,7 @@ def freeShear (t : ℂ) (u : SturmState) : SturmState :=
 theorem freeShear_add (s t : ℂ) (u : SturmState) :
     freeShear (s+t) u = freeShear s (freeShear t u) := by
   rcases u with ⟨x,p⟩
-  apply Prod.ext <;> simp [freeShear] <;> ring
+  apply Prod.ext <;> simp [freeShear]; ring
 
 /-- Free propagation preserves the Sturm Wronskian exactly. -/
 theorem freeShear_preserves_wronskian (t : ℂ) (u v : SturmState) :
@@ -291,13 +291,13 @@ def goldenStep (u : SturmState) : SturmState :=
 /-- The primitive step is exactly the matrix `[[1,1],[1,0]]`. -/
 theorem goldenStep_apply (x p : ℂ) :
     goldenStep (x,p) = (x+p,x) := by
-  apply Prod.ext <;> simp [goldenStep, freeShear, reciprocalSwap] <;> ring
+  apply Prod.ext <;> simp [goldenStep, freeShear, reciprocalSwap]; ring
 
 /-- Squaring gives the orientation-preserving matrix `[[2,1],[1,1]]`. -/
 theorem goldenStep_sq_apply (x p : ℂ) :
     goldenStep (goldenStep (x,p)) = (2*x+p,x+p) := by
   rw [goldenStep_apply, goldenStep_apply]
-  apply Prod.ext <;> simp <;> ring
+  apply Prod.ext <;> simp; ring
 
 /-- One golden step reverses the Wronskian, as expected from determinant `-1`. -/
 theorem goldenStep_reverses_wronskian (u v : SturmState) :

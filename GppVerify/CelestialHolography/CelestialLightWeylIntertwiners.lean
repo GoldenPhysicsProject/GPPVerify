@@ -121,13 +121,13 @@ theorem deltaSpin_lightR (w : WeightPair) :
 theorem deltaSpin_shadow (w : WeightPair) :
     deltaSpin (shadow w) = (2 - (deltaSpin w).1, -(deltaSpin w).2) := by
   rcases w with ⟨h,hb⟩
-  apply Prod.ext <;> simp [deltaSpin, shadow] <;> ring
+  apply Prod.ext <;> simp [deltaSpin, shadow]; ring
 
 /-- Parity preserves Delta and reverses J. -/
 theorem deltaSpin_parity (w : WeightPair) :
     deltaSpin (parity w) = ((deltaSpin w).1, -(deltaSpin w).2) := by
   rcases w with ⟨h,hb⟩
-  apply Prod.ext <;> simp [deltaSpin, parity] <;> ring
+  apply Prod.ext <;> simp [deltaSpin, parity]; ring
 
 /-- Principal-series parametrization around the two chiral unitary axes. -/
 def principalWeights (a b : ℝ) : WeightPair :=
@@ -136,12 +136,12 @@ def principalWeights (a b : ℝ) : WeightPair :=
 /-- The left light reflection flips only the left principal-series spectral parameter. -/
 theorem lightL_principal (a b : ℝ) :
     lightL (principalWeights a b) = principalWeights (-a) b := by
-  apply Prod.ext <;> simp [lightL, principalWeights] <;> ring
+  apply Prod.ext <;> simp [lightL, principalWeights]; ring
 
 /-- The right light reflection flips only the right principal-series spectral parameter. -/
 theorem lightR_principal (a b : ℝ) :
     lightR (principalWeights a b) = principalWeights a (-b) := by
-  apply Prod.ext <;> simp [lightR, principalWeights] <;> ring
+  apply Prod.ext <;> simp [lightR, principalWeights]; ring
 
 /-- Full shadow flips both principal-series spectral parameters. -/
 theorem shadow_principal (a b : ℝ) :

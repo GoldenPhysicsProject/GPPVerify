@@ -43,7 +43,7 @@ theorem landen_at_one_endpoint :
       (hnum.div hden (by norm_num)).continuousAt
     change Tendsto (fun y : ℝ => y / (1 + y)) (𝓝[Ioo (0 : ℝ) 1] 1) (𝓝 (1 / 2 : ℝ))
     convert hc.tendsto.mono_left
-      (nhdsWithin_le_nhds : 𝓝[Ioo (0 : ℝ) 1] 1 ≤ 𝓝 1) using 1 <;> norm_num
+      (nhdsWithin_le_nhds : 𝓝[Ioo (0 : ℝ) 1] 1 ≤ 𝓝 1) using 1; norm_num
 
   have hhalf_cont : ContinuousAt li2Series (1 / 2 : ℝ) := by
     exact (hasDerivAt_li2Series (by norm_num) (by norm_num)).continuousAt
@@ -80,7 +80,7 @@ theorem landen_at_one_endpoint :
     change Tendsto (fun y : ℝ => (Real.log (1 + y)) ^ 2 / 2)
       (𝓝[Ioo (0 : ℝ) 1] 1) (𝓝 ((Real.log 2) ^ 2 / 2))
     convert hc.tendsto.mono_left
-      (nhdsWithin_le_nhds : 𝓝[Ioo (0 : ℝ) 1] 1 ≤ 𝓝 1) using 1 <;> norm_num
+      (nhdsWithin_le_nhds : 𝓝[Ioo (0 : ℝ) 1] 1 ≤ 𝓝 1) using 1; norm_num
 
   have hlimit :
       Tendsto landenCombination L

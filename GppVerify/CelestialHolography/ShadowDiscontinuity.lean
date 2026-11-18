@@ -61,7 +61,7 @@ lemma shadow_equals_conj_on_principal_series (lam : ℝ) :
     simp [Complex.add_re, Complex.add_im,
           Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im,
           Complex.ofReal_re, Complex.ofReal_im, Complex.sub_re, Complex.sub_im,
-          Complex.one_re, Complex.one_im] <;>
+          Complex.one_re, Complex.one_im];
     ring
 
 /-- The residue at a simple pole z₀ of f(z)/(z-z₀): algebraic identity. -/

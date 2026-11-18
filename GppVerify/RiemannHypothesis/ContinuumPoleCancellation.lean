@@ -40,7 +40,7 @@ theorem halfDensity_product (x y : ℝ) :
   by_cases hx : t ≤ x <;> by_cases hy : t ≤ y
   · simp only [halfDensity, hx, hy, if_true, indicator_of_mem (show t ∈ Iic (min x y) from le_min hx hy)]
     rw [← exp_add, ← exp_add]
-    congr 1 <;> ring
+    congr 1; ring
   · simp [halfDensity, hx, hy, Set.indicator]
   · simp [halfDensity, hx, hy, Set.indicator]
   · simp [halfDensity, hx, hy, Set.indicator]

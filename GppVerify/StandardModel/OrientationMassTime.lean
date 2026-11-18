@@ -50,15 +50,15 @@ def diagFlip (x : Bool × Bool) : Bool × Bool := (!x.1, !x.2)
 def xorCharacter (x : Bool × Bool) : Bool := xor x.1 x.2
 
 theorem diagFlip_involutive (x : Bool × Bool) : diagFlip (diagFlip x) = x := by
-  rcases x with ⟨a,b⟩ <;> cases a <;> cases b <;> decide
+  rcases x with ⟨a,b⟩; cases a <;> cases b <;> decide
 
 theorem xorCharacter_diagFlip (x : Bool × Bool) :
     xorCharacter (diagFlip x) = xorCharacter x := by
-  rcases x with ⟨a,b⟩ <;> cases a <;> cases b <;> decide
+  rcases x with ⟨a,b⟩; cases a <;> cases b <;> decide
 
 theorem xorCharacter_eq_iff_diagOrbit (x y : Bool × Bool) :
     xorCharacter x = xorCharacter y ↔ y = x ∨ y = diagFlip x := by
-  rcases x with ⟨a,b⟩ <;> rcases y with ⟨c,d⟩ <;>
+  rcases x with ⟨a,b⟩; rcases y with ⟨c,d⟩;
     cases a <;> cases b <;> cases c <;> cases d <;> decide
 
 theorem finite_two_half_flips_agree (q t : Bool) :

@@ -83,7 +83,7 @@ theorem endpointR2_scale_invariant
   unfold endpointR2
   have hscaled : c * U + 4 * (c * m) ≠ 0 := by
     have hprod : c * (U + 4 * m) ≠ 0 := mul_ne_zero hc hden
-    convert hprod using 1 <;> ring
+    convert hprod using 1; ring
   field_simp [hscaled, hden]
 
 /-- Common rescaling of `S,U,m` leaves `κ²` invariant. -/

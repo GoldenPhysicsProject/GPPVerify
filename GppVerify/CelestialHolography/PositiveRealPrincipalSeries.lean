@@ -107,7 +107,7 @@ theorem celestialWeight_intertwines_weilReflection (s : ℂ) :
     celestialWeight (weilReflection s) =
       celestialWeilReflection (celestialWeight s) := by
   apply Complex.ext <;>
-    simp [celestialWeight, weilReflection, celestialWeilReflection, complexConj] <;>
+    simp [celestialWeight, weilReflection, celestialWeilReflection, complexConj];
     ring
 
 /-- The Weil reflection fixes every point of the arithmetic critical axis. -/

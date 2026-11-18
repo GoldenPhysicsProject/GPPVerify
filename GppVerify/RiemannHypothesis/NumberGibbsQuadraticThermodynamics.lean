@@ -108,7 +108,7 @@ theorem entropy_eq_beta_mul_internalEnergy_sub_freeEnergy_add_quadratic
     entropy β η =
       β * (internalEnergy β η - freeEnergy β η) + η * quadraticEnergy β η := by
   unfold entropy freeEnergy
-  field_simp [hβ] <;> ring
+  field_simp [hβ]; ring
 
 /-- Equivalent generalized free-energy identity. -/
 theorem freeEnergy_eq_internalEnergy_add_quadratic_div_sub_entropy_div
@@ -116,7 +116,7 @@ theorem freeEnergy_eq_internalEnergy_add_quadratic_div_sub_entropy_div
     freeEnergy β η = internalEnergy β η +
       (η / β) * quadraticEnergy β η - entropy β η / β := by
   unfold entropy freeEnergy
-  field_simp [hβ] <;> ring
+  field_simp [hβ]; ring
 
 /-- Honest thermodynamic package on the fully confined domain `η > 0`. -/
 theorem quadratic_gibbs_legendre_package

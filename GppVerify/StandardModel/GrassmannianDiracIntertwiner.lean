@@ -102,7 +102,7 @@ theorem Phi_eEpsilon_zero : Phi *ᵥ eEpsilon = 0 := by
 
 /-- On `σ3`, the quotient is the first Dirac coordinate (up to `2i`). -/
 theorem Phi_eSigma3 : Phi *ᵥ eSigma3 = ![2 * Complex.I,0] := by
-  ext i; fin_cases i <;> simp [Phi,eSigma3,Matrix.mulVec] <;> ring
+  ext i; fin_cases i <;> simp [Phi,eSigma3,Matrix.mulVec]; ring
 
 /-- On `σ1`, the quotient is the second Dirac coordinate (up to `2`). -/
 theorem Phi_eSigma1 : Phi *ᵥ eSigma1 = ![0,2] := by

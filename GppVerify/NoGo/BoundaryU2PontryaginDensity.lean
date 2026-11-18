@@ -177,7 +177,7 @@ theorem e_apply (w : Fin 3 → ℝ) : e w = !![(w 2 : ℂ) * I, (w 0 : ℂ) * I 
     (w 0 : ℂ) * I - w 1, -((w 2 : ℂ) * I)] := by
   simp only [e, Fin.sum_univ_three, E]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Complex.real_smul] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Complex.real_smul]; ring
 
 /-- **The traceless part of a skew-Hermitian matrix lies in `su(2) = range e`.** -/
 theorem traceless_mem_range (A : M2) (hA : Aᴴ = -A) :

@@ -66,6 +66,6 @@ theorem two_sheet_lepton_package (Ngen k : ℤ) :
     deltaL Ngen k + deltaL Ngen (-k) = 0 ∧
     (1:ℤ)*deltaL Ngen k + (-1:ℤ)*deltaL Ngen (-k) =
       2*deltaL Ngen k := by
-  constructor <;> simp [deltaL] <;> ring
+  constructor <;> simp [deltaL]; ring
 
 end GppCPTSheetElectroweakAnomalyBookkeeping

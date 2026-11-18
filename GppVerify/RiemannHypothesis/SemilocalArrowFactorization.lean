@@ -49,7 +49,7 @@ theorem nyquist_two_arrow_offdiag
     ring
   have hcos :
       Real.cos (c * n / 2 + c * m / 2) = Real.cos (c * (n + m) / 2) := by
-    congr 1 <;> ring
+    congr 1; ring
   rw [hcos]
   field_simp [hden]
   nlinarith [htrig]

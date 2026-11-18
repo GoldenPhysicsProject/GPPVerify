@@ -61,6 +61,6 @@ theorem critical_mass_square (a : ℂ) (v : FourState) :
     diracSymbol a (1/2) (diracSymbol a (1/2) v) =
       ⟨(a^2+1/4)*v.pp, (a^2+1/4)*v.pm,
        (a^2+1/4)*v.mp, (a^2+1/4)*v.mm⟩ := by
-  convert dirac_symbol_square a (1/2 : ℂ) v using 1 <;> norm_num
+  convert dirac_symbol_square a (1/2 : ℂ) v using 1; norm_num
 
 end GppPoleMeanFourFaceDirac

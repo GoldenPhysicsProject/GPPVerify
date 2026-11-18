@@ -80,7 +80,7 @@ theorem foldedKernel_factor (c x y : ℝ) :
           c * (x - y) / 2 = c * x / 2 - c * y / 2 := by ring
       rw [hA]
       have h := two_sin_sub_mul_cos_add (c * x / 2) (c * y / 2)
-      convert h using 1 <;> ring
+      convert h using 1; ring
     field_simp [hden]
     nlinarith
 
