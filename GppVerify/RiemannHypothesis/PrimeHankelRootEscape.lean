@@ -21,7 +21,7 @@ theorem exists_eval_ne_zero_of_natDegree_lt_card
     (hp : p ≠ 0) (hcard : p.natDegree < S.card) :
     ∃ x ∈ S, p.eval x ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsubset : S.val ⊆ p.roots := by
     intro x hx
     rw [Polynomial.mem_roots hp]

@@ -72,12 +72,12 @@ theorem eq_zero_of_psd_add_smul (Q P : Matrix m m ℝ) (u v : m → ℝ)
     rwa [qf_add, qf_smul, hv, zero_add] at this
   have hle : t ≤ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : t * qf P u < 0 := mul_neg_of_pos_of_neg h hPu
     linarith
   have hge : 0 ≤ t := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : t * qf P v < 0 := mul_neg_of_neg_of_pos h hPv
     linarith
   linarith

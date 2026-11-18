@@ -165,7 +165,7 @@ theorem cpow_polar (p σ t : ℝ) (hp : 0 < p) :
 
 lemma zp_ne_zero (p : ℝ) (hp : 0 < p) (s : ℂ) : (p : ℂ) ^ ((1 / 2 : ℂ) - s) ≠ 0 := by
   rw [Ne, Complex.cpow_eq_zero_iff]
-  push_neg
+  push Not
   intro h; exact absurd h (by exact_mod_cast hp.ne')
 
 /-- **The local Euler transfer is a Blaschke automorphism.** For `z = p^{1/2−s}` and

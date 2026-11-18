@@ -1,6 +1,6 @@
 import GppVerify.CelestialHolography.RaisedBoxConcreteMoment
 import Mathlib.MeasureTheory.Integral.DominatedConvergence
-import Mathlib.MeasureTheory.Measure.Typeclasses.NoAtoms
+import Mathlib.MeasureTheory.Measure.Typeclasses.NullSingletonClass
 import Mathlib.Tactic
 
 /-!
