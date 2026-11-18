@@ -145,7 +145,7 @@ theorem cos_neg_of_quartet_neg {C γ δ : ℝ}
     (h : 4 * Real.exp (-C * (γ^2 - δ^2)) * Real.cos (2*C*γ*δ) < 0) :
     Real.cos (2*C*γ*δ) < 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hpos : (0:ℝ) < 4 * Real.exp (-C * (γ^2 - δ^2)) := by positivity
   nlinarith [mul_nonneg hpos.le hc]
 

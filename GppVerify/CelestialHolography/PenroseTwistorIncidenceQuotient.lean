@@ -91,7 +91,7 @@ theorem epsBracket_eq_zero_iff_span
   simp only [epsBracket, scaleSpinor, Prod.mk.injEq]
   have hl' : l0 ≠ 0 ∨ l1 ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hl (by rw [hc.1, hc.2])
   constructor
   · intro h
@@ -132,7 +132,7 @@ theorem reduce_surjective (l : Spinor2C) (hl : l ≠ (0,0)) :
   rcases l with ⟨l0,l1⟩
   have hl' : l0 ≠ 0 ∨ l1 ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hl (by rw [hc.1, hc.2])
   rcases hl' with hl0 | hl1
   · refine ⟨(f,(0,g/l0)), ?_⟩

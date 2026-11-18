@@ -86,7 +86,7 @@ theorem pontryagin_finite {B : LinearMap.BilinForm ℝ V}
         + (B x u₀ / B u₀ u₀) * B x u₀ := by
   by_cases h : ∀ x, 0 ≤ B x x
   · exact Or.inl h
-  · push_neg at h
+  · push Not at h
     obtain ⟨u₀, hu⟩ := h
     refine Or.inr ⟨u₀, hu, fun x => ?_⟩
     have hq : B u₀ u₀ ≠ 0 := ne_of_lt hu

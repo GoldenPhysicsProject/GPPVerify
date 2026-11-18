@@ -103,7 +103,7 @@ theorem exists_three_point_score_ne_zero
     ∃ n : ℕ, n ∈ ({0, 1, 3} : Finset ℕ) ∧
       a * centeredLog β n + b * centeredLogSq β n ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have h0 := h 0 (by simp)
   have h1 := h 1 (by simp)
   have h3 := h 3 (by simp)

@@ -107,7 +107,7 @@ theorem linkEnergy_gap {J : ℕ} {g : E → Spin J} (hg : g ≠ 0) :
     3 / 4 ≤ linkEnergy g := by
   obtain ⟨e, he⟩ : ∃ e, g e ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hg (funext h)
   have hval : (g e).val ≠ 0 := fun hv => he (Fin.ext hv)
   unfold linkEnergy
