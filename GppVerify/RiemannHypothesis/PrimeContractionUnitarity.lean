@@ -91,10 +91,10 @@ theorem primePower_norm_eq_one_iff (p : ℕ) (hp : p.Prime) (Δ : ℂ) :
   constructor
   · intro h
     have h' : (-(Δ - 1) / 2).re = 0 := h
-    simp [Complex.sub_re, Complex.neg_re, Complex.div_re] at h'
+    simp [Complex.sub_re] at h'
     linarith [h']
   · intro h
-    simp [Complex.sub_re, Complex.neg_re, Complex.div_re]
+    simp [Complex.sub_re]
     linarith [h]
 
 /-- The primes, as a subtype of `ℕ` -- the index set for `ℓ²(primes)`. -/

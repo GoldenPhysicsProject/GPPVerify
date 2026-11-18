@@ -75,7 +75,7 @@ theorem two_negative_at_four_nodes {h w : ℝ} (hh : 0 < h) (hw : 0 < w) (x : Fi
     have := hE 3
     simp only [e, o] at this
     rw [show ((3 : Fin 4) : ℕ) = 3 from rfl] at this
-    rw [this]; simp [Matrix.vecHead, Matrix.vecTail]; try ring
+    rw [this]; simp ; try ring
   rw [h0', h1', h2', h3']
   have := Q_neg_plane hh hw α β hαβ
   linarith

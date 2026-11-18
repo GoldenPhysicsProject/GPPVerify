@@ -31,8 +31,8 @@ theorem iterated_logMul_apply_general (m n : ℕ) (f : ℕ → ℂ) :
   induction m generalizing f with
   | zero => simp
   | succ m ih =>
-      simp [Function.iterate_succ', Function.comp_def, ih, pow_succ,
-        mul_assoc, mul_left_comm, mul_comm]
+      simp [ih, pow_succ,
+        mul_assoc, mul_comm]
 
 /-- Specialization of the generic coefficient identity to the von Mangoldt sequence. -/
 theorem iterated_logMul_apply (m n : ℕ) :

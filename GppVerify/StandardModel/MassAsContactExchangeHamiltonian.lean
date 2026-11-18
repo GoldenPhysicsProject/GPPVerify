@@ -52,7 +52,7 @@ theorem contactToDirac_exchangeHalves (u : ContactVector) :
   ext i
   fin_cases i <;>
     simp [contactToDirac, exchangeHalves, betaRest, halfToComplex,
-      Matrix.mulVec, Fin.sum_univ_two]
+      Matrix.mulVec]
 
 /-- Rest-energy scale as a complex scalar. -/
 def restEnergyScale (m c : ℝ) : ℂ := ((m * c^2 : ℝ) : ℂ)

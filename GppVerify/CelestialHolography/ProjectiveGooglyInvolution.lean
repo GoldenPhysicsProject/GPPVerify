@@ -61,7 +61,7 @@ theorem descended_backward_forward
   apply bulkOfClass_injective PA
   induction q using Quotient.inductionOn with
   | _ a =>
-      simp [Function.comp_def, G.backward_intertwines,
+      simp [G.backward_intertwines,
         G.forward_intertwines, G.bulk_left_inverse]
 
 /-- Backward then forward is likewise the identity on the dual Penrose quotient. -/
@@ -74,7 +74,7 @@ theorem descended_forward_backward
   apply bulkOfClass_injective PB
   induction q using Quotient.inductionOn with
   | _ b =>
-      simp [Function.comp_def, G.forward_intertwines,
+      simp [G.forward_intertwines,
         G.backward_intertwines, G.bulk_right_inverse]
 
 /-- Therefore the two descended googly maps are a genuine equivalence between the two

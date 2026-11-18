@@ -190,7 +190,7 @@ noncomputable def heatGaussian (t : ℝ) : ℝ → ℝ := fun x => Real.exp (-x 
 
 /-- The heat Gaussian is even. -/
 theorem heatGaussian_even (t : ℝ) (x : ℝ) : heatGaussian t (-x) = heatGaussian t x := by
-  simp only [heatGaussian, neg_pow, even_two.neg_pow]
+  simp only [heatGaussian, even_two.neg_pow]
 
 /-- **Thread L bridge.** The paper's arithmetic sum
 `Σ_{n} Λ(n) n^{−1/2} e^{−(log n)²/(4t)}` is exactly half of the repo's existing

@@ -79,7 +79,7 @@ theorem right_half_isotropic (y y' : ContactHalf) :
 /-- The para-complex operation squares to the identity. -/
 theorem paraJ_sq (u : ContactVector) : paraJ (paraJ u) = u := by
   rcases u with ⟨⟨x0,x1⟩,⟨y0,y1⟩⟩
-  simp [ContactHalf, ContactVector, halfPair, leviForm, paraJ, neutralPair, neutralQ]
+  simp [ContactHalf, ContactVector, paraJ]
 
 /-- The neutral pairing is symmetric. -/
 theorem neutralPair_symm (u v : ContactVector) :

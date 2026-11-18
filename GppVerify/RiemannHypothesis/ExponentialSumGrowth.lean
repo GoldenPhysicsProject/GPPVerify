@@ -122,7 +122,7 @@ theorem bounded_exp_sum_re_nonpos (c l : Fin n → ℂ) (hc : ∀ k, c k ≠ 0)
       exact (hC _).trans (mul_le_mul_of_nonneg_left hF hCpos.le)
     have h2 : ‖b k‖ ≤ ‖b‖ := norm_le_pi_norm b k
     have h3 : ‖b k‖ = ‖c k‖ * Real.exp ((l k).re * s) := by
-      simp [hb, norm_mul, Complex.norm_exp]
+      simp [hb, Complex.norm_exp]
     linarith
   -- contradiction with `Re l_k > 0`
   have hck : 0 < ‖c k‖ := norm_pos_iff.mpr (hc k)

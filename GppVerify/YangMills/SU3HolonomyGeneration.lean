@@ -157,12 +157,12 @@ theorem mem_lieSpan_of_su3 (A : M3) (hA : Aᴴ = -A) (tA : A.trace = 0) : A ∈ 
 
 theorem X_mem_su3 : X ∈ su3 := by
   refine ⟨?_, ?_⟩
-  · ext i j; fin_cases i <;> fin_cases j <;> simp [X, conjTranspose_apply, Complex.ext_iff]
+  · ext i j; fin_cases i <;> fin_cases j <;> simp [X, conjTranspose_apply]
   · simp [X, Matrix.trace, Fin.sum_univ_three]; ring
 
 theorem Y_mem_su3 : Y ∈ su3 := by
   refine ⟨?_, ?_⟩
-  · ext i j; fin_cases i <;> fin_cases j <;> simp [Y, conjTranspose_apply, Complex.ext_iff]
+  · ext i j; fin_cases i <;> fin_cases j <;> simp [Y, conjTranspose_apply]
   · simp [Y, Matrix.trace, Fin.sum_univ_three]
 
 /-- **`Lie(X, Y) = su(3)`.** -/

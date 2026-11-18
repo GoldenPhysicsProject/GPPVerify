@@ -150,16 +150,16 @@ theorem critical_line_is_fixed_locus :
   constructor
   · intro h
     have hre := congr_arg Complex.re h
-    simp only [RCLike.star_def, Complex.conj_re,
+    simp only [Complex.conj_re,
                Complex.sub_re, Complex.one_re] at hre
     linarith
   · intro h
     apply Complex.ext
-    · simp only [RCLike.star_def, Complex.conj_re,
+    · simp only [Complex.conj_re,
                  Complex.sub_re, Complex.one_re]
       linarith
-    · simp only [RCLike.star_def, Complex.conj_im,
-                 Complex.sub_im, Complex.one_im, neg_zero]
+    · simp only [Complex.conj_im,
+                 Complex.sub_im, Complex.one_im]
       ring
 
 end GppFE

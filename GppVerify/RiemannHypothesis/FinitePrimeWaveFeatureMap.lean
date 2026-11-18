@@ -114,7 +114,7 @@ theorem finiteCosineKernel_gram_eq_featureEnergy
       ← gram_square_eq_normSq c (fun i => Real.sin (omega k * x i)), mul_add]
   simp_rw [Finset.mul_sum]
   simp_rw [F, hcos, mul_add, Finset.sum_add_distrib]
-  simp only [mul_assoc, mul_left_comm, mul_comm]
+  simp only [mul_assoc, mul_comm]
 
 /-- Nonnegative weights make the explicit feature energy nonnegative. -/
 theorem featureEnergy_nonneg

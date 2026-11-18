@@ -80,7 +80,7 @@ theorem hodgeStar_sq : hodgeStar * hodgeStar = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [hodgeStar, Matrix.mul_apply, Fin.sum_univ_six, Matrix.one_apply]
+      [hodgeStar, Matrix.mul_apply, Fin.sum_univ_six]
 
 /-- Trace of the Hodge star vanishes: it is a signed permutation with no
     fixed basis vector, so every diagonal entry is 0. -/

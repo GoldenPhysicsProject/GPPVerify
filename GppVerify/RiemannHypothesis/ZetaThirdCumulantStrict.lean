@@ -152,7 +152,7 @@ theorem iteratedDeriv_two_negZetaLogDeriv_eq_zetaThirdCumulantResponse
     simpa [iteratedDeriv_one] using heq
   rw [hiter, deriv_firstResponse_eq_thirdLogResponse hs]
   unfold zetaThirdCumulantResponse
-  simp [iteratedDeriv_succ', iteratedDeriv_one]
+  simp [iteratedDeriv_succ']
 
 /-- The actual complex zeta third-cumulant response has strictly positive real part. -/
 theorem zetaThirdCumulantResponse_re_pos

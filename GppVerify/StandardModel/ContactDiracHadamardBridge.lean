@@ -69,7 +69,7 @@ def contactToDirac (u : ContactVector) : Fin 2 → ℂ :=
 theorem halfToComplex_quarter2 (x : ContactHalf) :
     halfToComplex (quarter2 x) = Complex.I * halfToComplex x := by
   rcases x with ⟨x0,x1⟩
-  simp [halfToComplex, quarter2, Complex.I_mul_I]
+  simp [halfToComplex, quarter2]
   ring_nf
   rw [Complex.I_sq]
   ring
@@ -99,7 +99,7 @@ theorem contactToDirac_relativeJ (u : ContactVector) :
   ext i
   fin_cases i <;>
     simp [contactToDirac, relativeJ, relativeJMatrix, halfToComplex,
-      quarter2, Matrix.mulVec, Fin.sum_univ_two, Complex.I_mul_I] <;>
+      quarter2, Matrix.mulVec] <;>
     ring_nf <;> simp [Complex.I_sq] <;> ring
 
 /-- The para-complex left/right sign becomes the Pauli matrix `sigma3`. -/
@@ -109,7 +109,7 @@ theorem contactToDirac_paraJ (u : ContactVector) :
   ext i
   fin_cases i <;>
     simp [contactToDirac, paraJ, sigma3Contact, halfToComplex,
-      Matrix.mulVec, Fin.sum_univ_two] <;>
+      Matrix.mulVec] <;>
     ring
 
 /-- Unnormalized Hadamard change of basis from chirality (`sigma3`) to rest-energy (`sigma1`). -/
@@ -143,7 +143,7 @@ theorem scaled_hadamard_sq_one
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [hadamardRaw, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
+      [hadamardRaw, Matrix.mul_apply, Fin.sum_univ_two] <;>
     first | linear_combination ha | ring
 
 /-- Contact `±` basis vectors become equal left/right combinations under the raw

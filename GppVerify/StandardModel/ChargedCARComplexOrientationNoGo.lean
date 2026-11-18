@@ -139,7 +139,7 @@ theorem conjV_reverses_phaseI (v : V2) :
     conjV (phaseI *ᵥ v) = (-phaseI) *ᵥ conjV v := by
   ext i
   fin_cases i <;>
-    simp [conjV, phaseI, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
+    simp [conjV, phaseI, Matrix.mulVec, dotProduct]
 
 /-- It simultaneously reverses the positive-energy complex structure `J`. -/
 theorem conjV_reverses_energyJ (v : V2) :
@@ -147,14 +147,14 @@ theorem conjV_reverses_energyJ (v : V2) :
   rw [energyJ_explicit]
   ext i
   fin_cases i <;>
-    simp [conjV, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
+    simp [conjV, Matrix.mulVec, dotProduct]
 
 /-- But the relative particle/antiparticle grading is unchanged. -/
 theorem conjV_preserves_qSign (v : V2) :
     conjV (qSign *ᵥ v) = qSign *ᵥ conjV v := by
   ext i
   fin_cases i <;>
-    simp [conjV, qSign, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail]
+    simp [conjV, qSign, Matrix.mulVec, dotProduct]
 
 /-- Euclidean one-particle norm on the two sectors. -/
 def normSq2 (v : V2) : ℝ := Complex.normSq (v 0) + Complex.normSq (v 1)

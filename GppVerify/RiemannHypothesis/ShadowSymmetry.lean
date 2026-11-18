@@ -64,7 +64,7 @@ theorem shadow_is_involution (Δ : ℤ) : 2 - (2 - Δ) = Δ :=
 theorem shadow_is_conjugation_on_principal_series (lam : ℝ) :
     let Δ : ℂ := 1 + Complex.I * lam
     (2 : ℂ) - Δ = starRingEnd ℂ Δ := by
-  simp [map_add, map_mul, RCLike.star_def, Complex.conj_re, Complex.conj_im]
+  simp [map_add, map_mul]
   ring
 
 -- ============================================================
@@ -153,7 +153,7 @@ theorem shadow_from_haar_inversion (Δ : ℤ) :
 theorem time_reversal_is_shadow (lam : ℝ) :
     let Δ : ℂ := 1 + Complex.I * lam
     starRingEnd ℂ Δ = 2 - Δ := by
-  simp [RCLike.star_def, Complex.ext_iff]
+  simp [Complex.ext_iff]
   ring
 
 /-- MAIN THEOREM: Shadow symmetry Δ ↔ 2-Δ is time reversal T.

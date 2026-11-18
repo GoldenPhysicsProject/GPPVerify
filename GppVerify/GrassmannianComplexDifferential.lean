@@ -72,21 +72,21 @@ def L : Matrix (Fin 4) (Fin 4) ℂ :=
 theorem L_four : L * L * (L * L) = (1 : Matrix (Fin 4) (Fin 4) ℂ) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp (config := { decide := true }) [L, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply] <;>
+    simp (config := { decide := true }) [L, Matrix.mul_apply, Fin.sum_univ_four] <;>
     norm_num
 
 theorem QP (a b c d : ℂ) :
     Q a b c d * P a b c d = D a b c d • (1 : Matrix (Fin 4) (Fin 4) ℂ) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp (config := { decide := true }) [Q,P,D,Matrix.mul_apply,Fin.sum_univ_four,Matrix.one_apply] <;>
+    simp (config := { decide := true }) [Q,P,D,Matrix.mul_apply,Fin.sum_univ_four] <;>
     ring
 
 theorem PQ (a b c d : ℂ) :
     P a b c d * Q a b c d = D a b c d • (1 : Matrix (Fin 4) (Fin 4) ℂ) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp (config := { decide := true }) [Q,P,D,Matrix.mul_apply,Fin.sum_univ_four,Matrix.one_apply] <;>
+    simp (config := { decide := true }) [Q,P,D,Matrix.mul_apply,Fin.sum_univ_four] <;>
     ring
 
 /-- Exact universal differential intertwining identity. -/
@@ -118,9 +118,9 @@ theorem L_vOne : L *ᵥ vOne = (1 : ℂ) • vOne := by
 theorem L_vNegOne : L *ᵥ vNegOne = (-1 : ℂ) • vNegOne := by
   ext i; fin_cases i <;> norm_num [L,vNegOne,Matrix.mulVec,Fin.sum_univ_four]
 theorem L_vI : L *ᵥ vI = Complex.I • vI := by
-  ext i; fin_cases i <;> simp [L,vI,Matrix.mulVec,Fin.sum_univ_four,Complex.I_mul_I]
+  ext i; fin_cases i <;> simp [L,vI,Matrix.mulVec,Complex.I_mul_I]
 theorem L_vNegI : L *ᵥ vNegI = (-Complex.I) • vNegI := by
-  ext i; fin_cases i <;> simp [L,vNegI,Matrix.mulVec,Fin.sum_univ_four,Complex.I_mul_I]
+  ext i; fin_cases i <;> simp [L,vNegI,Matrix.mulVec,Complex.I_mul_I]
 
 /-- Transport of any universal eigenmode through the physical tangent-coordinate map. -/
 theorem transport_mode (a b c d ζ : ℂ) (v : Fin 4 → ℂ)

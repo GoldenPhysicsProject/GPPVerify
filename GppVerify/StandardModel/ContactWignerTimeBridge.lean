@@ -59,7 +59,7 @@ theorem contactAntiT_apply (psi : Fin 2 → ℂ) :
   ext i
   fin_cases i <;>
     simp [contactAntiT, conjSpinor, contactWeylMatrix_explicit,
-      Matrix.mulVec, Fin.sum_univ_two]
+      Matrix.mulVec]
 
 /-- Under the chosen coordinate identification, the contact antiunitary differs from the
 project's Wigner-T convention only by the global sign `-1`.  The carrier identification is
@@ -75,7 +75,7 @@ theorem contactAntiT_sq_neg (psi : Fin 2 → ℂ) :
     contactAntiT (contactAntiT psi) = -psi := by
   rw [contactAntiT_apply, contactAntiT_apply]
   ext i
-  fin_cases i <;> simp [conjSpinor]
+  fin_cases i <;> simp 
 
 /-- The contact Clifford core anticommutes with the beta/contact-exchange sign operator. -/
 theorem contactWeyl_anticommutes_beta :

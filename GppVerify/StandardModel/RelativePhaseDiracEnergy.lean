@@ -57,7 +57,7 @@ theorem phaseI_sq_eq_neg_one :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [phaseI, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply,
+      [phaseI, Matrix.mul_apply, Fin.sum_univ_two, 
        Complex.I_mul_I]
 
 /-- The scalar phase quarter-turn commutes with the Grassmannian/Dirac quarter-turn. -/
@@ -90,7 +90,7 @@ theorem betaRest_sq_eq_one :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [betaRest, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply]
+      [betaRest, Matrix.mul_apply, Fin.sum_univ_two]
 
 /-- Simultaneously reversing both quarter-turn orientations leaves their relative product
 unchanged.  This is the exact matrix version of `(-c)(-t)=ct`. -/
@@ -146,7 +146,7 @@ theorem betaRest_Phi_vNegI :
   rw [Phi_vNegI]
   ext i
   fin_cases i <;>
-    simp [betaRest, Matrix.mulVec, Fin.sum_univ_two] <;>
+    simp [betaRest, Matrix.mulVec] <;>
     ring
 
 /-- The Grassmannian `+i` mode descends to the `-1` rest-energy-sign branch. -/
@@ -155,7 +155,7 @@ theorem betaRest_Phi_vI :
   rw [Phi_vI]
   ext i
   fin_cases i <;>
-    simp [betaRest, Matrix.mulVec, Fin.sum_univ_two] <;>
+    simp [betaRest, Matrix.mulVec] <;>
     ring
 
 /-- Equivalently, the two surviving Grassmannian modes differ only by the relative

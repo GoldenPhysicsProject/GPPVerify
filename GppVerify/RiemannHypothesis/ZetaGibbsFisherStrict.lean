@@ -32,7 +32,7 @@ theorem deriv_negZetaLogDeriv_eq_neg_zetaVarianceResponse
   rw [deriv_negZetaLogDeriv_eq_firstResponse hs]
   unfold firstResponse zetaVarianceResponse
   have hne : riemannZeta (β : ℂ) ≠ 0 := riemannZeta_ne_zero_right_half_plane hs
-  simp [iteratedDeriv_succ', iteratedDeriv_one]
+  simp [iteratedDeriv_succ']
   field_simp [hne]
   ring
 

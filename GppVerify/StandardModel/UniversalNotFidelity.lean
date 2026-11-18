@@ -84,7 +84,7 @@ theorem orthogonal_product_identity (rho : QMat) :
       (2 : ℂ) • (1 : QMat) - (3 : ℂ) • rho + rho * rho := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Matrix.vecMul, dotProduct, Fin.sum_univ_two] <;>
+    simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
     ring_nf
 
 /-- Exact overlap with the orthogonal projector for a pure normalized qubit state. -/

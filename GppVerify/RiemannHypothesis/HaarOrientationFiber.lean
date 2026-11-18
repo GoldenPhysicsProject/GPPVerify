@@ -118,7 +118,7 @@ theorem critD_commutes_chi (v : V2C) :
   rw [chi_explicit]
   ext i
   fin_cases i <;>
-    simp [critD, Matrix.mulVec, dotProduct, Matrix.vecHead, Matrix.vecTail, mul_comm]
+    simp [critD, Matrix.mulVec, dotProduct, mul_comm]
 
 /-- Generic multiplication-reflection boundary block on the ±t pair. -/
 def reflectedBoundary (fplus fminus : ℂ) : M2C :=
@@ -131,7 +131,7 @@ theorem reflectedBoundary_sq (fplus fminus : ℂ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [reflectedBoundary, Matrix.mul_apply, Fin.sum_univ_two,
-      Matrix.one_apply] <;> ring
+      ] <;> ring
 
 /-- Reality relation f-=conj(f+) is exactly self-adjointness of the reflected block. -/
 theorem reflectedBoundary_selfAdjoint_of_reality
@@ -153,8 +153,8 @@ theorem reflectedBoundary_anticommutator_Iq
   rw [Iq_explicit]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [reflectedBoundary, Matrix.mul_apply, Fin.sum_univ_two,
-      Matrix.one_apply] <;> ring
+    simp [reflectedBoundary, 
+      ] <;> ring
 
 /-- On a real/even boundary fiber the first-order block is orientation-odd. -/
 theorem reflectedBoundary_anticommutes_of_equal

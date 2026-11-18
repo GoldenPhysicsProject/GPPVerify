@@ -70,7 +70,7 @@ theorem det2_screenTranspose (A : M2) :
 theorem screenCofactor_involutive (A : M2) :
     screenCofactor (screenCofactor A) = A := by
   rcases A with ⟨a,b,c,d⟩
-  simp [screenTranspose, screenCofactor, epsilonTurn2]
+  simp [screenCofactor]
 
 /-- The split-Hodge screen cofactor preserves the determinant. -/
 theorem det2_screenCofactor (A : M2) :

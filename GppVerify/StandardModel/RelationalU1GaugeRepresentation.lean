@@ -52,7 +52,7 @@ theorem relationalScale_mul (z w : ℂ) (v : Orientation4) :
     relationalScale z (relationalScale w v) =
       relationalScale (z*w) v := by
   rcases v with ⟨a,b,c,d⟩
-  simp [relationalScale, mul_assoc, mul_comm, mul_left_comm]
+  simp [relationalScale, mul_comm, mul_left_comm]
 
 /-- The relational gauge action commutes with simultaneous microscopic reversal. -/
 theorem relationalScale_commutes_diag (z : ℂ) (v : Orientation4) :

@@ -59,7 +59,7 @@ theorem epsilon_sq : epsilon * epsilon = -1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [epsilon, Matrix.mul_apply, Fin.sum_univ_two, Matrix.neg_apply, Matrix.one_apply]
+      [epsilon, Matrix.mul_apply, Fin.sum_univ_two, Matrix.neg_apply]
 
 /-- ε is invertible: det ε = 1 ≠ 0. -/
 theorem epsilon_det : epsilon.det = 1 := by

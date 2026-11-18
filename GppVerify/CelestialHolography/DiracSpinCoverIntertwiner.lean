@@ -34,7 +34,7 @@ noncomputable def coverAction (z : ℂ) (ψ : ℂ × ℂ) : ℂ × ℂ :=
 theorem coverAction_mul (z₁ z₂ : ℂ) (ψ : ℂ × ℂ) :
     coverAction z₁ (coverAction z₂ ψ) = coverAction (z₁ * z₂) ψ := by
   rcases ψ with ⟨a, b⟩
-  simp [coverAction, mul_assoc, mul_comm, mul_left_comm]
+  simp [coverAction, mul_comm, mul_left_comm]
 
 /-- The identity cover element acts trivially. -/
 theorem coverAction_one (ψ : ℂ × ℂ) :
@@ -79,7 +79,7 @@ theorem massQuarter_sq (ψ : ℂ × ℂ) :
   rcases ψ with ⟨a, b⟩
   simp [massQuarter]
   ring_nf
-  simp [Complex.I_mul_I]
+  simp 
 
 /-- Therefore the mass quarter-turn has exact fourth power one. -/
 theorem massQuarter_four (ψ : ℂ × ℂ) :
@@ -88,7 +88,7 @@ theorem massQuarter_four (ψ : ℂ × ℂ) :
   rcases ψ with ⟨a, b⟩
   simp [massQuarter]
   ring_nf
-  simp [Complex.I_mul_I]
+  simp 
 
 /-- The Hadamard basis exactly intertwines the Dirac mass quarter-turn with z=i
 in the diagonal Spin(2) cover representation. -/
@@ -98,7 +98,7 @@ theorem hadamard_intertwines_quarter (ψ : ℂ × ℂ) :
   rcases ψ with ⟨a, b⟩
   simp [hadamardRaw, massQuarter, coverAction]
   ring_nf
-  simp [Complex.I_mul_I]
+  simp 
 
 /-- One full vector/base circuit corresponds to the central spinor sign:
 the square of the quarter element is the deck element. -/

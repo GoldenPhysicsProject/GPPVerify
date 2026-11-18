@@ -54,7 +54,7 @@ def primeCountR (p : ℕ) (f : PrimeOccupation) : ℝ := (primeCount p f : ℝ)
 
 theorem primeCountR_fuse (p : ℕ) (f g : PrimeOccupation) :
     primeCountR p (fuse f g) = primeCountR p f + primeCountR p g := by
-  simp [primeCountR, primeCount, primeCount_fuse]
+  simp [primeCountR, primeCount]
 
 /-- Collision defect of an arbitrary scalar observable. -/
 noncomputable def collisionDefect (H : PrimeOccupation → ℝ) (f g : PrimeOccupation) : ℝ :=

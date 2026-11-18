@@ -41,7 +41,7 @@ lemma conj_eq_shadow_iff_critical (s : ℂ) :
     starRingEnd ℂ s = 1 - s → s.re = 1 / 2 := by
   intro h
   have hre := congr_arg Complex.re h
-  simp [RCLike.star_def, Complex.conj_re, Complex.sub_re, Complex.one_re] at hre
+  simp [Complex.conj_re, Complex.sub_re, Complex.one_re] at hre
   linarith
 
 /-- On the principal series s = 1/2 + iγ, the character weight e^{iγ log|a|}
@@ -62,7 +62,7 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
     have hmc : ‖z * starRingEnd ℂ z‖ = ‖z‖ ^ 2 := by
       rw [norm_mul, sq]
       congr 1
-      simp [RCLike.star_def, Complex.norm_conj]
+      simp 
     rw [h, norm_one] at hmc
     linarith [hmc.symm]
   nlinarith [norm_nonneg z, sq_nonneg (‖z‖ - 1)]

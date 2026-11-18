@@ -96,7 +96,7 @@ theorem rhoGamma_eq_mehlerFock_chamber_all (k : ℕ) (x : ℝ) :
           (((2 * k + 1).factorial : ℝ) * Real.sinh (Real.pi * x)) : ℝ) : ℂ) := by
   by_cases hx : x = 0
   · subst x
-    simp only [if_pos rfl]
+    simp only 
     exact rhoGamma_at_zero k
   · simp only [if_neg hx]
     exact rhoGamma_eq_mehlerFock_chamber k x hx
