@@ -136,7 +136,7 @@ theorem celestialDelta_antiLinearShadow (s : ℂ) :
     celestialDelta (antiLinearShadow 1 s) =
       antiLinearShadow 2 (celestialDelta s) := by
   apply Complex.ext <;>
-    simp [celestialDelta, antiLinearShadow, Complex.mul_re, Complex.mul_im] <;>
+    simp [celestialDelta, antiLinearShadow, Complex.mul_re, Complex.mul_im];
     ring
 
 /-- Therefore `Delta = 2s` transports the pointwise fixed arithmetic interface to

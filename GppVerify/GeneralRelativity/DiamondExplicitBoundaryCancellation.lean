@@ -100,7 +100,7 @@ theorem physical_three_ball_york_coefficient
     interiorWork 3 R (ballVolume R) eps =
       (4 / R) * volumeResponse 3 (ballVolume R) eps := by
   convert homogeneous_ball_bulk_is_volume_work
-     3 R (ballVolume R) eps using 1 <;> ring
+     3 R (ballVolume R) eps using 1; ring
 
 /-- Even though the full scalar-curvature pairing vanishes, the
 proper-volume response is nonzero for any nonzero eps and radius.

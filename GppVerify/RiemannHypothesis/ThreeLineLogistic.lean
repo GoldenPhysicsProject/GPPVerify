@@ -106,10 +106,10 @@ theorem tendsto_cocycle (t : ℝ) :
       (1 + Real.exp (-x)) / (Real.exp (t / 2) * (1 + Real.exp (-(x + t)))) := by
     intro x
     have c1 : Real.cosh (x / 2) = Real.exp (x / 2) * (1 + Real.exp (-x)) / 2 := by
-      rw [Real.cosh_eq, mul_add, mul_one, ← Real.exp_add]; congr 2 <;> ring_nf
+      rw [Real.cosh_eq, mul_add, mul_one, ← Real.exp_add]; congr 2; ring_nf
     have c2 : Real.cosh ((x + t) / 2) =
         Real.exp ((x + t) / 2) * (1 + Real.exp (-(x + t))) / 2 := by
-      rw [Real.cosh_eq, mul_add, mul_one, ← Real.exp_add]; congr 2 <;> ring_nf
+      rw [Real.cosh_eq, mul_add, mul_one, ← Real.exp_add]; congr 2; ring_nf
     have e : Real.exp ((x + t) / 2) = Real.exp (x / 2) * Real.exp (t / 2) := by
       rw [← Real.exp_add]; congr 1; ring
     rw [c1, c2, e]

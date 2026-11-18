@@ -47,7 +47,7 @@ theorem central_wedge_one (c : ℝ) :
 /-- The first mode that can detect a central extension. -/
 theorem central_mode_two (c : ℝ) :
     central c (2 : ℤ) = c / 2 := by
-  norm_num [central] <;> ring
+  norm_num [central]; ring
 
 /-- In a standard unitary Virasoro vacuum representation the squared
 norm of the stress tensor state is c/2 (external CFT input).

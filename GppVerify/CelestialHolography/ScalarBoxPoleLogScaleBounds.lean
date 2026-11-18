@@ -173,7 +173,7 @@ theorem abs_log_one_sub_eta_le
   have hhi : 1 - η ≤ 1 := by linarith
   have hlog := abs_log_le_one_sub_div_lower
     (c := (3 / 4 : ℝ)) (x := 1 - η) (by norm_num) hlo hhi
-  convert hlog using 1 <;> ring
+  convert hlog using 1; ring
 
 /-- Five-term triangle inequality used for the logarithm of the normalized product. -/
 theorem abs_sub_sub_sub_sub_le (a b c d e : ℝ) :

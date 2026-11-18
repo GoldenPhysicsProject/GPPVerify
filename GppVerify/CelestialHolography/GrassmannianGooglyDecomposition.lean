@@ -64,12 +64,12 @@ theorem complement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
   rcases A with ⟨a,b,c,d⟩
   simp only [det2, complement, quarterTurn] at hD ⊢
   apply Prod.ext
-  · field_simp [hD] <;> ring
+  · field_simp [hD]; ring
   · apply Prod.ext
-    · field_simp [hD] <;> ring
+    · field_simp [hD]; ring
     · apply Prod.ext
-      · field_simp [hD] <;> ring
-      · field_simp [hD] <;> ring
+      · field_simp [hD]; ring
+      · field_simp [hD]; ring
 
 theorem tau_eq_quarterTurn_complement (A : M2) :
     tau A = quarterTurn (complement A) := by

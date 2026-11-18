@@ -48,7 +48,7 @@ theorem pi_shift_kernel_identity
         (Real.cosh (Real.pi * x) * Real.cosh (Real.pi * (lam - x))) := by
   have h := reciprocal_cosh_product_identity
     (Real.pi * x) (Real.pi * (lam - x)) hx hshift
-  convert h using 1 <;> ring
+  convert h using 1; ring
 
 /-- Derivative-ready specialized solved form.  For `lambda != 0`, the convolution
 integrand is exactly a sum of two tanh kernels divided by `sinh(pi*lambda)`. -/
@@ -65,8 +65,8 @@ theorem pi_shift_reciprocal_product_eq_tanh_sum_div
     (Real.sinh_ne_zero).2 hpilam
   have h := reciprocal_cosh_product_eq_tanh_sum_div
     (Real.pi * x) (Real.pi * (lam - x)) hx hshift (by
-      convert hsinh using 1 <;> ring)
-  convert h using 1 <;> ring
+      convert hsinh using 1; ring)
+  convert h using 1; ring
 
 end GppSechConvolutionKernel
 

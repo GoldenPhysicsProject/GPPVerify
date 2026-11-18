@@ -117,7 +117,7 @@ theorem abs_prefactor_remainder_le_of_physical_core_bound
     |D / κ - D0| ≤ M + ((4 * m / U) / 2) * |D0| := by
   apply abs_prefactor_remainder_le_of_core_bound hκ
   · have h := kappa_sub_one_le_two_mul_m_div_U hS hU hκ hκsq
-    convert h using 1 <;> ring
+    convert h using 1; ring
   · exact hcore
 
 end GppScalarBoxPrefactorRemainder

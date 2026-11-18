@@ -67,7 +67,7 @@ theorem transform_deriv {g : ℝ → ℂ} (hg : ContDiff ℝ ∞ g)
   have he : ∀ u, HasDerivAt e (e' u) u := by
     intro u
     convert ((Complex.ofRealCLM.hasDerivAt (x := u)).const_mul (z - 1 / 2)).cexp using 1 <;>
-      dsimp [e, e'] <;> ring
+      dsimp [e, e']; ring
   have hc : Continuous e := by dsimp [e]; fun_prop
   have hi : Integrable (e * deriv g) :=
     (hc.mul hd.continuous).integrable_of_hasCompactSupport hgc.deriv.mul_left
@@ -311,7 +311,7 @@ theorem packet_deriv (q : ℝ) (v : ℂ) (P : Polynomial ℂ) (u : ℝ) :
     unfold packet
     convert (((Complex.ofRealCLM.hasDerivAt (x := u)).pow 2).const_mul (-(q : ℂ)) |>.add
       ((Complex.ofRealCLM.hasDerivAt (x := u)).const_mul v)).cexp using 1 <;>
-      simp only [Pi.add_apply, Pi.pow_apply, Complex.ofRealCLM_apply, Complex.ofReal_one] <;> ring
+      simp only [Pi.add_apply, Pi.pow_apply, Complex.ofRealCLM_apply, Complex.ofReal_one]; ring
   have hP : (P.derivative + P * (Polynomial.C v - Polynomial.C (2 * (q : ℂ)) * Polynomial.X)).eval
       (u : ℂ) * packet q v u =
       P.derivative.eval (u : ℂ) * packet q v u +
@@ -1278,8 +1278,7 @@ theorem StripData.gaussian_identity (D : StripData) (w : D.realSubspace)
     have hsC : (s : ℂ) ≠ 0 := Complex.ofReal_ne_zero.mpr hs.ne'
     dsimp [v, q, GppGwefGaussian.exponent]
     push_cast
-    field_simp
-    <;> ring
+    field_simp; ring
   simp_rw [GppGwefC1.packet_transform hq, hexp,
     mul_left_comm (D.annihilatorCoefficients w _) ((Real.pi / (q : ℂ)) ^ (1 / 2 : ℂ))] at hid
   rw [tsum_mul_left] at hid

@@ -83,7 +83,7 @@ theorem abs_structuredScalarBoxCore_sub_D0_le
   rw [scalarBoxD0_eq_scale_core hS hU hm]
   unfold structuredScalarBoxCore structuredPhysicalCoreMajorant
   dsimp
-  convert hbound using 1 <;> ring
+  convert hbound using 1; ring
 
 /-- For fixed positive kinematic scales, the correct mixed-logarithm majorant vanishes
 from the positive-regulator side. -/

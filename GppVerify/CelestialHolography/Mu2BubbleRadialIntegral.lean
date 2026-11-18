@@ -29,7 +29,7 @@ theorem hasDerivAt_bubbleAntideriv (r : ℝ) :
   have h := (hasDerivAt_tanh' r).pow 2 |>.div_const 2
   refine h.congr_deriv ?_
   rw [div_eq_mul_one_div (Real.tanh r) (Real.cosh r ^ 2), one_div_cosh_sq]
-  norm_num <;> ring
+  norm_num; ring
 
 /-- The bubble antiderivative vanishes at threshold. -/
 theorem bubbleAntideriv_zero : bubbleAntideriv 0 = 0 := by

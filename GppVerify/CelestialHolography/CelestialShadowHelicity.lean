@@ -85,7 +85,7 @@ theorem principal_series_shadow_delta (nu : ℝ) :
   dsimp
   rw [delta_shadow, delta_ofDeltaSpin]
   apply Complex.ext <;>
-    simp [Complex.mul_re, Complex.mul_im] <;>
+    simp [Complex.mul_re, Complex.mul_im];
     ring
 
 /-- Spin-two googly exchange: shadow sends a `+2` celestial helicity label to

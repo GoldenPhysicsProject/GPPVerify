@@ -254,7 +254,7 @@ theorem integral_scaled_sech_kernel_eq_two_pi_mul (lam : ℝ) :
     (integrable_scaled_sech_kernel lam)
     (logCoshDifference_tendsto_atBot lam)
     (logCoshDifference_tendsto_atTop lam)
-  convert h using 1 <;> ring
+  convert h using 1; ring
 
 end GppSechConvolutionEndpoints
 

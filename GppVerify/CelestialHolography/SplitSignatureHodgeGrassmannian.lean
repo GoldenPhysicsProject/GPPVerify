@@ -130,8 +130,7 @@ theorem splitComplement_quarterTurn_commute (A : M2) (hD : det2 A ≠ 0) :
     splitComplement (splitQuarterTurn A) = splitQuarterTurn (splitComplement A) := by
   rcases A with ⟨a,b,c,d⟩
   simp only [det2, splitComplement, splitQuarterTurn] at hD ⊢
-  field_simp [hD]
-  <;> ring
+  field_simp [hD]; ring
 
 /-- The existing Grassmannian `tau` factors through the split-signature Hodge complement. -/
 theorem tau_eq_splitQuarterTurn_splitComplement (A : M2) :

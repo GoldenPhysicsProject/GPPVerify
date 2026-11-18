@@ -53,7 +53,7 @@ theorem tendsto_mul_log_sq_nhdsGT_zero :
   filter_upwards [self_mem_nhdsWithin] with m hm
   have hm0 : 0 ≤ m := hm.le
   have hrpow : (m ^ (1 / 2 : ℝ)) ^ (2 : ℕ) = m := by
-    convert Real.rpow_inv_natCast_pow hm0 (by norm_num : (2 : ℕ) ≠ 0) using 1 <;>
+    convert Real.rpow_inv_natCast_pow hm0 (by norm_num : (2 : ℕ) ≠ 0) using 1;
       norm_num
   rw [mul_pow, hrpow]
   ring

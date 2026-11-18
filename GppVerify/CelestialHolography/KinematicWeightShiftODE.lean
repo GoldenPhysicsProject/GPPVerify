@@ -59,7 +59,7 @@ theorem hasDerivAt_pHat (x : ℝ) :
     (fun y : ℝ => (1 / 4 : ℝ) * (1 - Real.tanh (y / 2) ^ 2))
     (-(Real.tanh (x / 2)) / (4 * Real.cosh (x / 2) ^ 2)) x
   refine h.congr_deriv ?_
-  norm_num <;> ring
+  norm_num; ring
 
 /-- **Weight-shift differential equation.**  The normalized Fourier partner
 satisfies `(1/2) sinh(x) pHat'(x) = pHat(x) - pHat(0)` for every real `x`. -/

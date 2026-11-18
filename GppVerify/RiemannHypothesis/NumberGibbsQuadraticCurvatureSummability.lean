@@ -34,7 +34,7 @@ lemma real_log_fifth_abscissa_le_one :
                 (LSeries.logMul (fun _ : ℕ => (1 : ℂ))))))) := by
         apply LSeries.abscissaOfAbsConv_congr
         intro n hn
-        simp [LSeries.logMul, Complex.natCast_log, pow_succ] <;> ring
+        simp [LSeries.logMul, Complex.natCast_log, pow_succ]; ring
     _ = LSeries.abscissaOfAbsConv (fun _ : ℕ => (1 : ℂ)) := by
       simp
     _ ≤ 1 := constant_abscissa_le_one
@@ -56,7 +56,7 @@ lemma real_log_sixth_abscissa_le_one :
                   (LSeries.logMul (fun _ : ℕ => (1 : ℂ)))))))) := by
         apply LSeries.abscissaOfAbsConv_congr
         intro n hn
-        simp [LSeries.logMul, Complex.natCast_log, pow_succ] <;> ring
+        simp [LSeries.logMul, Complex.natCast_log, pow_succ]; ring
     _ = LSeries.abscissaOfAbsConv (fun _ : ℕ => (1 : ℂ)) := by
       simp
     _ ≤ 1 := constant_abscissa_le_one

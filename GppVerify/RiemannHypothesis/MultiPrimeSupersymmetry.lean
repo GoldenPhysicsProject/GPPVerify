@@ -106,7 +106,7 @@ theorem Q_cross_lt {i j : Fin m} (h : i < j) (ψ : Cfg m → ℂ) (s : Cfg m) :
   by_cases hbi : b i = false <;> by_cases hbj : b j = false <;>
     by_cases hki : k i = 0 <;> by_cases hkj : k j = 0 <;>
     simp [Q, hij, hji, hbi, hbj, hki, hkj, update_of_ne, update_comm hij,
-      kl_update_gt h, kl_update_lt h] <;> ring
+      kl_update_gt h, kl_update_lt h]; ring
 
 /-- **`Q_i Q_j + Q_j Q_i = 0`** for distinct modes (this is what the Klein factors are for). -/
 theorem Q_cross {i j : Fin m} (hij : i ≠ j) (ψ : Cfg m → ℂ) (s : Cfg m) :

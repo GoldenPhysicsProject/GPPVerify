@@ -40,7 +40,7 @@ variable (T : ShadowTheory)
 theorem reflected_term_online (f : T.Test) (ρ : T.W) (hρ : (ρ : ℂ).re = 1 / 2) :
     (T.m ρ : ℂ) * (T.Ψ f ρ * T.Ψ f (1 - ρ)) = ((T.m ρ * ‖T.Ψ f ρ‖ ^ 2 : ℝ) : ℂ) := by
   have h1 : (1 : ℂ) - ρ = starRingEnd ℂ ρ := by
-    apply Complex.ext <;> simp [hρ] <;> linarith
+    apply Complex.ext <;> simp [hρ]; linarith
   rw [h1, T.Ψ_conj, Complex.mul_conj, Complex.normSq_eq_norm_sq]
   push_cast
   ring

@@ -46,7 +46,7 @@ theorem casimirFold_cartesian (beta gamma : ℝ) :
   unfold casimirFold
   apply Complex.ext <;>
     simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
-      Complex.sub_re, Complex.sub_im, sq] <;>
+      Complex.sub_re, Complex.sub_im, sq];
     ring
 
 /-- The real part of the folded parameter. -/
