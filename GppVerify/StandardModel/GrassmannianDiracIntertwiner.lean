@@ -58,7 +58,7 @@ theorem Phi_mul_R_eq_one :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [Phi, R, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply,
+      [Phi, R, Matrix.mul_apply, Fin.sum_univ_four, 
        Complex.I_mul_I] <;>
     ring
 
@@ -94,15 +94,15 @@ theorem L_eEpsilon : L *ᵥ eEpsilon = -eScalar := by
 
 /-- The quotient kills the scalar direction. -/
 theorem Phi_eScalar_zero : Phi *ᵥ eScalar = 0 := by
-  ext i; fin_cases i <;> simp [Phi,eScalar,Matrix.mulVec,Fin.sum_univ_four]
+  ext i; fin_cases i <;> simp [Phi,eScalar,Matrix.mulVec]
 
 /-- The quotient kills the antisymmetric epsilon direction. -/
 theorem Phi_eEpsilon_zero : Phi *ᵥ eEpsilon = 0 := by
-  ext i; fin_cases i <;> simp [Phi,eEpsilon,Matrix.mulVec,Fin.sum_univ_four]
+  ext i; fin_cases i <;> simp [Phi,eEpsilon,Matrix.mulVec]
 
 /-- On `σ3`, the quotient is the first Dirac coordinate (up to `2i`). -/
 theorem Phi_eSigma3 : Phi *ᵥ eSigma3 = ![2 * Complex.I,0] := by
-  ext i; fin_cases i <;> simp [Phi,eSigma3,Matrix.mulVec,Fin.sum_univ_four] <;> ring
+  ext i; fin_cases i <;> simp [Phi,eSigma3,Matrix.mulVec] <;> ring
 
 /-- On `σ1`, the quotient is the second Dirac coordinate (up to `2`). -/
 theorem Phi_eSigma1 : Phi *ᵥ eSigma1 = ![0,2] := by
@@ -123,7 +123,7 @@ theorem Phi_vI :
     Phi *ᵥ vI = ![2 * Complex.I, -2 * Complex.I] := by
   ext i
   fin_cases i <;>
-    simp [Phi, vI, Matrix.mulVec, Fin.sum_univ_four, Complex.I_mul_I] <;>
+    simp [Phi, vI, Matrix.mulVec] <;>
     ring
 
 /-- The `-i` Grassmannian mode descends to the complementary nonzero Dirac mode. -/
@@ -131,7 +131,7 @@ theorem Phi_vNegI :
     Phi *ᵥ vNegI = ![2 * Complex.I, 2 * Complex.I] := by
   ext i
   fin_cases i <;>
-    simp [Phi, vNegI, Matrix.mulVec, Fin.sum_univ_four, Complex.I_mul_I] <;>
+    simp [Phi, vNegI, Matrix.mulVec] <;>
     ring
 
 /-- The image of the `+i` mode is a `+i` eigenvector of the Dirac quarter-cycle. -/
@@ -152,7 +152,7 @@ theorem Uq_sq_eq_neg_one :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [Uq, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply,
+      [Uq, Matrix.mul_apply, Fin.sum_univ_two, 
        Complex.I_mul_I] <;>
     ring
 

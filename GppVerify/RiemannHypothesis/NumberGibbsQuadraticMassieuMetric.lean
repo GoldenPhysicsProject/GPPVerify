@@ -40,7 +40,7 @@ theorem massieuFisher_quadratic_form_pos
       · exact ha
       · exact False.elim (hb' hb)
     have ha2 : 0 < a ^ 2 := sq_pos_of_ne_zero ha
-    simp [A, B, C, hb]
+    simp [hb]
     exact mul_pos hA ha2
   · have hb2 : 0 < b ^ 2 := sq_pos_of_ne_zero hb
     have hdetb : 0 < (A * C - B ^ 2) * b ^ 2 := mul_pos hdet hb2

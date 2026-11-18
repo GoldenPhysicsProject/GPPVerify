@@ -296,7 +296,7 @@ theorem tendsto_cutKernel_zero :
     filter_upwards [self_mem_nhdsWithin] with t ht
     simp only [Set.mem_compl_iff, Set.mem_singleton_iff] at ht
     rw [slope_def_field]
-    simp [ht]
+    simp 
   have h4 : Filter.Tendsto (fun t : ℝ => 4 * (Real.sinh (2 * π * t) / t))
       (nhdsWithin 0 {(0 : ℝ)}ᶜ) (nhds (4 * (2 * π))) := h3.const_mul 4
   have hne : (4 * (2 * π) : ℝ) ≠ 0 := by positivity

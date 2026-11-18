@@ -119,12 +119,12 @@ theorem splitSelfAdjoint_iff_offdiag_opposite (A : M2) :
   constructor
   · intro h
     have hxy := h (1,0) (0,1)
-    simp [SplitSelfAdjoint, splitPair, actScreen] at hxy
+    simp [splitPair, actScreen] at hxy
     linarith
   · intro hc x y
     rcases x with ⟨x0,x1⟩
     rcases y with ⟨y0,y1⟩
-    simp [SplitSelfAdjoint, splitPair, actScreen] at hc ⊢
+    simp [splitPair, actScreen] at hc ⊢
     rw [hc]
     ring
 

@@ -67,7 +67,7 @@ theorem fromBlocks_mulVec_gen {l m n' o : Type*} [Fintype l] [Fintype m]
     (u : l → ℂ) (v : m → ℂ) :
     (Matrix.fromBlocks P Q R S) *ᵥ (Sum.elim u v) = Sum.elim (P *ᵥ u + Q *ᵥ v) (R *ᵥ u + S *ᵥ v) := by
   ext (i | i) <;> simp [Matrix.mulVec, Matrix.fromBlocks, dotProduct, Fintype.sum_sum_type,
-    Finset.sum_add_distrib]
+    ]
 
 /-- The outer product `w vᴴ` sends `x ↦ (v ⬝ᵥ x) • w`. -/
 theorem vecMulVec_mulVec' {p q : Type*} [Fintype p] (w : q → ℂ) (v : p → ℂ) (x : p → ℂ) :
@@ -220,7 +220,7 @@ theorem odd_eigenpair_canonical_lift
           = fun (_ : Unit) => -phiSchur a b E lam := by
         funext _
         show ∑ _j : Unit, (a - lam) * (-1 : ℂ) + ∑ j, star (b j) * w j = -phiSchur a b E lam
-        simp only [Finset.sum_const, Finset.card_univ, Fintype.card_unit, one_smul, smul_eq_mul]
+        simp only [Finset.sum_const, Finset.card_univ, Fintype.card_unit, one_smul]
         show (a - lam) * (-1 : ℂ) + star b ⬝ᵥ w = -phiSchur a b E lam
         rw [phiSchur]
         ring

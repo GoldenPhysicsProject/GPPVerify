@@ -165,7 +165,7 @@ theorem abs_specialRemainder_le
                 |Real.log q * Real.log (1 - a * q)| +
                 |(1 / 2 : ℝ) * (Real.log (1 - a)) ^ 2| +
                 |li2Series (-(a / (1 - a)))| + |li2Series a| := by
-                  simp only [abs_neg]
+                  simp only 
     _ ≤ (48 / 19 : ℝ) * η + (648 / 289 : ℝ) * ρ ^ 2 +
         ((486 / 289 : ℝ) * ρ ^ 2 *
           (|Real.log ρ| + (81 / 32 : ℝ) * ρ)) +

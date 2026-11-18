@@ -88,7 +88,7 @@ expanded componentwise so it does not depend on rewrite-order heuristics. -/
 theorem pinQuarterLift_four (psi : FullSpin) :
     pinQuarterLift (pinQuarterLift (pinQuarterLift (pinQuarterLift psi))) = psi := by
   rcases psi with ⟨⟨a,b,c,d⟩,⟨e,f,g,h⟩⟩
-  simp [mPlus, mMinus, gammaBlock, pinQuarterLift]
+  simp [mPlus, mMinus, pinQuarterLift]
 
 /-- The order-four algebra in one package: the lift exchanges 4+4 chiral components,
 its square is the nontrivial diagonal involution, and its fourth power is identity. -/

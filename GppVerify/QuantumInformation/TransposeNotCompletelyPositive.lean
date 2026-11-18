@@ -43,8 +43,8 @@ theorem choiMatrix_transposeMap_eq_SWAP :
   fin_cases i <;> fin_cases a <;> fin_cases j <;> fin_cases b <;>
     simp (config := { decide := true }) [GppChoiMatrix.ChoiMatrix, GppChoiMatrix.matrixMapTensor,
       GppChoiMatrix.maxEntangled, transposeMap, SWAP, Matrix.replicateCol_apply,
-      Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply, Fin.sum_univ_one,
-      Prod.ext_iff]
+      Matrix.mul_apply, Matrix.transpose_apply, Matrix.of_apply, 
+      ]
 
 /-- **Proposition 2.2, complete**: the transpose map on `M_2(ℂ)` is not completely
     positive — the full, unconditional statement. -/

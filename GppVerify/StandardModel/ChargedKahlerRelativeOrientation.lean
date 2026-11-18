@@ -66,14 +66,14 @@ theorem dynI_sq_neg_one : dynI * dynI = -(1 : M2C) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := {decide := true})
-      [dynI, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply,
+      [dynI, Matrix.mul_apply, Fin.sum_univ_two, 
        Complex.I_mul_I]
 
  theorem gaugeJ_sq_neg_one : gaugeJ * gaugeJ = -(1 : M2C) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := {decide := true})
-      [gaugeJ, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply,
+      [gaugeJ, Matrix.mul_apply, Fin.sum_univ_two, 
        Complex.I_mul_I] <;> ring
 
 /-- The two complex structures commute. -/

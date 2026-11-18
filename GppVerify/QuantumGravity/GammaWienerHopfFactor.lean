@@ -51,7 +51,7 @@ theorem Hminus_eq_conj_Hplus (k : ℝ) :
     rw [← Complex.Gamma_conj, harg]
   unfold Hminus Hplus
   rw [hgamma]
-  simp [hstar2]
+  simp 
 
 /-- Consequently the two real-axis factors have exactly the same modulus. -/
 theorem norm_Hminus_eq_norm_Hplus (k : ℝ) :

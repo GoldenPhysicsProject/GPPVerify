@@ -114,7 +114,7 @@ theorem K_sq_eq_D_sq_smul_one (a b c d : ℝ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [K, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply] <;>
+      [K, Matrix.mul_apply, Fin.sum_univ_four] <;>
     ring
 
 /-- The main theorem: N⁴ = D⁴ • 1, D = ad - bc. Every eigenvalue of N

@@ -91,7 +91,7 @@ theorem rayWeyl_det_one : det2 rayWeyl = 1 := by
 theorem rayWeyl_action_eq_flatWeyl (u : RayState) :
     act2 rayWeyl u = weylSpinor u := by
   rcases u with ⟨x,p⟩
-  simp [RayState, omega, act2, einsteinRayGenerator, rayWeyl, weylSpinor]
+  simp [RayState, act2, rayWeyl, weylSpinor]
 
 /-- Consequently the Weyl representative preserves the Wronskian. -/
 theorem rayWeyl_preserves_omega (u v : RayState) :

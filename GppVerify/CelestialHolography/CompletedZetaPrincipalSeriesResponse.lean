@@ -20,7 +20,7 @@ noncomputable def celestialCompletedPhaseResponse (Δ : ℂ) : ℂ :=
 
 theorem half_argument_re_eq_half {Δ : ℂ} (hΔ : Δ.re = 1) :
     (Δ / 2).re = 1 / 2 := by
-  simp [Complex.div_re, hΔ]
+  simp [hΔ]
 
 theorem celestialCompletedResponse_re_eq_zero
     {Δ : ℂ} (hΔ : Δ.re = 1)

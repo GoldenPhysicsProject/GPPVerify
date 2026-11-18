@@ -64,9 +64,9 @@ lemma principal_series_shadow_eq_conj (t : ℝ) :
     let s : ℂ := ⟨1/2, t⟩
     (1 : ℂ) - s = starRingEnd ℂ s := by
   apply Complex.ext
-  · simp only [Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re]
+  · simp only [Complex.sub_re, Complex.one_re, Complex.conj_re]
     norm_num
-  · simp [RCLike.star_def, Complex.conj_im, Complex.sub_im, Complex.one_im]
+  · simp [Complex.conj_im, Complex.sub_im, Complex.one_im]
 
 -- ============================================================
 -- §2  Trivial zeros of ζ
@@ -76,7 +76,7 @@ lemma principal_series_shadow_eq_conj (t : ℝ) :
     These are on the real axis, outside the critical strip. -/
 lemma trivial_zero_outside_critical_strip (n : ℕ) (hn : n ≠ 0) :
     (-(2 * (n : ℂ))).re < 0 := by
-  simp [Complex.mul_re, Complex.ofReal_re]
+  simp [Complex.mul_re]
   positivity
 
 /-- The Riemann xi function vanishes exactly at non-trivial zeros of ζ.

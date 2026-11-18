@@ -47,7 +47,7 @@ theorem map_haar_mulHomeo (u : Afˣ) :
   have : (haar.map (mulHomeo u)).Regular := Measure.Regular.map _
   have h := Measure.isAddLeftInvariant_eq_smul_of_regular (haar.map (mulHomeo u)) haar
   have h2 := congrArg (fun m => m integralAdeles) h
-  simp only [Measure.smul_apply, haar_integralAdeles, smul_eq_mul, mul_one] at h2
+  simp only [Measure.smul_apply, haar_integralAdeles] at h2
   set c := (haar.map (mulHomeo u)).addHaarScalarFactor haar with hc
   have h3 : haar ((mulHomeo u) ⁻¹' integralAdeles) = (c : ENNReal) := by
     rw [← Measure.map_apply (mulHomeo u).continuous.measurable isOpen_integralAdeles.measurableSet, h2]

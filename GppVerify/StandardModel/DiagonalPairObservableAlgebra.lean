@@ -73,7 +73,7 @@ theorem invariant_diagonal_is_scalar (a b : ℂ)
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := {decide := true})
-      [diagObservable, Matrix.one_apply]
+      [diagObservable]
 
 /-- General commuting operators have equal diagonal entries and equal off-diagonal entries. -/
 theorem commutes_swap_iff (O : M2C) :

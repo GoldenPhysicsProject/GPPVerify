@@ -35,7 +35,7 @@ theorem L_pow_four_eq_one :
     L * L * (L * L) = (1 : Matrix (Fin 4) (Fin 4) ℝ) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp (config := { decide := true }) [L, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply] <;>
+    simp (config := { decide := true }) [L, Matrix.mul_apply, Fin.sum_univ_four] <;>
     norm_num
 
 /-- `Q` and `P` multiply to the determinant scale. -/
@@ -45,7 +45,7 @@ theorem Q_mul_P_eq_D_smul_one (a b c d : ℝ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [Q, P, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply] <;>
+      [Q, P, Matrix.mul_apply, Fin.sum_univ_four] <;>
     ring
 
 /-- The reverse product has the same determinant scale. -/
@@ -55,7 +55,7 @@ theorem P_mul_Q_eq_D_smul_one (a b c d : ℝ) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [Q, P, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply] <;>
+      [Q, P, Matrix.mul_apply, Fin.sum_univ_four] <;>
     ring
 
 /-- Core conjugacy/intertwining identity: `N P = D P L`. -/

@@ -35,7 +35,7 @@ theorem colligation_sq_eq_one
     colligation a b * colligation a b = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [colligation, Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] <;>
+    simp [colligation, Matrix.mul_apply, Fin.sum_univ_two] <;>
     nlinarith
 
 /-- The matrix is symmetric, so the preceding involution is also the orthogonality
@@ -79,7 +79,7 @@ theorem blaschke_normSq_eq_one
     simpa [Complex.normSq, pow_two] using hz
   have hnum : Complex.normSq (z - (a : ℂ)) =
       Complex.normSq (1 - (a : ℂ) * z) := by
-    simp [Complex.normSq, pow_two]
+    simp [Complex.normSq]
     ring_nf at hz' ⊢
     nlinarith [hz']
   rw [hnum]

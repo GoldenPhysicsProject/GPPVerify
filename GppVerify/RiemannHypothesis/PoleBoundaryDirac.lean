@@ -124,7 +124,7 @@ theorem normalized_weyl_duality_is_four_over
     2 * Complex.I * (-1 / m) = 4 / (2 * Complex.I * m) := by
   field_simp [hm, Complex.I_ne_zero]
   ring_nf
-  simp [Complex.I_mul_I]
+  simp 
 
 end
 

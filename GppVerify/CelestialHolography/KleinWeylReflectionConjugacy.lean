@@ -51,7 +51,7 @@ def activeReflection (Lambda : ℝ) (v : Active2) : Active2 :=
 /-- The fixed Weyl element is involutive. -/
 theorem fixedWeyl_sq (v : Active2) : fixedWeyl (fixedWeyl v) = v := by
   rcases v with ⟨x,y⟩
-  simp [Active2, fixedWeyl, splitDilation, activeReflection]
+  simp [Active2, fixedWeyl]
 
 /-- Nonzero split dilation is inverted by the reciprocal parameter. -/
 theorem splitDilation_inverse

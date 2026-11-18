@@ -13,7 +13,7 @@ theorem fourth_power_eq_fourth_power_cases (z w : ℂ) (h : z ^ 4 = w ^ 4) :
       (z - w) * (z + w) * (z - Complex.I * w) * (z + Complex.I * w)
           = z ^ 4 - w ^ 4 := by
               ring_nf
-              simp [Complex.I_mul_I]
+              simp 
               ring
       _ = 0 := sub_eq_zero.mpr h
   rcases mul_eq_zero.mp hfac with h123 | h4

@@ -29,7 +29,7 @@ theorem firstResponse_eq_neg_zetaVarianceResponse
   have hne : riemannZeta (β : ℂ) ≠ 0 :=
     riemannZeta_ne_zero_right_half_plane (by simpa using hβ)
   unfold firstResponse zetaVarianceResponse
-  simp [iteratedDeriv_succ', iteratedDeriv_one]
+  simp [iteratedDeriv_succ']
   field_simp [hne]
   ring
 

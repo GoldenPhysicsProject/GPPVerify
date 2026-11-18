@@ -100,7 +100,7 @@ noncomputable def zetaInvolution (ρ : ℂ) : ℂ := 1 - (starRingEnd ℂ) ρ
 
 /-- `zetaInvolution` is an involution on all of `ℂ`. -/
 theorem zetaInvolution_involutive (ρ : ℂ) : zetaInvolution (zetaInvolution ρ) = ρ := by
-  simp [zetaInvolution, map_sub, map_one, Complex.conj_conj]
+  simp [zetaInvolution, map_sub, map_one]
 
 /-- The fixed locus of `zetaInvolution` is exactly the critical line — via the repo's
     `GppFE.critical_line_is_fixed_locus`. -/
