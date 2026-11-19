@@ -510,6 +510,231 @@ lemma iteratedDeriv_momentLap {h : ℝ → ℝ} {σc : ℝ} (hpos : ∀ t, 0 ≤
 
 /-! ## §3 continued. Landau's lemma — the full one-step improvement -/
 
+/-- **Landau's lemma on a disc.** Let `h ≥ 0` with Laplace transform converging (absolutely) above
+    `σc`, and let `x > σc` be real. If the Laplace transform extends to a function `Hext`
+    holomorphic on the open disc `ball(x, R)`, then it converges at every real `y < x` with
+    `x - y < R`.
+
+    Proof: Taylor-expand `Hext` at `x`; the coefficients are the moment integrals (differentiation
+    under the integral sign), and nonnegativity of `h` lets Tonelli interchange the Taylor series
+    with the integral. `landau_full` (the half-plane form) and `landau_local` (the local Pringsheim
+    form, `HeartLandauLocal`) are specialisations of this lemma. -/
+theorem landau_disc {h : ℝ → ℝ} {σc x R : ℝ} {Hext : ℂ → ℂ}
+    (hpos : ∀ t, 0 ≤ h t)
+    (hconv : ∀ τ : ℝ, σc < τ → IntegrableOn (fun t : ℝ ↦ ((Real.exp (-τ * t) * h t : ℝ):ℂ)) (Ioi 0) volume)
+    (hxσ : σc < x)
+    (hHext : DifferentiableOn ℂ Hext (Metric.ball (x:ℂ) R))
+    (heq : ∀ z : ℂ, σc < z.re → Hext z = ∫ t : ℝ in Ioi 0, Complex.exp (-z * (t:ℂ)) * ((h t : ℝ):ℂ))
+    {y : ℝ} (hyx : y < x) (hyR : x - y < R) :
+    IntegrableOn (fun t : ℝ ↦ ((Real.exp (-y * t) * h t : ℝ):ℂ)) (Ioi 0) volume := by
+  set d : ℝ := x - y with hd_def
+  have hd0 : 0 < d := by simp only [hd_def]; linarith
+  have hxy : y - x = -d := by simp only [hd_def]; ring
+  have haesm_h := aesm_h hconv
+  have hmem : (y:ℂ) ∈ Metric.ball (x:ℂ) R := by
+    rw [Metric.mem_ball, dist_eq_norm]
+    have e1 : (y:ℂ) - (x:ℂ) = ((-d : ℝ):ℂ) := by
+      rw [← Complex.ofReal_sub, hxy]
+    rw [e1]
+    simp only [Complex.norm_real, Real.norm_eq_abs, abs_neg, abs_of_pos hd0]
+    exact hyR
+  -- real moments at x
+  set m : ℕ → ℝ := fun n ↦ ∫ t : ℝ in Ioi 0, t ^ n * Real.exp (-x * t) * h t with hm_def
+  have hm_nonneg : ∀ n, 0 ≤ m n := by
+    intro n
+    apply integral_nonneg_of_ae
+    filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
+    have htpos : (0:ℝ) < t := ht
+    have h1 := hpos t
+    positivity
+  -- coefficient identification: Taylor coefficients are the moment integrals
+  have hcoeff : ∀ n : ℕ, iteratedDeriv n Hext (x:ℂ) = (-1 : ℂ) ^ n * ((m n : ℝ):ℂ) := by
+    intro n
+    have hev : Hext =ᶠ[𝓝 (x:ℂ)] momentLap h 0 := by
+      have hmem2 : {z : ℂ | σc < z.re} ∈ 𝓝 (x:ℂ) :=
+        (isOpen_Ioi.preimage Complex.continuous_re).mem_nhds hxσ
+      filter_upwards [hmem2] with z hz
+      rw [heq z hz]
+      simp only [momentLap, pow_zero, one_mul]
+    rw [hev.iteratedDeriv_eq n, iteratedDeriv_momentLap hpos hconv n hxσ]
+    congr 1
+    simp only [momentLap, hm_def]
+    have e : (∫ (t : ℝ) in Ioi 0, (t:ℂ) ^ n * Complex.exp (-(x:ℂ) * (t:ℂ)) * ((h t : ℝ):ℂ))
+        = ∫ (t : ℝ) in Ioi 0, (((t ^ n * Real.exp (-x * t) * h t : ℝ)):ℂ) := by
+      apply setIntegral_congr_ae measurableSet_Ioi
+      filter_upwards with t _
+      have hexp_eq : Complex.exp (-(x:ℂ) * (t:ℂ)) = (((Real.exp (-x * t) : ℝ)):ℂ) := by
+        have e1 : (-(x:ℂ) * (t:ℂ)) = (((-(x * t)) : ℝ):ℂ) := by push_cast; ring
+        calc Complex.exp (-(x:ℂ) * (t:ℂ))
+            = Complex.exp (((-(x * t)) : ℝ):ℂ) := by rw [e1]
+          _ = (((Real.exp (-(x * t)) : ℝ)):ℂ) := (Complex.ofReal_exp _).symm
+          _ = (((Real.exp (-x * t) : ℝ)):ℂ) := by
+              have harg : -(x * t) = -x * t := by ring
+              rw [harg]
+      rw [hexp_eq]
+      push_cast
+      ring
+    rw [e]
+    exact integral_complex_ofReal
+  -- Taylor terms as nonneg reals
+  have hterm : ∀ n : ℕ, (n ! : ℂ)⁻¹ * iteratedDeriv n Hext (x:ℂ) * ((y:ℂ) - (x:ℂ)) ^ n
+      = ((((d ^ n / n ! * m n : ℝ))):ℂ) := by
+    intro n
+    have hyx'' : (y:ℂ) - (x:ℂ) = ((-d : ℝ):ℂ) := by
+      rw [← Complex.ofReal_sub, hxy]
+    rw [hcoeff n, hyx'']
+    have hneg1 : (-1 : ℝ) ^ n * (-1 : ℝ) ^ n = 1 := by
+      rw [← pow_add]
+      exact Even.neg_one_pow ⟨n, by ring⟩
+    have e2 : (-d : ℝ) ^ n = (-1 : ℝ) ^ n * d ^ n := by
+      rw [show (-d : ℝ) = -1 * d by ring, mul_pow]
+    have hreal : ((n ! : ℕ):ℝ)⁻¹ * (-1:ℝ)^n * m n * (-d:ℝ)^n
+        = d^n / ((n ! : ℕ):ℝ) * m n := by
+      rw [e2, div_eq_mul_inv]
+      have e3 : ((n ! : ℕ):ℝ)⁻¹ * (-1:ℝ)^n * m n * ((-1:ℝ)^n * d^n)
+          = (((n ! : ℕ):ℝ)⁻¹ * (m n * d^n)) * ((-1:ℝ)^n * (-1:ℝ)^n) := by ring
+      rw [e3, hneg1, mul_one]
+      ring
+    -- Collapse the LHS coercions into a single ofReal
+    -- (needs explicit bridges: `(-1:ℂ)` is not syntactically a cast, and `(n!:ℂ)`
+    -- is `Nat.cast`, not `Complex.ofReal`)
+    have eLHS : (n ! : ℂ)⁻¹ * ((-1:ℂ) ^ n * ((m n : ℝ):ℂ)) * (((-d : ℝ):ℂ) ^ n)
+        = ((((n ! : ℕ):ℝ)⁻¹ * (-1:ℝ)^n * m n * (-d:ℝ)^n : ℝ):ℂ) := by
+      have c1 : (-1:ℂ) = (((-1:ℝ)):ℂ) := by norm_cast
+      have c2 : (n ! : ℂ) = ((((n ! : ℕ):ℝ)):ℂ) := by norm_cast
+      rw [c1, c2, ← Complex.ofReal_inv, ← Complex.ofReal_pow, ← Complex.ofReal_pow,
+        ← Complex.ofReal_mul, ← Complex.ofReal_mul, ← Complex.ofReal_mul,
+        Complex.ofReal_inj]
+      ring
+    rw [eLHS]
+    exact_mod_cast hreal
+  -- summability via the Taylor HasSum, transported along the coefficient identity.
+  -- (The intended `tsum_eq_hasSum : a = ∑' i, f i → HasSum f a` does not exist in
+  -- mathlib — it is false in general. `Complex.hasSum_taylorSeries_on_ball` gives the
+  -- `HasSum` directly.)
+  have htaylorHas : HasSum
+      (fun n : ℕ ↦ (n ! : ℂ)⁻¹ • ((y:ℂ) - (x:ℂ)) ^ n • iteratedDeriv n Hext (x:ℂ))
+      (Hext (y:ℂ)) :=
+    Complex.hasSum_taylorSeries_on_ball hHext hmem
+  have hsummC : Summable (fun n : ℕ ↦ (((d ^ n / n ! * m n : ℝ)):ℂ)) :=
+    (htaylorHas.congr_fun (fun n ↦ by
+      have h := hterm n
+      simp only [smul_eq_mul]
+      rw [← h]
+      ring)).summable
+  -- real summability via `Complex.summable_ofReal`
+  -- (the old `hsummC.norm` route is invalid: `Summable.norm` does not exist in
+  -- mathlib — summability of norms is false for conditionally convergent series)
+  have hsummR : Summable (fun n : ℕ ↦ (d ^ n / n ! * m n : ℝ)) :=
+    Complex.summable_ofReal.mp hsummC
+  -- the nonneg summands
+  set G : ℕ → ℝ → ℝ := fun n t ↦ d ^ n / n ! * (t ^ n * Real.exp (-x * t) * h t) with hGdef
+  have hG_nonneg : ∀ n t, 0 ≤ t → 0 ≤ G n t := by
+    intro n t ht
+    simp only [hGdef]
+    apply mul_nonneg
+    · apply div_nonneg
+      · exact pow_nonneg (le_of_lt hd0) n
+      · exact Nat.cast_nonneg _
+    · have h1 := hpos t
+      positivity
+  have ha_eq : ∀ n : ℕ, d ^ n / n ! * m n = ∫ t : ℝ in Ioi 0, G n t := by
+    intro n
+    simp only [hm_def, hGdef, integral_const_mul]
+  have hintG : ∀ n : ℕ, Integrable (G n) (volume.restrict (Ioi 0)) := by
+    intro n
+    have h1 := integrable_momentLap_real' hpos hconv n hxσ
+    have h2 := h1.const_mul (d ^ n / n !)
+    simpa [hGdef] using h2
+  have haemeas : ∀ n : ℕ, AEMeasurable (fun t : ℝ ↦ ENNReal.ofReal (G n t))
+      (volume.restrict (Ioi 0)) := by
+    intro n
+    have hc : AEStronglyMeasurable (fun t : ℝ ↦ d ^ n / n ! * (t ^ n * Real.exp (-x * t) * h t))
+        (volume.restrict (Ioi 0)) :=
+      ((aestronglyMeasurable_const).mul
+        ((((continuous_pow n).aestronglyMeasurable.mul
+          (by continuity : Continuous fun t : ℝ ↦ Real.exp (-x * t)).aestronglyMeasurable).mul
+          haesm_h)))
+    have hcG : AEStronglyMeasurable (G n) (volume.restrict (Ioi 0)) := by
+      simpa [hGdef] using hc
+    exact (ENNReal.continuous_ofReal.measurable.comp_aemeasurable hcG.aemeasurable)
+  -- pointwise sum: the exponential series
+  have hsum_pt : ∀ t : ℝ, ∑' n : ℕ, G n t = Real.exp (-y * t) * h t := by
+    intro t
+    have hexp : ∑' n : ℕ, ((d * t) ^ n / n ! : ℝ) = Real.exp (d * t) := by
+      rw [Real.exp_eq_exp_ℝ, NormedSpace.exp_eq_tsum ℝ]
+      apply tsum_congr
+      intro n
+      rw [smul_eq_mul, div_eq_mul_inv]
+      ring
+    calc ∑' n : ℕ, G n t
+        = ∑' n : ℕ, (((d * t) ^ n / n !) * (Real.exp (-x * t) * h t) : ℝ) := by
+          apply tsum_congr
+          intro n
+          simp only [hGdef]
+          ring
+      _ = (∑' n : ℕ, ((d * t) ^ n / n ! : ℝ)) * (Real.exp (-x * t) * h t) := by
+          rw [tsum_mul_right]
+      _ = Real.exp (d * t) * (Real.exp (-x * t) * h t) := by rw [hexp]
+      _ = Real.exp (-y * t) * h t := by
+          have harg : d * t + -x * t = -y * t := by
+            have hyd : y = x - d := by simp only [hd_def]; ring
+            rw [hyd]; ring
+          calc Real.exp (d * t) * (Real.exp (-x * t) * h t)
+              = Real.exp (d * t + -x * t) * h t := by rw [Real.exp_add]; ring
+            _ = Real.exp (-y * t) * h t := by rw [harg]
+  -- Tonelli interchange via lintegral
+  have hlin_eq : (∫⁻ t : ℝ in Ioi 0, ENNReal.ofReal (Real.exp (-y * t) * h t))
+      = ∑' n : ℕ, ENNReal.ofReal (d ^ n / n ! * m n) := by
+    have step1 : ∀ᵐ t ∂(volume.restrict (Ioi 0)),
+        ENNReal.ofReal (Real.exp (-y * t) * h t) = ∑' n : ℕ, ENNReal.ofReal (G n t) := by
+      filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
+      have ht0 : (0:ℝ) ≤ t := le_of_lt ht
+      have hsummGt : Summable (fun n : ℕ ↦ G n t) := by
+        have hsumm := Real.summable_pow_div_factorial (d * t)
+        have heqG : (fun n : ℕ ↦ G n t)
+            = fun n : ℕ ↦ ((d * t) ^ n / n ! * (Real.exp (-x * t) * h t)) := by
+          funext n
+          simp only [hGdef]
+          ring
+        rw [heqG]
+        exact hsumm.mul_right _
+      rw [← hsum_pt t]
+      exact ENNReal.ofReal_tsum_of_nonneg (fun n ↦ hG_nonneg n t ht0) hsummGt
+    rw [lintegral_congr_ae step1, lintegral_tsum haemeas]
+    apply tsum_congr
+    intro n
+    have hint := hintG n
+    have hnn : ∀ᵐ t ∂(volume.restrict (Ioi 0)), 0 ≤ G n t := by
+      filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
+      exact hG_nonneg n t (le_of_lt ht)
+    have h2 := ofReal_integral_eq_lintegral_ofReal hint hnn
+    rw [ha_eq n, ← h2]
+  -- finiteness and integrability, via `HasFiniteIntegral` (no `eLpNorm` spelling)
+  have hpos_m : ∀ n : ℕ, 0 ≤ d ^ n / n ! * m n := by
+    intro n
+    apply mul_nonneg
+    · apply div_nonneg
+      · exact pow_nonneg (le_of_lt hd0) n
+      · exact Nat.cast_nonneg _
+    · exact hm_nonneg n
+  have hS_aesm : AEStronglyMeasurable (fun t : ℝ ↦ Real.exp (-y * t) * h t)
+      (volume.restrict (Ioi 0)) :=
+    ((by continuity : Continuous fun t : ℝ ↦ Real.exp (-y * t)).aestronglyMeasurable.mul haesm_h)
+  have hS_int : Integrable (fun t : ℝ ↦ Real.exp (-y * t) * h t) (volume.restrict (Ioi 0)) := by
+    have hnnS_ae : (0 : ℝ → ℝ) ≤ᵐ[volume.restrict (Ioi 0)]
+        (fun t : ℝ ↦ Real.exp (-y * t) * h t) :=
+      Filter.Eventually.of_forall (fun t ↦ mul_nonneg (Real.exp_pos _).le (hpos t))
+    have hfin : (∫⁻ a, ENNReal.ofReal (Real.exp (-y * a) * h a) ∂(volume.restrict (Ioi 0))) < ⊤ := by
+      rw [hlin_eq, ← ENNReal.ofReal_tsum_of_nonneg hpos_m hsummR]
+      exact ENNReal.ofReal_lt_top
+    exact ⟨hS_aesm, (hasFiniteIntegral_iff_ofReal hnnS_ae).mpr hfin⟩
+  have hfinal : Integrable (fun t : ℝ ↦ ((Real.exp (-y * t) * h t : ℝ):ℂ))
+      (volume.restrict (Ioi 0)) :=
+    Integrable.ofReal hS_int
+  exact hfinal
+
+
 /-- **Landau's lemma, full one-step form.** Let `h ≥ 0` with Laplace transform
     converging (absolutely) above `σc > 0`. If the Laplace transform extends to
     a function holomorphic on the whole right half-plane `{Re z > 0}`, then it
@@ -525,7 +750,7 @@ lemma iteratedDeriv_momentLap {h : ℝ → ℝ} {σc : ℝ} (hpos : ∀ t, 0 ≤
     the wave-55 located blocker). -/
 theorem landau_full {h : ℝ → ℝ} {σc : ℝ} {Hext : ℂ → ℂ}
     (hpos : ∀ t, 0 ≤ h t)
-    (hσc : 0 < σc)
+    (_hσc : 0 < σc)
     (hconv : ∀ τ : ℝ, σc < τ → IntegrableOn (fun t : ℝ ↦ ((Real.exp (-τ * t) * h t : ℝ):ℂ)) (Ioi 0) volume)
     (hHext : DifferentiableOn ℂ Hext {z : ℂ | 0 < z.re})
     (heq : ∀ z : ℂ, σc < z.re → Hext z = ∫ t : ℝ in Ioi 0, Complex.exp (-z * (t:ℂ)) * ((h t : ℝ):ℂ)) :
@@ -535,14 +760,7 @@ theorem landau_full {h : ℝ → ℝ} {σc : ℝ} {Hext : ℂ → ℂ}
   · exact hconv y hlt
   · rw [not_lt] at hlt
     set x : ℝ := σc + 1 with hx_def
-    set d : ℝ := x - y with hd_def
     have hxσ : σc < x := by simp only [hx_def]; linarith
-    have hx0 : 0 < x := by simp only [hx_def]; linarith
-    have hd0 : 0 < d := by simp only [hd_def, hx_def]; linarith
-    have hdx : d < x := by simp only [hd_def]; linarith
-    have hxy : y - x = -d := by simp only [hd_def]; ring
-    have haesm_h := aesm_h hconv
-    -- Taylor setup: ball(x, x) ⊆ {Re > 0}, y ∈ ball(x, x)
     have hball_sub : Metric.ball (x:ℂ) (x:ℝ) ⊆ {z : ℂ | 0 < z.re} := by
       intro z hz
       simp only [Set.mem_ofPred_eq]
@@ -552,209 +770,10 @@ theorem landau_full {h : ℝ → ℝ} {σc : ℝ} {Hext : ℂ → ℂ}
         rwa [show (z - (x:ℂ)).re = z.re - x from by simp] at h2
       have h3 : |z.re - x| < x := lt_of_le_of_lt h1 hz
       have h4 := abs_lt.mp h3
+      simp only [hx_def] at h4 ⊢
       linarith
-    have hmem : (y:ℂ) ∈ Metric.ball (x:ℂ) (x:ℝ) := by
-      rw [Metric.mem_ball, dist_eq_norm]
-      have e1 : (y:ℂ) - (x:ℂ) = ((-d : ℝ):ℂ) := by
-        rw [← Complex.ofReal_sub, hxy]
-      rw [e1]
-      simp only [Complex.norm_real, Real.norm_eq_abs, abs_neg, abs_of_pos hd0]
-      exact hdx
-    -- real moments at x
-    set m : ℕ → ℝ := fun n ↦ ∫ t : ℝ in Ioi 0, t ^ n * Real.exp (-x * t) * h t with hm_def
-    have hm_nonneg : ∀ n, 0 ≤ m n := by
-      intro n
-      apply integral_nonneg_of_ae
-      filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
-      have htpos : (0:ℝ) < t := ht
-      have h1 := hpos t
-      positivity
-    -- coefficient identification: Taylor coefficients are the moment integrals
-    have hcoeff : ∀ n : ℕ, iteratedDeriv n Hext (x:ℂ) = (-1 : ℂ) ^ n * ((m n : ℝ):ℂ) := by
-      intro n
-      have hev : Hext =ᶠ[𝓝 (x:ℂ)] momentLap h 0 := by
-        have hmem2 : {z : ℂ | σc < z.re} ∈ 𝓝 (x:ℂ) :=
-          (isOpen_Ioi.preimage Complex.continuous_re).mem_nhds hxσ
-        filter_upwards [hmem2] with z hz
-        rw [heq z hz]
-        simp only [momentLap, pow_zero, one_mul]
-      rw [hev.iteratedDeriv_eq n, iteratedDeriv_momentLap hpos hconv n hxσ]
-      congr 1
-      simp only [momentLap, hm_def]
-      have e : (∫ (t : ℝ) in Ioi 0, (t:ℂ) ^ n * Complex.exp (-(x:ℂ) * (t:ℂ)) * ((h t : ℝ):ℂ))
-          = ∫ (t : ℝ) in Ioi 0, (((t ^ n * Real.exp (-x * t) * h t : ℝ)):ℂ) := by
-        apply setIntegral_congr_ae measurableSet_Ioi
-        filter_upwards with t _
-        have hexp_eq : Complex.exp (-(x:ℂ) * (t:ℂ)) = (((Real.exp (-x * t) : ℝ)):ℂ) := by
-          have e1 : (-(x:ℂ) * (t:ℂ)) = (((-(x * t)) : ℝ):ℂ) := by push_cast; ring
-          calc Complex.exp (-(x:ℂ) * (t:ℂ))
-              = Complex.exp (((-(x * t)) : ℝ):ℂ) := by rw [e1]
-            _ = (((Real.exp (-(x * t)) : ℝ)):ℂ) := (Complex.ofReal_exp _).symm
-            _ = (((Real.exp (-x * t) : ℝ)):ℂ) := by
-                have harg : -(x * t) = -x * t := by ring
-                rw [harg]
-        rw [hexp_eq]
-        push_cast
-        ring
-      rw [e]
-      exact integral_complex_ofReal
-    -- Taylor terms as nonneg reals
-    have hterm : ∀ n : ℕ, (n ! : ℂ)⁻¹ * iteratedDeriv n Hext (x:ℂ) * ((y:ℂ) - (x:ℂ)) ^ n
-        = ((((d ^ n / n ! * m n : ℝ))):ℂ) := by
-      intro n
-      have hyx'' : (y:ℂ) - (x:ℂ) = ((-d : ℝ):ℂ) := by
-        rw [← Complex.ofReal_sub, hxy]
-      rw [hcoeff n, hyx'']
-      have hneg1 : (-1 : ℝ) ^ n * (-1 : ℝ) ^ n = 1 := by
-        rw [← pow_add]
-        exact Even.neg_one_pow ⟨n, by ring⟩
-      have e2 : (-d : ℝ) ^ n = (-1 : ℝ) ^ n * d ^ n := by
-        rw [show (-d : ℝ) = -1 * d by ring, mul_pow]
-      have hreal : ((n ! : ℕ):ℝ)⁻¹ * (-1:ℝ)^n * m n * (-d:ℝ)^n
-          = d^n / ((n ! : ℕ):ℝ) * m n := by
-        rw [e2, div_eq_mul_inv]
-        have e3 : ((n ! : ℕ):ℝ)⁻¹ * (-1:ℝ)^n * m n * ((-1:ℝ)^n * d^n)
-            = (((n ! : ℕ):ℝ)⁻¹ * (m n * d^n)) * ((-1:ℝ)^n * (-1:ℝ)^n) := by ring
-        rw [e3, hneg1, mul_one]
-        ring
-      -- Collapse the LHS coercions into a single ofReal
-      -- (needs explicit bridges: `(-1:ℂ)` is not syntactically a cast, and `(n!:ℂ)`
-      -- is `Nat.cast`, not `Complex.ofReal`)
-      have eLHS : (n ! : ℂ)⁻¹ * ((-1:ℂ) ^ n * ((m n : ℝ):ℂ)) * (((-d : ℝ):ℂ) ^ n)
-          = ((((n ! : ℕ):ℝ)⁻¹ * (-1:ℝ)^n * m n * (-d:ℝ)^n : ℝ):ℂ) := by
-        have c1 : (-1:ℂ) = (((-1:ℝ)):ℂ) := by norm_cast
-        have c2 : (n ! : ℂ) = ((((n ! : ℕ):ℝ)):ℂ) := by norm_cast
-        rw [c1, c2, ← Complex.ofReal_inv, ← Complex.ofReal_pow, ← Complex.ofReal_pow,
-          ← Complex.ofReal_mul, ← Complex.ofReal_mul, ← Complex.ofReal_mul,
-          Complex.ofReal_inj]
-        ring
-      rw [eLHS]
-      exact_mod_cast hreal
-    -- summability via the Taylor HasSum, transported along the coefficient identity.
-    -- (The intended `tsum_eq_hasSum : a = ∑' i, f i → HasSum f a` does not exist in
-    -- mathlib — it is false in general. `Complex.hasSum_taylorSeries_on_ball` gives the
-    -- `HasSum` directly.)
-    have htaylorHas : HasSum
-        (fun n : ℕ ↦ (n ! : ℂ)⁻¹ • ((y:ℂ) - (x:ℂ)) ^ n • iteratedDeriv n Hext (x:ℂ))
-        (Hext (y:ℂ)) :=
-      Complex.hasSum_taylorSeries_on_ball (hHext.mono hball_sub) hmem
-    have hsummC : Summable (fun n : ℕ ↦ (((d ^ n / n ! * m n : ℝ)):ℂ)) :=
-      (htaylorHas.congr_fun (fun n ↦ by
-        have h := hterm n
-        simp only [smul_eq_mul]
-        rw [← h]
-        ring)).summable
-    -- real summability via `Complex.summable_ofReal`
-    -- (the old `hsummC.norm` route is invalid: `Summable.norm` does not exist in
-    -- mathlib — summability of norms is false for conditionally convergent series)
-    have hsummR : Summable (fun n : ℕ ↦ (d ^ n / n ! * m n : ℝ)) :=
-      Complex.summable_ofReal.mp hsummC
-    -- the nonneg summands
-    set G : ℕ → ℝ → ℝ := fun n t ↦ d ^ n / n ! * (t ^ n * Real.exp (-x * t) * h t) with hGdef
-    have hG_nonneg : ∀ n t, 0 ≤ t → 0 ≤ G n t := by
-      intro n t ht
-      simp only [hGdef]
-      apply mul_nonneg
-      · apply div_nonneg
-        · exact pow_nonneg (le_of_lt hd0) n
-        · exact Nat.cast_nonneg _
-      · have h1 := hpos t
-        positivity
-    have ha_eq : ∀ n : ℕ, d ^ n / n ! * m n = ∫ t : ℝ in Ioi 0, G n t := by
-      intro n
-      simp only [hm_def, hGdef, integral_const_mul]
-    have hintG : ∀ n : ℕ, Integrable (G n) (volume.restrict (Ioi 0)) := by
-      intro n
-      have h1 := integrable_momentLap_real' hpos hconv n hxσ
-      have h2 := h1.const_mul (d ^ n / n !)
-      simpa [hGdef] using h2
-    have haemeas : ∀ n : ℕ, AEMeasurable (fun t : ℝ ↦ ENNReal.ofReal (G n t))
-        (volume.restrict (Ioi 0)) := by
-      intro n
-      have hc : AEStronglyMeasurable (fun t : ℝ ↦ d ^ n / n ! * (t ^ n * Real.exp (-x * t) * h t))
-          (volume.restrict (Ioi 0)) :=
-        ((aestronglyMeasurable_const).mul
-          ((((continuous_pow n).aestronglyMeasurable.mul
-            (by continuity : Continuous fun t : ℝ ↦ Real.exp (-x * t)).aestronglyMeasurable).mul
-            haesm_h)))
-      have hcG : AEStronglyMeasurable (G n) (volume.restrict (Ioi 0)) := by
-        simpa [hGdef] using hc
-      exact (ENNReal.continuous_ofReal.measurable.comp_aemeasurable hcG.aemeasurable)
-    -- pointwise sum: the exponential series
-    have hsum_pt : ∀ t : ℝ, ∑' n : ℕ, G n t = Real.exp (-y * t) * h t := by
-      intro t
-      have hexp : ∑' n : ℕ, ((d * t) ^ n / n ! : ℝ) = Real.exp (d * t) := by
-        rw [Real.exp_eq_exp_ℝ, NormedSpace.exp_eq_tsum ℝ]
-        apply tsum_congr
-        intro n
-        rw [smul_eq_mul, div_eq_mul_inv]
-        ring
-      calc ∑' n : ℕ, G n t
-          = ∑' n : ℕ, (((d * t) ^ n / n !) * (Real.exp (-x * t) * h t) : ℝ) := by
-            apply tsum_congr
-            intro n
-            simp only [hGdef]
-            ring
-        _ = (∑' n : ℕ, ((d * t) ^ n / n ! : ℝ)) * (Real.exp (-x * t) * h t) := by
-            rw [tsum_mul_right]
-        _ = Real.exp (d * t) * (Real.exp (-x * t) * h t) := by rw [hexp]
-        _ = Real.exp (-y * t) * h t := by
-            have harg : d * t + -x * t = -y * t := by
-              have hyd : y = x - d := by simp only [hd_def]; ring
-              rw [hyd]; ring
-            calc Real.exp (d * t) * (Real.exp (-x * t) * h t)
-                = Real.exp (d * t + -x * t) * h t := by rw [Real.exp_add]; ring
-              _ = Real.exp (-y * t) * h t := by rw [harg]
-    -- Tonelli interchange via lintegral
-    have hlin_eq : (∫⁻ t : ℝ in Ioi 0, ENNReal.ofReal (Real.exp (-y * t) * h t))
-        = ∑' n : ℕ, ENNReal.ofReal (d ^ n / n ! * m n) := by
-      have step1 : ∀ᵐ t ∂(volume.restrict (Ioi 0)),
-          ENNReal.ofReal (Real.exp (-y * t) * h t) = ∑' n : ℕ, ENNReal.ofReal (G n t) := by
-        filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
-        have ht0 : (0:ℝ) ≤ t := le_of_lt ht
-        have hsummGt : Summable (fun n : ℕ ↦ G n t) := by
-          have hsumm := Real.summable_pow_div_factorial (d * t)
-          have heqG : (fun n : ℕ ↦ G n t)
-              = fun n : ℕ ↦ ((d * t) ^ n / n ! * (Real.exp (-x * t) * h t)) := by
-            funext n
-            simp only [hGdef]
-            ring
-          rw [heqG]
-          exact hsumm.mul_right _
-        rw [← hsum_pt t]
-        exact ENNReal.ofReal_tsum_of_nonneg (fun n ↦ hG_nonneg n t ht0) hsummGt
-      rw [lintegral_congr_ae step1, lintegral_tsum haemeas]
-      apply tsum_congr
-      intro n
-      have hint := hintG n
-      have hnn : ∀ᵐ t ∂(volume.restrict (Ioi 0)), 0 ≤ G n t := by
-        filter_upwards [ae_restrict_mem measurableSet_Ioi] with t ht
-        exact hG_nonneg n t (le_of_lt ht)
-      have h2 := ofReal_integral_eq_lintegral_ofReal hint hnn
-      rw [ha_eq n, ← h2]
-    -- finiteness and integrability, via `HasFiniteIntegral` (no `eLpNorm` spelling)
-    have hpos_m : ∀ n : ℕ, 0 ≤ d ^ n / n ! * m n := by
-      intro n
-      apply mul_nonneg
-      · apply div_nonneg
-        · exact pow_nonneg (le_of_lt hd0) n
-        · exact Nat.cast_nonneg _
-      · exact hm_nonneg n
-    have hS_aesm : AEStronglyMeasurable (fun t : ℝ ↦ Real.exp (-y * t) * h t)
-        (volume.restrict (Ioi 0)) :=
-      ((by continuity : Continuous fun t : ℝ ↦ Real.exp (-y * t)).aestronglyMeasurable.mul haesm_h)
-    have hS_int : Integrable (fun t : ℝ ↦ Real.exp (-y * t) * h t) (volume.restrict (Ioi 0)) := by
-      have hnnS_ae : (0 : ℝ → ℝ) ≤ᵐ[volume.restrict (Ioi 0)]
-          (fun t : ℝ ↦ Real.exp (-y * t) * h t) :=
-        Filter.Eventually.of_forall (fun t ↦ mul_nonneg (Real.exp_pos _).le (hpos t))
-      have hfin : (∫⁻ a, ENNReal.ofReal (Real.exp (-y * a) * h a) ∂(volume.restrict (Ioi 0))) < ⊤ := by
-        rw [hlin_eq, ← ENNReal.ofReal_tsum_of_nonneg hpos_m hsummR]
-        exact ENNReal.ofReal_lt_top
-      exact ⟨hS_aesm, (hasFiniteIntegral_iff_ofReal hnnS_ae).mpr hfin⟩
-    have hfinal : Integrable (fun t : ℝ ↦ ((Real.exp (-y * t) * h t : ℝ):ℂ))
-        (volume.restrict (Ioi 0)) :=
-      Integrable.ofReal hS_int
-    exact hfinal
+    exact landau_disc hpos hconv hxσ (hHext.mono hball_sub) heq
+      (by simp only [hx_def]; linarith) (by simp only [hx_def]; linarith)
 
 /-- **Landau's lemma (improvement form)** — corollary of `landau_full`:
     convergence above `σc` gives convergence at `σc / 2`. -/
