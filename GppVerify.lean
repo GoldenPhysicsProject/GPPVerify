@@ -2667,3 +2667,5 @@ import GppVerify.RiemannHypothesis.CesaroWeilGram
 import GppVerify.RiemannHypothesis.QuartetFiniteCore
 import GppVerify.RiemannHypothesis.QuartetSpectral
 import GppVerify.RiemannHypothesis.HeartElementaryIdentities
+import GppVerify.RiemannHypothesis.HeartMellinSeries
+import GppVerify.RiemannHypothesis.HeartRound23Elementary
