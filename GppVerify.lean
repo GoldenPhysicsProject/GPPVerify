@@ -2672,3 +2672,5 @@ import GppVerify.RiemannHypothesis.HeartRound23Elementary
 import GppVerify.RiemannHypothesis.HeartZetaUnitInterval
 import GppVerify.RiemannHypothesis.HeartLandauLocal
 import GppVerify.RiemannHypothesis.HeartDirichletLiminf
+import GppVerify.RiemannHypothesis.HeartChebyshevDyadic
+import GppVerify.RiemannHypothesis.DigammaQuarterValue
