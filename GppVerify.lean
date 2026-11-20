@@ -2680,3 +2680,4 @@ import GppVerify.Upstream.CauchyBinet
 import GppVerify.RiemannHypothesis.HeartEntropyAdditivity
 import GppVerify.RiemannHypothesis.HeartLaplaceIdentity
 import GppVerify.RiemannHypothesis.HeartLandauReduction
+import GppVerify.RiemannHypothesis.HeartLandauWindow
