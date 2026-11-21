@@ -550,7 +550,7 @@ theorem matchesXiK_hK (hk : KernelSpec k w K) {ε C : ℝ} (hε : ε < 1 / 2) :
 /-! ### The spread-average theorem -/
 
 /-- **F13, spread-average (moving-average) variant.** Let `k ≥ 0` be a bounded measurable kernel
-supported on `[0,w]` whose Laplace transform `κ̂(z) = ∫ e^{−zu}k(u) du` has no zero with `Re z > 0`.
+supported on `[0,w]` whose Laplace transform `κ̂(z) = ∫ e^{−zu}k(u) du` has no zero on the strip `ε < Re z < ½`.
 If the moving average `∫ k(u) D(L−u) du` is `≥ −C e^{εL}` for all `L > 0` (`D` extended by `0`
 below `0`), `0 ≤ ε < ½`, then `ξ_E(s) ≠ 0` for every `Re s > ½ + ε`. -/
 theorem F13_spread_xiE_ne_zero (hk : KernelSpec k w K)
