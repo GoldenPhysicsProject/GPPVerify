@@ -2687,3 +2687,5 @@ import GppVerify.RiemannHypothesis.UndampingSine
 import GppVerify.RiemannHypothesis.HeartFourthPowerSampling
 import GppVerify.RiemannHypothesis.HeartSpreadAverage
 import GppVerify.RiemannHypothesis.UndampingTransfer
+import GppVerify.RiemannHypothesis.DirichletSineParseval
+import GppVerify.RiemannHypothesis.UndampingGreenForm
