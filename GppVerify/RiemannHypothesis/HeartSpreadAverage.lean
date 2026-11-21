@@ -14,7 +14,9 @@ import GppVerify.RiemannHypothesis.HeartLandauReduction
 transfer statement, not a positivity proof.**
 
 For a bounded nonnegative measurable kernel `k` supported in `[0, w]` whose Laplace transform
-`κ̂(z) = ∫ e^{-zu} k(u) du` has no zero on `Re z > 0`, let
+`κ̂(z) = ∫ e^{-zu} k(u) du` has no zero on the strip `ε < Re z < ½` (the only strip the argument
+uses: a zero `ρ` of `ξ` has `Re(ρ−½) < ½`, and `Re ≥ 1` is handled by `ζ ≠ 0`, see
+`xiE_ne_zero_of_one_le_re`), let
 `(k ⋆ D)(L) = ∫ k(u) D(L − u) du` (`conv`, with `D` extended by `0` below `0`, `Dz`).
 If `(k ⋆ D)(L) ≥ −C e^{εL}` for all `L > 0` (`0 ≤ ε < ½`), then the entire completed zeta `ξ_E`
 has no zero with `Re s > ½ + ε` (`F13_spread_xiE_ne_zero`), and `riemannZeta` has none off
@@ -24,9 +26,14 @@ Route: `L[k ⋆ D] = κ̂ · L[D]` (Mathlib `integral_convolution`), so with `h 
 the F11 identity gives `κ̂(z) ξ′(½+z) = ξ(½+z) z² (L[h](z) − C/(z−ε))`; `κ̂ ≠ 0` lets the F13
 order-comparison and Landau step go through unchanged.
 
-Concrete instance (`F13_uniform_xiE_ne_zero`, `F13_uniform_riemannZeta_ne_zero`): the uniform
-kernel `k = 1_{[0,w]}`, `κ̂(z) = (1 − e^{−wz})/z` (`momentLap_kU_mul`), nonzero on `Re z > 0`
-(`momentLap_kU_ne_zero`); the hypothesis becomes `∫_{L−w}^{L} D ≥ −C e^{εL}`.
+Concrete instances:
+* uniform kernel `k = 1_{[0,w]}` (`F13_uniform_xiE_ne_zero`, `F13_uniform_riemannZeta_ne_zero`):
+  `κ̂(z) = (1 − e^{−wz})/z` (`momentLap_kU_mul`), nonzero on `Re z > 0` (`momentLap_kU_ne_zero`);
+  the hypothesis becomes `∫_{L−w}^{L} D ≥ −C e^{εL}`.
+* spread-weight kernel `k(u) = eᵘ` on `[0,w]` (`w = log 2` is Alpöge's spread window;
+  `F13_expKernel_xiE_ne_zero`, `F13_expKernel_riemannZeta_ne_zero`):
+  `κ̂(z) = (1 − e^{−(z−1)w})/(z−1)` (`momentLap_kE_mul`), nonzero on `Re z < 1` and **vanishing at
+  `z = 1 + 2πin/w`**, which is why the side condition is the strip, not `Re z > 0`.
 
 **Normalisation choice.** `D` is the continuous-time Round 23 function, and the window is a
 continuous moving average. This is **not** the discrete `m`-point average over `log n` nodes;
@@ -243,13 +250,34 @@ theorem xiE_deriv_eq_mulK (hpos : ∀ t, 0 ≤ h t)
   exact sub_eq_zero.mp this
 
 
+/-- `ξ_E` has no zero on `Re s ≥ 1` (`ξ_E(1) = ½`; `ζ ≠ 0` on `Re s ≥ 1`). -/
+theorem xiE_ne_zero_of_one_le_re {s : ℂ} (hs : 1 ≤ s.re) : xiE s ≠ 0 := by
+  by_cases h1 : s = 1
+  · subst h1; simp [GppHeartReduction.xiE_one]
+  have hs0 : s ≠ 0 := by intro h0; rw [h0] at hs; simp at hs; linarith
+  rw [GppHeartReduction.xiE_eq hs0 h1]
+  have hz := riemannZeta_ne_zero_of_one_le_re hs
+  have hG : Gammaℝ s ≠ 0 := Gammaℝ_ne_zero_of_re_pos (by linarith)
+  have hΛ : completedRiemannZeta s ≠ 0 := by
+    intro h0
+    apply hz
+    rw [riemannZeta_def_of_ne_zero hs0, h0, zero_div]
+  have h2 : (2 : ℂ)⁻¹ ≠ 0 := by norm_num
+  have : s - 1 ≠ 0 := sub_ne_zero.mpr h1
+  simp only [one_div]
+  exact mul_ne_zero (mul_ne_zero h2 hs0 |> fun h => mul_ne_zero h this) hΛ
+
 theorem xiE_ne_zero_onK (hpos : ∀ t, 0 ≤ h t)
     (hconv : ∀ τ : ℝ, σc < τ →
       IntegrableOn (fun t : ℝ ↦ ((Real.exp (-τ * t) * h t : ℝ) : ℂ)) (Ioi 0) volume)
-    (hκd : Differentiable ℂ κ) (hκne : ∀ z : ℂ, 0 < z.re → κ z ≠ 0)
+    (hκd : Differentiable ℂ κ) (hκne : ∀ z : ℂ, ε < z.re → z.re < 1 / 2 → κ z ≠ 0)
     (hT : MatchesXiK h κ ε C) (hε0 : 0 ≤ ε) (hεσ : ε ≤ σc) (hσc : σc ≤ 1 / 2) :
     ∀ z : ℂ, σc < z.re → xiE (1 / 2 + z) ≠ 0 := by
   intro z0 hz0 hF0
+  by_cases hhalf : 1 / 2 ≤ z0.re
+  · exact xiE_ne_zero_of_one_le_re (s := 1 / 2 + z0)
+      (by simp only [Complex.add_re]; norm_num; linarith) hF0
+  push Not at hhalf
   have hode := xiE_deriv_eq_mulK hpos hconv hκd hT hεσ hσc
   set W : ℂ → ℂ := fun z => z ^ 2 * (momentLap h 0 z - (C : ℂ) / (z - ε)) with hW
   set H : Set ℂ := {z : ℂ | σc < z.re} with hH
@@ -286,7 +314,7 @@ theorem xiE_ne_zero_onK (hpos : ∀ t, 0 ≤ h t)
   have hderiv : analyticOrderAt (deriv F) z0 = n := analyticOrderAt_deriv_of_pos hFz0 hord
   have hκa : AnalyticAt ℂ κ z0 := hκd.analyticAt z0
   have hκ0 : analyticOrderAt κ z0 = 0 :=
-    analyticOrderAt_eq_zero.mpr (Or.inr (hκne z0 (by have : σc < z0.re := hz0; linarith)))
+    analyticOrderAt_eq_zero.mpr (Or.inr (hκne z0 (by have : σc < z0.re := hz0; linarith) hhalf))
   have hev : κ * deriv F =ᶠ[𝓝 z0] F * W := by
     filter_upwards [hHopen.mem_nhds hz0] with z hz
     have hdz : deriv F z = deriv xiE (1 / 2 + z) :=
@@ -311,7 +339,7 @@ theorem xiE_ne_zero_onK (hpos : ∀ t, 0 ≤ h t)
 theorem landau_stepK (hpos : ∀ t, 0 ≤ h t)
     (hconv : ∀ τ : ℝ, σc < τ →
       IntegrableOn (fun t : ℝ ↦ ((Real.exp (-τ * t) * h t : ℝ) : ℂ)) (Ioi 0) volume)
-    (hκd : Differentiable ℂ κ) (hκne : ∀ z : ℂ, 0 < z.re → κ z ≠ 0)
+    (hκd : Differentiable ℂ κ) (hκne : ∀ z : ℂ, ε < z.re → z.re < 1 / 2 → κ z ≠ 0)
     (hT : MatchesXiK h κ ε C) (hε0 : 0 ≤ ε) (hεσ : ε < σc) (hσc : σc ≤ 1 / 2) :
     ∃ y : ℝ, y < σc ∧
       IntegrableOn (fun t : ℝ ↦ ((Real.exp (-y * t) * h t : ℝ) : ℂ)) (Ioi 0) volume := by
@@ -526,7 +554,7 @@ supported on `[0,w]` whose Laplace transform `κ̂(z) = ∫ e^{−zu}k(u) du` ha
 If the moving average `∫ k(u) D(L−u) du` is `≥ −C e^{εL}` for all `L > 0` (`D` extended by `0`
 below `0`), `0 ≤ ε < ½`, then `ξ_E(s) ≠ 0` for every `Re s > ½ + ε`. -/
 theorem F13_spread_xiE_ne_zero (hk : KernelSpec k w K)
-    (hκne : ∀ z : ℂ, 0 < z.re → momentLap k 0 z ≠ 0) {ε C : ℝ}
+    {ε C : ℝ} (hκne : ∀ z : ℂ, ε < z.re → z.re < 1 / 2 → momentLap k 0 z ≠ 0)
     (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
     (hD : ∀ L : ℝ, 0 < L → -C * Real.exp (ε * L) ≤ conv k L) :
     ∀ s : ℂ, 1 / 2 + ε < s.re → xiE s ≠ 0 := by
@@ -567,7 +595,7 @@ theorem F13_spread_xiE_ne_zero (hk : KernelSpec k w K)
 
 /-- The same conclusion for Mathlib's `riemannZeta` (off the pole). -/
 theorem F13_spread_riemannZeta_ne_zero (hk : KernelSpec k w K)
-    (hκne : ∀ z : ℂ, 0 < z.re → momentLap k 0 z ≠ 0) {ε C : ℝ}
+    {ε C : ℝ} (hκne : ∀ z : ℂ, ε < z.re → z.re < 1 / 2 → momentLap k 0 z ≠ 0)
     (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
     (hD : ∀ L : ℝ, 0 < L → -C * Real.exp (ε * L) ≤ conv k L) :
     ∀ s : ℂ, 1 / 2 + ε < s.re → s ≠ 1 → riemannZeta s ≠ 0 := by
@@ -663,7 +691,7 @@ theorem F13_uniform_xiE_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
     (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
     (hD : ∀ L : ℝ, 0 < L → -C * Real.exp (ε * L) ≤ ∫ t in (L - w)..L, Dz t) :
     ∀ s : ℂ, 1 / 2 + ε < s.re → xiE s ≠ 0 :=
-  F13_spread_xiE_ne_zero (kernelSpec_kU w) (momentLap_kU_ne_zero hw) hε0 hε1
+  F13_spread_xiE_ne_zero (kernelSpec_kU w) (fun z h1 _ => momentLap_kU_ne_zero hw z (by linarith)) hε0 hε1
     (fun L hL => by rw [conv_kU_interval w L hw.le]; exact hD L hL)
 
 /-- Same, for the Riemann zeta function (adds `s ≠ 1`). -/
@@ -671,10 +699,105 @@ theorem F13_uniform_riemannZeta_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
     (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
     (hD : ∀ L : ℝ, 0 < L → -C * Real.exp (ε * L) ≤ ∫ t in (L - w)..L, Dz t) :
     ∀ s : ℂ, 1 / 2 + ε < s.re → s ≠ 1 → riemannZeta s ≠ 0 :=
-  F13_spread_riemannZeta_ne_zero (kernelSpec_kU w) (momentLap_kU_ne_zero hw) hε0 hε1
+  F13_spread_riemannZeta_ne_zero (kernelSpec_kU w) (fun z h1 _ => momentLap_kU_ne_zero hw z (by linarith)) hε0 hε1
     (fun L hL => by rw [conv_kU_interval w L hw.le]; exact hD L hL)
 
 end Uniform
+
+/-! ### The Alpöge-weighted kernel `k(u) = eᵘ` on `[0, w]` (spread weights, `w = log 2`) -/
+
+section Exponential
+
+/-- `eᵘ` on `[0,w]`, zero elsewhere. -/
+noncomputable def kE (w : ℝ) (u : ℝ) : ℝ := (Icc (0 : ℝ) w).indicator (fun u => Real.exp u) u
+
+theorem kernelSpec_kE (w : ℝ) : KernelSpec (kE w) w (Real.exp w) where
+  meas := (Real.continuous_exp.measurable).indicator measurableSet_Icc
+  nonneg := fun u => by
+    unfold kE; by_cases h : u ∈ Icc (0 : ℝ) w <;> simp [Set.indicator, h, (Real.exp_pos u).le]
+  supp := fun u hu => by unfold kE; simp [Set.indicator, hu]
+  bdd := fun u => by
+    unfold kE
+    by_cases h : u ∈ Icc (0 : ℝ) w
+    · simp only [Set.indicator, h, if_true]
+      rw [abs_of_pos (Real.exp_pos u)]; exact Real.exp_le_exp.mpr h.2
+    · simp [Set.indicator, h, (Real.exp_pos w).le]
+
+/-- `κ̂(z)·(z − 1) = 1 − e^{−(z−1)w}` for the `eᵘ` kernel on `[0,w]`. -/
+theorem momentLap_kE_mul {w : ℝ} (hw : 0 ≤ w) (z : ℂ) (hz : z - 1 ≠ 0) :
+    momentLap (kE w) 0 z * (z - 1) = 1 - Complex.exp (-(z - 1) * w) := by
+  have h1 : momentLap (kE w) 0 z = ∫ t in Ioc (0 : ℝ) w, Complex.exp (-(z - 1) * (t : ℂ)) := by
+    simp only [momentLap, pow_zero, one_mul]
+    have : ∀ t : ℝ, Complex.exp (-z * (t : ℂ)) * ((kE w t : ℝ) : ℂ)
+        = (Icc (0 : ℝ) w).indicator (fun t : ℝ => Complex.exp (-(z - 1) * (t : ℂ))) t := by
+      intro t; unfold kE
+      by_cases h : t ∈ Icc (0 : ℝ) w
+      · simp only [Set.indicator, h, if_true]
+        rw [Complex.ofReal_exp, ← Complex.exp_add]; congr 1; ring
+      · simp [Set.indicator, h]
+    simp_rw [this]
+    rw [setIntegral_indicator measurableSet_Icc]
+    have hset : Ioi (0 : ℝ) ∩ Icc (0 : ℝ) w = Ioc (0 : ℝ) w := by
+      ext t; simp only [mem_inter_iff, mem_Ioi, mem_Icc, mem_Ioc]; constructor
+      · rintro ⟨h0, _, h2⟩; exact ⟨h0, h2⟩
+      · rintro ⟨h0, h2⟩; exact ⟨h0, h0.le, h2⟩
+    rw [hset]
+  rw [h1, ← intervalIntegral.integral_of_le hw]
+  have := integral_exp_mul_complex (a := (0 : ℝ)) (b := w) (c := -(z - 1)) (neg_ne_zero.mpr hz)
+  rw [this]
+  simp only [Complex.ofReal_zero, mul_zero, Complex.exp_zero]
+  field_simp
+  ring_nf
+
+/-- For `w > 0` the `eᵘ`-kernel transform is nonvanishing on the strip `Re z < 1`
+(`|e^{−(z−1)w}| = e^{(1−Re z)w} > 1`).  It **does** vanish on `Re z = 1` (at
+`z = 1 + 2πin/w`), so the side condition must be stated on the strip, not on `Re z > 0`. -/
+theorem momentLap_kE_ne_zero {w : ℝ} (hw : 0 < w) (z : ℂ) (hz : z.re < 1) :
+    momentLap (kE w) 0 z ≠ 0 := by
+  have hz1 : z - 1 ≠ 0 := fun h => by
+    have := congrArg Complex.re h; simp at this; linarith
+  intro h0
+  have h := momentLap_kE_mul hw.le z hz1
+  rw [h0, zero_mul] at h
+  have h1 : Complex.exp (-(z - 1) * w) = 1 := (sub_eq_zero.mp h.symm).symm
+  have h2 : ‖Complex.exp (-(z - 1) * (w : ℂ))‖ = Real.exp ((1 - z.re) * w) := by
+    rw [Complex.norm_exp]; congr 1; simp
+  rw [h1, norm_one] at h2
+  have : 1 < Real.exp ((1 - z.re) * w) := by
+    have := Real.exp_lt_exp.mpr (show 0 < (1 - z.re) * w by nlinarith)
+    simpa using this
+  linarith
+
+theorem conv_kE_interval (w L : ℝ) (hw : 0 ≤ w) :
+    conv (kE w) L = ∫ u in Icc (0 : ℝ) w, Real.exp u * Dz (L - u) := by
+  unfold conv kE
+  rw [← integral_indicator measurableSet_Icc]
+  refine integral_congr_ae (Filter.Eventually.of_forall fun u => ?_)
+  by_cases h : u ∈ Icc (0 : ℝ) w <;> simp [Set.indicator, h]
+
+/-- **F13, spread-weight form** (`k(u) = eᵘ` on `[0,w]`; `w = log 2` is Alpöge's spread
+weight window).  Conditional: `∫_0^w e^u D(L−u) du ≥ −C e^{εL}` for all `L > 0` ⇒ `ξ_E` has no
+zero with `Re s > ½ + ε`. The kernel transform vanishes on `Re z = 1`, so only the strip
+`ε < Re z < ½` is used. -/
+theorem F13_expKernel_xiE_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
+    (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
+    (hD : ∀ L : ℝ, 0 < L →
+      -C * Real.exp (ε * L) ≤ ∫ u in Icc (0 : ℝ) w, Real.exp u * Dz (L - u)) :
+    ∀ s : ℂ, 1 / 2 + ε < s.re → xiE s ≠ 0 :=
+  F13_spread_xiE_ne_zero (kernelSpec_kE w)
+    (fun z _ h2 => momentLap_kE_ne_zero hw z (by linarith)) hε0 hε1
+    (fun L hL => by rw [conv_kE_interval w L hw.le]; exact hD L hL)
+
+theorem F13_expKernel_riemannZeta_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
+    (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
+    (hD : ∀ L : ℝ, 0 < L →
+      -C * Real.exp (ε * L) ≤ ∫ u in Icc (0 : ℝ) w, Real.exp u * Dz (L - u)) :
+    ∀ s : ℂ, 1 / 2 + ε < s.re → s ≠ 1 → riemannZeta s ≠ 0 :=
+  F13_spread_riemannZeta_ne_zero (kernelSpec_kE w)
+    (fun z _ h2 => momentLap_kE_ne_zero hw z (by linarith)) hε0 hε1
+    (fun L hL => by rw [conv_kE_interval w L hw.le]; exact hD L hL)
+
+end Exponential
 
 end GppSpreadAverage
 
@@ -684,3 +807,7 @@ end GppSpreadAverage
 #print axioms GppSpreadAverage.momentLap_kU_ne_zero
 #print axioms GppSpreadAverage.F13_uniform_xiE_ne_zero
 #print axioms GppSpreadAverage.F13_uniform_riemannZeta_ne_zero
+#print axioms GppSpreadAverage.momentLap_kE_ne_zero
+#print axioms GppSpreadAverage.F13_expKernel_xiE_ne_zero
+#print axioms GppSpreadAverage.F13_expKernel_riemannZeta_ne_zero
+#print axioms GppSpreadAverage.xiE_ne_zero_of_one_le_re
