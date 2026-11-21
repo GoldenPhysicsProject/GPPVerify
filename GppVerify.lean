@@ -2685,3 +2685,4 @@ import GppVerify.RiemannHypothesis.UndampingScalars
 import GppVerify.RiemannHypothesis.HeartLandauWindow
 import GppVerify.RiemannHypothesis.UndampingSine
 import GppVerify.RiemannHypothesis.HeartFourthPowerSampling
+import GppVerify.RiemannHypothesis.HeartSpreadAverage
