@@ -271,7 +271,7 @@ theorem xiE_ne_zero_onK (hpos : ∀ t, 0 ≤ h t)
     (hconv : ∀ τ : ℝ, σc < τ →
       IntegrableOn (fun t : ℝ ↦ ((Real.exp (-τ * t) * h t : ℝ) : ℂ)) (Ioi 0) volume)
     (hκd : Differentiable ℂ κ) (hκne : ∀ z : ℂ, ε < z.re → z.re < 1 / 2 → κ z ≠ 0)
-    (hT : MatchesXiK h κ ε C) (hε0 : 0 ≤ ε) (hεσ : ε ≤ σc) (hσc : σc ≤ 1 / 2) :
+    (hT : MatchesXiK h κ ε C) (hεσ : ε ≤ σc) (hσc : σc ≤ 1 / 2) :
     ∀ z : ℂ, σc < z.re → xiE (1 / 2 + z) ≠ 0 := by
   intro z0 hz0 hF0
   by_cases hhalf : 1 / 2 ≤ z0.re
@@ -344,7 +344,7 @@ theorem landau_stepK (hpos : ∀ t, 0 ≤ h t)
     ∃ y : ℝ, y < σc ∧
       IntegrableOn (fun t : ℝ ↦ ((Real.exp (-y * t) * h t : ℝ) : ℂ)) (Ioi 0) volume := by
   have hode := xiE_deriv_eq_mulK hpos hconv hκd hT hεσ.le hσc
-  have hz := xiE_ne_zero_onK hpos hconv hκd hκne hT hε0 hεσ.le hσc
+  have hz := xiE_ne_zero_onK hpos hconv hκd hκne hT hεσ.le hσc
   have hxσ : xiE (1 / 2 + (σc : ℂ)) ≠ 0 := by
     have := GppHeartReduction.xiE_real_ne_zero (x := 1 / 2 + σc) (by linarith)
     simpa using this
@@ -588,7 +588,7 @@ theorem F13_spread_xiE_ne_zero (hk : KernelSpec k w K)
     have : σ ≤ y' := csInf_le hbdd hy'
     linarith
   intro s hs
-  have hz := xiE_ne_zero_onK hpos (fun τ hτ => hclaim τ hτ) hκd hκne hT hε0 (le_refl ε) hε1.le
+  have hz := xiE_ne_zero_onK hpos (fun τ hτ => hclaim τ hτ) hκd hκne hT (le_refl ε) hε1.le
     (s - 1 / 2) (by simp only [Complex.sub_re]; norm_num; linarith)
   have : 1 / 2 + (s - 1 / 2) = s := by ring
   rwa [this] at hz
@@ -768,7 +768,7 @@ theorem momentLap_kE_ne_zero {w : ℝ} (hw : 0 < w) (z : ℂ) (hz : z.re < 1) :
     simpa using this
   linarith
 
-theorem conv_kE_interval (w L : ℝ) (hw : 0 ≤ w) :
+theorem conv_kE_interval (w L : ℝ) :
     conv (kE w) L = ∫ u in Icc (0 : ℝ) w, Real.exp u * Dz (L - u) := by
   unfold conv kE
   rw [← integral_indicator measurableSet_Icc]
@@ -786,7 +786,7 @@ theorem F13_expKernel_xiE_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
     ∀ s : ℂ, 1 / 2 + ε < s.re → xiE s ≠ 0 :=
   F13_spread_xiE_ne_zero (kernelSpec_kE w)
     (fun z _ h2 => momentLap_kE_ne_zero hw z (by linarith)) hε0 hε1
-    (fun L hL => by rw [conv_kE_interval w L hw.le]; exact hD L hL)
+    (fun L hL => by rw [conv_kE_interval w L]; exact hD L hL)
 
 theorem F13_expKernel_riemannZeta_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
     (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
@@ -795,7 +795,7 @@ theorem F13_expKernel_riemannZeta_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
     ∀ s : ℂ, 1 / 2 + ε < s.re → s ≠ 1 → riemannZeta s ≠ 0 :=
   F13_spread_riemannZeta_ne_zero (kernelSpec_kE w)
     (fun z _ h2 => momentLap_kE_ne_zero hw z (by linarith)) hε0 hε1
-    (fun L hL => by rw [conv_kE_interval w L hw.le]; exact hD L hL)
+    (fun L hL => by rw [conv_kE_interval w L]; exact hD L hL)
 
 end Exponential
 
