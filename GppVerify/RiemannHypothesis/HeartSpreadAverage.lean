@@ -30,10 +30,11 @@ Concrete instances:
 * uniform kernel `k = 1_{[0,w]}` (`F13_uniform_xiE_ne_zero`, `F13_uniform_riemannZeta_ne_zero`):
   `κ̂(z) = (1 − e^{−wz})/z` (`momentLap_kU_mul`), nonzero on `Re z > 0` (`momentLap_kU_ne_zero`);
   the hypothesis becomes `∫_{L−w}^{L} D ≥ −C e^{εL}`.
-* spread-weight kernel `k(u) = eᵘ` on `[0,w]` (`w = log 2` is Alpöge's spread window;
-  `F13_expKernel_xiE_ne_zero`, `F13_expKernel_riemannZeta_ne_zero`):
-  `κ̂(z) = (1 − e^{−(z−1)w})/(z−1)` (`momentLap_kE_mul`), nonzero on `Re z < 1` and **vanishing at
-  `z = 1 + 2πin/w`**, which is why the side condition is the strip, not `Re z > 0`.
+* For the spread-weight kernel `k(u) = eᵘ` on `[0,w]`, the transform away from `z = 1` is `(1 − e^{−(z−1)w})/(z−1)` (`momentLap_kE_mul`). At `z = 1` its value is `w`. For positive `w` its zeros are `1 + 2πin/w` for nonzero integers `n`. The choice `w = log 2` gives Alpöge’s spread window (`F13_expKernel_xiE_ne_zero`, `F13_expKernel_riemannZeta_ne_zero`).
+
+At `w = log 2`, let `U(z)` and `E(z)` be these two transforms. On `0 < Re z < 1`, their product satisfies `z(1 − z) U(z) E(z) = (1 − 2^(−z))(2^(1−z) − 1)`. The right-hand side is the [multiplier for the dyadic difference](https://github.com/leecrossley/dirichlet-window-transfer/blob/fa94718cf9d65ee5b143ded4c91dc3873222cfdf/PROOF.md#L14-L18).
+
+For the convolution `K` of the two kernels at this width, integrate `exp(v)` from `max(0, x − w)` to `min(w, x)` wherever the interval has positive length. With `x = log t`, this gives `2 K(log t) / t = 2(1 − 1/t)` for `1 < t ≤ 2` and `4/t − 1` for `2 < t < 4`. The weight vanishes for `0 < t ≤ 1` and `t ≥ 4`.
 
 **Normalisation choice.** `D` is the continuous-time Round 23 function, and the window is a
 continuous moving average. This is **not** the discrete `m`-point average over `log n` nodes;
@@ -749,9 +750,7 @@ theorem momentLap_kE_mul {w : ℝ} (hw : 0 ≤ w) (z : ℂ) (hz : z - 1 ≠ 0) :
   field_simp
   ring_nf
 
-/-- For `w > 0` the `eᵘ`-kernel transform is nonvanishing on the strip `Re z < 1`
-(`|e^{−(z−1)w}| = e^{(1−Re z)w} > 1`).  It **does** vanish on `Re z = 1` (at
-`z = 1 + 2πin/w`), so the side condition must be stated on the strip, not on `Re z > 0`. -/
+/-- For `w > 0` the exponential kernel transform has no zeros on `Re z < 1`, since `|e^{−(z−1)w}| = e^{(1−Re z)w} > 1` there. On `Re z = 1` its zeros are `1 + 2πin/w` for nonzero integers `n`. At `z = 1` the integrand is one throughout `[0,w]`, so the transform equals `w`. -/
 theorem momentLap_kE_ne_zero {w : ℝ} (hw : 0 < w) (z : ℂ) (hz : z.re < 1) :
     momentLap (kE w) 0 z ≠ 0 := by
   have hz1 : z - 1 ≠ 0 := fun h => by
