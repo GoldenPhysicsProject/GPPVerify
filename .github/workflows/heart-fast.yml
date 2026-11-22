@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: causal-proof Part C (transforms at a zero; identity-theorem step)
+      # Front: causal-proof final assembly (energyZeroInequality_causal)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CausalTransforms
+        GppVerify.RiemannHypothesis.CausalEnergyZero
 
     steps:
       - uses: actions/checkout@v4
