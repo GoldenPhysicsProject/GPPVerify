@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: causal-proof Part B (kernels and the identity h = k * B)
+      # Front: causal-proof Part D1 (Abel summation: closed forms for Z and k)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CausalKernels
+        GppVerify.RiemannHypothesis.CausalAbel
 
     steps:
       - uses: actions/checkout@v4
