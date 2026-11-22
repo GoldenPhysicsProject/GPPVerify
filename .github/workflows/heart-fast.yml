@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: Möbius echo item (4) composition (#659 + #660)
+      # Front: causal-proof Part A (causal tail estimate)
       MODULES: >-
-        GppVerify.RiemannHypothesis.MobiusEchoRH
+        GppVerify.RiemannHypothesis.CausalTailEstimate
 
     steps:
       - uses: actions/checkout@v4
