@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: sparse-cutoff criterion (Discovery 5 front; feeds #659 item (4))
+      # Front: Möbius echo item (4) composition (#659 + #660)
       MODULES: >-
-        GppVerify.RiemannHypothesis.SparseCutoffCriterion
+        GppVerify.RiemannHypothesis.MobiusEchoRH
 
     steps:
       - uses: actions/checkout@v4
