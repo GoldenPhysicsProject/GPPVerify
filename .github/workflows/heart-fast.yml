@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: storage/work law iff subpower Moebius energy
+      # Front: Moebius gcd form mode decomposition
       MODULES: >-
-        GppVerify.RiemannHypothesis.MobiusEchoSubpower
+        GppVerify.RiemannHypothesis.MobiusModeDecomposition
 
     steps:
       - uses: actions/checkout@v4
