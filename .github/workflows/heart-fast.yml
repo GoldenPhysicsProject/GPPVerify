@@ -20,11 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: krein-ob6 (Discovery 5 front)
+      # Front: sparse-cutoff criterion (Discovery 5 front; feeds #659 item (4))
       MODULES: >-
-        GppVerify.RiemannHypothesis.KreinBridge
-        GppVerify.RiemannHypothesis.TwoSpaceForm
-        GppVerify.RiemannHypothesis.ShiftPresentation
+        GppVerify.RiemannHypothesis.SparseCutoffCriterion
 
     steps:
       - uses: actions/checkout@v4
