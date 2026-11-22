@@ -26,9 +26,9 @@ Results, all for every `y`:
 * (e) `S_sq_le_F`: `(GppMobiusEcho.S y)² ≤ F y`, from (b), (c) and (d).
 
 **What (e) does and does not give.** The bound `S² ≤ F` is lossy. Numerically (a Python check of the
-identity and of the constant for `y ≤ 1600`; the full-range check is a separate discovery job, not
-part of this file) `F(y)/√y ≈ 0.39` while `S(y)²` stays of order one, so positivity of the modes loses
-about `√y`. Even `F ≪ y^{1/2+ε}` would give only `S(y) ≪ y^{1/4+ε}`, hence by partial summation
+identity and of the constant for `y ≤ 1600`, and a runner computation of `F(y)` for every `y ≤ 10^7`
+by the mode form; neither is part of this file) `F(y)/√y ≈ 0.39` at `y = 1600` and `≈ 0.41` up to
+`y = 10^7`, while `S(y)²` stays of order one, so positivity of the modes loses about `√y`. Even `F ≪ y^{1/2+ε}` would give only `S(y) ≪ y^{1/4+ε}`, hence by partial summation
 `M(x) ≪ x^{3/4+ε}`, which is not known. The proof of (a) and (b) uses only Möbius inversion of
 `√` along divisibility, so the same identity holds for Beurling generalized integers, and it cannot by
 itself force RH. No `sorry`, no `axiom`.
