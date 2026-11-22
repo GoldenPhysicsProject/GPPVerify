@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: causal-proof Part D2 (norm bounds for Z, k, w, h)
+      # Front: causal-proof Part C (transforms at a zero; identity-theorem step)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CausalNormBounds
+        GppVerify.RiemannHypothesis.CausalTransforms
 
     steps:
       - uses: actions/checkout@v4
