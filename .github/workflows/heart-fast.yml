@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: causal-proof Part D1 (Abel summation: closed forms for Z and k)
+      # Front: causal-proof Part D2 (norm bounds for Z, k, w, h)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CausalAbel
+        GppVerify.RiemannHypothesis.CausalNormBounds
 
     steps:
       - uses: actions/checkout@v4
