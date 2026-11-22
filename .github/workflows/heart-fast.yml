@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: causal-proof Part A (causal tail estimate)
+      # Front: causal-proof Part B (kernels and the identity h = k * B)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CausalTailEstimate
+        GppVerify.RiemannHypothesis.CausalKernels
 
     steps:
       - uses: actions/checkout@v4
