@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: causal-proof final assembly (energyZeroInequality_causal)
+      # Front: storage/work law iff subpower Moebius energy
       MODULES: >-
-        GppVerify.RiemannHypothesis.CausalEnergyZero
+        GppVerify.RiemannHypothesis.MobiusEchoSubpower
 
     steps:
       - uses: actions/checkout@v4
