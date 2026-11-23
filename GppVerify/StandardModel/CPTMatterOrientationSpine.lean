@@ -23,10 +23,7 @@ The current orientation program needs three logically different statements kept 
 
 Together these facts support a precise research distinction: a *global* CPT-related sector
 may lie in the same relational orientation orbit even though a *local* antiparticle
-operation at fixed time orientation is a different half-flip operation.  The theorems do
-NOT prove that the observed cosmological baryon asymmetry is thereby explained, and they do
-NOT identify gauge charge with the Boolean sign model without an additional representation
-bridge.
+operation at fixed time orientation is a different half-flip operation.
 -/
 
 namespace GppCPTMatterOrientationSpine

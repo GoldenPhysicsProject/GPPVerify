@@ -22,8 +22,6 @@ raywise solution bundle back along that second projection supplies the evaluated
 `shat`.  LeBrun's transverse holomorphic structure and the null-surface metricity equations
 are candidates for the differential/holomorphic enhancement of the fibre-constancy
 condition formalized here.
-
-No claim about those differential equations is made in this file.
 -/
 
 namespace GppSkyIncidenceDescent

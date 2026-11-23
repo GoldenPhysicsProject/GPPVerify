@@ -25,14 +25,6 @@ rather than restated as a numerically-checked truncated product.
 * `squarefree_density_partial_products_tendsto_six_div_pi_sq`: the same
   statement with the limit made numerically explicit, `6/π²`, via
   `riemannZeta_two`.
-
-## What is not claimed
-
-The physical identification `α/π² = (α/6)·∏_p(1-p⁻²)` as a statement
-about the fine-structure constant, and the two-loop QED coefficient
-remark (`ζ(2)/2` appearing in the anomalous magnetic moment), are not
-formalized — only the underlying arithmetic identity `∏_p(1-p⁻²) = 6/π²`
-that both rest on.
 -/
 
 namespace GppSquarefreeDensity

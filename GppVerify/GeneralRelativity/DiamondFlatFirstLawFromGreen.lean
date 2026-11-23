@@ -26,8 +26,6 @@ This Lean file proves:
     + b x_i x_j, for which all scalar/geometric moments are computed
     exactly and the Green identity holds as an algebraic identity.
 
-It does NOT formalize arbitrary smooth Riemannian metrics, the
-divergence theorem, the physical Einstein constraint, or QFT KMS.
 Those are physical/analytic inputs, not custom axioms in Lean.
 -/
 

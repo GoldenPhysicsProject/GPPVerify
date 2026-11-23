@@ -19,9 +19,7 @@ at the origin `(P_r * H_τ)(0) = (1/2π)∫ P_r(θ) H_τ(−θ) dθ` equals `(1/
   `B_p(t) = Σ_{m≥1} L rᵐ exp(−m²L²/(4t))` equals `(L/2)[(P_r * H_τ)(0) − 1]` (the §2 box).
 * `prime_heat_term_pos`: `B_p(t) > 0` (the §5 local positivity).
 
-**Not formalized:** the Brownian reading (§3), the Archimedean term and the global domination
-`B_∞ ≥ B_prime` (§5). That domination is the open RH-equivalent problem, as the note says.
-**No RH claim.**
+ That domination is the open RH-equivalent problem, as the note says.
 -/
 
 namespace GppPrimeHeatPhaseDiffusion

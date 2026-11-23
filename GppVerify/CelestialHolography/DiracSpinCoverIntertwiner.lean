@@ -19,9 +19,7 @@ small matrix-free algebra of that representation:
 * In the unnormalised Hadamard basis this quarter element is exactly
   `-i * SWAP`, the rest-frame Dirac mass quarter-turn.
 
-This is finite complex algebra only.  It does not formalize the topology of
-GL(2,C), winding number, Lorentz covariance of gamma matrices, interacting QED,
-or the full Standard Model.
+This is finite complex algebra only.
 -/
 
 namespace GppDiracSpinCoverIntertwiner

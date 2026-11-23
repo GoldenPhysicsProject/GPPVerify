@@ -16,9 +16,7 @@ the two digamma special values `kinematic_block_v1.tex`'s First Moment Theorem n
 this makes both immediate corollaries, along with the standard functional equation and the
 values at all positive integers.
 
-This file is the *real*-argument digamma function only. `kinematic_block_v1.tex`'s moment
-integral needs `Re ψ(1/2 + iλ/2)`, the *complex* digamma along a vertical line — a further,
-separate extension not attempted here (see `docs/FORMALIZATION_PLAN.md`).
+This file is the *real*-argument digamma function only.
 -/
 
 namespace GppDigamma

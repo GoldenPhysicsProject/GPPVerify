@@ -19,18 +19,16 @@ use needs that step written out." This file writes it out and proves it.
   comparison costs at most `f(m)`, with opposite signs, so `|Σ − ∫_θ^∞| ≤ f(m)`. The piece
   `∫₀^θ f ∈ [0, θ f(m)]` adds the `θ`.
 * **`lemmaB`** (Heart's Lemma B, the `5/4` constant): for `t > 0`,
-  `|Σ_{n≥0} b(n+¼)/((n+¼)² + b²)² − 1/t| ≤ κ/t²` with `b = t/2` and `κ = (5/4)·9/(4√3)`. The series
-  is Heart's expression for `A'(t)`, `A = Re ψ(1/4 + it/2)`; that identification is CHECKED in
-  Round 12 and not formalised here. The unimodal profile `x ↦ bx/(x² + b²)²` peaks at `m = b/√3`
+  `|Σ_{n≥0} b(n+¼)/((n+¼)² + b²)² − 1/t| ≤ κ/t²` with `b = t/2` and `κ = (5/4)·9/(4√3)`.
+ The unimodal profile `x ↦ bx/(x² + b²)²` peaks at `m = b/√3`
   with value `9/(16√3 b²)`, and integrates to `1/(2b)`.
 * **`P_expand`** (R12 reduction, CHECKED → PROVED):
   `sin⁴(t/2) sin²(t/4) = 3/16 − cos(t/2)/16 − cos t/4 + 3cos(3t/2)/32 + cos(2t)/16 − cos(5t/2)/32`.
 * **`sin_half_mode`**: at `ω = 4mπ` every `sin(kω/2)` is `0`. This is why the `A(ω)` and `log π`
   parts of `Q` drop out exactly at `L = 0.5`.
 
-**Scope.** Not formalised: the reduction `ω⁴ρ_j = (16/π)√8 (−1)^j Q(ω_j) + σ`, Lemma A
-(concavity of `A(√s)`), the bounds on `R` and `Π`, or the assembled constants (Arb-evaluated,
-PROVED at paper level). OddFace(0.5) proof-grade is OPEN (pending (H-A), (H-ρ), items 3′/4); RH is
+**Scope.**
+ OddFace(0.5) proof-grade is OPEN (pending (H-A), (H-ρ), items 3′/4); RH is
 OPEN. No `sorry`, no axioms.
 -/
 

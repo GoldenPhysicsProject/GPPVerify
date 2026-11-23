@@ -18,9 +18,6 @@ coefficients `vCoef z m`. This file proves:
   the exponential-vector kernel `⟨ε(v_s), ε(v_w)⟩ = exp⟨v_s, v_w⟩ = ζ(s̄ + w)`.
 * `radial_derivative`: `x · d/dx[−log(1 − x)] = x/(1 − x)`, the SU(1,1) forward-null excess.
   Weighted by `log p` and summed over primes this gives `−ζ'/ζ`.
-
-The infinite-dimensional Fock space and the divergence `‖v_s‖² = log ζ(2 Re s) → ∞` as
-`Re s ↓ ½` are not formalized here. **No RH claim.**
 -/
 
 namespace GppSU11DirichletLift

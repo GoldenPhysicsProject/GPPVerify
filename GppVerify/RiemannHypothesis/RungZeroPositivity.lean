@@ -16,8 +16,7 @@ For every smooth compactly supported `f` vanishing outside `[-1/256, 1/256]`,
 In fact `weilForm (autocorr f) ≥ (3/10) · ∫ f²` (`weilForm_autocorr_ge`). This is a theorem
 with no named premises. It is the first proved instance of `ReflectionPositiveOnRung L` for any
 `L > 0`. The window is far below the first prime (`log 2`), so no prime enters. The content is
-that the pole term and the archimedean term already dominate there. It says nothing about the
-zeros.
+that the pole term and the archimedean term already dominate there.
 
 ## Proof
 

@@ -21,10 +21,9 @@ For the symmetric matrix `[[a, b, c], [b, d, e], [c, e, f]]` with quadratic form
 This is the exact implication behind Codex's certified `ζ` site `Q_3^-` (`(+, +, −)`, inertia
 `(2, 1)`) versus `F_{1/4}` (`(+, +, +)`, inertia `(3, 0)`).
 
-**Scope.** The general algebraic implication only. Plugging in the Arb-certified entry intervals
-from Discovery2 #21 is not done here, and Sylvester's law of inertia itself is not formalized (the
-two conclusions are stated directly). The site matrix is a finite prime-site contribution, not a
-complete local height. No claim about RH or BSD.
+**Scope.** The general algebraic implication only.
+ The site matrix is a finite prime-site contribution, not a
+complete local height.
 -/
 
 namespace GppSylvester3

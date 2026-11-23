@@ -15,8 +15,7 @@ the standard Pati-Salam representation arithmetic gives one Spin(10) chiral
 family, the Spin(10) vector/Higgs sector, the adjoint, and the familiar E6/E8
 dimension ladder.
 
-This file proves only finite dimension and rational-charge identities.  It does
-not prove the physical prime-to-gauge dictionary or exceptional-group branching.
+This file proves only finite dimension and rational-charge identities.
 -/
 
 namespace GppPrimePatiSalamSpectrum

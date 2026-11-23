@@ -32,8 +32,7 @@ projective pole duality `x ↦ 4/x` and the odd Sherman--Morrison update
 
 This is an exact scalar boundary-word theorem.  It does **not** yet prove that
 the completed arithmetic pole channel acts on Suzuki's finite Weyl function by
-this unit Krein feedback.  That operator identification is the remaining bridge,
-and no RH proof is claimed here.
+this unit Krein feedback.
 
 The file also records a useful no-go.  The tempting projective response `2B/A`
 cannot itself be Suzuki's normalized Herglotz/Weyl function: `A(i)=0`, so that

@@ -27,13 +27,6 @@ connect. Since Choi's theorem says a linear map Φ : M_2(ℂ) → M_2(ℂ) is
 completely positive iff its Choi matrix is positive semidefinite, and
 Choi(transpose) = SWAP (Proposition 2.2), this is the exact finite
 obstruction behind "the transpose is not completely positive."
-
-The identification of SWAP with Choi(transpose), and the general
-statement of Choi's theorem itself (which needs a Kronecker-product
-formalization of the Choi matrix for a general linear map, not attempted
-here), remain recorded in comments only; the theorems below are
-self-contained, unconditional claims about the matrix SWAP and the
-vector ψ, provable without appeal to either.
 -/
 
 namespace GppHalfFlipMatrix

@@ -25,8 +25,7 @@ Thus there are two exact but different statements:
 2. same-side canonical reflection: fixed `PT` (or fixed `PT*`), opposite-helicity degree.
 
 Dropping the twistor-side tag conflates them.  This file formalizes that convention
-distinction.  It does not formalize the analytic Fourier/Penrose transform, Serre duality
-as a cohomological functor, or an orientation-reversal theorem.
+distinction.
 -/
 
 namespace GppTwistorRepresentationConvention

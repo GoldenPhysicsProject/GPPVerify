@@ -25,10 +25,10 @@ The point, as in the note, is that every fixed-shift correlation is eventually s
 support still grows like a positive power. So fixed-`h` Chowla-type input cannot control the
 Cesàro energy `E_N = ∫₁^N A(x)²/x² dx ~ 3N^{1/3}`. That needs shifts `h ~ N`.
 
-**Scope.** The real-analytic step `A(X) = X^{2/3} + O(1)` and the energy asymptotic
-`E_N = 3N^{1/3} + O(1)` are not formalized; only the integer sandwich is. The sequence is not
+**Scope.**
+ The sequence is not
 multiplicative, so this is a logical obstruction, not an arithmetic counterexample. The note's
-audit of the September 2026 two-point-correlation preprint is not checked. No claim about RH.
+audit of the September 2026 two-point-correlation preprint is not checked.
 -/
 
 set_option autoImplicit false

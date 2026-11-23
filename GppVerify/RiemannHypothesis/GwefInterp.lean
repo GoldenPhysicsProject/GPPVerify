@@ -43,8 +43,7 @@ The Hilbert carrier uses coordinates `sqrt(m(rho)) * Psi(f)(rho)`, so its norm
 is exactly the weighted square sum. Density is relative to the real subspace
 `v(conj rho) = conj(v rho)`, not the whole complex Hilbert space.
 
-Honest boundary: this is the interpolation (density) link of the GW-EF chain.
-It does not prove ARP, and RH remains OPEN.
+This is the interpolation (density) link of the GW-EF chain.
 -/
 
 open Complex MeasureTheory Filter

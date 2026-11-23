@@ -10,11 +10,9 @@ import Mathlib.MeasureTheory.Integral.IntegralEqImproper
 
 Its proof has three inputs, and this file proves exactly one of them — the last.
 
-1. **The Fourier pair** `(1/2π) ∫_ℝ P(λ) cos(λy) dλ = 1/(4 cosh²(y/2))`. Not proved here;
-   stated precisely in the closing section, as prose rather than as a Lean declaration.
+1. **The Fourier pair** `(1/2π) ∫_ℝ P(λ) cos(λy) dλ = 1/(4 cosh²(y/2))`.
 2. **Gauss's integral representation** `ψ(s) = -γ + ∫₀^∞ (e^{-t} - e^{-st})/(1 - e^{-t}) dt`,
    which turns `Re ψ(1/2 + iλ/2) - ψ(1/2)` into `∫₀^∞ e^{-t/2}[1 - cos(λt/2)]/(1 - e^{-t}) dt`.
-   Not proved here; `GppDigamma` defines `ψ` as `Γ'/Γ` and proves its special values, not this.
    Also stated in the closing section.
 3. **The remainder integral**, which is what produces the theorem's `1/8`:
 
@@ -23,8 +21,8 @@ Its proof has three inputs, and this file proves exactly one of them — the las
    That is `remainder_integral_eq_one_eighth`, proved below with no hypotheses.
 
 So the number `1/8` in Theorem 6.1 is now a theorem; the two analytic inputs that put the
-integrand in front of it are not. **This file does not prove Theorem 6.1** and does not state
-it. Everything here is unconditional real analysis: an `exp`-to-`sinh` rewrite, the
+integrand in front of it are not.
+ Everything here is unconditional real analysis: an `exp`-to-`sinh` rewrite, the
 hyperbolic collapse the paper performs by hand, and one improper integral by the fundamental
 theorem of calculus.
 
@@ -161,8 +159,6 @@ theorem remainder_integral_eq_one_eighth :
   linarith
 
 /-!
-## The two inputs this file does not prove
-
 Named so that a future session finds the boundary already drawn, rather than re-deriving it
 from the paper. Both are *statements about missing mathematics*, not about missing Mathlib
 vocabulary — the distinction `CLAUDE_CORRECTIONS.md` entry 12 was written about. Each is

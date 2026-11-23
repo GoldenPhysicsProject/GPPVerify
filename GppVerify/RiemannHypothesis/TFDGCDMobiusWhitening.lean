@@ -29,11 +29,6 @@ All three were checked by hand as well; no corrections. §3's operator order is 
 `(I − rS)(I − rS*)` has corner entry `1`, while the reverse order would give `(1 + r²) I`.
 
 ## Scope
-
-Not formalized: the Hilbert-space construction of `Ω_β` and `V_d`, the infinite sum in §1, the
-inverse-covariance identity on `ℓ²(ℕ₀)`, the global Möbius product and its strong limit (§4),
-the `β → 1` Hagedorn limit (§5), and the completed free-energy ratio (§7). The note makes no RH
-claim.
 -/
 
 namespace GppTFDGCDMobius

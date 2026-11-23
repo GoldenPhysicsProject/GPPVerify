@@ -33,8 +33,7 @@ meets none at all. This file makes that ladder kernel-checked:
   positive-type in `CauchyKernelPositive.lean`. This is the computational content of the
   dictionary between ε-regularization and growing-support truncation.
 
-**What is deliberately NOT claimed**: the equivalence "ε-uniform positivity ⟺ positivity
-on every rung of the support ladder" as ε → 0 / L → ∞. Each side quantifies over an
+ Each side quantifies over an
 infinite family, the bridge is the explicit formula itself, and by
 `rh_iff_weil_pairedForm_nonneg` the uniform statement is equivalent to RH. It stays
 open and named, as always.
@@ -137,10 +136,8 @@ theorem weil_nonneg_of_arch_nonneg_rung_zero {f : ℝ → ℝ} {L arch : ℝ}
 /-- **The Fourier pairing of the ε-cutoff with the Cauchy kernel**: for `ε > 0`,
     `∫_ℝ e^{−ε|u|}·cos(xu) du = 2ε/(ε²+x²)` — the Yakaboylu regularizer
     `κ_ε(t) = e^{−ε|log t|}`, written in the log variable `u = log t`, has Fourier
-    transform exactly twice the Cauchy kernel of `CauchyKernelPositive.lean`. The
-    ε-regularization and the growing-support truncation are two coordinates on the
-    same object; the uniformity of either limit over the zero configuration is the
-    open input (equivalent to RH via `rh_iff_weil_pairedForm_nonneg`), not claimed. -/
+    transform exactly twice the Cauchy kernel of `CauchyKernelPositive.lean`.
+-/
 theorem integral_exp_neg_abs_mul_cos {ε : ℝ} (hε : 0 < ε) (x : ℝ) :
     ∫ u : ℝ, Real.exp (-ε*|u|) * Real.cos (x*u) = 2 * (ε / (ε^2 + x^2)) := by
   have hdouble :

@@ -30,15 +30,14 @@ principal series `Δ = ½ + iλ` has `c = ¼ + λ²`. Every `ρ` falls in one of
   unitary representation (`off_line_nonreal_casimir`);
 * `Re ρ = ½`: `c` is real and `≥ ¼`, the principal-series range (`GppCasimirCriticalLine.casimir_ge_quarter_iff`);
 * `ρ` real in `(0,1)`: `0 < c ≤ ¼`, with `c = ¼` only at `ρ = ½`. This is the
-  complementary-series range (`real_strip_casimir`). ζ has no such zeros; that is classical and
-  not formalized here.
+  complementary-series range (`real_strip_casimir`).
 * `ρ = −2n` with `n ≥ 1` (trivial zeros): `c = (1+2n)(−2n) < 0`, and it equals the Casimir
   value at `Δ = 1 + 2n` (`trivial_zero_casimir`). This matches discrete-series Casimir **values**
   only. No representation-theoretic identification is claimed.
 
 ## Scope and corrections
 
-Nothing here locates a zero. The statement that would do so is that the nontrivial zeros are the
+ The statement that would do so is that the nontrivial zeros are the
 Casimir spectrum of a unitary representation constructed without zero data. That is equivalent
 to RH and open.
 
@@ -178,7 +177,7 @@ theorem off_line_of_complex_casimir {s : ℂ} (h : (casimir s).im ≠ 0) :
     s.re ≠ 1 / 2 := ((complex_casimir_iff s).mp h).1
 
 /-- In the open strip the three scalar cases cover every point.
-This classifies parameters; it does not prove which case contains any zero. -/
+-/
 theorem strip_geography (s : ℂ) (h0 : 0 < s.re) (h1 : s.re < 1) :
     Tempered s ∨ Complementary s ∨ (casimir s).im ≠ 0 := by
   by_cases hr : s.re = 1 / 2

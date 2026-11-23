@@ -27,7 +27,7 @@ The kernel part is `rows_0 … rows_7` (eight shards of `decide +kernel` over ex
 **Scope — read before citing.** `ρ ≈ 0.846` is the *Gershgorin* value; run 16's `LDLᵀ` certificate gives the
 sharper `ρ ≤ 0.34`-type bound and is **not** in Lean here. The hypotheses `hoff`, `hdiag` (that the real
 run-16 matrix lies in Flint's balls) are *not* proved here — they are statements about the numerics of the
-matrix `A` — and the assembly chain from `A` to the window is not in Lean. Nothing here proves ARP, RH or AKG.
+matrix `A` — and the assembly chain from `A` to the window is not in Lean.
 No `sorry`, no axiom.
 -/
 

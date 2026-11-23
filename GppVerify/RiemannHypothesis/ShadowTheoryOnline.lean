@@ -19,8 +19,8 @@ the principal line. With `Ψ_conj` the **converse** also holds, and it is elemen
 not a one-way route: A3 *is* the principal-series property of the weights. So an identification
 `shadowZeta ≅ C` with a reflection-positive `C` can deliver RH only if `C`'s weight set is shown to lie
 on the line *independently of the zeros* — and an isomorphism preserves `Ψ` and `corr`, which (by the
-spectral identity and interpolation) pins `C`'s weights to the ζ zeros. This is not a proof of
-anything about RH; it is the formal statement that A3 for ζ is RH, restated. ARP and RH remain OPEN.
+spectral identity and interpolation) pins `C`'s weights to the ζ zeros.
+ ARP and RH remain OPEN.
 
 No `sorry`, no axiom.
 -/

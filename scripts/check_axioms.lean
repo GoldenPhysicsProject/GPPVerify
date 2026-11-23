@@ -62,7 +62,7 @@ import GppVerify
 #print axioms GppRH.temperedness_iff_critical_line
 
 -- Thread HT — the prime–Archimedean heat trace (elementary layer).
--- All expected: Lean built-ins only. Nothing here proves or assumes RH.
+-- All expected: Lean built-ins only.
 #print axioms GppHeatTrace.completelyMonotone_exp_neg
 #print axioms GppHeatTrace.resolvent_laplace
 #print axioms GppHeatTrace.laplace_resolvent_shift
@@ -87,13 +87,13 @@ import GppVerify
 
 -- Thread Weil-Parity — the exact Archimedean renormalization tail. Expected: Lean
 -- built-ins only. Promotes a numerical-checkpoint correction (lean_results
--- 079ca52f) to a closed-form theorem. No claim about Q_{lambda,N}'s eigenvalues.
+-- 079ca52f) to a closed-form theorem.
 #print axioms GppWeilParity.archimedean_diagonal_tail
 
 -- Thread Weil-Parity — cross-resolvent core (formalization_queue items 3ebed50a,
 -- 0cf9aebf). Expected: Lean built-ins only. Abstract finite-dimensional theorems;
 -- the actual arithmetic CCM matrix's positivity hypotheses are NOT established
--- (research_notes 35a9efdc: counterexample at c=13,N=6). No RH claim.
+-- (research_notes 35a9efdc: counterexample at c=13,N=6).
 #print axioms cross_resolvent_det_identity
 #print axioms parity_crossing_obstruction
 
@@ -201,8 +201,8 @@ import GppVerify
 #print axioms GppEisenstein.eisensteinCoeff_eq_shadow_ratio
 #print axioms GppEisenstein.eisensteinCoeff_reflection
 
--- The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22). Physical-sector
--- identification is NOT claimed anywhere here -- these are pure arithmetic/matrix theorems.
+-- The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22).
+-- These are pure arithmetic/matrix theorems.
 -- Expected: Lean built-ins only, all eleven.
 #print axioms GppGoldenHyperbolic.fixedPoint_iff_gold
 #print axioms GppGoldenHyperbolic.M_sq_eq_A
@@ -227,8 +227,8 @@ import GppVerify
 #print axioms GppDispersion.lorentzian_jump
 #print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole
 
--- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23, fourth pass). No RH claim,
--- no global positivity claim -- see CutkoskyWeilBridge.lean's module doc and
+-- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23, fourth pass).
+-- See CutkoskyWeilBridge.lean's module doc and
 -- discovery/cutkosky_weil/notes.md for the corrected central finding (K_p-1 IS a positive
 -- kernel; the earlier Toeplitz-indefiniteness claim tested the wrong notion) and the
 -- completed analytic passage (removable singularity C(0)=1/(8*pi); the N->infinity limit

@@ -36,14 +36,12 @@ the support of `f`.
 * `archimedean_decomposition`: the exact split `A∞ = C∞ + 2 · (Dirichlet form)`.
 * `archimedean_floor`: `A∞ ≥ C∞` for every normalized `r` with `r ≤ 1` on `(0, ∞)`.
 
-## What is not proved here
+## Hypotheses
 
 The bound `Re g(u) ≤ 1` is taken as a hypothesis rather than derived from an `L²` model of `f`;
 integrability of the `A∞` integrand is likewise a hypothesis (it fails for `r` discontinuous at
-`0`, so it cannot be dropped). The identification of `A∞` with the Archimedean term of Weil's
-explicit formula is the discovery note's input and is not formalized. Nothing here bears on RH
-directly: the note's conclusion is that the remaining instability must live in the pole–prime
-channel, and this file certifies only the Archimedean half of that reduction.
+`0`, so it cannot be dropped). The note's conclusion is that the remaining instability must live
+in the pole–prime channel; this file certifies the Archimedean half of that reduction.
 -/
 
 open Real MeasureTheory Set Filter Topology

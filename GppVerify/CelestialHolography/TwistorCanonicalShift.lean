@@ -7,8 +7,7 @@ import GppVerify.CelestialHolography.TwistorWeightDuality
 For projective twistor space `CP^3`, the canonical bundle is `O(-4)`.  Serre
 duality therefore pairs line-bundle degree `k` with degree `-k-4`.  The same
 integer reflection appears in the four-complex-dimensional non-projective
-Fourier transform.  This file formalizes the exact degree/helicity arithmetic;
-it does not formalize Serre duality itself.
+Fourier transform.
 -/
 
 namespace GppTwistorCanonicalShift

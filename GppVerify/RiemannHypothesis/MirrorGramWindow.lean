@@ -21,7 +21,6 @@ content:
 
 Imposing rank-one mirror matching at the zeros of `ξ` is equivalent to RH. It is **not** derived
 here; the shifted `F_θ` and Davenport–Heilbronn controls reject any universal imposed rule.
-**No RH claim.**
 -/
 
 namespace GppMirrorGramWindow

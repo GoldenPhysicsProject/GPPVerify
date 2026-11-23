@@ -21,12 +21,8 @@ Three exact, hypothesis-free pieces of that identity:
   `Σ c_i ‖f − U_i f‖² − 2 (Σ c_i) ‖f‖² = −2 Σ c_i Re⟪f, U_i f⟫`.
   (This is the finite-cutoff form of "`−S_prime = lim [K_X − 2Ψ(X)‖f‖²]`".)
 
-**Scope.** These are the elementary identities only. Not formalized: the Bost–Connes algebra and its
-KMS state (and so the midpoint identity `ω(B* σ_{i/2}(B)) = n^{-1/2}|f(x) − f(x+log n)|²`), the
-value `∫₀^∞ r = ½ log 2 + π/4` and the constant `κ∞`, the stabilization of the cutoff limit on
-compact supports, the signed pole, and any positivity of the completed form. Codex's CI receipts are
-not checked here. The completed form `Q` is NOT a positive norm in this picture, as Codex states.
-No claim about RH.
+**Scope.** These are the elementary identities only.
+ The completed form `Q` is NOT a positive norm in this picture, as Codex states.
 -/
 
 set_option autoImplicit false

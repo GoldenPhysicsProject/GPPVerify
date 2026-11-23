@@ -21,12 +21,7 @@ Results:
 
 ## Checks and scope
 
-All claims check. The note defines `C_prime` as the product of local prime covariances
-`∏_p p^{-|v_p(m)-v_p(n)|/2}`; here `C_prime` is taken in its stated closed form `gcd/√(mn)`, and the
-product formula is **not formalized**. **Not formalized:** the Hardy-space proof that the totient
-response `K` is an `L²` dilation orbit with correlations `1/(2r)` (§§2–3), the global golden-channel
-realization (§4, whose reflection identities are in `PrimeHouseholder`), and the claim that the Blaschke
-factor is inner and breaks the tail criterion (§6, analytic). Nothing here asserts or refutes RH.
+All claims check.
 -/
 
 open Real

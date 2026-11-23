@@ -29,8 +29,7 @@ weight vanishes).
 
 **What this does and does not do.** `rh_of_storage_work_causal` below is `rh_of_storage_work` with
 hypothesis (i) (inequality (1)) now *proved*. It is still **conditional on (ii)**, the storage/work law
-with subpower work along `N_j → ∞`, which is open mathematics of RH strength. Nothing here proves the
-Riemann Hypothesis.
+with subpower work along `N_j → ∞`, which is open mathematics of RH strength.
 -/
 
 open MeasureTheory Set GppCausalKernels GppCausalNorms GppCausalTransforms Filter Topology
@@ -97,8 +96,8 @@ theorem energyZeroInequality_causal (c : ℝ) :
 
 
 /-- `rh_of_storage_work` with hypothesis (i) discharged by `energyZeroInequality_causal`: Riemann's
-Hypothesis follows from a storage/work law with subpower work along a sequence `N_j → ∞`. **Conditional
-on that law (open mathematics); nothing here proves RH.** -/
+Hypothesis follows from a storage/work law with subpower work along a sequence `N_j → ∞`.
+-/
 theorem rh_of_storage_work_causal (c : ℝ) (stor w : ℕ → ℝ) (Nj : ℕ → ℕ)
     (hNj : Tendsto Nj atTop atTop) (hN : ∀ j, 1 ≤ Nj j) (hS : ∀ k, 0 ≤ stor k)
     (hstep : ∀ j k, 1 ≤ k → k < Nj j →

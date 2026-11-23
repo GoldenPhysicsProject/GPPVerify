@@ -19,9 +19,7 @@ abstract surjectivity theorem to two concrete properties:
 1. a nonvanishing seed transform on the required zero support;
 2. closure of the admissible transform class under polynomial spectral multipliers.
 
-This file proves only that algebraic reduction.  It does not assert that a specific
-Weil/Mellin test class satisfies those two analytic properties, and makes no RH
-claim by itself.
+This file proves only that algebraic reduction.
 -/
 
 namespace GppWeilPolynomialInterpolation

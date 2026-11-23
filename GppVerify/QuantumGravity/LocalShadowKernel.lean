@@ -13,10 +13,7 @@ that hold unconditionally and do not depend on any claim about the Riemann Hypot
 celestial/automorphic bridge, or any other part of the paper's open research program:
 shadow reflection, and positivity on the principal series line `a = d/2 + it`.
 
-Not formalized here: the integral representation itself (`∫₀^∞ x^(a-1)/(1+x)^d dx =
-Γ(a)Γ(d-a)/Γ(d)`) is taken as the definition rather than derived from Mathlib's `[0,1]`-form
-Beta integral via the substitution `x = t/(1-t)` — a real but separate piece of work, not
-attempted this round. The `d=1` (dispersion) and `d=2` (celestial Cutkosky cut)
+ The `d=1` (dispersion) and `d=2` (celestial Cutkosky cut)
 specializations, and the non-Archimedean analogue `K_{q,d}`, are documented in
 `discovery/local_field_shadow/local_shadow_kernel_notes.md` together with the honest boundary
 of what is and is not established about the local-to-global bridge to automorphic forms.

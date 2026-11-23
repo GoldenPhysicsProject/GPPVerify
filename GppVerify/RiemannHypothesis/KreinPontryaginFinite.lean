@@ -27,10 +27,6 @@ Two facts, both pure algebra (no spectral theory, no analysis):
   kernel into a positive part plus an explicit one-dimensional negative
   (pole/ExpPart) part.
 
-The remaining glue — applying this to the Gram form of a kernel configuration
-(`kform K x`, symmetric once `K` is even) — is a separate, later step and is
-not claimed here.
-
 No `sorry`. No named premises. Standard axioms only.
 -/
 import GppVerify.RiemannHypothesis.KreinBridge

@@ -36,9 +36,7 @@ No zeros of ζ enter its definition.
   vector `v`, and a bounded remainder `r`, then RH holds.
 
 **Scope and honesty.**
-* This is a conditional theorem; it does not prove RH. The converse direction (RH ⇒ `K` bounded,
-  via the explicit formula) is classical and is not formalized here, since Mathlib has no explicit
-  formula.
+* This is a conditional theorem.
 * With `v = 0` the (GS) hypothesis is bare boundedness of `K`, which is RH-equivalent. So (GS) has
   content only when `(v, U_t)` is constructed from the arithmetic boundary state, and that
   construction is open (Turbo's (BND), equivalently (DOM±)).

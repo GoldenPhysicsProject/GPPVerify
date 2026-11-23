@@ -29,7 +29,7 @@ Let `E` be a real finite-dimensional inner-product space of dimension `d`, for e
 Hilbert-space completion is not constructed here. In particular, the axis being
 "one-dimensional" (one real parameter `ν` in `Δ = d/2 + iν`) does not reduce the boundary to one
 spatial dimension. No intertwiner from the equatorial `S¹` (`d = 1`) to the horizon `S²`
-(`d = 2`) is constructed. No claim about RH, BSD or black-hole entropy.
+(`d = 2`) is constructed.
 
 ## Sources
 
@@ -42,7 +42,6 @@ General intertwining-operator background: A. W. Knapp and E. M. Stein,
 "Intertwining operators for semisimple groups", Ann. of Math. (2) 93
 (1971), 489–578. This module formalizes the stated algebraic identities;
 it does not construct the full physical conformal primary basis.
-
 -/
 
 set_option autoImplicit false

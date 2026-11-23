@@ -25,13 +25,12 @@ substitution.
 **Zero-existence hypothesis.** Mathlib cannot yet prove that `Λ` (or `ξ`) *has*
 a zero, so the existence of an on-line zero `ρ` is an **explicit hypothesis**
 (`hzero`), not a proved fact. The theorems are therefore conditional: *if* such
-a zero exists, *then* `F_θ` has the off-line zeros `ρ ± θ`. This file makes no
-claim about the existence or location of zeros of `ζ`.
+a zero exists, *then* `F_θ` has the off-line zeros `ρ ± θ`.
 
 **Scope.** This is a no-go, not a go: it shows that any proof locating zeros
 must use something that `F_θ` lacks — the specific arithmetic content of `ζ`'s
 Euler factors (a bare Euler product is not enough), i.e. the one-channel
-structure detected by the `F_θ` falsifier. **No RH claim.**
+structure detected by the `F_θ` falsifier.
 -/
 
 namespace GppNoGo.ShiftedProductControl

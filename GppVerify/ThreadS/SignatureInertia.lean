@@ -26,10 +26,7 @@ Thread S file) to `WeilPositivityCriterion.lean` and `CauchyKernelPositive.lean`
 
 ## What is NOT in this file
 
-The subspace-dimension bounds (`dim_le_nPos_of_posDef_on` / `dim_le_nNeg_of_negDef_on`),
-congruence invariance (`inertia_congruent`), and the rank–trace inequality (the paper's
-Lemma 3.2, the actual load-bearing lemma of Thread S) are separate, larger developments
-and are NOT claimed complete by this file. This file is the base layer only.
+ This file is the base layer only.
 -/
 
 namespace GppThreadS

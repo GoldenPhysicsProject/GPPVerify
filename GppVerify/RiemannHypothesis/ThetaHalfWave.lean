@@ -18,9 +18,9 @@ With Riemann's kernel `Φ` (`GppRiemannPhi.phi`) put `A(z) = 4∫₀^∞ Φ(u) e
 * `halfWaveA_add_reflect`: hence `A(s − 1/2) + A(1/2 − s) = 1/2 + s(s − 1) Λ₀(s)/2`, which is
   `ξ(s) = s(s − 1) Λ(s)/2` for `s ≠ 0, 1` (`halfWaveA_add_reflect_eq_xi`).
 
-**Scope.** Astra's endpoint expansion `A(it) = i[2Φ(0)/t − Φ″(0)/(2t³)] + O(t⁻⁵)` and her numerics
-are not formalized. As her note says, near-cancellation of the two waves at large height is
-generic and is not evidence about zeros. Classical identity, not claimed novel. No claim about RH.
+**Scope.**
+ As her note says, near-cancellation of the two waves at large height is
+generic and is not evidence about zeros.
 -/
 
 open Real Complex MeasureTheory Set Filter Topology GppRiemannPhi GppThetaSplit

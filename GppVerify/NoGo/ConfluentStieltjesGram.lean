@@ -16,11 +16,7 @@ the matrix `C i j = ∫ (u₀ + t)^{-(i+j+2)} dμ` (`jetGram`). That matrix is a
 witnesses are stated for the conditioned matrix `D C D` with `D = diag(16^i)`, and
 `diag_congruence_witness` transfers them to `C`.
 
-**Not formalized:** the identification of `C` with `(-1)^{i+j+1} m^{(i+j+1)}(u₀)/(i+j+1)!`
-(differentiation under the integral). Also not formalized are the numerical values for `m_*` and
-`m_θ`; those are high-precision NUMERICAL results, not interval certificates. **No RH claim:**
-positivity of the `m_*` jet at every order is a necessary condition for a Stieltjes representation,
-not a proof of one.
+(differentiation under the integral).
 -/
 
 namespace GppNoGo.ConfluentStieltjesGram

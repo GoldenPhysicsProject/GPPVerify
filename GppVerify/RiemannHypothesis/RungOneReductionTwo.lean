@@ -19,7 +19,7 @@ prime `2` is visible (`supp f ⊂ [-0.36, 0.36]`, so `L = 0.72`), float experime
 `2.4e-2` (odd) at `T = 25`, converged at eight Legendre modes per parity. That is evidence for a
 target, not a bound.
 
-Unconditional. No `sorry`, no axioms, no named premises. Nothing here concerns the zeros.
+Unconditional. No `sorry`, no axioms, no named premises.
 -/
 
 namespace GppRungOneReductionTwo

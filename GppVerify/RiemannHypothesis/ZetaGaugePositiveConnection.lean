@@ -19,10 +19,7 @@ zeta-graph metric G = Zᵀ Z, the covariant logarithmic generator H is
 positive because it is similar to the nonnegative multiplication operator
 D through the exact zeta synthesis.
 
-This is finite, zero-independent arithmetic algebra.  It does not prove
-that the completed Weil form is this positive energy; identifying the
-Archimedean/Tate boundary subtraction with the remaining free channel is
-the open sewing problem.
+This is finite, zero-independent arithmetic algebra.
 -/
 
 namespace GppZetaGaugePositiveConnection

@@ -27,10 +27,7 @@ So `m = 1` is the obstruction to finite `H^{1/2}` scattering-phase energy.
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the identification of the phase `log S_p` with the stated
-Fourier series (the logarithm branch), the Bohr almost-periodic Hilbert-space setting, and the
-`m = 1` versus `m = 2` determinant discussion of §§5–6 (a comparison with the `det₃` threshold
-already in `GppVerify`). No RH claim.
+All claims check.
 -/
 
 open Real

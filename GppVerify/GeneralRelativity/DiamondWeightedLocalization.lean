@@ -13,13 +13,7 @@ positive radii, then a=b=0. This gives a concrete local-recovery
 calculation in addition to the already formalized Green first-law
 and exact off-shell residual.
 
-A continuous general residual can be reconstructed by the approximate
-identity as R→0; that analytic statement is proved in the manuscript,
-not formalized here as a Lebesgue differentiation theorem.
-
-The radial polynomial is a local test. It is not a proof of
-Einstein's field equations from quantum mechanics on arbitrary
-spacetime backgrounds.
+The radial polynomial is a local test.
 -/
 
 namespace GppDiamondWeightedLocalization

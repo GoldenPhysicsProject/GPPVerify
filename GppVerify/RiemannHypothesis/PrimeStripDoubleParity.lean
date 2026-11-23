@@ -5,8 +5,6 @@ import Mathlib.Tactic
 
 This is a finite scalar algebraic carrier. It proves a signed source
 identity for any finite strip data, including real sign-varying profiles.
-The continuous L² boundary geometry and actual completed Weil form are
-not formalized here. No RH claim or positive-source hypothesis.
 -/
 
 namespace GppPrimeStripDoubleParity

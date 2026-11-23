@@ -27,9 +27,7 @@ indices: `T(−log N) ∑_{j<M} T(log(N+j)) g → M g`, while boundedness caps t
 **Scope.** This is about bounded maps from the unweighted arithmetic `ℓ²` into a single continuous
 unitary orbit. Astra notes, and this file does not contradict, that weighted synthesis, unbounded
 maps on test spaces, distributional maps, and the compact prime-character (Hardy) model of her §4
-are all untouched. The co-Poisson summation operator is also untouched, since it is not claimed to
-be a bounded map of this kind. Her §1–§2 packet estimates and §4 model are not formalized here.
-No claim about RH.
+are all untouched.
 -/
 
 open Filter Topology

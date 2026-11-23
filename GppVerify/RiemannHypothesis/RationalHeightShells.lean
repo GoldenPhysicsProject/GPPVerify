@@ -19,21 +19,17 @@ with `H ≤ n`).
 * `shell_sum_lower`: each such shell contributes **`≥ 1/18`** to `Σ H⁻²`.
 * `bounded_iff`: the partial sums of `Σ H^{−2σ}` are bounded **iff `σ > 1`**. Since `δ₀` has all
   Fourier coefficients `1`, this is the statement `δ₀ ∈ H_{−σ}(X) ⟺ σ > 1`, restricted to positive
-  frequencies. The negative frequencies and `0` add a mirror copy and one term, so the threshold is
-  unchanged; that bookkeeping is not formalized.
+  frequencies.
 
 * `card_height_eq`: for `n ≥ 2` exactly `2φ(n)` reduced positive fractions have height `n`
-  (`4φ(n)` over `ℚ`). So `Σ_q H(q)^{−s} = 4ζ(s−1)/ζ(s) − 1` and the height operator has compact
-  resolvent; the Dirichlet-series identity itself is not formalized.
+  (`4φ(n)` over `ℚ`).
 
 **Integer shells.** Every rational `q` lies in `Γ_j = (1/(j+1)!)ℤ` at level `j = q.den`
 (`factorial_level`). At any level where `(j+1)! q ∈ ℤ` and `q ≠ 0`, the accelerated
 frequency satisfies `|(j+1)! q| ≥ 1` (`one_le_abs_level`). So the multiscale inverse has
 `|2π N_j q|⁻¹ ≤ 1/(2π)` uniformly over all of `ℚ`, with no prime cutoff (`inverse_bound`).
 
-**Not formalized:** the solenoid itself, the shell projectors and their Parseval identity, the
-Tate–Poisson periodization `Φ_a` and its norm identity, and the sign of the completed Weil form
-(**OPEN**). The inverse is an auxiliary operator, not a physical Hamiltonian. **No RH claim.**
+The inverse is an auxiliary operator, not a physical Hamiltonian.
 -/
 
 namespace GppRationalHeightShells

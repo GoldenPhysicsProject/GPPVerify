@@ -24,8 +24,6 @@ The three links of the audited blueprint:
 3. (finite-dimensional linear algebra) A proper subspace of `ℂ^S` is killed by a nonzero
    functional (`Submodule.exists_le_ker_of_lt_top`), contradicting 2.
 
-No claim about RH.
-
 Daniel Toupin / Golden Physics Project, with AI assistance from Gemini (blueprint), Turbo
 (audit) and Claude Code (Lean).
 -/

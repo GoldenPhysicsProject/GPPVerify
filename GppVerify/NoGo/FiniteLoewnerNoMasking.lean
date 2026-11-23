@@ -41,7 +41,7 @@ Take `r` quartets with distinct `(a_j, b_j²)`, `a_j > 0`, `b_j ≠ 0`, plus `m`
 
 **Scope.** Finite only. For the actual `ξ` the on-line family is infinite, and Stieltjes-ness of the
 full `m_*` (support in `[1, ∞)`) is Codex's v34 RH-equivalent criterion. This file proves only that
-no *finite* on-line correction can mask an off-axis quartet. **No RH claim.**
+no *finite* on-line correction can mask an off-axis quartet.
 -/
 
 namespace GppNoGo.FiniteLoewnerNoMasking

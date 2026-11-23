@@ -24,7 +24,7 @@ the character `e^{iλx}` becomes `u^{iλ}(1−u)^{−iλ}` (`beta_kernel_logisti
 and `Γ(1+iλ)Γ(1−iλ) = iλ·Γ(iλ)Γ(1−iλ) = iλπ/sin(iπλ) = πλ/sinh(πλ)` by Euler reflection.
 This is also the physics: `P(λ) = Γ(1+iλ)Γ(1−iλ)` is the two-particle phase-space factor.
 
-The last equality is not proved here. It is `GppGammaModulus.gamma_one_add_mul_gamma_one_sub`,
+ It is `GppGammaModulus.gamma_one_add_mul_gamma_one_sub`,
 already in `GammaModulusIdentity.lean`, and is reused. The only new link this file supplies is
 the substitution showing the Fourier integral *is* the Beta integral.
 

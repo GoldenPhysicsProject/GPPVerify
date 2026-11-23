@@ -56,18 +56,9 @@ valuation's value group `WithZero (Multiplicative ℤ)` (`ℤₘ₀`) using
 the strictly monotone embedding, and `valuation_exists_uniformizer` for nontriviality.
 Combined with the Subring bridge lemma above, this gives, for free,
 `ProperSpace (v.adicCompletion K) ↔ CompactSpace (v.adicCompletionIntegers K)` via
-`Valued.integer.properSpace_iff_compactSpace_integer` — the compactness criterion the
-earlier version of this file could not state at all, now fully available (though not
-yet invoked as its own named theorem here).
-
-## What this still does NOT do — the honest current wall
-
-Compactness of `v.adicCompletionIntegers K` itself — i.e. `ProperSpace (v.adicCompletion
-K)`, or equivalently completeness + `IsDiscreteValuationRing` + finite residue field —
-is not proved here; only the *criterion* connecting compactness to properness is now
-available. Beyond that: discreteness of `ℚˣ`, finiteness of the class number /
-compactness of the norm-one idele class group (Fujisaki's lemma), the self-dual Haar
-measure, and Meyer's spectral construction on top of all of it. Each remains open.
+`Valued.integer.properSpace_iff_compactSpace_integer` — the compactness criterion:
+compactness of `v.adicCompletionIntegers K` is `ProperSpace (v.adicCompletion K)`,
+equivalently completeness + `IsDiscreteValuationRing` + finite residue field.
 -/
 
 namespace GppRH

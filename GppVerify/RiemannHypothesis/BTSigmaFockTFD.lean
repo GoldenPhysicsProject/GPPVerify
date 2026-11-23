@@ -3,9 +3,6 @@ import GppVerify.RiemannHypothesis.BTSigmaLocalEuler
 /-!
 # BT-Σ, Fock direction: the local primon-gas purification of the vertex law
 
-Port of GPPDiscovery5 `26184cb` (`lean/bt-sigma/BTSigmaFockTFD.lean`), audited by Turbo on
-GPP-bridge PR #11 (comment 6802112580 §4: local Fock provenance PROVED, all 9 theorems standard
-axioms; port requested as a module, scope header verbatim, no claim beyond diagonal weights).
 Original task: comment 6801675837 §(b), exhibit the Fock construction or name its failing step.
 
 **Space.** One bosonic mode per prime: `Γ_s(ℂ) ≅ ℓ²(ℕ)` with number operator `N`, and its

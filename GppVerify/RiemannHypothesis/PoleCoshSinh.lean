@@ -15,9 +15,7 @@ For a finite family of complex weights `c_j` and real nodes `a_j` (a quadrature 
 (the right side is real by symmetry of cosh). This is the discrete form of "the pole is the cosh-kernel form
 `∫∫ f(x) f̄(y) cosh((x−y)/2)`"; it uses only `cosh a cosh b − sinh a sinh b = cosh(a − b)`.
 
-**Scope.** The finite-sum identity only. The integral version (integrability, the `L`-dependent
-shift `a = (x − L/2)/2`) and everything about the sign of the completed form are not formalized.
-No claim about RH.
+**Scope.** The finite-sum identity only.
 -/
 
 set_option autoImplicit false

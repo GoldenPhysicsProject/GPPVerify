@@ -20,7 +20,7 @@ resonance bookkeeping. For a zero `ρ` of `ζ` with `0 < Re ρ < 1`:
 So RH is equivalent to a *uniform resonance depth ¼* for the modular-surface zeta resonances, not to
 those resonances lying on the Laplacian's principal-series line. The identification "zeros =
 principal-series spectrum" holds only in the zeta variable `s`, never in the Eisenstein parameter
-`w`. **No RH claim.**
+`w`.
 -/
 
 namespace GppModularResonanceDepth

@@ -36,7 +36,6 @@ estimate (~5.2 · 10⁻¹¹). The rigorous interval bound proved here is ~2.56 �
   not a new identity.
 * This certificate is a consistency object with one-sided teeth: it is not a positivity source
   and not (DOM) progress.
-* RH remains open.
 
 Governing specification: the AUG2 rev 6 statement sheet (GPP-bridge
 `MuseResearch/aug2-rev6-sheet.md`), audited PASS by Turbo

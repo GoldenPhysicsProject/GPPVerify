@@ -37,17 +37,14 @@ exactly the points where `Γ(5/4 + z/2)` has its poles, `z = −(2n + 5/2)` (`tr
 
 ## Checks
 
-All identities were verified by hand against the notes; no corrections. As the notes say, the
-zeta-regularized determinant statement `Γ(5/4 + z/2) ∝ det_ζ(A_triv + z)^{-1}` is not proved here
-(only the pole/spectrum match is). Note also that the equality of the two Casimir values `−¼` is
+All identities were verified by hand against the notes; no corrections.
+ Note also that the equality of the two Casimir values `−¼` is
 a numerical coincidence of Casimir eigenvalues, not an equivalence of representations; the notes
 state this.
 
 ## Scope
 
-Closed-form real/complex identities. **Not formalized:** the Fourier transform of `sech`, the
-convolution `sech * sech`, zeta-regularized determinants, the zero-counting statement
-`N_0(γ_n) = n − ½`, and the resolvent-trace Gram form `𝔇_q(a,b)`. No RH claim.
+Closed-form real/complex identities.
 -/
 
 open GppSU11Prime

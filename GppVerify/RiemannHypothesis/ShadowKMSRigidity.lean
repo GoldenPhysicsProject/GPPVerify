@@ -13,8 +13,7 @@ to the original one.
 If a physical shadow/CPT implementation preserves that norm at even one
 nontrivial positive scale, the parameter is forced onto the principal series.
 
-This is an abstract representation-theoretic criterion only. It does not prove
-that zeta zeros satisfy the required physical shadow-isometry hypothesis.
+This is an abstract representation-theoretic criterion only.
 -/
 
 namespace GppShadowKMSRigidity

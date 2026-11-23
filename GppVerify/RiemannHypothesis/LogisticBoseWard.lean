@@ -18,10 +18,7 @@ of two independent standard logistic variables is, for `y ≠ 0`,
 
 ## Checks and scope
 
-The identity checks (both sides reduce to `e^y [y(e^y+1) − 2(e^y−1)]/(e^y−1)³`). **Not formalized:**
-that the convolution of two logistic densities *is* this `g` (a convolution integral), the
-characteristic function `πλ/sinh πλ` of the logistic density, and the Mellin identity
-`∫ y^s g = s(s−1)Γ(s)ζ(s)` (§§3–4), which needs integration by parts against `Γ(s)ζ(s)`. No RH claim.
+The identity checks (both sides reduce to `e^y [y(e^y+1) − 2(e^y−1)]/(e^y−1)³`).
 -/
 
 open Real

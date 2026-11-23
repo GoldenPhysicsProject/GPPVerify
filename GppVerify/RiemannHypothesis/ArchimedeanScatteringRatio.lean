@@ -6,9 +6,6 @@ import Mathlib.NumberTheory.LSeries.RiemannZeta
 /-!
 # The real-place Gamma factor: shadow-paired magnitude, oriented scattering ratio, log-derivative
 
-Source: Codex, GPPDiscovery2 `research/2026-09-20_casimir_square_root_gamma_bridge.md`, §§1–5
-(the exact Gamma identities; the Beta-integral and Casimir-resolvent readings are not formalized).
-
 With `γ_ℝ(s) = π^{-s/2} Γ(s/2)` (Mathlib `Complex.Gammaℝ`) and `S_∞(s) = γ_ℝ(1−s)/γ_ℝ(s)`:
 
 * `gamma_pair`: `γ_ℝ(s) γ_ℝ(1−s) = π^{-1/2} Γ(s/2) Γ((1−s)/2)`, the shadow-paired magnitude;
@@ -20,11 +17,9 @@ With `γ_ℝ(s) = π^{-s/2} Γ(s/2)` (Mathlib `Complex.Gammaℝ`) and `S_∞(s) 
 
 ## Checks and scope
 
-All claims check (the note's `S_∞` is `γ_ℝ(1−s)/γ_ℝ(s)` as here). **Not formalized:** the Beta-integral
-representation `γ_ℝ(s) γ_ℝ(1−s) = 2 ∫₀^∞ r^{s−1}(1+r²)^{-1/2} dr` (Mathlib has the Beta integral on
-`[0,1]`, not on `(0,∞)`), the identification with the Casimir resolvent and the `H_C^{-1/2}` graph norm
-(§§1, 6), and the endpoint-pole decomposition of the completed log-derivative. The cancellation in the
-functional equation holds independently of RH and does not eliminate any zero. No RH claim.
+All claims check (the note's `S_∞` is `γ_ℝ(1−s)/γ_ℝ(s)` as here).
+ The cancellation in the
+functional equation holds independently of RH and does not eliminate any zero.
 -/
 
 open Complex

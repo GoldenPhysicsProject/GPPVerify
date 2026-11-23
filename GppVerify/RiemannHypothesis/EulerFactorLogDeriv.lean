@@ -25,10 +25,9 @@ just asserted from the standard geometric-series expansion.
 Layer 2b (`Wp_eq_two_mul_re_minusLogDerivZetaP`): the exact identity connecting this to the
 already-proved-positive-type kernel `Wp` from `CutkoskyWeilBridge.lean`.
 
-## What this does NOT do
+## The local sign question
 
-This does not prove the global Weil explicit formula or its positivity.  The local sign
-question can, however, be settled exactly: the prime term carries an overall minus sign,
+The local sign question is settled exactly: the prime term carries an overall minus sign,
 but `K_p-1` being positive-type as a convolution kernel does **not** make multiplication by
 `-Wp` negative semidefinite.  The two operators are different.  The final section proves
 that `Wp` has the expected prime-power Fourier expansion and that the signed scalar

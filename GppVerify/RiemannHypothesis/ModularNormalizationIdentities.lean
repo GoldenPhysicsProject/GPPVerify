@@ -17,11 +17,8 @@ Source: Codex, GPPDiscovery2 `research/2026-09-26_doubling_constants_modular_nor
 
 ## Checks and scope
 
-All three claims check. **Not formalized, and not claimed:** that these three normalization slots
-correspond to `ħ`, `c`, `G` (the note labels this a conjectural dictionary and itself states that
-no algebra fixes the SI values), the derivation of the endpoint entanglement density `η` (the note
-observes that the naive `∫ λ²` is UV divergent), and the Bisognano–Wichmann reading of `P`.
-`eta_G_relation` is a rearrangement of a stated relation, not a derivation of `G`. No RH claim.
+All three claims check.
+`eta_G_relation` is a rearrangement of a stated relation, not a derivation of `G`.
 -/
 
 open Real

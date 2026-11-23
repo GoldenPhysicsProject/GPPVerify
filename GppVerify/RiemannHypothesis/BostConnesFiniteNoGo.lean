@@ -26,9 +26,7 @@ identity on the mean-zero sector; both answer no, by exhibiting exact null vecto
 All claims of both notes check. Two remarks. (1) The notes normalise `F` to be unitary; we use
 Mathlib's unnormalised `ZMod.dft` and its inverse, which changes nothing about supports and
 null vectors. (2) The note's `p = 2, K = 1` exception is reproduced as the hypothesis
-`p ≠ 2 ∨ 2 ≤ K`. This is a statement about the *static* projections only: it does not
-invalidate the Bost–Connes / `ax+b` architecture, which must supply the dynamical channels the
-notes list, and no RH claim is made.
+`p ≠ 2 ∨ 2 ≤ K`.
 -/
 
 open scoped ZMod

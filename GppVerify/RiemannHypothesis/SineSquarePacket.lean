@@ -26,7 +26,7 @@ The last item is the exact content of Codex's "no off-critical blind spot" claim
 `ρ = 1/2 + λ` of ζ with `Re λ > 0` would give the filtered signal a pole whose residue is
 `−m_ρ e^λ S(λ) S(−λ)`, and that factor never vanishes.
 
-**Scope.** Not formalized here:
+**Scope.**
 * the autocorrelation multiplier `H(z) = z(z + ½) S(z) S(−z)`;
 * the filtered Laplace identity for `K_g`;
 * the criterion `RH ⇔ K_g bounded`. Its forward direction needs the explicit formula, which is not

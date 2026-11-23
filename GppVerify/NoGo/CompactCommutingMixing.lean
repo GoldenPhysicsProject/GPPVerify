@@ -22,10 +22,9 @@ Proof: `T(U n x) = U n (T x)` has constant norm `‖Tx‖`. Since the `U n x` st
 compactness gives a norm-convergent subsequence `→ y`. Weak mixing forces `⟪y, w⟫ = 0` for all `w`,
 so `y = 0`, hence `‖Tx‖ = 0`.
 
-**Instance (stated, not formalized).** On `L²(ℝ)` the translations `τ_n f = f(· − n)` are unitary
+ On `L²(ℝ)` the translations `τ_n f = f(· − n)` are unitary
 and weakly mixing: `⟪τ_n f, g⟫ → 0`, by density of compactly supported functions. Through
-`x = e^t`, these are the scale translations of `L²(ℝ_+, dx/x)`. The density argument is not
-formalized here. **No RH or Yang–Mills claim.**
+`x = e^t`, these are the scale translations of `L²(ℝ_+, dx/x)`.
 -/
 
 namespace GppNoGo.CompactCommutingMixing

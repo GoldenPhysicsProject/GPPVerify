@@ -18,9 +18,7 @@ The moment matrix is `M_{jk} = ∑_n c_n² r_n^{j+k}` for `j, k < K`, over finit
   `vᵀ M v = ∑_{n ∉ S} c_n² P_v(r_n)²`. With `P_v = ∏_{m ≤ K−2}(x − r_m)` only the remaining nodes
   contribute; Codex's size estimate `λ_min ≤ e^{−X_K}/(Λ_K²(1 − e^{−7/5}))` then bounds that tail.
 
-**Scope.** Finite algebra. The size estimate on the tail (`|P_K(r_n)| ≤ ∏ r_m`, `S(−λ) ≤ 1/(2λ)`,
-the geometric sum) and the identification of `c_n, r_n` with the Arch modes are not formalized;
-the continuum compactness statement stays analytic. No claim about RH.
+**Scope.** Finite algebra.
 -/
 
 open Finset Polynomial

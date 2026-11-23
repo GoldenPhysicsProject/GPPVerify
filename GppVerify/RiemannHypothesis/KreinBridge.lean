@@ -35,8 +35,6 @@ windows to all of ℝ needs no limit: it is the window-fit lemma.
 `card_lower_freqs_le` PROVES: the frequencies `z` with `Im z < 0` that are roots of `Q` or of
 `Q̄` number at most `natDegree Q`. `quadruple_not_P1` PROVES: an off-line quadruple supplies two
 distinct such frequencies `γ₀` and `−γ̄₀` (when `Re γ₀ ≠ 0`), so `deg Q ≤ 1` is impossible.
-The analytic step "every pole of the Laplace transform in `Re s > 0` is such a frequency"
-is NOT formalised here (stated in the notes, SKETCH).
 -/
 
 namespace GppKreinBridge

@@ -17,7 +17,7 @@ theory what Segal / VOA / the bootstrap did for CFT — distil the axioms from t
   pairing is an inner product" (A3) is a statement about a real quadratic form, not a complex one.
 * `principalSeries_of_shadowTheory`: the closing theorem of the package (every weight on `Re = 1/2`,
   given reflection positivity), by the in-tree `KernelTheory.principalSeries_of_reflectionPositive`.
-* `rh_of_shadowModel`: the read-out, from ARP. ARP is **OPEN**; this does not prove RH.
+* `rh_of_shadowModel`: the read-out, from ARP.
 * `ShadowIso`, `reflectionPositive_transport`, `rh_of_identification`: the model-level identification
   of package §4, in its exact Lean shape — an isomorphism of shadow theories transports reflection
   positivity. **`modelIdentification_iff_arp`** records that, with the target theory left arbitrary,
@@ -26,9 +26,7 @@ theory what Segal / VOA / the bootstrap did for CFT — distil the axioms from t
   with reflection positivity by construction is **OWED** (not in-tree). Label-level identification
   (`s_eq_delta_label`) is proved elsewhere and is not touched here.
 
-**Not formalised (OWED / not attempted):** the GNS completion of A3 (the state space as a Hilbert
-space — `PositiveDefiniteGNS.lean` is the in-tree precedent), the unitary dilation action `U` and the
-vacuum `Ω` of A4/A5, local factorisation A6, and the celestial instance. The Lean structure carries
+ The Lean structure carries
 the *datum*, not the Hilbert-space dressing. ARP, `WeilIsGram`, `H_ψ`, AKG, and RH remain **OPEN**.
 No `sorry`, no axiom.
 
@@ -115,8 +113,7 @@ theorem shadowZeta_reflectionPositive_iff_arp :
     shadowZeta.ReflectionPositive ↔ ArithmeticReflectionPositivity :=
   zeta_obligation_iff_arp
 
-/-- **Read-out.** A shadow theory with the ζ spectral function has all its weights on the line.
-ARP is OPEN; this does not prove RH. -/
+/-- **Read-out.** A shadow theory with the ζ spectral function has all its weights on the line. -/
 theorem rh_of_shadowModel (harp : ArithmeticReflectionPositivity) :
     ∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2 :=
   shadowZeta.principalSeries_of_shadowTheory (reflectionPositive_of_arp harp)

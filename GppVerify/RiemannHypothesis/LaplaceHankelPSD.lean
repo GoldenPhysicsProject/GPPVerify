@@ -15,10 +15,7 @@ Physics Project, with AI assistance from Astra (statement) and Claude Code (form
   `(Σ_{i,j} c_i c_j (1/(t_i + t_j))^a) · Γ(a) = ∫₀^∞ x^{a-1} (Σ_i c_i e^{-t_i x})² dx`.
 * `hankel_psd`: hence `Σ_{i,j} c_i c_j (1/(t_i + t_j))^a ≥ 0`.
 
-**Scope.** Positive semidefiniteness only. The strict positive definiteness for distinct `t_i`
-(linear independence of distinct exponentials), the Poisson-summation limit, the eigenvalue scaling
-`λ_min(M_ε) ~ ε^{-(N-1)/2} λ_min(B)`, and the numerical constants in the note are not formalized.
-No claim about RH.
+**Scope.** Positive semidefiniteness only.
 -/
 
 set_option autoImplicit false

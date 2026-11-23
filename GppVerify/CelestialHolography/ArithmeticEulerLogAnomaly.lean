@@ -12,7 +12,6 @@ coefficient `1/m`.  Therefore the trace anomaly of the `m`-th repeated orbit
 carries the exact von Mangoldt weight `log p`, not `m log p`.
 
 This file formalizes that exact algebraic cancellation and its finite-sum form.
-It does not formalize the Dirichlet heat commutator trace-class theorem itself.
 -/
 
 namespace GppArithmeticEulerLogAnomaly

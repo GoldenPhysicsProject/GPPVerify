@@ -21,8 +21,6 @@ Two finite statements used in that thread, proved here for arbitrary real matric
   every coefficient direction `W n` but is negative on `W0` rules out every coefficient vector:
   `W0 - ∑ n, b n • W n` is never positive semidefinite. This is weak duality for the feasible
   set `{b | W0 - ∑ b n • W n ⪰ 0}` ("prime-blind certificate").
-
-Nothing here asserts positivity of any Weil form, and no zeta-specific input is used.
 -/
 
 namespace GppVerify.OddWeil

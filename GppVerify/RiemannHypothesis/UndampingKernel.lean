@@ -16,9 +16,7 @@ Green kernel of `−∂²+b²` on `[0,L]` is `G_D(x,y) = sinh(b·min)·sinh(b(L�
 (rank ≤ 2).
 
 `kernel_split` is the pointwise identity `e^{−b|x−y|} = 2b·G_D(x,y) + H_b(x,y)` for `b, L > 0`.
-It is **not** an operator statement: nothing here says `G_D` inverts `−∂²+b²` on `L²(0,L)` (that,
-and the sine-eigenvalue relation `2b/(b²+(nπ/L)²)`, are separate items), and it is a transfer
-identity, not a positivity proof for `Q₀`. No `sorry`, no `axiom`.
+ No `sorry`, no `axiom`.
 -/
 
 open Real

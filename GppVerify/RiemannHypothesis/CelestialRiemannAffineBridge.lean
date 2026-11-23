@@ -10,8 +10,7 @@ This file formalizes only the coordinate dictionary `Delta = 2 s`:
 * `Re s = 1/2` becomes `Re Delta = 1`;
 * `s = 1/2 + i t` becomes `Delta = 1 + 2 i t`.
 
-These are representation-theoretic/algebraic identities. They contain no statement
-about zeta zeros and do not prove RH.
+These are representation-theoretic/algebraic identities.
 -/
 
 namespace GppCelestialRiemannAffine

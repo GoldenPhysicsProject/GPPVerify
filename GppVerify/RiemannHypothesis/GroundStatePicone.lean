@@ -10,11 +10,6 @@ Research source: GPP-bridge/work/codex/
 The exact elementary two-vertex identity underlies the symmetric-jump
 ground-state representation used to obtain an interval-assisted positive
 lower bound for the primitive Dirichlet chi_4 first-prime window.
-
-This module formalizes ONLY the exact finite edge identity and weighted
-inequality; the Archimedean integral realization, interval enclosures,
-and full chi_4 Weil inequality are not proved in Lean here.
-No RH or GRH claim.
 -/
 
 namespace GppGroundStatePicone

@@ -19,8 +19,6 @@ what the sum over zeros needs, since no zero is assumed to lie on a particular l
 * `spectralTransform_iteratedDeriv`: `(g^{(k)})^(s) = (−(s − 1/2))^k ĝ(s)`.
 * `norm_spectralTransform_le`: `‖ĝ(s)‖ ≤ ∫ |g(u)| e^{|u|/2} du` on the strip.
 
-No claim about RH.
-
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/
 

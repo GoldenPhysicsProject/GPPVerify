@@ -19,9 +19,7 @@ Let `G(t) = ∫ f(u) f(u + t) du` be the autocorrelation of a function `f : ℝ 
   the step Codex uses to rewrite the sewn prime kernel as an ordinary convolution `V_K ∗ V_K`.
 
 **Scope.** The pointwise identity only, with the integrals as Bochner integrals (no
-integrability hypotheses are needed for the equalities). The identities
-`∫ e^{t/2} C_V = A_K²` and the parity split `P^± = E_K ± (C_K − ε_K)` are not formalized.
-No claim about RH.
+integrability hypotheses are needed for the equalities).
 -/
 
 open Real MeasureTheory Set

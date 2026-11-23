@@ -29,9 +29,6 @@ March 2026 Holographic Chain paper; `GppHolographicChain`). It is not a new proj
 inside that programme.
 
 **Scope.** This is the spin-`j` representation in the standard binomial basis, a classical fact.
-The generation of `Mat_N`, the `End(V_j) = ⊕ V_ℓ` decomposition, the CAR Fock singlet count
-`ln d_N = N² ln 2 + O(ln N)`, the thermal falsifier and the quarter-coefficient discussion are not
-formalized here. No black-hole microstate claim is made, and no claim about RH or BSD.
 -/
 
 set_option autoImplicit false

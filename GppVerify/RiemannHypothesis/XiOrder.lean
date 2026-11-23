@@ -26,7 +26,7 @@ kernel:
   the weaker exponent is all the zero counting needs.
 
 With the Hadamard cluster (`HasOrderLE.sum_divisor_le`) this gives polynomial zero counting for `ξ`
-(stage E3b). No claim about RH.
+(stage E3b).
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/

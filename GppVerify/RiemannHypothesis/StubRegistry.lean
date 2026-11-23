@@ -76,8 +76,7 @@ theorem rh_of_generalisedRH (h : GeneralisedRH) : GppRH.RiemannHypothesisStrip :
 
 /-- Retires `open_weil_criterion` and `open_weil_positivity_haar_squares`. **Weil positivity
     on every finite set of zeros**: the paired form is nonnegative for all coefficient
-    families. (The explicit-formula side, `D_k = Σ_ρ Ω̂(ρ) + local terms`, is not formalised;
-    this is the zero-side form.) -/
+    families. (This is the zero-side form.) -/
 def WeilPositivityAll : Prop :=
   ∀ S : Finset ℂ, ↑S ⊆ nontrivialZeros → ∀ c : ℂ → ℂ,
     0 ≤ (pairedForm zetaInvolution S c).re
@@ -100,8 +99,8 @@ theorem weil_positivity_hilbert_imp_rh {V : Type*} [NormedAddCommGroup V]
 /-- **J maps evaluation functionals** (retires `open_j_maps_functionals`). With the Mellin
     transform as the evaluation functional `l_s f = f^(s)` and the inversion
     `J f (t) = f(1/t)/t`, one has `l_s ∘ J = l_{1-s}`: `mellin (J f) s = mellin f (1 - s)`.
-    The abstract space `H₋` of the source is not formalised; this is the identity on the
-    Mellin side, for an arbitrary `f` (Bochner convention when not integrable). -/
+    This is the identity on the Mellin side, for an arbitrary `f` (Bochner
+    convention when not integrable). -/
 theorem mellin_inversion (f : ℝ → ℂ) (s : ℂ) :
     mellin (fun t : ℝ => f t⁻¹ / (t : ℂ)) s = mellin f (1 - s) := by
   unfold mellin

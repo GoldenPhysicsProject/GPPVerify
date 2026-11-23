@@ -17,9 +17,7 @@ lines of `exp`), the two-state convex-rung lemma used for the finite recurrence:
 * `rungD_critical`: `D(t*) = 0` at `t* = 2 arsinh(V/4)`, and `rungH_min`: `H(t*) ≤ H(t)` for all `t`;
 * `rung_clamped_min`: on any `[a, b]` the minimum of `H` is attained at the clamp of `t*` to `[a, b]`.
 
-**Scope.** Calculus of one explicit convex function. It says nothing about the *values* of `V` and `c` along
-the actual rung recurrence, and nothing about whether the rung minima stay nonnegative (a reserve invariant
-that would be RH-equivalent; none is claimed).
+**Scope.** Calculus of one explicit convex function.
 
 No `sorry`, no axiom.
 -/

@@ -23,9 +23,7 @@ with `L = log n` and `u(r,t) = a · exp(−(r + it) L)`:
 * `vonMangoldt_projection`: `Σ_{d ≥ 2} Λ(d) [d ∣ n] = log n`, the decomposition
   `H = Σ_{d≥2} Λ(d) P_d` on the basis `|n⟩`.
 
-**Scope.** Termwise identities for one basis vector. The summation over `n`, convergence of the
-Dirichlet series, the Hardy-space interpretation, the thermal partition function `Tr e^{−βH} = ζ(β)`
-and the coherent-state norm `‖k_s‖² = ζ(2σ)` are not formalized here. No claim about RH.
+**Scope.** Termwise identities for one basis vector.
 -/
 
 set_option autoImplicit false

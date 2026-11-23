@@ -17,8 +17,6 @@ they are conjugate components of one real object rather than independent
 copies.
 
 This Lean file formalizes only the finite sign and complex-conjugation core.
-It does not formalize real Clifford-algebra classification or Lie-group
-branching.
 -/
 
 namespace GppSpin102ChiralRealityCore

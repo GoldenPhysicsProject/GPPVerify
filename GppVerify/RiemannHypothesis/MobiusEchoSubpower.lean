@@ -8,7 +8,7 @@ import GppVerify.RiemannHypothesis.MobiusEchoPassivity
 /-!
 # The storage/work law is exactly subpower Möbius energy
 
-**This file does not prove the Riemann Hypothesis and proves no new analytic fact.** It records, as
+ It records, as
 a theorem, that the storage/work law (hypotheses `hstep`/`hwork` of `rh_of_storage_work`) adds no
 content beyond subpower growth of the energy `Q_c` along one sequence.
 

@@ -24,7 +24,7 @@ facts are already in `CayleyShadowAdjointBridge`), this file proves:
   of Codex's note.
 
 Gluing the two disks along the circle gives the Riemann sphere, which is real dimension 2. Nothing
-here makes a 4-dimensional bulk. **No RH claim.**
+here makes a 4-dimensional bulk.
 -/
 
 namespace GppCayleyCircleHarmonic

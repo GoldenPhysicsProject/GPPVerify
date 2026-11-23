@@ -24,9 +24,7 @@ state.
 * `singletProj_eq`: the normalised Haar integral `(1/2π)∫₀^{2π} U_θ dθ` is `diag(1, 0)`.
 * `collapse_fails`: `PρP = 0 ≠ ρ`.
 
-So collapse cannot be derived as singlet projection from gauge invariance alone. Codex's
-constructive replacement, Born probabilities from the GNS representation of a positive state
-(`ω(P) = ‖π(P)Ω‖²`), is a separate, standard theorem and is not formalized here.
+So collapse cannot be derived as singlet projection from gauge invariance alone.
 -/
 
 namespace GppNoGo.TwirlNotCollapse

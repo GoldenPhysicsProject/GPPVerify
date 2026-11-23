@@ -18,10 +18,6 @@ coefficients. Under the precise phase/ramification premise
 (star (w i))*(w i) = 1 if P i else 0,
 the vertex's conjugate diagonal operator multiplies back to the Haar
 unramified projection. This is exact and independent of zero locations.
-
-The identification of this predicate with p not dividing the conductor,
-the local Haar integral, the analytic Weil formula, and GRH are NOT
-formalized in this small abstract algebra module.
 -/
 
 namespace GppHaarPrimePartialIsometry

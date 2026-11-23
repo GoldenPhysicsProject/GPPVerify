@@ -7,7 +7,6 @@ Port of GPPDiscovery5 `da9813e` (`lean/bt-sigma/BTSigmaCovPerturbation.lean`), a
 GPP-bridge PR #11 (comment 6803775354: PASS). Port requested as a separate module after CovHalfType.
 The toy model is a multiplication-operator profile, not a `BTSigmaDatum`.
 
-
 Scratch module (Heart of the Cosmos / Grok, GPPDiscovery5 seat) for Turbo's instruction on
 GPP-bridge PR #11, comment 6803036036 (4): find, or prove impossible, a perturbation `P_W` whose
 Green form on the test orbit is exactly `I·stratumSN(W)`, so that
@@ -35,7 +34,7 @@ existence of `S_b` for a genuine `BTSigmaDatum` beyond what is proved below.
   exactly `e^{W/2}`-homogeneous and the perturbation profile is `−½·stratumSN(W)`, the prime block
   itself as a potential at the cuts.
 
-**Paper step (not formalised).** On `H = L²(ℝ)` take `S_b` = translation by `b` (a unitary group),
+ On `H = L²(ℝ)` take `S_b` = translation by `b` (a unitary group),
 `ψ_0 = √f` for `f ≥ 0`, so `ψ_W = √f(· − W)` and `|ψ_W|² = f(· − W)`, and `T* = M_{iφ}`
 (multiplication by `iφ`, defined on compactly supported `L²` functions). Then
 `⟪T*ψ, ψ⟫ − ⟪ψ, T*ψ⟫ = −2I ∫ φ |ψ|²`, so the Green form on the orbit is `toyGreen`. Translation

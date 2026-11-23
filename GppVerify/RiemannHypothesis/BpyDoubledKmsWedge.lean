@@ -22,9 +22,9 @@ In the note `Φ` is the Riemann kernel, but nothing here uses that. The relative
   `ψ_g(u+a)ψ₀(u) − ψ₀(u+a)ψ_g(u)` equals `√(Φ(u+a)Φ(u))·(g(u+a) − g(u))`. Each jump fiber is a
   Grassmann norm.
 
-Not formalized: the Fourier identity `ĥ₀ = 4Ξ²` (§2). Codex notes that positivity of the
+ Codex notes that positivity of the
 autocorrelation does not imply RH (Fisher-zero no-go), and that the wedge identity does not supply a
-Hodge-index theorem over `ℚ`. **No RH claim.**
+Hodge-index theorem over `ℚ`.
 -/
 
 namespace GppBpyDoubledKmsWedge

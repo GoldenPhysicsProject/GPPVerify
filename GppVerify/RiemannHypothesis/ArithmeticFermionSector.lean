@@ -37,15 +37,11 @@ occupation `b`) let `Q` send `|k, 1⟩ ↦ √(k+1) |k+1, 0⟩` and `Q† |k+1, 
 * The identities hold where the products converge (`Re s > 1`). At a nontrivial zero of `ζ` the pole of
   `1/ζ` belongs to the meromorphic continuation of the supertrace; it is not a convergent thermal trace
   diverging.
-* "Witten index `1`" is stated only for the single-prime pairing constructed here. For several primes the
-  supercharges need Klein factors to anticommute across primes; that is not formalized, and no global
-  supersymmetry is claimed.
+* "Witten index `1`" is stated only for the single-prime pairing constructed here.
 * The Mertens bound `M(x) = O(x^{1/2+ε})` (equivalent to RH) is a statement about cancellation between
   signed counts; it carries no annihilation dynamics, and none is modelled here.
 * "Reflection-fixed" is the precise status of a zero on the critical line; "Majorana" and "horizon" are
   interpretations to investigate, not statements proved here.
-
-No RH claim.
 -/
 
 open ArithmeticFunction Finset

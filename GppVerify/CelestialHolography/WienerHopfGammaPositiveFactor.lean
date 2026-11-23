@@ -17,9 +17,7 @@ Therefore the normalized base Gamma density has the explicit positive factor
 so that `b(lambda)^2 = Re rhoGamma(0,lambda)` for every real lambda, including
 the removable origin.
 
-This is an Archimedean spectral factorization only.  It does not identify the
-completed arithmetic explicit-formula kernel with a positive square and does
-not prove Weil positivity or RH.
+This is an Archimedean spectral factorization only.
 -/
 
 namespace GppWienerHopfGammaPositiveFactor

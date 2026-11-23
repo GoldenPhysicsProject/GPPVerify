@@ -19,11 +19,9 @@ harmonic series (Mathlib: `Nat.Primes.not_summable_one_div`).
 
 ## Checks and scope
 
-The claim checks; the proof avoids square roots by comparing squares. **Not formalized:** the
-temperedness of the vector-valued current `J_vec ∈ S'(ℝ; ℓ²(P))` (§1), the identification of (A)/(B)
-with membership/boundedness (stated above as the definitions of the two conditions), and the
-Abel-regulated half-density wall (§5). The note's consequence — any completion must be non-diagonal —
-is the reading of this theorem, not part of it. No RH claim.
+The claim checks; the proof avoids square roots by comparing squares.
+ The note's consequence — any completion must be non-diagonal —
+is the reading of this theorem, not part of it.
 -/
 
 open Real

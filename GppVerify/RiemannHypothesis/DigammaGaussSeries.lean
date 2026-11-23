@@ -28,7 +28,7 @@ Mathlib 4.33.1 defines `Complex.digamma = logDeriv Gamma` and lists Gauss' repre
    agreement on real points accumulating at `1/2`. Positive integers are covered by step 1.
 
 This is the uniqueness step `DigammaSeries.lean` named as the remaining library gap. It is
-stage E2a (complex) of the explicit-formula plan. No claim about RH.
+stage E2a (complex) of the explicit-formula plan.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/

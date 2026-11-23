@@ -37,9 +37,9 @@ pairs never mask an off-axis quartet. The negative index stays `≥ 2`.
 
 **Scope and hint.** This is finite, and it covers one quartet. Codex's full statement (`r` quartets
 + `m` pairs ⇒ inertia exactly `(2r+2m, 2r)`) also needs the analogous independence across
-quartets and Sylvester's law. It is not formalized here. In the infinite sum over ξ's zeros the
+quartets and Sylvester's law. In the infinite sum over ξ's zeros the
 on-line mass is infinite, and the moment-zeroing step needs infinitely many constraints. That is
-exactly where Weil positivity (RH) lives. **No RH claim.**
+exactly where Weil positivity (RH) lives.
 -/
 
 namespace GppNoGo.FiniteNoMasking

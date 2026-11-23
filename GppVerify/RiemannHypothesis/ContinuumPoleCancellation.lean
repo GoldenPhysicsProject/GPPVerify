@@ -11,7 +11,7 @@ kernel `exp (-|x-y|/2)`. We give its one-sided half-density Gram representation.
 
 This is a continuum theorem, on arbitrary finite sets without a window bound.
 The signed difference between the actual von Mangoldt sum and the continuum
-is NOT bounded here. In particular this file does not prove Weil positivity or RH.
+is NOT bounded here.
 -/
 
 namespace GppContinuumPoleCancellation

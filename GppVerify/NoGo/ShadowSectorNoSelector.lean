@@ -25,9 +25,7 @@ quartet vector with `τ v = ε v` and `quartetForm v < 0`. So restricting the We
 odd sector of any of these involutions never removes an off-line quartet's negative direction: a
 sector is a block, not a selector. This is the "restrict the sector" door, closed at block level.
 
-**Scope.** Finite linear algebra only. The passage from test functions to the quartet coordinates
-(that a concentration family realises an arbitrary sector vector, modulo Flint's TailLemma) is not
-formalised; `W`'s explicit formula is not formalised here. Nothing here proves or refutes RH:
+**Scope.** Finite linear algebra only.
 `WeilIsGram`, `HPsi`, RH stay OPEN. No `sorry`, no axioms.
 -/
 

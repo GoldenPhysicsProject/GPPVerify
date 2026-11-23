@@ -22,9 +22,7 @@ regrouping uses injectivity of `(p, k) ↦ p^(k+1)` (`Nat.Prime.pow_inj`) and th
 test functions (integrable pole and archimedean integrands, summable prime side).
 
 **Scope.** These statements concern the arithmetic-side functional `weilForm` of
-`ArithmeticReflectionPositivity` only. They are not quoted against
-`GppWeilCriterion.rh_iff_weil_pairedForm_nonneg`, whose object is a finite form on sets of
-zeros: the link between the two is the explicit formula (GW-EF), which is open.
+`ArithmeticReflectionPositivity` only.
 
 Governing specification: Principal series's global Tate statement sheet (GPP-bridge branch
 `principal-series/global-tate-statements` at `77d5b43`, §6.3, GW1 and GW5), audited PASS by

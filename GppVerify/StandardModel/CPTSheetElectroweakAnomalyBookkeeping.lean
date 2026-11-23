@@ -17,8 +17,7 @@ changes cancel between the two sheets, while weighting by the opposite sheet ori
 makes the relational changes add.
 
 The anomaly coefficient itself is standard QFT input and is encoded here by the definitions;
-this module proves the exact two-sheet consequences.  It does not prove that the Big Bang
-realizes a nonzero electroweak index or fixes its magnitude.
+this module proves the exact two-sheet consequences.
 -/
 
 namespace GppCPTSheetElectroweakAnomalyBookkeeping

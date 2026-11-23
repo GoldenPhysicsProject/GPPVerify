@@ -24,8 +24,8 @@ function `F` gives an eigenvalue `lambda` of `T` with `rho = 1/2 + i lambda`.
   the content of RH is the existence of a realization for `xi`, not the
   identification of the variable.
 
-No realization for `GppFE.riemannXi` is constructed or assumed here. RH is
-open. Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+No realization for `GppFE.riemannXi` is constructed or assumed here.
+ Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/
 
 namespace GppHilbertPolyaTarget

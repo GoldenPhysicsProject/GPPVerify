@@ -37,13 +37,11 @@ e^{x/2} − e^{−5x/2}/(1 − e^{−2x})` with `A(x) = 1/(2 sinh x)`.
 
 ## Checks
 
-All identities were verified by hand against the notes; no corrections. The note marks the
-two-sheet round-trip reading of the factor of two as a structural hypothesis, not a theorem, and
-nothing here asserts it.
+All identities were verified by hand against the notes; no corrections.
 
 ## Scope
 
-Finite `2 × 2` algebra and hyperbolic identities. No RH claim.
+Finite `2 × 2` algebra and hyperbolic identities.
 -/
 
 open Matrix

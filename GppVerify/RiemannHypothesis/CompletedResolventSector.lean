@@ -30,10 +30,7 @@ Setup. A zero `z = δ + iγ` of `Ξ(z) = ξ(1/2 + z)` contributes, together with
   `m(u) = ℓ(R_u W)` for a linear functional `ℓ`, the Loewner entry is the mixed amplitude
   `ℓ(R_u R_v W)`.
 
-**Scope.** These are the finite identities only. The unconditional statement for the full `m_*`
-needs the zero-strip theorem, Hadamard factorization and normal convergence, none of which are
-formalized here. The quadratic-form identity `c*L*c = ⟨W, h_c * h̃_c⟩` and its sign are not
-formalized. Any positive factorization of it is open and would be RH-strength. **No RH claim.**
+**Scope.** These are the finite identities only.
 -/
 
 namespace GppCompletedResolventSector

@@ -24,7 +24,7 @@ This is the archimedean half of piece (a), the frequency form, in the rung-1 Lea
 archimedean symbol on `|r| ≥ T` by the constant `c_T`, exactly as the one-stroke certificate
 does. The prime half (the cosine sum) and the pole half are separate pieces.
 
-Unconditional. No `sorry`, no axioms, no named premises. Nothing here concerns the zeros.
+Unconditional. No `sorry`, no axioms, no named premises.
 -/
 
 namespace GppArchimedeanFrequencySplit

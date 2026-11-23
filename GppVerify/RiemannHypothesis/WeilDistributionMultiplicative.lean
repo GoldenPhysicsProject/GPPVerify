@@ -33,9 +33,6 @@ spec as written gives `-2.04e-3` (with `F = f`) or `+8.96e-3` (with `F = h`). Th
 consistent uncentered form is `Σ Λ(n)(f(n) + f(1/n)/n)` with poles `∫f + ∫f/x`; the
 half-density form is the one here.
 
-Scope: real-valued test functions; the complex-valued involution `conj h(1/x)` and
-the multiplicative autocorrelation class are not yet transported. No claim about RH.
-
 Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (spec) and
 Claude Code (Lean, correction).
 -/

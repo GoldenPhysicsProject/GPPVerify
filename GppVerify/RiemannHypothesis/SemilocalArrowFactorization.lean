@@ -21,8 +21,7 @@ matrix analysis.
 2. The elementary pole matrix is rank-two in the same (+,-) signature:
       L^2 - 16 pi^2 m n = L*L - (4 pi m)(4 pi n).
 
-These are finite exact identities only.  They do not assert positivity of the
-full prime--Archimedean Weil form and make no RH claim.
+These are finite exact identities only.
 -/
 
 open Real

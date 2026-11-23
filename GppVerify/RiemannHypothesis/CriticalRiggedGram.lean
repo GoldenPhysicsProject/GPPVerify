@@ -24,9 +24,8 @@ kernel on positive times.
 The same `gram_eq` covers Codex's thermal prime-power Gram with weights `Λ(m) m^{−β}`,
 given its summability.
 
-Scope: this kernel is **not** the completed `ξ` heat trace `K(t)`. Positivity of the
-completed difference (Archimedean minus primes) is RH-strength and is not claimed here.
-The positive-time restriction is essential: `v₀ ∉ ℓ²`. No RH claim.
+Scope: this kernel is **not** the completed `ξ` heat trace `K(t)`.
+The positive-time restriction is essential: `v₀ ∉ ℓ²`.
 -/
 
 namespace GppCriticalRiggedGram

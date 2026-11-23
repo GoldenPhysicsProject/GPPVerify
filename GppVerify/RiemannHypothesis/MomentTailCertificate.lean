@@ -18,9 +18,7 @@ Formalized by Claude Code, with AI assistance, for Daniel Toupin / Golden Physic
   `T̄ = 17 Σ_{r,q<24, r+q even} 7^{r+q} Ī_{r+q+2}`, we prove `ρ̄ < 10⁻¹⁰⁰`, `T̄ ≤ 17·576·4107/1000`
   (a crude bound; the exact value is about `69.8`), and hence `2√(ρ̄T̄) + ρ̄ < 10⁻⁴⁵`.
 
-Scope: the analytic chain linking `ρ̄, T̄` to the actual tail integrals (endpoint-moment expansion,
-the integral `I_p`, the digamma envelope `|w_L(t)| ≤ log|t| + b` with `b < 4096`) is Astra's written
-argument and is not formalized here. The certificate controls one fixed 17-mode block's frequency
+ The certificate controls one fixed 17-mode block's frequency
 tail only; it is not a positivity certificate for the Weil form, its complement, or RH.
 -/
 

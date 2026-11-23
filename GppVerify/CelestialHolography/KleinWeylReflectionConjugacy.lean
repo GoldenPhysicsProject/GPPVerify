@@ -27,8 +27,7 @@ The `t -> 0` limit leaves the group because `a_t^{-1}` diverges, matching the nu
 singularity of the pointwise reflection at flat infinity.
 
 Representation-theoretically, normalized Knapp--Stein/light intertwiners implement the
-corresponding Weyl reflection on principal-series fields.  That analytic identification
-is external and is not formalized in this file.
+corresponding Weyl reflection on principal-series fields.
 -/
 
 namespace GppKleinWeylReflectionConjugacy

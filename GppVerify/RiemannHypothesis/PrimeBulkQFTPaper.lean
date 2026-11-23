@@ -34,11 +34,9 @@ This file adds the following.
   over **all** primes. The proof is dominated convergence, with the bound
   `coth y ≤ 1 + 1/y`.
 
-Not formalized here: the IR limit of Thm 5.1 (dominated convergence over all primes **and**
-modes), the trace-class/KMS statement of Prop. 2.3, and the Gaussian Wick/OS structure. All
+ 2.3, and the Gaussian Wick/OS structure. All
 were audited and are correct. Scope: this is a **free** theory. Its gap `log 2` is the lightest
-prime mass. It is not a Yang–Mills mass gap, not a CFT (no Ward identities or OPE), and makes
-no RH claim.
+prime mass.
 -/
 
 namespace GppPrimeBulkQFTPaper

@@ -14,9 +14,6 @@ vectors. Every prime occupation number is therefore an exactly conserved collisi
 The quadratic collision form is a sum of nonnegative squares. In particular every prime
 count is a null direction. This is the elementary H-theorem part of the proposed
 Euler-product / collision-invariant dictionary.
-
-No claim is made here that this collision form equals the completed Weil form, and there is
-no RH claim.
 -/
 
 namespace GppPrimeFusionGas

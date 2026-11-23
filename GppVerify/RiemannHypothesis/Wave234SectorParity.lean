@@ -10,7 +10,6 @@ valid in an arbitrary real vector space, not only in numerical K truncations.
 
 Source: Turbo MuseResearch/turbo-source-wave234-s1-schur-definitions.md,
 GPP-bridge PR #11; Astra's 2026-10-28 doubled-strip algebra.
-It does not prove either actual arithmetic parity form positive, or RH.
 -/
 
 namespace GppWave234SectorParity

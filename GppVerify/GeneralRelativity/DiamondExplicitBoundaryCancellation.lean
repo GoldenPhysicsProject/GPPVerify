@@ -19,10 +19,7 @@ At ∂B, N=0 and ∂_iN=-n_i. The boundary integrand becomes
 2ε*n*(n-1)/R, so the two terms cancel exactly since
 Area(∂B) = n*Vol(B)/R.
 
-The module proves the *scalar coefficient equalities* once the known
-Euclidean ball area-volume relation is given; it does not formalize
-the multidimensional divergence theorem or the Einstein--Hilbert
-boundary charge from first principles. That geometry is a separate
+ That geometry is a separate
 continuum Lean formalization target.
 
 This explicit cancellation shows why a bulk constraint cannot

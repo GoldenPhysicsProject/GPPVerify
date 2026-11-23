@@ -16,7 +16,7 @@ parameter with two named hypotheses. This module proves both for the repo's oper
   (for real `g`, `ĝ(1 − s) = conj ĝ(1 − s̄)`).
 
 What the bridge still needs is the tail (a single test function's spectral sum runs over all
-zeros), which requires the assembled explicit formula. No claim about RH.
+zeros), which requires the assembled explicit formula.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (spec, audit) and Claude
 Code (Lean).

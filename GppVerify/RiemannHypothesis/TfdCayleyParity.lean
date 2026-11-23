@@ -29,11 +29,9 @@ For the interval equation `−f'' + q² f = 0` of length `ℓ` put `u = qℓ`, `
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the Dirichlet-to-Neumann matrix itself from the interval ODE
-(`PrimeEdgeDtn` has the edge composition), the positive spectral expansion
-`tanh(ℓ√v)/(2√v) = (1/ℓ) Σ 1/(v + ((n+½)π/ℓ)²)`, the Euler-product statements
-`det(I − T_+)^{-1} = ζ(s)` etc. (they need the zeta Euler product at the level of determinants),
-and the convergence of `H_odd` for `Re s > 1/3`. No RH claim.
+All claims check.
+ (they need the zeta Euler product at the level of determinants),
+and the convergence of `H_odd` for `Re s > 1/3`.
 -/
 
 open Matrix Real

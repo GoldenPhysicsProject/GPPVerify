@@ -24,10 +24,9 @@ bounded inverse, stated with `q` as an upper bound so that no supremum has to be
   `P x = x − c ⟨e, x⟩ e` with `⟨e, e⟩ = L`, `cL ≠ 1`, has inverse `x + (c/(1 − cL)) ⟨e, x⟩ e`. On
   `L²(0, L)` with `e = 1` this is `P_L = I − c|1⟩⟨1|`, whose inverse kernel carries `δ(u − v)`.
 
-**Scope.** Finite-dimensional approximation (`q_n ↑ q_a`), the range characterisation
-`q_A(b) = ‖A^{−1/2} b‖²` in Hilbert space, and the form-dual residual certificate are not
-formalized. The unpaid input Astra names, a form-dual bound for the actual arithmetic coupling, is
-the open mathematics. No claim about RH.
+**Scope.**
+ The unpaid input Astra names, a form-dual bound for the actual arithmetic coupling, is
+the open mathematics.
 -/
 
 namespace GppVariationalSchurScalar

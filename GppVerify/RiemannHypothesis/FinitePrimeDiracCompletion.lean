@@ -18,8 +18,6 @@ Therefore a collective zero cannot be created by adjoining an independent positi
 Clifford channel.  Any genuine completed zero mechanism must enter through a nontrivial
 prime--Archimedean anticommutator/cross term, or through an infinite/renormalized limit not
 captured by the finite positive scalar-square model.
-
-No RH claim is made here.
 -/
 
 namespace GppFinitePrimeCompletion

@@ -25,7 +25,6 @@ note actually uses (`c ≥ 0`) the two agree, so no claim in the note is affecte
 
 **Scope.** This is the finite algebra of one two-mode example (the fake filter). It does not touch
 the Fisher-variance identity, the true `ξ` margin, or any statement about zeros of `ξ` or `ζ`.
-No RH claim.
 -/
 
 namespace GppTwistorTwoModeThreshold

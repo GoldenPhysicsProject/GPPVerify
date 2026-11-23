@@ -13,8 +13,6 @@ import Mathlib.Analysis.Convolution
 /-!
 # Undamping package, item (a): the transfer identity at quadratic-form level
 
-**Transfer identity, not a positivity proof for `Q₀`; nothing here proves RH.**
-
 Routed 2026-11-20 (D2's undamping correction, Turbo-audited): on a function `f` supported in
 `[0, L]`,
 
@@ -34,7 +32,7 @@ pairing (`corr_pairing`, Fubini + translation invariance), plus `e^{t/2} = 2cosh
 `autoCorr_eq_zero_of_le` shows terms with `log n ≥ L` vanish, so the `n ≤ N` truncation is the sum
 over `log n < L` once `N ≥ e^L`.
 
-**What is the input, not proved here.** The explicit-formula density of `W` (`weilDensity`, the
+ The explicit-formula density of `W` (`weilDensity`, the
 prime-atom signs `−Λ(n) n^{−1/2}`) is taken as given, exactly as in Turbo's audit (item 4's "one
 input taken as known"). By linearity `Q₀ − Q₂ = W((1 − e^{−2|h|}) A_f)`, and on that test function
 (first-order zero at `0`) no origin/pole constant appears; `Q₀` and `Q₂` individually (zero side,
@@ -224,10 +222,10 @@ theorem dampDiff_log {n : ℕ} (hn : 1 ≤ n) : dampDiff (Real.log n) = 1 - ((n 
     Real.exp_neg, Real.exp_log (by positivity)]
 
 open ArithmeticFunction in
-/-- **Undamping transfer identity** (quadratic-form level; *a transfer identity, not a positivity
-proof for `Q₀`*).  For a bounded measurable `f` supported in `[0, L]`,
+/--  For a bounded measurable `f` supported in `[0, L]`,
 `Q₀(f) − Q₂(f) = P(f,f) − Σ_{b∈{½,3/2,5/2}} K_b(f,f)
-   − Σ_{n} (1 − n⁻²) Λ(n) n^{−1/2} ⟨f, (S_{log n} + S_{log n}*) f⟩`. -/
+   − Σ_{n} (1 − n⁻²) Λ(n) n^{−1/2} ⟨f, (S_{log n} + S_{log n}*) f⟩`. 
+-/
 theorem undamping_transfer (hf : Measurable f) (hB : ∀ x, |f x| ≤ B)
     (hs : ∀ x, x ∉ Icc 0 L → f x = 0) (N : ℕ) :
     diffForm f N = Pform f - Kform (1 / 2) f - Kform (3 / 2) f - Kform (5 / 2) f -

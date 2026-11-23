@@ -25,7 +25,7 @@ extension to `(−L, L]`.
 
 Scope: bounded measurable functions (all that the quadratic-form statements need); this is the
 statement "the Dirichlet sines are a complete orthogonal system" at the level of Parseval, not a
-`HilbertBasis` of `Lp`. Nothing here is a positivity claim about `Q₀`. No `sorry`, no `axiom`.
+`HilbertBasis` of `Lp`. No `sorry`, no `axiom`.
 -/
 
 

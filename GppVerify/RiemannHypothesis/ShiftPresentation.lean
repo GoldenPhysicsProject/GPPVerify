@@ -21,7 +21,7 @@ Build order (i)–(ii) of Turbo's final-identity entry (bridge `b38417e`; note
 * **`arp_iff_ob6`**: `ArithmeticReflectionPositivity ↔ OB6`, a derivation from I2.
 
 **What this is not.** OB-6 is *not* proved: it is `ARP` restated in the shift presentation, so it is exactly
-as open as ARP. Nothing here proves ARP, RH, AKG, or any domination inequality. No `sorry`, no axiom.
+as open as ARP. No `sorry`, no axiom.
 -/
 
 open MeasureTheory
@@ -255,9 +255,8 @@ theorem weilForm_regrouped {g : ℝ → ℝ} (hg : Continuous g) (hc : HasCompac
 
 /-- **OB-6 at width `L`** (shift presentation): the archimedean block (pole + gamma factor) together
 with the total mass defect dominates the finite Gram sum, for every test function supported in
-`[−L/2, L/2]` and every cutoff `N` with `L < log(N+1)`. A *definition*: no appeal to
-`SemilocalArchDomAll`, `H_ψ`, `WeilIsGram` (their identification with this statement is asserted in
-the notes, not proved). -/
+`[−L/2, L/2]` and every cutoff `N` with `L < log(N+1)`.
+-/
 def OB6At (L : ℝ) : Prop :=
   ∀ g : ℝ → ℝ, ContDiff ℝ ∞ g → HasCompactSupport g → (∀ y : ℝ, L / 2 < |y| → g y = 0) →
     ∀ N : ℕ, L < Real.log (N + 1) →

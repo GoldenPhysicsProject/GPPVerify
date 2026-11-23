@@ -18,11 +18,10 @@ For a test function `f` supported in `[−L/2, L/2]` and `A = f ⋆ f̃`:
   (`kappa_le_floor`, `archimedeanFloor_neg`).
 * **`BNform_nonneg`**: `B_N(f) ≥ 0` whenever `θ(N) + κ_L ≥ 0`.
 * **`exists_cutoff_nonneg`**: for every width `L` there is `N₀` with, for all `N ≥ N₀`, `L < log(N+1)` *and*
-  `θ(N) + κ_L ≥ 0` — per fixed width only; **no uniformity in `L` is claimed**.
+  `θ(N) + κ_L ≥ 0` — per fixed width only.
 
-**Not here:** the GNS completion `H_{+,N}` of the polarised `B_N` (this file proves `B_N ≥ 0` on the
-quadratic form; the *bilinear* polarisation and its symmetry/bilinearity are not formalised); the resolvent
-identification (O2); contractivity (O3 = `OB6At`, OPEN). No `sorry`, no axiom.
+**Obligations:** the resolvent identification (O2); contractivity (O3 = `OB6At`, OPEN).
+No `sorry`, no axiom.
 -/
 
 open MeasureTheory Set

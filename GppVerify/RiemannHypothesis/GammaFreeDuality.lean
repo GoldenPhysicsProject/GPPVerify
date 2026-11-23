@@ -18,10 +18,7 @@ Data: `w j ≥ 0` (the weights `Λ(n_j)/√n_j`) and a monotone `u j` (the logs 
 * `barrier_iff`: for every finite `K`, `(∀ t ≥ 0, A K t ≤ V t) ↔ (∀ k ≤ K, V* (B k) ≤ C k)`.
 
 **Scope, stated plainly.** This is an exact reformulation of the gamma-free all-time positivity
-`T(t) = V(t) − A(t) ≥ 0` for a *finite* list of events. It does not say the actual von Mangoldt
-sequence satisfies either side (that is the open arithmetic barrier), does not handle the infinite
-list, and says nothing about the converse "RH ⇒ all-time positivity" or Suzuki's eventual-sign
-criterion. No RH claim.
+`T(t) = V(t) − A(t) ≥ 0` for a *finite* list of events.
 -/
 
 namespace GppGammaFreeDuality

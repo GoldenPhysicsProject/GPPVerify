@@ -14,9 +14,6 @@ This file formalizes only the discrete/algebraic layer used in the paper:
   is included, while the Higgs is even;
 * the SU(3)^2 X, SU(2)^2 X, gravitational-X, X^3,
   Y^2 X and Y X^2 anomaly sums vanish for one generation.
-
-It does NOT formalize principal Spin^c bundles, anomaly descent, path integrals,
-or identify the eight-dimensional normal-plane connection with B-L.
 -/
 
 namespace GppSpinCOrientationQuotient

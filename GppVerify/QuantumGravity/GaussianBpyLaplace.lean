@@ -21,10 +21,7 @@ truncated vacuum partition function:
   `(√(πt) / sinh √(πt))²` (via the existing Weierstrass product for `sinh`); with `t = πλ²` this is
   `(πλ / sinh πλ)²`, the squared celestial Plancherel weight.
 
-**Scope.** The per-mode Gaussian integral and the limit of the product of per-mode transforms. The
-construction of the cylindrical Gaussian measure on `ℓ²(ℕ)`, independence of the modes, the
-identification with a Fredholm determinant `det(I + 2tC)^{-4/2}`, and the Mellin face
-`E[Q^{s/2}] = 2ξ(s)` (§5) are not formalized. No claim about RH.
+**Scope.** The per-mode Gaussian integral and the limit of the product of per-mode transforms.
 -/
 
 set_option autoImplicit false

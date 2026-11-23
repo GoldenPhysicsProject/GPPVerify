@@ -34,8 +34,7 @@ single infinite place is `ℝ`.
   probability measure (`vol(K¹) = 1`).
 * `T_preserves_L2`: the shadow involution `a ↦ a⁻¹` is an isometry of `L²(K¹)`.
 
-**Scope.** `ℚ` only (not a general number field). Nothing here bears on the Riemann
-Hypothesis, which remains open.
+**Scope.** `ℚ` only (not a general number field).
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Written to be
 upstreamable to Mathlib.
@@ -48,7 +47,6 @@ zeta-functions*, Ph.D. thesis, Princeton (1950), reprinted in J. W. S. Cassels a
 A. Fröhlich (eds.), *Algebraic Number Theory*, Academic Press (1967), pp. 305–347.
 The compactness of `𝔸¹/ℚˣ` is Fujisaki's lemma; the argument is Weil's (see e.g.
 P. Garrett, "Fujisaki's lemma (after Weil)", Univ. of Minnesota lecture notes).
-
 -/
 
 open IsDedekindDomain IsDedekindDomain.HeightOneSpectrum Rat.HeightOneSpectrum

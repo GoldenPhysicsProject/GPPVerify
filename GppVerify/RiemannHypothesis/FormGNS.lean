@@ -22,8 +22,8 @@ reference to shadow theories, zeros or primes.
 
 Same template as the in-tree `PositiveDefiniteGNS.lean` (Kolmogorov's construction through
 `PreInnerProductSpace.Core`), over `ℝ` and for a form on an arbitrary vector space rather than a group
-algebra. Not here: the shadow datum's linear structure, the dilation action, the vacuum. Nothing here
-concerns the Riemann hypothesis. No `sorry`, no axiom.
+algebra. Not here: the shadow datum's linear structure, the dilation action, the vacuum.
+ No `sorry`, no axiom.
 -/
 
 universe u

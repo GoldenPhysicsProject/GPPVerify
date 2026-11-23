@@ -28,8 +28,7 @@ modulus is the mass.  This is a precise two-lift structure in the massive extens
 orientation sign exists upstairs at the spinor-root level but is invisible to the
 four-momentum and the positive mass downstairs.
 
-No claim is made here that this hidden ordering is electric charge, particle/antiparticle,
-or CPT.  Proving such a dictionary requires the gauge and discrete-symmetry action on the
+  Proving such a dictionary requires the gauge and discrete-symmetry action on the
 root pair.
 -/
 

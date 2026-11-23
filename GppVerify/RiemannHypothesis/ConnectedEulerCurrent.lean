@@ -12,8 +12,7 @@ The scalar Dirichlet logarithmic current uses an L1-type weight with exponent
 The Hilbert-square majorant uses exponent 1 + 2a and is summable for every
 a > 0.
 
-This is a domain theorem only. It does not prove RH and does not assert that
-the scalar completed logarithmic derivative extends past its Euler domain.
+This is a domain theorem only.
 -/
 
 namespace GppConnectedEulerCurrent

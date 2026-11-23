@@ -30,12 +30,10 @@ This is pure `intervalIntegral` linearity plus `ring` on the kernel's algebraic
 decomposition — no functional-analytic machinery, and in particular no distribution
 theory, is needed for this half.
 
-**Honest boundary, not attempted here.**
 * The operator-level statement `K_a u = P_a C_{-|·|/2} u` (with `K_a` built as the genuine
   inverse Neumann-Laplacian `(-Δ_N)⁻¹` on `L²₀(-a,a)`, and `P_a` a literal orthogonal
   projection) is not constructed — only the underlying kernel-integral algebra above,
-  which is the identity's actual mathematical content. Building `(-Δ_N)⁻¹` itself as an
-  unbounded self-adjoint operator is a separate, larger undertaking not attempted here.
+  which is the identity's actual mathematical content.
 * The second half of the item — passing to Fourier frequency via `(|x|)'' = 2δ₀` to get
   `hat{|x|}(z) = -2/z²` and hence `hat{k_λ}(z) = z⁻²[ξ'/ξ(1/2-iz) - λ]` — needs
   tempered-distribution theory with derivative and Fourier-transform operations. Mathlib
@@ -45,7 +43,6 @@ theory, is needed for this half.
   absent by inspection of `Mathlib.Analysis.Distribution.*`. This is the same
   tempered-distribution gap already documented as a standing Mathlib infrastructure gap
   (alongside Schatten-class operators) blocking the distributional half of this item.
-  Not attempted.
 * `S_{a,λ} = G_a - λK_a = P_a C_{g+λ|·|/2} P_a` (the full transfer identity) is not
   assembled, since it needs both the operator-level `K_a`/`G_a` construction above and the
   distributional Fourier half.

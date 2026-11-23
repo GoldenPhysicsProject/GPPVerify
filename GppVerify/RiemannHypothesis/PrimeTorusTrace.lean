@@ -21,9 +21,8 @@ Astra (statements and proofs) and Claude Code (formalization).
   coordinates to zero gives the same divergence on the full product torus, so `exp(−t D²)` is not
   trace class there. `D²` is a directional derivative squared, not an elliptic Laplacian.
 
-**Scope.** Astra's remarks on the Haar transform, the functional-equation involution and the
-norm-one idele group are not formalized. This rules out one proposed trace normalization. It says
-nothing about the zeros of ζ. No claim about RH.
+**Scope.**
+ This rules out one proposed trace normalization.
 -/
 
 open Filter

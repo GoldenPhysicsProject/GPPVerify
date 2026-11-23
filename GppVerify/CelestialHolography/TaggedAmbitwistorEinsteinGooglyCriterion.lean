@@ -25,8 +25,7 @@ reconstruction.  Once it is supplied, all of the desired googly consequences fol
   configuration;
 * exchanging twice restores the original curvature data.
 
-No claim is made here that the input equation has already been proved for a general curved
-ambitwistor space.  Classical LeBrun/Baston--Mason results reconstruct conformal geometry
+  Classical LeBrun/Baston--Mason results reconstruct conformal geometry
 from spaces of complex null geodesics and characterize conformally Einstein metrics by
 appropriate formal-neighbourhood/thickening data under stated hypotheses; connecting the
 specific tagged factor exchange used here to Hodge-orientation reversal of that reconstructed

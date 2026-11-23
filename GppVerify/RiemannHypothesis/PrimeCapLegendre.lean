@@ -8,18 +8,13 @@ its quadratic form in the Legendre basis `e_n(x) = √((2n+1)/L) P_n(2x/L)` has 
 
 `J_{nm}(α) = ½ ∫_{α−1}^{1} P_n(t) P_m(t − α) dt`,   `α = 2 log 2 / L`,   `h := 2 − α = 2(1 − log 2 / L)`.
 
-This file proves the exact polynomial identities for `P₀ = 1`, `P₁ = t` (`P₂` is defined but `J₂₂` is not
-proved here):
-
 * `J₀₀ = h/2`, `J₁₁ = −h(h² − 6h + 6)/12`, and the parity relation `J₀₁ = −J₁₀`;
 * on the whole first rung, `0 < h < 1`, so `J₀₀ > 0` and `J₁₁ < 0` (since `h² − 6h + 6 ≥ 1` there);
 * hence the prime contributions `W^prime_{nn} = −2 v A_{nn}`, `v = log 2/√2 > 0`, have opposite signs in
   the two lowest modes: `W^prime_{00} = −v h < 0`, `W^prime_{11} = + v h(h² − 6h + 6)/2 > 0`
   (with the normalisation `A_{nn} = (2n+1) J_{nn}`).
 
-**Scope.** Pure algebra on finitely many explicit polynomial integrals. The identification of `J_{nm}` with
-the Legendre-basis entries of `A_f(log 2)` (the substitution `x = Lt/2` and Haar–Plancherel unitary) is
-not formalised here. No claim about positivity of the Weil form; this is the sign law of two prime entries.
+**Scope.** Pure algebra on finitely many explicit polynomial integrals.
 
 No `sorry`, no axiom.
 -/

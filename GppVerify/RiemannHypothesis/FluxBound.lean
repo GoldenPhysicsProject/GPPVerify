@@ -38,9 +38,8 @@ pole growth that R2 cancels). No zero of any L-function appears in the definitio
 
 **OPEN.** By the note's R5, given R1–R4, (FLUX-BOUND) is equivalent to RH: a zero with
 real part `β > 1/2` puts a mode `e^{(β - 1/2) W}` into `D_h` for suitable `f`, and if all
-zeros are on the line `D_h` is a bounded oscillatory sum. That equivalence is **not**
-formalized here. (FLUX-BOUND) is RH-strength and is not a lemma on the way to RH.
-No claim about RH, which remains OPEN.
+zeros are on the line `D_h` is a bounded oscillatory sum.
+(FLUX-BOUND) is RH-strength and is not a lemma on the way to RH.
 
 ## (SIGN) is the same target (round 4)
 
@@ -53,7 +52,7 @@ statement, in both directions, under exactly these hypotheses (its section 5):
   `Q_W(h) = B_∂(h) + ∫ μ Ĥ` (classical; not a named theorem in this tree);
 * **(H2)** flux R1 (`GlobalTate.Poisson.adelicPoissonScaled`, in tree), R2 (residue of `ζ` at
   `s = 1`, STANDARD) and R4 (GW-EF-1, `GppExplicitFormulaAssembly.explicit_formula_zeroSum`,
-  in tree, though only in its assembled form; the windowed form R4 uses is not formalized).
+  in tree, though only in its assembled form).
   R3 (PNT error term) is **not** used;
 * **(H3)** GW-EF-2 (the factorisation `Φ(f ⋆ f̃)(s) = Ψf(s) Ψf(1 - s)`) and `rh_of_arp`.
   **In tree, PROVED** (`GppVerify/RiemannHypothesis/GwefAssembly.lean`):

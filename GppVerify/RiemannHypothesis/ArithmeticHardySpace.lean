@@ -25,12 +25,9 @@ square-summable exactly because `Σ n^{-1-2 Re z} < ∞`.
 ## Checks and scope
 
 All claims check. This constructs the *right-sheet* state space only: coherent vectors exist for
-`Re z > 0` (`Re s > 1/2`); `e_z ∉ ℓ²` for `Re z ≤ 0`. The other half of the critical strip is reached
-through the functional equation, not through vectors of this space, and nothing here says where the
-zeros of `ζ` sit. The kernel is the `SU(1,1)` Szegő kernel only at leading order at the boundary pole
-(`CayleyHardyKernel`, `SU11KernelCovariance`); the regular part is the arithmetic deformation. Not
-formalized: the full Bost–Connes `C*`-algebra, the KMS states as states on it, and the Fock-space
-factorization `ℓ²(ℕ₊) ≅ ⊗_p ℓ²(ℕ₀)`. No RH claim.
+`Re z > 0` (`Re s > 1/2`); `e_z ∉ ℓ²` for `Re z ≤ 0`.
+ The kernel is the `SU(1,1)` Szegő kernel only at leading order at the boundary pole
+(`CayleyHardyKernel`, `SU11KernelCovariance`); the regular part is the arithmetic deformation.
 -/
 
 open Complex ComplexConjugate

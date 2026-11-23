@@ -76,9 +76,7 @@ noncomputable def frameS12 (u : ℝ) : ℝ :=
 /-- Pure rational restoration identity.  If the state-space convention supplies two
 equal scalar-flow orientations, twice the one-flow result is exactly the phase-normal
 adjacent-MHV bubble coefficient in the frame `s23=1`, `Q=1`.
-
-The theorem proves only the algebraic equality; it does not prove the multiplicity-two
-state-space statement. -/
+-/
 theorem two_mul_oneFlow_eq_frame_target
     (u : ℝ) :
     2 * oneFlowBubbleReal u = (2 / 3 : ℝ) * (2 * frameS12 u - 3) := by

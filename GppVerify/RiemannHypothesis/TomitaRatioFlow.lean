@@ -21,10 +21,7 @@ basis vector with ratio `ρ = n/m`:
 
 ## Scope
 
-Pointwise complex-power identities on basis vectors. **Not formalized:** the Hilbert space, the
-critical Gibbs state and the thermodynamic limit (the note's §4 shows the modular ratios are
-cutoff independent although the state itself diverges), and the intertwiner into the primitive
-modular lattice (the finite-place part is `GppPrimeTFDLax`). No RH claim.
+Pointwise complex-power identities on basis vectors.
 -/
 
 open Complex

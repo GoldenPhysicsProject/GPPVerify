@@ -8,8 +8,7 @@ The global prime-Poisson response on `a > 1` is positive type, even, and bounded
 in absolute value by its zero-frequency value.  This file converts that exact
 bound into a concrete scalar contraction multiplier.  The chosen normalization
 is in fact strictly contractive because its denominator contains the additional
-positive unit term.  It does not identify the multiplier with the completed Weil
-transfer map and makes no RH claim.
+positive unit term.
 -/
 
 namespace GppPrimeResponseContraction

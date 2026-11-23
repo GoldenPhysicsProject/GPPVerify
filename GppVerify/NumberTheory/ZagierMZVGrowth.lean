@@ -16,12 +16,6 @@ produces from `d_0 = 0, d_1 = 0, d_2 = 1` (not the initial conditions the
 theorem states). This file formalizes the recurrence with the corrected
 initial conditions and proves it reproduces the source's own listed
 sequence exactly, via `decide`.
-
-Brown's theorem that this recursively-defined `d_w` equals the actual
-dimension of the weight-`w` MZV space is deep transcendence-theory content
-(Fields Medal 2018 work) with no Mathlib support, and is not attempted
-here -- only the finite, purely combinatorial recurrence itself is
-formalized.
 -/
 
 namespace GppZagier

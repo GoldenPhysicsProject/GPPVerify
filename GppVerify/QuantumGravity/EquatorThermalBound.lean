@@ -30,8 +30,7 @@ At the Schwarzschild inverse temperature `β_H = 4πR`, a mode has `βε = 4π�
 correction, PR #11 comment 6392669042).
 
 **Scope.** This is a falsifier of one naive model (free spectrum `ℓ/R` at `β_H`), not a statement
-about black-hole entropy. The SU(2)-singlet census `ln d_N = N² ln 2 + O(ln N)`, the soft spectrum
-`ℓ/(NR)`, and the quarter-coefficient discussion are not formalized. No claim about RH or BSD.
+about black-hole entropy.
 -/
 
 set_option autoImplicit false

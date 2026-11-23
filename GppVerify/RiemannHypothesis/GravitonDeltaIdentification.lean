@@ -48,9 +48,7 @@ principal-series graviton dimension is `GravitonZeroIdentification`,
 definitionally `AllXiZerosPrincipalOne`. Combined with the banked
 principal-series axis (`IsPrincipalDimensionOne` means `re = 1/2`) this
 implies `RiemannHypothesis` (`rh_of_graviton_zero_identification`, PROVED).
-The identification itself is not proved: it is a restatement of the
-zero-location problem (compare `all_xi_zeros_principal_iff_zero_characters_unitary`
-and `rem:rh-optical`). It *does* distinguish `ζ` from `F_θ`: any off-axis
+ It *does* distinguish `ζ` from `F_θ`: any off-axis
 zero kills it (`spectral_identification_fails_of_off_axis_zero`).
 
 No `sorry`, no axiom. (SIGN), (FLUX-BOUND), ARP, RH remain OPEN.

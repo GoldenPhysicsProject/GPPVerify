@@ -11,7 +11,7 @@ satisfies `U† G U = |c|² G` (`metric_covariance`). For Codex's `J = C_θ C_B�
 is `U_d† G U_d = d⁻¹ G` (`metric_covariance_real`, with `c` real). That is the `1/d` weight shared
 with `Λ(d)/d` and the critical Bost–Connes expectation `ω₁(P_d) = 1/d`. The boundedness inputs on
 `C_θ` and `C_B` are Codex's established maps and are taken as hypotheses here. The frame inequality
-the note targets next is **not** proved. **No RH claim.**
+the note targets next is **not** proved.
 -/
 
 namespace GppBpySeedConformalMetric

@@ -28,7 +28,7 @@ explicit: `0 < Re σ < 1` is exactly the strip, and no Fubini step is used here.
 ## Scope
 
 A closed-form Mellin integral. It does not touch the scalar-box regulator DCT or the Yang–Mills
-numerator sewing, as the row says. No RH claim.
+numerator sewing, as the row says.
 -/
 
 open Complex MeasureTheory Set

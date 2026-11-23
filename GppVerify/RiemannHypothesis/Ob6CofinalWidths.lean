@@ -18,7 +18,7 @@ and nothing more.  The width quantifier is a separate obligation, and this file 
 
 **Scope.** Exact logical statements about the in-tree definitions, in answer to Turbo's audit of GPT's
 single-cutoff / all-width correction (bridge, Project Week 25): a single-width certificate proves `OB6At(L₀)`, not
-`ARP`.  Nothing here proves any `OB6At`; ARP, RH, OB-6, UB are OPEN.
+`ARP`.  ARP, RH, OB-6, UB are OPEN.
 
 No `sorry`, no axiom.
 -/

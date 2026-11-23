@@ -27,15 +27,11 @@ Project, with AI assistance from Codex (statement) and Claude Code (formalizatio
   pointwise nonnegative equatorial wave has interior zeros.
 * `cayley`, `norm_cayley_lt_one_iff`, `norm_cayley_eq_one_iff`, `cayley_shifted_zero`: the
   height-recentred chart `w_{h,a}(s) = (s − ½ − ih − a)/(s − ½ − ih + a)` maps `Re s > ½` into
-  `|w| < 1` and `Re s = ½` onto `|w| = 1`. With `h = γ`, `a = ½` it sends the adversary zero
-  `ρ + ¼` to `w = −1/3` for every `γ` (Codex's Jensen discriminator; the Jensen bound
-  `J ≥ ln(27/20)` is not formalized).
+  `|w| < 1` and `Re s = ½` onto `|w| = 1`.
 
-**Scope.** Writing zeros as nodal crossings is a coordinate pullback; "all zeros are equatorial
-crossings" is RH and is not proved. The orthogonal crossing of simple nodal arcs, the η-phase
-picture, the theta-integral form of `ξ(½ + it)` (see `GppThetaSplit`, `GppThetaHalfWave`) and the
-numerical latitudes are not formalized here. Existence of critical-line zeros (Hardy) is a
-hypothesis in `Ftheta_zeros_off_line`. No claim about RH or BSD.
+**Scope.**
+ Existence of critical-line zeros (Hardy) is a
+hypothesis in `Ftheta_zeros_off_line`.
 -/
 
 set_option autoImplicit false

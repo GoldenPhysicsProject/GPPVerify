@@ -16,7 +16,7 @@ Codex's model Hamiltonian on `L²(K)` is `H_cond χ = log(cond χ) · χ`. Its e
 
 Assigning energy `log cond` is a model choice: it is an intrinsic arithmetic filtration, not a
 derived dynamics. It gaps only the discrete label `χ`, not the continuous Mellin variable `τ`
-(see `GppNoGo.CompactCommutingMixing`). **No RH or Yang–Mills claim.**
+(see `GppNoGo.CompactCommutingMixing`).
 -/
 
 namespace GppConductorGap

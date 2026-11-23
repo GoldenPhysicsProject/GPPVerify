@@ -21,9 +21,7 @@ two-dimensional spaces and checks that the orientation grading chi becomes the
 standard Fock charge grading Q, while either microscopic half flip becomes
 particle/antiparticle exchange.
 
-This is an exact finite intertwiner. It does not prove that the orientation
-labels are the microscopic origin of electric charge; that remains a physical
-representation/dynamics question.
+This is an exact finite intertwiner.
 -/
 
 namespace GppOrientationCARBridge

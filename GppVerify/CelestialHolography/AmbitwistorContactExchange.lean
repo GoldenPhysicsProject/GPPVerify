@@ -67,9 +67,7 @@ carefully separated spine:
   four-graviton channels can be nonzero.
 
 Penrose's TN41 second-order strong-incidence condition and the standard contact-null cone
-now agree at the level of the homogeneous Lagrangian-contact model.  What is not yet
-formalized is the full chart theorem carrying a general projective ambitwistor tangent
-vector `(dZ,dW)` to the rank-two contact-half coordinates `(X,Y)` globally/projectively.
+now agree at the level of the homogeneous Lagrangian-contact model.
 Nor is it yet proved that the curvature of the evolving sky Jacobi plane is exactly the
 curved deformation of Penrose's second-order strong-incidence cone.  Those are the next
 geometric bridge theorems rather than assumptions hidden in this file.
@@ -80,8 +78,7 @@ curved factor-exchange symmetry remain external/open.  None of those claims is h
 the imports here.
 
 This module formalizes the underlying bilinear algebra with the twistor and dual-twistor
-tags kept distinct.  It does not formalize differential forms, projectivization, or claim
-that every curved ambitwistor space has a global factor-exchange symmetry.
+tags kept distinct.
 -/
 
 namespace GppAmbitwistorContactExchange

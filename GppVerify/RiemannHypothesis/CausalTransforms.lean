@@ -636,9 +636,8 @@ theorem eventually_re_gt_half : ∀ᶠ s : ℂ in 𝓝 1, 1 / 2 < s.re :=
   (isOpen_lt continuous_const Complex.continuous_re).mem_nhds (by simp; norm_num)
 
 open GppCausalKernels GppCausalNorms in
-/-- **The identity-theorem step.** `lap Z = G_z` on the whole half-plane `Re s > 0`:
-both sides are holomorphic on `Re s > 0` (the left by `Z ∈ L²`, the right because `Ê` is holomorphic
-off `0`), the half-plane is open and preconnected, and they agree on the open set `Re s > 1/2`. -/
+/-- **The identity-theorem step.**
+-/
 theorem lap_Z_eq {s : ℂ} (hs : 0 < s.re) : lap Z s = Gz s := by
   have han1 := differentiableOn_lap_Z.analyticOnNhd isOpen_re_pos
   have han2 := differentiableOn_Gz.analyticOnNhd isOpen_re_pos

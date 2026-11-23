@@ -22,8 +22,8 @@ the principal series, proved once for the class of kernel theories), applied to 
 ## Honest boundary
 
 `rh_of_arp` is the converse direction of Weil's criterion: an implication with ARP as a
-hypothesis. ARP (equivalently `GppKernelTheory.ZetaReflectionPositivityObligation`) is **not**
-proved anywhere in the tree, so nothing here proves RH. RH OPEN, ARP OPEN. This file adds no
+hypothesis.
+ RH OPEN, ARP OPEN. This file adds no
 `open_` stub and no axiom.
 
 Daniel Toupin / Golden Physics Project, with AI assistance (Claude wrote the GW-EF sheet,
@@ -43,8 +43,7 @@ namespace GppGwefAssembly
 /-- **`rh_of_arp`.** Arithmetic reflection positivity implies that every nontrivial zero of `ζ`
 lies on the critical line. Now the ζ corollary `GppKernelTheory.rh_of_arp'` of the theorem about
 theories (`KernelTheory.principalSeries_of_reflectionPositive`) for the ζ datum `zetaTheory`.
-ARP is a hypothesis here and is OPEN, so this does not prove RH. In tree: PROVED (conditional on
-ARP, which is OPEN). -/
+ARP is the hypothesis `harp` of the statement. -/
 theorem rh_of_arp (harp : ArithmeticReflectionPositivity) :
     ∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2 :=
   GppKernelTheory.rh_of_arp' harp

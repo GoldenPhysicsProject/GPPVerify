@@ -20,9 +20,7 @@ Born weights previously derived from `Theta psi = psi` are NOT by themselves a n
 prediction: they are the generic consequence of an anti-linear two-sheet reality condition
 of this form.
 
-What remains open/new in the present programme is to identify the geometric carrier of the
-two amplitudes with the specific gauge/frequency complex orientations, Grassmannian/twistor
-structure, and black-mirror horizon geometry.  This file deliberately records the prior-art
+  This file deliberately records the prior-art
 collision so the formal library cannot silently treat the two-sheet Majorana pairing as a
 new theorem of the project.
 -/

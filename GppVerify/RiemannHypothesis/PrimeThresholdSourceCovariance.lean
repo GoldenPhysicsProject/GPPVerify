@@ -8,7 +8,6 @@ Source: Astra, GPP-bridge work/2026-10-28_astra_fock_occupation_sector_shadow.md
 For the geometric prime occupation law, occupation threshold N_p ≥ k has
 probability x_p^k, hence the local source reproduces prime-power coefficients.
 Centered thresholds have covariance x^(max k l) - x^(k+l).
-This does not prove signed completed Weil positivity or RH.
 -/
 
 namespace GppPrimeThresholdSourceCovariance

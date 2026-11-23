@@ -21,7 +21,7 @@ For a window `g ∈ L²[−h, h]` with `M_g(z) = ∫ g(t) e^{zt} dt`, the pole t
   `∫_{−h}^{h} sinh²(t/2) = sinh h − h`. So the eigenvalues are `+2(sinh h + h)` and `−2(sinh h − h)`.
 
 Pole term only, not the full Weil form. The `F_θ` two-negative-direction asymptotics are checked
-numerically in the bridge, not here. **No RH claim.**
+numerically in the bridge, not here.
 -/
 
 namespace GppTwoFacePoleSignature

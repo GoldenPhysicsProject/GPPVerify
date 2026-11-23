@@ -18,9 +18,7 @@ For `c₂, c₃ > 0` let `c₀* = (c₃ + √(c₃² + 4c₂²))/2` and
 * `path_form_witness`: equality at the positive vector `v = (c₂, c₀*, c₀*, c₂)`, so the constant is
   sharp (it is the Perron eigenvalue; `v` is an eigenvector).
 
-**Scope.** Only this finite quadratic-form fact. That the S1 constant of the Weil form on the
-`{2,3}` window equals this eigenvalue (the fibre decomposition), the numerical value `0.90093` for
-`c₂ = log 2/√2`, `c₃ = log 3/√3`, and every Arb/Schur step are NOT formalized. No claim about RH.
+**Scope.** Only this finite quadratic-form fact.
 -/
 
 set_option autoImplicit false

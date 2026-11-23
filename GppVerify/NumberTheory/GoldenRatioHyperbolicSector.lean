@@ -21,22 +21,13 @@ scope, see `discovery/local_field_shadow/` — evaluated at the principal-series
 equals exactly `φ²`. This file formalizes the mathematical content of both routes and the
 theorem connecting them.
 
-**Semantic boundary, deliberately not formalized or claimed**: that this "minimal modular
-hyperbolic sector" is the *physical* fundamental sector of anything in the surrounding
-research program. That identification is open and physical, not mathematical, and no
-theorem below asserts it. Likewise, no theorem claims inversion *alone* forces `φ` — the
+ Likewise, no theorem claims inversion *alone* forces `φ` — the
 precise, and only, claim is that inversion together with primitive translation, restricted
 to its minimal orientation-preserving hyperbolic completion in `SL₂(ℤ)`, selects `φ^{±2}`
 and discriminant `5`; and that the *independently defined* finite-place kernel at `q=5`,
 `s=1/2` happens to equal the same real number `φ²`. Golden ratio infrastructure is reused
 from Mathlib's `Data.Real.GoldenRatio` throughout (`Real.goldenRatio`, `Real.goldenRatio_sq`, `Real.goldenRatio_ne_zero`,
 `Real.goldenConj_neg`, `Real.goldenRatio_add_goldenConj`, `Real.goldenRatio_mul_goldenConj`) rather than redefined.
-
-**Missing-interface note**: the "characteristic polynomial" and "eigenvalue" statements
-below (`A_charpoly_root_*`) are stated as direct root-of-`X²-tr·X+det` facts, not connected
-to Mathlib's `Matrix.charpoly` / `Module.End.HasEigenvalue` API — no `charpoly_fin_two`-style
-closed form for `2×2` matrices was found in the pinned Mathlib, and building that bridge is a
-real but separate piece of work, not attempted here.
 -/
 
 namespace GppGoldenHyperbolic

@@ -16,10 +16,7 @@ Project, with AI assistance from Astra (the identity) and Claude Code (formaliza
 * `laplace_J0_eq` (Astra's closed form): for `Re z > 1/2`,
   `∫₀^∞ J₀(t) e^{-zt} dt = −[ζ'/ζ(z+½) + 1/(z−½) + 1] / (z(z+½))`.
 
-**Scope.** The identity is proved only for `Re z > 1/2`, where everything converges absolutely. The
-note's continuation of the bounded-kernel transform to `Re z > 0`, the residue computation at zeros
-with `Re ρ > 1/2`, and the Abel-energy pole bound (§2) are not formalized here. Nothing here
-concerns where the zeros of `ζ` lie; RH is open.
+**Scope.** The identity is proved only for `Re z > 1/2`, where everything converges absolutely.
 -/
 
 open MeasureTheory Set Complex Filter
@@ -30,8 +27,8 @@ namespace GppPrimeSignalLaplace
 /-- The prime-signal derivative `f(u) = e^{u/2} (e^{-u} ψ(eᵘ) − 1)`. -/
 noncomputable def f (u : ℝ) : ℝ := Real.exp (u / 2) * (Real.exp (-u) * ψ (Real.exp u) - 1)
 
-/-- The prime signal `J₀(t) = ∫₀ᵗ e^{u/2}(e^{-u}ψ(eᵘ) − 1) du`. (The substitution `x = eᵘ` turns it
-into `∫₁^{eᵗ} (ψ(x) − x) x^{-3/2} dx`; that rewriting is not formalized here.) -/
+/-- The prime signal `J₀(t) = ∫₀ᵗ e^{u/2}(e^{-u}ψ(eᵘ) − 1) du`.
+-/
 noncomputable def J0 (t : ℝ) : ℝ := ∫ u in (0 : ℝ)..t, f u
 
 lemma measurable_f : Measurable f :=

@@ -11,8 +11,6 @@ import GppVerify.RiemannHypothesis.HeartLandauLocal
 /-!
 # The Landau reduction (Round 23 F12 / F13)
 
-**Conditional implication, RH-equivalent hypothesis; nothing here proves RH.**
-
 For `0 ≤ ε < ½` and a constant `C`: if Round 23's function `D` (`GppHeartLaplace.Dfun`) satisfies
 `D(L) ≥ −C e^{εL}` for all `L > 0`, then the entire completed zeta `ξ_E(s) = ½ + ½ s (s−1) Λ₀(s)`
 has no zero with `Re s > ½ + ε` (`F13_xiE_ne_zero`); `F12_xiE_ne_zero` is `ε = 0` and

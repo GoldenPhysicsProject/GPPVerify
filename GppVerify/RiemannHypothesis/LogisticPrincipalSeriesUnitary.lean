@@ -24,10 +24,7 @@ This file proves:
 
 ## Scope
 
-Calculus on the interval and a Gamma integral. Surjectivity (a bijection of the interval) gives isometry, hence
-unitarity of each `U_a` on real `L²`; the one-parameter group law in `t`, the generator
-`G_ps = −∂_x + ½ tanh(x/2)` and the identification with the principal series of `SL(2,ℝ)` are not formalized.
-Nothing here concerns the zeros of `ζ`. No RH claim.
+Calculus on the interval and a Gamma integral.
 -/
 
 open MeasureTheory Set Real

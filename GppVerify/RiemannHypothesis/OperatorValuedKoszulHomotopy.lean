@@ -22,13 +22,6 @@ creation operators `ε_p`), and its averaged homotopy is `h = (1/N) Σ_p T_p⁻�
   then `‖ψ‖ ≤ √2 ‖h‖ ‖(d + d*) ψ‖` for every `ψ`, i.e. `‖D⁻¹‖ ≤ √2 ‖h‖` for the Dirac operator
   `D = d + d*` (it is bounded below by `(√2 ‖h‖)⁻¹`).
 
-## Not formalized here
-
-The quantitative estimate `‖h‖² ≤ C₀²/N + C₀⁴/N² (S₁² - S₂)`, which uses
-`‖[T_p, T_q^*]‖ ≤ 1/√(pq)` and Chebyshev-type prime counting to reach `‖h‖ = O(√L e^{-L/2})`,
-is not formalized; nor is the identification of `T_p` with the causal prime shifts. The
-remaining step the note itself names — connecting the completed relative causal boundary anomaly
-to this contraction — is open. Nothing here is a step that proves RH.
 -/
 
 open Finset

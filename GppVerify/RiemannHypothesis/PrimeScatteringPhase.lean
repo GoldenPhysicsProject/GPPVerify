@@ -24,9 +24,8 @@ proves:
 * `norm_Sinf`: the Archimedean factor `S_∞(T) = π^{−iT} Γ(¼ + iT/2) / Γ(¼ − iT/2)` is unimodular
   for real `T`.
 
-**Not formalized:** the zeta-regularized determinant reading of `S_∞` (§2), the renormalized
-infinite prime product, and the zero-counting phase quantization (§§6–7). The infinite critical
-product does not converge as an ordinary Euler product, as the note itself says. **No RH claim.**
+ The infinite critical
+product does not converge as an ordinary Euler product, as the note itself says.
 -/
 
 namespace GppPrimeScatteringPhase

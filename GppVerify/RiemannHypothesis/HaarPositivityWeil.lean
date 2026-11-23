@@ -50,9 +50,8 @@ def PositiveType (P : ℝ → ℝ) : Prop :=
 
 /-- A real **symmetric** Gram matrix gives a Hermitian form, so its value is real.
 
-    This is the content the old `.re`-taking definition threw away. Without it,
-    `0 ≤ (∑ ...).re` constrains only the symmetrised matrix — equivalently, only
-    the *even part* of `P` — and says nothing about the odd part. -/
+    This is the content the old `.re`-taking definition threw away.
+-/
 theorem sum_conj_mul_symm_im_zero {n : ℕ} (c : Fin n → ℂ) (a : Fin n → Fin n → ℝ)
     (hsymm : ∀ i j, a i j = a j i) :
     (∑ i : Fin n, ∑ j : Fin n, (starRingEnd ℂ) (c i) * c j * ((a i j : ℝ) : ℂ)).im = 0 := by
@@ -188,21 +187,14 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
     2. Interchange ∑ and ∫: ∑_ij c̄_i c_j P(x_i-x_j) = ∫ ∑_ij c̄_i c_j f(y+x_i) f(y+x_j) ∂μ.
     3. Algebraic identity: ∑_ij c̄_i c_j a_i a_j = normSq(∑_i c_i a_i) ≥ 0 (for real a_i).
 
-    Not formalized here: step 2 needs `Integrable (fun y => f (y+a) * f (y+b)) μ`
-    for every pair of shifts, which for a merely-integrable `f` requires either a
-    boundedness hypothesis (giving integrability of the product directly) or an
-    L² hypothesis routed through `MeasureTheory.L2.integrable_inner` on the
-    bundled `Lp ℝ 2 μ` type — both add real bookkeeping this thread has not yet
-    verified against the compiler, so the interchange step is left open rather
-    than pushed through with an unverified `sorry`.
-
     **Step 3 is now proved** (2026-09-01) as `sum_conj_mul_real_eq_normSq` and
     `sum_conj_mul_real_re_nonneg` below. Only steps 1–2 — the translation identity and the
     ∑/∫ interchange — remain, so what is missing here is *analytic bookkeeping*, not
     algebra. Worth stating precisely: the outline reads as three equally-open steps and it
     is one third that size.
 
-    **Closed 2026-10-08**: the stub `open_convolution_square_positive_type_statement` is retired. The statement is proved in full for Lebesgue (= Haar) measure on `ℝ` as `GppHaarPositivityWeil.convolution_square_positive_type` in `ConvolutionSquarePositive.lean` (this file cannot import it: that module imports this one). -/
+    **Closed 2026-10-08**: the stub `open_convolution_square_positive_type_statement` is retired. The statement is proved in full for Lebesgue (= Haar) measure on `ℝ` as `GppHaarPositivityWeil.convolution_square_positive_type` in `ConvolutionSquarePositive.lean` (this file cannot import it: that module imports this one). 
+-/
 
 /-! ### Step 3 of the convolution-square argument, proved
 
@@ -315,7 +307,6 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 /-- OS reconstruction: Euclidean OS axioms → Minkowski Wightman axioms -/
 theorem open_os_reconstruction_theorem : True := trivial
 -- SOURCE: Osterwalder-Schrader 1973/1975; referenced in wightman_paper.tex
--- LIBRARY GAP (known mathematics, absent from Mathlib): OS reconstruction not formalized.
 
 /-! ## Universal positivity construction -/
 

@@ -20,10 +20,7 @@ For the Herglotz-type function `m(k) = 1/(γ + ia − k) + 1/(γ − ia − k)` 
 
 So pointwise correct sign of `Im m` in a region does not imply a jointly positive (Pick) extension.
 
-**Scope.** The finite exact computation only. The note's criterion (RH ⇔ all real-node Pick matrices
-are positive semidefinite) rests on Nevanlinna–Pick interpolation and analytic continuation and is
-not formalized; neither are the polynomial `G(k) = ((k−14)²+a²)((k+14)²+a²)` control values or the
-binary64 arithmetic diagnostics in the note. No claim about RH.
+**Scope.** The finite exact computation only.
 -/
 
 set_option autoImplicit false

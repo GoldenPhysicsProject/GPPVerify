@@ -9,10 +9,6 @@ import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
 /-!
 # The exact totient response: Möbius form, the smoothing kernel `G`, and divisor regrouping
 
-Source: Codex, bridge `research/codex/2026-10-03_totient_volterra_cancellation.md`, §§2–4, 6
-(exact elementary parts; the estimate `TARGET` of §5, the Bessel transform and the adversarial
-control of §§6–7 are not formalized).
-
 * `totient_div` (§4): `φ(n)/n = Σ_{d ∣ n} μ(d)/d`;
 * `G`, `G_zero`, `G_one` (§2): the continuous kernel `G(y) = 4 y arccos y − 2 √(1−y²)` has
   `G(0) = −2` and `G(1) = 0`;
@@ -27,11 +23,7 @@ control of §§6–7 are not formalized).
 
 ## Checks and scope
 
-All of these check. Two precision points: the note&rsquo;s statement
-`g(v) = ∫₀^v e^{-(v−u)/2} a(u) du` is formalized in its equivalent ODE-plus-initial-value form
-(the integral itself is singular at `0` like `u^{-1/2}`), and the unconditional bound
-`K(x) = O(log(2+x))` and the identification of the Laplace transform with `S(s)/(s + 1/2)` are not
-formalized. No RH claim.
+All of these check.
 -/
 
 open Real Finset ArithmeticFunction MeasureTheory

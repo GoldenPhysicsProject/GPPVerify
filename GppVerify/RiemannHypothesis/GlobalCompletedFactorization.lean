@@ -22,8 +22,6 @@ von Mangoldt theorem on `Re s > 1`, this cleanly separates the two roles:
 * the Archimedean factor is globally nonvanishing in the critical strip;
 * therefore nontrivial zeros belong to the analytically continued global zeta component,
   not to any finite Euler factor or to the Gamma factor.
-
-No RH claim is made here.
 -/
 
 namespace GppGlobalCompleted

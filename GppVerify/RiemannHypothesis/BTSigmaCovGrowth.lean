@@ -8,7 +8,6 @@ GPP-bridge PR #11 (comment 6802830722: CovGrowth PROVED, `#print axioms` standar
 `pcov_norm_const`, `pcov_graph_growth`, `pcov_type_lt_half_forces_zero`; port requested as its
 own module after FixedWWitness). Necessary condition only; type ≥ 1/2 and S_b existence stay OPEN.
 
-
 Scratch module (Heart of the Cosmos / Grok, GPPDiscovery5 seat), first piece of Turbo's
 open question on GPP-bridge PR #11, comment 6802501669 (3): is there any `S_b` meeting (P-COV)?
 
@@ -23,8 +22,7 @@ and put `c = ∫ h e^{-v/2}`. Then
 
 So a (P-COV) dilation cannot be a symmetry of `T*` (that was `greenInvariant_forces_unit_zero`),
 and it cannot even be a group of exponential type `< 1/2` on the graph norm of the orbit: the
-unit-stratum pole forces `T*`-growth of rate at least `1/2` along `S_W`. For `f ≥ 0`, `f ≠ 0`,
-`c = (∫ f e^{-x/2})(∫ f e^{x/2}) > 0` (paper step, CHECKED by Turbo at 50 dps, not formalised).
+unit-stratum pole forces `T*`-growth of rate at least `1/2` along `S_W`.
 
 **Scope.** This is a necessary condition, not an impossibility: an `S_b` of graph-norm type
 `≥ 1/2` is not excluded here. Whether any exists is still **OPEN**. (P-COV), (P-UNIT), (P-LOG),

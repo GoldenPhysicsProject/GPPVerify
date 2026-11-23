@@ -41,7 +41,7 @@ counting, zero-data symmetry, positive multiplicities) are all theorems in the t
 ## Honest boundary
 
 `rh_of_arp` is the converse direction of Weil's criterion: an implication with ARP as a
-hypothesis. ARP is **not** proved anywhere in the tree, so nothing here proves RH. RH OPEN,
+hypothesis. RH OPEN,
 ARP OPEN. This file adds no `open_` stub and no axiom.
 
 Daniel Toupin / Golden Physics Project, with AI assistance (Claude wrote the GW-EF sheet,

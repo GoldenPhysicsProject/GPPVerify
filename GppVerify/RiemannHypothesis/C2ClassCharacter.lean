@@ -23,10 +23,7 @@ with `Q_j(x, y) = n`.
   Both channels are multiplicative at this pair.
 
 **Scope.** Only the pair `(2, 3)` is checked here. The 480 coprime pairs with `ab ≤ 128` live in
-Discovery2 #22. It is not formalized that `Q₀` and `Q₁` represent the two ideal classes of
-`ℚ(√−5)`, nor that `A±` are the Dirichlet coefficients of `ζ_K` and of the nontrivial
-class-character `L`-function, nor that either has an Euler product (classical Hecke theory).
-Nothing here bears on GRH, and no claim is made about RH or BSD.
+Discovery2 #22.
 -/
 
 namespace GppC2ClassCharacter

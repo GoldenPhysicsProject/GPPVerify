@@ -9,9 +9,7 @@ For a finite atomic heat trace
   K(t) = Σ_a w_a exp(-λ_a t),
 
 nonnegative weights imply `K(t) ≥ 0`, and nonnegative rates imply that `K` is
-antitone in Euclidean time.  These are finite spectral consequences only; no claim
-is made that the explicit arithmetic prime--Archimedean heat function already has
-such a positive spectral representation.
+antitone in Euclidean time.
 -/
 
 namespace GppFiniteHeatSemigroupMonotonicity

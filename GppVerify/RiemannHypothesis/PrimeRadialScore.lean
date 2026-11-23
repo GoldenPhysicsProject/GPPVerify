@@ -19,11 +19,7 @@ Fix `L = log p > 0`, `c = cos θ ∈ [-1, 1]`, and put `r(σ) = e^{-σL} = p^{-�
 
 ## Checks and scope
 
-All claims check (they are exact calculus identities). **Not formalized:** the probability-measure
-normalization `∫ P dθ/2π = 1` (so that the normalized score has mean zero), the Archimedean score
-(§3, whose digamma form is in `ArchimedeanScatteringRatio`), the finite-Euler completed score and the
-scattering-phase form `−ϑ_L' = m_L` (§§4–5), and the Paley–Wiener inequality the note reduces to, which is
-**open** and not claimed. No RH claim.
+All claims check (they are exact calculus identities).
 -/
 
 open Real

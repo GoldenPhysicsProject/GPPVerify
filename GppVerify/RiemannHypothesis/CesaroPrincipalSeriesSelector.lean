@@ -16,7 +16,6 @@ This file packages those two results into an exact admissibility criterion:
 `M_sigma` is eventually bounded above if and only if `sigma = 1/2`.
 
 This is a genuine principal-series selection theorem for the scale-invariant Cesaro norm.
-It does not identify zeta zeros with admissible characters and therefore does not prove RH.
 -/
 
 namespace GppCesaroPrincipalSeriesSelector

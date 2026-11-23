@@ -37,9 +37,7 @@ proved part of (d) are in `ZetaFactorMap` (typed class (9), signed assembly, CGC
   channel at `n = 6`). PROVED. (κ is left a real parameter; its functional-equation value is not
   used.)
 
-Labels: everything above PROVED except `Eq10NegativeIndex` (GAP, named, real content) and the
-existence of a bump `b` with `∫_I b² > 0` (standard, not formalized here; the negativity theorem
-takes it as a hypothesis). The converse CGC ⇒ positive factor (Astra Theorem 4 1⇒2⇒3,
+ The converse CGC ⇒ positive factor (Astra Theorem 4 1⇒2⇒3,
 with dilation and shadow compatibility): paper level. **CGC OPEN; ARP OPEN; RH OPEN.** No `sorry`, no
 axiom declarations.
 

@@ -69,7 +69,6 @@ limit.
   `wpos_ptheta_punit_kill_of_graph_cont`:
   `¬ (PLogThetaPos D J ∧ PUnitPos (D S N) ∧ GraphRightContAt0 (D S N) h₈)`;
   `wpos_orbit_graph_jump`/`_left`: right/left continuity fails under `PLogThetaPos`.
-These are **conditional** kills: continuity is not proved from the datum and is not claimed.
 
 *Shifted centre `c > 0`.* The centre is inside the premise region, so #580's kill carries over
 for every `c > 0` off the cuts (`shifted_wpos_kill`).
@@ -172,13 +171,15 @@ def ShiftedPLogThetaPos (D : Finset ℕ → ℕ → BTSigmaDatum H Gu Gp) (J : H
       (((D S N).testVec h (2 * c - W) : (D S N).Tstar.domain) : H) = J ((D S N).testVec h W))
 
 /-- **Named continuity hypothesis (two-sided limit).** The orbit has a graph-norm limit
-`(x₀, v₀)` as `W → 0`, `W ≠ 0`. Not asserted, not proved from the datum. -/
+`(x₀, v₀)` as `W → 0`, `W ≠ 0`.
+-/
 def OrbitGraphLimAt0 (D : BTSigmaDatum H Gu Gp) (h : ℝ → ℝ) : Prop :=
   ∃ x₀ v₀ : H, Tendsto (fun W => ((D.testVec h W : D.Tstar.domain) : H)) (𝓝[≠] 0) (𝓝 x₀) ∧
     Tendsto (fun W => D.Tstar (D.testVec h W)) (𝓝[≠] 0) (𝓝 v₀)
 
 /-- **Named continuity hypothesis (right).** `(ψ_{h,W}, T*ψ_{h,W}) → (ψ_{h,0}, T*ψ_{h,0})` as
-`W ↓ 0`. Not asserted, not proved from the datum. -/
+`W ↓ 0`.
+-/
 def GraphRightContAt0 (D : BTSigmaDatum H Gu Gp) (h : ℝ → ℝ) : Prop :=
   Tendsto (fun W => ((D.testVec h W : D.Tstar.domain) : H)) (𝓝[>] 0)
       (𝓝 ((D.testVec h 0 : D.Tstar.domain) : H)) ∧

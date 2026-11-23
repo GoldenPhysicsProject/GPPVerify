@@ -27,11 +27,7 @@ The mechanism is purely algebraic: for `‖z‖ = 1`, `‖1 - z‖² = 2(1 - Re 
 
 ## Scope
 
-This is the finite, unconditional positivity of the critical-line Li terms. It does not
-assert convergence of any finite sum to the true Li coefficients, it does not place any zero on
-the critical line, and it is not a step that proves RH. The matrix/unitary-trace form is given
-only in its diagonal (spectral) version; a statement for general unitary matrices is not
-formalized here.
+This is the finite, unconditional positivity of the critical-line Li terms.
 -/
 
 open Complex Finset

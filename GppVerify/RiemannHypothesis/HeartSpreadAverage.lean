@@ -10,9 +10,6 @@ import GppVerify.RiemannHypothesis.HeartLandauReduction
 /-!
 # F13, spread-average (moving-average) variant
 
-**Conditional implication, RH-strength hypothesis; nothing here proves RH, and this is a
-transfer statement, not a positivity proof.**
-
 For a bounded nonnegative measurable kernel `k` supported in `[0, w]` whose Laplace transform
 `κ̂(z) = ∫ e^{-zu} k(u) du` has no zero on the strip `ε < Re z < ½` (the only strip the argument
 uses: a zero `ρ` of `ξ` has `Re(ρ−½) < ½`, and `Re ≥ 1` is handled by `ζ ≠ 0`, see
@@ -37,9 +34,7 @@ At `w = log 2`, let `U(z)` and `E(z)` be these two transforms. On `0 < Re z < 1`
 For the convolution `K` of the two kernels at this width, integrate `exp(v)` from `max(0, x − w)` to `min(w, x)` wherever the interval has positive length. With `x = log t`, this gives `2 K(log t) / t = 2(1 − 1/t)` for `1 < t ≤ 2` and `4/t − 1` for `2 < t < 4`. The weight vanishes for `0 < t ≤ 1` and `t ≥ 4`.
 
 **Normalisation choice.** `D` is the continuous-time Round 23 function, and the window is a
-continuous moving average. This is **not** the discrete `m`-point average over `log n` nodes;
-that form needs a separate Riemann-sum/Lipschitz step and is not claimed here. The converse
-(zero-free half-plane ⇒ the averaged floor) is not proved.
+continuous moving average.
 -/
 
 
@@ -687,7 +682,7 @@ theorem conv_kU_interval (w L : ℝ) (hw : 0 ≤ w) :
 /-- **F13, moving-average (uniform window) form.**  Conditional: if the window integrals
 `∫_{L-w}^{L} D` of the Round 23 function are bounded below by `-C e^{εL}` for every `L > 0`
 (for some width `w > 0`, `0 ≤ ε < 1/2`), then the entire ξ has no zero with `Re s > 1/2 + ε`.
-This is an RH-strength hypothesis; not a positivity proof. -/
+-/
 theorem F13_uniform_xiE_ne_zero {w : ℝ} (hw : 0 < w) {ε C : ℝ}
     (hε0 : 0 ≤ ε) (hε1 : ε < 1 / 2)
     (hD : ∀ L : ℝ, 0 < L → -C * Real.exp (ε * L) ≤ ∫ t in (L - w)..L, Dz t) :

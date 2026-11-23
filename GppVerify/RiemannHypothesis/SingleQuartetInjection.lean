@@ -22,14 +22,13 @@ Inject `z = δ + iγ` with `δ, γ > 0`, together with its quartet, into a real 
   `(0, u)` of `C` is not positive semidefinite. This is a full-kernel injection, not a perturbation
   of the residual alone.
 * `blind_grid`: on the grid `u = nh` with `γh = πk` and `Re b = 0`, `D(nh) = 0` for every `n`. This
-  is the exceptional blind case of Astra's sampling theorem. Its converse (unboundedness off
-  resonance) and the two-grid statement are not formalized.
+  is the exceptional blind case of Astra's sampling theorem.
 
 **Scope.** Synthetic control only. `S` is not specialised here, so `b` is an arbitrary nonzero
 complex number. Astra's consequence is this: a hypothesis invariant under finite injection (for
 example, a leading zero-density asymptotic) cannot by itself imply positivity. That remark is
 not a theorem here, and it does not close averaging methods that are sensitive to exceptional
-zeros. No claim about RH.
+zeros.
 -/
 
 open Complex Real Filter Topology

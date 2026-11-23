@@ -19,7 +19,7 @@ Stereographic projection of the Cayley coordinate `w = (s − 1)/s` is
   (`spinor_components`).
 
 This is massless spinor kinematics on the celestial sphere: a 2D doubled surface plus a null cone.
-It is not gravity, and not a derivation of a 4D bulk. **No RH claim.**
+It is not gravity, and not a derivation of a 4D bulk.
 -/
 
 namespace GppCelestialCayleySphere

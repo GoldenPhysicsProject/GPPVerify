@@ -18,8 +18,7 @@ The odd/even repetition decomposition
 identifies the two repetition channels with the anomalous and normal
 two-mode covariance functions at real half-density.
 
-These are local algebraic identities only. They do not prove RH or a global
-adelic positivity theorem.
+These are local algebraic identities only.
 -/
 
 namespace GppPrimeModularCovariance

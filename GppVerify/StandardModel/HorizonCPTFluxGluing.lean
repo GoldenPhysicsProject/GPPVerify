@@ -23,9 +23,8 @@ By contrast a quadratic stress component `T = m*u*u` is even under `u -> -u`; it
 normal flux `T*n*n` is also even.  Thus a CPT-paired gluing can cancel oriented gauge
 charge flux while retaining positive/even energy flux.
 
-This is only the sign core of a possible black-hole horizon boundary condition.  It does
-not prove that a physical event horizon identifies a fermion with its own CPT image, nor
-does it derive annihilation or Hawking radiation.  Those require the curved spin/gauge
+This is only the sign core of a possible black-hole horizon boundary condition.
+  Those require the curved spin/gauge
 bundle, field equations, and quantum boundary state.
 -/
 

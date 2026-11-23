@@ -30,10 +30,8 @@ and their sine transform is `S_j(t) = ∫₀^ℓ φ_j(x) sin(t x) dx`.
   `ĝ(t)² ≤ (2/ℓ) sin²(tℓ) · ‖g‖²_{L²(0,ℓ)} · Σ_{j∈s} ω_j² / (t² − ω_j²)²`,
   with `‖g‖² = ∫₀^ℓ g²` (`integral_sq_sum_phi`: `= Σ c_j²`).
 
-**Scope.** These are the atoms and the pointwise majorant only. Not formalised here: the
-arch-weighted form `B`, the band-limit reduction to `σ_x`, positivity of `σ_x` (`σ-rig`, a GAP),
-the mass `M(T)` integrals, the `K = 60` certificate (a) (NUMERICAL, interval-certified, not Lean),
-and the tail (b). OddFace(0.5) is closed NUMERICALLY, not proved; corrected P2/P3, H_ψ,
+**Scope.** These are the atoms and the pointwise majorant only.
+OddFace(0.5) is closed NUMERICALLY, not proved; corrected P2/P3, H_ψ,
 WeilIsGram, KreinDecomp, ARP, RH: OPEN. No `sorry`, no axioms.
 -/
 

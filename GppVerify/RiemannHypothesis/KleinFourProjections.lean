@@ -13,8 +13,7 @@ hence `(JX) Π(c,j) = (c j) Π(c,j)`. This is the Klein-four sector decompositio
 operators in Turbo's relay `bfbdb91` (unit (ii)): the prime sign is `−v c` while the global parity is
 `r = c j`, so fixing the parity does not fix the prime sign.
 
-**Scope.** Algebra only. It says nothing about the full Weil form: `X` and `J` do **not** commute with the
-pole/archimedean part, so the sectors do not block-diagonalise it and mixed terms must be kept.
+**Scope.** Algebra only.
 
 No `sorry`, no axiom.
 -/

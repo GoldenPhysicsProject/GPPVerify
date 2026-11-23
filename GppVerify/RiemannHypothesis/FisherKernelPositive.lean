@@ -21,7 +21,7 @@ The `1 × 1` case at `τ = 0` is Fisher positivity. The Davenport–Heilbronn fu
 functional equation but no Euler product with `Λ ≥ 0`, and it already fails that `1 × 1` test:
 `(log DH)''(2) = −0.058464823 ± 4·10⁻¹⁰` (Arb). So the positivity comes from `Λ ≥ 0`, not from the
 mirror symmetry. Proved here only for `σ > 1`. Whether a version survives continuation to the
-strip is Weil-positivity territory. **No RH claim.**
+strip is Weil-positivity territory.
 -/
 
 namespace GppFisherKernelPositive

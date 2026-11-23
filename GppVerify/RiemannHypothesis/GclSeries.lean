@@ -13,9 +13,6 @@ Every term is `≥ 0`, so
 * `Gcl_ge_partial`: any partial sum is a rigorous lower bound (no tail estimate needed);
 * `Gcl_le_partial_add_tail`: `Gcl t ≤ Σ_{k<K} (1 + (−1)^k) u^{2k+1}/(2k+1) + 2u^{2K+1}/(1 − u²)`.
 
-This is the analytic input for the first-interval numerics (`BoxInitialInterval.lean`); nothing here is a statement
-about positivity of the Weil form.
-
 No `sorry`, no axiom.
 -/
 

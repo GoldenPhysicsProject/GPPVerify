@@ -18,10 +18,7 @@ This file proves exactly the elementary inequalities that choice uses:
 * `exteriorTail_le_half`: `d_N ≤ 1/2` once `N ≥ 16 L sinh²(L/2)/π²`;
 * `alpha_ge_half`: with `b = s + 2`, `r (b - a₀) ≤ 1` and `d ≤ 1/2`, `α ≥ 1/2`.
 
-**Scope.** Real-number inequalities only. The Fourier estimates that produce `r` and `d_N`, the digamma
-lower bound `a(t) ≥ log(|t|/2π) - 2/|t|`, the coupling-tail bound and the identification of `Q` with the
-Weil form are not formalized. Nothing here is a statement about positivity of the Weil form beyond the
-exterior of a finite Fourier block, and there is no RH claim.
+**Scope.** Real-number inequalities only.
 -/
 
 namespace GppExteriorConstants

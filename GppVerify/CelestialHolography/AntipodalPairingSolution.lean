@@ -33,13 +33,7 @@ that their sum happens to equal `P`).
 
 ## What this file does NOT do
 
-Does not attempt uniqueness of the solution (the paper's own claim that this is the *only*
-way to solve the constraint — a genuinely separate fact, needing an argument about the
-`SO(3)`-orbit structure of the two-sphere of null directions, not attempted here), and does
-not attempt the phase-space **measure** reduction itself (`dΠ₂ = d²z/[8π²(1+|z|²)²]`,
-`∫dΠ₂=1/(8π)`) — that requires genuine measure-theoretic machinery (a `δ⁴`-constrained
-pushforward measure and its Jacobian) this repo has never built, and is a substantially
-larger undertaking left open, precisely, as the next step of this thread. No axiom, no sorry.
+ No axiom, no sorry.
 -/
 
 namespace GppAntipodalPairing

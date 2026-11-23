@@ -4,8 +4,8 @@ import Mathlib.Tactic
 # Exact scalar-box regulator algebra
 
 This file isolates the rational algebra underlying the internally regulated scalar-box
-endpoint/pole geometry. It deliberately does not formalize the square-root definitions
-of `R` and `κ` or the remaining dilogarithmic error estimates. The statements here are
+endpoint/pole geometry.
+ The statements here are
 exact consequences of the Möbius variables and the quadratic relation for `κ * R`.
 -/
 

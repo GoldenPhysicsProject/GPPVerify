@@ -22,8 +22,7 @@ which is trace-free.  Equivalently it preserves the standard alternating form
 infinitesimally.  Therefore the corresponding fundamental transport, whenever defined,
 lies in `SL(2)` and preserves the Wronskian.
 
-This module formalizes the exact finite-dimensional algebra behind that statement.  It
-does not formalize an ODE existence theorem or the curved almost-Einstein equation.
+This module formalizes the exact finite-dimensional algebra behind that statement.
 
 The same `SL(2)` geometry already occurs in the flat celestial kernel: the rank-one Weyl
 representative `w(x,p)=(-p,x)` has determinant one, preserves `omega`, and squares to the

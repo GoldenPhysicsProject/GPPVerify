@@ -21,10 +21,7 @@ the arithmetic Hamiltonian is `H = log N`, and the scaled escaping energy is `Y_
 ## Checks and scope
 
 Both claims check; the limit holds locally uniformly in the note, here it is proved pointwise in
-`s`, which is the form used above. **Not formalized:** the passage from convergence of Laplace
-transforms to convergence in distribution (a probability-theory step); the joint limit with
-finitely many prime occupations (§3); the fixed-frequency decay
-`ζ(1+ε+it)/ζ(1+ε) → 0` and its consequences (§4). No RH claim and no zero data used.
+`s`, which is the form used above.
 -/
 
 open Complex Filter Topology

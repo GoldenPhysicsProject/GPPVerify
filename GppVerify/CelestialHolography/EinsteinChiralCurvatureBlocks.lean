@@ -30,10 +30,8 @@ blocks vanish.  Reversing the four-orientation swaps both the domain and codomai
 splittings, so the same curvature operator is represented by the block-conjugated matrix
 which exchanges the two diagonal blocks and exchanges the two off-diagonal blocks.
 
-This file formalizes only the exact four-slot bookkeeping common to those statements.  It
-does NOT formalize an O(3,1) connection, a soldering form, a Riemann tensor, Yang--Mills
-equations, or the geometric theorem identifying the off-diagonal block with trace-free
-Ricci.  Those remain external inputs.
+This file formalizes only the exact four-slot bookkeeping common to those statements.
+  Those remain external inputs.
 -/
 
 namespace GppEinsteinChiralCurvatureBlocks

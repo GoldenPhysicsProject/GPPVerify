@@ -19,8 +19,7 @@ triplet compatibly with (P-COV)/(P-UNIT), or name the exact step that fails.
 particular for `u`-translation, for any fibrewise unitary in `u`, and for every
 number-diagonal unitary of the Fock model (`p^{-ibN}`). Then for every test `f` whose
 autocorrelation `h = autocorr f` vanishes beyond some `R`, `∫ h(v) e^{-v/2} dv = 0`
-(`greenInvariant_forces_unit_zero`). For `f ≥ 0`, `f ≠ 0` that integral is
-`(∫ f e^{-x/2})(∫ f e^{x/2}) > 0` (paper step, not formalised here), so no such dilation exists.
+(`greenInvariant_forces_unit_zero`).
 
 **Consequence for the Fock embedding.** At fixed `W`, a piecewise path whose `p`-channel on the
 `m`-th segment is `a_m · C_m^{1/2} Ψ̂_p` has trace jumps that are computed vector-state

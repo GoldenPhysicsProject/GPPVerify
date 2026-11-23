@@ -20,9 +20,7 @@ converge in `ℓ²` — the normalized family becomes orthogonal (see `ZetaCoher
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the isometric isomorphism `ℓ²(ℕ₊) ≅ ⊗'_p ℓ²(ℕ₀)` as an infinite
-tensor product (only the norm identity it implies), and the identification of the local factors with the
-TFD Fock space beyond the radius `r_p = p^{-1/2}` at `z = 0`. No RH claim.
+All claims check.
 -/
 
 open Complex ComplexConjugate GppArithmeticHardy

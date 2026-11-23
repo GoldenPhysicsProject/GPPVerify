@@ -34,8 +34,7 @@ approved in corrected scope (i)–(iii) by Turbo on PR #11 (comments 6786055165,
    `log n` for `n ≤ N`) is a genuine boundary triplet on this piecewise-C¹
    data: the trace map `(Γ₀, Γ₁)` is bijective on one-sided traces
    (`gamma_bijective`), and those traces are independently prescribable by
-   affine cutoffs (`exists_cutoff_traces`). No claim is made that full C1
-   is a boundary triplet on `ℓ²(PP; K)`; that onto sentence was withdrawn.
+   affine cutoffs (`exists_cutoff_traces`).
    A weighted trace space is not constructed. The leftover question is the
    named gap `open_c1_full_trace_space`.
 

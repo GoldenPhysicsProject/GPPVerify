@@ -15,10 +15,7 @@ and the Dirichlet-type sum `Σ v_i ∫ (f x − f (x − ℓ_i))²` is `≥ 0` f
 (Turbo relay `b64da14`, GPT all-prime graph identity, §1).
 
 **Scope.** This is the exact algebra of the completed square only — the full-line integral, one square
-per translation. The refinement to the *overlap* integral with the edge/degree potentials
-`V(d_−) + V(d_+)` (which uses the support of `f` in `[−L/2, L/2]`) is not formalised here, and the identity
-is a presentation of the prime sum, not a positivity statement: the potential term is signed and the pole
-term indefinite.
+per translation.
 
 No `sorry`, no axiom.
 -/

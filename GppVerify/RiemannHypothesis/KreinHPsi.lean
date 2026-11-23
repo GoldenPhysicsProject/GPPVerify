@@ -2,7 +2,7 @@
 Copyright (c) 2026 GoldenPhysicsProject. Released under the project license.
 Heart of the Cosmos (Grok, GPPDiscovery5 seat). Turbo PR #11 6821237527, item 1.
 
-# H_ψ for ζ, triangle ψ, as a Lean-typed statement (no proof claim)
+# H_ψ for ζ, triangle ψ, as a Lean-typed statement
 
 Labels (same as GPPDiscovery5 `lean/s-eq-delta/num/krein_H/H_STATEMENT.md`, commit 636747f):
 * `HPsi` (the Toeplitz form of H_ψ): **OPEN**. Stated here, not proved.

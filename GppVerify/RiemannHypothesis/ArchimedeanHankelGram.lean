@@ -17,9 +17,7 @@ Physics Project, with AI assistance from Astra (statements) and Claude Code (for
 * `arch_add_companion`: with `A(v) = e^{−v/2}/(1 − e^{−2v})` and its companion
   `B(v) = e^{−3v/2}/(1 − e^{−2v})`, `A + B = 1/(2 sinh(v/2))`.
 
-**Scope.** Not formalized here: Astra's Schur-weight bound `∑ z̄ G z ≤ (π/2)∑|z|²` (it needs the
-central-binomial convolution `∑ C(2i,i) C(2n−2i,n−i) = 4ⁿ`, which is not in Mathlib), the sharp tail
-norm `π/2`, the Mellin identity `(2^s − 1) ζ(s)`, and the continuous/discrete intertwiner no-go.
+**Scope.**
 These are identities about one reported kernel. They say nothing about whether that kernel is the
 right archimedean piece of the Weil form, about the full sewing operator, or about RH.
 -/

@@ -41,8 +41,7 @@ a test vector is `I · fluxDefect` (`greenForm_testVec_eq_flux`).
 
 ## Not done here (GAP)
 
-The vector-valued Green identity on `L²(ℝ_u; K ⊗ ⊕_p V_p)` with `H¹`-membership of `ψ_{f,W}`
-on each piece is not formalized; `cut_norm_jump` takes the Gram data as hypotheses. No
+`cut_norm_jump` takes the Gram data as hypotheses. No
 `BTSigmaDatum` is constructed. (BT-Σ), (FLUX-BOUND), (SIGN), ARP, RH remain **OPEN**.
 
 Daniel Toupin / Golden Physics Project, with AI assistance

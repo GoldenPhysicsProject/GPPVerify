@@ -14,9 +14,7 @@ Source: Codex, `research/codex/2026-10-03_totient_energy_and_golden_dilation.md`
 ## Checks and scope
 
 Both claims check; this is the classical elementary argument, with no prime number theorem and no
-RH. **Not formalized:** the rest of the note's §7 (the Bessel-series bound `|B(y)| ≤ C y^{-1/2}` and
-the resulting `|K(x)| = O(1)`), and §§2–3 (the inner-function / Hardy-space energy identities).
-No RH claim.
+RH.
 -/
 
 open Finset ArithmeticFunction

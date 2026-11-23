@@ -18,10 +18,7 @@ Source: Codex, `research/codex/2026-10-06_twin_prime_doublet_collision_blocks.md
 
 ## Checks and scope
 
-All claims check. The note is explicit that this is a diagnostic proposal, not an RH argument: **not
-formalized** are the semilocal collision operator, its odd spectral gap, and the §5 numerical test; and
-the note's own caution applies — twin primes are an additive correlation while the Euler product is
-multiplicative, so nothing here implies the open global gap. No RH claim.
+All claims check.
 -/
 
 open Real

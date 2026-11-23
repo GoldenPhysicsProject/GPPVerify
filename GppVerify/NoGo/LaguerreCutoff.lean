@@ -37,9 +37,7 @@ This file proves a sharper, fully explicit version of the same statement.
 
 The prime cutoff and `n → ∞` do not commute. Matching the true `E_n` therefore
 needs a cutoff at least exponential in `n`, and that is necessary, not
-sufficient. This file says nothing about the zeros of `ξ`.
-
-No RH claim.
+sufficient.
 -/
 
 namespace GppNoGo.LaguerreCutoff

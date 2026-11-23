@@ -18,8 +18,7 @@ For `M ≥ 0`, `r ≥ 0`, the candidate real-place kernel built from the finite-
 * `kernel_antitone`: `K(M, ·)` is antitone on `[0, ∞)`.
 * `kernel_tendsto_zero`: for `M > 0`, `K(M, r) → 0` as `r → ∞`.
 
-**Not formalized:** the large-`r` asymptotic `K ~ 1/(M²r² log(2Mr))` (§2), which needs the
-prime number theorem in integral form. The identification of `K` with a physical halo density is,
+ The identification of `K` with a physical halo density is,
 as the note says, a hypothesis. **No physics claim.**
 -/
 

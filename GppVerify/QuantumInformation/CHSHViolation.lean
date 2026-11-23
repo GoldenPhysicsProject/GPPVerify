@@ -34,8 +34,6 @@ concrete numerical computation the source itself carries out.
   Takes the CKW inequality itself as a hypothesis — it is not re-derived
   here, only the elementary consequence the source draws from it.
 
-## What is not claimed
-
 Nothing about *why* Haar measure on `Gr(2,4)` would force the Tsirelson
 bound, nor the general CHSH operator formalism (Pauli observables, tensor
 products, the quantum correlation function `E(a,b) = ⟨ψ|A_a⊗B_b|ψ⟩` for a

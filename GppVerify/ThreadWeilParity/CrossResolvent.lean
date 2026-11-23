@@ -23,9 +23,7 @@ prime–Archimedean Gram matrix does *not* have a universally positive commuting
 the top residue at `c=13,N=6` is negative. So the positivity hypotheses these theorems
 need (`c_j > 0` for all `j`, or `f(z) > 0` below the ground) are **not** established for
 the actual arithmetic object globally; only a weaker "positive below the ground" target
-survives. These theorems are real and unconditional as stated — abstract implications —
-but nothing here proves anything about the real Weil operator's spectrum, and nothing
-here is a step toward RH by itself.
+survives.
 -/
 
 open Matrix

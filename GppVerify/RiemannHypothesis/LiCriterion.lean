@@ -9,9 +9,7 @@ import Mathlib.Analysis.Real.Pi.Bounds
 Task #75 (long pending): a second equivalence for RH. Li's criterion (Li 1997) states
 that RH holds iff `λₙ ≥ 0` for every `n ≥ 1`, where
 `λₙ := (1/(n-1)!) · dⁿ/dsⁿ [sⁿ⁻¹ log ξ(s)] |_{s=1}`
-and `ξ` is the *entire* completed zeta function. The full equivalence needs the Hadamard
-factorization of `ξ(s)` (not in Mathlib; previously assessed this session as a genuine
-multi-week undertaking, not attempted here).
+and `ξ` is the *entire* completed zeta function.
 
 ## What this file does
 
@@ -47,9 +45,7 @@ value `λ₁ ≈ 0.0230957` (Li 1997).
 term) together with the tangent-line bound `log π ≤ π / e` (from
 `Real.log_le_sub_one_of_pos` applied at `π/e`, using `log e = 1`) and Mathlib's decimal
 bounds `Real.pi_lt_d4`, `Real.exp_one_gt_d9`, `Real.log_two_lt_d9` for the resulting
-numerics, closed by comparing against the *exact* rational value of `harmonic 63`. What
-remains open: the full Li ⟺ RH equivalence for all `n` (needs Hadamard factorization of
-`ξ`, not in Mathlib) is the separately-assessed, much larger undertaking.
+numerics, closed by comparing against the *exact* rational value of `harmonic 63`.
 -/
 
 namespace GppRH

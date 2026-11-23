@@ -14,11 +14,7 @@ For `ε ≠ 0` and `w : Fin n → ℝ` (with `s = w ⬝ w`), `regulator_mul_inv`
 `regInv ε w = ε⁻¹ (I − (ε + s)⁻¹ w wᵀ)` when `ε + s ≠ 0`. (This is the Sherman–Morrison form from
 which Astra's dual quadratic form `lᵀ A_ε⁻¹ l = |l_⊥|²/ε + |l_∥|²/(ε + |w|²)` follows.)
 
-**Scope.** The explicit inverse only. The determinant formula `det A_ε = ε^{n−1}(ε + |w|²)`, the
-quadratic-form splitting along `w`, the Gaussian Poisson summation on `ℤ^N`, the irrationality
-statement (no nonzero integer vector is parallel to `(log p_i)`), the limit
-`ε^{(N−1)/2} Z_ε(t) → (π/t)^{N/2}/|w|` and the idele-class-group discussion are not formalized. No
-claim about RH.
+**Scope.** The explicit inverse only.
 -/
 
 set_option autoImplicit false

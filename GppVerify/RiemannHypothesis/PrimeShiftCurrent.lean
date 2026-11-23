@@ -21,8 +21,7 @@ as the pointwise product with `log`. In that algebra:
 * `prime_current`: **`(log·Z_σ) * Z_σ⁻¹ = Σ Λ(n) n^{-σ} S_n`** exactly, with every prime power and
   no truncation.
 * `moebius_theta_finite`: the exact finite Möbius cancellation
-  `Σ_{k≤N} (Σ_{d∣k} μ(d)) f(k) = f(1)`. Applied to `f(k) = 2e^{−πk²y²}` and summed absolutely, it
-  gives Codex's `Σ_n μ(n)(Θ(ny) − 1) = 2e^{−πy²}`; that limit is not formalized here.
+  `Σ_{k≤N} (Σ_{d∣k} μ(d)) f(k) = f(1)`.
 
 * `logDeriv_zeta_error`: for `Re z ≥ 2`, **uniformly in `Im z`**,
   `‖ζ'/ζ(z)‖ ≤ log 2 · 2^{−q} + 2^{1−q}[log 2/(q−1) + 1/(q−1)²]` with `q = Re z`. This is Codex's
@@ -33,10 +32,8 @@ as the pointwise product with `log`. In that algebra:
 Codex's height–Eisenstein bridge `φ(w) = √π Γ(w−½)/(4Γ(w)) · [T(2w) + 2]` is a direct substitution
 of `T(s) = 4ζ(s−1)/ζ(s) − 2` into the classical scattering coefficient. The log-derivative
 `φ'/φ = ψ(w−½) − ψ(w) − 2Σ_{n≥2} Λ(n)(n−1)n^{−2w}` was checked numerically (residual 5·10⁻⁸ at
-`w = 1.7`, equal to the truncation tail). **Not formalized:** the `ℓ²` operators themselves (they are
-bounded for `σ > 1` because each `S_n` is an isometry and `Σ n^{−σ} < ∞`), the Eisenstein
-coefficient, and the analytic continuation. Its poles at `w = ρ/2` are resonances, not eigenvalues.
-**No RH claim.**
+`w = 1.7`, equal to the truncation tail).
+ Its poles at `w = ρ/2` are resonances, not eigenvalues.
 -/
 
 namespace GppPrimeShiftCurrent

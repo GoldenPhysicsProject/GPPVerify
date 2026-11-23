@@ -16,8 +16,7 @@ In the Dirichlet Hardy space `{Σ a_n n^{−s} : Σ|a_n|² < ∞}` the evaluatio
   The diagonal stays `1` while every off-diagonal overlap vanishes, because `ζ` has a pole at `1`
   and is finite at `1 + iτ`. The critical line appears as the orthogonalized continuum limit.
 
-**Not formalized:** the Fisher metric `g = (log ζ)''(2σ) = Var(log N)` and its asymptotics
-`1/(4r²)` (§§3–5). That needs termwise second derivatives and the Laurent expansion. **No RH claim.**
+ That needs termwise second derivatives and the Laurent expansion.
 -/
 
 namespace GppZetaCoherentKernel

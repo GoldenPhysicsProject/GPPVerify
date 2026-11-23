@@ -43,14 +43,11 @@ The module then packages three consequences:
 Finally it states the exact global missing bridge.  "Every critical-strip zeta
 zero survives in an observer-positive reflected pair" is equivalent to RH on
 the strip.  Likewise "every zero maps to a celestial principal-series label
-Delta = 2 rho" is equivalent to RH.  These equivalences are deliberately
-honest: this file does not prove the zero-survival/positivity hypothesis.
+Delta = 2 rho" is equivalent to RH.
 
 For an off-line zero the classical functional equation plus conjugation gives a
 second distinct zero at the same ordinate.  Such a zero cannot satisfy the
 observer-positive reflected-pair condition.
-
-No RH claim is made.
 -/
 
 namespace GppObserverPrincipalSeries

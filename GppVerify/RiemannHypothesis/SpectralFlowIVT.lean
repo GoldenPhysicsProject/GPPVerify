@@ -17,10 +17,7 @@ For a family `Q : ℝ → Matrix (Fin n) (Fin n) ℝ` whose entries are continuo
 * `exists_det_zero_Ioo_quarter`: the special case `[0, 1/4]`, with the endpoint signs stated as
   hypotheses (`det Q(0) < 0 < det Q(1/4)` or the reverse).
 
-**Scope.** Only this intermediate-value step. The certified endpoint signs themselves (Codex's Arb
-computation of `det Q` at `θ = 0` and `θ = 1/4`), the definition of the source-site matrix `Q(θ)`,
-the continuity of its entries, and the uniqueness of the zero are NOT formalized; they enter as
-hypotheses. No claim about RH.
+**Scope.** Only this intermediate-value step.
 -/
 
 set_option autoImplicit false

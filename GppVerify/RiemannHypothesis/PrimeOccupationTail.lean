@@ -27,7 +27,7 @@ probability `p^{−β}`. This file proves:
 
 Codex's caveat stands. `E` is a tail event, not a bounded quasi-local observable. Whether a completed
 Tate/Poisson observable algebra contains it, and whether it couples to the `ξ` spectral data, is
-open. **No RH claim.**
+open.
 -/
 
 namespace GppPrimeOccupationTail

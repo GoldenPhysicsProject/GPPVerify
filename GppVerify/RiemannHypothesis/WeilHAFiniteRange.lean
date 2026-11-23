@@ -22,7 +22,7 @@ The tightest `j` is `74` (relative slack `4.8 · 10⁻⁷`).
 **Scope.** This is *only* the implication "named lower endpoint `≤ A_jj` ⇒ floor". Not in this file and not
 in Lean: that `A_jj` actually lies in Flint's ball (the ball hypothesis, a statement about the run-16
 matrix); the tail `j > 812`; the assembly chain. `c_A = 867483/500000 ≈ 1.73497` is below Flint's committed
-`profile_lower` minimum. Nothing here proves ARP/RH/AKG. No `sorry`, no axiom.
+`profile_lower` minimum. No `sorry`, no axiom.
 -/
 
 namespace GppWeilHA

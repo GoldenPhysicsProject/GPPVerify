@@ -15,7 +15,7 @@ In the Cayley coordinate `w = β(s) = (s − 1)/s = 1 − 1/s` (`CayleyCircleHar
 So the region where the Euler product converges is a proper, zero-free patch tangent to the
 mirror circle at the essential singularity. RH is equivalent to `ξ(1/(1 − w))` having no zeros on
 the whole disk (Li's setting), and to its logarithm extending from the horodisk across the disk.
-That is a reformulation, **not** an estimate. **No RH claim.**
+That is a reformulation, **not** an estimate.
 -/
 
 namespace GppCayleyEulerHorodisk

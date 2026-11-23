@@ -26,8 +26,6 @@ is an open obligation, on the same footing as the definition of `𝔽_L`. Nothin
 
 The one theorem is the elementary normalised-frame consequence: `UBR φ ρ` with positive diagonal gives
 `(1 − ρ)‖x‖² ≤ xᵀ Ã x ≤ (1 + ρ)‖x‖²` (`gershgorin_normGram`), by the row-sum lemma of `WeilHRho`.
-This is the Gershgorin statement in *normalised* coordinates only; it is **not** a margin in original
-coordinates (where the profile decays like `log ω/ω⁴`), and nothing here derives `UB ⇒ μ(L) ≥ m* > 0`.
 
 ARP, RH, OB-6, UB: OPEN. No `sorry`, no axiom.
 -/

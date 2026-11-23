@@ -57,9 +57,6 @@ theorem range_coeAddHom :
   · rintro ⟨y, rfl⟩; exact y.2
   · intro hx; exact ⟨⟨x, hx⟩, rfl⟩
 
-/-- `ℤ_p ↪ ℚ_p` is an *open* embedding: it's the canonical subtype embedding (hence an
-    embedding), and its range — the closed unit ball — is open, since closed balls of
-    nonzero radius in an ultrametric space are clopen. -/
 theorem isOpenEmbedding_coeAddHom : Topology.IsOpenEmbedding (coeAddHom p) := by
   refine ⟨Topology.IsEmbedding.subtypeVal, ?_⟩
   rw [range_coeAddHom]

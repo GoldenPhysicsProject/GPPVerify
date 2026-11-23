@@ -23,12 +23,7 @@ clutching map `g(q) = Q(q)/|q| : S³ → SU(2)`. Turbo audited it at paper level
 * **`radial_integral`**: `∫₀^∞ r³/(1 + r²)⁴ dr = 1/12`, the radial factor of the charge integral
   `(1/8π²) ∫_{ℝ⁴} 48 (1 + r²)⁻⁴ d⁴q = (1/8π²) · 48 · 2π² · (1/12) = 1`.
 
-**Not formalised here:** the curvature formula `F = dQ†∧dQ/(1 + r²)²` and the density
-`tr(F∧F) = 48 (1 + r²)⁻⁴ d⁴q` (no differential forms on `ℝ⁴`-valued matrix connections in Mathlib); the
-polar-coordinate reduction of the `ℝ⁴` integral with `vol(S³) = 2π²`; the degree of the clutching map
-and `c₂ = 1` (no Chern classes or homotopy groups of spheres in Mathlib). The `SU(3)` classification
-corollary (Discovery 2, comment 6887256936) is likewise not formalised. Nothing here concerns dynamics,
-the colour obstruction of `G₂/SU(3)`, or the Riemann hypothesis. No `sorry`, no axioms.
+ No `sorry`, no axioms.
 -/
 
 namespace GppQuaternionicHopf

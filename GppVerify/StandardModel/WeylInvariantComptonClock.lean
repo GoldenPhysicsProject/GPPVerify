@@ -25,8 +25,7 @@ phase, but their product is.  When `phi=0`, the generated mass and intrinsic Com
 vanish.  When `phi != 0`, fixing the Weyl gauge by setting `phi` to a constant simultaneously
 fixes the mass scale and the proper-time ruler.
 
-This is an algebraic Weyl-covariance theorem.  It does not prove that the primordial universe
-was Weyl invariant or that the Standard-Model Higgs is the compensator.
+This is an algebraic Weyl-covariance theorem.
 -/
 
 namespace GppWeylInvariantComptonClock

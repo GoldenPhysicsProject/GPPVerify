@@ -19,7 +19,7 @@ with `C` depending only on `M`. Proof from Gauss's series (E2a): each term is
 `O(log L)` (`sum_range_le_log`, harmonic bound plus the tail `∑ 1/m² ≤ 2/(K+1)`).
 
 Stage E2b of the explicit-formula plan (bridge
-`MuseResearch/claude-code-note-2026-11-07-explicit-formula-plan.md`). No claim about RH.
+`MuseResearch/claude-code-note-2026-11-07-explicit-formula-plan.md`).
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/

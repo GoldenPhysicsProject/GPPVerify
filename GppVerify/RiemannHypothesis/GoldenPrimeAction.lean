@@ -18,11 +18,6 @@ Real-variable algebra only:
 * `prime_det`: `B·C − A·D = 5p` (for `φ² = φ + 1`); `hasDerivAt_P`: `P_p' = 5p/(C + D y)²`.
 * `prime_golden_noncommute`: for `p > 1` the golden map `G(y) = −φ⁻² y` and `P_p` do not commute at
   `y = 0`.
-
-**Scope.** The unitarity of `W_h f(y) = √|y h'(y)/h(y)| f(h(y))` on `L²(ℝ^×, dy/|y|)`, the two-sheet
-`L²(ℝ)` shift, the no-point-spectrum theorem, the identification with Hecke/completed primes and
-every numerical regression are NOT formalized. Non-commutation does not produce a discrete spectrum
-and nothing here selects zeta zeros. No claim about RH.
 -/
 
 set_option autoImplicit false

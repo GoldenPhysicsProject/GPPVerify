@@ -24,10 +24,7 @@ Proved here, for every `n ∈ S`:
 The mechanism is that conjugation by `√n` turns `Z`, `M`, `L_Λ` into Dirichlet convolution with
 `ζ`, `μ`, `Λ`, and divisor-closedness makes `{d ∈ S | d ∣ n} = n.divisors`.
 
-## Not formalized here
-
-The note's §3–4 Schur-test bounds `‖Z‖, ‖M‖ ≤ √(τ_max(X)(1 + log X))` and the subexponential
-growth of `τ_max` are not formalized in this file. These are exact identities only; they do
+ These are exact identities only; they do
 not control the completed scalar Weil pullback and have no bearing on RH by themselves.
 -/
 

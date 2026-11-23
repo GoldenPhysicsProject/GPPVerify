@@ -23,10 +23,7 @@ Mellin–Plancherel unitary line of the scaling representation.
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the finite Fourier statement `𝓕 v_d = v_{N/d}` that motivates
-the complementation (the note takes it from the preceding self-dual divisor note), and the global
-statement (spectral quantization: why the continuous `t` becomes the Riemann ordinates), which is the
-note's open target. No RH claim.
+All claims check.
 -/
 
 open Real

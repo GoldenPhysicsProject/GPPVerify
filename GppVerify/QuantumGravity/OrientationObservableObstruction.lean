@@ -19,9 +19,6 @@ distinction: opposite global relative phases can yield exactly the
 same reduced probability data, but an interference observable separates
 the two global states. The full ray's Fubini--Study phase metric can
 therefore be nonzero when the reduced-state Fisher metric is zero.
-
-No claim is made that Wigner's antiunitary time reversal is the user's
-microscopic orientation sign t or their diagonal four-lift involution D.
 -/
 
 namespace GppOrientationObservableObstruction

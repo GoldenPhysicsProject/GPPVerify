@@ -15,10 +15,9 @@ The normalized overlap of arithmetic coherent states at equal radial coordinate 
 
 ## Checks and scope
 
-Both claims check; the second is new. **Not formalized:** the Hardy-space / `SU(1,1)` `k = 1/2` reading
-(§§1–3, partly in `CayleyHardyKernel`), the identification of the boundary with the principal-series
-continuum, and the interpretation of the "surviving ghost" (§§6–7). The weak escape is a statement
-about this limit, not about any Hilbert-space completion. No RH claim.
+Both claims check; the second is new.
+ The weak escape is a statement
+about this limit, not about any Hilbert-space completion.
 -/
 
 open Complex Filter Topology

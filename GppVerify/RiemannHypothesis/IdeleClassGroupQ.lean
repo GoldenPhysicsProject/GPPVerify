@@ -22,8 +22,7 @@ convolution_square_positive_type_group` (right-invariance only), stated here for
 commutative group and instantiated on `C_ℚ`.
 
 **Scope.** Positivity of a Haar square is unconditional and is *not* Weil positivity, which
-concerns the specific distribution `D_k` (see `NoGo/HaarSquareNotReflection.lean`). No claim
-about RH, which remains open.
+concerns the specific distribution `D_k` (see `NoGo/HaarSquareNotReflection.lean`).
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
@@ -35,7 +34,6 @@ thesis, Princeton (1950), reprinted in Cassels–Fröhlich (eds.), *Algebraic Nu
 Theory*, Academic Press (1967), pp. 305–347. That a Haar square
 `x ↦ ∫ Ω(y) Ω(yx⁻¹) dμ(y)` is of positive type is the standard convolution-square
 fact of harmonic analysis on locally compact groups.
-
 -/
 
 set_option autoImplicit false

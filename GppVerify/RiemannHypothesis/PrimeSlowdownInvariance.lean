@@ -37,13 +37,10 @@ particular prime circles lining up.
   containing a zero of `ζ`, **no** subsequence `R_{φ(k)}` converges locally uniformly on `D`. A
   limit would be holomorphic, equal to `1` near the point with `Re s > 1`, hence `1` on `D` by the
   identity theorem, yet `0` at the zero. So finite zero invariance cannot be exchanged with the
-  all-prime limit. Codex's version uses `(s − 1)R_n` and allows `1 ∈ D`; that is not formalized,
-  and neither is the Montel conclusion "not locally bounded".
+  all-prime limit.
 
 **Scope.** This is an edit of finitely many Euler factors, not of the conditionally convergent
-`η` summands. `ζ_{P,α}` need not satisfy the functional equation. Equality of multiplicities
-(true, since `M` is a holomorphic unit) is not stated, and the uniform reparametrisation
-`t = ατ` is not formalized. Elementary; not claimed novel. No claim about RH.
+`η` summands. `ζ_{P,α}` need not satisfy the functional equation.
 -/
 
 set_option autoImplicit false
