@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: explicit-formula chain index theorem
+      # Front: the ladder of shadow data indexed by dimension
       MODULES: >-
-        GppVerify.RiemannHypothesis.ExplicitFormulaChain
+        GppVerify.RiemannHypothesis.ShadowLadder
 
     steps:
       - uses: actions/checkout@v4
