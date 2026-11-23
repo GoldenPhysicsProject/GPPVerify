@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: two-rate quartet positivity
+      # Front: height bound for zeros of xi
       MODULES: >-
-        GppVerify.RiemannHypothesis.QuartetTwoRate
+        GppVerify.RiemannHypothesis.XiHeightBound
 
     steps:
       - uses: actions/checkout@v4
