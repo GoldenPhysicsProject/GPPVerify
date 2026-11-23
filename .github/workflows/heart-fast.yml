@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: four-face Gram determinant and joint holomorphy of the divided-difference Gram
+      # Front: the ladder of shadow data indexed by dimension
       MODULES: >-
-        GppVerify.RiemannHypothesis.FourFaceGram
+        GppVerify.RiemannHypothesis.ShadowLadder
 
     steps:
       - uses: actions/checkout@v4
