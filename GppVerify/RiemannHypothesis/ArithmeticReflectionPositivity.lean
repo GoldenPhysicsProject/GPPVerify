@@ -33,12 +33,17 @@ Normalization check (numerical, not a Lean proof; script
 against `Σ_γ ĝ(γ) = 1.7100734e-4` over the first 599 zeta zeros, agreement
 ~1e-12 with the digamma form of the gamma term and ~1e-9 with `archimedeanTerm`.
 
-**What is not here.** Weil's theorem (1952; Bombieri, Rend. Lincei 2000) that
-this premise is equivalent to RH goes through the explicit formula, which is not
-in Mathlib; it is classical mathematics still to be formalized, not a conjecture.
-The premise itself is open: it is RH-strength. Davenport-Heilbronn and the
-theta-weight deformation violate their analogues at small primes, so any
-argument for it must use a xi-specific prime-side input. No claim about RH.
+**Where the zeros come back.** Weil's theorem (1952; Bombieri, Rend. Lincei 2000) that this
+premise is equivalent to RH goes through the explicit formula, and that formula is in-tree:
+`GppExplicitFormulaAssembly.explicit_formula_zeroSum` gives
+`Σ_ρ m(ρ) ĝ(ρ) = W(f ⋆ f̃)` for every test function (absolutely convergent, zeros with
+multiplicity), `GppAKG.gram_zeta_eq` identifies the zeta Gram form with `W`, and
+`GppBTSigmaSpectralTransform.arp_iff_rh_strip` proves that `ArithmeticReflectionPositivity` holds
+exactly when every nontrivial zero has `Re ρ = 1/2`; `riemannHypothesis_of_strip` turns that into
+Mathlib's `RiemannHypothesis`. `GppExplicitFormulaChain.explicit_formula_chain` states the chain
+in one theorem. The premise therefore carries the full strength of RH by theorem, and
+Davenport-Heilbronn and the theta-weight deformation violate their analogues at small primes, so
+any argument for it uses a xi-specific prime-side input.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 

@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: Moebius gcd form mode decomposition
+      # Front: explicit-formula chain index theorem
       MODULES: >-
-        GppVerify.RiemannHypothesis.MobiusModeDecomposition
+        GppVerify.RiemannHypothesis.ExplicitFormulaChain
 
     steps:
       - uses: actions/checkout@v4
