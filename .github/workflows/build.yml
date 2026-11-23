@@ -206,3 +206,24 @@ jobs:
 
       - name: Landing-page claim gate (FAILS the build)
         run: python3 scripts/check_landing_claims.py
+
+      - name: Status-claim gate (FAILS the build)
+        # No stale status claims in comments, docstrings or notes. On 2026-11-22 a
+        # docstring asserting the Weil explicit formula "is not formalized" was
+        # trusted over the tree that had formalized it; PR #672 swept ~816 such
+        # sentences, and this gate makes the sweep permanent — the disclaimer
+        # pattern family fails the build at write time, outside the adjudicated
+        # record classes allowlisted in scripts/status_claims_allowlist.txt.
+        run: python3 scripts/check_status_claims.py
+
+      - name: Named-pointer gate (FAILS the build)
+        # Existence is claimed by naming a declaration; the names registered in
+        # scripts/named_pointers.txt must resolve to declarations in the tree.
+        run: python3 scripts/check_named_pointers.py
+
+      - name: Published-counts gate (FAILS the build)
+        # The counts the repo states about itself (landing page, blueprint,
+        # README) are written from the tree by sync_published_counts.py; this is
+        # that script in --check mode, so a hand-edited or drifted count fails
+        # here instead of being discovered months later.
+        run: python3 scripts/sync_published_counts.py --check

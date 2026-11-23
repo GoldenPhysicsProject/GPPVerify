@@ -1,0 +1,113 @@
+# Allowlist for scripts/check_status_claims.py — the adjudicated keeps of PR #672.
+#
+# Format, one entry per line:
+#
+#     PATH :: LINE-REGEX :: REASON
+#
+# PATH is a repo-relative path or glob. LINE-REGEX is a Python regex the hit line
+# must match; `*` exempts every hit in the file and is used only where the whole
+# file is a single record of the stated kind. REASON is required: it names the
+# adjudicated class the line belongs to. An entry without a reason does not parse.
+#
+# The classes (PR #672's adjudication): OPEN registries and `open_` stub records;
+# THEOREM/LEAN/OPEN/KILLED label lines; hypothesis statements naming what a proved
+# result takes; the proved-false ledger; correction and retirement records;
+# definitional and framework-claim guards; dated historical notes, kept as written
+# (editing a dated record to match today's tree would falsify the record).
+#
+# A NEW disclaimer does not get an entry here. It gets rewritten: state what is
+# proved and name the hypotheses it takes.
+
+# ---- Dated historical Markdown notes: kept as written -------------------------
+docs/FS_YORK_VOLUME_FORMALIZATION_2026_10_18.md :: * :: dated working note (2026-10-18), kept as written
+docs/celestial_bpy_ym_cross_manuscript_synthesis_2026-09-14.md :: * :: dated working note (2026-09-14), kept as written
+docs/copOisson_mobius_cusp_schur_calculation_2026-09-14.md :: * :: dated working note (2026-09-14), kept as written
+docs/critical_zeta_coherent_state_boundary_2026-09-13.md :: * :: dated working note (2026-09-13), kept as written
+docs/googly_ambitwistor_parent_2026-09-08.md :: * :: dated working note (2026-09-08), kept as written
+docs/metaplectic_dilation_weil_positivity_2026-09-12.md :: * :: dated working note (2026-09-12), kept as written
+docs/nyman_metaplectic_reducing_subspace_attack_2026-09-12.md :: * :: dated working note (2026-09-12), kept as written
+docs/orientation_bigbang_horizon_arithmetic_synthesis_2026-09-09.md :: * :: dated working note (2026-09-09), kept as written
+docs/orientation_car_kd_blackmirror_synthesis_2026-09-09.md :: * :: dated working note (2026-09-09), kept as written
+docs/rh_mobius_gauge_fermionic_determinant_attack_2026-09-13.md :: * :: dated working note (2026-09-13), kept as written
+docs/FORMALIZATION_PLAN.md :: * :: the plan's dated thread-entry records and backlog paragraphs (PR #672 flagged adjudication: kept as work records)
+discovery/README.md :: * :: discovery working notes (dated session records), kept as written
+discovery/cutkosky_weil/notes.md :: * :: discovery working notes (dated session records), kept as written
+discovery/local_field_shadow/local_shadow_kernel_notes.md :: * :: discovery working notes (dated session records), kept as written
+discovery/which_way_is_forward/README.md :: * :: discovery working notes (dated session records), kept as written
+GppVerify/ThreadHT/ARITHMETIC_PRINCIPAL_SERIES_SURVEY.md :: * :: historical survey record; the hits quote source abstracts and index rows
+
+# ---- Record and registry files -------------------------------------------------
+GppVerify/NoGo/Ledger.lean :: * :: proved-false ledger: the hits sit inside ledger rows recording claims proved false
+GppVerify/RiemannHypothesis/StubRegistry.lean :: * :: the OPEN stub registry
+GppVerify.lean :: * :: root index: the file holds no declarations, so every comment is an index scope annotation (hypothesis statements, named open steps, thm:link6 stub-dependency notes) — the sweep's manual root pass adjudicated these as keeps
+scripts/check_axioms.lean :: * :: the axiom audit script's own scope comments (definitional guards: what the audit does and does not establish)
+
+# ---- Programme OPEN-registry status lines and named open statements ------------
+GppVerify/RiemannHypothesis/AkgStatement.lean :: * :: status record: the AKG equivalence's hypothesis status plus the programme OPEN registry line
+GppVerify/RiemannHypothesis/ArithmeticSMatrix.lean :: * :: programme OPEN registry line and its scope record
+GppVerify/RiemannHypothesis/BTSigma.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/BTSigmaDoubling.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/BTSigmaShiftedTheta.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/BTSigmaShiftedThetaNeg.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/BTSigmaShiftedThetaOnCut.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/BTSigmaWPosEscape.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/BTSigmaWPosTheta.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/CesaroWeilGram.lean :: * :: programme status line plus the named open statement WeilIsGram's own docstring (OPEN — stated, not proved): registry records
+GppVerify/RiemannHypothesis/CfsClosedChain.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/GravitonDeltaIdentification.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/KreinHPsi.lean :: * :: status header registering the named open statements (HPsi, HPsiWindows) and the named premise: registry records
+GppVerify/RiemannHypothesis/LinearZetaTheory.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/PasterskiShaoNormalizability.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/ShadowTheoryOnline.lean :: * :: programme OPEN registry line
+GppVerify/RiemannHypothesis/TwoSpaceForm.lean :: * :: the named-obligations registry ("Named obligations, not proved here"); PR #672 registers obligation O1 here
+
+# ---- Hypothesis statements: name what a proved result takes ---------------------
+GppVerify/CelestialHolography/KleinGordonPairing.lean :: * :: hypothesis statement: the file's hypotheses are "not proved, and not used"
+GppVerify/RiemannHypothesis/ConditionalWeightStateLine.lean :: * :: hypothesis statement on the conditional theorem (the correspondence premise)
+GppVerify/RiemannHypothesis/HeartFourthPowerSampling.lean :: RH-strength and is not proved :: hypothesis statement on the conditional corollary F13S
+GppVerify/RiemannHypothesis/OddFaceFrame.lean :: * :: section heading naming the ball hypotheses the conditional theorems take
+GppVerify/RiemannHypothesis/OddFaceItem4Floor.lean :: * :: the file's scope statement separating what it proves (entry balls imply the floor) from the remaining input: a hypothesis statement
+GppVerify/RiemannHypothesis/OneSidedPsiRH.lean :: the hypothesis is not proved here :: hypothesis statement on a conditional theorem (equivalent to RH)
+GppVerify/RiemannHypothesis/RankOneThresholdControls.lean :: * :: hypothesis statement: the file states the hypothesis it uses
+GppVerify/RiemannHypothesis/SparseCutoffCriterion.lean :: * :: hypothesis statements: the file's "What is a HYPOTHESIS (named, not proved)" section and the analytic input's docstring
+GppVerify/RiemannHypothesis/WeightedSuperadditivity.lean :: * :: hypothesis statement: superadditivity is a hypothesis here
+GppVerify/RiemannHypothesis/WeilSupportLadder.lean :: * :: hypothesis statements: Connes–Consani's rung-0 theorem is an external input, named as not proved here
+GppVerify/StandardModel/PrimePatiSalamCartan.lean :: * :: hypothesis statement (dictionary hypothesis)
+GppVerify/QuantumGravity/FubiniStudyYorkBridge.lean :: * :: scope statement delimiting the proved bridge: not proved for arbitrary QFTs, gravity backgrounds or causal diamonds
+GppVerify/RiemannHypothesis/SpectralOrbitals.lean :: * :: premise-field record (PR #672 flagged spot): the explicit formula enters as a hypothesis field of ExplicitFormulaLedger
+GppVerify/RiemannHypothesis/PadicMultiplicativeMeasure.lean :: * :: named open step record: multiplicative invariance is the thread's named open step
+
+# ---- `open_` stub records -------------------------------------------------------
+GppVerify/RiemannHypothesis/FinitePeterWeyl.lean :: * :: stub record: the hit states that the open_ stub records the statement
+GppVerify/RiemannHypothesis/DigammaSeries.lean :: * :: stub record: the section records why the stub stays
+GppVerify/RiemannHypothesis/FluxBound.lean :: Nothing here proves|not proved here|not formalized|remain OPEN :: the (FLUX-BOUND) open-step records; the "Nothing here proves it" line is PR #672's flagged keep — the open_ honesty record — and the rest are the paper-vs-tree status records of the named lemmas and the programme status line
+GppVerify/RHSpectralMultiplicity.lean :: Placeholder|open problem in mathematics :: the Placeholder comments sit inside open_ stub bodies (open_K_trace_class, open_plancherel_atom_one, open_meyer_spectral_weil); the other hit states the mathematical fact that zero simplicity is an open problem
+
+# ---- thm:link6 dependency annotations -------------------------------------------
+GppVerify/StandardModel/ThreeGenerations.lean :: * :: thm:link6 dependency annotations on the Link-6-dependent theorems and open_ stubs, plus the 2026-09-01 rename correction record
+GppVerify/RiemannHypothesis/ShadowSymmetry.lean :: * :: thm:link6 dependency annotations (docstring and dependency table)
+
+# ---- Correction and retirement records; ordinary-sense false positives ----------
+GppVerify/RiemannHypothesis/CesaroMeanDivergence.lean :: * :: correction record: quotes the retired "not formalized here" wording in order to correct it ("it is formalized here")
+GppVerify/StandardModel/MassOrientationCoupling.lean :: Not formalized|NOT claimed|not formalized|What remains open :: quoted retired stub text inside the 2026-09-02 retirement correction record, the scope statement it cross-references in TauDifferential, and the module scope section recording the paper's items and their current status
+GppVerify/NumberTheory/EulerSumCapstone.lean :: * :: dated closure record: states the MZV input was unformalized in this file and names its 2026-11-07 closure in EulerSumTwo.lean
+GppVerify/RiemannHypothesis/TwistorTwoModeThreshold.lean :: * :: correction record: a note discrepancy that affects no claim in the note
+GppVerify/RiemannHypothesis/AdelicL2.lean :: * :: retirement record: the hit describes the True placeholder the proved content replaced
+GppVerify/StandardModel/HalfFlipProposition.lean :: * :: retirement record: "the former True placeholder"
+GppVerify/RiemannHypothesis/EulerFactorLogDeriv.lean :: * :: pattern false positive: "placeholder" in its ordinary sense — the text states the construction is a genuine function of s, not a placeholder
+
+# ---- Definitional and framework-claim guards; label records ----------------------
+GppVerify/CelestialHolography/TwistorGoogly.lean :: * :: framework-claim guard: marks the Gr(2,4) self-duality claim as not established and points at the open stubs
+GppVerify/StandardModel/MajoranaCondition.lean :: * :: FRAMEWORK CLAIM guard: T-boundary delocalisation is proposed by the framework, not established
+GppVerify/GeneralRelativity/DiamondADMHessianYork.lean :: * :: definitional scope guard: lists what the finite polynomial module does not establish
+GppVerify/QuantumGravity/LocalShadowKernel.lean :: * :: scope statement: the file's summary of what is and is not established about the local-to-global bridge
+GppVerify/RiemannHypothesis/SpectralWeil.lean :: * :: definitional guard: "not an open problem; it is a missing import" — the LIBRARY GAP / OPEN PROBLEM label distinction
+GppVerify/NumberTheory/ShadowEulerIdentity.lean :: not claimed|open problem|remains open :: the LIBRARY GAP / OPEN PROBLEM label discussion and its correction record; the "remains open" hit names its open_ stub (open_thm_universal_shadow_product); the "not claimed" hit is the equivalence-in-strength status statement
+GppVerify/RiemannHypothesis/RHProofStructure.lean :: not formalized here|not established|OPEN PROBLEM|open problem|not proved by anyone :: proof-structure registry: OPEN PROBLEM label lines, the 2026-09-02 relabel correction record, the framework-claim guard, a source-record scope statement, and the zero-simplicity fact (an open problem in mathematics, not proved by anyone)
+GppVerify/YangMills/MassGap.lean :: * :: Millennium classification record (corrected 2026-09-02): OPEN PROBLEM labels on the open_ stubs and source-verification guards
+GppVerify/CelestialHolography/TreeLoopSewing.lean :: * :: named open step record: the paper's analytic interface is its named open problem
+GppVerify/RiemannHypothesis/CasimirCriticalLine.lean :: * :: record identifying the construction as the open problem, as the source note states
+GppVerify/CelestialHolography/NSFLegendreProjectiveCriterion.lean :: * :: scope statement: the non-Möbius reparametrization case is outside the criterion (open geometry)
+GppVerify/ThreadWeilSemibound/LocalizedGroundOrder.lean :: * :: scope statement: what remains open is the analytic input, the file's named hypothesis
+GppVerify/RiemannHypothesis/OddFaceSineAtoms.lean :: * :: status record: OddFace(0.5) is closed numerically, not proved — the numerical/proof distinction is the file's honesty record
+GROK.md :: remain OPEN :: seat brief standing instruction (governance text addressed to a seat, not a status claim about the tree)
