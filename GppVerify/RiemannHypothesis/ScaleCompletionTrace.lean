@@ -21,9 +21,6 @@ Source: Codex, GPP-bridge `research/codex/2026-09-29_scale_completion_attempt.md
   the real-trace quotient, so this completion is blind to them (§5).
 * `nonclosable_witness`: `h_N = (1/N) Σ_{n ≤ N} e_n` has `‖h_N‖² = 1/N → 0` but coefficient sum
   `1`. So a vacuum term `a(s)·E(c)` with `a(s) ≠ 0` is not closable (second note §2).
-
-Not formalized: the quotient characterization `N_F = {f : f|_{Z_ℝ} = 0}` (Sobolev cutoffs), the
-off-real evaluation blow-up (§6) and the graph-distance formula `d(s) = |A(s)|`. **No RH claim.**
 -/
 
 namespace GppScaleCompletionTrace

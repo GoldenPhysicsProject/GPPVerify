@@ -18,8 +18,7 @@ Toupin / Golden Physics Project, with AI assistance from Codex (statement) and C
   `i, j`, then `(c − 6δ) ‖x‖² ≤ xᵀ A x`. With `δ ≤ 10⁻⁸` this gives `A ⪰ 1.4·10⁻⁷ I`.
 
 **Scope.** The entrywise bound `δ` for the arithmetic matrix `P̂₆` was rounded from is **not**
-supplied here. That is the open interval-enclosure obligation Codex names. Finite `K = 6` only. No
-claim about RH.
+supplied here. That is the open interval-enclosure obligation Codex names. Finite `K = 6` only.
 -/
 
 open Matrix

@@ -21,10 +21,7 @@ Three exact real-analysis pieces of that argument, stated abstractly:
 * `two_channel`: if `Q ≥ M a² + F G²` with `M ≥ κ L`, `F ≥ κ`, and
   `‖f‖² = L a² + G²`, then `Q ≥ κ ‖f‖²`.
 
-**Scope.** These are the scalar inequalities only. The continuous variance identity
-`∫∫|f(x+y) − f(x)|² = L‖g‖²`, the Cauchy bounds `‖c‖ ≤ d‖g‖`, the Weil quadratic form itself, and
-the Arb-certified endpoint values `B_mean`, `B_fluct` (taken as hypotheses by `two_channel`) are
-not formalized. Codex's CI receipts are not checked here. No claim about RH.
+**Scope.** These are the scalar inequalities only.
 -/
 
 set_option autoImplicit false

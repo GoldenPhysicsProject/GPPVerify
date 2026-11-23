@@ -10,7 +10,7 @@ import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 /-!
 # Möbius echo, finite-step energy and the storage/work telescope
 
-**Conditional telescope; nothing here proves RH.** Formalization of the packet
+**Conditional telescope.** Formalization of the packet
 `work/codex/2026-11-21-mobius-passivity-lean-handoff.md` (Codex, Turbo-audited statement-by-statement),
 items (1)–(3). With `a(n) = μ(n)/√n`, a free real `c` (the packet's `c = 1/ζ(1/2)` is an instance;
 the identities hold for every constant), `b_k = Σ_{n≤k} a(n) − c`, `B(u) = b_{⌊e^u⌋}` and
@@ -27,10 +27,11 @@ the identities hold for every constant), `b_k = Σ_{n≤k} a(n) − c`, `B(u) = 
    with `stor ≥ 0` and `stor(1) + Σ_{k<N_j} w(k) ≤ N_j^η` eventually for every `η > 0` (any sequence
    `N_j`, no spacing assumption), `Q(log N_j) ≤ N_j^η` eventually for every `η > 0`.
 
-**Not built (item (4)):** the RH conclusion composes `sparse_energy_bound` with the *sparse-cutoff
-criterion* (`liminf_L log(1+Q(L))/L = 0 ⇒ RH`), which is **not yet formalized in Verify** (checked
-2026-11-21); per the packet it is shipped separately and named in the ledger. The arithmetic storage
-law with an independently subpower-bounded work sum is open; the trivial choice `stor = 0`,
+**Item (4)** is the composition of `sparse_energy_bound` with the *sparse-cutoff
+criterion* (`liminf_L log(1+Q(L))/L = 0 ⇒ RH`): the criterion is
+`GppSparseCutoff.riemannHypothesis_of_nat_subpower` (`SparseCutoffCriterion.lean`), and the
+composition is `MobiusEchoRH.lean`. The arithmetic storage
+law with an independently subpower-bounded work sum is the remaining input; the trivial choice `stor = 0`,
 `w(k) = log((k+1)/k) b_k²` only recovers the original `Q` obligation. No `sorry`, no `axiom`.
 -/
 

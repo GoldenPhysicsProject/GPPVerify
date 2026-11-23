@@ -14,7 +14,7 @@ full three-simplex limit.
 **Provenance (2026-10-08 reconciliation).** Ported from Codex's `codex/raised-box-integrate`. Main's `RaisedBoxInnerDCT` is a later
 rewrite in the `Icc 0 δ`-regulator form (`inner_interval_tendsto_one`); this module keeps the original right-sided
 regulator (`𝓝[>] 0`) lemmas under a separate namespace so that `RaisedBoxMiddleDCTPrep`, `RaisedBoxMiddleDCT` and
-`RaisedBoxOuterDCTPrep` (also ported) can use them. No new mathematics; no RH claim.
+`RaisedBoxOuterDCTPrep` (also ported) can use them.
 -/
 
 namespace GppRaisedBoxInnerSliceDCT

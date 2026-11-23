@@ -43,11 +43,7 @@ actually uses.
 
 ## Scope
 
-Series and elementary algebra. **Not formalized:** the Hilbert-space `ℓ²` structure, the Jacobi
-transform to `L²(sech(πx) dx)`, the operator-theoretic Schatten-class statement, the
-`det_3` renormalized product and its convergence for `Re s > 1/3`, and the identity
-`−ζ'/ζ = Σ_p log p (⟨K_0 + K_1⟩_{r_p} − ½)` (the right side's local series is `null_sum_pos`;
-the global reindexing from prime powers is open here). No RH claim.
+Series and elementary algebra.
 -/
 
 open GppSU11Prime

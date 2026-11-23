@@ -15,13 +15,6 @@ The queue item's own framing: with `f(z) = Σ_j c_j/(α_j - z)` for `α_0 < ... 
 
 ## What this file proves
 
-The fully general, self-contained real-analysis core, stripped of the specific rational-
-function structure so it can be reused verbatim once the per-interval monotonicity and
-boundary-blowup facts for `f = Σ c_j/(α_j - z)` are established (not attempted in this
-file — see honest boundary below): a function continuous and strictly increasing on an
-open interval `(a,b)`, tending to `-∞` approaching `a` and `+∞` approaching `b`, has
-exactly one zero in `(a,b)`.
-
 ## What this file does NOT do
 
 Does **not** construct `f = Σ_j c_j/(α_j - z)` from the matrix data (`A`, `B`, `η`, `e₀`)

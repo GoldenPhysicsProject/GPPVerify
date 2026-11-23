@@ -39,12 +39,11 @@ satisfies `U² = I`, `Uᵀ = U` and `det U = −1` (`julia_sq`, `julia_det`), an
 
 ## Checks
 
-All verified by hand; no corrections. The statement "`P τ P* = S_5`" in the first note concerns a
-specific isometry `P` not defined in the excerpt; not formalized.
+All verified by hand; no corrections.
 
 ## Scope
 
-`2 × 2` real algebra and finite-dimensional inner-product identities. No RH claim.
+`2 × 2` real algebra and finite-dimensional inner-product identities.
 -/
 
 open Matrix GppPrimeCayley GppPrimeCayleyGolden

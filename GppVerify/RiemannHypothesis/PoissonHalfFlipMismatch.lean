@@ -20,11 +20,9 @@ Source: Codex, GPPDiscovery2 `research/2026-10-03_poisson_half_flip_ccm_step2_br
 
 ## Checks and scope
 
-All four statements check. **Not formalized:** the Poisson identity `𝓔𝓕 = 𝓘𝓔` itself, the
-Fourier-fixedness of the Connes–Consani seed, the integral form of the strip estimate (the
-Cauchy–Schwarz step with `√(2 log λ)`), the identification of the Weil operator and its simple ground
-state, and the quantitative sufficient condition for Step 2 (this note's conditional claim). The note's
-open estimate `μ − ε₀ ≲ 𝒬(( 𝓕 − I) h)` is **not** proved and nothing here supports it. No RH claim.
+All four statements check.
+ The note's
+open estimate `μ − ε₀ ≲ 𝒬(( 𝓕 − I) h)` is **not** proved and nothing here supports it.
 -/
 
 open scoped InnerProductSpace ComplexConjugate

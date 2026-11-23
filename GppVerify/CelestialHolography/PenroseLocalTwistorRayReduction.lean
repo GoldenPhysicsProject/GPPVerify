@@ -42,8 +42,7 @@ with the same `[[0,1],[-kappa,0]]` generator formalized in
 `EinsteinNullRaySL2Geometry`.
 
 This module formalizes only that exact algebraic reduction, using an abstract derivative
-operator which is assumed to commute with constant complex scalar multiplication.  It does
-not formalize spinor covariant derivatives or identify curvature sign conventions.
+operator which is assumed to commute with constant complex scalar multiplication.
 
 Important convention note: Penrose's 2015 paper writes
 `P_ab = R g_ab/12 - R_ab/2`, while many modern conformal-geometry references define the

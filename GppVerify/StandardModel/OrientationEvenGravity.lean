@@ -23,9 +23,7 @@ many times that orientation enters:
 Consequently (`gravitational_source_sign`) the sign of the source is the sign of `m` for either
 orientation: turning attraction into repulsion requires `m < 0`, never an arrow flip.
 
-Scope: classical point-particle/dust kinematics.  The field-theory statements (the Dirac stress
-tensor and its charge-conjugation evenness) and the experimental input (ALPHA-g) are cited in
-the paper, not formalized here.  Nothing here concerns RH.
+Scope: classical point-particle/dust kinematics.
 -/
 
 namespace GppOrientationEvenGravity

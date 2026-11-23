@@ -13,9 +13,7 @@ in the ambient whole-line Hilbert space, where T is translation. Once the
 explicit overlap calculation identifies the matrix entries with
 <g_i,g_j>, positivity is ordinary Gram positivity.
 
-This file records exactly that abstract finite Hilbert-space step. It does
-not formalize the explicit interval exponential overlap formula, the
-Archimedean integral, or any global RH statement.
+This file records exactly that abstract finite Hilbert-space step.
 -/
 
 namespace GppSemilocalCollisionGram

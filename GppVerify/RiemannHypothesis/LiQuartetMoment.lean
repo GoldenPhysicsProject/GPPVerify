@@ -16,7 +16,7 @@ reflection). Their contribution to the `n`-th Li moment `Σ (1 − w^n)` is:
 
 So an off-line quartet gives a radial factor `cosh(nε) > 1`, which needs `n ≳ 1/ε ≈ γ²/δ` to resolve.
 For DH's zero at `0.8085 + 85.70 i`, `1/ε ≈ 23806.5` (checked numerically in the PR). The Li
-criterion is an equivalence, not a mechanism. **No RH claim.**
+criterion is an equivalence, not a mechanism.
 -/
 
 namespace GppLiQuartetMoment

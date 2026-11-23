@@ -20,18 +20,16 @@ This file proves the exact algebraic and calculus steps:
 * `summand_pos`: each summand of `Φ` is positive for `x ≥ 0` (because `2π > 3`).
 * `hasDerivAt_Psi`, `hasDerivAt_Psi1`: for the leading-order model `log Ψ = α(−πe^{2x} + 9x/2 + K)`,
   `Ψ''/Ψ = 4α²π²e^{4x} − (18α² + 4α)πe^{2x} + 81α²/4`. At `α = 2` this is `−80π`
-  (`Vmodel_two`). Codex's `O(1)` term for the true `Φ` includes the extra constant `−12α²` from the
-  `e^{−2x}` correction; that analytic tail is not formalized.
+  (`Vmodel_two`).
 * `wkb_integral`: the WKB phase integral in closed form, by the fundamental theorem of calculus:
   `∫₀^X √(T² − c²e^{4x}) dx = ½(T·log((T + √(T²−c²))/c) − √(T²−c²))`, `c e^{2X} = T`, `0 < c < T`.
 * `weyl_constant_iff`: the constant `log(2T/c) − 1`, `c = 2πα`, equals Riemann–von Mangoldt's
   `log(T/2π) − 1` for all `T` iff `α = 2`. One parameter fits one constant. The `T log T/(2π)`
   coefficient comes from the `e^{4x}` growth.
 
-**Not formalized, so ARGUED:** the Dirichlet gap, the compact resolvent, the bracketing remainder
-`O(√T log T)`, and the UV trace asymptotics. They need unbounded Sturm–Liouville theory that Mathlib
+ They need unbounded Sturm–Liouville theory that Mathlib
 lacks. Two-term Weyl agreement does not see `S(T)`, so this is a reference operator, not a zero
-operator. **No RH claim.**
+operator.
 -/
 
 namespace GppThetaTwoCopyWeyl

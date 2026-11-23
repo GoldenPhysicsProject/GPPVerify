@@ -20,8 +20,7 @@ Implementation/provenance: the former custom exponential-growth axiom was retire
 `GppVerify.RiemannHypothesis.ExpNotTempered` now proves
 `ExpNotTempered.exp_growth_not_tempered` using compactly supported Schwartz translates,
 so the centered-character temperedness equivalence is no longer conditional on that
-custom axiom. This is NOT a proof of RH: the zero-to-temperedness arithmetic bridge
-(`all_strip_zeros_principal_of_tempered_bridge`'s explicit `hbridge` input) remains open.
+custom axiom.
 
 Casimir sign conventions: `GppCasimirCriticalLine.casimir s = s * (1-s)` already
 has a Lean-verified principal-series threshold `Im casimir=0 ∧ Re casimir ≥ 1/4`

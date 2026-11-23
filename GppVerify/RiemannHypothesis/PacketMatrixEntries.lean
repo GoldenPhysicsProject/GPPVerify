@@ -14,9 +14,7 @@ Exact complex-exponential integrals behind the conventions section of Astra's no
 * `pole_functional_conj`: `ℓ_{-a}(t) = conj(ℓ_a(t))` on the centred interval, which is why the pole
   term `2 Re(ℓ_a(t) ℓ_a(s))` is not a positive absolute square (the note's point).
 
-**Scope.** Elementary integrals. The Archimedean digamma/Lerch expression, the symmetric
-translation pairing `G_ts(u)`, the prime sum, the shifted-ξ discriminator and all numerics of the note
-are not formalized. No claim about positivity of the full matrix, and no RH claim.
+**Scope.** Elementary integrals.
 -/
 
 namespace GppPacketEntries

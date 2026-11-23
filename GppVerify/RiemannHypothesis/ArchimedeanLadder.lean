@@ -18,9 +18,7 @@ For `x > 0` let `w_∞(x) = e^{-x/2} + e^{x/2} − e^{-x/2}/(1 − e^{-2x})`.
 ## Checks and scope
 
 Both claims check. As the note's own clarification says, "pole mode" refers to the isolated real-place
-summand: the full completed `ξ` has no pole at `s = 1`. **Not formalized:** the renormalized Laplace
-formula with `ψ(r/2 + 1/4)`, the convergence of the subtracted boundary distribution, the identification
-with Gibbs escape, and any physical reading. No RH claim.
+summand: the full completed `ξ` has no pole at `s = 1`.
 -/
 
 open Real

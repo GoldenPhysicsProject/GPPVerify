@@ -10,9 +10,6 @@ GPP-bridge/work/codex/2026-10-15_pole_density_resolvent_four_orientation_dirac.m
 For a frequency a and mass b, the four-lift Clifford Dirac symbol is the
 complex charge-flip block with opposite i*b couplings. Its square is
 (a^2+b^2) times the identity, verified as an algebraic identity.
-
-This file deliberately does NOT prove unbounded operator self-adjointness,
-Fourier-Plancherel resolvent kernels, Weil positivity, or RH.
 -/
 
 namespace GppPoleMeanFourFaceDirac

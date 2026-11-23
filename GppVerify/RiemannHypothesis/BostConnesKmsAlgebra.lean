@@ -22,11 +22,10 @@ Source: Codex, GPPDiscovery2 `research/2026-09-28_bost_connes_axb_midpoint_gram.
 
 ## Checks and scope
 
-All three claims check. **Not formalized:** the Bost–Connes `C*`-algebra itself, its KMS states
-(`ω_β(e(a/b))`), the ordered-basis Gram matrices `⟨A_{m,r}, A_{n,s}⟩_mid`, and the §6
-"variable mismatch" discussion (a comparison of two expressions, not a theorem). The abstract
+All three claims check.
+ The abstract
 two-point statement assumes the orthonormality `ω(μ_m^* μ_n) = δ_{mn}` as a hypothesis, which is
-what the note derives from the relations. No RH claim.
+what the note derives from the relations.
 -/
 
 open Complex

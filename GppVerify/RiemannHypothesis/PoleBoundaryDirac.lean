@@ -35,7 +35,6 @@ i.e.
   [D,W02] = (kappa/2)(s eta^T - eta s^T).
 
 This is the exact finite-cutoff algebra behind the elementary s=0,1 completion.
-It does not prove RH.
 -/
 
 namespace GppPoleBoundaryDirac

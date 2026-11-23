@@ -17,9 +17,8 @@ part `a : E → ℝ`, a cross vector `u : E → F`, and a high quadratic part `c
 * `schur_lift`: if the finite Schur condition `δ‖x‖² + ‖u x‖²/(d−δ) ≤ a x` holds for all `x`, then
   `δ(‖x‖² + ‖y‖²) ≤ a x + 2⟪u x, y⟫ + c y` for all `x, y`.
 
-**Scope.** The abstract completion of the square only: no Weil form, no Legendre spectrum, no
-checking of the Schur condition (that is where Codex's Arb/LDL certificates enter, and they are not
-formalized). Complex forms are handled by realification and are not treated here. No claim about RH.
+**Scope.**
+ Complex forms are handled by realification and are not treated here.
 -/
 
 set_option autoImplicit false

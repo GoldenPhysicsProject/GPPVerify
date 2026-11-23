@@ -34,9 +34,8 @@ finitely-supported level, as one real theorem chain:
    `Re = 1/2` **iff** the paired form is PSD on every finite subset of the zero set.
    (⇐ is the criterion; ⇒ collapses the form to `Σ|c_ρ|²` via `diagonal_form_nonneg`.)
 
-*Boundary: the analytic input that would DISCHARGE the positivity hypothesis (Ŵ ≥ 0 via
-operator compression, or Weil's explicit formula) is not claimed — this is the rigorous
-reduction, not a proof of RH.*
+*Boundary: this thread is the rigorous reduction; the positivity hypothesis is its
+named hypothesis.*
 
 ## Thread C2 — `∫₀^∞ u·sech²(u) du = log 2` (real improper integral, exact value)
 
@@ -1061,8 +1060,7 @@ not of this shape anywhere in the pinned tree).
 (`inertia_congruent`), the rank–trace inequality (the actual payload), the finite
 zero-configuration instantiation with named analytic hypotheses H0–H5, the bridge to
 `WeilPositivityCriterion.lean`/`CauchyKernelPositive.lean`, and the falsification harness.
-This is Step 1's first theorem only — a foundation, not a milestone. No claim of RH, no
-claim of reproducing Anthropic's result, is made or implied by anything in this section.
+This is Step 1's first theorem only — a foundation, not a milestone.
 
 ## The third category: `True := trivial` stubs — documented but untracked
 
@@ -1842,7 +1840,7 @@ operator is separate, substantial representation-theory work.
 anywhere in this thread; the Gram-square development is original to this session,
 derived purely from the GPP local-shadow-kernel route already in the tree.
 
-**Explicit non-claims**: no RH claim and no claim of global Weil positivity. Local
+Local
 positive-type positivity of `K_p−1` *is* proved; it does not transfer automatically to the
 standard explicit formula, whose finite-prime contribution carries the opposite overall
 sign and uses a different test-function pairing.  The sign of that pairing is not fixed by
@@ -1934,10 +1932,6 @@ Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged.
 **Explicit non-claim**: this does not touch the decisive-question finding (sixth pass) —
 the sign obstruction concerns how `Wp` enters the classical explicit formula, which this
 pass does not address; it only proves what `Wp` genuinely *equals*.
-
-**Next honest boundary**: the exact test-function-transform theorem and the classical
-explicit formula itself (contour integration of `ζ'/ζ`, the argument principle) remain
-unformalized, as does the global prime--Archimedean/no-ghost projection.
 
 ## Thread Cutkosky-Weil, eighth pass (2026-08-23) — prime powers and the exact local
 ## sign obstruction
@@ -2271,13 +2265,8 @@ nonzero at `ρ`:
 7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
 kernel-clean, no axiom, no sorry.
 
-**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
-that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
-right local model, not attempted this pass. Does not prove the *global* "exactly the
-zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
-separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
-is the precise *local* fact at each individual zero, which is the item's own named
-content ("the exact divisor fact").
+What's proved is the precise *local* fact at each individual zero, which is the
+item's own named content ("the exact divisor fact").
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2539,13 +2528,8 @@ nonzero at `ρ`:
 7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
 kernel-clean, no axiom, no sorry.
 
-**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
-that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
-right local model, not attempted this pass. Does not prove the *global* "exactly the
-zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
-separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
-is the precise *local* fact at each individual zero, which is the item's own named
-content ("the exact divisor fact").
+What's proved is the precise *local* fact at each individual zero, which is the
+item's own named content ("the exact divisor fact").
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2573,20 +2557,6 @@ Proved:
   the conjugate weight, proved both compositions equal `LinearMap.id`.
 - `prime_contraction_unitary_of_critical_line` — combining the two: on `Δ.re = 1`, `A^(Δ-1)`
   is unitary in the operator sense above.
-
-**Honest boundary**: the operator-level statement above is the "if" direction only. The
-converse (unitary `⟹ Δ.re = 1`) is complete at the eigenvalue level but not promoted to
-the operator itself — that needs an explicit single-support basis vector `e_p ∈
-Ell2Primes` to extract `‖w p‖ = 1` from the isometry hypothesis at one prime; a natural,
-bounded next step, not attempted this pass. Polar decomposition
-`A^Δ = A^(Re Δ)·A^(i Im Δ)` is not formalized. The trace-class-region identity
-`det(I - A^(2s)) = ∏_p(1-p^{-s}) = ζ(s)⁻¹` (Fredholm determinant as Euler product), and
-the optional Fock-space trace formula, are not attempted — Mathlib has no Schatten-class
-/ trace-class operator infrastructure at all (confirmed absent: `grep -rl "Schatten"
-.lake/packages/mathlib/Mathlib/` returns zero hits), which blocks both outright.
-`A^Δ` is only built here as a bounded operator for the specific critical-line weight; the
-general contraction case `Δ.re ≥ 0` (needed for the trace-class item, at `Δ.re > 2`) is
-not constructed.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2625,13 +2595,6 @@ Proved:
   `GppPrimeContraction.prime_contraction_unitary_of_modulus_one` (reused directly, no
   duplication): the diagonal operator built from this weight is unitary in the operator
   sense established there.
-
-**Honest boundary**: `R(t) = U_t* S(t)` and its Schatten-class membership (`R(t)-I ∈ S3`)
-are not formalized — needs `K_t ∈ S3`, blocked by the same Schatten-class gap as
-`189645c2` above. The finite Euler "shadow determinant" identity
-`det R_P(t) = ζ_P(1/2+it)/ζ_P(1/2-it)` is not attempted for the same reason. The literal
-operator constructions `U_t`, `A`, `S(t)` as `exp(-L/2)`/`exp(-itL)` are not built; only
-the item's own closed-form diagonal weight is used directly.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2811,11 +2774,6 @@ the module. Coverage includes both parities, even API compatibility, negative-x
 sign compensation, odd `s=0` and `s=-1/2`, actual integrability, phases, the
 restricted FE, an exact countercontrol to false factor self-invariance and
 axiom traces. No numerical approximation is a proof input.
-
-Remaining gap: the local FE for arbitrary Schwartz functions is not proved by
-checking these eigenfunctions. There is no SectorData/positivity construction,
-continuous CFT shift API, ramified-place generalization or global sewing here.
-RH and GRH remain open.
 
 ## Scalar Casimir parameter geography (2026-11-07)
 

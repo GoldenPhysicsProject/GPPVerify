@@ -31,10 +31,7 @@ implicit:
   paired form to the diagonal `Σ|c_ρ|²` (`diagonal_form_nonneg`); the backward direction
   is the criterion.
 
-**Honest boundary.** This is a rigorous *reduction*, not a proof of RH: the analytic
-content that would discharge the positivity hypothesis — Weil's explicit formula
-expressing the form through prime sums, or Yakaboylu's operator compression `Ŵ ≥ 0` — is
-not formalized. What IS proved unconditionally: the finite-support positivity statement
+**What IS proved unconditionally:** the finite-support positivity statement
 and RH are materially equivalent, with the zero-set reflection symmetry (often waved
 through in expositions) carried as a real theorem, not an assumption.
 

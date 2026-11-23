@@ -38,10 +38,6 @@ Every piece of `J_e` is a superposition of the **atoms**
 
 The identity is exact and holds for every real `e`; the notes' numerical check (15 cases, error
 `< 10⁻⁵⁰`) is consistent with it.
-
-**Scope.** Astra's Laplace-side factorization `L_e(z) = [(z+e)(z+e+½)/(z(z+½))] L₀(z+e)`, the
-local uniform convergence `J_e → J₀`, and the pole-transfer sufficient condition are not
-formalized. Nothing here bears on the location of the zeros, and no claim is made about RH.
 -/
 
 open Real intervalIntegral Finset

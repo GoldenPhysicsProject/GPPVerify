@@ -31,9 +31,7 @@ This is File 1 of the PSS formalisation package
   `∫_0^∞ t^{a−1} e^{−r t} dt = (1/r)^a Γ(a)`. Mathlib has this for real `r > 0`. The complex
   case follows by the identity theorem: both sides are holomorphic in `r` on `Re r > 0`.
 * `mellin_planeWave_eq`: the regularised Mellin integral of the plane wave equals
-  `Γ(Δ) (ε − σ i q·X)^{−Δ}`. That closed form is the definition `conformalPrimary`. It agrees
-  with the paper's right-hand side `(∓i)^Δ Γ(Δ)/(−q·X ∓ iε)^Δ` up to the bookkeeping of the
-  complex power, which is not formalised here.
+  `Γ(Δ) (ε − σ i q·X)^{−Δ}`. That closed form is the definition `conformalPrimary`.
 * `box_conformalPrimary`: for every null `q`, `φ^σ_Δ` solves the massless Klein–Gordon
   equation `□ φ = Σ_μ η_μ ∂_μ² φ = 0` at every spacetime point. Because `ε > 0`, the argument
   `ε − σ i q·X` has positive real part, so there is no singular set.

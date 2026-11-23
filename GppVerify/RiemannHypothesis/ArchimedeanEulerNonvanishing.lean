@@ -15,8 +15,6 @@ holonomies by the Archimedean factor cannot create a zero.
 Any zero mechanism for the completed zeta function must therefore use genuinely global
 information: the infinite Euler product / analytic continuation / renormalized global
 operator, not a finite local product and not an independent positive Archimedean channel.
-
-No RH claim is made here.
 -/
 
 namespace GppArchEuler

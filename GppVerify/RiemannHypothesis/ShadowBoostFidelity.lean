@@ -20,11 +20,8 @@ Source: Codex, GPPDiscovery2 `research/2026-09-29_shadow_kms_boost_rigidity.md` 
 * `fidelity_le_one`, `fidelity_eq_one_iff`: the prime shadow overlap
   `F_p(σ) = √((1−p^{−2σ})(1−p^{−2(1−σ)}))/(1−p^{−1}) ≤ 1`, with equality iff `σ = ½` (§5).
 * `one_sub_fidelity_sq`: `(1−p^{−1})² − (1−p^{−2σ})(1−p^{−2(1−σ)}) = p^{−1}(p^{δ} − p^{−δ})²`
-  with `δ = σ − ½` (§6). **Not formalized:** the product `∏_p F_p(σ) = 0` for `σ ≠ ½`, which
-  combines this defect with `Σ 1/p = ∞`.
+  with `δ = σ − ½` (§6).
 * `modular_spectrum_rigidity`: `1 − p^{−2σ} = 1 − p^{−2(1−σ)}` with `p > 1` forces `σ = ½` (§7).
-
-**No RH claim.**
 -/
 
 namespace GppShadowBoostFidelity

@@ -30,9 +30,7 @@ The eight basis elements are written as explicit iterated brackets of `X` and `Y
 `(ad X)²`; `[X, Y₁₂]`, `[X, Y₂₃]`; `[Y₁₂, Y₂₃]`, `[Y₁₂, [X, Y₂₃]]`; `[Y₁₂, [X, Y₁₂]]` with `X` for the
 Cartan part), and every element of `su(3)` is an explicit real combination of them (`mem_lieSpan_of_su3`).
 
-**Not formalised here:** connections, curvature on `S⁴`, the cutoff gluing, Ambrose–Singer (Mathlib has
-no holonomy theory), and the Chern–Weil transgression. Nothing here derives colour dynamics, and
-nothing concerns the Riemann hypothesis. No `sorry`, no axioms.
+ No `sorry`, no axioms.
 -/
 
 namespace GppSU3Holonomy

@@ -12,8 +12,7 @@ canonical light-cone combinations `xi_± = sigma ± tau` for the Lorentzian form
 The centered coordinates themselves are identical.  The physically relevant principal-series
 condition is therefore stated invariantly as `sigma = 0`, equivalently the anti-diagonal
 `xi_+ = -xi_-`, and (by the existing half-density theorem) equivalently unit modulus of the
-dilation character.  No claim that either auxiliary quadratic form is dynamically preferred
-is made here.
+dilation character.
 -/
 
 namespace GppArithmeticSplitConventionBridge

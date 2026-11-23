@@ -26,7 +26,7 @@ Supporting results:
 * `primeSide_autocorr_eq`: `primeSide a = (1/2π) ∫ |h(r)|² P(r) dr`, with `P` the `n = 2, 3`
   cosine sum.
 
-Unconditional. No `sorry`, no axioms, no named premises. Nothing here concerns the zeros.
+Unconditional. No `sorry`, no axioms, no named premises.
 -/
 
 namespace GppRungOneReduction

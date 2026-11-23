@@ -11,7 +11,6 @@ import GppVerify.RiemannHypothesis.UndampingScalars
 /-!
 # Undamping package, items (b)/(c): form-level assembly and signed tail
 
-**A transfer and tail statement, not a positivity proof for `Q₀`; nothing here proves RH.**
 Assembles `UndampingTransfer` (item (a), merged #655), `UndampingGreenForm` (spectral Green form and
 tail) and the pointwise kernel split `kernel_split` (`UndampingKernel`).
 
@@ -149,7 +148,8 @@ noncomputable def Rform (L : ℝ) (f : ℝ → ℝ) (M N : ℕ) : ℝ :=
 open ArithmeticFunction in
 /-- **(c) at form level, with the exact decomposition.**  For bounded measurable `f` supported in
 `[0,L]`: `Q₀ − Q₂ = R_M − Σ_b tail_b` (exact), `0 ≤ Σ_b tail_b ≤ ε_M ‖f‖²`, hence
-`R_M − ε_M ‖f‖² ≤ Q₀ − Q₂ ≤ R_M`.  A transfer/tail statement, not a positivity proof. -/
+`R_M − ε_M ‖f‖² ≤ Q₀ − Q₂ ≤ R_M`.
+-/
 theorem undamping_signed_tail (hL : 0 < L) (hf : Measurable f) (hB : ∀ x, |f x| ≤ B)
     (hs : ∀ x, x ∉ Icc 0 L → f x = 0) (M N : ℕ) :
     diffForm f N = Rform L f M N - (tailB (1 / 2) L f M + tailB (3 / 2) L f M + tailB (5 / 2) L f M) ∧

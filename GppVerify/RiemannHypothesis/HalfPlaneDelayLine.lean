@@ -27,9 +27,7 @@ upper half-plane), `B_a(u) = (u − a)/(1 − a u)` and `f_a(u) = √(1−a²)/(
 
 ## Scope
 
-Pointwise algebra, one elementary integral, and a power series. The identification of the real-axis
-diagonal with `d/dx arg Θ(x)` (a derivative of an argument) is not formalized here; its content on the
-circle is `blaschke_boundary_delay`. No RH claim.
+Pointwise algebra, one elementary integral, and a power series.
 -/
 
 open Complex GppSU11Prime GppSU11CharacterDefect

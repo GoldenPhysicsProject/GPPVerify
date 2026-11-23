@@ -19,7 +19,6 @@ For a densely defined (partial) linear map `B : D ⊂ E → F`:
 packets that supply the sequence (that construction is Codex's, and the earlier nonclosability
 results are `GppGcdPacketClosability` and `GppTFDGCDMobius`). As Codex notes, a bound proved
 in a different coefficient topology does not by itself give a bounded `C` in this setting.
-No claim about RH.
 -/
 
 open Filter Topology

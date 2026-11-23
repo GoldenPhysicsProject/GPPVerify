@@ -38,7 +38,6 @@ The canonical factor exchange `E(X,Y)=(Y,X)` has an especially sharp action:
 So factor/ruling exchange preserves one complex orientation and reverses the other; it is
 a mathematically exact half-flip of the relative-orientation product.
 
-No claim is made here that `J0` is physical time phase or that `J1` is electric charge.
 The result supplies the finite contact-geometric carrier on which such a dictionary would
 have to be proved.
 -/

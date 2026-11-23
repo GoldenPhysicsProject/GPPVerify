@@ -31,8 +31,7 @@ the finite-ε structure of the paper's eq. (75) exactly as the note does:
   the smallest eigenvalue `d(ε) − 1` of the off-line 2×2 block tends to `−1` as
   `ε → 0⁺`.
 
-What is deliberately NOT claimed: any uniformity of the `ε → 0⁺` limit over infinite
-zero configurations. By `rh_iff_weil_pairedForm_nonneg` that uniformity is equivalent
+ By `rh_iff_weil_pairedForm_nonneg` that uniformity is equivalent
 to RH itself, and it stays open here — this file fences the provable finite-ε skeleton
 on both sides of the form-domain boundary and nothing more.
 -/

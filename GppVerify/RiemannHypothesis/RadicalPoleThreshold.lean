@@ -27,9 +27,8 @@ matrix `A`:
   `⟨c, A⁻¹c⟩ = −2`.
 
 This explains the finite pole-resolvent numbers near `−2` and `+2` that Daniel's Meta-AI
-synthesis reported. Scope: Codex's §5 inertia statement (positivity of `Q₊` when `A₊` has
-exactly one negative eigenvalue) needs Haynsworth inertia additivity and is not formalized
-here. A large radical does **not** imply positivity. No RH claim.
+synthesis reported.
+ A large radical does **not** imply positivity.
 -/
 
 namespace GppRadicalPoleThreshold

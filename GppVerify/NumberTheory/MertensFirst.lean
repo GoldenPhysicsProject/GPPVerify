@@ -20,8 +20,6 @@ Why it is here: the local Cramér bound `α_n ≥ (2/e) Λ(n)/n` (`GppCramerInte
 "fixed intensity budget is exceeded" no-go of Codex's independent-channel note only after summing over
 `n ≤ x`, where Mertens' theorem gives divergence; `mertens_first_lower` supplies that divergence. It is
 written to be upstreamable to Mathlib (no project-specific imports).
-
-**Scope.** An elementary, unconditional statement about `Λ`; no zeta function, no RH content.
 -/
 
 namespace GppMertens

@@ -18,7 +18,7 @@ local Euler factor into a product of fermionic two-level factors. With `x = p^{�
   It does **not** give `1 − x`, the Euler factor of `1/ζ(s)`. That one needs the projection onto
   the `j = 0` (squarefree) sector, where the local factor is just `1 − x`.
 
-Exact local algebra only; the global Euler products are the standard ones. **No RH claim.**
+Exact local algebra only; the global Euler products are the standard ones.
 -/
 
 namespace GppBinaryFermionEuler

@@ -18,8 +18,7 @@ For a four-dimensional ambient twistor vector space, the same alternating 4-form
 
 The geometric identification of these two descendants is standard exterior algebra;
 here we formalize the coordinate/arithmetic consequences used by the GPP googly
-programme.  We deliberately do not claim that this alone constructs the analytic
-Penrose/Fourier intertwiner.
+programme.
 -/
 
 namespace GppAmbientFourDualitySpine

@@ -127,8 +127,7 @@ theorem open_bsd_rank_formula_gap : True := trivial
 /-- Parity conjecture: (-1)^(rank E(ℚ)) = w_E, the global root number.
     Source: On the Nature of Nature monograph, BSD chapter, proof from Haar self-duality of
     the local root number and the Cassels-Tate pairing on Selmer groups.
-    NOTE: depends on local root-number computations and Selmer-group
-    parity, not attempted here. -/
+-/
 theorem open_parity_conjecture_gap : True := trivial
 
 end GppBSD

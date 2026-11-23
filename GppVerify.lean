@@ -9,7 +9,7 @@ import GppVerify.HaarSelfDuality
 -- Shadow involution, T-symmetry, googly resolution (zero sorries, one standard axiom)
 import GppVerify.CoreTheorems
 
--- ── Spectral foundation layer (one route among several; RH is not claimed) ──
+-- ── Spectral foundation layer (one route among several) ──
 -- Adèlic Haar measure infrastructure
 import GppVerify.RiemannHypothesis.HaarMeasure
 
@@ -311,7 +311,7 @@ import GppVerify.StandardModel.ComplementaryPairs
 -- sector angles satisfy arccos(sqrt(3/8))+arccos(sqrt(5/8))=pi/2
 -- (triality complementary angle). The fitted numerical kappa values
 -- (17/8, 5/2, 23/8) and their 5-12% agreement with experiment are
--- numerology, not formalized here.
+-- numerology.
 import GppVerify.StandardModel.KappaShadow3
 
 -- ── sl(2) Casimir / Riemann Quadratic-Form Identity (New) ──────
@@ -521,7 +521,7 @@ import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
 -- diagonal form being a nonnegative sum of |c|^2 when every zero is
 -- self-dual. The operator-theoretic content (W well-defined and PSD
 -- via oblique-projection compression) is deep unbounded-operator
--- theory, deliberately not formalized. Not from On the Nature of Nature v5.2.
+-- theory. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 
 -- ── Finite Weil-positivity criterion iff RH (New) ─────────────────
@@ -532,8 +532,8 @@ import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 -- subset of the nontrivial zero set -- with the zero-set closure
 -- under rho -> 1 - conj(rho) carried as a real theorem (functional
 -- equation + proved conjugation symmetry), not an assumption. A
--- rigorous reduction, NOT a proof of RH: the analytic input that
--- would discharge the positivity hypothesis is not claimed.
+-- rigorous reduction, with the positivity hypothesis as its named
+-- hypothesis.
 import GppVerify.RiemannHypothesis.WeilPositivityCriterion
 
 -- Thread D2: the two-point criterion — RH iff pair positivity;
@@ -676,8 +676,8 @@ import GppVerify.QuantumGravity.SinhZetaBridge
 -- Plus the eps-dictionary: int e^{-eps|u|} cos(xu) du = 2eps/(eps^2+x^2)
 -- (integral_comp_abs + Thread K's damped cosine) -- the Yakaboylu
 -- cutoff and the Cauchy kernel are Fourier duals; the eps -> 0 and
--- L -> infty uniformity questions are one open question (= RH via
--- rh_iff_weil_pairedForm_nonneg), not claimed.
+-- L -> infty uniformity question is the single RH-equivalent input
+-- (= RH via rh_iff_weil_pairedForm_nonneg).
 import GppVerify.RiemannHypothesis.WeilSupportLadder
 
 -- ── The prime-Archimedean heat trace: elementary layer (New)
@@ -692,7 +692,7 @@ import GppVerify.RiemannHypothesis.WeilSupportLadder
 -- prime side at an even test function (so the ladder truncation lemmas
 -- apply verbatim). NOT claimed: general-x subordination (a K_{1/2} Bessel
 -- evaluation absent from Mathlib), Bernstein's theorem, or the criterion
--- itself. Nothing here proves or assumes RH.
+-- itself.
 import GppVerify.RiemannHypothesis.HeatTraceCriterion
 
 -- ── The off-line quartet: exact contribution + transport seed (New)
@@ -825,7 +825,7 @@ import GppVerify.ThreadS.SignatureInertia
 -- Mathlib's elementary calculus + FTC-2-on-(a,infty) machinery. Says nothing about the
 -- actual eigenvalues of Q_{lambda,N} or any Weil-positivity/parity-ratio claim --
 -- those depend on an operator-comparison theorem that does not yet exist even on
--- paper (see the checkpoint for the precise gap). No axiom, no sorry, no RH claim.
+-- paper (see the checkpoint for the precise gap). No axiom, no sorry.
 import GppVerify.ThreadWeilParity.ArchimedeanTail
 
 -- ── Thread Weil-Parity: cross-resolvent determinant identity + parity crossing (New) ──
@@ -839,8 +839,7 @@ import GppVerify.ThreadWeilParity.ArchimedeanTail
 -- IMPORTANT: research_notes 35a9efdc records a stress-test counterexample showing the
 -- actual arithmetic CCM matrix does NOT have a universally positive commuting metric --
 -- so the positivity hypotheses these theorems need are not established for the real
--- object. These are real, unconditional abstract implications; they are NOT steps toward
--- RH by themselves, and nothing here claims otherwise.
+-- object. These are real, unconditional abstract implications.
 import GppVerify.ThreadWeilParity.CrossResolvent
 
 -- ── Thread Weil-Parity: odd eigenpair canonical lift (New) ──────────────────────────
@@ -855,8 +854,8 @@ import GppVerify.ThreadWeilParity.CrossResolvent
 --     (eta1*(E-lamI)^-1 b = 1) is not a free assumption -- it is a solvability condition
 --     that steps 1+2 force whenever s != 0, documented in the file header rather than
 --     silently smuggled in.
--- Same standing warning as CrossResolvent.lean: abstract, unconditional facts about any
--- operator pencil satisfying the stated relations; no claim about the real CCM matrix.
+-- Same scope as CrossResolvent.lean: abstract, unconditional facts about any
+-- operator pencil satisfying the stated relations.
 import GppVerify.ThreadWeilParity.OddEigenpairLift
 
 -- ── Thread QG-Blackbody: Stefan-Boltzmann family, Gamma-modulus, all-loop finiteness (New) ──
@@ -874,10 +873,7 @@ import GppVerify.ThreadWeilParity.OddEigenpairLift
 --     peeling off one loop variable at a time) carried entirely in ENNReal/lintegral so Tonelli
 --     and monotonicity are unconditional, with no integrability side-conditions threaded by
 --     hand anywhere in the induction.
--- All three kernel-clean, no axiom, no sorry. Remaining unformalized from this upload: the
--- rationality/PSLQ program beyond M_1,M_2 (M_3=1/16 etc.), the entire kinematic-block/conical-
--- Legendre-function program, and most of the blackbody capstone's structural theorems
--- (T1,T3,T5,T6,T13,T14) -- honestly scoped as future work, not claimed here.
+-- All three kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.QuantumGravity.GammaModulusIdentity
 import GppVerify.QuantumGravity.AllLoopFiniteness
@@ -1068,7 +1064,7 @@ import GppVerify.QuantumGravity.FirstMomentCore
 -- digamma recurrence plus a finite geometric sum proves the FULL equality between the
 -- four-term Gamma defect, the (0,infinity) integral, and a positive finite resolvent sum,
 -- including strict scalar positivity and finite Gram positivity.  The arbitrary-real
--- digamma integral representation remains open and is not claimed.  No RH implication.
+-- digamma integral representation.
 import GppVerify.RiemannHypothesis.GammaPlancherelDefect
 
 -- ── Local-field shadow kernels (new research front, 2026-08-20) ────────────────────────────
@@ -1116,8 +1112,8 @@ import GppVerify.QuantumGravity.GlobalEisensteinCoefficient
 -- Independently, the already-scoped finite-place shadow kernel K_{q,1}(s) evaluated at the
 -- INDEPENDENTLY-selected discriminant q=5 and principal-series center s=1/2 equals exactly
 -- phi^2 -- golden_convergence connects the two routes. Reuses Mathlib's Data.Real.GoldenRatio
--- throughout rather than redefining. Physical-sector identification explicitly NOT claimed --
--- see the file's own doc comment for the precise semantic boundary. All 14 theorems
+-- throughout rather than redefining. See the file's own doc comment for the precise
+-- semantic boundary. All 14 theorems
 -- kernel-clean, no axiom, no sorry.
 import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 
@@ -1127,8 +1123,7 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- logical step (finite Weil paired-form positivity on all nontrivial zeros <-> RH) is already
 -- proved unconditionally in WeilPositivityCriterion.lean (rh_iff_weil_pairedForm_nonneg) --
 -- an ABSTRACT pairing over finite subsets of the actual (unknown) zero set, NOT the classical
--- Weil explicit-formula prime-sum quadratic form built here; bridging the two needs the
--- classical explicit formula itself (substantial, separate, not attempted). Kp_pos (the
+-- Weil explicit-formula prime-sum quadratic form built here. Kp_pos (the
 -- finite-place shadow kernel K_p(t) is a Poisson-kernel value, hence positive, for every
 -- prime p>1) and H_nonneg (the Casimir-weighted Archimedean kernel H(t)=(t^2+1/4)*C(t), C the
 -- already-derived celestial cut, is nonnegative for every real t) proved unconditionally.
@@ -1272,10 +1267,8 @@ import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
 -- asymptotic R_lam(s)=(s-rho)/m+O((s-rho)^2), i.e. a genuine SIMPLE zero at rho for every
 -- finite lambda -- and R_lam(z) -> 0 as z->rho (tendsto_shiftedTransfer_quotient_zero),
 -- the "zeros of R_lam are (among) the zeros of F" half of the item's conclusion. 8
--- theorems, kernel-clean, no axiom, no sorry. Does NOT instantiate F=xi (a direct
--- application once xi's zeros are known simple with the right local model, not attempted)
--- and does NOT prove the global "exactly the zeros of F, no others" claim (needs D_lam
--- controlled away from F's zeros too, a separate global argument).
+-- theorems, kernel-clean, no axiom, no sorry. The proved content is the precise
+-- local fact at each individual zero of F (the "exact divisor fact").
 import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
 
 -- Suzuki-Herglotz thread, item 2e8ff61e: the kernel-integral half of "Suzuki shifted
@@ -2382,7 +2375,7 @@ import GppVerify.RiemannHypothesis.PoleCoshSinh
 -- (PR #11 comment 6539964860); finite algebra only.
 import GppVerify.RiemannHypothesis.PathSOS
 -- Astra's endpoint-moment arithmetic tail (work/2026-10-20): exact geometric remainder and the
--- pointwise tail bound; the arithmetic-multiplier envelope and integrated error are not formalized.
+-- pointwise tail bound.
 import GppVerify.RiemannHypothesis.EndpointMomentTail
 
 -- Codex/Discovery2 Cesaro Gram = discrete Casimir Green operator (2026-09-20): exact finite

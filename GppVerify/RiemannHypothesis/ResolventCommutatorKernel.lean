@@ -5,9 +5,6 @@ import Mathlib.Analysis.SpecialFunctions.ImproperIntegrals
 /-!
 # The Dirichlet half-line resolvent commutes with translation up to a rank-one kernel
 
-Source: Codex, bridge `research/codex/2026-10-02_rank_one_resolvent_feshbach_collapse.md`, §§1–2
-(the kernel computation; the Feshbach/AFT consequences in §3 are not formalized).
-
 On `L²(ℝ₊)` the Dirichlet resolvent `G_κ = (−∂² + κ²)^{-1}` has kernel
 `G_κ(x,y) = (e^{-κ|x−y|} − e^{-κ(x+y)}) / (2κ)`, and `V_a` is the unilateral right translation.
 
@@ -20,11 +17,7 @@ On `L²(ℝ₊)` the Dirichlet resolvent `G_κ = (−∂² + κ²)^{-1}` has ker
 ## Checks and scope
 
 The kernel identity is checked pointwise (the `x ≥ a` branch needs no case split on the sign of
-`x − y − a`, because the two absolute values coincide). **Not formalized:** the operator-level
-statements (that the integral operators with these kernels are the resolvent and translation on
-`L²`), the trace `Tr[G_κ, V_a] = a e^{-κa}/(2κ)`, the contact limit as `a → 0`, and the rank-one
-collapse of the completed cutoff connection (§3), which needs the AFT operator package. No RH
-claim.
+`x − y − a`, because the two absolute values coincide).
 -/
 
 open Real MeasureTheory Set

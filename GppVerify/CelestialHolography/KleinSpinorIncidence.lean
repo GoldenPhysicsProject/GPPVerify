@@ -25,8 +25,7 @@ and its annihilator line `W^0`; the images contain the opposite incidence line. 
 one spacetime/Klein point intrinsically couples ordinary and dual twistor incidence
 without any extra pointwise identification `V* ≅ V`.
 
-This is finite-dimensional coordinate algebra only.  It does not formalize the Lie-group
-isomorphism `Spin(3,3) ≅ SL(4,R)` itself or a projective Penrose transform.
+This is finite-dimensional coordinate algebra only.
 -/
 
 namespace GppKleinSpinorIncidence

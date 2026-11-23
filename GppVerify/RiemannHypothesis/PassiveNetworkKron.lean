@@ -12,8 +12,6 @@ arithmetic identification is attempted:
    Kron/Schur reduction;
 2. the massive interval DtN block used for prime edges has positive even and
    odd channel energies, with determinant one.
-
-No Weil-form identification and no RH claim is made here.
 -/
 
 open Matrix

@@ -23,10 +23,8 @@ is any real with `r² < 1`, and vectors are coefficient sequences on `range M` (
 These are Codex's one-prime dual norms `1/(1 − r²)` and `(1 + r²)/(1 − r²)`, now exact for every
 finite truncation, nonterminal index and every `r` with `r² < 1`.
 
-**Scope.** The tensor product over all primes, which gives
-`‖coeff_n‖² = ζ(2ε) ∏_{p|n}(1 + p^{−2ε})` on the analytic Hardy subspace, and the operator-norm
-statements of §B and §F are not formalized. The `ε ≤ 1/2` side is `GppGcdPacketClosability`.
-No RH content.
+**Scope.**
+ The `ε ≤ 1/2` side is `GppGcdPacketClosability`.
 -/
 
 open Finset

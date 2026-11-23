@@ -24,10 +24,9 @@ Astra (PR #11, Oct 26). Daniel Toupin / Golden Physics Project, with AI assistan
   `∏_{p<N} R_p²` with `a = p^{−m}`, `b = p^{−(1−m)}` tend to `0` (Kakutani-type dichotomy; uses
   `Σ_p 1/p = ∞`). `mirror_product_tendsto_zero_sigma` states it for every `σ ∈ (0,1)`, `σ ≠ ½`.
 
-**Scope.** Finite local identities and the divergence of the mirror product only. The twisted
-factor `γ_p^{(θ)}` itself being non-unimodular "in general" is not formalized (only the
-pair product). The global statement that the infinite product vanishes is the limit of partial
-products here; no measure-theoretic Kakutani equivalence is claimed. No claim about RH.
+**Scope.** Finite local identities and the divergence of the mirror product only.
+ The global statement that the infinite product vanishes is the limit of partial
+products here; no measure-theoretic Kakutani equivalence is claimed.
 -/
 
 set_option autoImplicit false

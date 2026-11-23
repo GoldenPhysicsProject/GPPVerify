@@ -9,7 +9,7 @@
   For L(E, s) one has k = 2, so the critical line is Re(s) = 1 and the
   Birch–Swinnerton-Dyer centre is the self-dual point s = 1.
 
-  Nothing here proves BSD. Labels: KERNEL-CHECKED algebraic identities only.
+ Labels: KERNEL-CHECKED algebraic identities only.
 -/
 import Mathlib.Data.Complex.Basic
 import Mathlib.Tactic

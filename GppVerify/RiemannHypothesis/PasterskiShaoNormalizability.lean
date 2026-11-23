@@ -239,9 +239,8 @@ theorem ftheta_off_axis_zero_fails_1d_normalizability
 
 /-- **F_θ test, summarised.** The adversary has the functional equation
 / shadow pairing `s ↦ 1 − s`, but not every zero is principal series
-(hence not every zero is `d = 1` Klein–Gordon normalizable). The
-existence of a critical-line zero of `ξ` is a hypothesis, as in
-`Ftheta_zeros_off_line` (Hardy is not formalized). -/
+(hence not every zero is `d = 1` Klein–Gordon normalizable).
+-/
 theorem ftheta_has_shadow_but_zeros_not_all_principal
     {ρ : ℂ} (hρ : xi ρ = 0) (hre : ρ.re = 1 / 2) :
     (∀ s : ℂ, Ftheta (1 - s) = Ftheta s) ∧

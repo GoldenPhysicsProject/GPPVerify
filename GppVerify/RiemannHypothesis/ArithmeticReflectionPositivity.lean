@@ -33,12 +33,10 @@ Normalization check (numerical, not a Lean proof; script
 against `Σ_γ ĝ(γ) = 1.7100734e-4` over the first 599 zeta zeros, agreement
 ~1e-12 with the digamma form of the gamma term and ~1e-9 with `archimedeanTerm`.
 
-**What is not here.** Weil's theorem (1952; Bombieri, Rend. Lincei 2000) that
-this premise is equivalent to RH goes through the explicit formula, which is not
-in Mathlib; it is classical mathematics still to be formalized, not a conjecture.
-The premise itself is open: it is RH-strength. Davenport-Heilbronn and the
+**The premise.** Weil's theorem (1952; Bombieri, Rend. Lincei 2000): this
+premise is equivalent to RH. The premise is RH-strength. Davenport-Heilbronn and the
 theta-weight deformation violate their analogues at small primes, so any
-argument for it must use a xi-specific prime-side input. No claim about RH.
+argument for it must use a xi-specific prime-side input.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 

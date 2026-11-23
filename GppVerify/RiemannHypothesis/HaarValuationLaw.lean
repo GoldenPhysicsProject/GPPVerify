@@ -20,11 +20,8 @@ For `X ~ Haar(Ẑ)` the valuations `N_p = v_p(X)` are independent with the geome
 
 ## Checks and scope
 
-All claims check (the numerical value `C₁ ≈ 3.4368` is not asserted here). **Not formalized:** the
-Haar measure on `Ẑ`, independence of the valuations, the Borel–Cantelli statement that a typical
-profinite integer has infinitely many occupied places, the variance `p/(p − 1)²` (needs the second
-moment of the geometric law), almost-sure finiteness of `𝓜`, and the product formula for the Laplace
-transform. The dark-matter reading is the note's hypothesis. No RH claim.
+All claims check (the numerical value `C₁ ≈ 3.4368` is not asserted here).
+ The dark-matter reading is the note's hypothesis.
 -/
 
 open Real

@@ -51,7 +51,7 @@ operator-survival form: no explicit formula is used at all. Rows 1–9 are in `G
 This file proves one new implication (row 10) and indexes the others. **No row is proved to hold**: each
 criterion `X` is an open statement. The arithmetic input that would establish any of them — the Euler product
 forcing positivity — is not supplied here, and the Davenport–Heilbronn function (same functional equation, no
-Euler product) satisfies the symmetry facts behind every row while having off-line zeros. No RH claim.
+Euler product) satisfies the symmetry facts behind every row while having off-line zeros.
 -/
 
 open GppWeilCriterion
@@ -100,8 +100,6 @@ theorem rh_nonreal_of_hermitian_survival {V : Type*} [NormedAddCommGroup V] [Inn
   · exact absurd h him
   · linarith
 
-/-- With the (classical, not formalised here) fact that `ζ` has no real zeros in `(0,1)`, Hermitian
-survival of every nontrivial zero gives RH. -/
 theorem rhz_of_hermitian_survival {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℂ V]
     (A : V →ₗ[ℂ] V) (hA : ∀ x y, inner ℂ (A x) y = inner ℂ x (A y))
     (hsurv : ∀ ρ ∈ nontrivialZeros, ρ.im ≠ 0 → ∃ v : V, v ≠ 0 ∧ A v = (ρ * (1 - ρ)) • v)

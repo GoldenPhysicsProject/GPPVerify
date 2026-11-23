@@ -19,10 +19,8 @@ Write `ψ(x) = ∑_{n≥1} e^{−πn²x}` (`GppRiemannPhi.psi`) and `I(s) = ∫�
 * `halfWave_add_reflect`: `B(s) + B(1 − s) = 1/2 + s(s − 1) Λ₀(s)/2` for every `s`.
 * `halfWave_add_reflect_eq_xi`: for `s ≠ 0, 1`, `B(s) + B(1 − s) = s(s − 1) Λ(s)/2 = ξ(s)`.
 
-**Scope.** The identification `A(s − 1/2) = B(s)` with Astra's
-`A(z) = 4∫₀^∞ Φ(u) e^{2zu} du` (two integrations by parts and `θ′(1) = −θ(1)/4`) is not
-formalized here. Neither is the endpoint expansion of `A(it)`. Classical identity, not claimed
-novel. Nothing here bears on the location of the zeros. No claim about RH.
+**Scope.**
+ Neither is the endpoint expansion of `A(it)`.
 -/
 
 open Real Complex HurwitzZeta MeasureTheory Set GppRiemannPhi

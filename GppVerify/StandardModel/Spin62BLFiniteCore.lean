@@ -15,9 +15,6 @@ This file formalizes the elementary core that is independent of any Lie-group AP
 * the primitive integer weights are (1,1,1,-3), all odd;
 * simultaneous reversal of internal and transverse signs preserves their product;
 * simultaneous reversal of an X-weight and transverse orientation preserves X*eta.
-
-It does NOT formalize Spin(6,2), maximal compact subgroups, or representation
-branching itself.
 -/
 
 namespace GppSpin62BLFiniteCore

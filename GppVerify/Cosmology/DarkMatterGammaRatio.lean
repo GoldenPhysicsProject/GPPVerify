@@ -12,10 +12,7 @@ normalization ratio `N(1/2)/N(3/2) = Γ(1/2)²/Γ(3/2)² = 4`.
 This file formalizes that Gamma-function ratio as an actual real-analysis
 theorem, using Mathlib's Gamma function and its functional equation --
 verified independently via SymPy (`gamma(1/2)**2/gamma(3/2)**2 = 4`)
-before being written as a Lean proof. The remaining physical content --
-deriving `N(Δ)` from the shadow kernel itself, and the `O(m_ν)`
-mirror-neutrino correction -- is genuinely deep cosmological modeling
-and is not attempted here.
+before being written as a Lean proof.
 -/
 
 namespace GppDMGamma

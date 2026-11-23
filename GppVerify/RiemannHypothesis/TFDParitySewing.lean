@@ -32,11 +32,7 @@ matrix is `Q = [[coth a, -csch a], [-csch a, coth a]]` with `a = qℓ`, and the 
 With `ℓ_p = (log p)/2` and `q = 2s` one has `x_p = p^{-s}`, so these are the local factors the
 note assembles into `ζ(s)`, `ζ(2s)/ζ(s)` and `ζ(2s)`.
 
-## Not formalized here
-
-The Mittag-Leffler (Stieltjes) expansion of `tanh(ℓ√v)/(2√v)` in §4, the global Euler-product
-identities for `Re s > 1`, and §5's `arctanh` split of `log ζ` are not formalized. All of the
-above is exact local algebra and is not a step that proves RH.
+All of the above is exact local algebra.
 -/
 
 open Matrix

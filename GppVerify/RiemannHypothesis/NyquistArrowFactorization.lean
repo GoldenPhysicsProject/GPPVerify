@@ -29,7 +29,6 @@ one has pointwise
 Thus every finite matrix cut from q_c is the difference of two congruences
 of the same band kernel. Analytically the band kernel is a positive Gram
 kernel; that integral/PSD statement is deliberately not asserted here.
-The present file is exact finite algebra only and contains no RH claim.
 -/
 
 namespace GppNyquistArrow

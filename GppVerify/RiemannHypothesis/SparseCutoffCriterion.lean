@@ -11,7 +11,7 @@ import Mathlib.Analysis.SpecialFunctions.Log.Basic
 /-!
 # The sparse-cutoff criterion (abstract and composition layers)
 
-**Conditional on a named analytic hypothesis; nothing here proves RH.**
+**Conditional on a named analytic hypothesis.**
 
 This formalizes the logic of the sparse-cutoff criterion of Astra / Codex
 (GPPDiscovery2 `0abf88b`, `experiments/short_reciprocal/sparse_energy.md`; Turbo PASS, bridge `09dbcab`).

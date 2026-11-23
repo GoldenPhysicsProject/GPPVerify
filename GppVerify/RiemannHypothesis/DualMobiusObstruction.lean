@@ -21,10 +21,7 @@ representative is `b_{N,z} = M_N^T a_z`.
 
 ## Checks and scope
 
-Both claims check. **Not formalized:** the equivalence in §3 between `A(N) = Σ_{m≤N} μ(m)/√m =
-O(N^ε)` and the Mertens bound `M(x) = O(x^{1/2+ε})` (partial summation; it is the classical
-RH-equivalent statement and is exactly why the raw critical character's dual norm is "another form
-of the target"), and the block-diagonal discussion of §4. No RH claim.
+Both claims check.
 -/
 
 open Finset ArithmeticFunction

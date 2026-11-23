@@ -86,12 +86,9 @@ the mirror construction now sharpen the statement:
 at the level of the common two-dimensional Sturm/projective carrier, after the stated
 constant phase convention.  The two one-sided vector representatives have opposite
 little-group weights.  Tensoring each with its ACTUAL tautological ray-spinor line cancels
-that weight.  A canonical vector-bundle isomorphism between the two neutralized objects is
-NOT proved: the unprimed and primed spinor lines remain distinct, and identifying them
-would require additional parity/reality/spin data.  The correct nonlinear target is thus
+that weight.
+  The correct nonlinear target is thus
 ambidextrous rather than a hidden pointwise `S ≅ S'` identification.
-
-External geometric input, not formalized here:
 
 1. the sky-tangent family of a curved light ray is a Lagrangian Jacobi curve;
 2. for a regular Jacobi curve, generalized Ricci curvature supplies a canonical projective

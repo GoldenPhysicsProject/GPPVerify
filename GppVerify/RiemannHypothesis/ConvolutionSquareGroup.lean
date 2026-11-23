@@ -24,7 +24,7 @@ group). This file states it at that generality.
 idèle class group of `ℚ` in `IdeleClassGroupQ.lean` (2026-11-07), which retired
 `open_adelic_haar_square_positive_type`. Positivity of a Haar square is unconditional
 and is *not* Weil positivity, which concerns the specific distribution `D_k`; see
-`NoGo/HaarSquareNotReflection.lean`. No claim about RH.
+`NoGo/HaarSquareNotReflection.lean`.
 -/
 
 set_option autoImplicit false

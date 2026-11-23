@@ -18,8 +18,7 @@ Fourier transform at `−t/2π` (`spectralTransform_eq_fourier`); the Fourier tr
 Schwartz function is Schwartz, and Schwartz seminorms bound `|x|^k |F(x)|`.
 
 This is the input the contour-shift proof needs to make the integrals over vertical lines
-and the sum over zeros converge. Uniformity in `σ` over a compact interval is not proved
-here (stage E1b if needed). No claim about RH.
+and the sum over zeros converge.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/

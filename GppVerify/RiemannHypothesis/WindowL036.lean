@@ -13,9 +13,7 @@ of `WindowMinorantL036` satisfies
 * `mfun r ≤ Ψ₂(r) - β₂(25)` on `[-25, 25]` (`symbolTwo`, `betaTwo`), and
 * `|mfun r| ≤ 8` on `[-25, 25]`.
 
-These two hypotheses are input (b) of the certificate. They are finite statements about 100 explicit
-polynomials against the digamma function, not proved in this file; they are discharged in
-`WindowBL036` (`weilForm_autocorr_nonneg_l036_unconditional`).
+These two hypotheses are input (b) of the certificate.
 Everything else is proved:
 * input (a), the finite block (`GppWindowBlockL036.block_bound`, kernel-checked tables);
 * input (c), the identification of the minorant form (`GppWindowAssembly.minorantForm_eq_B`);
@@ -23,7 +21,7 @@ Everything else is proved:
 
 The window `[-9/25, 9/25]` is the first one whose autocorrelation reaches `log 2`
 (`2 · 9/25 = 0.72 > log 2`), so the prime `2` is visible; rung 0 stops at `log 2 / 2`.
-Unconditional implication; no `sorry`, no axioms. Nothing here concerns the zeros.
+Unconditional implication; no `sorry`, no axioms.
 -/
 
 namespace GppWindowL036

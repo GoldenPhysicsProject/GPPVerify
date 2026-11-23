@@ -25,8 +25,7 @@ So the Sameness statement, as a bare existence statement, is equivalent to RH:
 neither more nor less. In particular the converse construction uses the zeros
 themselves as input, so it does not supply a proof. A proof must construct `U`
 from arithmetic data (primes, gamma factor, pole) without using the zero set,
-which is what the bridge target T3 asks for. RH is open; nothing here asserts
-either side.
+which is what the bridge target T3 asks for.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (target)
 and Claude Code (Lean).

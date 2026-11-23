@@ -20,9 +20,7 @@ on indices `i, j ∈ Fin K`. For a real vector `v` put `a = ∑ v_j cos(ωj + α
 * `add_form_nonneg`, `sub_form_nonneg`: both are `≥ 0` when `m ≥ 0`, for every `v` and every `K`,
   although `D` and `C` separately have norm of order `K` and `C` is indefinite.
 
-**Scope.** Finite-dimensional algebra only. It does not identify the Wave 305/306/308 blocks with
-`D` and `C` (that block identification is Turbo's), says nothing about the remaining
-continuous or other-atomic spectrum, and gives no uniform positivity. No claim about RH.
+**Scope.** Finite-dimensional algebra only.
 -/
 
 open Finset Real

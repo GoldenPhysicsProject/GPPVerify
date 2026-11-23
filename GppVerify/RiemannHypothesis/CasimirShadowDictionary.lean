@@ -27,7 +27,7 @@ On the unitary line u = i t this becomes 1/4 + t^2.  The latter specialization
 is mathematically immediate once i^2 = -1 is inserted; the ring identities
 below isolate the convention-independent part.
 
-These identities do not prove RH.  They verify that the arithmetic
+  They verify that the arithmetic
 half-density Casimir and the celestial Legendre/conical Casimir are literally
 the same polynomial invariant under the proposed dictionary.
 -/

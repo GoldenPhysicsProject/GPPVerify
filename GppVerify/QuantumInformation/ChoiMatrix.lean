@@ -33,11 +33,7 @@ depolarizing channel, etc.) — that specialization is done elsewhere
 `choiMatrix_posSemidef_of_completelyPositive`: if `Φ` is completely positive then its Choi
 matrix is positive semidefinite. This is the *easy* (forward) direction of Choi's theorem —
 it follows in one line from the definitions, since the Choi matrix is exactly
-`(Φ ⊗ id_n)` applied to a positive semidefinite test state. The *hard* (converse) direction
-of Choi's theorem — that a positive semidefinite Choi matrix already forces complete
-positivity for *every* auxiliary dimension `β`, not just `β = n` — is a genuinely deeper
-result (it needs an operator-sum / Kraus decomposition of `Φ` recovered from a
-spectral decomposition of the Choi matrix) and is not attempted here.
+`(Φ ⊗ id_n)` applied to a positive semidefinite test state.
 
 The forward direction is exactly what is needed to turn "the Choi matrix is not positive
 semidefinite" into "the map is not completely positive" by contraposition
@@ -79,9 +75,8 @@ noncomputable def ChoiMatrix (Φ : Matrix n n ℂ →ₗ[ℂ] Matrix n n ℂ) : 
   matrixMapTensor Φ maxEntangled
 
 /-- **Choi's theorem, forward direction**: a completely positive map has positive
-    semidefinite Choi matrix. (The converse — Choi matrix PSD implies CP for every
-    auxiliary dimension — is the hard direction of Choi's theorem and is not needed,
-    and not proved, here.) -/
+    semidefinite Choi matrix.
+-/
 theorem choiMatrix_posSemidef_of_completelyPositive {Φ : Matrix n n ℂ →ₗ[ℂ] Matrix n n ℂ}
     (hΦ : CompletelyPositive Φ) : (ChoiMatrix Φ).PosSemidef :=
   hΦ n maxEntangled maxEntangled_posSemidef

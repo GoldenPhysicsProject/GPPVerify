@@ -28,8 +28,7 @@ exactly as filed, except where a hypothesis had to be made explicit; such places
 * #32 `HR22_hb_multiset`, `HR22_hermite_biehler_finite` (**hypothesis made explicit: nonconstant** — for a
   constant polynomial the two sides of the inequality are equal)
 
-Nothing here concerns zeta zeros or RH; all statements are unconditional finite algebra or
-elementary calculus. No `sorry`, no `axiom`.
+ No `sorry`, no `axiom`.
 -/
 
 namespace GppHeartElementary

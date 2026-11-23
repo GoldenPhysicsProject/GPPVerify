@@ -20,10 +20,8 @@ state `q`, `q(0) = 0`, input `v = q' + (a+e) q` and output `w = q' + a q`:
 * `log_energy_transfer`: if `E₀ ≤ e^{2eT} E_e` then `log(1+E₀) ≤ 2eT + log(1+E_e)`, the step behind
   Astra's diagonal-schedule criterion.
 
-Applying the stage with `a = 0` and then `a = ½` gives Astra's `E₀(T) ≤ e^{2eT} E_e(T)`; that
-composition (solving the two ODEs for the prime signal) and the Laplace/pole argument are not
-formalized here. Real-valued signals only. The identity removes no arithmetic difficulty: it bounds
-`E₀` by `E_e`, and no upper bound on `E_e` is known. Nothing here concerns RH beyond that.
+ Real-valued signals only. The identity removes no arithmetic difficulty: it bounds
+`E₀` by `E_e`, and no upper bound on `E_e` is known.
 -/
 
 open intervalIntegral

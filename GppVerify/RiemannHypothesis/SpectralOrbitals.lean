@@ -28,11 +28,8 @@ Two independent pieces, both elementary and both stated without numerical consta
   the remaining zeros. `S = ∅` is the pole-only statement; `S = {γ₁}`, `{γ₁, γ₂}` are the
   augmented spans of the K = 5 note.
 
-**Scope.** Nothing here proves the explicit formula; it is a hypothesis field of
-`ExplicitFormulaLedger`, to be discharged by the assembled explicit formula (stages E3–E6).
-No continuum tail is claimed. The numerical agreements reported by Turbo (cosines,
-residue ratios) are not asserted. This is not a positivity source and says nothing about
-the Riemann Hypothesis, which remains open.
+**Scope.** The explicit formula is a hypothesis field of
+`ExplicitFormulaLedger`.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; the object's
 shape is Turbo's audit.

@@ -13,15 +13,14 @@ equivalence", "Operator Cayley functional calculus identities"). Most of both ro
 * `channel_five_golden_eigen`: `S_5 (φ, 1) = (φ, 1)`. This is the golden `+1` eigenline.
 * `cayley_inv` and `cayley_diag_inv`: `A = (1 − C)/(1 + C)` when `C = (1 − A)/(1 + A)`, for a
   scalar and for a finite diagonal operator (entrywise, `A_i > 0`). That is the finite-diagonal
-  case the queue row asks for first. The general self-adjoint functional calculus is not
-  formalized.
+  case the queue row asks for first.
 
 Checked by hand; no corrections. As recorded with #219, `p = 5` is singled out by the
 normalization `μ = 2/√(p−1)`, not by arithmetic.
 
 ## Scope
 
-`2 × 2` real algebra and scalar/diagonal Cayley inversion. No RH content.
+`2 × 2` real algebra and scalar/diagonal Cayley inversion.
 -/
 
 open Matrix GppPrimeCayley

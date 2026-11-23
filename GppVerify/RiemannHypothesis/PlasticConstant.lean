@@ -20,8 +20,7 @@ This file proves the elementary analysis of the smooth curvature `c(t) = e^{t/2}
 
 **Scope.** Only this real-variable analysis of the curvature function. The identity
 `W(f_L)'' = 2(e^{L/2} − κ(L))` itself (closed form of the box form, differentiation of the archimedean integral)
-is **not** here, nor is Suzuki's criterion, nor any positivity statement. The plastic constant is just the
-positive root of `r³ − r − 1`; nothing here says it is significant beyond this crossover.
+is **not** here, nor is Suzuki's criterion, nor any positivity statement.
 
 No `sorry`, no axiom.
 -/

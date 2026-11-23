@@ -22,9 +22,7 @@ This file proves the exact scalar facts:
 
 ## Scope
 
-Exact elementary algebra. The Weil explicit formula, the identity `C_φ(log x) = −T(x) − D_φ(log x)`, and the
-lower bound `T(x) ≥ −K` (which the note proves is *equivalent* to RH) are not formalized; that lower bound is
-open. No RH claim.
+Exact elementary algebra.
 -/
 
 open Complex

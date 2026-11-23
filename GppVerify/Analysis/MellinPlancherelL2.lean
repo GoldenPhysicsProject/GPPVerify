@@ -25,7 +25,7 @@ spec (GPP-bridge `MuseResearch/turbo-pss-inventory-spec-2026-11-13.md`, item (ii
 * `not_memLp_const_halfLine`: a nonzero constant on `(0, ∞)` is not in `L²`, so the zero-energy
   mode is not in the span, matching the paper's explicit clause.
 
-Analysis only. Nothing arithmetic, no claim about the zeros. This file lives in the neutral
+Analysis only. This file lives in the neutral
 `Analysis/` home so physics files may import it (`scripts/check_pss_wall.py`).
 -/
 

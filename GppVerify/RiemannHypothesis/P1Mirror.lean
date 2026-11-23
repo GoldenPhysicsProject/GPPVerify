@@ -19,8 +19,7 @@ So an exact global self-mirror does not by itself force zeros onto its fixed lin
 per-grade centres `1/2` (`H⁰`) and `3/2` (`H²`) carry them.
 
 **Scope.** The existence of zeros of `ξ` on the critical line (Hardy) is not in Mathlib and is
-taken as a hypothesis in `p1Xi_zeros_off_mirror`. The motivic weight grading, Tate twists and
-polarization Codex specifies are not formalized. No claim about RH or BSD.
+taken as a hypothesis in `p1Xi_zeros_off_mirror`.
 -/
 
 open GppLogDerivZeroFree

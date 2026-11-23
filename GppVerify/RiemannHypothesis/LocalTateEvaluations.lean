@@ -24,9 +24,9 @@ The blueprint's `sorry`s are all discharged. Audit notes applied: the norm bound
 `‖p^{-s}‖ < 1` uses `norm_natCast_cpow_of_pos` (complex exponent), not `norm_cpow_real`;
 the final archimedean cancellation is a `ring`-type step. The blueprint's separate
 `GammaIntegral` step is unnecessary: `integral_cpow_mul_exp_neg_mul_Ioi` lands on `Gamma`
-directly. Integrability of the archimedean integrand is not needed for these identities
-and is not proved here. These are the local factors only; the global Tate integral and
-Poisson summation on the adeles (Steps 2+) are not here. No claim about RH.
+directly.
+ These are the local factors only; the global Tate integral and
+Poisson summation on the adeles (Steps 2+) are not here.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Gemini (blueprint), Turbo
 (audit) and Claude Code (Lean).

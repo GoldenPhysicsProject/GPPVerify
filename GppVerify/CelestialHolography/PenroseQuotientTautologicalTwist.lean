@@ -33,8 +33,6 @@ identifying the raw coordinate `x` with an ordinary little-group-neutral scalar.
 Geometric consequence: the projectivized quotient agrees canonically with the raywise
 projective/Sturm geometry, but any vector-bundle comparison with a scalar Einstein-scale
 bundle must account for this tautological line twist (or an equivalent spin/theta choice).
-No claim about the exact holomorphic line-bundle notation on curved ambitwistor space is
-made here.
 -/
 
 namespace GppPenroseQuotientTautologicalTwist

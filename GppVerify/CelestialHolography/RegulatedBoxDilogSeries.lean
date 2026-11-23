@@ -11,7 +11,7 @@ dilogarithm after its endpoint functional equations have been applied.  This fil
 builds that local object directly from its convergent power series, avoiding any
 dependence on a pre-existing `Li₂` library API.
 
-It does NOT prove the Spence or inversion identities.  Those remain a separate
+  Those remain a separate
 analytic layer.
 -/
 

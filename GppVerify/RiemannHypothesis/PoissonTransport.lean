@@ -32,9 +32,7 @@ Write `p_λ(k) = e^{−λ} λ^k / k!` for the Poisson weights.
 
 **Scope.** The probability layer is not built: independence, the reference law of
 `Y = (N₊ − N₋)/2`, and the Gibbs variational inequality `D(Q‖P) ≥ tB − V`. The statements here
-are the exact series and closed-form identities behind it. The Legendre transform
-`V*(B) = 2B asinh(B/4) − 2√(B² + 16) + 8` is not formalized. No all-prime entropy bound and no
-claim about RH.
+are the exact series and closed-form identities behind it.
 -/
 
 set_option autoImplicit false

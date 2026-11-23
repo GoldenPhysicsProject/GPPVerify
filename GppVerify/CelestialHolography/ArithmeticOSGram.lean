@@ -13,9 +13,7 @@ This is the finite algebraic skeleton behind the representation
 
   K(s,t) = ∫ exp(-α s) exp(-α t) dμ(α),  μ ≥ 0.
 
-The file proves only this positive Gram mechanism.  It does not construct the
-prime--Archimedean measure `μ` and therefore does not prove arithmetic
-reflection positivity or RH.
+The file proves only this positive Gram mechanism.
 -/
 
 namespace GppArithmeticOS

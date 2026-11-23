@@ -24,8 +24,6 @@ integrable **bounded** `f`, exactly the hypothesis set the stub proposed:
 
 `GppHaarPositivityWeil.PositiveType` is reused unchanged, so this theorem plugs directly
 into that file's framework (Weil/Wightman/OS positivity as instances of one construction).
-The idèle-class-group version remains open for the honest reason recorded there: idèle
-class groups are not in Mathlib.
 -/
 
 namespace GppHaarPositivityWeil

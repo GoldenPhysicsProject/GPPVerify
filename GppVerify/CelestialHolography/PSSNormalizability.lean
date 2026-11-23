@@ -25,8 +25,7 @@ family of truncated radial integrals `ν ↦ radialTrunc ((2c − d) + iν) R`, 
   throughout: the criterion selects the line, it does not assume it.
 * `radialDeltaNormalisable_iff_principal`: the same, as `∃ ν : ℝ, Δ = d/2 + iν`.
 * `not_radialDeltaNormalisable_discrete`: **the discrete series** `Δ = d/2 + k`, `k ≥ 1`, is not
-  delta-normalisable. This is the radial form of the §3 statement; the paper's own argument goes
-  through the hyperboloid integral (3.12), which is not formalised here.
+  delta-normalisable.
 * `mellinPacket_critical_iff`: in the full-pairing form of File 3 (`kgPairing_mellinPacket`,
   conditional on the named OPEN obligation `PSSPacketPlancherel`), the radial exponent of the
   packet pairing lies on `Re = 0` iff `c = d/2`. The pairing statement itself (4.9) is therefore

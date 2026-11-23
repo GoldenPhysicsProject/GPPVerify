@@ -13,7 +13,6 @@ point on S^4.  The exact second moment is 1/5.
 
 The probabilistic beta-gamma step is recorded in Discovery2.  This Lean file formalizes
 the elementary density identities and the conditional scaling consequence only.
-No RH claim is made.
 -/
 
 namespace GppBPYAngular

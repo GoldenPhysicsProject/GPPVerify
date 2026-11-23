@@ -4,7 +4,7 @@ import Mathlib.Tactic
 # Prime-square-root Cayley algebra
 
 Elementary algebraic core of the local TFD / Dirichlet-to-Neumann block after
-writing q = sqrt(p). No RH claim and no arithmetic distribution input.
+writing q = sqrt(p).
 -/
 
 namespace GppPrimeSqrtCayley

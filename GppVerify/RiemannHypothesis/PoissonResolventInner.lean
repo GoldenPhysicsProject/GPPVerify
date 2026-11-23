@@ -21,10 +21,7 @@ For real eigenvalues `γ_k` and `ω > 0` the shifted ratio is
 * `phase_density_pos`: the phase derivative of the product, `P(x) = 2ω Σ_k 1/((x−γ_k)²+ω²)`, is
   strictly positive for a nonempty finite spectrum.
 
-**Scope.** The finite algebra and calculus of the shifted ratio on the real axis. That `Θ` is a
-Schur/inner function in the upper half-plane, the comparison with `ξ(½ ∓ ω − iz)` and Suzuki's
-criterion, the CCM finite triples, and the closure theorem (locally uniform convergence of `Θ_{j,ω}`)
-in §§3–4 are not formalized. No claim about RH.
+**Scope.** The finite algebra and calculus of the shifted ratio on the real axis.
 -/
 
 set_option autoImplicit false

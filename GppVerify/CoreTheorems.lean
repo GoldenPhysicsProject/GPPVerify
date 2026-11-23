@@ -82,8 +82,7 @@ def LeftHanded  {A : Type} (P : A → Prop) (x : A) : Prop := P x
 def RightHanded {A : Type} (P : A → Prop) (x : A) : Prop := ¬P x
 
 /-- Legacy name for the abstract sector-complement theorem.
-It does not prove that physical right-handed Weyl states are Wigner-T conjugates of left-handed
-ones. -/
+-/
 theorem right_is_T_conjugate_of_left {A : Type} (f : A → A) (P : A → Prop)
     (sd : SectorDecomposition f P) :
     ∀ x : A, RightHanded P x ↔ LeftHanded P (f x) :=

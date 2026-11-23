@@ -18,8 +18,7 @@ the Weil involution fixes `s`, whereas positive-real inversion becomes conjugati
 This distinction prevents a circular identification of celestial shadow positivity
 with the Weil quadratic form.
 
-This file formalizes only those exact complex-algebra statements. It makes no claim
-that they constrain zeros of the Riemann zeta function.
+This file formalizes only those exact complex-algebra statements.
 
 ## Sources
 
@@ -32,7 +31,6 @@ General intertwining-operator background: A. W. Knapp and E. M. Stein,
 "Intertwining operators for semisimple groups", Ann. of Math. (2) 93
 (1971), 489–578. This module formalizes the stated algebraic identities;
 it does not construct the full physical conformal primary basis.
-
 -/
 
 namespace GppPositiveReal

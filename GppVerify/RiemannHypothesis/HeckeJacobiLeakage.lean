@@ -23,12 +23,7 @@ two-eigenvalue Satake pair `p^{±z/log p}`). This file proves, with no hypothesi
 
 ## Scope (read this)
 
-Only the exact finite algebra is proved. **Not proved here:** the spectral-distance inequality
-`|a_{M+1}|²+|a_M|² ≥ dist(2cosh z,[-2,2])² ∑|a_m|²` (needs the spectrum of `J` on `ℓ²`), and the
-limit `→ 2 sinh(2|Re z|)` (numerically confirmed at several `z`; the proof is an elementary
-geometric-sum asymptotic not formalised here). Most importantly, nothing here says an actual
-zeta zero's Hecke channel has vanishing leakage: that *zero-survival* step is missing and is
-RH-strength. No RH claim.
+Only the exact finite algebra is proved.
 -/
 
 open Complex

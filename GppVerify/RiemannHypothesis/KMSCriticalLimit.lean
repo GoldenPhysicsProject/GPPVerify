@@ -31,9 +31,7 @@ constant.
 
 ## Scope
 
-This is the finite-place estimate only. As the note itself says, it does not control the
-scalar pullback of the KMS field to the Weil form (which is not bounded on the raw KMS Hilbert
-space), nor the real-place and pole channels, and it is not a step that proves RH.
+This is the finite-place estimate only.
 -/
 
 open Real Finset

@@ -21,11 +21,7 @@ For real `r` and complex `w` with `1 − r w ≠ 0`, let `Θ_r(w) = (w − r)/(1
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the "no-leakage zero theorem" of §8 (a conjectural target, and
-the note's falsifier list in §10 is the honest summary of what is missing), the orthogonal direct-integral
-decomposition of hidden channels, and the global product formula (§7). A contractive or expansive
-visible transfer off the line is consistent with a unitary parent; nothing here locates a zeta zero.
-No RH claim.
+All claims check.
 -/
 
 open Complex

@@ -18,7 +18,7 @@ applied twice gives `𝓕 g'' = −4π²ξ² g`. Hence `conj(h₂)·𝓕h₂ = �
 `1_Ẑ` gives the adelic witness; that tensor step needs adelic Fourier analysis that Mathlib lacks, so
 it is stated here only. This does not contradict Osterwalder–Schrader positivity, which is a
 positive-*time* half-space condition. It shows that `K`-compactness plus Fourier unitarity alone
-cannot supply positivity. **No RH claim.**
+cannot supply positivity.
 -/
 
 namespace GppNoGo.HermiteFourierIndefinite

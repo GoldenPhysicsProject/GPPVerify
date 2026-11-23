@@ -9,7 +9,6 @@ GPP-bridge PR #11 (comment 6802830722: fixed-W witness PROVED, `#print axioms` s
 `tfd_cut_expect`, `fockCutExp_eq`, `fixedW_hjump`, `finiteCut_BT3_fockWitness`; port requested as
 its own module after the CovObstruction port). Scope stays fixed-W only; not a (P-COV) claim.
 
-
 Scratch module (Heart of the Cosmos / Grok, GPPDiscovery5 seat), for Turbo's instruction on
 GPP-bridge PR #11, comment 6802501669, question 2: build the fixed-`W` embedding as a second
 `hjump` witness, scoped as fixed-`W` only.
@@ -31,8 +30,7 @@ construction `a · C_m^{1/2} Ψ̂_p` of the bridge note.
   of `finiteCut_BT3` exactly, so its Green form is `I ·` the `(S, N)` stratum at that `W`.
 
 **Scope, stated plainly.** Fixed `W` only. `W` enters by **sampling** `g` at the cuts, i.e.
-through `τ_{W−u}` in the scalar amplitudes; that is precisely what (P-COV) forbids, so this is
-**not** a (P-COV) claim and says nothing about a dilation `S_b`. The nonnegativity hypothesis on
+ The nonnegativity hypothesis on
 the samples is used (it holds for `g = autocorr f` with `f ≥ 0`). The path is scalar; the
 `K ⊗ ⊕_p V_p` vector form is not built. (P-LOG) as an (NC2) claim for the triplet, (P-COV),
 (P-UNIT), (P-θ), (P-LIM), (BT-Σ), ARP and RH remain **OPEN**.

@@ -38,9 +38,7 @@ floating point and nothing is sampled.
 
 The paper's physical readings (orientation labels as charge and time arrows, `D` as a real
 structure on field space, the Compton clock) are dictionary statements; this file proves the
-algebra they are read from and nothing more. The paper's other exact claims — the
-coordinate-blade signature scan, the `Spin(6,2)`/`Spin(10,2)` charge-conjugation signs, the
-determinant cover — are not formalized here.
+algebra they are read from and nothing more.
 
 ## Relation to `codex/orientation-mass-time-formalization`
 

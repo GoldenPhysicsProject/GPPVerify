@@ -33,7 +33,7 @@ CCM basis rule out every such metric there.
 
 Finite real linear algebra. Whether the Bost–Connes KMS Gram, transported into the even Weil block,
 satisfies `G e₀ = η` and makes `A₊ − z` `G`-positive below the ground is the open arithmetic
-question the note poses. It is not claimed here. No RH claim.
+question the note poses.
 -/
 
 open Matrix

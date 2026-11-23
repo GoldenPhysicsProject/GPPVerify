@@ -63,12 +63,7 @@ Fourier transform of `sech`.
 
 ## Scope
 
-Local identities only. **Not formalized:** the SU(1,1) Lie-algebra representation on the doubled
-oscillator, the Jacobi transform `U` and its generating function (the series
-`Σ P_n z^n` of the orthonormal polynomials), the secant moment integral, the Fisher-metric
-statement `d_H = √2 D_F`, the Euler-product statement
-`|ζ(σ+it)|²/ζ(2σ) = ∏_p P_{p^{-σ}}(t log p)`, and the adelic sewing (the note's open global
-target). No RH claim.
+Local identities only.
 -/
 
 open Complex

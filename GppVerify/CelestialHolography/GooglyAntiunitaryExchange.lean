@@ -11,8 +11,7 @@ requires orientation reversal.  The map below combines complex conjugation with 
 orientation sign flip and hence anti-commutes with the Hodge star.
 
 This is the finite-dimensional algebraic core needed before identifying the same
-operation with celestial shadow/time reversal.  No claim about the full nonlinear
-Penrose-Ward correspondence is made here.
+operation with celestial shadow/time reversal.
 -/
 
 namespace GppGooglyAntiunitaryExchange

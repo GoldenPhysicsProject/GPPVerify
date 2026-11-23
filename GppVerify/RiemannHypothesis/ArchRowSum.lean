@@ -20,11 +20,9 @@ Golden Physics Project, with AI assistance from Codex (statement) and Claude Cod
   `0 ≤ −vᵀ C v ≤ (∑_λ ‖h_λ‖²) ‖v‖²`. With `h_λ(j) = e^{−λ(a₀ + δj)} S(−λ)`,
   `‖h_λ‖² ≤ e^{−2λa₀} S(−λ)²/(1 − e^{−2λδ})` (`geom_partial_le`), uniformly in `K`.
 
-**Scope.** Elementary bounds on the stated kernels. The identification of these kernels with
-Discovery2's gamma Toeplitz entries `A_d` and Hankel vectors `h_λ` (the digamma reduction,
-audited numerically in PR #11 6380867161) is not formalized, nor are the Arb enclosures of
-`A₀, A₁`. As Codex notes, this bounds the *pure gamma Arch* blocks only; it does not rule out
-compensation from the SQ, prime or pole parts. No claim about RH.
+**Scope.** Elementary bounds on the stated kernels.
+ As Codex notes, this bounds the *pure gamma Arch* blocks only; it does not rule out
+compensation from the SQ, prime or pole parts.
 -/
 
 open Finset

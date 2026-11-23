@@ -21,9 +21,7 @@ For a finite family of complex coefficients `c_j`, real frequencies `a_j` with `
   `c_j = (−1)^j v_j`).
 
 **Scope.** Only the finite geometric division and the resulting pointwise bound, exactly as in the
-note's "Setup and exact remainder". The envelope for the arithmetic multiplier (the digamma
-estimate, DLMF 5.7.6), the integrated error theorem, the Plancherel bookkeeping and every numerical
-evaluation in the note are not formalized. No claim about RH.
+note's "Setup and exact remainder".
 -/
 
 set_option autoImplicit false

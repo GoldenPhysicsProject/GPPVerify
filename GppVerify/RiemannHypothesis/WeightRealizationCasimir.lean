@@ -28,13 +28,9 @@ On functions `f : ℝ → ℂ` the weight-`Δ` realization of `sl(2,ℝ)` is gen
 * `antiHermitian_iff`: on a test function with `⟨f, f⟩ ≠ 0`, `D` is anti-Hermitian (so it
   generates a unitary dilation) if and only if `Re Δ = 1/2`, i.e. exactly on the principal series.
 
-**Scope.** The generator-level statements for this concrete realization. The group action, the full
-unitary-representation statement, irreducibility, the 4D massless one-particle space and its
-decomposition into principal series (Mellin–Plancherel), and the identification of this `Δ` with
-the arithmetic `s` beyond the Mellin character of `OneDimensionalMellinWeight` are NOT formalized.
-**Nothing here says where any particular complex number lies**: whether a given `Δ` (for instance
-a zero of the completed zeta function) belongs to the unitary sector is the same question as
-whether `Re Δ = 1/2` for it. No claim about RH.
+**Scope.** The generator-level statements for this concrete realization.
+Whether a given `Δ` (for instance a zero of the completed zeta function)
+belongs to the unitary sector is the same question as whether `Re Δ = 1/2` for it.
 -/
 
 set_option autoImplicit false

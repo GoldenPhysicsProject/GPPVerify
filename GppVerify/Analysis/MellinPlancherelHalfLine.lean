@@ -22,12 +22,9 @@ Formalization: Claude Code.
 * `mellin_half_plancherel`: if `u ↦ e^{-u/2} f(e^{-u})` is a Schwartz function `g`, then
   `(1/2π) ∫ |𝓜f(1/2 + iτ)|² dτ = ∫_{x>0} |f(x)|² dx`.
 
-**Scope.** Schwartz-class test functions only: the extension to all of `L²(ℝ₊, dx)`, the
-statement that the Mellin transform is *onto* `L²(ℝ)` (completeness of the basis), the Klein–Gordon
-inner product itself (and hence the physical meaning of the density), and the four-dimensional
-`SL(2, ℂ)` version are NOT formalized. Nothing here says that any particular complex number, such
-as a zero of the completed zeta function, is a point of this spectrum: that is the same question
-as `Re s = 1/2` for it. No claim about RH.
+**Scope.** Whether any particular complex number, such as a zero of the
+completed zeta function, is a point of this spectrum is the same question
+as `Re s = 1/2` for it.
 
 **Home.** Moved from `RiemannHypothesis/` to the neutral `Analysis/` on 2026-11-14 (Claude Code,
 ruling for the Pasterski–Shao formalisation spec, File 5). The file imports only Mathlib and

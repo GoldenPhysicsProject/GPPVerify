@@ -14,8 +14,6 @@ is deliberately NOT assumed here.  Starting only from its scalar profile already
 isolated in `CausalHeatPrimePowerAnomaly`, we prove that the Euler-log `1/m`
 coefficient produces exactly the Gaussian von Mangoldt prime-power term and that the
 resulting natural-number `tsum` reindexes canonically over `(prime, exponent)`.
-
-No RH claim and no prime--Archimedean trace-class claim is made.
 -/
 
 namespace GppCausalHeatVonMangoldtReindex

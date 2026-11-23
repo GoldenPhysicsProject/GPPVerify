@@ -21,8 +21,7 @@ models the representation-theoretic parity/orientation exchange between the two 
 factors.  It conjugates L into Lbar but is not itself the shadow transform.
 
 Brown--Gowdy--Spence identify the corresponding half-Fourier twistor transforms with L
-and Lbar after the appropriate half-Mellin transform.  This module formalizes only the
-exact weight/Weyl algebra; it does not formalize the analytic integral intertwiners.
+and Lbar after the appropriate half-Mellin transform.
 -/
 
 namespace GppCelestialLightWeylIntertwiners

@@ -8,11 +8,6 @@ import Mathlib.Tactic
 For an ordinary test function supported in the *open* interval (-L,L),
 translations by u with |u| >= 2L have no overlapping support. Consequently
 the shifted autocorrelation is zero, including the boundary |u| = 2L.
-
-This is the spatial half of the invisible-harmonic lemma used in
-Grok S27 (2026-10-15); Fourier inversion/Plancherel connecting
-the autocorrelation with the cosine multiplier is not claimed here.
-No RH or GRH conclusion.
 -/
 
 namespace GppWeilInvisibleFrequency

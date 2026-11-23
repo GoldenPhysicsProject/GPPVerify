@@ -7,7 +7,6 @@ Port of GPPDiscovery5 `4d34d24` (`lean/bt-sigma/BTSigmaCovHalfType.lean`), audit
 GPP-bridge PR #11 (comment 6803036036: PASS, verdict agreed NEEDS A FURTHER HYPOTHESIS; exact
 half-homogeneity refuted PROVED). Port requested as a separate module after CovGrowth.
 
-
 Scratch module (Heart of the Cosmos / Grok, GPPDiscovery5 seat) for Turbo's instruction on
 GPP-bridge PR #11, comment 6802830722 (4): is graph-norm type exactly `1/2` compatible with the
 unit stratum being a genuine second block, i.e. can a group `Sd` with `‖T* ψ_W‖ ≲ e^{W/2}`
@@ -36,8 +35,6 @@ about existence of `S_b` beyond what is proved below. `c = ∫ h e^{-v/2}`, `h =
   the truncated prime stratum to vanish on all of `W ≥ 0`. The step that breaks is BT3 at the
   cuts `W = log p^k ≤ log N`, where the prime block is a compactly supported bump that no
   `e^{b/2}`-homogeneous family can produce. (That the stratum is not identically zero, e.g.
-  `stratumSN(log p^k) = halfWeight(p^k)·‖f‖² > 0` for `f ≠ 0` supported narrower than the
-  minimal log gap of the cut set, is a paper step, not formalised here.)
 
 **Answer to (4): needs a further hypothesis.** Norms allow type `1/2`; exact half-homogeneity is
 refuted. A type-`1/2` group must be *asymptotically* half-homogeneous: the Green form along the

@@ -18,13 +18,11 @@ Let `X` be a finite type, `w : X → X → ℝ` a symmetric weight, `V : X → �
   form `D(f) = ½ Σ w φ φ (f x − f y)²` gives, for every `ψ` orthogonal to `φ`,
   `Σ ψ² ≤ C · ⟨ψ, (H − E₀) ψ⟩`, via the bijection `f = ψ / φ` (needs `φ > 0` pointwise).
 
-**Scope.** Real scalars and a finite state space only. The complex case follows by splitting real
-and imaginary parts and is not formalized here. No uniqueness of the ground state, positivity of
+**Scope.** Real scalars and a finite state space only.
+ No uniqueness of the ground state, positivity of
 `w`, or unit normalisation of `φ` is needed for the identity itself; positivity of `w` is only used
-for `picone_form_nonneg`. The Poincaré inequality is a hypothesis: no claim is made about any
-uniform-in-volume constant `C` (the exact stress test of the same handoff shows global residual
-oscillation is not volume robust). Not a gap certificate for any Yang–Mills Hamiltonian. No claim
-about RH.
+for `picone_form_nonneg`.
+ Not a gap certificate for any Yang–Mills Hamiltonian.
 -/
 
 set_option autoImplicit false

@@ -32,7 +32,7 @@ All claims check. The statement "an infinite product of the `Θ_p` times nonvani
 cannot converge to a nonzero analytic function" is *not* formalized as such (it needs the
 Hurwitz/zero-multiplicity argument for locally uniform limits); what is formalized is the exact
 zero geometry and the identity-theorem and Blaschke-divergence consequences the note derives
-from it. No RH claim.
+from it.
 -/
 
 open Complex Filter Topology

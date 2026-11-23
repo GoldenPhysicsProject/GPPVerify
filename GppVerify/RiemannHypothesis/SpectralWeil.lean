@@ -125,7 +125,7 @@ theorem open_weil_explicit_formula : True := trivial
 -- with the open target `MeyerTarget` and `rh_of_meyer`.
 
 /-- Positivity of Weil distribution: the explicit formula has non-negative contributions.
-    Gap: this is an open positivity step on the spectral route to RH (RH is not claimed), related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
+    Gap: this is an open positivity step on the spectral route to RH, related to the Weil-pairing positivity hypothesis (formerly the arithmetic_admissibility axiom). -/
 theorem open_weil_distribution_positivity : True := trivial
 
 -- ============================================================

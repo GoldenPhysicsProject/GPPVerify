@@ -14,8 +14,7 @@ takes (u,v) to (m,0).  This is the elementary transitivity statement behind
 the paper's fixed-mass quotient: the transverse angle is gauge/orbit data while
 the radius m survives.
 
-This file proves only the coordinate algebra.  It does not formalize quotient
-manifolds or Lie-group actions.
+This file proves only the coordinate algebra.
 -/
 
 namespace GppMassCircleFolding

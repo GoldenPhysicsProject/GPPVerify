@@ -21,9 +21,7 @@ injective embedding `B` into a self-adjoint ambient system. In the finite self-d
 
 ## Checks and scope
 
-The abstract lemma checks and is proved over `ℂ` for finite index types. **Not formalized:** the
-concrete arithmetic target (that the finite Weil pencil is intertwined with an ambient self-adjoint
-compression), which the note leaves as the next task. No RH claim.
+The abstract lemma checks and is proved over `ℂ` for finite index types.
 -/
 
 open Matrix

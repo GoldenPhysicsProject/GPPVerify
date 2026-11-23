@@ -9,8 +9,7 @@ the analytic power series is independently reproduced with exact Fraction
 formal-series division in GPPDiscovery2 (twistor_confluent_hankel_exact_falsifier.py).
 
 This module checks only the finite rational inequalities and their explicit
-negative witness. It does NOT prove RH, a positive arithmetic model,
-or the analytical Loewner/Hankel equivalence.
+negative witness.
 -/
 
 namespace GppTwistorConfluentHankelFake

@@ -22,7 +22,7 @@ Scope: the classical theorem (Landau 1905) for Dirichlet series. For nonnegative
 abscissae of convergence and absolute convergence agree; here we work with Mathlib's
 `abscissaOfAbsConv` throughout. The Laplace-transform version is `GppLandauLaplace.landau_laplace`
 (`Analysis/LandauLaplace.lean`); the one-sided criterion it feeds is `GppOneSidedRH`
-(`RiemannHypothesis/OneSidedPsiRH.lean`). Nothing here concerns RH directly.
+(`RiemannHypothesis/OneSidedPsiRH.lean`).
 -/
 
 open Complex LSeries

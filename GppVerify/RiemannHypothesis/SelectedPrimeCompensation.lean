@@ -63,8 +63,7 @@ Finally we instantiate the existing jump-energy identity on a two-box vector
 f - T_t f.  This isolates the exact positive collision term before any global
 prime summation or Archimedean/pole renormalization.
 
-Scope: exact local algebra and Hilbert-space identities only.  No global
-fixed-window estimate and no RH claim.
+Scope: exact local algebra and Hilbert-space identities only.
 -/
 
 namespace GppSelectedPrimeCompensation

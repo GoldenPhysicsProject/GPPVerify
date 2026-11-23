@@ -17,9 +17,8 @@ which is `ω_j² B(x_a, ψ_j)` for `ψ_j = φ_j − w_j δ_ℓ` with `w_j = −�
 `φ_j'(ℓ) = √(2/ℓ) ω_j (−1)^j`, so `w_j/ω_j² = −√(2/ℓ)(−1)^j/ω_j³`. That is the coefficient in
 `rhoHat_eq`, sign included.
 
-**Scope.** Not formalised: the identification `h_a(y) = B(x_a, δ_y)`, completeness of the sine
-modes in `L²(0, ℓ)` (the Parseval step that turns this into `CCᵀ = Gram(k) − HHᵀ`), the ball
-enclosure of `K''`, and items 3′ and 4. OddFace(0.5) is NUMERICAL; RH is OPEN. No `sorry`, no axioms.
+**Scope.**
+ OddFace(0.5) is NUMERICAL; RH is OPEN. No `sorry`, no axioms.
 -/
 
 namespace GppOddFaceAtoms

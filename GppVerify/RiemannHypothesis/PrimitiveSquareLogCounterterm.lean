@@ -10,8 +10,7 @@ contributes, after the critical half-density weight, a derivative proportional t
 
 The exceptional `m = 2` prime-repetition channel carries the opposite logarithmic
 counterterm `+(1/2) log(log x)`.  This file formalizes the elementary analytic core of
-that pairing only.  It does not assume a prime number theorem remainder estimate and
-makes no RH or global Weil-positivity claim.
+that pairing only.
 -/
 
 namespace GppPrimitiveSquareLogCounterterm

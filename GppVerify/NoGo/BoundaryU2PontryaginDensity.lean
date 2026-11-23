@@ -34,11 +34,8 @@ dimension `3` (`traceless_mem_range`). `curvWedge` is `¼` of the alternation of
 `θ₀`-values (`curvWedge_eq`), and an alternating 4-linear map vanishes on four vectors of a
 3-dimensional space (`alt4_eq_zero_of_mem`, via `AlternatingMap.map_linearDependent`).
 
-**Not formalised here:** the Maurer–Cartan identity `dθ = -θ ∧ θ` on the manifold `U(2)` (Mathlib has
-no differential forms on Lie groups); the statement above takes `F = -¼ θ ∧ θ` as the curvature's
-pointwise form. The note's part (B) (`c₂ = 0` for the pullback of `G₂ → S⁶`) needs Chern classes and
-`H⁴(S⁶; ℤ) = 0`, which Mathlib does not have; it stays OPEN as a formalisation. Nothing here is about
-the Riemann hypothesis. No `sorry`, no axioms.
+ The note's part (B) (`c₂ = 0` for the pullback of `G₂ → S⁶`) needs Chern classes and
+`H⁴(S⁶; ℤ) = 0`, which Mathlib does not have. No `sorry`, no axioms.
 -/
 
 namespace GppBoundaryU2

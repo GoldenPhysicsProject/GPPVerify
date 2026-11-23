@@ -26,10 +26,9 @@ is the real part of the one-sided overlap `C_f(y) = ∫₀^{L−y} f(x+y) f̄(x)
   `2(Σ wₙ)‖f‖² − Σ wₙ E_{log n}`. Each prime power contributes a positive energy to `−W_P`,
   plus a scalar mass.
 
-Scope: the Archimedean constant `κ_R(L)` and the full identity `⟨f, Af⟩ = 𝒟_L(f) − μ_L‖f‖²` of
-§§3, 5 use the CCM Archimedean matrix formula, which is not formalized here. The §7 equivalence
+ The §7 equivalence
 `Q ⪰ 0 ⇔ A|_𝒩 ⪰ 0` and the resulting constrained Poincaré target are **not** proved. That
-target is RH-strength. No RH claim.
+target is RH-strength.
 -/
 
 namespace GppCCMTranslationDirichlet

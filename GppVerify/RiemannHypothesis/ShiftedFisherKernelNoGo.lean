@@ -17,7 +17,7 @@ Consequence: any proposed positivity transfer (a Hardy, Bost–Connes or Tate bo
 or the cross-face pole compensation) that uses only (A) the functional equation and (B) the
 `Λ ≥ 0` / Fisher-PD structure is falsified by `F_θ`. It must also use (C) tempered local factors
 with the single pole pair `{0, 1}`, which `F_θ` violates (poles `±θ, 1 ± θ`). The Davenport–Heilbronn
-function falsifies A + C without B (`(log DH)''(2) < 0`, Arb). **No RH claim.**
+function falsifies A + C without B (`(log DH)''(2) < 0`, Arb).
 -/
 
 namespace GppShiftedFisherKernelNoGo

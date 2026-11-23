@@ -32,14 +32,12 @@ Klein-Gordon overlap, `omega^(2 c - d - 1) d omega`, following Pasterski-Shao,
 arXiv:1705.01027, Section 4: (4.4)-(4.5) the Mellin kernel and its boost
 weight, (4.7)-(4.9) the Klein-Gordon overlap, divergent unless c = d/2 (equation
 numbers checked against the paper). It shows the radial weight is scale invariant exactly at
-`c = d/2` and equals `|dilationCharacter|^2` in `d = 1`. The delta-function
-normalization and the full inner product are not formalized here; see
-`GppMellinPlancherel` for the Schwartz-class Plancherel step.
+`c = d/2` and equals `|dilationCharacter|^2` in `d = 1`.
 
 Authorship: Daniel Toupin / Golden Physics Project, with AI assistance from
 Astra (original module, PR #486), Codex (entire-xi repair, PR #488) and Claude
 Code (port and wording). No axiom,
-sorry, or `True` stub is introduced. No claim about RH.
+sorry, or `True` stub is introduced.
 -/
 
 namespace GppOneDimensionalMellinWeight
@@ -118,9 +116,8 @@ setting the positive energy scale omega = exp(u).  For boundary dimension d,
 Pasterski-Shao, "A Conformal Basis for Flat Space Amplitudes", arXiv:1705.01027,
 (4.7) (checked against the paper), gives
 the radial density omega^(2*c-d-1) d omega. In logarithmic energy u this is
-exp((2*c-d)*u) du. We record its exact scale dependence here; the
-distributional delta-normalization of the full inner product is not
-formalized in this module. -/
+exp((2*c-d)*u) du.
+-/
 noncomputable def masslessKgLogRadialWeight (d c u : ℝ) : ℝ :=
   Real.exp ((2 * c - d) * u)
 

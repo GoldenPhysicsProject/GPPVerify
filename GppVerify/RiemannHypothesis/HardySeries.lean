@@ -15,9 +15,7 @@ has an explicit cosh series). Daniel Toupin / Golden Physics Project, with AI as
 * `hardy_sum_two`: for `|u| < a` (so `a > 0`), the sum `H(a+u) + H(a−u)` has the series
   `Σ_k 4/(2k+1) · e^{-(2k+1)a} · cosh((2k+1)u)`.
 
-**Scope.** The series and the two-point cosh series only. The derivatives `H'' = cosh/sinh²`,
-`H'''' = (cosh²+5)cosh/sinh⁴`, the quartic lower bound `V ≥ H(a) + H''(a)u²/2 + H''''(a)u⁴/24`,
-and all use of these in the Weil form are not formalized. No claim about RH.
+**Scope.** The series and the two-point cosh series only.
 -/
 
 set_option autoImplicit false

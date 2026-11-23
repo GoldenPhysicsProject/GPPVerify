@@ -8,8 +8,6 @@ the full Mellin shadow spectral density
   Phi(λ)=λ/(8 sinh(πλ)) > 0  (λ ∈ R, continuous at 0).
 Its COMPLETE infinite Fourier integral is
   K(t)=∫_R Phi(λ)e^(i λ t)dλ=sech(t/2)^2/16.
-These analytic Fourier/phase-space identities are independently verified
-in the companion Wolfram script, not proved in this Lean module.
 
 For x>0 put q=e^(-x). Then K(x)=q/[4(1+q)^2].
 For positive times t1=log(2), t2=log(3), its Hankel reflection
@@ -21,7 +19,6 @@ explicit negative real quadratic vector, using only rational arithmetic.
 
 Conclusion: a positive full-spectrum principal-series cut and positive
 Fubini–Study/Haar measure do NOT imply Osterwalder–Schrader positivity.
-No claim about a completed arithmetic Weil kernel or RH is made.
 -/
 
 namespace GppCelestialShadowCutOS

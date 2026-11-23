@@ -19,7 +19,7 @@ Input (c) of the first-prime-visible-window certificate, and the assembly.
   then `weilForm (autocorr g) ≥ 0` for every test function `g` vanishing outside `[-ℓ, ℓ]`.
 
 The hypotheses (a) and (b) are finite, checkable statements; neither is asserted here. This file
-proves the implication only. Unconditional; no `sorry`, no axioms. Nothing here concerns the zeros.
+proves the implication only. Unconditional; no `sorry`, no axioms.
 -/
 
 namespace GppWindowAssembly

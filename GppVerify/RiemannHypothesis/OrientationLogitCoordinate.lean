@@ -34,7 +34,7 @@ balanced too.
 
 RH is thus the statement that the zeta zero `η`-labels are purely imaginary. The functional equation
 alone gives only `±η` pairs. That `η` is the additive Haar coordinate, or the generator of a natural
-Haar/Tate operator, is **not** claimed. **No RH claim.**
+Haar/Tate operator, is **not** claimed.
 -/
 
 namespace GppOrientationLogit

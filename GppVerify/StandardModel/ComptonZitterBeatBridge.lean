@@ -18,10 +18,7 @@ Their relative phase therefore rotates at
 
     omega_+ - omega_- = 2 m c^2 / hbar = 2 omega_C.
 
-This is the exact algebraic origin of the standard zitterbewegung factor of two.  It is a
-beat/relative-phase statement between positive- and negative-energy sectors; no claim is
-made here that a particle literally traverses a second spacetime or crosses a cosmological
-boundary.
+This is the exact algebraic origin of the standard zitterbewegung factor of two.
 -/
 
 namespace GppComptonZitterBeatBridge

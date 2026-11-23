@@ -22,8 +22,7 @@ here in exact `Fraction` arithmetic for `n = 2,…,8` and is **not** formalised 
 
 ## Scope
 
-Algebraic identities only. Nothing here says positivity of this basis suffices for RH;
-the unrestricted Pick criterion is the target and is open. No RH claim.
+Algebraic identities only.
 -/
 
 namespace GppNeutralLegendre

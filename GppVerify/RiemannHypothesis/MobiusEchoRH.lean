@@ -9,7 +9,7 @@ import GppVerify.RiemannHypothesis.SparseCutoffCriterion
 /-!
 # Möbius echo packet, item (4): the conditional composition
 
-**Doubly conditional. This file does not prove the Riemann Hypothesis.** It composes two
+**Doubly conditional. It composes two
 already-merged results and keeps both open hypotheses visible in the statement:
 
 * `GppSparseCutoff.riemannHypothesis_of_nat_subpower` (sparse-cutoff criterion): inequality (1),
@@ -30,7 +30,7 @@ open Filter Topology
 
 /-- Item (4) of the Möbius echo packet: conditional on inequality (1) for `Q = GppMobiusEcho.Q c`
 and on a storage/work law with subpower work along a sequence `N_j → ∞`, the Riemann Hypothesis.
-Both `h1` and `(hstep, hwork)` are open. -/
+-/
 theorem rh_of_storage_work (c A K : ℝ) (hK : 0 < K)
     (h1 : GppSparseCutoff.EnergyZeroInequality (GppMobiusEcho.Q c) A K)
     (stor w : ℕ → ℝ) (Nj : ℕ → ℕ) (hNj : Tendsto Nj atTop atTop) (hN : ∀ j, 1 ≤ Nj j)

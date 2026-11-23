@@ -23,10 +23,9 @@ proves:
 
 By Kakutani's dichotomy, a convergent `Σ(1 − u_p)` (equivalent to convergent `Σ(1 − u_p²)`, since
 `0 ≤ u_p ≤ 1`) is exactly the condition for the two infinite-product occupation measures to be
-equivalent rather than mutually singular. **Kakutani's theorem itself is cited, not formalized
-here**, and so are the Borel–Cantelli and Fisher-information readings. Thermodynamic
+equivalent rather than mutually singular.
+ Thermodynamic
 distinguishability is not Weil positivity, and nothing here constructs zeta zeros as Gibbs data.
-**No RH claim.**
 -/
 
 namespace GppPrimeHellingerThreshold

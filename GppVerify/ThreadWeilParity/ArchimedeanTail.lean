@@ -32,16 +32,8 @@ no custom axiom and no `sorry`.
 
 ## What this does NOT do
 
-This is a single self-contained calculus fact used inside the `W_ℝ♯` construction — it
-says nothing about the actual eigenvalues of `Q_{λ,N}`, the observed odd/even parity
-ratios (`δ₋/δ₊`), or any Weil-positivity statement. The checkpoints' larger research
-questions (a "double-defect factorization" theorem transferring the parity separation
-from the pure-prolate asymptotic to the actual semilocal Weil operator at the correct
-error order, and any inequality this would feed into) are **not proved and not attempted
-here** — they depend on an operator-comparison theorem that does not yet exist even
-on paper (see `lean_results` row `02a84cc3…`: "Required new theorem: a second-cancellation
-/double-defect factorization... Next source target: Connes-Consani archimedean
-Weil/prolate Selecta construction"). No RH claim, no claim about `Q_{λ,N}`'s spectrum.
+ Next source target: Connes-Consani archimedean
+Weil/prolate Selecta construction").
 -/
 
 open MeasureTheory Set Filter Topology

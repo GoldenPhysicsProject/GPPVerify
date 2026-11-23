@@ -17,7 +17,7 @@ for Daniel Toupin / Golden Physics Project.
   PSD inputs `X₀ = [[1,1],[1,1]]`, `X₁ = 0` gives `[[1/3,1/3],[1/2,1/2]]`, which is not symmetric;
 * `scalar_mean_psd`: a nonnegative scalar combination of PSD quadratic forms is PSD.
 
-Scope: finite linear algebra only. Nothing here bounds an arithmetic defect or concerns RH.
+Scope: finite linear algebra only.
 -/
 
 namespace GppCesaroMetricDefect

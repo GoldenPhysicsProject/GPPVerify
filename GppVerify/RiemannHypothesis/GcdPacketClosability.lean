@@ -30,7 +30,7 @@ primes, the Euler packet `F_P = ∏_{p∈P}(1 − p^{−ε} χ_p)` has coefficie
 **Scope.** Only the finite, `ε ≤ 1/2` side is formalized. The note's `ε > 1/2` side, the exact dual
 norm `‖coeff_n‖² = ζ(2ε) ∏_{p|n}(1 + p^{−2ε})` on the analytic Hardy subspace, and the operator-norm
 statements are not, and neither is the Hilbert completion itself. The note itself says that `ζ(2ε)`
-here is the ordinary pole at `s = 1`, not information about nontrivial zeros. No RH content.
+here is the ordinary pole at `s = 1`, not information about nontrivial zeros.
 -/
 
 open Finset

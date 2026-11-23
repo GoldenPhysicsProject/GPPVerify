@@ -16,8 +16,7 @@ Consequently, on rung 1 the Weil form `arch - primeSide f` is nonnegative iff
 single domination inequality of the archimedean part over the one prime kick
 at `p = 2` (`weil_nonneg_iff_rung_one`), and it holds automatically whenever the
 kick is nonpositive (`weil_nonneg_rung_one_of_kick_nonpos`). No zero of any
-L-function appears. The archimedean inequality itself (the content of extending
-Connes-Consani past `log 2`) is NOT proved here. No claim about RH.
+L-function appears.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/

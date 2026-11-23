@@ -20,8 +20,7 @@ Cramér rate is `I_α(w) = 2w·arsinh(w/α) − 2(√(α²+w²) − α)`. Proved
 **Scope, stated plainly.** The hypothesis `I_α(w) ≤ w u` is the Gibbs/Cramér consequence of the entropy
 budget `KL ≤ w u`; that `KL ≥ I_α(w)` for every law with mean `w` is a probability fact that is
 **not** formalized here, and neither is the divergence of `Σ Λ(n)/n` (Mertens), which is what turns this
-local bound into the "intensity budget `4` is exceeded" no-go. Nothing here concerns correlated
-channels, the KMS/CFS constructions the note leaves open, or RH. No RH claim.
+local bound into the "intensity budget `4` is exceeded" no-go.
 -/
 
 namespace GppCramerIntensityBound

@@ -26,9 +26,7 @@ and for each `i`: `Q_sq`: `Q_i² = 0` and `anticomm_self`: `Q_i Q_i† + Q_i† 
 
 ## Scope
 
-Algebra of finitely many modes with the standard Jordan–Wigner-type sign. It does **not** say the
-primes are physical modes of a supersymmetric theory, it has no annihilation dynamics, and it says
-nothing about zeros. No RH claim.
+Algebra of finitely many modes with the standard Jordan–Wigner-type sign.
 -/
 
 open Function

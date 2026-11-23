@@ -17,7 +17,7 @@ Source: Codex, GPP-bridge `research/codex/2026-09-29_zero_survival_and_scale_gro
   criterion allows it (§5).
 
 The hypotheses (a zero survives as a continuous eigen-functional, plus the growth bound) are exactly
-the open arithmetic content. **No RH claim.**
+the open arithmetic content.
 -/
 
 namespace GppZeroSurvivalSubexp

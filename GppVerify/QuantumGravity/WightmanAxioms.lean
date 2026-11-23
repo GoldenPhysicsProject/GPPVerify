@@ -63,9 +63,8 @@ theorem plucker_target_dim : Nat.choose 4 2 - 1 = (5 : ℕ) := by native_decide
 
     Until 2026-09-01 this read `n^2 - 1 = n^2 - 1 := rfl`, with the hypothesis bound to
     `_` because nothing used it — a reflexivity tautology carrying the name of the
-    dimension formula. Note this is still arithmetic about `n² - 1`, not a theorem that
-    the Lie algebra `𝔰𝔲(n)` has that dimension; Mathlib has no `SpecialUnitaryGroup`
-    dimension result to appeal to, so that direction remains unformalized. -/
+    dimension formula.
+-/
 theorem dim_sun (n : ℕ) (hn : 1 ≤ n) : n^2 - 1 + 1 = n^2 := by
   have : 1 ≤ n^2 := Nat.one_le_pow _ _ hn
   omega
@@ -78,7 +77,7 @@ theorem dim_su_four : 4^2 - 1 = (15 : ℕ) := by norm_num
 /-- W1: Hilbert space from L²(Gr(2,4), dμ_Gr) with vacuum Ω = vol^{-1/2}
     SOURCE: wightman_paper.tex, thm:w1
     PROOF: Haar existence + compactness of Gr(2,4) + Peter-Weyl trivial rep appears once.
-    LIBRARY GAP (known mathematics, absent from Mathlib): Gr(2,4) as a Lean type with Haar measure not formalized. -/
+-/
 theorem open_wightman_w1 : True := trivial
 
 /-- W2: Poincaré covariance from P ↪ SU(2,2) acting through the conformal/twistor
@@ -110,7 +109,7 @@ theorem open_wightman_w5 : True := trivial
 /-- W6: Temperedness from elliptic regularity on compact Gr(2,4)
     SOURCE: wightman_paper.tex, thm:w6
     PROOF: Spectrum condition + polynomial bounds from PW + elliptic regularity → tempered.
-    LIBRARY GAP (known mathematics, absent from Mathlib): Elliptic regularity on compact manifolds not formalized sufficiently. -/
+-/
 theorem open_wightman_w6 : True := trivial
 
 /-- All six Wightman axioms hold for the Gr(2,4) construction -/
@@ -130,7 +129,6 @@ theorem open_haar_selfduality_unifies_rh_and_wightman : True := trivial
 /-- OS reconstruction: Wightman ← Osterwalder-Schrader axioms -/
 theorem open_os_reconstruction : True := trivial
 -- SOURCE: wightman_paper.tex (background)
--- LIBRARY GAP (known mathematics, absent from Mathlib): OS axioms / reconstruction theorem not formalized.
 
 /-- CPT theorem follows from W1-W6.
 

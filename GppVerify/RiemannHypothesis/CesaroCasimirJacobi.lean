@@ -23,8 +23,7 @@ On sequences indexed by `n = 1, 2, …` let `(Cx)_n = (1/n) Σ_{k=1}^{n} x_k` (C
   `1/4` spectral floor `L ≥ ¼ I`, equivalently `‖C‖ ≤ 2` (Hardy).
 
 **Scope.** Finite algebraic identities and the one-sided `1/4` floor for finitely supported
-sequences. The sharpness of `1/4`, the identification with Stampach's Hilbert `L`-matrix, the exact
-spectrum `σ(L) = [1/4, ∞)` and everything in §§4–6 of the note are not formalized. No claim about RH.
+sequences.
 -/
 
 set_option autoImplicit false

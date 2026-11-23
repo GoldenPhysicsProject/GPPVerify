@@ -12,8 +12,7 @@ Pairing the reflected variables z and -z gives exactly
 
   m(z)m(-z) = α(α+1/4)^2,  α = -z^2.
 
-This module proves only that algebra.  It does not formalize the explicit
-formula, the zero sum, the deflation/tail argument, or RH.
+This module proves only that algebra.
 -/
 
 namespace GppOddNeutralHeat

@@ -41,8 +41,7 @@ some Archimedean term enters.
 
 ## Scope
 
-Affine algebra and one explicit polynomial. Nothing here locates a zero; GRH for a given
-L-function is equivalent to its zeros satisfying `psCasimir_ge_one_iff`, and that is open.
+Affine algebra and one explicit polynomial.
 -/
 
 namespace GppCenteredPS

@@ -34,10 +34,6 @@ For a prime `p` and `β > 0` the local thermofield amplitudes are `a_β(k) = √
   `δ log n` under the normalized Gibbs state.
 * `fidelity_sq_tendsto`: `ζ(1 + (1+a)δ/2)² / (ζ(1+δ) ζ(1+aδ)) → 4a/(1+a)²`, the square of Codex's
   critical fidelity limit `2√a/(1+a)`.
-
-**Scope.** The infinite tensor product, its GNS representation, disjointness, the Dickman limit
-(which needs a PNT-level Mertens theorem) and the operator constructions are not formalized. No
-claim about RH.
 -/
 
 open Filter Topology Complex

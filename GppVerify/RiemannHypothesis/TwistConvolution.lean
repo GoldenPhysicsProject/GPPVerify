@@ -29,7 +29,7 @@ Convention (ARP.md §A): `f̃(u) = f(−u)` and `(f ∗ g̃)(r) = ∫ f(u) g(u �
 
 **Scope.** Real-valued `f` on `ℝ` with Lebesgue measure. The cos identity assumes `f` is a.e.
 strongly measurable and `u ↦ f(u) f(u − r)` is integrable at the given `r`; the cosh identity needs
-no integrability. No claim about RH.
+no integrability.
 -/
 
 set_option autoImplicit false

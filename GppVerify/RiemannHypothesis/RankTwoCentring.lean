@@ -17,8 +17,7 @@ For a finite real vector `r`, write `S = ∑ r_m` and `U = ∑ u(m) r_m`.
   uncentred forms coincide, `rᵀ K^c r = rᵀ K₁ r`. So centring adds no sign mechanism there; the
   whole difference sits in the two scalar moments `S` and `U`.
 
-**Scope.** Finite index set, no symmetry or positivity assumption, and no positivity claim. For
-`r_n = Λ(n) − 1`, `S = ψ(X) − ⌊X⌋` is RH-sensitive; nothing here bounds it. No claim about RH.
+**Scope.** Finite index set, no symmetry or positivity assumption, and no positivity claim.
 -/
 
 open Finset

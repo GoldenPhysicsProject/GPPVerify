@@ -9,9 +9,7 @@ Daniel Toupin, Golden Physics Project, 2026-10-16.
 
 All propositions below specify their hypotheses. In particular the
 Einstein/CKV conformal Ricci identity is a geometric input and NOT
-silently deduced from an undeclared metric connection. The full
-covariant symplectic current, KL spectral transform and type-III
-entropy first law are not formalized here.
+silently deduced from an undeclared metric connection.
 -/
 
 namespace GppVolumeConstraint
@@ -149,8 +147,6 @@ theorem thermal_fisher_cancellation (lam : ℝ)
         (2 / Real.pi) * lam ^ 2 := by
   exact GppCausalDiamondFisher.klDensity_mul_bwFisherKernel lam hsinh
 
-/-- Cubic suppression is a conditional model factorization; regularity
-of arbitrary trace-class spectral responses is NOT proved. -/
 theorem cubic_model (lam c rho : ℝ)
     (hrho : rho = (2 / Real.pi) * lam ^ 2) :
     rho * lam * c = (2 / Real.pi) * lam ^ 3 * c := by

@@ -17,9 +17,8 @@ on the domain the σ-rig actually uses, `(0, 1/2]`. Both halves are proved here:
   `e^{−u/2} ≥ 1 − u/2` and `(x − 1)²(1 + 2x − x²) ≥ 0` at `x = e^{u/2} ∈ [1, 2)`.
 * **`h_five_lt`**: `h(5) < 1/5`. The unrestricted claim is false, as the audit says.
 
-**Scope.** This is the one pointwise kernel fact under the σ-rig. Not formalised: the band-limit
-reduction to `σ_x`, the `Ci` bounds, the interval grid, and the certified envelope `σ_x ≥ 10.89382`
-on `[ω₁₃, ∞)`. Those are interval-certified NUMERICAL, not Lean. (T1′) is closed at that label
+**Scope.** This is the one pointwise kernel fact under the σ-rig.
+ Those are interval-certified NUMERICAL, not Lean. (T1′) is closed at that label
 (`λ_Z ≥ 5.24628`). OddFace(0.5) is NUMERICAL; H_ψ, WeilIsGram, ARP and RH are OPEN.
 No `sorry`, no axioms.
 -/

@@ -52,9 +52,9 @@ def epsilon : Matrix (Fin 2) (Fin 2) ℂ := !![0, 1; -1, 0]
 
 /-- Charge conjugation's matrix part satisfies ε² = -1: the finite
     algebraic fact underlying "C² = -1 for Dirac spinors" (the full
-    statement also involves the antiunitary complex-conjugation factor,
-    not formalized here -- see `HalfFlipProposition.lean`'s treatment of
-    the analogous antiunitary structure for Wigner time reversal). -/
+    statement also involves the antiunitary complex-conjugation factor;
+    see `HalfFlipProposition.lean`'s treatment of the analogous
+    antiunitary structure for Wigner time reversal). -/
 theorem epsilon_sq : epsilon * epsilon = -1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
@@ -76,8 +76,8 @@ left open. With the conjugation included, the sign depends on which spinor:
   (`diracC_diracC`). The stub's wording was wrong for Dirac spinors; the `-1` belongs to the
   Weyl case, which is the one `epsilon_sq` was about.
 
-Both maps are antilinear (`weylC_add`, `weylC_smul`, `diracC_add`, `diracC_smul`). Nothing here
-bears on the Majorana framework claims below or on the objection recorded in the header. -/
+Both maps are antilinear (`weylC_add`, `weylC_smul`, `diracC_add`, `diracC_smul`).
+-/
 
 open Matrix in
 /-- Charge conjugation on a 2-component Weyl spinor: `ψ ↦ ε ψ̄`. -/

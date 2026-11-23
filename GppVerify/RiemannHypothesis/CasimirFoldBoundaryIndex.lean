@@ -21,8 +21,7 @@ logarithmic derivative:
   terms `1/s + 1/(s-1)` collapse to the single boundary index `1/u` after
   division by `du/ds = 2s-1`.
 
-These are unconditional algebraic identities.  No positivity theorem and no
-claim of RH is made here.
+These are unconditional algebraic identities.
 -/
 
 namespace GppCasimirFold

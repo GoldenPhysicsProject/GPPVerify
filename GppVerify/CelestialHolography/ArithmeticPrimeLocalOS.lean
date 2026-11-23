@@ -14,9 +14,6 @@ prime-local reflected kernel is a positive Gram form.
 This is the finite algebraic core of the positive measure
 
   μ_p = Σ_{m≥1} (log p) p^{-m/2} δ_{m log p}.
-
-It does not prove positivity of the completed prime--Archimedean explicit
-formula, where the prime sector occurs with the opposite sign.
 -/
 
 namespace GppArithmeticPrimeLocalOS

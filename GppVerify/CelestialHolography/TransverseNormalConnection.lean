@@ -19,9 +19,7 @@ The canonical one-form then contains the exact minimal-coupling term
 where J_perp = y1*k2 - y2*k1.
 
 The second part records the purely algebraic scale relations used in the
-conditional constant-radius null-lift theorem.  It does NOT prove that a
-physical electron follows a classical hidden orbit, nor does it derive the
-dynamical selection of a constant-radius trajectory.
+conditional constant-radius null-lift theorem.
 -/
 
 namespace GppTransverseNormalConnection

@@ -33,12 +33,7 @@ convergence to a genuine `HasSum`.
 
 ## What this file does NOT do
 
-The remaining two steps of the cumulant law's own proof — expanding each `log(1+λ²/(n+1)²)`
-into its own power series `Σ_k (-1)^{k+1}(λ²/(n+1)²)^k/k` (needs Mathlib's `log(1+x)` series,
-valid for `|x|<1`) and swapping the resulting double sum over `n` and `k` (needs an absolute-
-summability estimate for `|λ|<1`) — are not attempted here; this file supplies exactly the
-piece that was missing before (the log-of-an-infinite-product step), left as the honestly
-scoped next step. No axiom, no sorry.
+ No axiom, no sorry.
 -/
 
 namespace GppSinhLogSeries

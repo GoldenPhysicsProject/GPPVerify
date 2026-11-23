@@ -23,8 +23,8 @@ doubles. So `|c_n|² = ⟨f, φ_{|n|}⟩²/(2ℓ)`. Mathlib's `hasSum_sq_fourier
 `Σ_{n∈ℤ} |c_n|² = (2ℓ)⁻¹ ∫_{-ℓ}^{ℓ} F² = ℓ⁻¹ ∫₀^ℓ f²`; folding `n` and `−n` with
 `HasSum.nat_add_neg` gives the claim.
 
-**Scope.** `f` is continuous on `ℝ` (a function continuous on `[0, ℓ]` extends by clamping). The
-general `L²` statement is not proved here. Nothing here depends on the arch form, the explicit
+**Scope.** `f` is continuous on `ℝ` (a function continuous on `[0, ℓ]` extends by clamping).
+ Nothing here depends on the arch form, the explicit
 formula, or any zero data. OddFace(0.5) stays NUMERICAL; proof-grade OPEN on (H-A), (H-ρ). RH OPEN.
 No `sorry`, no axioms.
 -/

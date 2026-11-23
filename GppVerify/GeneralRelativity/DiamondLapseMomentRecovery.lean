@@ -11,10 +11,7 @@ Indeed (integral_B N_l) = l*V/5 and
 (int_B N_l*r²)/(int_B N_l) = 3*l²/7.
 
 Two distinct radii therefore determine the constant and quadratic
-Taylor coefficients of F. This is a finite polynomial instance of
-local constraint recovery from the vanishing smeared Hamiltonian
-residual, NOT a proof of inversion for arbitrary continuous fields
-or of the Einstein equations in full tensor form.
+Taylor coefficients of F.
 
 The physical source F should be delta(R_hat)-16pi G delta(rho),
 not a zeta/RH spectral surrogate.

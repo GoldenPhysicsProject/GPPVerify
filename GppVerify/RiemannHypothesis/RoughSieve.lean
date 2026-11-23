@@ -19,10 +19,7 @@ are Codex's `y`-rough integers, those with no prime factor `≤ y`.
   for the primorial.
 
 **Scope.** `c_P = Σ_{d∣P} μ(d)/d` is the inclusion–exclusion form; its equality with
-`∏_{p ∣ P}(1 − 1/p) = φ(P)/P` is classical and not restated here. The Laplace reconstruction
-`R_y(s) − c_y/(s − 1) = s∫ e^{−sx} B_y(x) dx`, the tempered-escape no-go (which needs Mertens'
-theorem `c_y ~ e^{−γ}/log y`), and real `t` in place of integer `N` are not formalized. No claim about
-RH.
+`∏_{p ∣ P}(1 − 1/p) = φ(P)/P` is classical and not restated here.
 -/
 
 set_option autoImplicit false

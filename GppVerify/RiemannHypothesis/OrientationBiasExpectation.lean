@@ -27,7 +27,7 @@ balanced).
 
 An exact identity about the one-parameter tilted logistic family. It says the *exponent* `2δ` of the tilt is
 measured by the orientation observable `tanh(x/2)`; it does not say that the arithmetic zero states are
-balanced (that is RH), and it does not involve `ζ`. No RH claim.
+balanced (that is RH), and it does not involve `ζ`.
 -/
 
 open MeasureTheory Set Real

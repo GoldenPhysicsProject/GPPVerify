@@ -26,10 +26,7 @@ The proof is `PlanckIntegral.lean`'s argument one level of generality up:
   summability of the term norms (`integral_tsum_of_summable_integral_norm`).
 
 Exact corollaries: `∫₀^∞ t/sinh t = π²/4` — the `haar_qg` paper's `M₁ = 1/8` in π-free
-form (`plancherel_first_moment`) — and `∫₀^∞ t³/sinh t = π⁴/8`. The elementary
-substitution `λ = t/π` carrying `π²/4` to the paper's normalization
-`(1/2π)·∫ πλ/sinh(πλ) dλ = 1/8` is not formalized; the analytic content is the
-integral itself.
+form (`plancherel_first_moment`) — and `∫₀^∞ t³/sinh t = π⁴/8`.
 -/
 
 namespace GppZetaBridge
@@ -246,9 +243,8 @@ theorem integral_cube_div_sinh :
   ring
 
 /-- **The first moment of P `M₁ = 1/8`** (`haar_qg_paper_v2151`, eq. (M1)),
-    in π-free normalization: `(1/2π²)·∫₀^∞ t/sinh t dt = 1/8`. The substitution
-    `λ = t/π` to the paper's `(1/2π)·∫ πλ/sinh(πλ) dλ` is elementary and not
-    formalized. -/
+    in π-free normalization: `(1/2π²)·∫₀^∞ t/sinh t dt = 1/8`.
+-/
 theorem plancherel_first_moment :
     1/(2*π^2) * ∫ t in Ioi (0:ℝ), t / Real.sinh t = 1/8 := by
   rw [integral_id_div_sinh, div_mul_div_comm, one_mul,

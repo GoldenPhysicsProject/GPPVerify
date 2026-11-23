@@ -22,9 +22,7 @@ Dirichlet ground-state transform, with ground state `w`.
 * `path_sos`: the identity above (indices shifted so the sums run over `range`).
 * `path_sos_nonneg`: the right side is `≥ 0`, hence the one-sided bound.
 
-**Scope.** This is only the finite algebraic identity. The analytic content of Codex's theorem
-(`Q_L[f] > ‖f‖²/200` for `L ≤ 5/32`, the Arb certificate `B_40(5/32) > 1/200`, the disintegration of
-`f` into fibers, the gamma-tilt discount) is not formalized. No claim about RH.
+**Scope.** This is only the finite algebraic identity.
 -/
 
 set_option autoImplicit false

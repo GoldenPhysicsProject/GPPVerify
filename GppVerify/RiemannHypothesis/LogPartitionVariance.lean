@@ -23,8 +23,7 @@ For Codex's mixture `f(u) = ∫ cosh(t√u) dν`, `q_t = t·tanh(t√u)/(2√u)`
 identity applies with `exp (φ_t) = cosh(t√u)`; that substitution (and the integral over `ν`) is **not**
 formalized here.
 
-**Scope.** Exact finite calculus. It says nothing about the sign of `−m'`, the true `ξ` margin, or any
-zero of `ξ`. No RH claim.
+**Scope.** Exact finite calculus.
 -/
 
 namespace GppLogPartitionVariance

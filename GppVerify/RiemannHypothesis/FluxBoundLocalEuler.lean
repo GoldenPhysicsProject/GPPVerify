@@ -55,10 +55,8 @@ exactly where the attack stops.
    `I · primeStratumTerm` and `I · primeStratumFtheta` at `W = 0` on the
    rung-1 profile `visibleTwoKick` (`cannot_match_zeta_and_ftheta_strata`).
    Scope: this is the `ζ` vs `F_θ` hard test for any block function on
-   rung-1 profiles. `visibleTwoKick` is a discontinuous indicator, not of the
-   form `autocorr f` with `f` smooth and compactly supported, and no
-   `F_θ`-side trace statement is typed, so nothing here is a statement about
-   the typed `BTSigmaTrace` (BT3) itself. A typed-BT3 version would need a
+   rung-1 profiles.
+ A typed-BT3 version would need a
    smooth compact `f` with `autocorr f` rung-1 supported and
    `(autocorr f)(log 2) ≠ 0`; that is not done here.
 

@@ -25,9 +25,7 @@ Notation (`V` from `GppGammaFreeDuality`): `a0 t = 2 cosh(t/2) = V''(t)`, and on
   `a0 = 3/√2`, `P⁺ = √2 − log 2/√2`, and `E⁺ = 36 − 24√2 − 2(1 − log 2/2)² > 1.2`, so the starting cone
   `E, N⁺, N⁻ > 0` holds (the note's value `1.20494…`).
 
-**Scope, stated plainly.** Exact calculus and algebra of the cone only. The one inequality the note
-needs for all `n`, `N⁺((log n)⁻) ≥ Λ(n)/√n`, and Suzuki's criterion plus Landau's theorem, are **not**
-formalized and nothing here proves `T ≥ 0` for the real prime list. No RH claim.
+**Scope, stated plainly.** Exact calculus and algebra of the cone only.
 -/
 
 namespace GppSuzukiKickCone

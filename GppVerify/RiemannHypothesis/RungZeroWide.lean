@@ -9,8 +9,7 @@ For every smooth compactly supported `f` vanishing outside `[-1/16, 1/16]`,
   `weilForm (autocorr f) ≥ (1/20) · ∫ f²`   (`weilForm_autocorr_ge_wide`).
 
 This widens `GppRungZeroPositivity.reflectionPositiveOnRung_one_div_128` by a factor of 16. It
-has no named premises. The window is below `log 2`, so no prime enters: the theorem says that
-the pole and archimedean terms dominate there, and says nothing about the zeros.
+has no named premises.
 
 ## What is sharper than the `1/128` proof
 

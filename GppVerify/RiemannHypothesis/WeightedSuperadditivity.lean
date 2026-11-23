@@ -17,8 +17,7 @@ and in particular `A_g` is again superadditive. With `g(n) = cosh(θ log n)`, `�
 deformation `Λ(n) cosh(θ log n)` therefore keeps superadditivity (and the sharp gap, scaled by `g(2)`): prime-mass
 positivity is **not** an RH discriminator.
 
-**Scope.** `A`'s superadditivity is a *hypothesis* here (it is the Chebyshev theorem, not proved). Nothing about
-Λ or primes, and no positivity statement for the Weil form.
+**Scope.** `A`'s superadditivity is a *hypothesis* here (it is the Chebyshev theorem, not proved).
 
 No `sorry`, no axiom.
 -/

@@ -27,10 +27,9 @@ Let `r_m = r₀ q^m`. Codex's annihilator polynomial is `P(z) = ∏_{m<M} (z −
   `r₀ = e^{σδ}`, the Laplace moment at `σ` vanishes. With `σ = −1/2` and `δ = 7/10` this is
   Codex's `B_K = 0`.
 
-**Scope.** The `K → ∞` edge limit `w_j = (−r₀)^j q^{j(j−1)/2}/(q;q)_j` is not formalized. Neither
+**Scope.** Neither
 is the sewing convolution `C_V = V_K ∗ V_K` and its Laplace square `A_K²` (the single-bump midpoint
-step is `GppSine2Convolution`), nor any PNT comparison of `ε_K`. Nothing here bears on the location
-of the zeros, and no claim is made about RH.
+step is `GppSine2Convolution`), nor any PNT comparison of `ε_K`.
 -/
 
 open Finset

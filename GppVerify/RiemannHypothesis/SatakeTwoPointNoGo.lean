@@ -5,7 +5,7 @@ import Mathlib.Tactic
 # Nonunitary Satake weights fail the two-point positive-definiteness test
 
 Source: Grok S9/S10, GPP-bridge PR #11; two-point simplification by
-Codex/GPT, Oct 14 2026. Finite Gram algebra only, no RH claim.
+Codex/GPT, Oct 14 2026.
 -/
 
 namespace GppSatakeTwoPointNoGo

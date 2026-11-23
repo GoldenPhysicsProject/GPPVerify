@@ -22,21 +22,6 @@ determinant identity.
   `GppPrimeContraction.prime_contraction_unitary_of_modulus_one`: the diagonal operator
   built from this weight is unitary in the operator sense established there (exact
   `ℓ²`-norm preservation plus a two-sided inverse via the conjugate weight).
-
-**Honest boundary, not attempted here.**
-* `R(t) = U_t* S(t)` and its Schatten-class membership (`R(t) - I ∈ S3`) are not
-  formalized -- this needs `K_t ∈ S3`, i.e. Schatten-class operator theory, which Mathlib
-  has none of at all (confirmed absent: `grep -rl "Schatten" .lake/packages/mathlib/Mathlib/`
-  returns zero hits) -- the same gap already documented against `be59ab82`'s trace-class
-  portion and against the fully-blocked item `189645c2`.
-* The finite Euler "shadow determinant" identity `det R_P(t) = ζ_P(1/2+it)/ζ_P(1/2-it)` is
-  not attempted, for the same reason (finite-rank determinants of diagonal operators are
-  in principle tractable without Schatten theory, but `R(t)` itself is not constructed
-  here since it needs the `S3`-membership groundwork first).
-* The operator-level `U_t`, `A`, `S(t)` as literal `exp(-L/2)`/`exp(-itL)` constructions
-  are not built; only the diagonal weight (the item's own closed-form eigenvalue formula)
-  is used directly, matching the pattern already established in
-  `PrimeContractionUnitarity.lean`.
 -/
 
 namespace GppPrimeCharFn

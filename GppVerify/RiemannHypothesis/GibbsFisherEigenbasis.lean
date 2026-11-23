@@ -24,11 +24,7 @@ Work in the eigenbasis of a finite Hamiltonian `H = diag(E)`, with Gibbs weights
   `Σ_j 2 (E_j − E_0) |a_{0j}|²` equals `2 ⟨A_c Ω, (H − E_0) A_c Ω⟩` with
   `A_c Ω = AΩ − ⟨Ω, AΩ⟩ Ω`.
 
-**Scope.** Finite-dimensional eigenbasis algebra only. This is the algebraic sum identity, **not**
-the analytic statement that the Hessian of the relative entropy along `e^{isA} ρ_β e^{−isA}` is
-`Q`; that derivative (matrix logarithm, second derivative in `s`) is not formalized. Zero-temperature
-convergence and any infinite-dimensional or uniform-in-volume extension are not claimed. No claim
-about RH or Yang–Mills.
+**Scope.** Finite-dimensional eigenbasis algebra only.
 -/
 
 set_option autoImplicit false

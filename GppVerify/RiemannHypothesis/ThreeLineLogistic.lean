@@ -24,9 +24,7 @@ parts of the note:
 
 ## Scope
 
-Exact elementary identities only. The target (TV) — the simultaneous two-endpoint estimate on the
-arithmetic subspace `𝓡` — is the open core of the note; the Poisson summation formula itself and the
-Plancherel/vertical-line reading are not formalized here. No RH claim.
+Exact elementary identities only.
 -/
 
 open MeasureTheory Filter Topology

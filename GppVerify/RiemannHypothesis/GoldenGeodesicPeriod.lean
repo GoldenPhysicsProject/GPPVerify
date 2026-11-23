@@ -14,17 +14,15 @@ speed by `z(t) = ½ + (√5/2)(tanh t + i sech t)`. In real coordinates `gx t + 
 * `on_circle`: `(gx − ½)² + gy² = 5/4`.
 * `norm_identity`: **`|m z(t) + n|² / Im z(t) = (α² eᵗ + α'² e⁻ᵗ)/√5`** with `α = mφ + n`,
   `α' = mφ' + n`. This is the exact algebraic core of Hecke's unfolding
-  `∫_0^{4 log φ} E*(z(t), s) dt = Λ_{ℚ(√5)}(s)`. That identity also uses the integral
-  `∫(aeᵗ + be⁻ᵗ)^{−s} dt = (ab)^{−s/2}Γ(s/2)²/(2Γ(s))` and the four generators `±φʲ` of each ideal
-  modulo `⟨φ²⟩`; neither is formalized here.
+  `∫_0^{4 log φ} E*(z(t), s) dt = Λ_{ℚ(√5)}(s)`.
 * `weyl_reflection`: **`S z(t) = −1/z(t) = z(−t − 2 log φ)`**, so the Weyl element reverses the geodesic.
 * `fixed_i`, `fixed_one_add_i`: `z(−log φ) = i` and `z(log φ) = 1 + i`. After `u = t + log φ` these are
   the two fixed points `u = 0` and `u = L/2 = 2 log φ` of the reflection of the Haar circle of length
   `L = 4 log φ`. The quotient is an interval traversed twice by the closed orbit, which doubles the
   heat-trace constant.
 
-The Neumann condition at both endpoints holds for every complex `s`, so it **does not prove RH**. The
-orbit measure is unbounded on `L²`: it needs Sobolev order `> 1/2`. **No RH claim.**
+ The
+orbit measure is unbounded on `L²`: it needs Sobolev order `> 1/2`.
 -/
 
 namespace GppGoldenGeodesic

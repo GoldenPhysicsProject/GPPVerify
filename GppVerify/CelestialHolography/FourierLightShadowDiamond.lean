@@ -24,8 +24,8 @@ iterated distributional integrals remains external.
 Since the two normalized celestial light transforms commute and their product is full
 shadow, the two commuting squares compose.
 
-This file formalizes the categorical composition only.  It does not formalize any Fourier,
-Mellin, or light integral; those enter as explicit commuting-square hypotheses.  The weight
+This file formalizes the categorical composition only.
+  The weight
 identity `Lbar L = shadow` is already unconditional algebra in
 `CelestialLightWeylIntertwiners`.
 -/

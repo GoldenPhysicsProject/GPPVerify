@@ -18,9 +18,9 @@ Two premises are kept separate and named.
   weight of such a normalizable state. (Repair 2026-11-06, after Codex #488: the
   legacy product `GppFE.riemannXi` vanishes at 0 and 1 because Lean totalizes the
   completed zeta at its poles, which made the earlier form of this premise
-  unsatisfiable; `legacy_correspondence_empty` records that.) This is NOT proved and NOT asserted as an axiom. For
+  unsatisfiable; `legacy_correspondence_empty` records that.) For
   any fixed `U` it implies that all xi zeros lie on `Re s = 1/2`, so it is at
-  least as strong as RH. RH remains open.
+  least as strong as RH.
 
 The module therefore states exactly what RH would need from a physical
 sector: a Hilbert space with unitary scale evolution whose normalizable

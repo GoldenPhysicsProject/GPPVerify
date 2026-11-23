@@ -14,8 +14,6 @@ import GppVerify.RiemannHypothesis.HeartLandauReduction
 /-!
 # The windowed Landau reduction (F13W)
 
-**Conditional implication, RH-strength hypothesis at `ε = 0`; nothing here proves RH.**
-
 F13 (`HeartLandauReduction`) needs the one-sided bound `D(L) ≥ −C e^{εL}` for *all* `L > 0`.
 F13W needs it only on **windows**: for arbitrarily large `L`, on the whole interval
 `L' ∈ [L, (1+δ)L]` (any fixed `δ > 0`). In `Y = e^L` these are the windows `[Y, Y^{1+δ}]`;
@@ -1025,9 +1023,9 @@ theorem PhiD_pole {ρ : ℂ} (hρ : ρ ∈ ZD) : ∃ c : ℂ, c ≠ 0 ∧ ∃ h 
 large `L` the one-sided bound `D(L') ≥ −C e^{εL'}` holds on the whole window `L' ∈ [L, (1+δ)L]`,
 then `ξ_E(s) ≠ 0` for every `Re s > ½ + ε`.
 
-Conditional implication with an RH-strength hypothesis at `ε = 0`; nothing here proves RH.
 The hypothesis is implied by F13's global bound; windows in log scale `[L, (1+δ)L]` are
-`[Y, Y^{1+δ}]` in `Y = e^L` (δ = ½ is Alpöge's `[Y, Y^{3/2}]`). -/
+`[Y, Y^{1+δ}]` in `Y = e^L` (δ = ½ is Alpöge's `[Y, Y^{3/2}]`). 
+-/
 theorem F13W_xiE_ne_zero {ε δ C : ℝ} (hε0 : 0 ≤ ε) (hδ : 0 < δ)
     (hW : ∀ L₀ : ℝ, ∃ L : ℝ, L₀ ≤ L ∧
       ∀ L' ∈ Icc L ((1 + δ) * L), -C * Real.exp (ε * L') ≤ Dfun L') :

@@ -8,7 +8,7 @@ import GppVerify.RiemannHypothesis.MobiusEchoPassivity
 /-!
 # Mode decomposition of the Möbius gcd form
 
-**Unconditional finite identity; nothing here proves RH.** With `μ` the Möbius function, put
+ With `μ` the Möbius function, put
 
 * `J m = Σ_{k ∣ m} μ(m/k) √k` (the Dirichlet convolution `μ ∗ √·`),
 * `T y m = Σ_{d ≤ y, m ∣ d} μ(d)/√d`,

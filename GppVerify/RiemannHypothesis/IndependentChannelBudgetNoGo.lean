@@ -16,11 +16,11 @@ turned that into the local bound `α n ≥ (2/e) Λ(n)/n`; here Mertens' first t
 * `no_fixed_intensity_budget`: for every bound `B` some cutoff `N` has `Σ_{n ≤ N} α n > B`, in particular
   no fixed reference intensity (Astra's budget is `4`) can host all channels.
 
-**Scope, stated plainly.** The Cramér inequality is a *hypothesis* (that every law with mean `w` has
-relative entropy at least `rate α w` is a probability fact not formalized here). The result concerns
+**Scope, stated plainly.**
+ The result concerns
 independent channels each charged its own entropy budget; Codex's note is explicit that it does *not*
 cover correlated constructions, globally compensated entropy sharing, or KMS/CFS/signed completions,
-and it is not a statement about RH. No RH claim.
+and it is not a statement about RH.
 -/
 
 namespace GppIndependentChannelBudgetNoGo

@@ -14,9 +14,7 @@ Codex (statement) and Claude Code (formalization).
   (from Mathlib's `Real.exp_bound` at `±y`, `n = 8`).
 * `gamma_surplus`: for `0 < y ≤ 1`, `1/(2y) + 1/6 ≤ e^{y/2}/(2 sinh y)`.
 
-**Scope.** The elementary real inequality only. The constant `11/50` on `(0, 7/10]` from Codex's
-later comment, the completed Weil form, the triangle variance integral and the Legendre spectrum are
-not formalized. No claim about RH.
+**Scope.** The elementary real inequality only.
 -/
 
 set_option autoImplicit false

@@ -15,7 +15,6 @@ Proof: the argument Mathlib uses for `Real.deriv_Gamma_nat`, at a general point.
 This is the real-variable half of stage E2a of the explicit formula (plan: bridge
 `MuseResearch/claude-code-note-2026-11-07-explicit-formula-plan.md`). The complex extension
 (identity theorem) and the vertical-line bound `ψ(σ + it) = O(log |t|)` (E2b) are not here.
-No claim about RH.
 
 Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 -/

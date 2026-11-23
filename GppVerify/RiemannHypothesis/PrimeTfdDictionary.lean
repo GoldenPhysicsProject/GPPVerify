@@ -21,9 +21,7 @@ For a real `p > 1` (a prime in the application) let `x = 1/p` and `κ_p = arsinh
   `log p = log(1 + 4/μ_p²)`.
 * `mu_eq_one_iff`: `μ_p = 1 ↔ p = 5`; and `sinh κ_5 = 1/2`, `κ_5 = log φ` with `φ = (1+√5)/2`.
 
-**Scope.** The one-oscillator algebra only. The identification of the arithmetic and geometric
-modular generators (§§3–4), the global TFD and Hagedorn boundary (§6) and every physical
-interpretation in the note are not formalized. No claim about RH.
+**Scope.** The one-oscillator algebra only.
 -/
 
 set_option autoImplicit false
