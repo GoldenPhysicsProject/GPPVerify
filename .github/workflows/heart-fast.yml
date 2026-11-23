@@ -20,9 +20,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: height bound for zeros of xi
+      # Front: quartet-family positivity, zero-energy radical, zero-sum pairing
       MODULES: >-
-        GppVerify.RiemannHypothesis.XiHeightBound
+        GppVerify.RiemannHypothesis.QuartetFamilyPosDef
+        GppVerify.RiemannHypothesis.ZeroEnergyRadical
+        GppVerify.RiemannHypothesis.ZeroSumPairing
 
     steps:
       - uses: actions/checkout@v4
