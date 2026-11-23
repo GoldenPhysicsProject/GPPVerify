@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: explicit-formula chain index theorem
+      # Front: Stieltjes summation by parts for Lambda
       MODULES: >-
-        GppVerify.RiemannHypothesis.ExplicitFormulaChain
+        GppVerify.RiemannHypothesis.LambdaStieltjes
 
     steps:
       - uses: actions/checkout@v4
