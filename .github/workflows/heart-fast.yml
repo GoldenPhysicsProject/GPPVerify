@@ -20,11 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: quartet-family positivity, zero-energy radical, zero-sum pairing
+      # Front: four-face Gram determinant and joint holomorphy of the divided-difference Gram
       MODULES: >-
-        GppVerify.RiemannHypothesis.QuartetFamilyPosDef
-        GppVerify.RiemannHypothesis.ZeroEnergyRadical
-        GppVerify.RiemannHypothesis.ZeroSumPairing
+        GppVerify.RiemannHypothesis.FourFaceGram
 
     steps:
       - uses: actions/checkout@v4
