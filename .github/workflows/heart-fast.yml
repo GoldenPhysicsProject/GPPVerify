@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: Stieltjes summation by parts for Lambda
+      # Front: two-rate quartet positivity
       MODULES: >-
-        GppVerify.RiemannHypothesis.LambdaStieltjes
+        GppVerify.RiemannHypothesis.QuartetTwoRate
 
     steps:
       - uses: actions/checkout@v4
