@@ -66,8 +66,8 @@ theorem explicit_formula_chain :
       ∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2) ∧
     -- 6. the strip form gives Mathlib's statement
     ((∀ ρ ∈ nontrivialZeros, ρ.re = 1 / 2) → RiemannHypothesis) :=
-  ⟨fun f hf => GppExplicitFormulaAssembly.explicit_formula_zeroSum hf,
-   fun f hf s => GppGwefAssembly.gwef2_factorisation hf s,
+  ⟨fun _ hf => GppExplicitFormulaAssembly.explicit_formula_zeroSum hf,
+   fun _ hf s => GppGwefAssembly.gwef2_factorisation hf s,
    GppAKG.gram_zeta_eq,
    fun S hS hSι v hv ε hε => zetaTheory.interpolation S hS hSι v hv ε hε,
    GppBTSigmaSpectralTransform.arp_iff_rh_strip,
