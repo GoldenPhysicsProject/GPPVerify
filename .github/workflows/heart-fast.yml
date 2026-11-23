@@ -20,9 +20,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: the ladder of shadow data indexed by dimension
+      # Front: the Cayley-Dickson spine of the ladder
       MODULES: >-
-        GppVerify.RiemannHypothesis.ShadowLadder
+        GppVerify.RiemannHypothesis.CayleyDickson
+        GppVerify.RiemannHypothesis.CayleyDicksonOctonion
+        GppVerify.RiemannHypothesis.CayleyDicksonSedenion
 
     steps:
       - uses: actions/checkout@v4
