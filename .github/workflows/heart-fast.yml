@@ -25,6 +25,8 @@ jobs:
         GppVerify.RiemannHypothesis.ArchimedeanCelestial
         GppVerify.RiemannHypothesis.UnitaryHologramAssembly
         GppVerify.RiemannHypothesis.BeurlingDilationInvariance
+        GppVerify.RiemannHypothesis.ZeroEigenvectorCorrespondence
+        GppVerify.RiemannHypothesis.EtaInversionReal
 
     steps:
       - uses: actions/checkout@v4
