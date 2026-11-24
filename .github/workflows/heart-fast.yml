@@ -20,11 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: the Cayley-Dickson spine of the ladder
+      # Front: the local theta pair interface (B1a, B1b)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CayleyDickson
-        GppVerify.RiemannHypothesis.CayleyDicksonOctonion
-        GppVerify.RiemannHypothesis.CayleyDicksonSedenion
+        GppVerify.RiemannHypothesis.LocalThetaPair
+        GppVerify.RiemannHypothesis.LocalThetaCorrespondence
 
     steps:
       - uses: actions/checkout@v4
