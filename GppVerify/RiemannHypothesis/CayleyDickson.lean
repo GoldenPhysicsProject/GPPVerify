@@ -9,8 +9,9 @@ import Mathlib.Algebra.Quaternion
 # The Cayley-Dickson doubling
 
 For a non-associative ring `A` with a star anti-involution (`StarRing A`) and a parameter `γ : A` that
-is central, star-fixed and in the left and right nucleus (`CDParam γ`; automatic for an associative
-`A`, and for `γ = -1` in every `A`), the double `CD A γ` has underlying type `A × A` (components
+is central, star-fixed and in the left and right nucleus (`CDParam γ`; both nucleus conditions are
+instances of associativity for an associative `A`, and `cdParam_neg_one` supplies the instance for
+`γ = -1` in every `A`), the double `CD A γ` has underlying type `A × A` (components
 `fst`, `snd`), with
 
   `(a, b) * (c, d) = (a c + γ d* b, d a + b c*)`,   `star (a, b) = (a*, -b)`,   `1 = (1, 0)`.
