@@ -30,6 +30,7 @@ jobs:
         GppVerify.RiemannHypothesis.EtaInversionLog
         GppVerify.RiemannHypothesis.MoebiusTsum
         GppVerify.RiemannHypothesis.MoebiusEulerSum
+        GppVerify.RiemannHypothesis.MoebiusBoundaryDatum
 
     steps:
       - uses: actions/checkout@v4
