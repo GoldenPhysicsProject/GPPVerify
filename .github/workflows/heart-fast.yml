@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: the local theta pair interface (B1a) and the spine docstring
+      # Front: the local theta pair interface (B1a, B1b)
       MODULES: >-
-        GppVerify.RiemannHypothesis.CayleyDickson
         GppVerify.RiemannHypothesis.LocalThetaPair
+        GppVerify.RiemannHypothesis.LocalThetaCorrespondence
 
     steps:
       - uses: actions/checkout@v4
