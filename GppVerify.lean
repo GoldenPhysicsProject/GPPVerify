@@ -2701,6 +2701,8 @@ import GppVerify.RiemannHypothesis.CayleyDicksonOctonion
 import GppVerify.RiemannHypothesis.CayleyDicksonSedenion
 import GppVerify.RiemannHypothesis.LocalThetaPair
 import GppVerify.RiemannHypothesis.LocalThetaCorrespondence
+import GppVerify.RiemannHypothesis.LocalDetRep
+import GppVerify.RiemannHypothesis.LocalHoweDuality
 import GppVerify.RiemannHypothesis.CausalTailEstimate
 import GppVerify.RiemannHypothesis.CausalKernels
 import GppVerify.RiemannHypothesis.CausalAbel
