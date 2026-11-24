@@ -37,7 +37,11 @@ variable (k : Type*) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchi
 
 /-- The normalized absolute value of `k` on its units: the distributive Haar character of `kˣ`
 acting on `k`. -/
-noncomputable def nabs : kˣ →* NNReal := distribHaarChar k
+noncomputable def nabs (x : kˣ) : NNReal := distribHaarChar k x
+
+theorem nabs_mul (x y : kˣ) : nabs k (x * y) = nabs k x * nabs k y := map_mul (distribHaarChar k) x y
+
+theorem nabs_one : nabs k 1 = 1 := map_one (distribHaarChar k)
 
 variable {k} {a b : Type*} [Fintype a] [DecidableEq a] [Fintype b] [DecidableEq b]
 
@@ -53,13 +57,13 @@ theorem omCoeff_mul (μ : kˣ →* ℂˣ) (g₁ g₂ : Matrix.GeneralLinearGroup
     (h₁ h₂ : Matrix.GeneralLinearGroup b k) :
     omCoeff μ (g₁ * g₂) (h₁ * h₂) = omCoeff μ g₁ h₁ * omCoeff μ g₂ h₂ := by
   unfold omCoeff
-  simp only [map_mul, NNReal.mul_rpow, mul_inv, Units.val_mul, NNReal.coe_mul, Complex.ofReal_mul]
+  simp only [map_mul, nabs_mul, NNReal.mul_rpow, mul_inv, Units.val_mul, NNReal.coe_mul, Complex.ofReal_mul]
   ring
 
 theorem omCoeff_one (μ : kˣ →* ℂˣ) :
     omCoeff μ (1 : Matrix.GeneralLinearGroup a k) (1 : Matrix.GeneralLinearGroup b k) = 1 := by
   unfold omCoeff
-  simp
+  simp [nabs_one]
 
 /-- The twisted action of `GL_a(k) × GL_b(k)` on functions on `Matrix b a k`. -/
 noncomputable def om (μ : kˣ →* ℂˣ) (g : Matrix.GeneralLinearGroup a k)
