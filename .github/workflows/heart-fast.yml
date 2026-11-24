@@ -20,11 +20,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: no bound states (Nyman-Beurling) and the fixed-angle dilation stencils
+      # Front: renormalization of the bound-state and principal-series vectors
       MODULES: >-
-        GppVerify.RiemannHypothesis.NymanBeurlingBoundStates
-        GppVerify.RiemannHypothesis.DilationStencil
-        GppVerify.RiemannHypothesis.LocalParabolic
+        GppVerify.RiemannHypothesis.BoundStateRenormalization
 
     steps:
       - uses: actions/checkout@v4
