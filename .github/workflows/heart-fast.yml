@@ -27,6 +27,7 @@ jobs:
         GppVerify.RiemannHypothesis.BeurlingDilationInvariance
         GppVerify.RiemannHypothesis.ZeroEigenvectorCorrespondence
         GppVerify.RiemannHypothesis.EtaInversionReal
+        GppVerify.RiemannHypothesis.EtaInversionLog
 
     steps:
       - uses: actions/checkout@v4
