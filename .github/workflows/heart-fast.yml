@@ -20,9 +20,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: renormalization of the bound-state and principal-series vectors
+      # Front: the archimedean celestial half and the bound-state assembly
       MODULES: >-
-        GppVerify.RiemannHypothesis.BoundStateRenormalization
+        GppVerify.RiemannHypothesis.ArchimedeanCelestial
+        GppVerify.RiemannHypothesis.UnitaryHologramAssembly
 
     steps:
       - uses: actions/checkout@v4
