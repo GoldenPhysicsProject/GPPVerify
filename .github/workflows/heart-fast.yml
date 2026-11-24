@@ -20,10 +20,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: the lift layer (determinant representations, Howe duality statement)
+      # Front: no bound states (Nyman-Beurling) and the fixed-angle dilation stencils
       MODULES: >-
-        GppVerify.RiemannHypothesis.LocalDetRep
-        GppVerify.RiemannHypothesis.LocalHoweDuality
+        GppVerify.RiemannHypothesis.NymanBeurlingBoundStates
+        GppVerify.RiemannHypothesis.DilationStencil
+        GppVerify.RiemannHypothesis.LocalParabolic
 
     steps:
       - uses: actions/checkout@v4
