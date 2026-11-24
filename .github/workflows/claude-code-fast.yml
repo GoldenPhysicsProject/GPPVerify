@@ -62,6 +62,9 @@ jobs:
           python3 scripts/check_vacuity.py
           python3 scripts/check_blueprint_refs.py
           python3 scripts/check_landing_claims.py
+          python3 scripts/check_status_claims.py
+          python3 scripts/check_named_pointers.py
+          python3 scripts/sync_published_counts.py --check
 
       - name: Build changed modules and their dependents
         run: |

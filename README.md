@@ -46,7 +46,7 @@ specific, named step, and both are recorded here.
 
 ## What is here
 
-The library holds about 1,200 Lean modules. Each major directory carries its own
+The library holds 1,473 Lean modules. Each major directory carries its own
 README with the map of that layer; this section is the index of them.
 
 - **The dictionary itself.** Shadow/functional-equation identification, dilation-unitarity
@@ -105,7 +105,9 @@ Each point below is a command or a file.
 - **The epistemics are mechanical.** `scripts/` holds the gates CI runs:
   `check_sorries.py`, `check_stub_naming.py` and `check_vacuity.py` (every declaration
   carries real content), `check_blueprint_refs.py` (every `\lean{}` in the blueprint must name a real
-  declaration), `check_landing_claims.py` (the public page matches the tree), `check_import_graph.py`, and `check_axioms.lean` (`#print axioms` on the flagship
+  declaration), `check_landing_claims.py` (the public page matches the tree), `check_status_claims.py` (no stale
+  status claims in comments or notes), `check_named_pointers.py` (the load-bearing names cited in prose resolve to
+  declarations), `check_import_graph.py`, and `check_axioms.lean` (`#print axioms` on the flagship
   theorems). Each script's header records the audit that produced it.
 - **The Riemann Hypothesis is stated as an exact equivalence.**
   `rh_iff_weil_pairedForm_nonneg` (RH iff a positivity statement) and
@@ -119,7 +121,8 @@ Each point below is a command or a file.
   earlier surveys; the current status is this file and the blueprint.
 
 The current module, stub, and axiom counts are published on the
-[blueprint](https://lean.goldenphysics.org) and kept in sync by `scripts/sync_published_counts.py`.
+[blueprint](https://lean.goldenphysics.org) and kept in sync by `scripts/sync_published_counts.py` —
+including the module count and the Layout table in this file, which the script writes from the tree.
 To reproduce them:
 
 ```bash
@@ -144,21 +147,21 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 
 | Directory | Files | Contents |
 |---|---|---|
-| `GppVerify/RiemannHypothesis/` | 585 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
-| `GppVerify/CelestialHolography/` | 329 | [the celestial side](GppVerify/CelestialHolography/README.md): shadow transform, principal series, Penrose and ambitwistor geometry |
+| `GppVerify/RiemannHypothesis/` | 809 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
+| `GppVerify/CelestialHolography/` | 334 | [the celestial side](GppVerify/CelestialHolography/README.md): shadow transform, principal series, Penrose and ambitwistor geometry |
 | `GppVerify/StandardModel/` | 132 | [the Standard Model sector](GppVerify/StandardModel/README.md): CPT and orientation, charge, Pati–Salam |
 | `GppVerify/QuantumGravity/` | 53 | [quantum gravity](GppVerify/QuantumGravity/README.md): causal diamonds, equator thermodynamics, Fisher geometry |
-| `GppVerify/NoGo/` | 23 | no-go theorems: routes closed, with the failing step located |
+| `GppVerify/NoGo/` | 25 | no-go theorems: routes closed, with the failing step located |
 | `GppVerify/GeneralRelativity/` | 20 | causal diamonds and boundary charges in GR form |
-| `GppVerify/NumberTheory/` | 19 | zeta values, Euler sums, BSD point counts, shadow Euler identities |
+| `GppVerify/NumberTheory/` | 20 | zeta values, Euler sums, BSD point counts, shadow Euler identities |
 | `GppVerify/ThreadWeilParity/` | 16 | the Weil parity thread |
-| `GppVerify/Upstream/` | 13 | [Mathlib staging](GppVerify/Upstream/README.md) |
-| `GppVerify/Analysis/` | 5 | Landau and Pringsheim theory for Dirichlet series |
+| `GppVerify/Upstream/` | 30 | [Mathlib staging](GppVerify/Upstream/README.md) |
+| `GppVerify/Analysis/` | 7 | Landau and Pringsheim theory for Dirichlet series |
 | `GppVerify/Cosmology/` | 4 | cosmological sectors |
 | `GppVerify/QuantumInformation/` | 4 | quantum information sectors |
 | `GppVerify/QuantumFieldTheory/` | 3 | QFT sectors |
-| `GppVerify/ThreadS/`, `ThreadHT/`, `ThreadWeilSemibound/` | 5 | self-contained research threads |
-| `GppVerify/Certificates/`, `StringTheory/`, `YangMills/` | 3 | single-file sectors |
+| `GppVerify/ThreadS/`, `ThreadHT/`, `ThreadWeilSemibound/` | 2 | self-contained research threads |
+| `GppVerify/Certificates/`, `StringTheory/`, `YangMills/` | 5 | single-file sectors |
 | `discovery/` | | exploratory notes that sit next to the Lean threads they feed |
 | `docs/` | | [dated working notes](docs/README.md), and the [Tate guide](docs/TATE-GUIDE.md) |
 | `blueprint/` | | the technical blueprint source |
