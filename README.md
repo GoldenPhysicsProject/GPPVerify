@@ -46,7 +46,7 @@ specific, named step, and both are recorded here.
 
 ## What is here
 
-The library holds 1,481 Lean modules. Each major directory carries its own
+The library holds 1,482 Lean modules. Each major directory carries its own
 README with the map of that layer; this section is the index of them.
 
 - **The dictionary itself.** Shadow/functional-equation identification, dilation-unitarity
@@ -147,7 +147,7 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 
 | Directory | Files | Contents |
 |---|---|---|
-| `GppVerify/RiemannHypothesis/` | 817 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
+| `GppVerify/RiemannHypothesis/` | 818 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
 | `GppVerify/CelestialHolography/` | 334 | [the celestial side](GppVerify/CelestialHolography/README.md): shadow transform, principal series, Penrose and ambitwistor geometry |
 | `GppVerify/StandardModel/` | 132 | [the Standard Model sector](GppVerify/StandardModel/README.md): CPT and orientation, charge, Pati–Salam |
 | `GppVerify/QuantumGravity/` | 53 | [quantum gravity](GppVerify/QuantumGravity/README.md): causal diamonds, equator thermodynamics, Fisher geometry |
