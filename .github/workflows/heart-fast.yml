@@ -31,6 +31,8 @@ jobs:
         GppVerify.RiemannHypothesis.MoebiusTsum
         GppVerify.RiemannHypothesis.MoebiusEulerSum
         GppVerify.RiemannHypothesis.MoebiusBoundaryDatum
+        GppVerify.RiemannHypothesis.VonMangoldtOrbit
+        GppVerify.RiemannHypothesis.MertensMellin
 
     steps:
       - uses: actions/checkout@v4
