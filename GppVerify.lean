@@ -2706,6 +2706,7 @@ import GppVerify.RiemannHypothesis.LocalHoweDuality
 import GppVerify.RiemannHypothesis.LocalParabolic
 import GppVerify.RiemannHypothesis.DilationStencil
 import GppVerify.RiemannHypothesis.NymanBeurlingBoundStates
+import GppVerify.RiemannHypothesis.BoundStateRenormalization
 import GppVerify.RiemannHypothesis.CausalTailEstimate
 import GppVerify.RiemannHypothesis.CausalKernels
 import GppVerify.RiemannHypothesis.CausalAbel
