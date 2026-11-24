@@ -28,6 +28,8 @@ jobs:
         GppVerify.RiemannHypothesis.ZeroEigenvectorCorrespondence
         GppVerify.RiemannHypothesis.EtaInversionReal
         GppVerify.RiemannHypothesis.EtaInversionLog
+        GppVerify.RiemannHypothesis.MoebiusTsum
+        GppVerify.RiemannHypothesis.MoebiusEulerSum
 
     steps:
       - uses: actions/checkout@v4
