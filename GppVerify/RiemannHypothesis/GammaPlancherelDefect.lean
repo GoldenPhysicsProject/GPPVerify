@@ -247,7 +247,7 @@ theorem exp_resolvent_integrable {c : ℝ} (hc : 0 < c) :
 theorem evenShiftExpSum_integrable {q : ℝ} (hq : 0 < q) (m n : ℕ) :
     IntegrableOn (evenShiftExpSum q m n) (Ioi (0 : ℝ)) := by
   unfold evenShiftExpSum
-  refine integrable_finset_sum (Finset.range n) ?_
+  refine integrable_finsetSum (Finset.range n) ?_
   intro k _
   have h₁ : 0 < q + 2 * (k : ℝ) := by positivity
   have h₂ : 0 < q + 2 * (m : ℝ) + 2 * (k : ℝ) := by positivity
@@ -274,7 +274,7 @@ theorem defectKernel_even_eq_sum {q : ℝ} (hq : 0 < q) (m n : ℕ) :
     have h₁ : 0 < q + 2 * (k : ℝ) := by positivity
     have h₂ : 0 < q + 2 * (m : ℝ) + 2 * (k : ℝ) := by positivity
     exact (exp_resolvent_integrable h₁).sub (exp_resolvent_integrable h₂)
-  rw [integral_finset_sum (Finset.range n) (fun k _ => htermInt k)]
+  rw [integral_finsetSum (Finset.range n) (fun k _ => htermInt k)]
   apply Finset.sum_congr rfl
   intro k _
   have h₁ : 0 < q + 2 * (k : ℝ) := by positivity
@@ -472,15 +472,15 @@ theorem integral_gram_nonneg {s : Set ℝ} (hs : MeasurableSet s) {n : ℕ}
         ∫ x : ℝ in s, ∑ i : Fin n, ∑ j : Fin n,
           ((starRingEnd ℂ) (c i) * c j).re *
             defectIntegrand q (a i) (a j) x := by
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i _
-      rw [integral_finset_sum]
+      rw [integral_finsetSum]
       · apply Finset.sum_congr rfl
         intro j _
         rw [integral_const_mul]
       · exact fun j _ => hint i j
-    · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
+    · exact fun i _ => integrable_finsetSum _ fun j _ => hint i j
   rw [hswap]
   apply integral_nonneg_of_ae
   filter_upwards [ae_restrict_mem hs] with x hx

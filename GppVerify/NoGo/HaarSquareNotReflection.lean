@@ -18,9 +18,7 @@ imaginary axis, but for `c > 0` it vanishes at `z₀ = −log c + iπ`, which li
 `c ≠ 1` (`transform_zero_off_axis`).
 
 So the missing arithmetic law cannot be "any Haar square". It has to be **reflected** positivity
-of the actual signed prime–Archimedean `W`. That is RH-strength and is not assumed here. Codex's
-smooth two-Gaussian version (determinant `≈ −4`) and the adelic affine group
-`𝔸 ⋊ 𝔸^×` (left Haar `|a|⁻¹ db d^×a`, modular `Δ = |a|⁻¹`) are not formalized. **No RH claim.**
+of the actual signed prime–Archimedean `W`. That is RH-strength and is not assumed here.
 -/
 
 namespace GppNoGo.HaarSquareNotReflection

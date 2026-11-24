@@ -24,10 +24,6 @@ Thus the two microscopic phase/frequency orientations `± omega_C` are exactly t
 relative complex-orientation sectors, while physical excitation energy remains positive on
 both.  This is the rigorous bridge between the project's oriented Compton phase and standard
 charged positive-energy quantization.
-
-What is NOT proved here is that electric charge for every interacting Standard-Model field
-is literally generated only by this rest-frequency sign; the theorem is the standard free
-charged one-particle structure specialized to the Compton scale.
 -/
 
 namespace GppComptonChargedCARAlignmentBridge

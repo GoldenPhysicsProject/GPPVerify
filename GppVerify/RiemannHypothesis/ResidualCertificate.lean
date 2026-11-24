@@ -3,9 +3,7 @@ import GppVerify.RiemannHypothesis.VariationalSchurScalar
 /-!
 # The arbitrary-predictor residual certificate for the variational Schur scalar
 
-Source: Astra, `work/2026-10-23_astra_celestial_transfer_residual_extension.md` (GPP-bridge
-`cfbc322`), extending `GppVariationalSchurScalar` (#417), which left this certificate
-unformalized. Daniel Toupin / Golden Physics Project, with AI assistance from Astra (statements)
+ Daniel Toupin / Golden Physics Project, with AI assistance from Astra (statements)
 and Claude Code (formalization; written independently of Astra's uncompiled candidate).
 
 Let `a` be a symmetric positive semidefinite bilinear form and `ℓ` a linear functional, with
@@ -20,8 +18,7 @@ and put `h = 2ℓ(x) − a(x, x)` and `r = ℓ − a(x, ·)`.
 * `block_nonneg_of_residual`: if moreover `h + e ≤ d`, the bordered form
   `a(u, u) + 2tℓ(u) + dt²` is nonnegative.
 
-**Scope.** This is the certificate's algebra only. The actual arithmetic dual-residual estimate
-(a usable `e` for the Weil coupling) is open, and is not assumed here. No claim about RH.
+**Scope.** This is the certificate's algebra only.
 -/
 
 namespace GppResidualCertificate

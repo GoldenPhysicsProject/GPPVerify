@@ -9,10 +9,6 @@ Based on Astra's even Weil-form completion and Grok's S26 audit.
 The finite real-coordinate argument proves the sharp weighted Cauchy
 bound by an explicit square identity. The complex quadratic follows
 by applying the same estimates to real and imaginary coordinates.
-
-This file does NOT formalize the Fourier/Plancherel bound, the Arb
-certificate for any support window, or global Weil positivity.
-RH and Dirichlet GRH are not claimed.
 -/
 
 namespace GppPositivePoleCompletion

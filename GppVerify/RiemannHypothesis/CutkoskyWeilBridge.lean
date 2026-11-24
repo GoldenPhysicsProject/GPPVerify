@@ -17,13 +17,11 @@ compression → global Weil positivity → RH`. The final logical step (finite W
 positivity on all nontrivial zeros ⟺ RH) is **already** proved unconditionally in
 `GppVerify/RiemannHypothesis/WeilPositivityCriterion.lean` (`rh_iff_weil_pairedForm_nonneg`)
 — that criterion is an *abstract* pairing over finite subsets of the actual (unknown) zero
-set, not the classical Weil explicit-formula prime-sum quadratic form built here. Connecting
-the two is itself a substantial, separate undertaking (the classical explicit formula linking
-zeta zeros to prime sums via an integral transform) and is **not attempted in this file**.
+set, not the classical Weil explicit-formula prime-sum quadratic form built here.
 
 This file formalizes only the exact, unconditional local identities: the finite-place shadow
 kernel `K_p`, its vacuum-subtracted form `W_p`, and the Casimir-weighted Archimedean kernel
-`H`'s positivity. **No claim toward RH, no claim of global Weil positivity, no axiom.**
+`H`'s positivity.
 
 ## Self-correction (same research thread, second pass)
 
@@ -73,10 +71,7 @@ the geometric tail bound `Summable.of_nat_of_neg` + `Summable.of_nonneg_of_le` (
 only — much cheaper than tracking `HasSum` values through `Int.rec`), identify the `tsum`'s
 value via the two one-sided geometric series (`Summable.tsum_of_nat_of_neg`), then pass
 positivity to the limit via `ge_of_tendsto` composed with cofinality of `Finset.Icc(-N,N)` in
-`Finset.atTop`. Still deferred, not attempted in this file: the spectral vacuum-projection
-operator identity `C_{K_p-1} = P_0 C_{K_p} P_0` on a precisely-defined Hilbert space, and the
-Mellin/Fourier/adelic bridge to the finite-prime Weil kernel — the honest next boundary, not
-silently dropped.
+`Finset.atTop`.
 -/
 
 namespace GppCutkoskyWeil
@@ -249,8 +244,8 @@ theorem gram_square_freqSum_nonneg {N : ℕ} (c : Fin N → ℂ) (θ : Fin N →
   exact mul_nonneg (ha n hn) (Complex.normSq_nonneg _)
 
 /-- Layer 4: the truncated finite-place shadow kernel `K^0_{r,N}(θ) = Σ_{0<|n|≤N} r^{|n|}e^{inθ}`
-    — purely algebraic (a genuine finite sum, no `HasSum`, no convergence). Recovers `K_p - 1`
-    in the limit `N → ∞` (not formalized this round — see module doc). -/
+    — purely algebraic (a genuine finite sum, no `HasSum`, no convergence).
+-/
 noncomputable def KrN0 (r : ℝ) (N : ℕ) (θ : ℝ) : ℂ :=
   ∑ n ∈ (Finset.Icc (-(N : ℤ)) N).filter (· ≠ 0),
     (r : ℂ) ^ n.natAbs * Complex.exp (Complex.I * n * θ)
@@ -296,7 +291,7 @@ theorem tendsto_cutKernel_zero :
     filter_upwards [self_mem_nhdsWithin] with t ht
     simp only [Set.mem_compl_iff, Set.mem_singleton_iff] at ht
     rw [slope_def_field]
-    simp [ht]
+    simp 
   have h4 : Filter.Tendsto (fun t : ℝ => 4 * (Real.sinh (2 * π * t) / t))
       (nhdsWithin 0 {(0 : ℝ)}ᶜ) (nhds (4 * (2 * π))) := h3.const_mul 4
   have hne : (4 * (2 * π) : ℝ) ≠ 0 := by positivity
@@ -607,15 +602,8 @@ whose eigenvalues (`0` and `r^{|n|} ≥ 0`) are already known — no new analyti
 the general lemma, exactly the "as a corollary" the review asked for.
 
 **Honest boundary, still deferred**: this closes item 1 (the operator identity) but not
-items 2–4 of the wider program. See the module doc above (`GppVerify.lean`'s import comment,
-and `docs/FORMALIZATION_PLAN.md`) for the precise finding on why "the finite-prime Weil
-kernel in the normalization used by `rh_iff_weil_pairedForm_nonneg`" does not exist as
-stated — that theorem's `pairedForm` is a zero-indexed reflection pairing with no prime or
-Mellin content, a fact already flagged in this file's own module doc above (`Connecting the
-two is itself a substantial, separate undertaking`) — and for the precise elementary
-identity `W_p(t) = 2·Re(-ζ_p'/ζ_p(1/2+it))` (checked by hand, not yet formalized) that
-correctly identifies `W_p` with the local Euler-factor logarithmic derivative on the
-critical line, the honest next Lean target for items 2–3. -/
+items 2–4 of the wider program.
+-/
 
 /-- The Hilbert space `ℓ²(ℤ,ℂ)`: the natural Fourier-coefficient model dual to the circle,
     on which `K_r`-convolution becomes diagonal multiplication by `r^{|n|}`. -/

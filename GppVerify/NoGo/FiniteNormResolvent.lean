@@ -15,7 +15,7 @@ If `A` is accretive (`re⟪Ax, x⟫ ≥ 0`, for instance positive self-adjoint),
 The completed response `m_*(u) ~ log(√u/2π)/(4√u)` has `u·m_*(u) → ∞` by Stirling and the Euler
 product. That asymptotic is Codex's and is **not** formalized here. Hence the sewing cannot be a
 diagonal resolvent amplitude of a normalizable boundary state. It must be a trace, a
-rigged/distributional boundary field, or a regularized relative determinant. **No RH claim.**
+rigged/distributional boundary field, or a regularized relative determinant.
 -/
 
 namespace GppNoGo.FiniteNormResolvent

@@ -39,8 +39,6 @@ is a sum of decaying exponentials `Σᵢ aᵢ·e^{-pᵢt}`, its Mellin transform
 times the associated Dirichlet series `Σᵢ aᵢ/pᵢˢ`. Here `aᵢ = 1`, `pᵢ = i+1`, so the
 Dirichlet series is exactly `ζ(s)` (`zeta_eq_tsum_one_div_nat_add_one_cpow`).
 
-## Physics connection (not formalized further here)
-
 Planck's law itself is `mellin` applied with an extra factor of `t^{d-1}` for the
 mode-density measure in `d` spatial dimensions; the black-body paper's
 Stefan–Boltzmann-law slice `∫ t^3 n_B(t) dt = Γ(4)ζ(4) = π^4/15` (already formalized

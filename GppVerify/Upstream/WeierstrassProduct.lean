@@ -152,7 +152,7 @@ theorem weierstrassProduct_eq_zero_iff (ha : ∀ n, a n ≠ 0)
   constructor
   · intro h
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hne : ∀ n, 1 + (weierstrassFactor p (z / a n) - 1) ≠ 0 := by
       intro n
       have : z / a n ≠ 1 := fun hq => hcon n (div_eq_one_iff_eq (ha n) |>.mp hq).symm

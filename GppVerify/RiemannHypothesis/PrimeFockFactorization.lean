@@ -20,9 +20,7 @@ that identification for the arithmetic Hardy space, without building the infinit
 
 ## Scope
 
-**Not formalized:** the infinite tensor product Hilbert space itself, and the isometric isomorphism onto
-it (only the norm identity of `EulerFactorizationCoherent` and the pointwise occupation-number
-structure). These are bookkeeping facts about unique factorization; they do not locate zeros. No RH claim.
+ These are bookkeeping facts about unique factorization; they do not locate zeros.
 -/
 
 open GppArithmeticHardy

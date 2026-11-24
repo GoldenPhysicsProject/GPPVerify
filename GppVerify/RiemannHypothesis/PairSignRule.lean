@@ -15,9 +15,7 @@ Source: Grok S49 (`work/grok/2026-10-16_s49_fisher_margin_turan_laguerre.md`, Le
   the Laguerre inequalities).
 * `lattice_band_iff`: `B² − 2M(M−1)B + M(M−1)(M−2)(M−3) < 0 ↔ |B − M(M−1)| < √(M(M−1)(4M−6))`.
 
-**Scope.** Exact ring identities and a real quadratic inequality. The Laguerre generating identity
-`|p(x+iy)|² = Σ L_n(x) y^{2n}` for polynomials, the lattice model, and the detection bands for actual
-zeros are not formalized. No RH claim.
+**Scope.** Exact ring identities and a real quadratic inequality.
 -/
 
 namespace GppPairSignRule

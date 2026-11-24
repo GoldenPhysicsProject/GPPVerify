@@ -16,9 +16,8 @@ whenever `‖p⁴T‖ < 1` (i.e. `Re s > 4`).
 
 ## Scope
 
-Proved: the identity above, from the polynomial `N`. **Not proved here:** that
-`N(q)` really is `#Gr(2,4)(𝔽_q)` (Schubert-cell counting over finite fields; Mathlib has no Grassmannian
-point counts), and the passage from local factors to the global Euler product over all primes. So the
+Proved: the identity above, from the polynomial `N`.
+ So the
 stub's *geometric* input remains a library gap; its *analytic* shape is now a theorem.
 -/
 

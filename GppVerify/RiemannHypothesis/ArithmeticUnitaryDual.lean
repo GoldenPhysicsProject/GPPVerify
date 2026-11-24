@@ -30,15 +30,14 @@ principal series `Δ = ½ + iλ` has `c = ¼ + λ²`. Every `ρ` falls in one of
   unitary representation (`off_line_nonreal_casimir`);
 * `Re ρ = ½`: `c` is real and `≥ ¼`, the principal-series range (`GppCasimirCriticalLine.casimir_ge_quarter_iff`);
 * `ρ` real in `(0,1)`: `0 < c ≤ ¼`, with `c = ¼` only at `ρ = ½`. This is the
-  complementary-series range (`real_strip_casimir`). ζ has no such zeros; that is classical and
-  not formalized here.
+  complementary-series range (`real_strip_casimir`).
 * `ρ = −2n` with `n ≥ 1` (trivial zeros): `c = (1+2n)(−2n) < 0`, and it equals the Casimir
   value at `Δ = 1 + 2n` (`trivial_zero_casimir`). This matches discrete-series Casimir **values**
   only. No representation-theoretic identification is claimed.
 
 ## Scope and corrections
 
-Nothing here locates a zero. The statement that would do so is that the nontrivial zeros are the
+ The statement that would do so is that the nontrivial zeros are the
 Casimir spectrum of a unitary representation constructed without zero data. That is equivalent
 to RH and open.
 
@@ -112,5 +111,93 @@ theorem casimir_trichotomy (ρ : ℂ) :
       rw [casimir_re, h1]
       nlinarith [sq_nonneg (ρ.re - 1 / 2)]
   · exact Or.inl h
+
+/-!
+## Scalar parameter geography (2026-11-07)
+
+`Tempered` selects real Casimir at least `1/4`, not unitarity of every series.
+`Complementary` selects the strict real interval `(0, 1/4)`; the midpoint
+parameter `s = 1/2` belongs to `Tempered`, not to `Complementary`.
+These are predicates on the existing `casimir`, not representation constructions.
+The one-dimensional dictionary remains `Delta = s`. No zero is located here.
+
+Source: Turbo's PR11 audits 6715094238, 6715112611, 6715124525 and
+`MuseResearch/turbo-note-2026-11-07-{one-d-resolution,tempered-naming,tempered-geography}-audit.md`
+in GoldenPhysicsProject/GPP-bridge. Core threshold, real/imaginary projections
+and real-axis classification above retain their Codex / Claude Code provenance.
+Daniel Toupin / Golden Physics Project; AI assistance from Principal series.
+-/
+
+/-- Scalar principal-series/tempered Casimir condition, not all unitary representations. -/
+def Tempered (s : ℂ) : Prop := (casimir s).im = 0 ∧ 1 / 4 ≤ (casimir s).re
+
+/-- Strict complementary Casimir range, excluding the threshold value `1/4`. -/
+def Complementary (s : ℂ) : Prop :=
+  (casimir s).im = 0 ∧ 0 < (casimir s).re ∧ (casimir s).re < 1 / 4
+
+/-- The existing threshold equivalence, under the corrected scalar predicate name.
+No strip or nonzero-height hypothesis is necessary. -/
+theorem tempered_iff (s : ℂ) : Tempered s ↔ s.re = 1 / 2 :=
+  casimir_ge_quarter_iff s
+
+/-- Strict complementary parameters are precisely the real open segment off its midpoint. -/
+theorem complementary_iff (s : ℂ) : Complementary s ↔
+    s.im = 0 ∧ 0 < s.re ∧ s.re < 1 ∧ s.re ≠ 1 / 2 := by
+  constructor
+  · rintro ⟨hc, hpos, hlt⟩
+    have hne : s.re ≠ 1 / 2 := by
+      intro h
+      have ht := (casimir_ge_quarter_iff s).mpr h
+      linarith [ht.2]
+    have hi := ((casimir_real_iff s).mp hc).resolve_left hne
+    rw [casimir_re, hi] at hpos
+    refine ⟨hi, ?_, ?_, hne⟩
+    · nlinarith [sq_nonneg s.re]
+    · nlinarith [sq_nonneg (s.re - 1)]
+  · rintro ⟨hi, h0, h1, hne⟩
+    refine ⟨(casimir_real_iff s).mpr (Or.inr hi), ?_, ?_⟩
+    · rw [casimir_re, hi]
+      nlinarith [mul_pos h0 (sub_pos.mpr h1)]
+    · rw [casimir_re, hi]
+      have hsq := sq_pos_of_ne_zero (sub_ne_zero.mpr hne)
+      nlinarith
+
+/-- Non-real Casimir means off both the principal line and the real axis. -/
+theorem complex_casimir_iff (s : ℂ) :
+    (casimir s).im ≠ 0 ↔ s.re ≠ 1 / 2 ∧ s.im ≠ 0 := by
+  constructor
+  · intro h
+    exact ⟨fun hr => h ((casimir_real_iff s).mpr (Or.inl hr)),
+      fun hi => h ((casimir_real_iff s).mpr (Or.inr hi))⟩
+  · rintro ⟨hr, hi⟩
+    exact off_line_nonreal_casimir s hr hi
+
+/-- A scalar consequence of the existing real-Casimir classification. -/
+theorem off_line_of_complex_casimir {s : ℂ} (h : (casimir s).im ≠ 0) :
+    s.re ≠ 1 / 2 := ((complex_casimir_iff s).mp h).1
+
+/-- In the open strip the three scalar cases cover every point.
+-/
+theorem strip_geography (s : ℂ) (h0 : 0 < s.re) (h1 : s.re < 1) :
+    Tempered s ∨ Complementary s ∨ (casimir s).im ≠ 0 := by
+  by_cases hr : s.re = 1 / 2
+  · exact Or.inl ((tempered_iff s).mpr hr)
+  · by_cases hi : s.im = 0
+    · exact Or.inr (Or.inl ((complementary_iff s).mpr ⟨hi, h0, h1, hr⟩))
+    · exact Or.inr (Or.inr (off_line_nonreal_casimir s hr hi))
+
+/-- Actual complex Casimir at a shifted principal parameter.
+The two signs of the shift are obtained by substituting `theta` and `-theta`. -/
+theorem casimir_shifted_principal (θ γ : ℝ) :
+    casimir ((1 / 2 : ℂ) + θ + γ * Complex.I) =
+      1 / 4 + (γ : ℂ) ^ 2 - (θ : ℂ) ^ 2 - 2 * Complex.I * γ * θ := by
+  unfold casimir
+  linear_combination (-(γ : ℂ) ^ 2) * Complex.I_sq
+
+/-- A nonzero shift at nonzero height has complex Casimir, not complementary Casimir.
+The equivalence retains both degeneracies rather than assuming them away. -/
+theorem casimir_shifted_nonreal_iff (θ γ : ℝ) :
+    (casimir ((1 / 2 : ℂ) + θ + γ * Complex.I)).im ≠ 0 ↔ θ ≠ 0 ∧ γ ≠ 0 := by
+  simp [complex_casimir_iff]
 
 end GppArithmeticUnitaryDual

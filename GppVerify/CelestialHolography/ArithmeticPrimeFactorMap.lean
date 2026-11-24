@@ -13,8 +13,7 @@ where `w_m = log(p) exp(-(m/2) log(p)) >= 0`.
 Then the reflected finite prime kernel is literally `Aᴴ A`.
 
 This constructs the local arithmetic factor map rather than merely proving its
-quadratic form nonnegative.  It still does not solve the completed
-prime--Archimedean sign/gluing problem and does not prove RH.
+quadratic form nonnegative.
 -/
 
 namespace GppArithmeticPrimeFactorMap

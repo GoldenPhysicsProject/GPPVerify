@@ -30,14 +30,11 @@ identities, checked here at the scalar level:
 (`repeated_returns_hasSum`), so the `m ≥ 3` part of the prime-power sum is `O(1)`. That is the
 note's `R_{≥3}(L) = O(1)`.
 
-Checked by hand with the note. One sharpening, recorded in `CLAUDE_CODE_RESEARCH_NOTES.md` and
-not formalized here: `R_2(L) = O(L)` by Mertens' theorem, not merely `O(L²)`.
+Checked by hand with the note.
 
 ## Scope
 
-Local `2 × 2` algebra and one convergent prime sum. The note's coupled prime-side
-Herglotz/Schur construction, and the reduction of RH to the primitive channel
-`Σ_{p ≤ x} log p/√p = 2√x + O((log x)^M)`, are not formalized. No RH claim.
+Local `2 × 2` algebra and one convergent prime sum.
 -/
 
 open Matrix

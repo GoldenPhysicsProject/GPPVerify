@@ -26,9 +26,9 @@ negative index is `≥ 2r`, and no finite on-line mass masks any of the quartets
 * `span_top_multi` → `no_masking_multi`: realize each quartet's negative plane independently, with
   every other moment zero.
 
-**Scope.** This is the lower bound `≥ 2r`. Codex's exact inertia `(2r+2m, 2r)` also needs Sylvester's
-law, which is not formalized here. Everything is finite: in the full infinite sum over ξ's zeros,
-masking is the Weil-positivity question itself. **No RH claim.**
+**Scope.** This is the lower bound `≥ 2r`.
+ Everything is finite: in the full infinite sum over ξ's zeros,
+masking is the Weil-positivity question itself.
 -/
 
 namespace GppNoGo.FiniteNoMaskingMulti

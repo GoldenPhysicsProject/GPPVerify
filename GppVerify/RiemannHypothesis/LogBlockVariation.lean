@@ -24,10 +24,10 @@ So `Var φ ≤ (g(b) − g(a)) + (k(b) − k(a))`. The Abel identity in logarith
 `k(b) − k(a) = ∫_a^b φ` (`cont_sub_eq`), together with `g = k + φ`, gives
 `Var φ ≤ 2∫_a^b φ + φ(b) − φ(a) ≤ 2K(b − a) + K`.
 
-**Scope.** The other sections of the note, the BV Fourier-tail bound `|ĝ_a(n)| ≤ V/(2π²n²)` and the
-all-time ultraviolet budget, are not formalized here. As the note says, this is a regularity input
+**Scope.**
+ As the note says, this is a regularity input
 built from Chebyshev's bound alone, so it holds equally for Beurling-type prime systems that have
-off-line zeros. It carries no RH content.
+off-line zeros.
 -/
 
 open Real MeasureTheory Set Finset

@@ -21,7 +21,7 @@ prime channel.
 The finite/infinite operator interpretation is a dictionary:
 `mu * log = Lambda` is the scalar incidence-algebra core of the statement that the
 von Mangoldt channel is the connection produced by gauging logarithmic length with
-zeta synthesis.  No RH claim is made here.
+zeta synthesis.
 -/
 
 namespace GppMobiusVonMangoldtGaugeConnection

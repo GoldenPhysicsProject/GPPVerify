@@ -22,10 +22,7 @@ Physics Project, with AI assistance from Astra (statements) and Claude Code (for
   operator realisation does not give positivity, and positive finite margins `6 − K` do not certify
   a limit.
 
-**Scope.** These are general facts about quadratic forms. They do not prove Turbo's (SEP), any
-operator realisation, OS reflection positivity, or anything about the zeros of `ζ`. Astra's audit
-findings about the assembly note itself (conventions, labels) are not formalized here. No RH
-content.
+**Scope.** These are general facts about quadratic forms.
 -/
 
 open Finset

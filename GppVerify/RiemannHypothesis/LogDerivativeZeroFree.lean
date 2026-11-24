@@ -28,7 +28,7 @@ theorem.
 This is a reduction lemma. The hard step in any application to the Riemann zeta function is *constructing* a
 holomorphic `M` on the slit plane with `M F = F'` from arithmetic data; nothing here constructs it, and the
 counterexample in the note (bounded functionals with non-analytic dependence) shows the analytic dependence
-hypothesis cannot be dropped. No RH claim.
+hypothesis cannot be dropped.
 -/
 
 open Filter Topology

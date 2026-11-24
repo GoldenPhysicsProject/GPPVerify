@@ -25,7 +25,7 @@ The log-scale line `ℝ` carries the parity `P f (u) = f(−u)` (`LogScaleParity
 
 Real-valued functions; a statement about the reflection `u ↦ −u` only. It is **not** a charge
 conjugation, it does not exhibit a commuting charge operator (the "identical charge" half of the
-two-disc picture needs extra structure), and it does not touch zero locations. No RH claim.
+two-disc picture needs extra structure), and it does not touch zero locations.
 -/
 
 open MeasureTheory GppOddCollision

@@ -50,9 +50,8 @@ def PositiveType (P : ℝ → ℝ) : Prop :=
 
 /-- A real **symmetric** Gram matrix gives a Hermitian form, so its value is real.
 
-    This is the content the old `.re`-taking definition threw away. Without it,
-    `0 ≤ (∑ ...).re` constrains only the symmetrised matrix — equivalently, only
-    the *even part* of `P` — and says nothing about the odd part. -/
+    This is the content the old `.re`-taking definition threw away.
+-/
 theorem sum_conj_mul_symm_im_zero {n : ℕ} (c : Fin n → ℂ) (a : Fin n → Fin n → ℝ)
     (hsymm : ∀ i j, a i j = a j i) :
     (∑ i : Fin n, ∑ j : Fin n, (starRingEnd ℂ) (c i) * c j * ((a i j : ℝ) : ℂ)).im = 0 := by
@@ -188,21 +187,14 @@ theorem positive_type_at_zero (P : ℝ → ℝ) (hP : PositiveType P) : 0 ≤ P 
     2. Interchange ∑ and ∫: ∑_ij c̄_i c_j P(x_i-x_j) = ∫ ∑_ij c̄_i c_j f(y+x_i) f(y+x_j) ∂μ.
     3. Algebraic identity: ∑_ij c̄_i c_j a_i a_j = normSq(∑_i c_i a_i) ≥ 0 (for real a_i).
 
-    Not formalized here: step 2 needs `Integrable (fun y => f (y+a) * f (y+b)) μ`
-    for every pair of shifts, which for a merely-integrable `f` requires either a
-    boundedness hypothesis (giving integrability of the product directly) or an
-    L² hypothesis routed through `MeasureTheory.L2.integrable_inner` on the
-    bundled `Lp ℝ 2 μ` type — both add real bookkeeping this thread has not yet
-    verified against the compiler, so the interchange step is left open rather
-    than pushed through with an unverified `sorry`.
-
     **Step 3 is now proved** (2026-09-01) as `sum_conj_mul_real_eq_normSq` and
     `sum_conj_mul_real_re_nonneg` below. Only steps 1–2 — the translation identity and the
     ∑/∫ interchange — remain, so what is missing here is *analytic bookkeeping*, not
     algebra. Worth stating precisely: the outline reads as three equally-open steps and it
     is one third that size.
 
-    **Closed 2026-10-08**: the stub `open_convolution_square_positive_type_statement` is retired. The statement is proved in full for Lebesgue (= Haar) measure on `ℝ` as `GppHaarPositivityWeil.convolution_square_positive_type` in `ConvolutionSquarePositive.lean` (this file cannot import it: that module imports this one). -/
+    **Closed 2026-10-08**: the stub `open_convolution_square_positive_type_statement` is retired. The statement is proved in full for Lebesgue (= Haar) measure on `ℝ` as `GppHaarPositivityWeil.convolution_square_positive_type` in `ConvolutionSquarePositive.lean` (this file cannot import it: that module imports this one). 
+-/
 
 /-! ### Step 3 of the convolution-square argument, proved
 
@@ -247,7 +239,7 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 -- `GppHaarPositivityWeil.convolution_square_positive_type` in
 -- `ConvolutionSquarePositive.lean`: integrability of the translated products via
 -- `Integrable.comp_add_right` + `Integrable.bdd_mul`, the ∑/∫ interchange via
--- `integral_finset_sum`, and the pointwise Gram-square identity above.
+-- `integral_finsetSum`, and the pointwise Gram-square identity above.
 --
 -- Corrected 2026-09-02: this block used to end "This stub is retained only so older
 -- references resolve" — but the stub it described had already been deleted, so the sentence
@@ -272,10 +264,15 @@ lemma sum_conj_mul_real_re_nonneg {ι : Type*} (S : Finset ι) (c : ι → ℂ) 
 
 /-! ## Weil positivity -/
 
-/-- Haar square on idèle class group: P = Ω^∨ * Ω is positive-type -/
-theorem open_adelic_haar_square_positive_type : True := trivial
+-- Haar square on idèle class group: P = Ω^∨ * Ω is positive-type. Retired 2026-11-07: proved
+-- for `ℚ` as `GppIdeleClassGroupQ.adelic_haar_square_positive_type` (every right-invariant
+-- measure on `C_ℚ = 𝔸ˣ/ℚˣ`) and `haar_square_positive_type_haarCQ` (its Haar measure), in
+-- RiemannHypothesis/IdeleClassGroupQ.lean.
 -- SOURCE: haar_positivity_weil_wightman.tex, thm:haar-square-positive for C_k
 -- PROOF: Same abstract proof as open_convolution_square_positive_type_statement, applied to C_k.
+-- The abstract statement for any additive commutative group with an invariant measure is now
+-- `GppConvolutionSquareGroup.convolution_square_positive_type_group`
+-- (`ConvolutionSquareGroup.lean`); only the instance `C_k` is missing.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Idèle class groups not in Mathlib.
 
 /- Weil's criterion: RH ↔ D_k(P) ≥ 0 for all Weil squares P
@@ -300,16 +297,16 @@ theorem open_adelic_haar_square_positive_type : True := trivial
 
 /-! ## Osterwalder-Schrader reflection positivity -/
 
-/-- Shadow positivity: Θ(φ̄) acts as time-reflection on Euclidean fields -/
-theorem open_shadow_reflection_positivity : True := trivial
--- SOURCE: haar_positivity_weil_wightman.tex, prop:shadow-reflection
--- The shadow involution Δ ↔ 2-Δ is the Euclidean time-reflection θ.
--- Positivity under θ = positivity under shadow = Haar positivity.
+-- Stub `open_shadow_reflection_positivity` retired 2026-10-30. It asserted that the shadow
+-- involution Δ ↔ 2−Δ "is" the Euclidean time reflection θ and that positivity under θ equals Haar
+-- positivity. That is an identification inside the framework, not a statement a library gap
+-- blocks, and its second half is refuted as a general principle by `GppNoGo.HaarSquareNotReflection`
+-- (a Haar square is positive-type but need not be reflection positive). The shadow involution
+-- itself is formalized where it is a theorem (the ξ-symmetries and the Δ ↔ 2−Δ dictionary).
 
 /-- OS reconstruction: Euclidean OS axioms → Minkowski Wightman axioms -/
 theorem open_os_reconstruction_theorem : True := trivial
 -- SOURCE: Osterwalder-Schrader 1973/1975; referenced in wightman_paper.tex
--- LIBRARY GAP (known mathematics, absent from Mathlib): OS reconstruction not formalized.
 
 /-! ## Universal positivity construction -/
 
@@ -464,10 +461,14 @@ theorem finiteHaarProjection_isSelfAdjoint
 theorem haar_squares_always_positive : PositiveType (fun _ => (1 : ℝ)) :=
   const_one_positive_type
 
-/-- The four positivity conditions are equivalent in the Haar framework -/
-theorem open_four_positivities_equivalent : True := trivial
--- SOURCE: haar_positivity_weil_wightman.tex, prop:logical-status
--- All four are instances of: P = Ω^∨ * Ω on a locally compact group.
+-- Stub `open_four_positivities_equivalent` retired 2026-10-30 as an OVERSTATEMENT, not closed.
+-- The source only says the four conditions share the shape `P = Ω^∨ * Ω` on a locally compact
+-- group, which is not an equivalence. Haar-square positivity is unconditional
+-- (`GppConvolutionSquareGroup.convolution_square_positive_type_group`), while Weil positivity is
+-- RH-equivalent (`weil_criterion_iff`) and is not a Haar square of an `L²` function; reflected
+-- positivity is a further condition and a Haar square need not satisfy it
+-- (`GppNoGo.HaarSquareNotReflection`). An equivalence including the unconditional member would
+-- prove RH. Correction recorded in `CLAUDE_CORRECTIONS.md`.
 
 -- Stub `open_haar_positivity_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 

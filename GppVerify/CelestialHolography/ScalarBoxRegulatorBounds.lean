@@ -192,7 +192,7 @@ theorem q_sub_a_nonneg_and_le_m_sq
     exact mul_le_mul hp2 h1κ (by norm_num) hp2non
   have hdenlower : (527 / 72 : ℝ) * (S * U) ≤
       S * (U + 4 * m) * (1 + κ * R) * (1 + R) * (1 + κ) := by
-    convert hp3 using 1 <;> ring
+    convert hp3 using 1; ring
   have hbasepos : 0 < (527 / 72 : ℝ) * (S * U) := by positivity
   have hdenpos :
       0 < S * (U + 4 * m) * (1 + κ * R) * (1 + R) * (1 + κ) := by

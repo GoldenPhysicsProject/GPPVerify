@@ -40,15 +40,13 @@ sum is `∑_{N ≥ 1} N^{-s}`, which is `ζ(s)` on `Re s > 1`.
 The statistical-mechanical reading — that this is a free bosonic gas whose modes are the
 primes, whose states are the positive integers, and whose partition function is `ζ` — is a
 **dictionary**, as in `PrimeGasPartition.lean`. Nothing here constructs a Fock space, a
-Hamiltonian, or a Hilbert space; `dΓ(L)` does not appear. In particular `occEnergy_injective`
-and `occEnergy_range` describe the **occupation-basis labels**, not the spectrum of a
-self-adjoint operator: no operator is defined, so no spectral theorem is invoked and no claim
-is made that the label set equals `spec(H_B)` for any `H_B` in this tree. What is
+Hamiltonian, or a Hilbert space; `dΓ(L)` does not appear.
+What is
 machine-checked is the combinatorial identity the dictionary rests on. Reporting this as "the
 prime Fock Hamiltonian is formalized" would overstate it.
 
-**No RH content.** `Re s > 1` is the half-plane of absolute convergence, strictly to the
-right of the critical strip. Nothing here says anything about zeros.
+`Re s > 1` is the half-plane of absolute convergence, strictly to the
+right of the critical strip.
 -/
 
 namespace GppPrimeFock

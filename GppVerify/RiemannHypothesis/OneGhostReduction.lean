@@ -21,8 +21,7 @@ prime-vs-continuum channel:
 * `baseline_eq_neg_pole_difference`: that value is `−Δ_q[1/(s − 1)](a, b)`, i.e. exactly the `s = 1` pole
   (PNT continuum) channel.
 
-The Stieltjes form `∫ y^{−q}(…) d(ψ − y)` and the resolvent-trace form of `𝔇` are not formalized.
-Fixed-`q` positivity still fails, as the note says. **No RH claim.**
+Fixed-`q` positivity still fails, as the note says.
 -/
 
 namespace GppOneGhost

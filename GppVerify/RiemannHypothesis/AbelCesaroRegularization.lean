@@ -26,13 +26,6 @@ piece is a genuinely convergent improper exponential integral
 (`integral_exp_mul_Ioi`/`integral_comp_neg_Ioi`, Mathlib). Property (iii)'s vanishing
 limit is where the paper's identification gets its δ_{ρ', 1-ρ̄} selection: only the
 self-dual pairing `α = 0` survives `ε → 0⁺`.
-
-Together with `CesaroMeanDivergence.lean` (the unregularized mean diverges off the
-critical line) and `born_rule_cesaro` (`RHProofStructure.lean`, the unregularized mean is
-exactly 1 on it), this completes the elementary-analysis layer of the paper; the
-operator-theoretic layer (Yakaboylu's Riemann operator, biorthogonal system, and
-intertwining operator, arXiv:2408.15135) is genuinely deeper functional analysis and is
-not attempted here.
 -/
 
 namespace GppAbelCesaro

@@ -41,11 +41,9 @@ bookkeeping).
 
 ## Scope
 
-**Not proved:** the completed explicit formula itself (`E_L`, `M_L` are not defined here), and
-above all the positivity of `Q_L` for any `L`, which the note says is equivalent to RH and is open.
 The numerics in the note (susceptibility `2 vᵀ B⁻¹ v ≈ 0.897–0.9999`) are finite Galerkin
 floating-point checks, not certificates; being below one at finite dimension gives no bound for
-the continuum supremum. No RH claim.
+the continuum supremum.
 -/
 
 open Matrix MeasureTheory

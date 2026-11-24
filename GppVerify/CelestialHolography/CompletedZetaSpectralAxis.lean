@@ -35,7 +35,7 @@ def principalDelta (tau : ℝ) : ℂ :=
 /-- Celestial shadow reverses the real principal-series spectral parameter. -/
 theorem celestialShadow_principalDelta (tau : ℝ) :
     celestialShadow (principalDelta tau) = principalDelta (-tau) := by
-  apply Complex.ext <;> simp [celestialShadow, principalDelta] <;> ring
+  apply Complex.ext <;> simp [celestialShadow, principalDelta]; ring
 
 /-- Complex conjugation has the same action `tau -> -tau` on the principal axis. -/
 theorem complexConj_principalDelta (tau : ℝ) :

@@ -13,9 +13,7 @@ corresponding anti-linear spectral reflection is
 Its fixed set is exactly `Re s = 1/2`.  Under the celestial transport `Delta = 2s`
 it becomes `Delta -> 2 - conjugate(Delta)`.
 
-This file proves only the exact complex-algebra skeleton.  It does not assert
-reflection positivity of the arithmetic explicit formula and therefore makes no
-claim toward RH by itself.
+This file proves only the exact complex-algebra skeleton.
 -/
 
 namespace GppArithmeticOS

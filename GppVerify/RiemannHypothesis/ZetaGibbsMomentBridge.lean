@@ -47,7 +47,7 @@ theorem LSeries_one_eq_ofReal_gibbsWeight_tsum {β : ℝ} (hβ : 1 < β) :
   rw [hzero, zero_add]
   apply tsum_congr
   intro n
-  simp [LSeries.term_of_ne_zero (Nat.succ_ne_zero n), gibbsWeight]
+  simp [gibbsWeight]
   exact natSucc_cpow_eq_ofReal_rpow n β
 
 /-- One logarithmic L-series insertion is the embedded first Gibbs log-energy moment. -/
@@ -67,8 +67,8 @@ theorem LSeries_logMul_one_eq_ofReal_firstMoment {β : ℝ} (hβ : 1 < β) :
   rw [hzero, zero_add]
   apply tsum_congr
   intro n
-  simp [LSeries.term_of_ne_zero (Nat.succ_ne_zero n), LSeries.logMul,
-    gibbsWeight, logEnergy, Complex.natCast_log, div_eq_mul_inv]
+  simp [LSeries.logMul,
+    gibbsWeight, logEnergy, div_eq_mul_inv]
   rw [natSucc_cpow_eq_ofReal_rpow n β, natSucc_clog_eq_ofReal_log n]
   norm_cast
   ring
@@ -93,8 +93,8 @@ theorem LSeries_logMul_logMul_one_eq_ofReal_secondMoment {β : ℝ} (hβ : 1 < �
   rw [hzero, zero_add]
   apply tsum_congr
   intro n
-  simp [LSeries.term_of_ne_zero (Nat.succ_ne_zero n), LSeries.logMul,
-    gibbsWeight, logEnergy, Complex.natCast_log, pow_two, div_eq_mul_inv]
+  simp [LSeries.logMul,
+    gibbsWeight, logEnergy, pow_two, div_eq_mul_inv]
   rw [natSucc_cpow_eq_ofReal_rpow n β, natSucc_clog_eq_ofReal_log n]
   norm_cast
   ring
@@ -128,8 +128,8 @@ theorem LSeries_logMul_logMul_logMul_one_eq_ofReal_thirdMoment {β : ℝ} (hβ :
   rw [hzero, zero_add]
   apply tsum_congr
   intro n
-  simp [LSeries.term_of_ne_zero (Nat.succ_ne_zero n), LSeries.logMul,
-    gibbsWeight, logEnergy, Complex.natCast_log, pow_succ, div_eq_mul_inv]
+  simp [LSeries.logMul,
+    gibbsWeight, logEnergy, pow_succ, div_eq_mul_inv]
   rw [natSucc_cpow_eq_ofReal_rpow n β, natSucc_clog_eq_ofReal_log n]
   norm_cast
   ring
@@ -167,8 +167,8 @@ theorem LSeries_logMul_four_one_eq_ofReal_fourthMoment {β : ℝ} (hβ : 1 < β)
   rw [hzero, zero_add]
   apply tsum_congr
   intro n
-  simp [LSeries.term_of_ne_zero (Nat.succ_ne_zero n), LSeries.logMul,
-    gibbsWeight, logEnergy, Complex.natCast_log, pow_succ, div_eq_mul_inv]
+  simp [LSeries.logMul,
+    gibbsWeight, logEnergy, pow_succ, div_eq_mul_inv]
   rw [natSucc_cpow_eq_ofReal_rpow n β, natSucc_clog_eq_ofReal_log n]
   norm_cast
   ring

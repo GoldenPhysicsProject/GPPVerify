@@ -4,9 +4,6 @@ import Mathlib.Analysis.SpecialFunctions.Complex.Circle
 /-!
 # Finite additive Fourier duality turns a subgroup state into its annihilator state
 
-Source: Codex, GPPDiscovery2 `research/2026-09-28_finite_selfdual_divisor_hodge_geometry.md`, §2
-(the step left unformalized in `GppSelfDualDivisor`).
-
 On `ZMod (d·M)` let `1_{H_d}` be the indicator of the subgroup `H_d = dℤ/(dM)ℤ` of multiples of `d`
 (`|H_d| = M`).
 
@@ -20,8 +17,7 @@ On `ZMod (d·M)` let `1_{H_d}` be the indicator of the subgroup `H_d = dℤ/(dM)
 ## Checks and scope
 
 The claim checks. The proof is a direct geometric-sum computation (no appeal to the general theory of
-annihilators). **Not formalized:** the Hodge/Koszul reading of complementation on the squarefree
-divisor cube. No RH claim.
+annihilators).
 -/
 
 open Finset Complex

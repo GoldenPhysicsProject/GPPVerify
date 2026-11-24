@@ -27,9 +27,7 @@ kernel-checked:
   positive-type function pulled back along ANY additive group homomorphism is
   positive-type. This is the kernel-checked seed of the memo's §6.1 transport question:
   in log coordinates, positivity transports along the group homs of the factor
-  decomposition. The idèle-class-group-level transport (between the Weil datum on
-  `𝔸×/ℚ×` and the Cesàro datum on its `ℝ⁺` factor) remains open for the honest reason
-  recorded since PR #45: idèle class groups are not in Mathlib.
+  decomposition.
 * **The Cesàro datum is shadow-positive, Gram form** (`cesaro_gram_sq_nonneg`): the
   memo's §3 finding in the repo's finite-Gram idiom — the Abel-regularized Cesàro state
   is nonnegative on the square of any finite real linear combination, directly from the
@@ -47,8 +45,7 @@ kernel-checked:
   is the concrete, unblocked half of it: the Cesàro-side leg of the shadow-positive
   datum genuinely has the compatibility property the transport would need to match.
 
-What is NOT claimed: anything about `arithmetic_admissibility` (the AAC axiom formerly of
-`RHSpectralMultiplicity.lean`). The memo is explicit that none of its findings close it,
+ The memo is explicit that none of its findings close it,
 and neither does this file — these are the memo's checkable fragments, checked.
 -/
 
@@ -145,7 +142,7 @@ theorem cos_neg_of_quartet_neg {C γ δ : ℝ}
     (h : 4 * Real.exp (-C * (γ^2 - δ^2)) * Real.cos (2*C*γ*δ) < 0) :
     Real.cos (2*C*γ*δ) < 0 := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hpos : (0:ℝ) < 4 * Real.exp (-C * (γ^2 - δ^2)) := by positivity
   nlinarith [mul_nonneg hpos.le hc]
 

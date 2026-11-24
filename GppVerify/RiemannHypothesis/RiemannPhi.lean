@@ -21,10 +21,6 @@ Riemann's kernel is `Φ(u) = ∑_{n≥1} (2π²n⁴e^{9u} − 3πn²e^{5u}) e^{�
   `S`-invariance of the scalar sector.
 * `completedRiemannZeta_eq_mellin_psi`: for `Re s > 1`, `Λ(s) = ∫₀^∞ ψ(x) x^{s/2−1} dx`, i.e.
   completed ζ is the Mellin transform of the boson's scalar sector.
-
-**Scope.** The evenness `Φ(−u) = Φ(u)`, the cosine representation of `Ξ`, and the full
-Rankin–Selberg statement `(Z, E_s) = 2Λ(s)(r^{1−2s} + r^{2s−1})` of arXiv 2107.10744 are not
-formalized. Nothing here bears on the location of the zeros. No claim about RH.
 -/
 
 open Real Filter Topology Complex HurwitzZeta

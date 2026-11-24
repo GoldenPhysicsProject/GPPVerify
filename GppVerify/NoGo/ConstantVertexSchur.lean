@@ -20,8 +20,7 @@ coupling term is `⟨φ_L, e^{κw} φ_L⟩ = e^{κL + κ²/4}` (`gauss_moment`, 
 **Ledger reading (Claude Code audit, comment 6124273075).** This kills the *constant-vertex* Schur
 model. It does **not** discriminate ζ from F_θ for a vertex derived from ζ's own data. That
 discrimination lives in the balanced explicit-formula cancellation (Claude Code note
-`work/claude-code/2026-10-12_loewner_mstar_vs_ftheta.md`). The kinetic term `⟨φ, D²φ⟩ = ½` is
-not formalized here; it enters only as the constant `C`. **No RH claim.**
+`work/claude-code/2026-10-12_loewner_mstar_vs_ftheta.md`).
 -/
 
 namespace GppNoGo.ConstantVertexSchur

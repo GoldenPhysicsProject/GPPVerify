@@ -21,10 +21,8 @@ Source: Codex, GPPDiscovery2 `research/2026-09-27_prime_tfd_phase_fisher_mass_ge
 
 ## Checks and scope
 
-All claims checked. **Not formalized:** the Fisher information integrals `I_rr = 2/(1−r²)²`, `I_φφ`
-(and hence the curvature `K_F = −2`), the phase POVM resolution, the equidistribution of the finite-prime
-flow on the torus (the long-time mean `0` and autocorrelation), and the entanglement interpretation.
-Only the *local* second moment is formalized, not the ergodic average. No RH claim.
+All claims checked.
+Only the *local* second moment is formalized, not the ergodic average.
 -/
 
 open GppSU11Prime

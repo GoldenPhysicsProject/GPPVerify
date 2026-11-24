@@ -31,8 +31,7 @@ the finite-ε structure of the paper's eq. (75) exactly as the note does:
   the smallest eigenvalue `d(ε) − 1` of the off-line 2×2 block tends to `−1` as
   `ε → 0⁺`.
 
-What is deliberately NOT claimed: any uniformity of the `ε → 0⁺` limit over infinite
-zero configurations. By `rh_iff_weil_pairedForm_nonneg` that uniformity is equivalent
+ By `rh_iff_weil_pairedForm_nonneg` that uniformity is equivalent
 to RH itself, and it stays open here — this file fences the provable finite-ε skeleton
 on both sides of the form-domain boundary and nothing more.
 -/
@@ -195,15 +194,15 @@ theorem cauchy_kernel_positive_type {ε : ℝ} (hε : 0 < ε) :
       ∫ t in Ioi (0:ℝ), ε * (Real.exp (-ε*t) * Real.cos ((x i - x j)*t)) =
       ∫ t in Ioi (0:ℝ), ∑ i : Fin n, ∑ j : Fin n, ((starRingEnd ℂ) (c i) * c j).re *
         (ε * (Real.exp (-ε*t) * Real.cos ((x i - x j)*t))) := by
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i _
-      rw [integral_finset_sum]
+      rw [integral_finsetSum]
       · apply Finset.sum_congr rfl
         intro j _
         simp only [integral_const_mul]
       · exact fun j _ => hint i j
-    · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
+    · exact fun i _ => integrable_finsetSum _ fun j _ => hint i j
   rw [hswap]
   -- Step 4: pointwise, the integrand splits into two Gram squares via cos(A−B).
   apply setIntegral_nonneg measurableSet_Ioi

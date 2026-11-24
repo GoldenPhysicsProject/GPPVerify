@@ -39,9 +39,7 @@ theorem magnetic_swap_square_scaled (a b : ℝ) (z : TwoComplexCoords) :
        (a*a+b*b)*z.y, (a*a+b*b)*z.v⟩ := by
   cases z with
   | mk x u y v =>
-    simp [magneticSwap]
-    <;> ring
-    <;> trivial
+    simp [magneticSwap]; ring; trivial
 
 /-- Every unit-phase prime strip exchange has exact square +1. -/
 theorem magnetic_swap_involution (a b : ℝ) (h : a*a+b*b=1)
@@ -63,8 +61,7 @@ theorem magnetic_pairing_components (a b : ℝ) (z : TwoComplexCoords) :
       2*a*(z.x*z.y+z.u*z.v) + 2*b*(z.x*z.v-z.u*z.y) := by
   cases z with
   | mk x u y v =>
-    simp [magneticPairing, magneticSwap]
-    <;> ring
+    simp [magneticPairing, magneticSwap]; ring
 
 /-- A real two-component test sees only Re(η(p))=a, never b=Im η(p). -/
 theorem real_tests_invisible_imaginary_phase (a b x y : ℝ) :

@@ -14,8 +14,6 @@ For every finite set of bases `p>1` and every `Re s>0`, this finite completed lo
 is nonzero. Therefore no nontrivial zeta zero can be a zero of any finite Euler × Gamma
 truncation. The zero mechanism necessarily belongs to the global infinite/analytically
 continued object.
-
-No RH claim is made here.
 -/
 
 namespace GppFiniteCompletedFactor

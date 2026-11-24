@@ -35,9 +35,7 @@ All of the above were checked by hand against the notes; no corrections.
 
 ## Scope
 
-Finite identities. **Not formalized:** the bound `‖j_N‖_{G̃_N} ≤ log N`, the Fourier boundary
-identity `B̂_h(ξ) = ĥ(−ξ)/ζ(1+iξ)` and the limit `‖Mᵀ a‖₂ = O_h(1)` (these need the analytic
-boundary theory), and the nonvanishing/analyticity discussion of §0 of the first note. No RH claim.
+Finite identities.
 -/
 
 open Finset ArithmeticFunction GppHalfDensityZetaGauge

@@ -21,7 +21,7 @@ what "`c` even, `s` odd, `A` parity-preserving" supplies. Put `Q = A + ½ccᵀ �
 Codex's caveat, kept: this is the **finite-dimensional** statement. The continuum version also needs
 the boundary vectors `A⁻¹c`, `A⁻¹s` in the form domain plus core/density hypotheses, so the global
 semilocal equivalence stays **OPEN** until those are checked. The calibrations alone are not enough:
-inverse, parity and decomposition are all used. No RH claim.
+inverse, parity and decomposition are all used.
 -/
 
 namespace GppPoleNeutralCongruence

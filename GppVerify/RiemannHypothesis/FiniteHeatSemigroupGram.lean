@@ -13,9 +13,7 @@ If a heat kernel is a finite positive atomic Laplace sum
 then the additive-semigroup matrix `G_ij = K(t_i+t_j)` is positive semidefinite.
 Indeed it is a sum of weighted rank-one Gram matrices.
 
-This is a one-way finite spectral theorem only.  It does NOT assert that the explicit
-prime--Archimedean arithmetic heat function has such a representation, and therefore
-makes no RH claim.
+This is a one-way finite spectral theorem only.
 -/
 
 namespace GppFiniteHeatSemigroupGram

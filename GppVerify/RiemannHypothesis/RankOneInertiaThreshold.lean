@@ -19,7 +19,7 @@ definite on the hyperplane `c^⊥`. Writing `x = αu + y` with `yᵀc = 0` (`α 
 
 Scope: finite linear algebra. "Positive definite on `c^⊥`" is the hypothesis used, as in
 `RankOneThresholdControls`; its equivalence with "exactly one negative eigenvalue" (Haynsworth) is not
-proved. Nothing here bounds the actual Weil-form Schur scalar, and nothing concerns RH.
+proved.
 -/
 
 open Matrix

@@ -20,20 +20,18 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Front: axioms-physics-to-hypotheses
+      # Front: A1-ode-and-box-ob6 (Discovery 1 front; retargeted 2026-11-17)
       MODULES: >-
-        GppVerify.CelestialHolography.Link6
-        GppVerify.StandardModel.DMAbundance
-        GppVerify.StandardModel.ThreeGenerations
-        GppVerify.GeneralRelativity.Rigidity
-        GppVerify.RHSpectralMultiplicity
+        GppVerify.RiemannHypothesis.RHProofStructure
+        GppVerify.RiemannHypothesis.BoxEventTwo
+        GppVerify.RiemannHypothesis.Ob6CofinalWidths
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install elan
         run: |
-          curl -sSfL \
+          curl -sSfL --retry 5 --retry-all-errors --retry-delay 10 \
             https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz \
             | tar xz
           ./elan-init -y --default-toolchain none

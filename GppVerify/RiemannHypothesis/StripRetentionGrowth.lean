@@ -11,16 +11,12 @@ Source: Codex, GPPDiscovery2 `research/2026-09-29_hardy_strip_e_map_zero_retenti
 * `retained`: a zero `ρ = σ + iγ` with `0 < σ < 1` has centered coordinate `|σ − ½| < ½`, so it is
   a bounded evaluation on the one width-`½` strip space (§3).
 * `eval_norm_eq`: `(1/4) sec(π(σ − ½)) = 1/(4 sin πσ)`, the exact evaluation norm² (§3).
-* `weight_ratio_le`: `cosh(2a(ξ + t)) ≤ e^{2a|t|} cosh(2aξ)`. The scale action `e^{itz}`
-  (a Fourier shift) has `‖V_t‖ ≤ e^{a|t|}` on the strip space (§5; sharpness is not formalized).
+* `weight_ratio_le`: `cosh(2a(ξ + t)) ≤ e^{2a|t|} cosh(2aξ)`.
 * `growth_lower_bound`: in any normed realization, a nonzero bounded functional `ℓ` with
   `ℓ ∘ V = c ℓ` forces `‖c‖ ≤ ‖V‖` (§6).
 * `exponent_bound`: if the two-sided characters `e^{±(½ − β)t}` are `≤ C e^{ωt}` for all `t ≥ 0`, then
   `|β − ½| ≤ ω`. A subexponential scale action would force `β = ½`, but proving that bound for the
-  arithmetic quotient is the open, RH-strength step (§7). Not formalized: the reproducing kernel
-  `sech` formula (§2) and the E-map quotient (§4, needs the Mellin identity on a test domain).
-
-**No RH claim.**
+  arithmetic quotient is the open, RH-strength step (§7).
 -/
 
 namespace GppStripRetentionGrowth

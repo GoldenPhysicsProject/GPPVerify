@@ -30,8 +30,7 @@ basis vector labelled by `S ⊆ P` (the squarefree divisor `d_S = ∏_{p∈S} p`
   `beta_five`: `β₅ = φ⁻²`.
 
 Scope: these are exact finite identities. The note's §7–8 RH programme (a zero-survival map on
-the hypercube) is a target, not a theorem. The infinite-product/sum equivalence for the norm is
-standard and is not formalized here. No RH claim.
+the hypercube) is a target, not a theorem.
 -/
 
 namespace GppPrimeSqrtHypercube
@@ -145,7 +144,6 @@ theorem beta_inv {p : ℝ} (hp : 0 < p) : beta p⁻¹ = -beta p := by
   field_simp
   ring
 
-/-- `β₅ = φ⁻²`, a special identity of the prime `5` (no claim that all primes organise by φ). -/
 theorem beta_five : beta 5 = goldenRatio⁻¹ ^ 2 := by
   have h5 : sqrt 5 ^ 2 = 5 := sq_sqrt (by norm_num)
   have hpos : 0 < sqrt 5 := by positivity

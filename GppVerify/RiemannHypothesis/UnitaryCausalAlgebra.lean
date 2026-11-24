@@ -68,18 +68,16 @@ with `D` having a right inverse) states `0 ≤ 1 − C*C ⟺ 0 ≤ D*D − D₀*
 `isometry_energy_identity`: for an isometry `T` of a complex inner product space,
 `2 Re⟨f, T f⟩ = 2‖f‖² − ‖f − T f‖²`. For the translation `T_y` this is the note's
 `q(f,f)(y) = 2 Re C_f(y) = 2‖f‖² − ‖f − T_y f‖²` (CCM translation-correlation identity), and it
-shows the correlation kernel is a mass term minus a Dirichlet-type energy. The explicit constant
-`κ_R(L)` in the note's Weil functional is not formalized.
+shows the correlation kernel is a mass term minus a Dirichlet-type energy.
 
 ## Scope and reading
 
-Abstract `*`-ring algebra and one normed-space estimate. **Not formalized:** the Hilbert-space
-realizations (the translation group on `L²(ℝ)`, the Hardy space, `T_Θ*T_Θ + H_Θ*H_Θ = I`
-and the equivalences `RH ⟺ K_B = 0 ⟺ V_B` unitary). Those equivalences are statements of
+Abstract `*`-ring algebra and one normed-space estimate.
+ Those equivalences are statements of
 operator theory about infinite-dimensional spaces and need the Hardy-space machinery Mathlib
 lacks. One precision note: the displayed sum `B_P* X B_P − X = Σ_p Q_p` in the first note is correct
 only because translations at different primes commute (this is exactly the hypothesis of
-`defect_mul`); without commutation the defects are conjugated by the later factors. No RH claim.
+`defect_mul`); without commutation the defects are conjugated by the later factors.
 -/
 
 open Complex

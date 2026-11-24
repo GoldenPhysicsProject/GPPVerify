@@ -4,8 +4,8 @@ import Mathlib.Tactic
 # Detector: the Cayley 2×2 gap test sees an off-axis quartet that every 2-node real Pick test misses
 
 Codex (GPP-bridge PR #11, 2026-10-11). With `H(z) = F((2+z)/(1−z)) = ∑ aₙ zⁿ`, `F = ξ'/ξ`, RH is
-equivalent (classical: Carathéodory one way, radius of convergence + reflection the other; **not
-formalised here**) to `|aₙ| ≤ 2a₀` for all `n ≥ 1`, i.e. every 2×2 *gap-n Toeplitz* matrix
+equivalent (classical: Carathéodory one way, radius of convergence + reflection the other)
+to `|aₙ| ≤ 2a₀` for all `n ≥ 1`, i.e. every 2×2 *gap-n Toeplitz* matrix
 `[[2a₀, aₙ],[aₙ, 2a₀]]` is PSD. This file certifies the exact finite part for Astra's synthetic quartet
 (spectral zeros `½ ± 1/5 ± 14i`), which passes **all** 2-node real Pick tests
 (`GppNoGo.TwoNodePick.twoNode_pos`).

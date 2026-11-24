@@ -14,8 +14,7 @@ prime power. Pairing this discrete source with the real principal-series wave
 
   x |-> cos(tau x)
 
-therefore gives an exact finite superposition of oscillatory responses. This file records
-that layer only; it takes no infinite limit and makes no claim about zeta-zero support or RH.
+therefore gives an exact finite superposition of oscillatory responses.
 -/
 
 namespace GppArithmeticPrimeWaveParticle

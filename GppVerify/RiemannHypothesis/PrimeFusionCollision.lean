@@ -14,9 +14,6 @@ vectors. Every prime occupation number is therefore an exactly conserved collisi
 The quadratic collision form is a sum of nonnegative squares. In particular every prime
 count is a null direction. This is the elementary H-theorem part of the proposed
 Euler-product / collision-invariant dictionary.
-
-No claim is made here that this collision form equals the completed Weil form, and there is
-no RH claim.
 -/
 
 namespace GppPrimeFusionGas
@@ -54,7 +51,7 @@ def primeCountR (p : ℕ) (f : PrimeOccupation) : ℝ := (primeCount p f : ℝ)
 
 theorem primeCountR_fuse (p : ℕ) (f g : PrimeOccupation) :
     primeCountR p (fuse f g) = primeCountR p f + primeCountR p g := by
-  simp [primeCountR, primeCount, primeCount_fuse]
+  simp [primeCountR, primeCount]
 
 /-- Collision defect of an arbitrary scalar observable. -/
 noncomputable def collisionDefect (H : PrimeOccupation → ℝ) (f g : PrimeOccupation) : ℝ :=

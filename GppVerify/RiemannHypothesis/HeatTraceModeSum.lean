@@ -61,7 +61,7 @@ theorem completelyMonotone_heatTrace {ι : Type*} (s : Finset ι) (m γ : ι →
     CompletelyMonotone (fun t => ∑ i ∈ s, m i * Real.exp (-(γ i ^ 2) * t)) := by
   classical
   induction s using Finset.induction with
-  | empty => intro n t _; simp [CompletelyMonotone, iteratedDeriv_const]
+  | empty => intro n t _; simp 
   | insert a s ha ih =>
       intro n t ht
       have hhead := completelyMonotone_heatMode (hm a (Finset.mem_insert_self a s))

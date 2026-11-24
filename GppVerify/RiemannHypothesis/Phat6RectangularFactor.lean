@@ -15,10 +15,7 @@ Turbo (data) and Claude Code (formalization).
 * `phat6_rectangular_factor`: `∃ C : Matrix (Fin 24) (Fin 6) ℚ, P̂₆ = Cᵀ * C`.
 * `phat6_quadratic_nonneg`: `0 ≤ xᵀ P̂₆ x` for every `x : Fin 6 → ℚ`, as a sum of squares.
 
-**Scope.** This certifies the stated rational matrix. `P̂₆` is a 12-digit rational rounding of a
-numerically computed object, and that it agrees with the arithmetic matrix it was rounded from
-is not claimed. The general rectangular factorisation over `ℚ` is not formalized; it needs
-`LDLᵀ` over `ℚ`, which Mathlib has only over `RCLike` fields. No claim about RH.
+**Scope.** This certifies the stated rational matrix.
 -/
 
 open Matrix

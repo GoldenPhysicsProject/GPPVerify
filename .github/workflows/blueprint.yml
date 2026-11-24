@@ -33,15 +33,27 @@ jobs:
   build-blueprint:
     name: Build blueprint
     runs-on: ubuntu-latest
+    # A stalled apt mirror hung this job for 40+ minutes four times on 2026-11-06/07;
+    # fail fast instead so the run can be retried.
+    timeout-minutes: 30
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install system dependencies
+        timeout-minutes: 15
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y graphviz libgraphviz-dev python3-pip \
-            texlive-latex-extra texlive-fonts-extra latexmk
+          APT_OPTS="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30"
+          for attempt in 1 2 3; do
+            if sudo apt-get $APT_OPTS update -qq && \
+               sudo apt-get $APT_OPTS install -y graphviz libgraphviz-dev python3-pip \
+                 texlive-latex-extra texlive-fonts-extra latexmk; then
+              exit 0
+            fi
+            echo "apt attempt $attempt failed; retrying in 20s"
+            sleep 20
+          done
+          exit 1
 
       - name: Install leanblueprint
         run: pip3 install leanblueprint

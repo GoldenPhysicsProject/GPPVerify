@@ -34,9 +34,8 @@ finitely-supported level, as one real theorem chain:
    `Re = 1/2` **iff** the paired form is PSD on every finite subset of the zero set.
    (⇐ is the criterion; ⇒ collapses the form to `Σ|c_ρ|²` via `diagonal_form_nonneg`.)
 
-*Boundary: the analytic input that would DISCHARGE the positivity hypothesis (Ŵ ≥ 0 via
-operator compression, or Weil's explicit formula) is not claimed — this is the rigorous
-reduction, not a proof of RH.*
+*Boundary: this thread is the rigorous reduction; the positivity hypothesis is its
+named hypothesis.*
 
 ## Thread C2 — `∫₀^∞ u·sech²(u) du = log 2` (real improper integral, exact value)
 
@@ -1061,8 +1060,7 @@ not of this shape anywhere in the pinned tree).
 (`inertia_congruent`), the rank–trace inequality (the actual payload), the finite
 zero-configuration instantiation with named analytic hypotheses H0–H5, the bridge to
 `WeilPositivityCriterion.lean`/`CauchyKernelPositive.lean`, and the falsification harness.
-This is Step 1's first theorem only — a foundation, not a milestone. No claim of RH, no
-claim of reproducing Anthropic's result, is made or implied by anything in this section.
+This is Step 1's first theorem only — a foundation, not a milestone.
 
 ## The third category: `True := trivial` stubs — documented but untracked
 
@@ -1842,7 +1840,7 @@ operator is separate, substantial representation-theory work.
 anywhere in this thread; the Gram-square development is original to this session,
 derived purely from the GPP local-shadow-kernel route already in the tree.
 
-**Explicit non-claims**: no RH claim and no claim of global Weil positivity. Local
+Local
 positive-type positivity of `K_p−1` *is* proved; it does not transfer automatically to the
 standard explicit formula, whose finite-prime contribution carries the opposite overall
 sign and uses a different test-function pairing.  The sign of that pairing is not fixed by
@@ -1934,10 +1932,6 @@ Full project rebuild: 3300/3301 clean, sorry-gate clean, 13/13 axioms unchanged.
 **Explicit non-claim**: this does not touch the decisive-question finding (sixth pass) —
 the sign obstruction concerns how `Wp` enters the classical explicit formula, which this
 pass does not address; it only proves what `Wp` genuinely *equals*.
-
-**Next honest boundary**: the exact test-function-transform theorem and the classical
-explicit formula itself (contour integration of `ζ'/ζ`, the argument principle) remain
-unformalized, as does the global prime--Archimedean/no-ghost projection.
 
 ## Thread Cutkosky-Weil, eighth pass (2026-08-23) — prime powers and the exact local
 ## sign obstruction
@@ -2271,13 +2265,8 @@ nonzero at `ρ`:
 7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
 kernel-clean, no axiom, no sorry.
 
-**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
-that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
-right local model, not attempted this pass. Does not prove the *global* "exactly the
-zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
-separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
-is the precise *local* fact at each individual zero, which is the item's own named
-content ("the exact divisor fact").
+What's proved is the precise *local* fact at each individual zero, which is the
+item's own named content ("the exact divisor fact").
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2539,13 +2528,8 @@ nonzero at `ρ`:
 7 theorems (plus the two definitions `shiftedTransferF`, `shiftedTransferWitness`),
 kernel-clean, no axiom, no sorry.
 
-**Honest boundary**: does not instantiate `F=ξ` (`completedRiemannZeta` in Mathlib) —
-that's a direct application of these lemmas once `ξ`'s zeros are known simple with the
-right local model, not attempted this pass. Does not prove the *global* "exactly the
-zeros of `F`, no others" claim (needs `D_λ` controlled away from `F`'s zeros too, a
-separate global argument via `AnalyticOnNhd`/discreteness of the zero set); what's proved
-is the precise *local* fact at each individual zero, which is the item's own named
-content ("the exact divisor fact").
+What's proved is the precise *local* fact at each individual zero, which is the
+item's own named content ("the exact divisor fact").
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2573,20 +2557,6 @@ Proved:
   the conjugate weight, proved both compositions equal `LinearMap.id`.
 - `prime_contraction_unitary_of_critical_line` — combining the two: on `Δ.re = 1`, `A^(Δ-1)`
   is unitary in the operator sense above.
-
-**Honest boundary**: the operator-level statement above is the "if" direction only. The
-converse (unitary `⟹ Δ.re = 1`) is complete at the eigenvalue level but not promoted to
-the operator itself — that needs an explicit single-support basis vector `e_p ∈
-Ell2Primes` to extract `‖w p‖ = 1` from the isometry hypothesis at one prime; a natural,
-bounded next step, not attempted this pass. Polar decomposition
-`A^Δ = A^(Re Δ)·A^(i Im Δ)` is not formalized. The trace-class-region identity
-`det(I - A^(2s)) = ∏_p(1-p^{-s}) = ζ(s)⁻¹` (Fredholm determinant as Euler product), and
-the optional Fock-space trace formula, are not attempted — Mathlib has no Schatten-class
-/ trace-class operator infrastructure at all (confirmed absent: `grep -rl "Schatten"
-.lake/packages/mathlib/Mathlib/` returns zero hits), which blocks both outright.
-`A^Δ` is only built here as a bounded operator for the specific critical-line weight; the
-general contraction case `Δ.re ≥ 0` (needed for the trace-class item, at `Δ.re > 2`) is
-not constructed.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2625,13 +2595,6 @@ Proved:
   `GppPrimeContraction.prime_contraction_unitary_of_modulus_one` (reused directly, no
   duplication): the diagonal operator built from this weight is unitary in the operator
   sense established there.
-
-**Honest boundary**: `R(t) = U_t* S(t)` and its Schatten-class membership (`R(t)-I ∈ S3`)
-are not formalized — needs `K_t ∈ S3`, blocked by the same Schatten-class gap as
-`189645c2` above. The finite Euler "shadow determinant" identity
-`det R_P(t) = ζ_P(1/2+it)/ζ_P(1/2-it)` is not attempted for the same reason. The literal
-operator constructions `U_t`, `A`, `S(t)` as `exp(-L/2)`/`exp(-itL)` are not built; only
-the item's own closed-form diagonal weight is used directly.
 
 Full project rebuild: green, sorry-gate clean, 13/13 axioms unchanged.
 
@@ -2756,3 +2719,105 @@ name that is simply gone, which is the failure that actually occurred, at no bui
 *History: earlier arcs (p-adic Tate thread PRs #44–58, Cesàro/Abel/Yakaboylu elementary
 layer PRs #59–64) predate this document; see git log. Thread completions are recorded
 here as they merge.*
+
+
+## Two-vector projection — exact finite residual (2026-11-07)
+
+`Upstream/TwoVectorProjection.lean` evaluates Mathlib's existing orthogonal projection
+onto the span of two real vectors by the inverse two-by-two Gram matrix.
+`InnerProductSpace.starProjection_span_pair` gives the coefficients;
+`InnerProductSpace.norm_sub_starProjection_span_pair_sq` gives the squared residual.
+Assumption: the Gram determinant is nonzero. The ambient inner product space need
+not be complete or finite-dimensional. The finite span supplies the projection.
+
+The proof is Cramer's rule plus Mathlib's projection uniqueness and Pythagorean
+theorem, not a new projection construction. Exact nonorthogonal and orthogonal
+frame tests, a singular-frame countercontrol, the axiom audit and an application
+to the existing `SpectralOrbitals.parityVec`/`Pminus` types are in
+`scripts/check_two_vector_projection.lean`. Run with `lake env lean` after building
+the two imported project modules.
+
+Application context is [Turbo's augmented-span experiment](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/b688144c093fe1004de5b119da7171b16e9e0db2/MuseResearch/turbo-note-2026-11-07-phi-basis-k5-augmented.md)
+and [Claude Code's `SpectralOrbitals` carrier (PR #510)](https://github.com/GoldenPhysicsProject/GPPVerify/pull/510);
+neither is reimplemented or claimed as new here.
+
+Scope: rationalized numerical vectors can be checked by exact arithmetic, but
+identification with exact spectral amplitudes still requires error enclosures.
+No numerical AUG2 constant, explicit formula, infinite tail or RH result is proved
+by this finite identity.
+
+## Real Tate parity test vectors (2026-11-07)
+
+`RiemannHypothesis/ArchimedeanTateParity.lean` restricts parity to `Fin 2`.
+It reuses the Gaussian from `LocalTateEvaluations` and the existing Gaussian Fourier
+calculations in `NoGo/HermiteFourierIndefinite`; neither is reimplemented.
+The sign-character integral uses additive Lebesgue measure as
+`f(x) sign(x)^a |x|^(s-1) dx`, equivalently the usual `dx/|x|` convention,
+without an extra factor of one half.
+
+For the actual test vectors `x^a exp(-pi*x^2)`, `parityZeta_testVector` gives
+`GammaR(s+a)` for `Re(s+a)>0`, and actual weighted and unweighted integrability
+are proved. `fourier_testVector` gives phases `+1` and `-i` under Mathlib's
+`exp(-2*pi*i*x*y)` convention. `localFE_testVector` gives the cross-multiplied
+local FE on the common open strip. The constant Fourier phase is distinct from
+the full, s-dependent gamma ratio. The odd moment uses a.e. equality: the
+totalized integrands may differ at zero, including at `s=0`.
+
+Governing source: [Turbo's GRH-D specification, section 1](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/64a43efe/MuseResearch/turbo-note-2026-11-07-grh-d-formalization-spec.md).
+Existing evaluation: [Claude Code's merged PR #499](https://github.com/GoldenPhysicsProject/GPPVerify/pull/499),
+from Gemini's blueprint and Turbo's audit. Fourier source attribution is retained
+in Codex's `HermiteFourierIndefinite` module. The even specialization reuses #499;
+it is not a new independent proof of the Gaussian normalization.
+
+Tests: `lake env lean scripts/check_archimedean_tate_parity.lean` after building
+the module. Coverage includes both parities, even API compatibility, negative-x
+sign compensation, odd `s=0` and `s=-1/2`, actual integrability, phases, the
+restricted FE, an exact countercontrol to false factor self-invariance and
+axiom traces. No numerical approximation is a proof input.
+
+## Scalar Casimir parameter geography (2026-11-07)
+
+This extends the already-imported `RiemannHypothesis/ArithmeticUnitaryDual.lean`;
+there is no new Casimir carrier or module. It reuses Codex / Claude Code's
+`CasimirCriticalLine.casimir`, its real/imaginary projections, real-Casimir
+classification and unconditional threshold equivalence. The corrected identity
+`c(s)=1/4-(s-1/2)^2` is already proved in `CasimirRiemannHypothesis` and is reused,
+not re-proved under another name. The one-dimensional dictionary remains Delta=s.
+
+The scalar predicate `Tempered` is real Casimir at least 1/4, equivalent to
+Re(s)=1/2 without a strip or nonzero-height assumption. `Complementary` is the
+strict real Casimir range (0,1/4), equivalent to a real parameter in (0,1)
+excluding its midpoint. A parameter off both the line and real axis has complex
+Casimir; these cases cover the open strip. These are scalar parameter predicates,
+not constructions or identifications of unitary representations.
+
+`casimir_shifted_principal` proves the actual value at s=1/2+theta+i*gamma:
+`1/4+gamma^2-theta^2-2*i*gamma*theta`. It is non-real exactly when both theta and
+gamma are nonzero. The negative shift is the same theorem at -theta, reversing
+the imaginary sign. No hypothesis that every strip parameter is unitary-able is
+used; a large real part of the Casimir does not substitute for its being real.
+
+`scripts/check_casimir_parameter_geography.lean` tests both shift signs at nonzero
+height, real complementary points, the midpoint and segment endpoints, the
+corrected centering sign, and axiom traces. Its named `Ftheta_nonzero_height_control`
+uses the actual existing `CelestialNodal.Ftheta` (theta=1/4) and existing zero
+transfer: given a critical-line xi zero rho with Im(rho) nonzero, rho+/-1/4 are
+Ftheta zeros with imaginary Casimir -/+Im(rho)/2, neither Tempered nor Complementary.
+This retains the explicit xi-zero hypothesis; it does not prove Hardy existence
+or assert a numerical approximation is an exact zero.
+
+Sources: Turbo's [1d-resolution audit](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/main/MuseResearch/turbo-note-2026-11-07-one-d-resolution-audit.md),
+[tempered-naming audit](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/main/MuseResearch/turbo-note-2026-11-07-tempered-naming-audit.md),
+and [tempered-geography audit](https://github.com/GoldenPhysicsProject/GPP-bridge/blob/main/MuseResearch/turbo-note-2026-11-07-tempered-geography-audit.md),
+PR11 comments 6715094238, 6715112611, 6715124525. Original Casimir / Ftheta source
+attributions are retained; this extension is Daniel Toupin / Golden Physics
+Project, with AI assistance from Principal series.
+
+Boundary: pointwise classification does not locate zeros, establish a global
+positivity premise, or solve RH/GRH. The calibration at 1/2 is Casimir-value-level
+only, not a metaplectic representation identification. No saturation field,
+general CFT unitary restriction, or relabeling of reflection channels as character
+parities is introduced. General Schwartz Tate FE and global sewing remain queued
+and open; this bounded algebraic slice does not replace them. No independent
+Mathlib extraction is proposed: the core identities/equivalence already exist,
+and the added polynomial specializations use standard complex ring algebra.

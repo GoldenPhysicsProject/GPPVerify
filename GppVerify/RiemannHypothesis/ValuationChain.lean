@@ -17,11 +17,6 @@ Source: Codex, GPPDiscovery2 `research/2026-09-28_prime_valuation_chain_product_
 ## Checks and scope
 
 Both claims check. `valuation_gram` is the `d = p^a`, `e = p^b` case of `GppSelfDualDivisor.gram_eq`.
-**Not formalized:** the tridiagonal inverse (precision) matrix of `r^{|a−b|}` and its first-order
-factorization `(I − rS)(I − rS^*)/(1 − r²)` (§3), Fourier as valuation reflection `a ↦ K − a`
-(this is `GppFiniteSubgroupFourier.fourier_subgroup_state` for `d = p^a`, `M = p^{K−a}`, up to the
-cast `p^a · p^{K−a} = p^K`), the CRT tensor factorization, and the product-formula sewing to the
-Archimedean place (§§5 onward). No RH claim.
 -/
 
 open GppSelfDualDivisor

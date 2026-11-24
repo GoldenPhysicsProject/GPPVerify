@@ -74,7 +74,7 @@ def minkowskiQ (v : R4) : ℝ :=
 theorem det_hermitianVec (v : R4) :
     detC2 (hermitianVec v) = (minkowskiQ v : ℂ) := by
   rcases v with ⟨t,x,y,z⟩
-  simp [detC2, hermitianVec, minkowskiQ, Complex.I_mul_I]
+  simp [detC2, hermitianVec, minkowskiQ]
   ring_nf
   rw [Complex.I_sq]
   ring

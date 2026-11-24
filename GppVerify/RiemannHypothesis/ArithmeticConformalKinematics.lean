@@ -97,7 +97,7 @@ theorem principal_logScaleCharacter_norm (tau x : ℝ) :
 /-- Arithmetic shadow reverses the one-dimensional spectral momentum `tau`. -/
 theorem shadow_principalParameter (tau : ℝ) :
     1 - principalParameter tau = principalParameter (-tau) := by
-  apply Complex.ext <;> simp [principalParameter] <;> ring
+  apply Complex.ext <;> simp [principalParameter]; ring
 
 /-- Hence shadow exchanges the principal scale mode with its inverse. -/
 theorem shadow_principal_logScaleCharacter (tau x : ℝ) :

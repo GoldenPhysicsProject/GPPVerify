@@ -24,8 +24,7 @@ form `c = s(1−s) = ¼ − (s − ½)²` already in GPPVerify, to **Mathlib's o
 Codex's note audits the May 2026 paper "The Shadow Euler Identity". It observes that the product
 over positive ordinates `∏_{γ>0} (1 + z²/γ²)` presupposes RH, and that the unconditional
 object is the genus-zero product in `u = (s − ½)²`. That audit is correct, and is why the
-Casimir/centered-square variable is the right coordinate. The genus-zero (Hadamard) product
-itself is not formalized here.
+Casimir/centered-square variable is the right coordinate.
 
 The **parallel-sum identity** (`parallel_sum_energy_identity`, `parallel_sum_lower_bound`,
 `parallel_sum_attained`) is ported from Codex's checker with attribution. It is the scalar

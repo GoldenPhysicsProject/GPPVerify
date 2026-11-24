@@ -34,8 +34,7 @@ This file certifies the exact elementary statements the construction rests on.
   not prevent the gap from closing (Codex).
 
 Scope: this is a **free** (noninteracting) field theory. Its gap `log 2` is the lightest prime
-mass, put in by hand. It is not a Yang–Mills mass gap, not a QFT construction theorem in
-Lean, and it says nothing about RH.
+mass, put in by hand.
 -/
 
 namespace GppPrimeBulkFreeField

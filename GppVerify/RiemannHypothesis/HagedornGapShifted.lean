@@ -16,7 +16,7 @@ The Dirichlet part of the shifted control `F_θ = ξ(s − θ) ξ(s + θ)` is `�
 So the gap `σ_H − ½` is `½ + θ` for `F_θ` versus `½` for ζ. This is temperedness (`|α_p| ≤ 1`)
 restated as gas stability. It is not a positivity statement. The Davenport–Heilbronn function has
 bounded coefficients and `σ_H = 1`, so it passes this test: DH is caught by `Λ ≥ 0`
-(`ShiftedFisherKernelNoGo`), not here. **No RH claim.**
+(`ShiftedFisherKernelNoGo`), not here.
 -/
 
 namespace GppHagedornGapShifted

@@ -18,8 +18,7 @@ for the RH program:
 
 Thus quotient-level reflection symmetry is too weak to eliminate the Nyman--Burnol ghost
 space.  A proof of RH must instead annihilate the boundary defect (or lift the symmetry to
-the ambient causal Hardy dynamics).  No claim is made here that this finite carrier is the
-actual Nyman model space.
+the ambient causal Hardy dynamics).
 -/
 
 namespace GppFiniteModelSpaceReflectionNoGo

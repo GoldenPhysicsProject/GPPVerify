@@ -26,9 +26,8 @@ Results:
 
 **Scope, honestly.** Finite volume and finite spin truncation; electric
 sector only (no magnetic/plaquette term); the continuum and
-infinite-volume limits are NOT addressed. This is the finite Peter–Weyl
-discreteness that the mass-gap problem asks to *survive* a limit — the
-limit itself remains open. **No Yang–Mills mass-gap claim.**
+infinite-volume limits are NOT addressed.
+ **No Yang–Mills mass-gap claim.**
 
 Epistemic label: **LEAN-CHECKED** (kernel, zero `sorry`, standard axioms only).
 -/
@@ -107,7 +106,7 @@ theorem linkEnergy_gap {J : ℕ} {g : E → Spin J} (hg : g ≠ 0) :
     3 / 4 ≤ linkEnergy g := by
   obtain ⟨e, he⟩ : ∃ e, g e ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hg (funext h)
   have hval : (g e).val ≠ 0 := fun hv => he (Fin.ext hv)
   unfold linkEnergy

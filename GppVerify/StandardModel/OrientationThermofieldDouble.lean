@@ -28,8 +28,7 @@ positive energies when E0,E1>=0.  The two factors also have identical marginal B
 `(|a|^2,|b|^2)`.
 
 For thermal coefficients `a_n ∝ exp(-beta E_n/2)` this is the usual thermofield-double
-mechanism.  We do not formalize the exponential/KMS theorem here; the exact finite algebra
-below is the load-bearing orientation statement.
+mechanism.
 
 This supplies a mathematically cleaner candidate for the phrase "both temporal orientations
 are present in one global state" than treating every ordinary Dirac particle as a hidden

@@ -22,10 +22,9 @@ vector, hence bounded; and `|c_k| e^{Re λ_k s}` bounded forces `Re λ_k ≤ 0`.
 
 ## Scope
 
-A finite-sum lemma. The *infinite* sums over zeros in the RH criteria need an additional approximation step
-(which is where Landau's lemma and the positivity of the coefficients enter), and nothing here locates a zero
-of zeta. A one-sided bound with real exponents and a negative coefficient is **not** enough (`−e^s ≤ 0`), which
-is why the lemma bounds the norm. No RH claim.
+A finite-sum lemma.
+ A one-sided bound with real exponents and a negative coefficient is **not** enough (`−e^s ≤ 0`), which
+is why the lemma bounds the norm.
 -/
 
 open Complex Matrix Real
@@ -122,7 +121,7 @@ theorem bounded_exp_sum_re_nonpos (c l : Fin n → ℂ) (hc : ∀ k, c k ≠ 0)
       exact (hC _).trans (mul_le_mul_of_nonneg_left hF hCpos.le)
     have h2 : ‖b k‖ ≤ ‖b‖ := norm_le_pi_norm b k
     have h3 : ‖b k‖ = ‖c k‖ * Real.exp ((l k).re * s) := by
-      simp [hb, norm_mul, Complex.norm_exp]
+      simp [hb, Complex.norm_exp]
     linarith
   -- contradiction with `Re l_k > 0`
   have hck : 0 < ‖c k‖ := norm_pos_iff.mpr (hc k)

@@ -63,12 +63,7 @@ Fourier transform of `sech`.
 
 ## Scope
 
-Local identities only. **Not formalized:** the SU(1,1) Lie-algebra representation on the doubled
-oscillator, the Jacobi transform `U` and its generating function (the series
-`Σ P_n z^n` of the orthonormal polynomials), the secant moment integral, the Fisher-metric
-statement `d_H = √2 D_F`, the Euler-product statement
-`|ζ(σ+it)|²/ζ(2σ) = ∏_p P_{p^{-σ}}(t log p)`, and the adelic sewing (the note's open global
-target). No RH claim.
+Local identities only.
 -/
 
 open Complex
@@ -165,7 +160,7 @@ theorem cpow_polar (p σ t : ℝ) (hp : 0 < p) :
 
 lemma zp_ne_zero (p : ℝ) (hp : 0 < p) (s : ℂ) : (p : ℂ) ^ ((1 / 2 : ℂ) - s) ≠ 0 := by
   rw [Ne, Complex.cpow_eq_zero_iff]
-  push_neg
+  push Not
   intro h; exact absurd h (by exact_mod_cast hp.ne')
 
 /-- **The local Euler transfer is a Blaschke automorphism.** For `z = p^{1/2−s}` and

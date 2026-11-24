@@ -116,7 +116,7 @@ theorem stripIntegrand_section_eq_Icc_indicator
       apply hstrip
       have hx3' : 0 ≤ x3 ∧ x3 ≤ 1 - x1 - x2 := by
         simpa only [Set.mem_Icc] using hx3
-      simp only [innerSimplexStrip, Set.mem_setOf_eq]
+      simp only [innerSimplexStrip, Set.mem_ofPred_eq]
       constructor
       · exact hx3'.1
       · linarith [hx3'.2]

@@ -78,15 +78,15 @@ theorem integral_gram_eq_feature_normSq
         = ∫ x : ℝ in s, ∑ i : Fin n, ∑ j : Fin n,
             ((starRingEnd ℂ) (c i) * c j).re *
               defectIntegrand q (a i) (a j) x := by
-          rw [integral_finset_sum]
+          rw [integral_finsetSum]
           · apply Finset.sum_congr rfl
             intro i _
-            rw [integral_finset_sum]
+            rw [integral_finsetSum]
             · apply Finset.sum_congr rfl
               intro j _
               rw [integral_const_mul]
             · exact fun j _ => hint i j
-          · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
+          · exact fun i _ => integrable_finsetSum _ fun j _ => hint i j
     _ = ∫ x : ℝ in s,
           density q x *
             Complex.normSq (∑ i : Fin n, c i * (feature (a i) x : ℂ)) := by

@@ -29,11 +29,6 @@ This file proves the exact, non-probabilistic steps:
   too: `Γ(9/4) = (5/4) Γ(5/4)` and `(63/4)/(15/4) · 5/4 = 21/4`.
 
 ## Scope
-
-Not formalized: the BPY Gamma field, the first-chaos coefficients `b_r` and their positivity,
-the integral representation of `b_r`, the convexity (Jensen) step, the BPY Mellin identity
-`E Q^{s/2} = 2ξ(s)` that turns `E_ν T` into `(3/4) ξ(9/2)/ξ(5/2)`, and the inequality
-`ζ(9/2) < ζ(5/2)`. The note makes no RH claim, and none is made here.
 -/
 
 namespace GppCriticalBPYCoercivity

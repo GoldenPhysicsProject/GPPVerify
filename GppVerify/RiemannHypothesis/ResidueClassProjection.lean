@@ -19,8 +19,8 @@ projections are `E_a = φ(q)⁻¹ Σ_ψ ψ(a)⁻¹ M_ψ`.
   `s = 1 + 2 Re z` this is Grok's `‖E_a e_z‖²` formula.
 
 Grok's own correction stands: the class norms are **not** equal at finite `z` (at `q = 5`,
-`s = 1.3` they are `1.44634, 0.82367, 0.63484, 0.54187`, reproduced independently). Only
-`ε‖E_a e_z‖² → 1/q` as `ε → 0⁺` (not formalized). No positivity content. **No RH claim.**
+`s = 1.3` they are `1.44634, 0.82367, 0.63484, 0.54187`, reproduced independently).
+ No positivity content.
 -/
 
 namespace GppResidueClassProjection

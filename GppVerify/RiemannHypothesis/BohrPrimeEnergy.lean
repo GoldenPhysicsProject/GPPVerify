@@ -22,12 +22,11 @@ finiteness above `½` is a statement about absolute convergence, not about zeros
 
 Also (`hilbert_current_iff`, `scalar_summable_iff`; Codex's 2026-09-28 slit-holomorphy note): the
 `ℓ²` prime-power current `J(z)` lies in Hilbert space iff `Re z > 0`, while the scalar `ℓ¹`
-Euler current converges absolutely iff `Re z > ½`. Vector-valued holomorphy is not formalized.
+Euler current converges absolutely iff `Re z > ½`.
 
 `compTerm_eq`, `compensation_critical_not_summable` (Bohr note §3): no fixed Poisson compensation
 `I − P_δ` makes the critical energy finite. **Correction:** the compensated energy is
 `B(σ) − 2B(σ+δ/2) + B(σ+δ)`; the note's `B(σ) − 2B(σ+δ) + B(σ+2δ)` has the shifts off by a factor `2`.
-**No RH claim.**
 -/
 
 namespace GppBohrPrimeEnergy

@@ -78,7 +78,7 @@ theorem equilibrium_response_re_zero
     rw [hconj] at hreflect
     exact hreflect
   have hre := congrArg Complex.re hanti
-  simp [RCLike.star_def, Complex.conj_re] at hre
+  simp [Complex.conj_re] at hre
   linarith
 
 end GppThermalCriticalLine

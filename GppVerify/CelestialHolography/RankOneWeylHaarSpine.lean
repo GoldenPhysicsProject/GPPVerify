@@ -83,7 +83,7 @@ theorem cartan_preserves_omega
     omega (cartanAct b u) (cartanAct b v) = omega u v := by
   rcases u with ⟨x,p⟩
   rcases v with ⟨y,q⟩
-  simp [omega, cartanAct, hb]
+  simp [omega, cartanAct]
   field_simp [hb]
 
 /-- The lower-unipotent root action in state coordinates. -/

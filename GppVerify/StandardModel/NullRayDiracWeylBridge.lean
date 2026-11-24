@@ -90,8 +90,8 @@ theorem L_rayToGrassmannianElliptic (u : RayState) :
   ext i
   fin_cases i <;>
     simp [rayToGrassmannianElliptic, act2, rayWeyl, L,
-      eSigma3, eSigma1, Matrix.mulVec, Fin.sum_univ_four, dotProduct, Matrix.vecHead, Matrix.vecTail,
-      Complex.I_sq] <;>
+      eSigma3, eSigma1, Matrix.mulVec, Fin.sum_univ_four, dotProduct, 
+      ] <;>
     ring_nf <;> simp [Complex.I_sq] <;> ring
 
 /-- After one fixed phase choice, the Dirac quarter-cycle is exactly the same Weyl action. -/
@@ -101,9 +101,9 @@ theorem Uq_rayToDirac (u : RayState) :
   ext i
   fin_cases i <;>
     simp [rayToDirac, act2, rayWeyl, Uq,
-      Matrix.mulVec, Fin.sum_univ_two, Complex.I_mul_I, dotProduct, Matrix.vecHead,
-      Matrix.vecTail] <;>
-    ring_nf <;> simp [Complex.I_sq] <;> ring
+      Matrix.mulVec, Fin.sum_univ_two, dotProduct, 
+      ];
+    ring_nf; simp [Complex.I_sq] <;> ring
 
 /-- The Grassmannian quotient restricted to the elliptic ray plane is exactly twice the
 phase embedding into the Dirac carrier. -/
@@ -113,8 +113,8 @@ theorem Phi_rayToGrassmannianElliptic (u : RayState) :
   ext i
   fin_cases i <;>
     simp [rayToGrassmannianElliptic, rayToDirac, Phi,
-      eSigma3, eSigma1, Matrix.mulVec, Fin.sum_univ_four, dotProduct, Matrix.vecHead, Matrix.vecTail,
-      Complex.I_sq] <;>
+      eSigma3, eSigma1, Matrix.mulVec, Fin.sum_univ_four, dotProduct, 
+      ] <;>
     ring_nf <;> simp [Complex.I_sq] <;> ring
 
 /-- The complete triangle commutes on every null-ray state. -/

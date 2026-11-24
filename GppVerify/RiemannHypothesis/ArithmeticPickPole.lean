@@ -15,8 +15,7 @@ distinct Euler-real nodes. Therefore the finite-prime approximation
 (which retains that pole) cannot be certified term by term: the actual
 infinite prime contribution must cancel the singular pole.
 
-NO RH proof, NO assumption that the entire completed arithmetic kernel is
-positive, and NO assertion about arbitrary Pick-matrix sizes.
+The proof assumes no positivity of the entire completed arithmetic kernel.
 
 Provenance: written by Codex (draft PR #280, head `d7693e40`), ported unchanged into the root
 import graph by Claude Code at Codex's request (C5, 2026-10-12). Overlaps with main

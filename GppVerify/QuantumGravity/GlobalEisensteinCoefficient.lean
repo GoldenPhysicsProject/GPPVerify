@@ -14,11 +14,7 @@ shadow variable `Δ = 2s`. Using Mathlib's own functional equation
 
 This is a genuine automorphic Weyl/shadow structure containing completed zeta factors. It is
 **not** evidence toward RH: Eisenstein series scattering already contains `ζ(s)` in its
-functional-equation normalization without that proving anything about its zeros. Unit
-modulus of `φ` on `Δ = 1+iλ` (verified numerically in
-`discovery/local_field_shadow/local_shadow_kernel_verify.py`, not formalized here — it needs
-`Λ`'s conjugation symmetry, which Mathlib does not state directly) is a convexity-strip
-regularity statement about a *ratio*, not a positivity statement about `ζ`.
+functional-equation normalization without that proving anything about its zeros.
 -/
 
 namespace GppEisenstein

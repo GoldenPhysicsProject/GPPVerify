@@ -30,11 +30,11 @@ four exact claims, all proved here.
 
 ## Scope
 
-`X` is constructed as a function. That it is entire (via the even Taylor series) is not
-formalized. §3–§4 are statements about complex numbers. RH would follow from them only after
+`X` is constructed as a function.
+ §3–§4 are statements about complex numbers. RH would follow from them only after
 constructing, without zero data, a self-adjoint `C_phys ≥ ¼` whose spectral determinant is `ξ`.
 That construction is exactly the open problem, as the note says. The finite-dimensional §5
-identity does not supply it. This file makes no RH claim, and neither does the note.
+identity does not supply it.
 -/
 
 open Complex
@@ -107,7 +107,7 @@ theorem casimir_root (c : ℂ) :
   linear_combination -h
 
 /-- **§1: `ξ` factors through the Casimir.** There is a function `X` with `ξ(s) = X(s(1−s))`.
-(That `X` is entire is not formalized here.) -/
+-/
 theorem xi_factors_through_casimir :
     ∃ X : ℂ → ℂ, ∀ s, xi s = X (casimir s) := by
   refine ⟨fun c => xi (1 / 2 + (1 / 4 - c) ^ ((2 : ℕ)⁻¹ : ℂ)), fun s => ?_⟩

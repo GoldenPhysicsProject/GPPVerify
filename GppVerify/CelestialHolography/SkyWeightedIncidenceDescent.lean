@@ -45,7 +45,7 @@ theorem framed_pullback_is_weightedSkyBasic
     (sigma : M → K) :
     WeightedSkyBasic point frame (fun u => frame u * sigma (point u)) := by
   intro u v huv
-  simp [WeightedSkyBasic, normalizedValue, hframe]
+  simp [normalizedValue, hframe]
   rw [huv]
 
 /-- Weighted descent: under surjectivity and nonvanishing frames, every weighted-sky-basic

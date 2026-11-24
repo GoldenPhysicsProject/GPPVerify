@@ -20,11 +20,6 @@ swap (`EB_swap`). Results:
   `μ_{1+2θ}, μ_{1−2θ}` and for its swap. So the centered and shifted states are at norm distance
   `2` on the swap-invariant finite-block observables. The proof uses Euler's `Σ 1/p = ∞` against
   the convergent `Σ p^{−1−2θ}`.
-
-Codex's Bost–Connes reading (`P_n = μ_nμ_n*`, `ω_β(P_n) = n^{−β}`, the Gauss-sum operator `B_χ`
-with `B_χ*B_χ = 5/16(1 − P₅)`, and the completed `L(s,χ)` Mellin period) was audited
-numerically and by hand but is **not formalized here**. Whether these projections live in a
-completed Tate/Weil observable algebra is open. **No RH claim.**
 -/
 
 namespace GppPrimeBlockDiscriminator

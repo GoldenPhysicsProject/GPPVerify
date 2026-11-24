@@ -45,7 +45,7 @@ theorem haarMeasure_shell (n : ℕ) :
       (Ideal.span {(p : PadicInt p) ^ (n + 1)} : Set (PadicInt p)) ≠ ⊤ := by
     rw [GppPadicZetaIntegral.haarMeasure_span_pow]
     exact ENNReal.inv_ne_top.mpr (pow_ne_zero (n + 1) hpne)
-  rw [measure_diff hsub hmeasB.nullMeasurableSet hfin, GppPadicZetaIntegral.haarMeasure_span_pow,
+  rw [measure_sdiff hsub hmeasB.nullMeasurableSet hfin, GppPadicZetaIntegral.haarMeasure_span_pow,
       GppPadicZetaIntegral.haarMeasure_span_pow]
 
 end GppPadicShell

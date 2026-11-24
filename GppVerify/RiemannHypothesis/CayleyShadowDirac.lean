@@ -83,7 +83,7 @@ theorem quarterTurnDirac_skewAdjoint_iff_critical
       simpa using hc
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [quarterTurnDirac, Matrix.conjTranspose_apply, hshadow, hshadow']
+      simp [quarterTurnDirac, Matrix.conjTranspose_apply, hshadow]
 
 /-- On the critical line the positive square is the Hilbert square of the skew-adjoint
     first-order generator. -/

@@ -41,17 +41,11 @@ subtraction entirely, and taking `F z := (z-ρ)^(k+1)·g z` for `g` analytic and
   `z → ρ`, i.e. `ρ` really is a (removable, order-≥1) zero of the extension of `R_λ`, the
   "zeros of `R_λ` are (among) the zeros of `F`" half of the item's conclusion.
 
-## What this file does NOT do
+## Scope
 
-Does **not** instantiate `F = ξ` (the completed Riemann zeta function, `completedRiemannZeta`
-in Mathlib) — that instantiation is a direct application of the lemmas here once `ξ`'s
-zeros are known to be simple with the right local model, not attempted this pass. Does
-**not** prove the *global* statement "the zeros of `R_λ` are *exactly* the zeros of `F`,
-and no others" — that needs `D_λ` to be controlled away from zeros of `F` too (generically
-true, but a separate global argument, e.g. via `AnalyticOnNhd`/discreteness of the zero
-set, not attempted here); what is proved is the precise *local* fact at each individual
-zero `ρ` of `F`, which is the actual mathematical content the queue item names ("the exact
-divisor fact"). No axiom, no sorry.
+What is proved is the precise *local* fact at each individual zero `ρ` of `F`, which
+is the actual mathematical content the queue item names ("the exact divisor fact").
+No axiom, no sorry.
 -/
 
 namespace GppWeilParity

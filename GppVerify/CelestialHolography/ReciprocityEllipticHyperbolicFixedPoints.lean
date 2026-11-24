@@ -57,7 +57,7 @@ theorem elliptic_fixed_iff_sq_neg_one {z : ℂ} (hz : z ≠ 0) :
 
 /-- `+i` is an elliptic fixed point. -/
 theorem I_is_elliptic_fixed : ellipticMobius Complex.I = Complex.I := by
-  simp [ellipticMobius, Complex.inv_I]
+  simp [ellipticMobius]
 
 /-- `-i` is the opposite elliptic fixed point. -/
 theorem negI_is_elliptic_fixed : ellipticMobius (-Complex.I) = -Complex.I := by

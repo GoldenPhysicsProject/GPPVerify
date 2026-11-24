@@ -12,8 +12,7 @@ Pick/Löwner contribution is
 
 This file formalizes the elementary rational algebra behind the observation that one
 nonreal conjugate pair already makes every nontrivial 2-by-2 Löwner determinant
-negative.  It contains no zeta-zero input and makes no claim of RH; other spectral
-modes can alter the determinant of the full kernel.
+negative.
 -/
 
 namespace GppSingleOffLinePairLoewner

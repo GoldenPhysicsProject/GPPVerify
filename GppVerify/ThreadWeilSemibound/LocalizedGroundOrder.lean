@@ -50,20 +50,14 @@ is not merely an equivalence of two existence claims — the two optimal constan
 same real number, reached as a limit. What remains open is entirely the analytic input
 (that `λ_a` is a finite real for each fixed `a`), not the passage to the limit.
 
-## What this file does NOT do
+## Scope
 
-It does **not** define `Q_W`, the Weil quadratic form, `‖·‖₂`, or `S_a = C_c^∞(-a,a)` at
-all — that is a much larger, currently-absent Mathlib development (no localized
-compactly-supported-smooth-function machinery of that shape exists in Mathlib), and is not
-attempted here. This file supplies only the *order-theoretic skeleton* the queue item
-itself says is available "once `λ_a` is abstracted as nested infima": `S`, `R`, and `lam`
-below are arbitrary — an abstract test-space family, an abstract ratio functional, and an
-abstract ground-energy function tied to them by the `IsGLB` hypothesis. No claim is made
-that Suzuki's actual `λ_a` for the real Weil operator satisfies these hypotheses' premises
-(in particular, that it is a well-defined finite real number for every `a`, i.e. that the
-infimum is itself bounded below at each fixed finite `a`) — establishing that is exactly
-the open, hard analytic core of the Weil-Semiboundedness program, untouched here. No RH
-claim, no positivity claim about the real Weil kernel, no axiom.
+This file supplies the *order-theoretic skeleton* the queue item itself says is
+available "once `λ_a` is abstracted as nested infima": `S`, `R`, and `lam` below are
+arbitrary — an abstract test-space family, an abstract ratio functional, and an
+abstract ground-energy function tied to them by the `IsGLB` hypothesis. The analytic
+input for the real Weil operator is that `λ_a` is a well-defined finite real number
+for every `a` (the infimum is bounded below at each fixed finite `a`). No axiom.
 -/
 
 namespace GppWeilSemibound

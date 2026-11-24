@@ -13,9 +13,7 @@ forward along it is therefore again an additive Haar measure
 (`ContinuousAddEquiv.isAddHaarMeasure_map`), and that pushforward is exactly the
 set-function `S ↦ μ(a • S)`.
 
-What remains (steps 4–5 of the plan in `PadicMultiplicativeMeasure.lean`, not attempted
-here): invoking Haar-measure uniqueness up to a scalar to conclude this pushforward
-equals `c(a) • μ`, and pinning `c(a) = ‖a‖` down via `haarMeasure_span_pow`. Not sourced
+ Not sourced
 from a specific Golden Physics Project paper.
 -/
 

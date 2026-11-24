@@ -20,7 +20,7 @@ statement behind that last step, with `r = e^{-y/2}`:
 ## Scope
 
 Pure one-variable calculus. The constant `C`, the explicit formula that uses `M_∞`, and the positivity
-of the completed odd form are not addressed. No RH claim.
+of the completed odd form are not addressed.
 -/
 
 open Real MeasureTheory Filter Topology

@@ -11,9 +11,6 @@ completed Tate boundary complex.  Abstractly, if an odd-sector energy satisfies
 then every harmonic vector `E(x)=0` must vanish.  This is the exact elementary
 implication needed after the arithmetic construction supplies the correct
 closed differential, graph topology, and odd energy.
-
-This file deliberately does not construct that arithmetic differential or
-prove the coercive estimate itself, and therefore makes no claim of RH.
 -/
 
 namespace GppArithmeticNoGhost

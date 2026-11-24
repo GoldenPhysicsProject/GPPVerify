@@ -17,19 +17,13 @@ and even ground ordering"), Weil-Parity thread. The item's own framing:
 
 The genuinely substantive real-analysis content, once the Laplace-transform identity
 `Re(η^*(A-zI)^{-1}e0) = ∫₀^∞ e^{tz} k(t) dt` is taken as given (that identity itself is
-the "matrix exponential/Laplace-resolvent" part the queue item explicitly separates out,
-not attempted here): an integral of an everywhere-positive integrable function over `[0,∞)`
+the "matrix exponential/Laplace-resolvent" part the queue item explicitly separates out):
+an integral of an everywhere-positive integrable function over `[0,∞)`
 is strictly positive. Via `MeasureTheory.setIntegral_pos_iff_support_of_nonneg_ae`, reduced
 to showing the support of the (everywhere positive, hence everywhere nonzero) integrand
 intersected with `[0,∞)` has positive measure — which it does, since it equals all of
 `[0,∞)`, a set of infinite (in particular positive) Lebesgue measure.
 
-## What this file does NOT do
-
-Does **not** define Hermitian matrices, the matrix exponential `exp(-tA)`, or the resolvent
-`(A-zI)^{-1}`, and does not prove the Laplace-transform identity connecting them to `k` and
-the integral above — that identity (or its "finite spectral-sum version" fallback the queue
-item names) is separate, substantial, and not attempted here. No axiom, no sorry.
 -/
 
 namespace GppWeilParity

@@ -28,9 +28,8 @@ is as strong as "index `0`" there: a single time direction is incompatible with 
 
 Finite algebra. Passing from this to the actual Weil form requires (a) the explicit formula and (b) that the
 sample values `F(ρ)` of test functions can be prescribed independently at the zeros (the same unproved
-hypothesis already named in `HolographicReflectionPositivity`). Under those hypotheses this says
-"the Weil form has at most one negative direction" is **equivalent** to RH, so it reformulates RH as a
-Lorentzian-signature statement; it does not prove RH, and nothing here assumes it. The continuum model
+hypothesis already named in `HolographicReflectionPositivity`).
+ The continuum model
 `exp(|x-y|/2)` does have at most one positive direction (`GppContinuumInertia.no_two_dim_positive`),
 which is consistent with, but does not imply, that hypothesis for the actual prime sum.
 -/

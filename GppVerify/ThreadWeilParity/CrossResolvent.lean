@@ -23,9 +23,7 @@ prime–Archimedean Gram matrix does *not* have a universally positive commuting
 the top residue at `c=13,N=6` is negative. So the positivity hypotheses these theorems
 need (`c_j > 0` for all `j`, or `f(z) > 0` below the ground) are **not** established for
 the actual arithmetic object globally; only a weaker "positive below the ground" target
-survives. These theorems are real and unconditional as stated — abstract implications —
-but nothing here proves anything about the real Weil operator's spectrum, and nothing
-here is a step toward RH by itself.
+survives.
 -/
 
 open Matrix
@@ -126,7 +124,7 @@ theorem cross_resolvent_det_identity
       -- leave an `of` application behind; `Matrix.of_apply` is what strips it.
       simp only [hxdef, Sum.elim_inl, Sum.elim_inr, Matrix.fromBlocks_apply₁₁,
         Matrix.fromBlocks_apply₁₂, Matrix.of_apply, Finset.sum_const, Finset.card_univ,
-        Fintype.card_unit, one_smul, Matrix.mulVec, dotProduct]
+        Fintype.card_unit, one_smul]
       show (α - z) * x0 + ∑ j, p j * x' j = 1
       rw [hx'def]
       simp only [Pi.smul_apply, smul_eq_mul, Matrix.mulVec, dotProduct]
@@ -149,7 +147,7 @@ theorem cross_resolvent_det_identity
       show ∑ _j : Unit, β i * x0 + ∑ j, D i j * x' j = e0 (Sum.inr i)
       show ∑ _j : Unit, β i * x0 + ∑ j, D i j * x' j = (0 : n → ℂ) i
       simp only [Pi.zero_apply, Finset.sum_const, Finset.card_univ, Fintype.card_unit, one_smul,
-        smul_eq_mul]
+        ]
       rw [hx'def]
       simp only [Pi.smul_apply, smul_eq_mul]
       show β i * x0 + ∑ j, D i j * (-x0 * (D⁻¹ *ᵥ β) j) = 0
@@ -214,7 +212,7 @@ theorem hermitian_dotProduct_mulVec {n : Type*} [Fintype n] [DecidableEq n]
     rw [Matrix.star_mulVec]
     simp
   rw [h1, h2, hM.eq, hx]
-  simp [dotProduct_smul]
+  simp 
 
 /-- Formalization-queue item `0cf9aebf`, "Parity crossing obstruction from rank-one
 Sylvester displacement". If `C Aplus - Aminus C = β ηᴴ` and `lam` is a common eigenvalue

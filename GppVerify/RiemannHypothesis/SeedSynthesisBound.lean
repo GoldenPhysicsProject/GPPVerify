@@ -33,8 +33,7 @@ independently of the finite arithmetic set `S`.
 
 The decay `|K a| ≤ A e^{-q|a|}` of the seed autocorrelation (note §§2–3) and the identification
 of the Gram entries with translates of the seed are hypotheses here, not derived from an `L²`
-model of `φ`. The note's closed form for `N(q)²` is not formalized. Nothing here identifies the
-Weil quadratic form with a positive Schur complement, and it is not a step that proves RH.
+model of `φ`.
 -/
 
 open Real Finset MeasureTheory

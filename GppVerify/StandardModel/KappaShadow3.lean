@@ -17,10 +17,6 @@ two exact facts independent of the fitted numerology in the paper:
    arccos(√(3/8)) + arccos(√(5/8)) = π/2 (used implicitly in Theorem
    "Triality orbit", establishing that the lepton angle π/4 is the
    arithmetic mean of the down/up angles).
-
-The specific κ values (17/8, 5/2, 23/8) and their fitted agreement with
-experimental Yukawa couplings (5-12% residuals, per the source) are
-numerology, not exact mathematics, and are not formalized here.
 -/
 
 namespace GppKappaShadow3

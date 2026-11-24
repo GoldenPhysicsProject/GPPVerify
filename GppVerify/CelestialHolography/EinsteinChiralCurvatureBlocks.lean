@@ -30,10 +30,8 @@ blocks vanish.  Reversing the four-orientation swaps both the domain and codomai
 splittings, so the same curvature operator is represented by the block-conjugated matrix
 which exchanges the two diagonal blocks and exchanges the two off-diagonal blocks.
 
-This file formalizes only the exact four-slot bookkeeping common to those statements.  It
-does NOT formalize an O(3,1) connection, a soldering form, a Riemann tensor, Yang--Mills
-equations, or the geometric theorem identifying the off-diagonal block with trace-free
-Ricci.  Those remain external inputs.
+This file formalizes only the exact four-slot bookkeeping common to those statements.
+  Those remain external inputs.
 -/
 
 namespace GppEinsteinChiralCurvatureBlocks
@@ -82,7 +80,7 @@ theorem swapFirstDuality_components (F : CurvatureBlocks K) :
     (swapFirstDuality F).pm = F.mm ∧
     (swapFirstDuality F).mp = F.pp ∧
     (swapFirstDuality F).mm = F.pm := by
-  simp [MixedBlocksVanish, swapFirstDuality, reverseSpacetimeDuality]
+  simp [swapFirstDuality]
 
 /-- Backward-compatible component theorem. -/
 theorem reverse_spacetime_duality_components (F : CurvatureBlocks K) :
@@ -117,13 +115,13 @@ theorem reverseRiemannHodgeOrientation_involution (F : CurvatureBlocks K) :
 theorem reverseRiemannHodgeOrientation_swaps_diagonal (F : CurvatureBlocks K) :
     (reverseRiemannHodgeOrientation F).pp = F.mm ∧
     (reverseRiemannHodgeOrientation F).mm = F.pp := by
-  simp [MixedBlocksVanish, swapFirstDuality, reverseSpacetimeDuality, swapBothDualities, reverseRiemannHodgeOrientation]
+  simp [swapBothDualities, reverseRiemannHodgeOrientation]
 
 /-- It also exchanges the two off-diagonal/mixed sectors. -/
 theorem reverseRiemannHodgeOrientation_swaps_mixed (F : CurvatureBlocks K) :
     (reverseRiemannHodgeOrientation F).pm = F.mp ∧
     (reverseRiemannHodgeOrientation F).mp = F.pm := by
-  simp [MixedBlocksVanish, swapFirstDuality, reverseSpacetimeDuality, swapBothDualities, reverseRiemannHodgeOrientation]
+  simp [swapBothDualities, reverseRiemannHodgeOrientation]
 
 /-- Therefore the mixed-block-free/Einstein block pattern is invariant under reversal of
 four-orientation.  Geometrically this corresponds to the fact that Einstein-ness is

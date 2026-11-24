@@ -28,9 +28,7 @@ exchange, Compton/zitter clock). This file adds the remaining finite ones:
 * `unit_character_inv_eq_conj` (Prop. "Universal character–orientation duality"): for a unitary
   one-dimensional character value `z`, path reversal `z ↦ z⁻¹` equals `z ↦ conj z`.
 
-Scope: finite algebra, real calculus and dimension counts. The antilinear case of the deck
-obstruction, the winding-number topology and the representation-theoretic branching itself are
-not formalized here. Nothing here concerns RH.
+Scope: finite algebra, real calculus and dimension counts.
 -/
 
 namespace GppWhichWayV26

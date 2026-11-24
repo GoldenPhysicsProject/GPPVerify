@@ -27,8 +27,7 @@ line `Re z = 0`).
 Exact and unconditional (no integrability hypotheses are needed: the change of variables and complex
 conjugation commute with the Bochner integral, which is `0` on non-integrable functions). This is the
 precise sense in which the *odd, real* test functions are antisymmetric under the half-plane swap and
-symmetric under conjugation — the sector of the odd Weil form. It makes no claim about the Weil
-distribution, its positivity, or zeros. No RH claim.
+symmetric under conjugation — the sector of the odd Weil form.
 -/
 
 open MeasureTheory ComplexConjugate

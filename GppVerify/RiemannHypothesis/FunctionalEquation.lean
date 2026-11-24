@@ -7,10 +7,6 @@ import GppVerify.RiemannHypothesis.HaarMeasure
 /-!
 # Functional Equation ξ(s) = ξ(1-s) from Haar Self-Duality
 
-## Golden Physics Project — Shadow Framework Formalization
-## Spectral foundation layer (functional equation; RH is not claimed here)
-## Lean 4 / Mathlib v4.33.1
-
 This file derives the functional equation of the completed Riemann zeta
 function from the Haar self-duality proved in HaarMeasure.lean.
 
@@ -150,16 +146,16 @@ theorem critical_line_is_fixed_locus :
   constructor
   · intro h
     have hre := congr_arg Complex.re h
-    simp only [RCLike.star_def, Complex.conj_re,
+    simp only [Complex.conj_re,
                Complex.sub_re, Complex.one_re] at hre
     linarith
   · intro h
     apply Complex.ext
-    · simp only [RCLike.star_def, Complex.conj_re,
+    · simp only [Complex.conj_re,
                  Complex.sub_re, Complex.one_re]
       linarith
-    · simp only [RCLike.star_def, Complex.conj_im,
-                 Complex.sub_im, Complex.one_im, neg_zero]
+    · simp only [Complex.conj_im,
+                 Complex.sub_im, Complex.one_im]
       ring
 
 end GppFE

@@ -22,8 +22,8 @@ Toupin / Golden Physics Project, with AI assistance from Turbo (statement) and C
 
 This is why a diagonal (GS) representation `K(t) = Re⟨v, V_t v⟩ + o(1)` with `V` an isometric
 semigroup forces nonnegative Bohr coefficients, which contradicts the sign-alternating `R̃(γ)` Turbo
-measured. **Scope.** Discrete time `ℕ` only. The continuous-time version, Bochner's theorem and the
-Sz.-Nagy dilation step are not formalized. The sign data of `K` is numerical. No claim about RH.
+measured. **Scope.** Discrete time `ℕ` only.
+ The sign data of `K` is numerical.
 -/
 
 open Finset

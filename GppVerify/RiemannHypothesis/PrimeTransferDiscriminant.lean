@@ -7,9 +7,6 @@ import Mathlib.NumberTheory.Real.GoldenRatio
 /-!
 # The SU(1,1) transfer discriminant as the finite-place mass coordinate
 
-Source: Codex, GPPDiscovery2 `research/2026-09-27_su11_mass_discriminant_horizon_pair_cancellation.md`,
-§§1–6, 8 (the conditional horizon interpretation of §7 is not formalized).
-
 For `κ = artanh a` the real `SU(1,1)/SO(1,1)` transfer representative of the Blaschke automorphism
 is `G(κ) = [[cosh κ, −sinh κ], [−sinh κ, cosh κ]]` (`Gk`).
 
@@ -27,10 +24,7 @@ is `G(κ) = [[cosh κ, −sinh κ], [−sinh κ, cosh κ]]` (`Gk`).
 
 ## Checks and scope
 
-All claims check; they are exact `2 × 2` identities. **Not formalized:** the conditional horizon
-interpretation of §7 (that the physical mass of a doubled pair is the discriminant of the
-composed holonomy) and the global renormalized boost of §9. No claim about observed particle masses
-and no RH claim.
+All claims check; they are exact `2 × 2` identities.
 -/
 
 open Real Matrix

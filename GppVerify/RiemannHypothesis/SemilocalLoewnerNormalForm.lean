@@ -20,10 +20,7 @@ functional `Ψ`, support length `L > 0`, lattice `x_n = 2π(n + θ)/L`, and
 ## Checks and scope
 
 All claims check. The derivative step `S' = D` (differentiation under the functional `Ψ`) is an
-**explicit hypothesis**, not derived: nothing here constructs `Ψ`. **Not formalized:** the completed
-Weil distribution `Ψ`, Loewner's theorem and the Pick-class criterion (§5), the screw-function
-relation (§6, `Ψ_screw(L) = (L/2) f_L'(0)`, which is stated in the note as an existing relation),
-and the proposed attack (§7). Positivity of the matrix is not claimed. No RH claim.
+**explicit hypothesis**, not derived: nothing here constructs `Ψ`.
 -/
 
 open Real

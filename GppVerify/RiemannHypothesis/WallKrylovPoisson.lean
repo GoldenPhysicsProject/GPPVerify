@@ -46,7 +46,7 @@ Gaussian prime-power term is negative) is immediate and not restated.
 
 Finite algebra, one power series, one kernel. The notes' targets — a finite
 prime–Archimedean lossless network whose Wall coefficients are the arithmetic `β_n` — are not
-constructed. No RH claim.
+constructed.
 -/
 
 namespace GppWallKrylov

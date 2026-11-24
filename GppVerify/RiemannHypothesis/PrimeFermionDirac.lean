@@ -100,7 +100,7 @@ theorem dirac_selfAdjoint (z : ℂ) : Matrix.conjTranspose (dirac z) = dirac z :
   rw [dirac_eq]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [dirac, Matrix.conjTranspose_apply]
+    simp [Matrix.conjTranspose_apply]
 
 /-- The local Dirac square is the nonnegative scalar energy `normSq z`. -/
 theorem dirac_sq (z : ℂ) :

@@ -29,7 +29,7 @@ theorem summable_weight_mul_polynomial_eval
   | monomial r a =>
       have h := (hpow r).mul_left a
       exact h.congr (fun n => by
-        simp [mul_assoc, mul_left_comm, mul_comm])
+        simp [mul_left_comm])
 
 /-- Applying the polynomial lemma to `p^2` gives summability of the weighted square. -/
 theorem summable_weight_mul_polynomial_eval_sq

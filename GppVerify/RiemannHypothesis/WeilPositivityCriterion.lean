@@ -31,12 +31,33 @@ implicit:
   paired form to the diagonal `Σ|c_ρ|²` (`diagonal_form_nonneg`); the backward direction
   is the criterion.
 
-**Honest boundary.** This is a rigorous *reduction*, not a proof of RH: the analytic
-content that would discharge the positivity hypothesis — Weil's explicit formula
-expressing the form through prime sums, or Yakaboylu's operator compression `Ŵ ≥ 0` — is
-not formalized. What IS proved unconditionally: the finite-support positivity statement
-and RH are materially equivalent, with the zero-set reflection symmetry (often waved
-through in expositions) carried as a real theorem, not an assumption.
+**The explicit-formula link is in-tree.** The analytic content connecting this paired form to
+prime sums is formalized and unconditional:
+
+* `GppExplicitFormulaAssembly.explicit_formula_zeroSum`: for every test function `f`, the
+  multiplicity-weighted zero sum of the spectral transform of `f ⋆ f̃` converges absolutely and
+  equals the prime-side Weil form `weilForm (autocorr f)` (pole term + archimedean term −
+  `Σ Λ(n)/√n (f(log n) + f(−log n))`);
+* `GppAKG.gram_zeta_eq`: the zeta Gram form is that Weil form;
+* `GppGwefAssembly.gwef3_interpolation`: every finite involution-closed vector of the paired form
+  is approximated by zero sums of test functions, with the multiplicities carried by the weights;
+* `GppBTSigmaSpectralTransform.arp_iff_rh_strip` and `riemannHypothesis_of_strip`: positivity of
+  the Weil form on autocorrelations is equivalent to `Re ρ = 1/2` for every nontrivial zero, and
+  that gives Mathlib's `RiemannHypothesis`.
+
+`GppExplicitFormulaChain.explicit_formula_chain` collects these in one statement. The finite-support
+criterion proved in this file is the zero-side face of that chain, and the zero-set reflection
+symmetry is carried as a theorem (`nontrivialZeros_mem_involution`).
+
+## Sources
+
+The positivity criterion is Weil's: A. Weil, "Sur les «formules explicites» de
+la théorie des nombres premiers", *Comm. Sém. Math. Univ. Lund*, Tome
+Supplémentaire (1952), pp. 252–265; see E. Bombieri, "Problems of the
+Millennium: The Riemann Hypothesis", Clay Mathematics Institute (2000), for the
+modern statement. The finite paired form follows E. Yakaboylu, "Nontrivial
+Riemann zeros as spectrum", arXiv:2408.15135, Thm 5.1 and Prop 5.3.
+
 -/
 
 namespace GppWeilCriterion
@@ -90,7 +111,7 @@ noncomputable def zetaInvolution (ρ : ℂ) : ℂ := 1 - (starRingEnd ℂ) ρ
 
 /-- `zetaInvolution` is an involution on all of `ℂ`. -/
 theorem zetaInvolution_involutive (ρ : ℂ) : zetaInvolution (zetaInvolution ρ) = ρ := by
-  simp [zetaInvolution, map_sub, map_one, Complex.conj_conj]
+  simp [zetaInvolution, map_sub, map_one]
 
 /-- The fixed locus of `zetaInvolution` is exactly the critical line — via the repo's
     `GppFE.critical_line_is_fixed_locus`. -/

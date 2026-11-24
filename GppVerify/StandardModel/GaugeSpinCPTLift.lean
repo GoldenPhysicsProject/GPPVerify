@@ -69,7 +69,7 @@ theorem Xi_preserves_matter_character (x : GSTLabel) :
 theorem Xi_sq_diagonal_center (x : GSTLabel) :
     Xi (Xi x) = ⟨x.c,-x.sL,-x.sR⟩ := by
   cases x
-  simp [Xi, XiMatter, XiTime]
+  simp [Xi]
 
 /-- The square is invisible to the vector orientation character. -/
 theorem Xi_sq_vector_invisible (x : GSTLabel) :
@@ -81,7 +81,7 @@ theorem Xi_sq_vector_invisible (x : GSTLabel) :
 theorem Xi_four (x : GSTLabel) :
     Xi (Xi (Xi (Xi x))) = x := by
   cases x
-  simp [Xi, XiMatter, XiTime]
+  simp [Xi]
 
 /-- The full finite package. -/
 theorem Xi_capstone (x : GSTLabel) :

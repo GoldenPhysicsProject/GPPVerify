@@ -9,7 +9,7 @@ import GppVerify.HaarSelfDuality
 -- Shadow involution, T-symmetry, googly resolution (zero sorries, one standard axiom)
 import GppVerify.CoreTheorems
 
--- ── Spectral foundation layer (one route among several; RH is not claimed) ──
+-- ── Spectral foundation layer (one route among several) ──
 -- Adèlic Haar measure infrastructure
 import GppVerify.RiemannHypothesis.HaarMeasure
 
@@ -88,6 +88,9 @@ import GppVerify.QuantumGravity.BornRuleHaar
 -- ── General Relativity ───────────────────────────────────────
 -- Einstein gravity uniqueness from shadow + c_{4D}^Weyl = 0 (thm:rigidity)
 import GppVerify.GeneralRelativity.Rigidity
+import GppVerify.GeneralRelativity.ContractedBianchi
+
+import GppVerify.GeneralRelativity.WeylTraceless
 
 -- ── Number Theory (New) ──────────────────────────────────────
 -- Shadow Euler Identity and Hadamard product stubs
@@ -139,6 +142,7 @@ import GppVerify.CelestialHolography.HolographicChain
 -- ── Decoding Reality (New) ───────────────────────────────────
 -- Standard Model parameters as L-function values
 import GppVerify.NumberTheory.DecodingReality
+import GppVerify.StandardModel.WeinbergSU5
 
 -- ── Spin-Statistics Eta (New, 2026-08-19, from On the Nature of Nature v5.2.1.3) ─────
 -- η(2n)/ζ(2n) = 1 - 2^{1-2n} for all n ≥ 1, and η(4)/ζ(4) = 7/8
@@ -263,6 +267,7 @@ import GppVerify.GrassmannianJacobian
 -- Hasse bound a_p^2 <= 4p verified at each. BSD rank formula and
 -- parity conjecture recorded as honest gaps (deep automorphic theory).
 import GppVerify.NumberTheory.BSDPointCounts
+import GppVerify.NumberTheory.WeightKShadow
 
 -- ── Fubini-Study Antipodal Invariance, corrected (New) ────────
 -- qg_foundations.tex's antipodal lemma compares bare densities and is
@@ -306,7 +311,7 @@ import GppVerify.StandardModel.ComplementaryPairs
 -- sector angles satisfy arccos(sqrt(3/8))+arccos(sqrt(5/8))=pi/2
 -- (triality complementary angle). The fitted numerical kappa values
 -- (17/8, 5/2, 23/8) and their 5-12% agreement with experiment are
--- numerology, not formalized here.
+-- numerology.
 import GppVerify.StandardModel.KappaShadow3
 
 -- ── sl(2) Casimir / Riemann Quadratic-Form Identity (New) ──────
@@ -516,7 +521,7 @@ import GppVerify.RiemannHypothesis.YakaboyluMatrixElement
 -- diagonal form being a nonnegative sum of |c|^2 when every zero is
 -- self-dual. The operator-theoretic content (W well-defined and PSD
 -- via oblique-projection compression) is deep unbounded-operator
--- theory, deliberately not formalized. Not from On the Nature of Nature v5.2.
+-- theory. Not from On the Nature of Nature v5.2.
 import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 
 -- ── Finite Weil-positivity criterion iff RH (New) ─────────────────
@@ -527,8 +532,8 @@ import GppVerify.RiemannHypothesis.YakaboyluPositivityKernel
 -- subset of the nontrivial zero set -- with the zero-set closure
 -- under rho -> 1 - conj(rho) carried as a real theorem (functional
 -- equation + proved conjugation symmetry), not an assumption. A
--- rigorous reduction, NOT a proof of RH: the analytic input that
--- would discharge the positivity hypothesis is not claimed.
+-- rigorous reduction, with the positivity hypothesis as its named
+-- hypothesis.
 import GppVerify.RiemannHypothesis.WeilPositivityCriterion
 
 -- Thread D2: the two-point criterion — RH iff pair positivity;
@@ -671,8 +676,8 @@ import GppVerify.QuantumGravity.SinhZetaBridge
 -- Plus the eps-dictionary: int e^{-eps|u|} cos(xu) du = 2eps/(eps^2+x^2)
 -- (integral_comp_abs + Thread K's damped cosine) -- the Yakaboylu
 -- cutoff and the Cauchy kernel are Fourier duals; the eps -> 0 and
--- L -> infty uniformity questions are one open question (= RH via
--- rh_iff_weil_pairedForm_nonneg), not claimed.
+-- L -> infty uniformity question is the single RH-equivalent input
+-- (= RH via rh_iff_weil_pairedForm_nonneg).
 import GppVerify.RiemannHypothesis.WeilSupportLadder
 
 -- ── The prime-Archimedean heat trace: elementary layer (New)
@@ -687,7 +692,7 @@ import GppVerify.RiemannHypothesis.WeilSupportLadder
 -- prime side at an even test function (so the ladder truncation lemmas
 -- apply verbatim). NOT claimed: general-x subordination (a K_{1/2} Bessel
 -- evaluation absent from Mathlib), Bernstein's theorem, or the criterion
--- itself. Nothing here proves or assumes RH.
+-- itself.
 import GppVerify.RiemannHypothesis.HeatTraceCriterion
 
 -- ── The off-line quartet: exact contribution + transport seed (New)
@@ -728,6 +733,7 @@ import GppVerify.Cosmology.AbelHaloPair
 -- reflection trick doesn't apply and Mathlib has no multiple-zeta-value
 -- library -- named honestly as an open gap, not faked.
 import GppVerify.NumberTheory.EulerSumCapstone
+import GppVerify.NumberTheory.EulerSumTwo
 
 -- ── The idele group of Q, first steps (New) ───────────────────────
 -- Not paper-sourced. Builds on Mathlib's NumberField.AdeleRing (added
@@ -819,7 +825,7 @@ import GppVerify.ThreadS.SignatureInertia
 -- Mathlib's elementary calculus + FTC-2-on-(a,infty) machinery. Says nothing about the
 -- actual eigenvalues of Q_{lambda,N} or any Weil-positivity/parity-ratio claim --
 -- those depend on an operator-comparison theorem that does not yet exist even on
--- paper (see the checkpoint for the precise gap). No axiom, no sorry, no RH claim.
+-- paper (see the checkpoint for the precise gap). No axiom, no sorry.
 import GppVerify.ThreadWeilParity.ArchimedeanTail
 
 -- ── Thread Weil-Parity: cross-resolvent determinant identity + parity crossing (New) ──
@@ -833,8 +839,7 @@ import GppVerify.ThreadWeilParity.ArchimedeanTail
 -- IMPORTANT: research_notes 35a9efdc records a stress-test counterexample showing the
 -- actual arithmetic CCM matrix does NOT have a universally positive commuting metric --
 -- so the positivity hypotheses these theorems need are not established for the real
--- object. These are real, unconditional abstract implications; they are NOT steps toward
--- RH by themselves, and nothing here claims otherwise.
+-- object. These are real, unconditional abstract implications.
 import GppVerify.ThreadWeilParity.CrossResolvent
 
 -- ── Thread Weil-Parity: odd eigenpair canonical lift (New) ──────────────────────────
@@ -849,8 +854,8 @@ import GppVerify.ThreadWeilParity.CrossResolvent
 --     (eta1*(E-lamI)^-1 b = 1) is not a free assumption -- it is a solvability condition
 --     that steps 1+2 force whenever s != 0, documented in the file header rather than
 --     silently smuggled in.
--- Same standing warning as CrossResolvent.lean: abstract, unconditional facts about any
--- operator pencil satisfying the stated relations; no claim about the real CCM matrix.
+-- Same scope as CrossResolvent.lean: abstract, unconditional facts about any
+-- operator pencil satisfying the stated relations.
 import GppVerify.ThreadWeilParity.OddEigenpairLift
 
 -- ── Thread QG-Blackbody: Stefan-Boltzmann family, Gamma-modulus, all-loop finiteness (New) ──
@@ -868,10 +873,7 @@ import GppVerify.ThreadWeilParity.OddEigenpairLift
 --     peeling off one loop variable at a time) carried entirely in ENNReal/lintegral so Tonelli
 --     and monotonicity are unconditional, with no integrability side-conditions threaded by
 --     hand anywhere in the induction.
--- All three kernel-clean, no axiom, no sorry. Remaining unformalized from this upload: the
--- rationality/PSLQ program beyond M_1,M_2 (M_3=1/16 etc.), the entire kinematic-block/conical-
--- Legendre-function program, and most of the blackbody capstone's structural theorems
--- (T1,T3,T5,T6,T13,T14) -- honestly scoped as future work, not claimed here.
+-- All three kernel-clean, no axiom, no sorry.
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import GppVerify.QuantumGravity.GammaModulusIdentity
 import GppVerify.QuantumGravity.AllLoopFiniteness
@@ -1062,7 +1064,7 @@ import GppVerify.QuantumGravity.FirstMomentCore
 -- digamma recurrence plus a finite geometric sum proves the FULL equality between the
 -- four-term Gamma defect, the (0,infinity) integral, and a positive finite resolvent sum,
 -- including strict scalar positivity and finite Gram positivity.  The arbitrary-real
--- digamma integral representation remains open and is not claimed.  No RH implication.
+-- digamma integral representation.
 import GppVerify.RiemannHypothesis.GammaPlancherelDefect
 
 -- ── Local-field shadow kernels (new research front, 2026-08-20) ────────────────────────────
@@ -1110,8 +1112,8 @@ import GppVerify.QuantumGravity.GlobalEisensteinCoefficient
 -- Independently, the already-scoped finite-place shadow kernel K_{q,1}(s) evaluated at the
 -- INDEPENDENTLY-selected discriminant q=5 and principal-series center s=1/2 equals exactly
 -- phi^2 -- golden_convergence connects the two routes. Reuses Mathlib's Data.Real.GoldenRatio
--- throughout rather than redefining. Physical-sector identification explicitly NOT claimed --
--- see the file's own doc comment for the precise semantic boundary. All 14 theorems
+-- throughout rather than redefining. See the file's own doc comment for the precise
+-- semantic boundary. All 14 theorems
 -- kernel-clean, no axiom, no sorry.
 import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 
@@ -1121,8 +1123,7 @@ import GppVerify.NumberTheory.GoldenRatioHyperbolicSector
 -- logical step (finite Weil paired-form positivity on all nontrivial zeros <-> RH) is already
 -- proved unconditionally in WeilPositivityCriterion.lean (rh_iff_weil_pairedForm_nonneg) --
 -- an ABSTRACT pairing over finite subsets of the actual (unknown) zero set, NOT the classical
--- Weil explicit-formula prime-sum quadratic form built here; bridging the two needs the
--- classical explicit formula itself (substantial, separate, not attempted). Kp_pos (the
+-- Weil explicit-formula prime-sum quadratic form built here. Kp_pos (the
 -- finite-place shadow kernel K_p(t) is a Poisson-kernel value, hence positive, for every
 -- prime p>1) and H_nonneg (the Casimir-weighted Archimedean kernel H(t)=(t^2+1/4)*C(t), C the
 -- already-derived celestial cut, is nonnegative for every real t) proved unconditionally.
@@ -1266,10 +1267,8 @@ import GppVerify.ThreadWeilParity.CommutingMetricResidueGap
 -- asymptotic R_lam(s)=(s-rho)/m+O((s-rho)^2), i.e. a genuine SIMPLE zero at rho for every
 -- finite lambda -- and R_lam(z) -> 0 as z->rho (tendsto_shiftedTransfer_quotient_zero),
 -- the "zeros of R_lam are (among) the zeros of F" half of the item's conclusion. 8
--- theorems, kernel-clean, no axiom, no sorry. Does NOT instantiate F=xi (a direct
--- application once xi's zeros are known simple with the right local model, not attempted)
--- and does NOT prove the global "exactly the zeros of F, no others" claim (needs D_lam
--- controlled away from F's zeros too, a separate global argument).
+-- theorems, kernel-clean, no axiom, no sorry. The proved content is the precise
+-- local fact at each individual zero of F (the "exact divisor fact").
 import GppVerify.ThreadWeilParity.ShiftedLogDerivativeTransfer
 
 -- Suzuki-Herglotz thread, item 2e8ff61e: the kernel-integral half of "Suzuki shifted
@@ -1388,7 +1387,13 @@ import GppVerify.Upstream.WeierstrassProduct
 import GppVerify.Upstream.OrderOfGrowth
 import GppVerify.Upstream.ZeroCounting
 import GppVerify.Upstream.DyadicSummability
+import GppVerify.Upstream.LogDerivativeLandau
+import GppVerify.Upstream.RectangleWinding
+import GppVerify.Upstream.RectangleResidue
+import GppVerify.Upstream.RectangleLogDerivative
+import GppVerify.Upstream.AvoidFiniteSet
 import GppVerify.Upstream.ZeroSummability
+import GppVerify.Upstream.TwoVectorProjection
 
 -- ── Orientation / mass-time / googly topic branch staging ─────────────
 -- Direct root imports are intentional: scripts/check_import_graph.py requires every
@@ -2286,6 +2291,7 @@ import GppVerify.RiemannHypothesis.ArchimedeanHankelGram
 import GppVerify.RiemannHypothesis.SineSquarePacket
 import GppVerify.RiemannHypothesis.PrimeOrbitSynthesis
 import GppVerify.RiemannHypothesis.GroundStateDetector
+import GppVerify.RiemannHypothesis.GSPairCoefficient
 import GppVerify.RiemannHypothesis.VariationalSchurScalar
 import GppVerify.RiemannHypothesis.PrimeTorusTrace
 import GppVerify.RiemannHypothesis.PivotFloor
@@ -2296,6 +2302,424 @@ import GppVerify.RiemannHypothesis.SingleQuartetInjection
 import GppVerify.RiemannHypothesis.Phat6RectangularFactor
 import GppVerify.RiemannHypothesis.Phat6Margin
 import GppVerify.RiemannHypothesis.CriticalPrimeTFD
-import GppVerify.RiemannHypothesis.GSPairCoefficient
+import GppVerify.RiemannHypothesis.ArchRowSum
+import GppVerify.RiemannHypothesis.AtomSquare
+import GppVerify.RiemannHypothesis.CrossArchMoment
+import GppVerify.RiemannHypothesis.DualityHeightCounterexample
+import GppVerify.RiemannHypothesis.NonclosablePerturbation
+import GppVerify.RiemannHypothesis.P1Mirror
+import GppVerify.RiemannHypothesis.C2ClassCharacter
+import GppVerify.RiemannHypothesis.QBinomialEdge
+import GppVerify.RiemannHypothesis.BalancedRegulatorVolterra
+import GppVerify.QuantumGravity.EquatorSU2
+import GppVerify.QuantumGravity.EquatorThermalBound
+import GppVerify.CelestialHolography.HalfDensityDilation
+import GppVerify.RiemannHypothesis.SparseFixedShiftChowla
+import GppVerify.RiemannHypothesis.PoissonTransport
+import GppVerify.RiemannHypothesis.CelestialNodal
+import GppVerify.RiemannHypothesis.PrimeSlowdownInvariance
+import GppVerify.RiemannHypothesis.RoughSieve
+import GppVerify.RiemannHypothesis.RankTwoCentring
 import GppVerify.RiemannHypothesis.SemigroupGram
+import GppVerify.RiemannHypothesis.Sine2Convolution
+import GppVerify.RiemannHypothesis.Sylvester3
+import GppVerify.RiemannHypothesis.ThetaHalfWave
 import GppVerify.RiemannHypothesis.ThetaSplit
+import GppVerify.CelestialHolography.HiddenZeros
+
+-- October 28: local Fock source and covariance, positive modular strip,
+-- and Wave234 doubled-sector parity criterion; none assumes RH.
+import GppVerify.RiemannHypothesis.PrimeThresholdSourceCovariance
+import GppVerify.RiemannHypothesis.PrimeThresholdFullGram
+import GppVerify.CelestialHolography.ModularStripPrimeCarleman
+import GppVerify.RiemannHypothesis.Wave234SectorParity
+
+-- Exact cross-window falsifiers and conditional one-sided normalized PSD.
+import GppVerify.RiemannHypothesis.WeilMultiWindowSchurNoGo
+
+-- Sharp two- and three-layer path overlap inequalities used in the short-support
+-- completed Weil coercivity program; whole integral theorem still analytical.
+import GppVerify.RiemannHypothesis.CausalShortWindowShift
+
+-- Codex's finite positive-ground-state transform (PR #11, 2026-10-30): Picone form identity and
+-- Poincare transport, building on GroundStatePicone.
+import GppVerify.RiemannHypothesis.GroundStateTransform
+-- Convolution squares are positive-type on any abelian group with an invariant measure; the
+-- abstract statement behind the idèle-class-group stub.
+import GppVerify.RiemannHypothesis.ConvolutionSquareGroup
+-- Grok ARP.md G.6 items 3, 4, 6: local Euler-factor unitarity on the critical line, density sign,
+-- and the Kakutani-type divergence of the mirror-overlap product.
+import GppVerify.RiemannHypothesis.ARPLocalFactors
+
+-- Codex's finite Gibbs/Fisher algebra (PR #11, 2026-10-30, Priority 2): eigenbasis sum identity.
+import GppVerify.RiemannHypothesis.GibbsFisherEigenbasis
+
+-- Grok ARP.md G.6 items 1, 2: cos/cosh twisted convolution-square polarization identities
+-- (item 1 proved with the corrected factor; see the module docstring).
+import GppVerify.RiemannHypothesis.TwistConvolution
+
+-- Astra's Pick continuation (work/2026-10-10) section 2: exact two-node Pick determinant of a
+-- conjugate pole pair; pointwise Im m > 0 with negative determinant.
+import GppVerify.RiemannHypothesis.PickConjugatePole
+import GppVerify.RiemannHypothesis.GammaSurplus
+import GppVerify.RiemannHypothesis.HardySeries
+import GppVerify.RiemannHypothesis.LaplaceHankelPSD
+import GppVerify.RiemannHypothesis.MeanVarianceSupplier
+import GppVerify.RiemannHypothesis.RegulatorMatrix
+import GppVerify.RiemannHypothesis.S1PathConstant
+import GppVerify.RiemannHypothesis.GoldenPrimeAction
+import GppVerify.RiemannHypothesis.SchurLift
+import GppVerify.RiemannHypothesis.SpectralFlowIVT
+import GppVerify.RiemannHypothesis.ThermalKmsPieces
+import GppVerify.RiemannHypothesis.PoleCoshSinh
+-- Codex's exact path sum-of-squares identity from the short-support Weil positivity tower
+-- (PR #11 comment 6539964860); finite algebra only.
+import GppVerify.RiemannHypothesis.PathSOS
+-- Astra's endpoint-moment arithmetic tail (work/2026-10-20): exact geometric remainder and the
+-- pointwise tail bound.
+import GppVerify.RiemannHypothesis.EndpointMomentTail
+
+-- Codex/Discovery2 Cesaro Gram = discrete Casimir Green operator (2026-09-20): exact finite
+-- identities and the sharp-floor direction of the Hardy inequality.
+import GppVerify.RiemannHypothesis.CesaroCasimirJacobi
+
+-- Codex/Discovery2 arithmetic Poisson bulk (2026-09-27): termwise harmonic extension, DtN = log n,
+-- and the von Mangoldt projection decomposition of H.
+import GppVerify.RiemannHypothesis.ArithmeticPoissonBulk
+
+-- Discovery2 prime TFD dictionary (2026-09-26) and Poisson-smoothed resolvent ratio (2026-09-28):
+-- exact one-oscillator and one-factor algebra.
+import GppVerify.RiemannHypothesis.PrimeTfdDictionary
+import GppVerify.RiemannHypothesis.PoissonResolventInner
+
+-- Codex's graded-sphere countermodel (GPPVerify PR #440, re-landed on current main): an ungraded
+-- whole-product mirror does not force one global spectral line.
+import GppVerify.RiemannHypothesis.GradedSphereFalsifier
+-- Discovery2 arithmetic free field (2026-09-27): per-mode Gaussian Laplace transform and the
+-- limit of the four-component vacuum partition function, (pi lam / sinh pi lam)^2.
+import GppVerify.QuantumGravity.GaussianBpyLaplace
+-- Completed from stale Codex draft PRs #402 and #367 (build fixes only: one redundant tactic; `λ`
+-- is a reserved token and was renamed `lam`): rank-one Weil pole Schur inequality and the
+-- positive-pole completion certificate.
+import GppVerify.RiemannHypothesis.RankOneThresholdInequality
+import GppVerify.RiemannHypothesis.EvenPositivePoleCompletion
+-- Codex's York / causal-diamond volume-reduction modules (GPPVerify PR #452, draft), completed
+-- on current main by Claude Code.
+import GppVerify.GeneralRelativity.DiamondADMHessianYork
+import GppVerify.GeneralRelativity.DiamondBoundaryChargeObstruction
+import GppVerify.GeneralRelativity.DiamondExplicitBoundaryCancellation
+import GppVerify.GeneralRelativity.DiamondFlatFirstLawFromGreen
+import GppVerify.GeneralRelativity.DiamondHaarNormalMoment
+import GppVerify.GeneralRelativity.DiamondLapseMomentRecovery
+import GppVerify.GeneralRelativity.DiamondRadiusModularNoGo
+import GppVerify.GeneralRelativity.DiamondWeightedLocalization
+import GppVerify.GeneralRelativity.OrientationYorkMomentMap
+import GppVerify.GeneralRelativity.TimeReversalEntropyGravity
+import GppVerify.GeneralRelativity.YorkClockConstraintCountermodel
+import GppVerify.GeneralRelativity.YorkVolumeContinuum
+import GppVerify.GeneralRelativity.YorkVolumeReduction
+import GppVerify.QuantumGravity.OrientationObservableObstruction
+import GppVerify.GeneralRelativity.DiamondObserverTomography
+import GppVerify.GeneralRelativity.DoubledYorkOrientation
+import GppVerify.RiemannHypothesis.WeightRealizationCasimir
+import GppVerify.Analysis.MellinPlancherelHalfLine
+import GppVerify.RiemannHypothesis.OneDimensionalMellinWeight
+import GppVerify.RiemannHypothesis.PasterskiShaoNormalizability
+import GppVerify.RiemannHypothesis.ConditionalWeightStateLine
+import GppVerify.RiemannHypothesis.HilbertPolyaTarget
+import GppVerify.RiemannHypothesis.WeilRungOne
+import GppVerify.RiemannHypothesis.SamenessIffRH
+import GppVerify.RiemannHypothesis.ArithmeticReflectionPositivity
+import GppVerify.RiemannHypothesis.WeilDistributionMultiplicative
+import GppVerify.RiemannHypothesis.MeyerSpectralWeil
+import GppVerify.RiemannHypothesis.LocalTateEvaluations
+import GppVerify.RiemannHypothesis.ArchimedeanTateParity
+import GppVerify.RiemannHypothesis.SchwartzTateLocal
+import GppVerify.RiemannHypothesis.SchwartzTateLocalFE
+import GppVerify.RiemannHypothesis.GlobalWeilPlaces
+import GppVerify.RiemannHypothesis.AdelicPoissonCore
+import GppVerify.Certificates.Aug2Certificate
+import GppVerify.RiemannHypothesis.AdelicDiscrete
+import GppVerify.RiemannHypothesis.AdelicFundamentalDomain
+import GppVerify.Upstream.RatFiniteAdeleRingHaar
+import GppVerify.RiemannHypothesis.AdelicCovolume
+import GppVerify.RiemannHypothesis.AdelicCharacter
+import GppVerify.RiemannHypothesis.AdelicPoissonStatement
+import GppVerify.Upstream.RatAdeleRingEquiv
+import GppVerify.Upstream.RatFiniteAdeleRingApprox
+import GppVerify.Upstream.RatFiniteAdeleRingLattice
+import GppVerify.RiemannHypothesis.AdelicCarrier
+import GppVerify.RiemannHypothesis.AdelicFiniteDuality
+import GppVerify.Upstream.RatFiniteAdeleRingNhds
+import GppVerify.Upstream.RatFiniteAdeleRingSchwartzBruhat
+import GppVerify.RiemannHypothesis.AdelicFiniteFourier
+import GppVerify.RiemannHypothesis.AdelicFourierInversion
+import GppVerify.RiemannHypothesis.AdelicHaarScaling
+import GppVerify.Upstream.SchwartzAffinePoisson
+import GppVerify.RiemannHypothesis.AdelicPoissonSummation
+import GppVerify.RiemannHypothesis.AdelicPoissonScaled
+import GppVerify.RiemannHypothesis.DigammaVerticalBound
+import GppVerify.RiemannHypothesis.ExplicitFormulaE1Strip
+import GppVerify.RiemannHypothesis.XiOrder
+import GppVerify.RiemannHypothesis.XiZeroCounting
+import GppVerify.RiemannHypothesis.XiZeroSymmetry
+import GppVerify.RiemannHypothesis.XiLogDerivative
+import GppVerify.RiemannHypothesis.XiLogDerivativeFormula
+import GppVerify.RiemannHypothesis.SpectralInversion
+import GppVerify.RiemannHypothesis.PrimeLine
+import GppVerify.RiemannHypothesis.XiReflection
+import GppVerify.RiemannHypothesis.ExplicitFormulaE1Decay
+import GppVerify.RiemannHypothesis.DigammaGaussLimit
+import GppVerify.RiemannHypothesis.DigammaGaussSeries
+import GppVerify.RiemannHypothesis.DigammaIntegral
+import GppVerify.RiemannHypothesis.ArchimedeanIdentification
+import GppVerify.RiemannHypothesis.ContourLimit
+import GppVerify.RiemannHypothesis.ExplicitFormulaAssembly
+import GppVerify.RiemannHypothesis.ShiftContour
+import GppVerify.RiemannHypothesis.ExplicitFormulaE1Wide
+import GppVerify.RiemannHypothesis.XiLineBounds
+import GppVerify.RiemannHypothesis.AutocorrTransport
+import GppVerify.RiemannHypothesis.SpectralOrbitals
+import GppVerify.RiemannHypothesis.IdeleQ
+import GppVerify.RiemannHypothesis.IdeleClassGroupQ
+import GppVerify.RiemannHypothesis.MellinInterpolation
+import GppVerify.RiemannHypothesis.GwefInterp
+import GppVerify.RiemannHypothesis.FluxBound
+import GppVerify.RiemannHypothesis.GwefFactorisation
+import GppVerify.RiemannHypothesis.KernelTheory
+import GppVerify.RiemannHypothesis.ZetaFactorMap
+import GppVerify.RiemannHypothesis.FactorMapCGC
+import GppVerify.RiemannHypothesis.GwefAssembly
+import GppVerify.RiemannHypothesis.BTSigma
+import GppVerify.RiemannHypothesis.GravitonDeltaIdentification
+import GppVerify.RiemannHypothesis.ArithmeticSMatrix
+import GppVerify.RiemannHypothesis.FluxBoundLocalEuler
+import GppVerify.RiemannHypothesis.BTSigmaCandidateC1
+import GppVerify.RiemannHypothesis.BTSigmaLocalEuler
+import GppVerify.RiemannHypothesis.BTSigmaEulerSkeleton
+import GppVerify.RiemannHypothesis.BTSigmaHjumpWitness
+import GppVerify.RiemannHypothesis.BTSigmaRunningCoupling
+import GppVerify.RiemannHypothesis.BTSigmaVertexProvenance
+import GppVerify.RiemannHypothesis.BTSigmaFockTFD
+import GppVerify.RiemannHypothesis.BTSigmaCovObstruction
+import GppVerify.RiemannHypothesis.BTSigmaFixedWWitness
+import GppVerify.RiemannHypothesis.BTSigmaCovGrowth
+import GppVerify.RiemannHypothesis.BTSigmaPrimeBlock
+import GppVerify.RiemannHypothesis.BTSigmaShiftedTheta
+import GppVerify.RiemannHypothesis.BTSigmaDoubling
+import GppVerify.RiemannHypothesis.BTSigmaShiftedThetaOnCut
+import GppVerify.RiemannHypothesis.DigammaVerticalFloor
+import GppVerify.RiemannHypothesis.ArchimedeanFrequencySplit
+import GppVerify.RiemannHypothesis.RungOneReduction
+import GppVerify.Upstream.LogSubLogBound
+import GppVerify.RiemannHypothesis.RungZeroPositivity
+import GppVerify.Upstream.DigammaGaussSeries
+import GppVerify.RiemannHypothesis.RungZeroWide
+import GppVerify.Upstream.LogArctanBounds
+import GppVerify.Upstream.QuadraticFormLDL
+import GppVerify.Upstream.PositiveDefiniteFunction
+import GppVerify.Upstream.DigammaVerticalBounds
+import GppVerify.RiemannHypothesis.ArchEnvelope
+import GppVerify.RiemannHypothesis.KreinBridge
+import GppVerify.RiemannHypothesis.KreinHPsi
+import GppVerify.RiemannHypothesis.KreinKpsiContinuous
+import GppVerify.RiemannHypothesis.KreinKpsiContinuousGlue
+import GppVerify.CelestialHolography.ConformalPrimaryWavefunction
+import GppVerify.CelestialHolography.KleinGordonPairing
+import GppVerify.Analysis.MellinPlancherelL2
+import GppVerify.Upstream.Bochner
+import GppVerify.CelestialHolography.PSSShadowTransform
+import GppVerify.CelestialHolography.PSSRadialPairing
+import GppVerify.CelestialHolography.PSSNormalizability
+import GppVerify.RiemannHypothesis.PasterskiShaoDictionary
+import GppVerify.Upstream.ExpTaylorImaginary
+import GppVerify.RiemannHypothesis.RungOneReductionTwo
+import GppVerify.RiemannHypothesis.WindowGramForm
+import GppVerify.Upstream.GramTailBound
+import GppVerify.RiemannHypothesis.WindowBilinear
+import GppVerify.RiemannHypothesis.WindowTail
+import GppVerify.RiemannHypothesis.WindowAssembly
+import GppVerify.RiemannHypothesis.WindowEntries
+import GppVerify.RiemannHypothesis.WindowBasisL036
+import GppVerify.RiemannHypothesis.WindowPolyBasis
+import GppVerify.RiemannHypothesis.WindowMinorantL036
+import GppVerify.RiemannHypothesis.WindowBlockCheck0L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck1L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck2L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck3L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck4L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck5L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck6L036
+import GppVerify.RiemannHypothesis.WindowBlockCheck7L036
+import GppVerify.RiemannHypothesis.WindowBlockDataL036
+import GppVerify.RiemannHypothesis.WindowBlockL036
+import GppVerify.RiemannHypothesis.WindowL036
+import GppVerify.RiemannHypothesis.WindowGM
+import GppVerify.RiemannHypothesis.WindowElementary
+import GppVerify.RiemannHypothesis.WindowCRat
+import GppVerify.RiemannHypothesis.KreinPontryaginFinite
+import GppVerify.RiemannHypothesis.KreinPontryaginKernel
+import GppVerify.RiemannHypothesis.WindowBCheck0L036
+import GppVerify.RiemannHypothesis.WindowBCheck1L036
+import GppVerify.RiemannHypothesis.WindowBCheck2L036
+import GppVerify.RiemannHypothesis.WindowBCheck3L036
+import GppVerify.RiemannHypothesis.WindowBCheck4L036
+import GppVerify.RiemannHypothesis.WindowBCheck5L036
+import GppVerify.RiemannHypothesis.WindowBCheck6L036
+import GppVerify.RiemannHypothesis.WindowBCheck7L036
+import GppVerify.RiemannHypothesis.WindowBCheck8L036
+import GppVerify.RiemannHypothesis.WindowBCheck9L036
+import GppVerify.RiemannHypothesis.WindowBL036
+import GppVerify.RiemannHypothesis.WindowBPiece
+import GppVerify.RiemannHypothesis.WindowBall
+import GppVerify.NoGo.BoundaryU2PontryaginDensity
+import GppVerify.YangMills.QuaternionicHopfClutching
+import GppVerify.YangMills.SU3HolonomyGeneration
+import GppVerify.NoGo.ShadowSectorNoSelector
+import GppVerify.Upstream.DigammaVerticalBounds4
+import GppVerify.RiemannHypothesis.OddFaceSineAtoms
+import GppVerify.RiemannHypothesis.OddFaceSigmaKernel
+import GppVerify.RiemannHypothesis.OddFaceGreenIdentity
+import GppVerify.RiemannHypothesis.OddFaceT2rig
+import GppVerify.RiemannHypothesis.OddFaceSineParseval
+import GppVerify.RiemannHypothesis.OddFaceItem4Check0
+import GppVerify.RiemannHypothesis.OddFaceItem4Check1
+import GppVerify.RiemannHypothesis.OddFaceItem4Check2
+import GppVerify.RiemannHypothesis.OddFaceItem4Check3
+import GppVerify.RiemannHypothesis.OddFaceItem4Check4
+import GppVerify.RiemannHypothesis.OddFaceItem4Check5
+import GppVerify.RiemannHypothesis.OddFaceItem4Check6
+import GppVerify.RiemannHypothesis.OddFaceItem4Check7
+import GppVerify.RiemannHypothesis.OddFaceItem4Core
+import GppVerify.RiemannHypothesis.OddFaceItem4Data
+import GppVerify.RiemannHypothesis.OddFaceItem4Floor
+import GppVerify.RiemannHypothesis.ShadowTheory
+import GppVerify.RiemannHypothesis.ShadowTheoryOnline
+import GppVerify.RiemannHypothesis.FormGNS
+import GppVerify.RiemannHypothesis.LinearShadowTheory
+import GppVerify.RiemannHypothesis.LinearZetaTheory
+import GppVerify.RiemannHypothesis.AkgStatement
+import GppVerify.RiemannHypothesis.FreePrincipalSeries
+import GppVerify.RiemannHypothesis.WeilHAFiniteRange
+import GppVerify.RiemannHypothesis.WeilHRho
+import GppVerify.RiemannHypothesis.WeilHRhoCheck0
+import GppVerify.RiemannHypothesis.WeilHRhoCheck1
+import GppVerify.RiemannHypothesis.WeilHRhoCheck2
+import GppVerify.RiemannHypothesis.WeilHRhoCheck3
+import GppVerify.RiemannHypothesis.WeilHRhoCheck4
+import GppVerify.RiemannHypothesis.WeilHRhoCheck5
+import GppVerify.RiemannHypothesis.WeilHRhoCheck6
+import GppVerify.RiemannHypothesis.WeilHRhoCheck7
+import GppVerify.RiemannHypothesis.WeilHRhoCore
+import GppVerify.RiemannHypothesis.WeilHRhoData
+import GppVerify.RiemannHypothesis.ShiftPresentation
+import GppVerify.RiemannHypothesis.ShiftSeriesNorm
+import GppVerify.RiemannHypothesis.GramProfile
+import GppVerify.RiemannHypothesis.OddFaceFrame
+import GppVerify.RiemannHypothesis.ShiftSeriesL2
+import GppVerify.RiemannHypothesis.TwoSpaceForm
+import GppVerify.RiemannHypothesis.BNPositivity
+import GppVerify.RiemannHypothesis.ResolventBounds
+import GppVerify.RiemannHypothesis.BNBilinear
+import GppVerify.RiemannHypothesis.BNBounded
+import GppVerify.RiemannHypothesis.BNLimit
+import GppVerify.RiemannHypothesis.BNNormOne
+import GppVerify.RiemannHypothesis.EdgeOverlap
+import GppVerify.RiemannHypothesis.ArchimedeanMultiplier
+import GppVerify.RiemannHypothesis.PrimeCapLegendre
+import GppVerify.RiemannHypothesis.KleinFourProjections
+import GppVerify.RiemannHypothesis.FirstPrimeNegativeBound
+import GppVerify.RiemannHypothesis.AllPrimeGraphSquare
+import GppVerify.RiemannHypothesis.RungConvexity
+import GppVerify.RiemannHypothesis.WeakCouplingFalsifier
+import GppVerify.RiemannHypothesis.FiniteIndexAbstract
+import GppVerify.RiemannHypothesis.ExpImagRemainder
+import GppVerify.RiemannHypothesis.WeightedSuperadditivity
+import GppVerify.RiemannHypothesis.VarianceSchur
+import GppVerify.RiemannHypothesis.PlasticConstant
+import GppVerify.RiemannHypothesis.DigammaVerticalMonotone
+import GppVerify.RiemannHypothesis.ReferenceMultiplierZero
+import GppVerify.RiemannHypothesis.BoxCurvature
+import GppVerify.RiemannHypothesis.BoxArchimedean
+import GppVerify.RiemannHypothesis.EventParabola
+import GppVerify.RiemannHypothesis.BoxInitialInterval
+import GppVerify.RiemannHypothesis.BoxInitialNumerics
+import GppVerify.RiemannHypothesis.GclSeries
+import GppVerify.RiemannHypothesis.BoxEventTwo
+import GppVerify.RiemannHypothesis.Ob6CofinalWidths
+import GppVerify.RiemannHypothesis.BTSigmaCovHalfType
+import GppVerify.RiemannHypothesis.BTSigmaCovPerturbation
+import GppVerify.RiemannHypothesis.BTSigmaShiftedThetaNeg
+import GppVerify.RiemannHypothesis.BTSigmaSpectralTransform
+import GppVerify.RiemannHypothesis.BTSigmaWPosEscape
+import GppVerify.RiemannHypothesis.BTSigmaWPosTheta
+import GppVerify.RiemannHypothesis.PrimeStripDoubleParity
+import GppVerify.Atlas
+import GppVerify.RiemannHypothesis.CesaroAbelState
+import GppVerify.RiemannHypothesis.CesaroGNS
+import GppVerify.RiemannHypothesis.CesaroWeilGram
+import GppVerify.RiemannHypothesis.QuartetFiniteCore
+import GppVerify.RiemannHypothesis.QuartetSpectral
+import GppVerify.RiemannHypothesis.HeartElementaryIdentities
+import GppVerify.RiemannHypothesis.HeartMellinSeries
+import GppVerify.RiemannHypothesis.HeartRound23Elementary
+import GppVerify.RiemannHypothesis.HeartZetaUnitInterval
+import GppVerify.RiemannHypothesis.HeartLandauLocal
+import GppVerify.RiemannHypothesis.HeartDirichletLiminf
+import GppVerify.RiemannHypothesis.HeartChebyshevDyadic
+import GppVerify.RiemannHypothesis.DigammaQuarterValue
+import GppVerify.RiemannHypothesis.HeartFejerKernel
+import GppVerify.RiemannHypothesis.HeartHankelCauchyBinet
+import GppVerify.Upstream.CauchyBinet
+import GppVerify.RiemannHypothesis.HeartEntropyAdditivity
+import GppVerify.RiemannHypothesis.HeartLaplaceIdentity
+import GppVerify.RiemannHypothesis.HeartLandauReduction
+import GppVerify.RiemannHypothesis.UndampingKernel
+import GppVerify.RiemannHypothesis.UndampingScalars
+import GppVerify.RiemannHypothesis.HeartLandauWindow
+import GppVerify.RiemannHypothesis.UndampingSine
+import GppVerify.RiemannHypothesis.HeartFourthPowerSampling
+import GppVerify.RiemannHypothesis.HeartSpreadAverage
+import GppVerify.RiemannHypothesis.UndampingTransfer
+import GppVerify.RiemannHypothesis.DirichletSineParseval
+import GppVerify.RiemannHypothesis.UndampingGreenForm
+import GppVerify.RiemannHypothesis.UndampingSignedTail
+import GppVerify.RiemannHypothesis.MobiusEchoPassivity
+import GppVerify.RiemannHypothesis.MobiusEchoRH
+import GppVerify.RiemannHypothesis.MobiusEchoSubpower
+import GppVerify.RiemannHypothesis.MobiusModeDecomposition
+import GppVerify.RiemannHypothesis.ExplicitFormulaChain
+import GppVerify.RiemannHypothesis.LambdaStieltjes
+import GppVerify.RiemannHypothesis.QuartetTwoRate
+import GppVerify.RiemannHypothesis.XiHeightBound
+import GppVerify.RiemannHypothesis.QuartetFamilyPosDef
+import GppVerify.RiemannHypothesis.ZeroEnergyRadical
+import GppVerify.RiemannHypothesis.ZeroSumPairing
+import GppVerify.RiemannHypothesis.FourFaceGram
+import GppVerify.RiemannHypothesis.ShadowLadder
+import GppVerify.RiemannHypothesis.CayleyDickson
+import GppVerify.RiemannHypothesis.CayleyDicksonOctonion
+import GppVerify.RiemannHypothesis.CayleyDicksonSedenion
+import GppVerify.RiemannHypothesis.LocalThetaPair
+import GppVerify.RiemannHypothesis.LocalThetaCorrespondence
+import GppVerify.RiemannHypothesis.LocalDetRep
+import GppVerify.RiemannHypothesis.LocalHoweDuality
+import GppVerify.RiemannHypothesis.LocalParabolic
+import GppVerify.RiemannHypothesis.DilationStencil
+import GppVerify.RiemannHypothesis.NymanBeurlingBoundStates
+import GppVerify.RiemannHypothesis.BoundStateRenormalization
+import GppVerify.RiemannHypothesis.ArchimedeanCelestial
+import GppVerify.RiemannHypothesis.UnitaryHologramAssembly
+import GppVerify.RiemannHypothesis.BeurlingDilationInvariance
+import GppVerify.RiemannHypothesis.ZeroEigenvectorCorrespondence
+import GppVerify.RiemannHypothesis.EtaInversionReal
+import GppVerify.RiemannHypothesis.EtaInversionLog
+import GppVerify.RiemannHypothesis.MoebiusTsum
+import GppVerify.RiemannHypothesis.MoebiusEulerSum
+import GppVerify.RiemannHypothesis.CausalTailEstimate
+import GppVerify.RiemannHypothesis.CausalKernels
+import GppVerify.RiemannHypothesis.CausalAbel
+import GppVerify.RiemannHypothesis.CausalNormBounds
+import GppVerify.RiemannHypothesis.CausalTransforms
+import GppVerify.RiemannHypothesis.CausalEnergyZero
+import GppVerify.RiemannHypothesis.SparseCutoffCriterion

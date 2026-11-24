@@ -18,14 +18,12 @@ integrable **bounded** `f`, exactly the hypothesis set the stub proposed:
   `Integrable.bdd_mul` for the bounded factor);
 * `P(a−b) = ∫ f(y+a)·f(y+b) dy` (right-translation invariance,
   `integral_add_right_eq_self`);
-* the finite sum interchanges with the integral (`integral_finset_sum`), and the
+* the finite sum interchanges with the integral (`integral_finsetSum`), and the
   pointwise sum is `‖Σᵢ cᵢ·f(y+xᵢ)‖² ≥ 0` — the same Gram-square identity as
   `YakaboyluPositivityKernel.lean`, now under an integral sign.
 
 `GppHaarPositivityWeil.PositiveType` is reused unchanged, so this theorem plugs directly
 into that file's framework (Weil/Wightman/OS positivity as instances of one construction).
-The idèle-class-group version remains open for the honest reason recorded there: idèle
-class groups are not in Mathlib.
 -/
 
 namespace GppHaarPositivityWeil
@@ -136,15 +134,15 @@ theorem convolution_square_positive_type {f : ℝ → ℝ}
       ∫ y, f (y + x i) * f (y + x j) =
       ∫ y, ∑ i : Fin n, ∑ j : Fin n,
         ((starRingEnd ℂ) (c i) * c j).re * (f (y + x i) * f (y + x j)) := by
-    rw [integral_finset_sum]
+    rw [integral_finsetSum]
     · apply Finset.sum_congr rfl
       intro i _
-      rw [integral_finset_sum]
+      rw [integral_finsetSum]
       · apply Finset.sum_congr rfl
         intro j _
         rw [integral_const_mul]
       · exact fun j _ => hint i j
-    · exact fun i _ => integrable_finset_sum _ fun j _ => hint i j
+    · exact fun i _ => integrable_finsetSum _ fun j _ => hint i j
   rw [hswap]
   -- Step 4: the integrand is a Gram square, hence nonnegative pointwise.
   apply integral_nonneg

@@ -1,7 +1,7 @@
 import GppVerify.QuantumGravity.StefanBoltzmannFamily
 import Mathlib.Analysis.Calculus.Deriv.Slope
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Deriv
-import Mathlib.Algebra.Field.Power
+import Mathlib.Algebra.Ring.Int.Parity
 
 /-!
 # Matsubara poles of the Plancherel weight

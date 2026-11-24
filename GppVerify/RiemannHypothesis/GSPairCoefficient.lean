@@ -15,8 +15,7 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (statement
 * `pairCoeff` is the coordinate sum `∑_j conj c_j conj d_j (e^{iγ_j t} + e^{−iγ_j t})`. It is
   intended as the expansion of `C(t) = ⟨Ψ_L, U_t J Ψ_L⟩` for `Ψ_L = (c, d)` in `ℂ^{2N}`, with
   `U_t e_{j,±} = e^{±iγ_j t} e_{j,±}` and the antilinear twist `J(c, d) = (conj d, conj c)`. That
-  identification is a hand computation and is **not** formalized: the theorems below are about the
-  coordinate definition, not the inner-product term.
+  identification is a hand computation; the theorems below are about the coordinate definition.
 * `pairCoeff_eq`: `C(t) = ∑_j 2 conj(c_j d_j) cos(γ_j t)`.
   **Correction to the deposit's §2.1.** The deposit writes
   `C(t) = 2 Re ∑_j conj(c_j d_j) e^{iγ_j t}`. That agrees with the line above only when every
@@ -25,9 +24,9 @@ Daniel Toupin / Golden Physics Project, with AI assistance from Turbo (statement
   check tests that real sum, not this identity.
 * `pairCoeff_bound`: `‖C(t)‖ ≤ ∑_j (‖c_j‖² + ‖d_j‖²) = ‖Ψ_L‖² = ‖Ψ_L‖ ‖JΨ_L‖` for every `t`.
 
-**Scope.** Finite `N`. The continuous (GS)-pair implication, the off-diagonal dilation identity,
-and (PAIR-NORM), (P2) and (P3) are not formalized. By Turbo's Wave 276–279 classification,
-(PAIR-NORM) via `S₀`-boundedness is strictly stronger than RH. No claim about RH.
+**Scope.** The theorems cover finite `N`. The continuous (GS)-pair implication, the off-diagonal
+dilation identity, (PAIR-NORM), (P2) and (P3) are the named open steps; by Turbo's Wave 276–279
+classification, (PAIR-NORM) via `S₀`-boundedness is strictly stronger than RH.
 -/
 
 open Complex Finset

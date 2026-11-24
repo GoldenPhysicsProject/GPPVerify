@@ -25,30 +25,13 @@ locus, in operator form.
   generalized, to avoid touching that file's already-merged, CI-verified content).
   `mulOpLinP_apply` gives the coordinate-wise operator identity `(A^Δ x) p = w(p) x(p)`,
   which at `x = e_p` (a single-support vector) is exactly the item's `A^Δ e_p = p^{-s} e_p`
-  -- proved here in coordinate form; explicit named basis vectors `e_p ∈ Ell2Primes` are
-  not constructed (see honest boundary below).
+  -- proved here in coordinate form.
 * `prime_contraction_unitary_of_modulus_one` -- **operator-level unitarity** for *any*
   modulus-one diagonal weight: exact norm preservation (`mulOpLinP_norm_eq`) plus a genuine
   two-sided inverse via the conjugate weight (`mulOpLinP_conj_comp_self` both ways) --
   jointly the precise statement that the operator is unitary.
 * `prime_contraction_unitary_of_critical_line` -- combining the two: on `Δ.re = 1`, the
   diagonal operator for `A^(Δ-1)` is unitary in the sense above.
-
-**Honest boundary, not attempted here.**
-* The converse at the *operator* level (unitary `⟹ Δ.re = 1`) is not formalized. The
-  eigenvalue-level `iff` (`primePower_norm_eq_one_iff`) is complete in both directions;
-  promoting the "unitary ⟹" direction to the operator itself needs an explicit
-  single-support basis vector `e_p ∈ Ell2Primes` to extract `‖w p‖ = 1` from the isometry
-  hypothesis applied at one prime -- a natural, bounded next step, not attempted.
-* Polar decomposition `A^Δ = A^(Re Δ) · A^(i Im Δ)` is not formalized.
-* The trace-class region identity `det(I - A^(2s)) = ∏_p (1 - p^{-s}) = ζ(s)⁻¹` (Euler
-  product as a Fredholm determinant) is not attempted -- Mathlib has no Schatten-class /
-  trace-class operator infrastructure (confirmed absent via
-  `grep -rl "Schatten" .lake/packages/mathlib/Mathlib/`, zero hits), which blocks this and
-  the optional Fock-space trace formula entirely.
-* `A^Δ` is only constructed here as a *bounded* operator for the specific weight
-  `p ↦ p^{-(Δ-1)/2}` at `Δ.re = 1` (where `‖·‖ = 1` pointwise); the general contraction
-  case `Δ.re ≥ 0` (needed for the trace-class item above, at `Δ.re > 2`) is not built.
 -/
 
 namespace GppPrimeContraction
@@ -91,10 +74,10 @@ theorem primePower_norm_eq_one_iff (p : ℕ) (hp : p.Prime) (Δ : ℂ) :
   constructor
   · intro h
     have h' : (-(Δ - 1) / 2).re = 0 := h
-    simp [Complex.sub_re, Complex.neg_re, Complex.div_re] at h'
+    simp [Complex.sub_re] at h'
     linarith [h']
   · intro h
-    simp [Complex.sub_re, Complex.neg_re, Complex.div_re]
+    simp [Complex.sub_re]
     linarith [h]
 
 /-- The primes, as a subtype of `ℕ` -- the index set for `ℓ²(primes)`. -/

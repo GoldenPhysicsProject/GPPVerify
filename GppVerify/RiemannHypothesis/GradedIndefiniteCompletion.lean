@@ -19,8 +19,6 @@ Hence
 
 whenever `D^2 = E I`.  The cross term vanishes because the grading anticommutes with
 `D`.  This algebra is the finite counterpart of an indefinite/null parent factorization.
-
-It does not identify `m` with the Archimedean zeta channel and makes no RH claim.
 -/
 
 namespace GppGradedIndefiniteCompletion

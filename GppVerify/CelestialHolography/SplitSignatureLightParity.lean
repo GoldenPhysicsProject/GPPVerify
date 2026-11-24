@@ -9,8 +9,7 @@ both a continuous conformal weight and a discrete `Z2` parity under sign reversa
 The normalized light transforms reflect the continuous weights but preserve the
 discrete parity labels.
 
-This module formalizes that representation-label algebra. It does not formalize the
-integral kernels or their Gamma-function normalization.
+This module formalizes that representation-label algebra.
 -/
 
 namespace GppSplitSignatureLightParity

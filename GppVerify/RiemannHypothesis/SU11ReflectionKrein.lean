@@ -23,11 +23,9 @@ parity, so `J Ω_r = Ω_{−r}`; put `P_± = (I ± J)/2`.
 ## Checks and scope
 
 All claims check; the determinant is given here in the `r, s` variables where it is a rational
-identity, which is equivalent to the note's trigonometric form under `r = tan α`. **Not
-formalized:** the Archimedean Jacobi-transform picture (§3: even/odd exponential tilts in
-`L²(sech(πx) dx)`) and the sharpened target of §6 (a positive frame `G` with `G^{1/2} J G^{1/2} ≥ 0`
-on the physical subspace). The meaning for the RH programme is the note's: local prime
-contractions are correct but cannot by themselves give a global contraction. No RH claim.
+identity, which is equivalent to the note's trigonometric form under `r = tan α`.
+ The meaning for the RH programme is the note's: local prime
+contractions are correct but cannot by themselves give a global contraction.
 -/
 
 open GppSU11Prime

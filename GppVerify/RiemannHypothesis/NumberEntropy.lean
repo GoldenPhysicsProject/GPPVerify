@@ -18,7 +18,6 @@ The canonical entropy is
   S(s) = log ζ(s) + s U(s),   U(s) = -ζ'(s)/ζ(s).
 
 On the real thermodynamic axis `s = β > 1`, this is the standard Gibbs entropy formula.
-No claim is made here that its complex analytic continuation is itself a probability entropy.
 -/
 
 namespace GppNumberEntropy

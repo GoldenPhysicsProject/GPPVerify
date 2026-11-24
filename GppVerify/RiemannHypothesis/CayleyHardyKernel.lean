@@ -35,7 +35,7 @@ is proved as well:
 ## Scope
 
 Claim 3 is a matching of kernel shapes: `(1−uv̄)^{-1}` has the form `(1−uv̄)^{-2k}` with `k = ½`.
-The `SU(1,1)` representation theory behind the name is not formalized. Neither is the note's
+ Neither is the note's
 further identification of this `k = ½` with the TFD oscillator, the Casimir threshold and the
 Plancherel weight; the note itself calls those identifications structural. Nothing here uses
 or implies information about zeros.

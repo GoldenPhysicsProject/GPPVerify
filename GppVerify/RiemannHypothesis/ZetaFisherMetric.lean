@@ -21,10 +21,9 @@ This file proves:
   The proof is Cauchy–Schwarz (Hölder with `p = q = 2`), and strictness holds because `log N` is not
   constant.
 
-**Not formalized:** the pole asymptotics `(log ζ)''(1 + δ) = 1/δ² + O(1)` (the AdS₂ boundary of the
-note, §§4–5); see the PR for a numerical check. Positivity of the Fisher metric uses only the
+ Positivity of the Fisher metric uses only the
 positivity of the Dirichlet coefficients, so it also holds for the shifted fake
-`ζ(s−θ)ζ(s+θ)`. It is **not** an RH mechanism. **No RH claim.**
+`ζ(s−θ)ζ(s+θ)`. It is **not** an RH mechanism.
 -/
 
 namespace GppZetaFisherMetric

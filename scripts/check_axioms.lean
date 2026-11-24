@@ -62,7 +62,7 @@ import GppVerify
 #print axioms GppRH.temperedness_iff_critical_line
 
 -- Thread HT — the prime–Archimedean heat trace (elementary layer).
--- All expected: Lean built-ins only. Nothing here proves or assumes RH.
+-- All expected: Lean built-ins only.
 #print axioms GppHeatTrace.completelyMonotone_exp_neg
 #print axioms GppHeatTrace.resolvent_laplace
 #print axioms GppHeatTrace.laplace_resolvent_shift
@@ -87,13 +87,13 @@ import GppVerify
 
 -- Thread Weil-Parity — the exact Archimedean renormalization tail. Expected: Lean
 -- built-ins only. Promotes a numerical-checkpoint correction (lean_results
--- 079ca52f) to a closed-form theorem. No claim about Q_{lambda,N}'s eigenvalues.
+-- 079ca52f) to a closed-form theorem.
 #print axioms GppWeilParity.archimedean_diagonal_tail
 
 -- Thread Weil-Parity — cross-resolvent core (formalization_queue items 3ebed50a,
 -- 0cf9aebf). Expected: Lean built-ins only. Abstract finite-dimensional theorems;
 -- the actual arithmetic CCM matrix's positivity hypotheses are NOT established
--- (research_notes 35a9efdc: counterexample at c=13,N=6). No RH claim.
+-- (research_notes 35a9efdc: counterexample at c=13,N=6).
 #print axioms cross_resolvent_det_identity
 #print axioms parity_crossing_obstruction
 
@@ -201,8 +201,8 @@ import GppVerify
 #print axioms GppEisenstein.eisensteinCoeff_eq_shadow_ratio
 #print axioms GppEisenstein.eisensteinCoeff_reflection
 
--- The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22). Physical-sector
--- identification is NOT claimed anywhere here -- these are pure arithmetic/matrix theorems.
+-- The golden ratio as the minimal hyperbolic sector of PSL2(Z) (2026-08-22).
+-- These are pure arithmetic/matrix theorems.
 -- Expected: Lean built-ins only, all eleven.
 #print axioms GppGoldenHyperbolic.fixedPoint_iff_gold
 #print axioms GppGoldenHyperbolic.M_sq_eq_A
@@ -227,8 +227,8 @@ import GppVerify
 #print axioms GppDispersion.lorentzian_jump
 #print axioms GppDispersion.lorentzian_kernel_tendsto_zero_off_pole
 
--- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23, fourth pass). No RH claim,
--- no global positivity claim -- see CutkoskyWeilBridge.lean's module doc and
+-- Local shadow kernels / finite-prime Weil kernel (2026-08-22/23, fourth pass).
+-- See CutkoskyWeilBridge.lean's module doc and
 -- discovery/cutkosky_weil/notes.md for the corrected central finding (K_p-1 IS a positive
 -- kernel; the earlier Toeplitz-indefiniteness claim tested the wrong notion) and the
 -- completed analytic passage (removable singularity C(0)=1/(8*pi); the N->infinity limit
@@ -375,3 +375,66 @@ import GppVerify
 #print axioms GppZetaGibbsFisherStrict.zetaVarianceResponse_eq_logMul_vonMangoldt
 #print axioms GppZetaGibbsFisherStrict.logEnergyVariance_eq_fisher_tsum
 #print axioms GppZetaGibbsFisherStrict.logEnergyVariance_strictAnti
+
+#print axioms GppHiddenZeros.amp4_eq_zero_of_u_eq_zero
+#print axioms GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero
+#print axioms GppHiddenZeros.amp6_eq_zero_skinny_rectangle
+
+#print axioms GlobalTate.Poisson.adelicFourierInversion
+#print axioms GlobalTate.Poisson.adelicPlancherel
+#print axioms GlobalTate.Poisson.haarScaling
+#print axioms GlobalTate.Poisson.adelicPoissonSummation
+#print axioms GlobalTate.Poisson.adelicPoissonScaled
+#print axioms GppDigammaVertical.norm_digamma_le
+#print axioms GppExplicitFormulaE1.spectralTransform_decay_strip
+#print axioms GppXiOrder.xi_hasOrderLE_two
+#print axioms GppXiZeroCounting.analyticOrderAt_xi_eq
+#print axioms GppXiZeroCounting.sum_zeroMult_le
+#print axioms GppXiZeroCounting.one_le_zeroMult
+#print axioms GppXiZeroCounting.zeroCountingPolynomial
+#print axioms GppXiZeroCounting.analyticOrderAt_xi_conj
+#print axioms GppXiZeroCounting.analyticOrderAt_xi_one_sub
+#print axioms GppXiZeroCounting.zeroData_symmetric
+#print axioms Complex.exists_exp_eq_of_ne_zero_ball
+#print axioms Complex.norm_deriv_le_of_re_le
+#print axioms Complex.logDeriv_canonicalFactor
+#print axioms Complex.exists_blaschke_decomposition
+#print axioms Complex.norm_logDeriv_le
+#print axioms Complex.rect_boundary_integral_inv_sub
+#print axioms Complex.rectInt_div_sub
+#print axioms Complex.rectInt_div_sub_of_notMem
+#print axioms Complex.rectInt_finset_sum
+#print axioms Complex.rectInt_logDeriv_mul
+#print axioms Real.exists_mem_Icc_far_from_finset
+#print axioms GppXiZeroCounting.exists_radius_no_zero
+#print axioms GppXiZeroCounting.sum_orderNat_le
+#print axioms GppXiZeroCounting.exists_good_height
+#print axioms GppXiZeroCounting.logDeriv_Gammaℝ
+#print axioms GppXiZeroCounting.xi_eq_mul
+#print axioms GppXiZeroCounting.logDeriv_xi_eq
+#print axioms GppDigammaIntegral.norm_one_sub_exp_neg_le
+#print axioms GppDigammaIntegral.digamma_eq_integral
+#print axioms GppArchimedeanId.norm_K_le
+#print axioms GppArchimedeanId.inversion
+#print axioms GppArchimedeanId.inner_integral
+#print axioms GppArchimedeanId.integrable_prod
+#print axioms GppArchimedeanId.archimedean_identification
+#print axioms GppSpectralInversion.line_inversion
+#print axioms GppPrimeLine.term_integral
+#print axioms GppPrimeLine.prime_line
+#print axioms GppXiReflection.logDeriv_xi_one_sub
+#print axioms GppXiReflection.spectralTransform_one_sub
+#print axioms GppXiReflection.xi_zero_mem_strip
+#print axioms GppXiReflection.xi_eq_zero_iff_nontrivial
+#print axioms GppContourLimit.differentiable_spectralTransform
+#print axioms GppContourLimit.rect_identity
+#print axioms GppContourLimit.summable_zeroSum
+#print axioms GppContourLimit.exists_horizontal
+#print axioms GppContourLimit.hasSum_zeroSum_lines
+#print axioms GppXiLineBounds.norm_logDeriv_xi_line_le
+#print axioms GppShiftContour.shift_identity
+#print axioms GppShiftContour.rectInt_H
+#print axioms GppShiftContour.norm_H_le
+#print axioms GppExplicitFormulaAssembly.half_line
+#print axioms GppExplicitFormulaAssembly.explicit_formula_even
+#print axioms GppExplicitFormulaAssembly.explicit_formula_zeroSum

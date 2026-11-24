@@ -90,7 +90,7 @@ def goldenRayStep (u : RayState) : RayState :=
 theorem goldenRayStep_apply (x p : ℝ) :
     goldenRayStep (x,p) = (p,x+p) := by
   apply Prod.ext <;>
-    simp [goldenRayStep, rayReciprocal, rayUnipotent, act2] <;> ring
+    simp [goldenRayStep, rayReciprocal, rayUnipotent, act2]; ring
 
 /-- One mixed step reverses the Wronskian, as its determinant is `-1`. -/
 theorem goldenRayStep_reverses_omega (u v : RayState) :
@@ -105,7 +105,7 @@ theorem goldenRayStep_reverses_omega (u v : RayState) :
 theorem goldenRayStep_sq_apply (x p : ℝ) :
     goldenRayStep (goldenRayStep (x,p)) = (x+p,x+2*p) := by
   rw [goldenRayStep_apply, goldenRayStep_apply]
-  apply Prod.ext <;> simp <;> ring
+  apply Prod.ext <;> simp; ring
 
 /-- Accordingly the even/orientation-preserving word preserves the Wronskian. -/
 theorem goldenRayStep_sq_preserves_omega (u v : RayState) :

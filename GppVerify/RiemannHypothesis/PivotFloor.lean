@@ -24,10 +24,10 @@ For a quadratic form `A` on `ℝ^K` (coordinates `0, …, K−1`), its last-coor
 * `no_constant_barrier`: if `0 < s_K ≤ 2 t_K` with `t_K → 0`, and the comparison pivots satisfy
   `s^Δ_K ≥ d > 0`, then no fixed `c > 0` has `s_K ≥ c s^Δ_K` for all `K`.
 
-**Scope.** Astra's spectral input is not formalized. That input is: under RH the packet kernel is
+**Scope.** That input is: under RH the packet kernel is
 a pure-point measure, so the Ky Fan bound gives `(det Q_K)^{1/K} → 0`, with `det Q_K = ∏ t_j`.
 Without it, the constant-barrier refutation here is conditional on `t_K → 0`. Nothing here rules
-out a moving barrier `c_K > 0` or the all-positive-pivot route. No claim about RH.
+out a moving barrier `c_K > 0` or the all-positive-pivot route.
 -/
 
 open Filter Topology Finset

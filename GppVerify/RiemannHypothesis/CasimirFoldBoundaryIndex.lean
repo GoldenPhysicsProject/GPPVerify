@@ -21,8 +21,7 @@ logarithmic derivative:
   terms `1/s + 1/(s-1)` collapse to the single boundary index `1/u` after
   division by `du/ds = 2s-1`.
 
-These are unconditional algebraic identities.  No positivity theorem and no
-claim of RH is made here.
+These are unconditional algebraic identities.
 -/
 
 namespace GppCasimirFold
@@ -46,7 +45,7 @@ theorem casimirFold_cartesian (beta gamma : ℝ) :
   unfold casimirFold
   apply Complex.ext <;>
     simp [Complex.mul_re, Complex.mul_im, Complex.add_re, Complex.add_im,
-      Complex.sub_re, Complex.sub_im, sq] <;>
+      Complex.sub_re, Complex.sub_im, sq];
     ring
 
 /-- The real part of the folded parameter. -/

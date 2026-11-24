@@ -94,7 +94,7 @@ theorem critical_line_of_reflected_quotient_contractions
       subcritical_haar_quotient_expands (s := 1 - (starRingEnd ℂ) s) hk hlt
     linarith
   have href_re : (1 - (starRingEnd ℂ) s).re = 1 - s.re := by
-    simp [Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re]
+    simp [Complex.sub_re, Complex.one_re, Complex.conj_re]
   rw [href_re] at href_ge
   linarith
 

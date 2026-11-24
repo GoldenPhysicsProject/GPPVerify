@@ -35,9 +35,9 @@ theorem positiveType_of_tendsto
         Filter.atTop
         (nhds (∑ i : Fin M, ∑ j : Fin M,
           (starRingEnd ℂ) (c i) * c j * ((g (x i - x j) : ℝ) : ℂ))) := by
-    apply tendsto_finset_sum
+    apply tendsto_finsetSum
     intro i hi
-    apply tendsto_finset_sum
+    apply tendsto_finsetSum
     intro j hj
     exact tendsto_const_nhds.mul (hlim (x i - x j))
   -- `PositiveType` is nonnegativity in `ℂ`'s partial order, whose cone is closed.

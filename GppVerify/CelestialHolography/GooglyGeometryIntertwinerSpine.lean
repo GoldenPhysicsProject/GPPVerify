@@ -117,8 +117,6 @@ state, whereas the same integer reflection read on one fixed twistor side is the
 opposite-helicity bundle degree.  Likewise, the celestial shadow label `J -> -J` must not
 be read as Fourier physically manufacturing an opposite-helicity state.
 
-What is NOT proved here:
-
 * a conformally canonical pointwise identification `PT* -> PT` (none is needed for the
   canonical incidence chain);
 * the full homogeneous distributional/projective Fourier-Penrose integral theorem in Lean;

@@ -60,9 +60,7 @@ Two precision notes, recorded in the PR and to Codex:
 ## Scope
 
 Finite arithmetic, one local power series, finite matrices, and a finite-interval integration by
-parts. Uetake's theorem (poles of `S_{c0}` = spectrum of `A_c`), the cyclicity of the
-source-observer pair, and the Hardy-space step of the one-correlator note are not formalized.
-No RH claim.
+parts.
 -/
 
 open Finset Matrix

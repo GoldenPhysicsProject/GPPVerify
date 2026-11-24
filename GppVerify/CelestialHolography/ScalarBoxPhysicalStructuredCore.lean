@@ -58,7 +58,7 @@ theorem abs_movingCore_sub_D0_le
     hA0 ha ht hE
   rw [scalarBoxD0_eq_log_scale_core hS hU hm]
   unfold scalarBoxMovingCore
-  convert hbase using 1 <;> ring
+  convert hbase using 1; ring
 
 end GppScalarBoxPhysicalStructuredCore
 

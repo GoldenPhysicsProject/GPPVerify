@@ -3,6 +3,7 @@ import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Data.Matrix.Basic
 import Mathlib.LinearAlgebra.Matrix.Notation
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+import Mathlib.Data.Complex.Basic
 
 /-!
 # Majorana Condition from T-Boundary
@@ -51,30 +52,117 @@ def epsilon : Matrix (Fin 2) (Fin 2) ℂ := !![0, 1; -1, 0]
 
 /-- Charge conjugation's matrix part satisfies ε² = -1: the finite
     algebraic fact underlying "C² = -1 for Dirac spinors" (the full
-    statement also involves the antiunitary complex-conjugation factor,
-    not formalized here -- see `HalfFlipProposition.lean`'s treatment of
-    the analogous antiunitary structure for Wigner time reversal). -/
+    statement also involves the antiunitary complex-conjugation factor;
+    see `HalfFlipProposition.lean`'s treatment of the analogous
+    antiunitary structure for Wigner time reversal). -/
 theorem epsilon_sq : epsilon * epsilon = -1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [epsilon, Matrix.mul_apply, Fin.sum_univ_two, Matrix.neg_apply, Matrix.one_apply]
+      [epsilon, Matrix.mul_apply, Fin.sum_univ_two, Matrix.neg_apply]
 
 /-- ε is invertible: det ε = 1 ≠ 0. -/
 theorem epsilon_det : epsilon.det = 1 := by
   simp [epsilon, Matrix.det_fin_two_of]
 
-/-- Charge conjugation C satisfies C² = -1 for Dirac spinors. The matrix
-    part is `epsilon_sq`; the full antiunitary statement (including
-    complex conjugation) is a further Mathlib gap, recorded here as
-    before. -/
-theorem open_charge_conjugation_sq : True := trivial
--- NOTE: full antiunitary Clifford algebra / spinor bundle formalism
--- needed for the complex-conjugation half; the matrix half is
--- `epsilon_sq` above.
+/-! ## Charge conjugation as an antilinear map (retires `open_charge_conjugation_sq`, 2026-11-07)
 
-/-- Majorana condition: ψ = Cψ̄ is self-consistent for Weyl spinors -/
-theorem open_majorana_self_consistency : True := trivial
+The stub that stood here read "C² = -1 for Dirac spinors", with the complex-conjugation half
+left open. With the conjugation included, the sign depends on which spinor:
+
+* **2-component Weyl spinors**, `C ψ = ε ψ̄`: `C² = -1` (`weylC_weylC`). This is the
+  quaternionic (pseudoreal) structure of the SU(2) doublet.
+* **4-component Dirac spinors**, `C ψ = i γ² ψ̄` in the Dirac representation: `C² = +1`
+  (`diracC_diracC`). The stub's wording was wrong for Dirac spinors; the `-1` belongs to the
+  Weyl case, which is the one `epsilon_sq` was about.
+
+Both maps are antilinear (`weylC_add`, `weylC_smul`, `diracC_add`, `diracC_smul`).
+-/
+
+open Matrix in
+/-- Charge conjugation on a 2-component Weyl spinor: `ψ ↦ ε ψ̄`. -/
+def weylC (v : Fin 2 → ℂ) : Fin 2 → ℂ := epsilon *ᵥ (star v)
+
+open Matrix in
+/-- **`C² = -1` on Weyl spinors**, complex conjugation included. -/
+theorem weylC_weylC (v : Fin 2 → ℂ) : weylC (weylC v) = -v := by
+  funext i
+  fin_cases i <;> simp [weylC, epsilon, mulVec, dotProduct, Fin.sum_univ_two]
+
+open Matrix in
+theorem weylC_add (v w : Fin 2 → ℂ) : weylC (v + w) = weylC v + weylC w := by
+  simp [weylC, star_add, mulVec_add]
+
+open Matrix in
+/-- `C` is antilinear: it conjugates scalars. -/
+theorem weylC_smul (c : ℂ) (v : Fin 2 → ℂ) :
+    weylC (c • v) = (starRingEnd ℂ c) • weylC v := by
+  funext i
+  fin_cases i <;> simp [weylC, epsilon, mulVec, dotProduct, Fin.sum_univ_two]
+
+/-- `γ²` in the Dirac representation: `[[0, σ₂], [-σ₂, 0]]`, `σ₂ = [[0, -i], [i, 0]]`. -/
+def gamma2 : Matrix (Fin 4) (Fin 4) ℂ :=
+  !![0, 0, 0, -Complex.I; 0, 0, Complex.I, 0; 0, Complex.I, 0, 0; -Complex.I, 0, 0, 0]
+
+open Matrix in
+/-- Clifford relation for `γ²` with signature `(+,-,-,-)`: `(γ²)² = g²² = -1`. -/
+theorem gamma2_sq : gamma2 * gamma2 = -1 := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+    simp [gamma2, Matrix.mul_apply, Fin.sum_univ_four]
+
+/-- Charge conjugation on a Dirac spinor: `ψ ↦ i γ² ψ̄`. -/
+def diracC (v : Fin 4 → ℂ) : Fin 4 → ℂ := (Complex.I • gamma2).mulVec (star v)
+
+open Matrix in
+/-- **`C² = +1` on Dirac spinors**, complex conjugation included. -/
+theorem diracC_diracC (v : Fin 4 → ℂ) : diracC (diracC v) = v := by
+  funext i
+  fin_cases i <;> simp [diracC, gamma2, mulVec, dotProduct, Fin.sum_univ_four]
+
+open Matrix in
+theorem diracC_add (v w : Fin 4 → ℂ) : diracC (v + w) = diracC v + diracC w := by
+  simp [diracC, star_add, mulVec_add]
+
+open Matrix in
+theorem diracC_smul (c : ℂ) (v : Fin 4 → ℂ) :
+    diracC (c • v) = (starRingEnd ℂ c) • diracC v := by
+  funext i
+  fin_cases i <;> simp [diracC, gamma2, mulVec, dotProduct, Fin.sum_univ_four]
+
+/-- **Correction to the source statement.** On a 2-component Weyl spinor the Majorana
+condition `ψ = Cψ̄` is *not* self-consistent: since `C² = -1` there, it forces `ψ = 0`.
+(The stub this replaces, retired 2026-11-07, read "self-consistent for Weyl spinors".) -/
+theorem weyl_majorana_eq_zero {v : Fin 2 → ℂ} (h : weylC v = v) : v = 0 := by
+  have h2 : v = -v := by
+    calc v = weylC (weylC v) := by rw [h, h]
+      _ = -v := weylC_weylC v
+  have : (2 : ℂ) • v = 0 := by rw [two_smul]; nth_rewrite 1 [h2]; simp
+  exact (smul_eq_zero.mp this).resolve_left two_ne_zero
+
+/-- On Dirac spinors, where `C² = +1`, every `v + Cv` satisfies the Majorana condition. -/
+theorem diracC_add_self (v : Fin 4 → ℂ) : diracC (v + diracC v) = v + diracC v := by
+  rw [diracC_add, diracC_diracC, add_comm]
+
+/-- The Majorana spinors form a real subspace: closed under real linear combinations. -/
+theorem majorana_real_combination {v w : Fin 4 → ℂ} (hv : diracC v = v) (hw : diracC w = w)
+    (r s : ℝ) : diracC ((r : ℂ) • v + (s : ℂ) • w) = (r : ℂ) • v + (s : ℂ) • w := by
+  rw [diracC_add, diracC_smul, diracC_smul, hv, hw, Complex.conj_ofReal, Complex.conj_ofReal]
+
+open Matrix in
+/-- **Majorana self-consistency** (on Dirac spinors): the condition `ψ = Cψ̄` has nonzero
+solutions, e.g. `(1, 0, 0, 1)` in the Dirac representation, and is consistent because
+`C² = +1` (`diracC_diracC`). Replaces the stub `open_majorana_self_consistency : True`,
+retired 2026-11-07; see `weyl_majorana_eq_zero` for why "Weyl" in the old statement was
+wrong. The T-boundary derivation of the condition (the source's further claim) is not
+addressed here. -/
+theorem majorana_self_consistency : ∃ v : Fin 4 → ℂ, diracC v = v ∧ v ≠ 0 := by
+  refine ⟨![1, 0, 0, 1], ?_, ?_⟩
+  · funext i
+    fin_cases i <;> simp [diracC, gamma2, mulVec, dotProduct, Fin.sum_univ_four]
+  · intro h
+    have := congrFun h 0
+    simp at this
 -- SOURCE: zitterbewegung paper, thm:majorana
 -- The T-boundary condition ψ|_{t=0} = ψ̄|_{t=0} forces ψ = Cψ̄.
 -- LIBRARY GAP (known mathematics, absent from Mathlib): Spinor bundles re-verified absent in Mathlib 4.33.1 (2026-09-01).

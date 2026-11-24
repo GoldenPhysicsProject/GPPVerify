@@ -172,10 +172,10 @@ the Lean source.
 
 \begin{lemma}[Compact Factor $K^1 = \mathbb{A}^1/\mathbb{Q}^\times$]
   \label{lem:fujisaki}
-  \lean{GppHaar.open_adelic_quotient_compact_factor}
+  \lean{GppIdeleQ.compactSpace_A1_quotient}\leanok
   \uses{thm:adelic-haar}
   The norm-$1$ id\`ele class group $K^1$ is compact
-  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2).
+  (Fujisaki's lemma, Weil~1974, Ch.~IV~\S2). Proved for $\mathbb Q$ (Retired 2026-11-07); see the section on the id\`eles of $\mathbb Q$.
 \end{lemma}
 
 \begin{theorem}[Peter-Weyl on $K^1$]
@@ -3410,30 +3410,11 @@ This file formalizes `thm:spectral-weil` (On the Nature of Nature v5.2, cited 10
   \item \lean{GppSpectralWeil.test_function_fe_symmetric}\leanok\ \texttt{test\_function\_fe\_symmetric}
 \end{itemize}
 
-\noindent\textbf{Open (1 declaration):}
-\begin{itemize}
-  \item \lean{GppSpectralWeil.open_digamma_series_form} \texttt{open\_digamma\_series\_form} ---
-    a \texttt{True}-stub. It carried \texttt{\textbackslash leanok} until 2026-08-31, i.e.\ this
-    blueprint published it as machine-verified while it asserted nothing. It was unprefixed at the
-    time and so invisible to the stub-naming gate; see \S\ref{sec:axiom-inventory}.
-
-    \textbf{Narrowed 2026-09-02.} The stub is still open, but it now stands for one step rather
-    than for the whole series. \texttt{RiemannHypothesis/DigammaSeries.lean} proves,
-    unconditionally, that the Gauss series converges absolutely off the non-positive integers
-    (\lean{GppDigammaSeries.summable_digammaSeriesTerm}\leanok), that it satisfies
-    $F(s+1) = F(s) + 1/s$ --- the functional equation Mathlib's
-    \texttt{Complex.digamma\_apply\_add\_one} proves for $\psi$ ---
-    (\lean{GppDigammaSeries.digammaSeries_add_one}\leanok), and that at $s = 1$ it telescopes
-    to $-\gamma$, agreeing with \texttt{Complex.digamma\_one}
-    (\lean{GppDigammaSeries.digammaSeries_one}\leanok). Mathlib derives that value from the
-    derivative of $\Gamma$ at $1$, so the agreement is a genuine check of the formula at a point.
-
-    What remains is the identification $F = \psi$ itself. The difference of the two is
-    $1$-periodic and vanishes at $1$; eliminating it requires a growth or convexity input
-    (Wielandt / Bohr--Mollerup uniqueness), which is a \emph{library gap}: Mathlib 4.33.1 has
-    \texttt{Complex.digamma} but lists Gauss' representation under \texttt{TODO} in its own
-    module header.
-\end{itemize}
+\noindent\textbf{Retired 2026-11-07:} the stub \texttt{open\_digamma\_series\_form} (Gauss's
+series for $\psi$) is closed by \lean{GppDigammaGaussSeries.digammaSeries_eq_digamma}\leanok; see
+the section on Gauss's series for the digamma function. It had carried \texttt{\textbackslash leanok}
+until 2026-08-31 while asserting nothing (see \S\ref{sec:axiom-inventory}); on 2026-09-02 it was
+narrowed to the uniqueness step, and that step is what the new module supplies.
 
 \subsection{WeightedVarianceInfinite}
 This file passes the finite weighted Cauchy--Schwarz inequality to an infinite
@@ -3854,6 +3835,12 @@ The critical line is singled out twice, independently: on the prime torus by squ
   \item \lean{GppArithmeticUnitaryDual.trivial_zero_casimir}\leanok\ \texttt{trivial\_zero\_casimir}
   \item \lean{GppArithmeticUnitaryDual.casimir_trichotomy}\leanok\ \texttt{casimir\_trichotomy}
 \end{itemize}
+
+\subsection{Scalar tempered and complementary geography}
+\lean{GppArithmeticUnitaryDual.tempered_iff,GppArithmeticUnitaryDual.complementary_iff,GppArithmeticUnitaryDual.complex_casimir_iff,GppArithmeticUnitaryDual.off_line_of_complex_casimir,GppArithmeticUnitaryDual.strip_geography,GppArithmeticUnitaryDual.casimir_shifted_principal,GppArithmeticUnitaryDual.casimir_shifted_nonreal_iff}
+For the existing Casimir $c(s)=s(1-s)=\tfrac14-(s-\tfrac12)^2$, the scalar predicate Tempered means $\operatorname{Im}c=0$ and $\operatorname{Re}c\ge\tfrac14$; it is equivalent to $\operatorname{Re}s=\tfrac12$, including zero height. Complementary means $\operatorname{Im}c=0$ and $0<\operatorname{Re}c<\tfrac14$; it is equivalent to $s$ real in $(0,1)$ excluding $s=\tfrac12$. These two cases and complex Casimir cover the open strip. At $s=\tfrac12+\theta+i\gamma$, the actual value is $c=\tfrac14+\gamma^2-\theta^2-2i\gamma\theta$, non-real exactly when $\theta\ne0$ and $\gamma\ne0$.
+The regression combines the existing $F_\theta(s)=\xi(s-\tfrac14)\xi(s+\tfrac14)$ zero-transfer theorem with this geography: conditional on a critical-line $\xi$ zero at nonzero height, both shifted zeros have complex Casimir and fail both scalar predicates. No existence or location of a $\xi$ zero is asserted. The calibration $c(\tfrac12)=\tfrac14$ is value-level only, not an identification of representations or covers. The dictionary remains $\Delta=s$; character parity does not rename the test-space reflection channels. This is scalar classification, not a proof of RH or global positivity. The general Tate functional equation and global sewing remain open.
+Core results retain Codex and Claude Code attribution; corrected naming and shifted-height control follow Turbo's three 2026-11-07 PR11 audits. Daniel Toupin / Golden Physics Project, with AI assistance from Principal series.
 
 \section{Thread Weil-Parity --- Metric Positivity of the Cross-Resolvent}
 From Codex's KMS-metric note: with $\eta=Ge_0$ and $y=(A-z)^{-1}e_0$, the parity cross-resolvent is a $G$-energy, $f(z)=\eta^{\mathsf T}y=y^{\mathsf T}G(A-z)y$, for any matrix $G$. Hence positivity of that single form gives $f(z)>0$, and conversely a nonpositive $f(z)$ rules out every such $G$ (the exact form of the earlier negative finding in the raw CCM basis). Symmetry of $G$ and $GA=A^{\mathsf T}G$ are needed only to read the positivity as ``$z$ below the $G$-spectrum''. Whether the Bost--Connes KMS Gram supplies such a $G$ for the actual Weil block is open.
@@ -7411,6 +7398,7 @@ From `haar\_qg\_paper\_v2151.tex` base case `L = 2`: the physics paper reconstru
   \item \lean{GppEulerSum.diagEquiv}\leanok\ \texttt{diagEquiv}
   \item \emph{\ldots and 16 further results in this module.}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_euler\_sum\_two\_gap}, now \lean{GppEulerSumTwo.hasSum_harmonic_div_cube}\leanok; see the section on Euler's second sum.
 
 \subsection{DecodingReality}
 Source: decoding\_reality\_v4322.tex
@@ -7429,6 +7417,7 @@ Source: decoding\_reality\_v4322.tex
   \item \lean{GppDecodingReality.georgi_jarlskog_casimir}\leanok\ \texttt{georgi\_jarlskog\_casimir}
   \item \emph{\ldots and 14 further results in this module.}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_weinberg\_angle\_full\_derivation}, now \lean{GppWeinbergSU5.weinberg_su5}\leanok; see the section on the SU(5) Weinberg angle.
 
 \subsection{ShadowEulerIdentity}
 Source: *The Shadow Euler Identity: A Family of Evaluations of the Completed
@@ -7773,7 +7762,14 @@ Sources:
   \item \lean{GppMajorana.epsilon_det}\leanok\ \texttt{epsilon\_det}
   \item \lean{GppMajorana.zitterbewegung_frequency}\leanok\ \texttt{zitterbewegung\_frequency}
   \item \lean{GppMajorana.zitterbewegung_period}\leanok\ \texttt{zitterbewegung\_period}
+  \item \lean{GppMajorana.weylC_weylC}\leanok\ \texttt{weylC\_weylC}, \lean{GppMajorana.weylC_smul}\leanok\ \texttt{weylC\_smul}
+  \item \lean{GppMajorana.gamma2_sq}\leanok\ \texttt{gamma2\_sq}, \lean{GppMajorana.diracC_diracC}\leanok\ \texttt{diracC\_diracC}, \lean{GppMajorana.diracC_smul}\leanok\ \texttt{diracC\_smul}
+  \item \lean{GppMajorana.weyl_majorana_eq_zero}\leanok\ \texttt{weyl\_majorana\_eq\_zero}, \lean{GppMajorana.diracC_add_self}\leanok\ \texttt{diracC\_add\_self}, \lean{GppMajorana.majorana_real_combination}\leanok\ \texttt{majorana\_real\_combination}, \lean{GppMajorana.majorana_self_consistency}\leanok\ \texttt{majorana\_self\_consistency}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_majorana\_self\_consistency}. The Majorana condition $\psi=C\bar\psi$ has nonzero solutions on Dirac spinors (e.g.\ $(1,0,0,1)$ in the Dirac representation), every $v+Cv$ is one, and they form a real subspace. Correction: the stub said ``self-consistent for Weyl spinors''; on a 2-component Weyl spinor $C^2=-1$ forces $\psi=0$. The T-boundary derivation of the condition is not addressed.
+
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_charge\_conjugation\_sq}. With complex conjugation included, charge conjugation on a 2-component Weyl spinor, $\psi\mapsto\varepsilon\bar\psi$, squares to $-1$; on a 4-component Dirac spinor, $\psi\mapsto i\gamma^2\bar\psi$ (Dirac representation), it squares to $+1$. Both are antilinear. The stub's wording ``$C^2=-1$ for Dirac spinors'' was wrong for Dirac spinors; the $-1$ is the Weyl case. Nothing here bears on the Majorana framework claims or the objection recorded in the module.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
 
 \subsection{ComplementaryPairs}
 Source: On the Nature of Nature v5.2.1.3, "Counting Complementary Pairs" (thm:three-partitions),
@@ -7793,6 +7789,7 @@ This file formalizes `thm:rigidity` (On the Nature of Nature v5.2, cited 10×):
 \begin{itemize}
   \item \lean{GppRigidity.graviton_shadow_dimension}\leanok\ \texttt{graviton\_shadow\_dimension}
 \end{itemize}
+\noindent\textbf{Retired 2026-11-07:} \texttt{open\_weyl\_traceless}, now \lean{GppWeylTensor.weyl_traceless}\leanok; see the section on the Weyl tensor.
 
 \section{Cosmology}
 
@@ -7974,6 +7971,199 @@ On the big cell of the Grassmannian Gr(2,4), a 2-plane is represented in the
   \item \lean{GppGrassmannian.transition_transition_eq_neg}\leanok\ \texttt{transition\_transition\_eq\_neg}
 \end{itemize}
 
+\section{Explicit projection onto a two-vector span}
+\lean{InnerProductSpace.starProjection_span_pair,InnerProductSpace.norm_sub_starProjection_span_pair_sq}
+In any real inner product space, let $A=\langle u,u\rangle$, $B=\langle u,v\rangle$, $C=\langle v,v\rangle$, $p=\langle u,x\rangle$, $q=\langle v,x\rangle$ and $d=AC-B^2\ne0$. Mathlib's orthogonal projection onto $\operatorname{span}\{u,v\}$ is $((Cp-Bq)/d)u+((Aq-Bp)/d)v$, and the squared residual is $\|x\|^2-(Cp^2-2Bpq+Aq^2)/d$. The proof solves the Gram normal equations and uses Mathlib's projection uniqueness and Pythagorean theorem. Only the pair span must be finite-dimensional, which is automatic; no completeness assumption on the ambient space is needed.
+Daniel Toupin / Golden Physics Project, with AI assistance from Principal series. This is classical finite linear algebra, not a new positivity principle. Tests use exact real vectors and the existing spectral-orbital parity coordinates. A certificate for rationalized input data certifies those data only; comparison with exact analytic amplitudes needs separate error bounds. No numerical AUG2 bound, explicit formula, continuum tail or RH claim is asserted.
+
+\section{Real Tate parity test vectors and their restricted local functional equation}
+\lean{LocalTate.Archimedean.parityZeta_testVector,LocalTate.Archimedean.archFactor_ne_zero,LocalTate.Archimedean.integrable_parityZeta_testVector,LocalTate.Archimedean.integrable_testVector,LocalTate.Archimedean.norm_archPhase,LocalTate.Archimedean.fourier_testVector,LocalTate.Archimedean.localFE_testVector,LocalTate.Archimedean.localZeta_integrable}
+For $a\in\{0,1\}$ let $\phi_a(x)=x^a e^{-\pi x^2}$, $A_a(s)=\Gamma_{\mathbb R}(s+a)$ and $\varepsilon_a=(-i)^a$. With additive Lebesgue measure and the Fourier kernel $e^{-2\pi ixy}$, define $Z_a(f,s)=\int_{\mathbb R}f(x)\operatorname{sign}(x)^a|x|^{s-1}\,dx$, with no extra factor of one half. Proved: $Z_a(\phi_a,s)=A_a(s)$, actual integrability and nonvanishing for $\operatorname{Re}(s+a)>0$, and $\widehat\phi_a=\varepsilon_a\phi_a$. On $0<\operatorname{Re}s<1$, the cross-multiplied test-vector equation is $A_a(s)Z_a(\widehat\phi_a,1-s)=\varepsilon_a A_a(1-s)Z_a(\phi_a,s)$. The phases are $+1$ and $-i$, not a universal $1$ and not the full gamma ratio. The even evaluation agrees with the existing local Tate Gaussian integral; the odd sign character contributes an absolute-value moment; the integrands agree away from the measure-zero origin.
+Daniel Toupin / Golden Physics Project, with AI assistance from Principal series; Turbo's governing GRH-D specification, Claude Code's local Tate evaluation (Gemini blueprint, Turbo audit), and Codex's existing Gaussian Fourier calculations are reused. This proves the FE only for these two test vectors, not arbitrary Schwartz functions. No continuous CFT shift, sector data, global positivity or RH/GRH conclusion.
+
+\section{Schwartz Tate local integrals: absolute convergence}
+\lean{LocalTate.Archimedean.mellinConvergent_of_rapid_decay,LocalTate.Archimedean.integrable_parityZeta_of_rapid_decay,LocalTate.Archimedean.schwartz_parityZeta_integrable,LocalTate.Archimedean.schwartz_fourier_parityZeta_integrable,LocalTate.Archimedean.schwartz_localFE_sides_integrable,LocalTate.Archimedean.archFactor_ne_zero_strip,LocalTate.Archimedean.ratio_of_cross,LocalTate.Archimedean.gammaRatio_mul_gammaRatio_one_sub,LocalTate.Archimedean.gammaRatio_zero,LocalTate.Archimedean.gammaRatio_one}
+For every Schwartz function $f:\mathbb R\to\mathbb C$, both characters $a\in\{0,1\}$ and every $s$ with $\operatorname{Re}s>0$, the integrand $f(x)\operatorname{sign}(x)^a|x|^{s-1}$ of $Z_a(f,s)$ is Bochner integrable on $\mathbb R$. The origin is handled by boundedness of $f$ against $|x|^{\operatorname{Re}s-1}$, the tails by Schwartz decay; the negative half-line reduces to the positive one by $x\mapsto-x$, and both halves are Mellin convergence of a continuous rapidly decaying function. Through Schwartz closure of the Fourier transform, the same holds for $\widehat f$, so on the strip $0<\operatorname{Re}s<1$ both $Z_a(f,s)$ and $Z_a(\widehat f,1-s)$ converge absolutely. These are obligations W1, W2 and F1 of the Schwartz Tate statement sheet. For A1, the gamma ratio $\gamma(s,a)=(-i)^a\Gamma_{\mathbb R}(1-s+a)/\Gamma_{\mathbb R}(s+a)$ is defined; both factors are nonzero on the strip, the ratio form follows from the cross-multiplied form, and the convention control $\gamma(s,a)\gamma(1-s,a)=(-1)^a$ holds: $+1$ even, $-1$ odd.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
+\section{The Schwartz Tate local functional equation}
+\lean{SchwartzMap.rapidDecay,LocalTate.Archimedean.RapidDecay.integrable,LocalTate.Archimedean.one_div_pi_sq_cpow,LocalTate.Archimedean.integral_fourier_mul_flip,LocalTate.Archimedean.one_div_pi_sq_rpow,LocalTate.Archimedean.subord_integral,LocalTate.Archimedean.subord_value_ne_zero,LocalTate.Archimedean.subord_integrableOn,LocalTate.Archimedean.subord_inv_integral,LocalTate.Archimedean.subord_inv_integrableOn,LocalTate.Archimedean.real_subord_integral,LocalTate.Archimedean.real_subord_inv_integral,LocalTate.Archimedean.norm_subord,LocalTate.Archimedean.norm_subord_inv,LocalTate.Archimedean.integrable_kernel,LocalTate.Archimedean.integrable_profile,LocalTate.Archimedean.integrable_K1,LocalTate.Archimedean.integrable_K2,LocalTate.Archimedean.fourier_pair_gaussian,LocalTate.Archimedean.localFE_even_of_rapidDecay,LocalTate.Archimedean.fourier_x_gaussian,LocalTate.Archimedean.mul_abs_cpow_neg_succ,LocalTate.Archimedean.integrable_profile_odd,LocalTate.Archimedean.integrable_K1_odd,LocalTate.Archimedean.integrable_K2_odd,LocalTate.Archimedean.fourier_pair_x_gaussian,LocalTate.Archimedean.localFE_odd_of_rapidDecay,LocalTate.Archimedean.localFE_cross_of_rapidDecay,LocalTate.Archimedean.localFE_ratio_of_rapidDecay,LocalTate.Archimedean.fourier_rapidDecay,LocalTate.Archimedean.localFE_schwartz_cross,LocalTate.Archimedean.localFE_schwartz_ratio,LocalTate.Archimedean.testVector_rapidDecay,LocalTate.Archimedean.fourier_testVector_rapidDecay,LocalTate.Archimedean.localFE_testVector_of_general}
+For every Schwartz function $f:\mathbb R\to\mathbb C$, both characters $a\in\{0,1\}$ and every $s$ with $0<\operatorname{Re}s<1$,
+\[\Gamma_{\mathbb R}(s+a)\,Z_a(\widehat f,1-s)=(-i)^a\,\Gamma_{\mathbb R}(1-s+a)\,Z_a(f,s),\]
+equivalently $Z_a(\widehat f,1-s)=\gamma(s,a)Z_a(f,s)$, with Lebesgue measure, the kernel $e^{-2\pi ixy}$ and no factor of one half. The proof is by Gaussian subordination: $\Gamma_{\mathbb R}(s+a)\operatorname{sign}(x)^a|x|^{-s}=\int_0^\infty t^{(s+a)/2-1}x^ae^{-\pi tx^2}\,dt$; swap the order of integration, pair $\widehat f$ with the Gaussian (or $x$ times it) by Parseval, apply the Gaussian Fourier transform, swap back, and evaluate the inverse subordination $\int_0^\infty t^{-b-1}e^{-\pi y^2/t}\,dt=\pi^{-b}|y|^{-2b}\Gamma(b)$. Both swaps are product-absolutely integrable on the open strip, with norm profiles controlled by the absolute convergence of $Z_a(f,s)$ and $Z_a(\widehat f,1-s)$; no regularization or limit is used. The proof uses only continuity and rapid decay of $f$ and $\widehat f$, so the equation is stated for that class, with the Schwartz statements as corollaries. The two \#513 test vectors $x^ae^{-\pi x^2}$ and their transforms decay rapidly, and specializing recovers the restricted test-vector equation proved there by direct evaluation, an independent check of factors, phases and normalization. This discharges obligations L1, X1, X2 and (through the rapid-decay class rather than a Gaussian Schwartz map) T1/T2 of the Schwartz Tate statement sheet.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
+\section{The Weil form, place by place}
+\lean{GlobalTate.Weil.primePow_injective,GlobalTate.Weil.support_subset_primePow,GlobalTate.Weil.weilForm_eq_pole_add_places,GlobalTate.Weil.weilForm_add_smul}
+The Weil form $W(g)=\mathrm{pole}(g)+A_\infty(g)-\sum_n\frac{\Lambda(n)}{\sqrt n}\,(g(\log n)+g(-\log n))$ splits as a global pole term plus one term per place of $\mathbb Q$: $W(g)=W_{\mathrm{pole}}(g)+W_\infty(g)+\sum_p W_p(g)$, where $W_p$ collects the prime powers $p^{k+1}$. The only input is summability of the prime side; the regrouping uses injectivity of $(p,k)\mapsto p^{k+1}$ and that $\Lambda$ is supported on prime powers. The Weil form is linear on test functions with integrable pole and archimedean integrands and summable prime side. These statements concern the arithmetic-side functional only; its link to the zero-side criterion is the explicit formula, which remains open.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
+\section{Adelic Poisson layer: arithmetic core of discreteness}
+\lean{GlobalTate.Poisson.den_eq_one_of_padicNorm_le_one,GlobalTate.Poisson.eq_zero_of_integral_of_abs_lt_one}
+A rational number that is $p$-integral for every prime $p$ is an integer, and if moreover $|q|<1$ then $q=0$. This is the arithmetic content of the discreteness of $\mathbb Q$ in the adeles: the box $(-\tfrac12,\tfrac12)\times\prod_p\mathbb Z_p$ meets the principal adeles only in $0$. The topological statements (discreteness, cocompactness, fundamental domain, covolume) are built on top of it.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+\section{The AUG2 rational certificate}
+\lean{GppVerify.Aug2.inner_approx,GppVerify.Aug2.c1_rat_enclosure,GppVerify.Aug2.c2_rat_enclosure,GppVerify.Aug2.determinant_transfer_bound,GppVerify.Aug2.projection_perturbation_bound,GppVerify.Aug2.norm_sub_proj1_sq,GppVerify.Aug2.aug2_certification_assembly}
+For the $K=5$ $P_-$ sector, the truncated-basis fit of the explicit-formula drift vector $D$ against the two spectral orbitals is certified from the stored run data. The AUG2 residue is below $8.1\cdot10^{-6}$, the AUG1 residue below $1.6\cdot10^{-4}$, and the Cramer coefficients lie in $[1.006,1.007]$ and $[0.997,0.998]$, so both exclude $1$. The only hypothesis is an entrywise enclosure of the true vectors around the stored rationals; inner products are enclosed from the data and propagated by interval arithmetic through the projection formulas. The perturbation constant is $20$ rather than the sheet's estimate $10$, because the rigorous bound is about $2.56\cdot10^{-10}$. This is a consistency object with one-sided teeth: not a positivity source, not (DOM) progress; RH remains open.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet drafted by Gemini, audited by Turbo, data block generated by Turbo.
+
+\section{Discreteness of $\mathbb Q$ in the adeles}
+\lean{GlobalTate.Poisson.isOpen_box,GlobalTate.Poisson.principal_mem_box,GlobalTate.Poisson.principal_discrete}
+On the adele carrier $\mathbb R\times\mathbb A_f$, the principal adeles $q\mapsto(q,(q)_v)$ form a discrete subgroup: the open box $(-\tfrac12,\tfrac12)\times\prod_v\mathbb Z_v$ meets them only in $0$, since a rational integral at every prime is an integer and an integer of absolute value below $\tfrac12$ is $0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
+\section{Strong approximation and the adelic fundamental domain}
+\lean{GlobalTate.Poisson.exists_rat_sub_norm_le_one,GlobalTate.Poisson.exists_rat_sub_mem_integers,GlobalTate.Poisson.existsUnique_sub_principal_mem_fundBox,GlobalTate.Poisson.isCompact_intBox,GlobalTate.Poisson.principal_cocompact}
+Every finite adele of $\mathbb Q$ is a rational number plus an adele integral at every place (strong approximation): locally every $x\in\mathbb Q_p$ lies within $\mathbb Z_p$ of some $m/p^k$, which is integral at every other prime, and the global statement follows by induction on the finitely many non-integral places. Consequently every adele is uniquely a principal adele plus a point of $[0,1)\times\prod_v\mathbb Z_v$, and $\mathbb A_{\mathbb Q}/\mathbb Q$ is compact, as the image of the compact set $[0,1]\times\prod_v\mathbb Z_v$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
+\section{Haar measure on the finite adeles and the covolume of $\mathbb Q$}
+\lean{Rat.FiniteAdeleRing.mem_adicCompletionIntegers_iff,Rat.FiniteAdeleRing.isCompact_adicCompletionIntegers,Rat.FiniteAdeleRing.isOpen_integralAdeles,Rat.FiniteAdeleRing.isCompact_integralAdeles,Rat.FiniteAdeleRing.exists_nat_mul_mem_integralAdeles,Rat.FiniteAdeleRing.haar_integralAdeles,GlobalTate.Poisson.covolume_eq_one}
+The finite adele ring of $\mathbb Q$ is locally compact and $\sigma$-compact: each local ring of integers is compact (it is homeomorphic to $\mathbb Z_p$), $\prod_v\mathbb Z_v$ is compact and open, and every finite adele has bounded denominators, so $\mathbb A_f=\bigcup_N N^{-1}\prod_v\mathbb Z_v$. Its Haar measure is normalized by $\operatorname{vol}(\prod_v\mathbb Z_v)=1$. With Lebesgue measure at infinity, the fundamental domain $[0,1)\times\prod_v\mathbb Z_v$ of $\mathbb Q$ in the adeles has measure $1$: the covolume is computed from the normalizations, not assumed. The finite-adele part is written against Mathlib only, for upstreaming.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo.
+
+\section{The standard adelic character and self-duality of $\mathbb Q$}
+\lean{GlobalTate.Poisson.adeleChar,GlobalTate.Poisson.adeleChar_eq_of_isRep,GlobalTate.Poisson.continuous_adeleChar,GlobalTate.Poisson.adeleChar_principal,GlobalTate.Poisson.adeleChar_integral,GlobalTate.Poisson.adeleChar_nontrivial,GlobalTate.Poisson.eq_zero_of_forall_pow_mul_mem,GlobalTate.Poisson.forall_adeleChar_principal_mul_eq_one_iff}
+The standard character $\psi=\psi_\infty\prod_p\psi_p$ of $\mathbb A_{\mathbb Q}$ is written globally. By strong approximation every adele is $x=q+(t,z)$ with $q\in\mathbb Q$ and $z\in\prod_v\mathbb Z_v$, and then $\psi(x)=e^{2\pi i(x_\infty-q)}$. This does not depend on the choice of $q$, because two choices differ by an integer. The character is continuous, nontrivial, trivial on $\mathbb Q$ and on $\prod_v\mathbb Z_v$, and $\mathbb Q^\perp=\mathbb Q$: if $\psi(qa)=1$ for every $q\in\mathbb Q$, then $q=1$ makes the real part of $a$ rational, and $q=p^{-k}$ puts the finite part of $a$, minus that rational, in $p^k\mathbb Z_p$ for every $k$, so that difference is $0$. This is the duality input for adelic Poisson summation.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement sheet by Principal series, audited by Turbo; sequencing by Turbo.
+
+\section{Adelic Poisson summation: statements, factorization and the classical control}
+\lean{GlobalTate.Poisson.adeleChar_split,GlobalTate.Poisson.adeleChar_real_eq_fourierChar,GlobalTate.Poisson.archimedean_phase_even,GlobalTate.Poisson.archimedean_phase_odd,GlobalTate.Poisson.adelicFourier_pureTensor,GlobalTate.Poisson.tsum_pureTensor_integral,GlobalTate.Poisson.poissonSummation_pureTensor_integral,GlobalTate.Poisson.boundary_split,GlobalTate.Poisson.gp_dual_kernel_collapse,GlobalTate.Poisson.AdelicPoissonSummation,GlobalTate.Poisson.AdelicFourierInversion,GlobalTate.Poisson.AdelicPlancherel,GlobalTate.Poisson.HaarScaling,GlobalTate.Poisson.AdelicPoissonScaled,GlobalTate.Poisson.FinFourierIntegralSelfDual}
+On $\mathbb A_{\mathbb Q}=\mathbb R\times\mathbb A_f$ with the measure of covolume $1$, the standard character splits as $\psi(x,a)=e^{2\pi ix}\,\psi_f(a)$; its archimedean factor is the character of the local Tate step, under which $e^{-\pi x^2}$ and $xe^{-\pi x^2}$ have phases $+1$ and $-i$, and $\psi_f$ is trivial on $\prod_v\mathbb Z_v$. The adelic Schwartz class is the span of the pure tensors $\varphi\otimes g$, with $\varphi$ Schwartz on $\mathbb R$ and $g$ locally constant and compactly supported on $\mathbb A_f$, and the adelic Fourier transform of a pure tensor is the tensor of the local transforms. Proved: for $f=\varphi\otimes\mathbf 1_{\prod\mathbb Z_v}$, the sum $\sum_{q\in\mathbb Q}f(q)$ is $\sum_{n\in\mathbb Z}\varphi(n)$, and adelic Poisson summation for this $f$ is classical Poisson summation, given the self-duality of $\prod_v\mathbb Z_v$; and from Poisson summation for any $f$ the $q=0$ terms separate off. Fourier inversion and Plancherel for the whole class are proved in the next section. Poisson summation for the whole class, the scaling of the Haar measure by the idele norm and the idele-scaled Poisson formula are proved in later sections, as is the self-duality of $\prod_v\mathbb Z_v$. The link from Poisson summation to the Weil form (GW-EF) is the open step.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; statement audits by Turbo.
+
+\section{The adele ring of $\mathbb Q$ is $\mathbb R\times\mathbb A_f$}
+\lean{Rat.InfiniteAdeleRing.ringEquivReal,Rat.InfiniteAdeleRing.homeomorphReal,Rat.InfiniteAdeleRing.ringEquivReal_algebraMap,Rat.AdeleRing.ringEquivProd,Rat.AdeleRing.homeomorphProd,Rat.AdeleRing.ringEquivProd_algebraMap,GlobalTate.Poisson.principal_eq_ringEquivProd_algebraMap,GlobalTate.Poisson.discrete_range_algebraMap,GlobalTate.Poisson.compactSpace_adele_quotient}
+The rational numbers have a single infinite place, and it is real, so the infinite adele ring of $\mathbb Q$ is a one-factor product whose factor is $\mathbb R$. Hence Mathlib's adele ring of $\mathbb Q$ is $\mathbb R\times\mathbb A_f$ as a ring and as a topological space, and the diagonal $q\mapsto(q)_v$ goes to $q\mapsto(q,(q)_p)$. This identification is written against Mathlib only, for upstreaming. Discreteness and cocompactness of $\mathbb Q$, proved on the concrete carrier, are carried across it to Mathlib's adele ring.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code; sequencing by Turbo.
+
+\section{The integral adeles are self-dual}
+\lean{GlobalTate.Poisson.finChar_eq_one_iff,GlobalTate.Poisson.exists_natCast_mul_not_mem,GlobalTate.Poisson.finFourierIntegralSelfDual}
+The finite part of the standard character is trivial exactly on $\prod_v\mathbb Z_v$: if $a$ is a rational integer plus an element of $\prod_v\mathbb Z_v$ the value is $e^{-2\pi i q}$ with $q$ the rational part, which is $1$ only when $q$ is an integer. Hence for $b\notin\prod_v\mathbb Z_v$ some integer $m$ (a power of a prime) moves $mb$ out of $\prod_v\mathbb Z_v$, so $a\mapsto\psi_f(-ab)$ is a nontrivial character of $\prod_v\mathbb Z_v$, and its integral against Haar measure vanishes by translation invariance; for $b\in\prod_v\mathbb Z_v$ the integrand is $1$ on a set of volume $1$. So the finite Fourier transform of the indicator of $\prod_v\mathbb Z_v$ is that indicator. This discharges the single local input of the classical-Poisson control for the adelic Poisson statements.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+\section{Strong approximation and the lattices $N\prod_v\mathbb Z_v$}
+\lean{Rat.FiniteAdeleRing.exists_rat_sub_mem_integralAdeles,Rat.FiniteAdeleRing.den_eq_one_of_forall_mem_adicCompletionIntegers,Rat.FiniteAdeleRing.exists_natCast_sub_mem_natMulIntegral,Rat.FiniteAdeleRing.natCast_sub_mem_natMulIntegral_iff,Rat.FiniteAdeleRing.haar_natMulIntegral,Rat.FiniteAdeleRing.haar_integralDivNat}
+Every finite adele of $\mathbb Q$ is a rational number plus an everywhere-integral adele (strong approximation), and a rational that is integral at every place is an integer; both are written against Mathlib only, for upstreaming. From them, every $z\in\prod_v\mathbb Z_v$ is congruent modulo $N\prod_v\mathbb Z_v$ to exactly one $r<N$: strong approximation applied to $z/N$ gives a rational $q$ with $z-Nq\in N\prod_v\mathbb Z_v$, the integrality of $Nq$ makes it an integer, and reducing modulo $N$ finishes. Hence $\prod_v\mathbb Z_v$ is the disjoint union of $N$ cosets of $N\prod_v\mathbb Z_v$, which therefore has Haar volume $1/N$, and $\tfrac1N\prod_v\mathbb Z_v$ is the disjoint union of $N$ cosets of $\prod_v\mathbb Z_v$, so it has volume $N$. These are the volumes needed for Fourier inversion on the finite adeles.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+\section{Fourier inversion and Plancherel on the adelic Schwartz class}
+\lean{Rat.FiniteAdeleRing.exists_natMulIntegral_subset,Rat.FiniteAdeleRing.exists_uniform_of_isLocallyConstant,Rat.FiniteAdeleRing.exists_eq_sum_fiber_of_isLocallyConstant,Rat.FiniteAdeleRing.exists_natCast_mul_mem_integralAdeles,Rat.FiniteAdeleRing.isLocallyConstant_of_uniform,Rat.FiniteAdeleRing.isCompact_integralDivNat,GlobalTate.Poisson.integral_indicator_subgroup_char,GlobalTate.Poisson.finFourier_cosetIndicator,GlobalTate.Poisson.finFourier_finFourier_cosetIndicator,GlobalTate.Poisson.finFourier_finFourier_schwartzBruhat,GlobalTate.Poisson.finParseval,GlobalTate.Poisson.isSchwartzBruhat_finFourier,GlobalTate.Poisson.adelicFourier_mem,GlobalTate.Poisson.adelicFourierInversion,GlobalTate.Poisson.adelicPair_fourier,GlobalTate.Poisson.adelicPlancherel}
+A locally constant function with compact support on $\mathbb A_f$ is invariant under translation by $N\prod_v\mathbb Z_v$ for some $N>0$: the lattices $N\prod_v\mathbb Z_v$ form a neighbourhood basis of $0$, each point has a translated lattice on which the function is constant, and finitely many of these cover the support. Hence it is a finite combination of indicators of cosets $a+N\prod_v\mathbb Z_v$. The finite Fourier transform of such a coset indicator is $\psi_f(-ab)\,N^{-1}\,\mathbf 1_{\frac1N\prod\mathbb Z_v}(b)$, by orthogonality of $\psi_f$ over the open subgroup $N\prod_v\mathbb Z_v$ (translation invariance of Haar measure, as for the self-duality of $\prod_v\mathbb Z_v$), and transforming twice returns $\mathbf 1_{-a+N\prod\mathbb Z_v}$. So $\hat{\hat g}(c)=g(-c)$ for every Schwartz--Bruhat $g$. The transform is again Schwartz--Bruhat (every adele has some $M$ with $Ma$ integral, by strong approximation, so the transformed terms are uniformly locally constant, supported in the compact set $\frac1N\prod\mathbb Z_v$), and it preserves the pairing: the coset indicators have $\langle\mathbf 1_a,\mathbf 1_{a'}\rangle=N^{-1}$ when $a-a'\in N\prod\mathbb Z_v$ and $0$ otherwise, the transformed ones give the same by the same orthogonality, and the sesquilinear extension is finite. On $\mathbb R\times\mathbb A_f$ the transform of a pure tensor is the tensor of the transforms, so Mathlib's inversion and Plancherel on $\mathbb R$ combine with these to give $\hat{\hat f}(x)=f(-x)$ and $\|\hat f\|_2=\|f\|_2$ on the whole adelic Schwartz class, by induction on the span. This discharges the statements \texttt{AdelicFourierInversion} and \texttt{AdelicPlancherel}; no hypothesis is assumed.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{The scaling law of the adelic Haar measure}
+\lean{GlobalTate.Poisson.map_haar_mulHomeo,GlobalTate.Poisson.finScaling_of_mem_unitBall,GlobalTate.Poisson.finScaling_natUnit,GlobalTate.Poisson.finScaling_natInvUnit,GlobalTate.Poisson.finScaling_rat,GlobalTate.Poisson.haar_scaling_fin,GlobalTate.Poisson.haarScaling}
+For an idele $a=(a_\infty,a_f)$ the multiplication $x\mapsto ax$ pushes the self-dual Haar measure to $|a|^{-1}$ times itself, where $|a|=|a_\infty|\prod_p|a_p|_p$. At the real place this is the scaling of Lebesgue measure. On $\mathbb A_f$, multiplication by a finite idele is a homeomorphism and an additive automorphism, so it pushes $\mu$ to a Haar measure, hence to a constant multiple of $\mu$ (uniqueness of Haar measure, with $\mu$ regular); the constant is the volume of the preimage of $\prod_v\mathbb Z_v$. That volume is computed on generators: a unit of $\prod_p\mathbb Z_p$ preserves $\prod_p\mathbb Z_p$, so the constant is $1=\prod_p|u_p|_p$; a positive integer $N$ has preimage $\frac1N\prod_v\mathbb Z_v$ of volume $N$ and $\prod_p|N|_p=N^{-1}$; the inverse $N^{-1}$ has preimage $N\prod_v\mathbb Z_v$ of volume $N^{-1}$ and $\prod_p|N^{-1}|_p=N$. The constants multiply, every positive rational is $N\cdot M^{-1}$, and every finite idele is a positive rational times a unit of $\prod_p\mathbb Z_p$, so the law holds for all of $\mathbb A_f^\times$. The product measure then scales by the product of the two factors. This discharges the statement \texttt{HaarScaling}; no hypothesis is assumed.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Adelic Poisson summation and its idele-scaled form}
+\lean{SchwartzMap.fourier_affineComp,SchwartzMap.tsum_affineComp_eq_tsum_fourier,GlobalTate.Poisson.finChar_algebraMap,GlobalTate.Poisson.rat_mem_coset_iff,GlobalTate.Poisson.poissonSummation_coset,GlobalTate.Poisson.poissonSummation_pureTensor_sb,GlobalTate.Poisson.adelicPoissonSummation,GlobalTate.Poisson.adelicFourier_dilate,GlobalTate.Poisson.dilate_mem,GlobalTate.Poisson.adelicPoissonScaled}
+For every function $f$ in the adelic Schwartz class, $\sum_{q\in\mathbb Q}f(q)=\sum_{q\in\mathbb Q}\hat f(q)$, both sums converging, at covolume one. By linearity it suffices to treat $f=\varphi\otimes\mathbf 1_{\rho+N\prod_v\mathbb Z_v}$ with $\rho$ rational: strong approximation makes every coset of $N\prod_v\mathbb Z_v$ a coset of a rational, and a rational lies in $\rho+N\prod_v\mathbb Z_v$ exactly when it is $\rho+Nm$ with $m\in\mathbb Z$, so the sum over $\mathbb Q$ is $\sum_m\varphi(\rho+Nm)$. The transform of that tensor is $\hat\varphi\otimes\bigl(\psi_f(-\rho\,\cdot)\,N^{-1}\mathbf 1_{\frac1N\prod_v\mathbb Z_v}\bigr)$; at a rational $y$ the finite factor vanishes unless $y=k/N$, and there $\psi_f(-\rho y)=\mathbf e(\rho y)$, because the standard character is trivial on $\mathbb Q$. The sum over $\mathbb Q$ is therefore $\sum_k N^{-1}\mathbf e(\rho k/N)\hat\varphi(k/N)$, and the two sides agree by Poisson summation for the Schwartz function $x\mapsto\varphi(\rho+Nx)$, whose transform is $N^{-1}\mathbf e(\rho k/N)\hat\varphi(k/N)$ (a change of variable; written against Mathlib only, for upstreaming). For an idele $a$, the dilate $f(a\,\cdot)$ is again in the class and, by the scaling law of the Haar measure, has transform $|a|^{-1}\hat f(a^{-1}\,\cdot)$; Poisson summation for the dilate is the formula $\sum f(aq)=|a|^{-1}\sum\hat f(a^{-1}q)$. This discharges the statements \texttt{AdelicPoissonSummation} and \texttt{AdelicPoissonScaled}; no hypothesis is assumed.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E2b: the digamma function on vertical strips}
+\lean{GppDigammaVertical.sum_range_le_log,GppDigammaVertical.norm_term_le,GppDigammaVertical.norm_digamma_le}
+For $|{\rm Re}\,s|\le M$ and $|{\rm Im}\,s|\ge1$ the digamma function satisfies $|\psi(s)|\le C\log(|{\rm Im}\,s|+1)$, with $C$ depending only on $M$. It follows from Gauss's series $\psi(s)=-\gamma-1/s+\sum_{n\ge1}\bigl(1/n-1/(n+s)\bigr)$ (stage E2a): the $n$-th term is $s/(n(n+s))$, at most $M+1$ for the finitely many $n<2M$, and at most $4(M+1)L/(n(n+L))$ for $L=|{\rm Im}\,s|$ once $n\ge2M$, because then $|n+s|\ge\max(L,n/2)\ge(L+n)/4$; and $\sum_{n}L/(n(n+L))\le3+\log(L+1)$, by the harmonic bound on $n\le\lceil L\rceil$ and $\sum_{m>K}m^{-2}\le2/(K+1)$ beyond. This is the growth input for $\xi'/\xi$ on horizontal lines in the contour-shift proof of the explicit formula; Mathlib has no Stirling-type bound for $\Gamma'/\Gamma$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E1b: decay of the spectral transform, uniform on the strip}
+\lean{GppExplicitFormulaE1.spectralTransform_deriv,GppExplicitFormulaE1.spectralTransform_iterate_deriv,GppExplicitFormulaE1.norm_spectralTransform_le,GppExplicitFormulaE1.spectralTransform_decay_strip}
+For a test function $g$ (smooth, compactly supported, log variable) and every $k$, the spectral transform $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$ satisfies $|s-\tfrac12|^k\,|\hat g(s)|\le C$ for all $s$ with $0\le{\rm Re}\,s\le1$, with one constant for the whole closed strip. Integration by parts gives $\widehat{g'}(s)=-(s-\tfrac12)\hat g(s)$, hence $\widehat{g^{(k)}}(s)=(-(s-\tfrac12))^k\hat g(s)$, and on the strip $|\hat h(s)|\le\int|h(u)|e^{|u|/2}\,du$ because $|({\rm Re}\,s-\tfrac12)u|\le|u|/2$. Stage E1 has the decay on each vertical line; the uniform statement is what a sum over zeros needs, since no zero is assumed to lie on a particular line. It is used by the explicit formula (sum over zeros, horizontal segments) and by the density step of GW-EF-3.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E3a: the entire function $\xi$ has finite order}
+\lean{GppXiOrder.exists_kernel_bound,GppXiOrder.norm_f_modif_le,GppXiOrder.norm_Lambda0_le,GppXiOrder.quad_le_rpow_add,GppXiOrder.xi_hasOrderLE_two}
+Mathlib's entire completed zeta function $\Lambda_0$ is defined by a Mellin transform of the modified theta kernel and has no growth bound in the library. The theta kernel differs from $1$ by $O(e^{-pt})$ on $[1,\infty)$ (with explicit constants by continuity on the compact part), and the functional equation carries this to $(0,1)$ as $O(t^{-1/2}e^{-p/t})$. Bounding the Mellin integral $\int_0^\infty t^{\sigma-1}|f(t)|\,dt$ with $u^R\le(2R/p)^Re^{pu/2}$ gives $|\Lambda_0(s)|\le K\bigl(2(|\sigma|+2)/q\bigr)^{|\sigma|+2}$, uniformly in ${\rm Im}\,s$. Since $\log y\le y$, this is at most $K e^{c\,(1+|s|)^2}$, and $\xi(s)=\tfrac12\bigl(1+s(s-1)\Lambda_0(s)\bigr)$ therefore has order at most $2$: for every $\varepsilon>0$ it is bounded by $C\exp(|s|^{2+\varepsilon})$. The true order is $1$; the weaker exponent is all the zero counting needs. Combined with Jensen's formula (the Hadamard cluster) this gives the polynomial bound on the number of zeros that the explicit formula and the density step of the Weil-criterion converse require.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+\section{Explicit formula, stage E3b: the zeros of $\zeta$ are polynomially counted}
+\lean{GppXiZeroCounting.analyticOrderAt_xi_eq,GppXiZeroCounting.divisor_xi_apply,GppXiZeroCounting.sum_zeroMult_le,GppXiZeroCounting.one_le_zeroMult,GppXiZeroCounting.zeroCountingPolynomial}
+Near a point $\rho$ of the open strip $0<{\rm Re}\,s<1$ one has $\xi(s)/\Gamma_{\mathbb R}(s)=\tfrac12 s(s-1)\zeta(s)$ (the identity fails only at $s=1$, which the strip excludes), and $1/\Gamma_{\mathbb R}$ is entire and nonvanishing at $\rho$, so the orders of vanishing of $\xi$ and $\zeta$ at $\rho$ coincide; this is the multiplicity of the zero. Since $\xi(0)=\tfrac12\ne0$ the entire function $\xi$ vanishes identically nowhere, so every order is finite and the divisor of $\xi$ on a closed ball is its order of vanishing. Jensen's counting bound (stage E3a gives order at most $2$) bounds the total multiplicity of the nontrivial zeros in $\{|\rho|\le r\}$ by $A+Br^{3}$. Index the zeros with multiplicity by $\Sigma_{\rho}\,\mathrm{Fin}(m_\rho)$; every ball contains finitely many indices, because each nontrivial zero has $m_\rho\ge1$ and so lies in the finite support of the divisor. The dyadic summability lemma then gives $\sum_\rho m_\rho(1+|\rho|)^{-4}<\infty$. This is the polynomial zero-counting hypothesis of the explicit formula, and the density step of the Weil-criterion converse, proved rather than assumed.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E3b (continued): symmetry of the zero multiplicities}
+\lean{GppXiZeroCounting.analyticOrderAt_xi_conj,GppXiZeroCounting.analyticOrderAt_xi_one_sub,GppXiZeroCounting.conj_mem_nontrivialZeros,GppXiZeroCounting.zeroData_symmetric}
+The nontrivial zeros of $\zeta$ with their multiplicities are invariant under $\rho\mapsto\bar\rho$ and $\rho\mapsto1-\rho$, hence under $\rho\mapsto1-\bar\rho$. The functional equation $\xi(1-s)=\xi(s)$ gives the second, because composing with the affine map $s\mapsto1-s$ (derivative $-1$) preserves the order of vanishing. Conjugation is antiholomorphic, so the composition lemma does not apply; instead, if $\xi(s)=(s-z)^n g(s)$ near $z$ with $g$ analytic and $g(z)\ne0$, then reality $\xi(\bar s)=\overline{\xi(s)}$ gives $\xi(s)=\overline{\xi(\bar s)}=(s-\bar z)^n\,\overline{g(\bar s)}$ near $\bar z$, and $s\mapsto\overline{g(\bar s)}$ is again analytic and nonvanishing at $\bar z$. Orders of $\xi$ are finite because $\xi(0)\ne0$, so the argument runs both ways. This discharges the symmetry hypothesis of the GW-EF density step (the four-point witness needs multiplicity-equal companions $\rho,\ 1-\rho,\ \bar\rho,\ 1-\bar\rho$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E4a: Landau's lemma for the logarithmic derivative}
+\lean{Complex.exists_exp_eq_of_ne_zero_ball,Complex.norm_deriv_le_of_re_le,Complex.logDeriv_canonicalFactor,Complex.exists_blaschke_decomposition,Complex.norm_logDeriv_le}
+Let $f$ be entire with $f(0)\ne0$, $|f|\le M$ on $|z|\le R$, and no zero on $|z|=R$. Mathlib's extended canonical (Blaschke) decomposition writes $f=B\,g$ on the closed disc with $B=\prod_\rho\bigl(R(z-\rho)/(R^2-\bar\rho z)\bigr)^{m_\rho}$ over the zeros in $|z|<R$ and $g$ analytic and zero-free; $|B|=1$ on the circle, so $|g|=|f|\le M$ there, hence on the disc by the maximum principle, and $|B(0)|=\prod(|\rho|/R)^{m_\rho}\le1$ gives $|g(0)|\ge|f(0)|$. A zero-free holomorphic function on a disc is the exponential of a holomorphic function (a primitive of $g'/g$), $g=e^{h}$, and $\mathrm{Re}\,(h-h(0))=\log|g|-\log|g(0)|\le\log M-\log|f(0)|$. Borel--Carath\'eodory and Cauchy's estimate bound $h'=g'/g$ by $24(\log(M/|f(0)|)+1)/R$ on $|z|\le R/2$. The logarithmic derivative of a canonical factor is $-\bar\rho/(R^2-\bar\rho z)-1/(z-\rho)$, and the first term has modulus at most $2/R$ there. Hence
+\[
+\Bigl|\frac{f'}{f}(z)\Bigr|\le\sum_\rho m_\rho\Bigl(\frac1{|z-\rho|}+\frac2R\Bigr)+\frac{24\bigl(\log(M/|f(0)|)+1\bigr)}{R}\qquad(|z|\le R/2,\ f(z)\ne0).
+\]
+This is the pointwise bound on $\xi'/\xi$ that the contour shift of the explicit formula needs on horizontal segments at good heights; a polynomial bound suffices because the spectral transform decays faster than any polynomial on the strip.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E5a: the winding number of a rectangle}
+\lean{Complex.log_sub_log_neg_of_im_pos,Complex.log_sub_log_neg_of_im_neg,Complex.integral_inv_sub_horizontal,Complex.I_mul_integral_inv_sub_right,Complex.I_mul_integral_inv_sub_left,Complex.rect_boundary_integral_inv_sub}
+Mathlib proves Cauchy's theorem for a rectangle with holomorphic interior but has no residue or winding-number statement for rectangles. For $\rho$ strictly inside the rectangle with corners $z,w$, the boundary integral of $1/(s-\rho)$ is $2\pi i$. The two horizontal edges and the right edge stay in the slit plane (the imaginary part, respectively the real part, of $s-\rho$ has a fixed sign), so $\log(s-\rho)$ is an antiderivative; on the left edge $\mathrm{Re}(s-\rho)<0$ and the antiderivative is $\log(-(s-\rho))$. The four contributions telescope to $\bigl[\log w_2-\log(-w_2)\bigr]-\bigl[\log w_1-\log(-w_1)\bigr]$ where $w_1,w_2$ are the lower and upper ends of the left edge, and $\log w-\log(-w)$ equals $+\pi i$ for $\mathrm{Im}\,w>0$ and $-\pi i$ for $\mathrm{Im}\,w<0$, which gives $2\pi i$. This is the residue computation needed to turn the contour integral of $(\xi'/\xi)\,\Phi$ into the zero sum of the explicit formula (stage E5).
+\section{Explicit formula, stage E4b: a polynomial bound for $\xi'/\xi$ at good heights}
+\lean{Real.exists_mem_Icc_far_from_finset,GppXiZeroCounting.one_le_orderNat_xi,GppXiZeroCounting.finite_zeros_xi,GppXiZeroCounting.exists_radius_no_zero,GppXiZeroCounting.sum_orderNat_le,GppXiZeroCounting.exists_good_height}
+For every $T\ge1$ there is a height $t\in[T,T+1]$ such that $\xi$ has no zero on the segment $\{\sigma+it:-1\le\sigma\le2\}$ and $|\xi'/\xi|\le C\,t^{6}$ there, with $C$ independent of $T$. Choose a radius $R\in[2T+8,2T+9]$ with no zero of $\xi$ on $|z|=R$ (the zeros in a ball are finitely many, so only finitely many radii are excluded). By Jensen's bound (stage E3a: $\xi$ has order at most $2$) the zeros in $|z|\le R$ number at most $N\le A+BR^{3}$ counted with multiplicity. A unit interval contains a point at distance at least $1/(2(N+1))$ from each of at most $N$ reals, by comparing Lebesgue measures; this is the good height $t$. Every point $s$ of the segment has $|s|\le T+3\le R/2$ and $|\operatorname{Im}(s-\rho)|\ge1/(2(N+1))$ for every zero $\rho$, so Landau's lemma (stage E4a) with $M=C_0e^{R^{3}}$ gives
+$|\xi'/\xi(s)|\le N\bigl(2(N+1)+2\bigr)+48(\,|\log C_0|+|\log|\xi(0)||+2)R^{3}\le C\,R^{6}\le C'\,t^{6}$. Because the spectral transform decays faster than any polynomial on the strip (stage E1b), a polynomial bound is all the horizontal sides of the rectangular contour need.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E5b: the residue sum of $(f'/f)\,\Phi$ over a rectangle}
+\lean{Complex.exists_blaschke_decomposition,Complex.rectInt_div_sub,Complex.rectInt_div_sub_of_notMem,Complex.rectInt_finset_sum,Complex.rectInt_logDeriv_mul}
+Let $f$ be entire with $f(0)\ne0$, $\Phi$ entire, and $Q$ a rectangle with no zero of $f$ on its boundary, contained in a disc $|z|<R$ whose circle carries no zero. Then
+\[
+\oint_{\partial Q}\frac{f'}{f}\,\Phi\;=\;2\pi i\sum_{\rho\in Q^\circ}m_\rho\,\Phi(\rho),
+\]
+summed over the zeros $\rho$ strictly inside $Q$ with multiplicity $m_\rho$. Mathlib has Cauchy--Goursat for rectangles but no residue theorem, so the proof uses only boundary values. On the disc, $f'/f=g'/g-\sum_\rho m_\rho\,(\text{canonical factor})'/(\text{canonical factor})$ with $g$ analytic and zero-free (stage E4a), and the canonical-factor logarithmic derivative is $-\bar\rho/(R^2-\bar\rho s)-1/(s-\rho)$. Hence on $\partial Q$ the integrand is $g'\Phi/g+\sum_\rho m_\rho\bigl(\tfrac{\bar\rho}{R^2-\bar\rho s}\Phi+\tfrac{\Phi}{s-\rho}\bigr)$. The first two kinds of term are holomorphic on $Q$, so their boundary integrals vanish by Cauchy--Goursat. For $\Phi/(s-\rho)$ write $\Phi(s)/(s-\rho)=\mathrm{dslope}\,\Phi\,\rho\,(s)+\Phi(\rho)/(s-\rho)$ with the first part entire: if $\rho$ lies outside $Q$ the whole term is holomorphic and contributes $0$; if $\rho$ lies inside, stage E5a gives $2\pi i\,\Phi(\rho)$. A zero on $\partial Q$ never arises, because no zero is assumed to lie there.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E6a: the logarithmic derivative of $\xi$}
+\lean{GppXiZeroCounting.logDeriv_Gammaℝ,GppXiZeroCounting.xi_eq_mul,GppXiZeroCounting.logDeriv_xi_eq}
+For $\mathrm{Re}\,s>0$, $s\ne1$ and $\xi(s)\ne0$,
+\[
+\frac{\xi'}{\xi}(s)=\frac1s+\frac1{s-1}-\frac{\log\pi}2+\frac12\,\psi\!\Bigl(\frac s2\Bigr)+\frac{\zeta'}{\zeta}(s),
+\]
+with $\psi=\Gamma'/\Gamma$ Mathlib's digamma function. It follows from $\xi(s)=\tfrac12s(s-1)\,\Gamma_{\mathbb R}(s)\,\zeta(s)$ on $\mathrm{Re}\,s>0$, $s\ne1$, by taking the logarithmic derivative of the product (each factor is differentiable and nonzero there), and $\Gamma_{\mathbb R}(s)=\pi^{-s/2}\Gamma(s/2)$ gives $\Gamma_{\mathbb R}'/\Gamma_{\mathbb R}=-\tfrac12\log\pi+\tfrac12\psi(s/2)$. This splits the integrand of the contour integral of the explicit formula into the pole term ($1/s+1/(s-1)$), the Archimedean term ($\psi$ and $\log\pi$) and the prime term ($\zeta'/\zeta$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E6 (Archimedean term), part 1: Gauss's integral for the digamma function}
+\lean{GppDigammaIntegral.norm_one_sub_exp_neg_le,GppDigammaIntegral.integral_F,GppDigammaIntegral.summable_integral_norm_F,GppDigammaIntegral.tsum_F_eq,GppDigammaIntegral.norm_G_le,GppDigammaIntegral.digamma_eq_integral}
+For $\mathrm{Re}\,z>0$,
+\[
+\psi(z)=-\gamma+\int_0^\infty\frac{e^{-t}-e^{-zt}}{1-e^{-t}}\,dt .
+\]
+Mathlib states this integral representation only as a TODO. It is obtained here from the Gauss series of stage E2a: $1/(n+1)-1/(n+1+z)=\int_0^\infty e^{-(n+1)t}(1-e^{-zt})\,dt$, and the sum over $n$ may be taken under the integral because $|1-e^{-zt}|\le|z|\,t$ (mean-value bound for $\mathrm{Re}\,z\ge0$), so $\sum_n\int|e^{-(n+1)t}(1-e^{-zt})|\,dt\le|z|\sum_n(n+1)^{-2}<\infty$. Summing the geometric series gives $(1-e^{-zt})\,e^{-t}/(1-e^{-t})$, which is integrable on $(0,\infty)$ by the bound $t\,e^{-t}/(1-e^{-t})\le e^{-t/2}$, a consequence of $\sinh x\ge x$. Subtracting $1/z=\int_0^\infty e^{-zt}\,dt$ and combining the integrands gives the stated formula. The Archimedean term of the explicit formula is this integral, evaluated at $z=\tfrac14+\tfrac{ir}2$ and integrated against the Fourier transform of the test function (a numerical check of the final identification, to 30 digits, is in GPPDiscovery).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
+\section{Explicit formula, stage E6 (Archimedean term), part 2: the identification}
+\lean{GppArchimedeanId.norm_K_le,GppArchimedeanId.hline_integrable,GppArchimedeanId.inversion,GppArchimedeanId.integrable_weight_hline,GppArchimedeanId.inner_integral,GppArchimedeanId.integrable_prod,GppArchimedeanId.archimedean_identification}
+For a test function $g$ with $h(r)=\hat g(\tfrac12+ir)=\int g(u)e^{iru}\,du$,
+\[
+\frac1{2\pi}\int_{\mathbb R}h(r)\,\psi\!\Bigl(\frac14+\frac{ir}2\Bigr)\,dr\;=\;A_\infty(g)+g(0)\log\pi ,
+\]
+where $A_\infty$ is the repository's \texttt{archimedeanTerm}; for even $g$ this is the classical $A_\infty(g)=-g(0)\log\pi+\frac1{2\pi}\int h(r)\,\mathrm{Re}\,\psi(\tfrac14+\tfrac{ir}2)\,dr$. Insert Gauss's integral for $\psi$ (part 1) and swap the integrals. The kernel $K(z,t)=(e^{-t}-e^{-zt})/(1-e^{-t})$ at $z=\tfrac14+\tfrac{ir}2$ is bounded by $(4+|r|)e^{1/4}e^{-t/4}$ uniformly in $t>0$ (split at $t=1$, using $\|1-e^{-w}\|\le\|w\|$ and $1-e^{-t}\ge t/2$ on $(0,1]$), and $(4+|r|)\|h(r)\|$ is integrable by the rapid decay of stage E1, so Fubini applies. For fixed $t$, Fourier inversion $g(v)=\frac1{2\pi}\int e^{-irv}h(r)\,dr$ evaluates the $r$-integral at $v=0$ and $v=t/2$, giving $2\pi\,(e^{-t}g(0)-e^{-t/4}g(t/2))/(1-e^{-t})$. The substitution $t=2u$ turns the remaining integral into $2\int_0^\infty(e^{-2u}g(0)-e^{-u/2}g(u))/(1-e^{-2u})\,du$, and the $-\gamma$ of Gauss's integral contributes $-\gamma\,g(0)$, which together give $A_\infty(g)+g(0)\log\pi$. A numerical check of the final identity, to 30 digits, is in GPPDiscovery.
+\section{Explicit formula, stage E6b: the prime terms on the line $\mathrm{Re}\,s=2$}
+\lean{GppSpectralInversion.line_inversion,GppPrimeLine.line_integrable,GppPrimeLine.natCast_cpow_line,GppPrimeLine.term_integral,GppPrimeLine.prime_line}
+For a test function $g$ and $\Phi(s)=\int g(u)e^{(s-1/2)u}\,du$,
+\[
+\frac1{2\pi}\int_{\mathbb R}\Bigl(-\frac{\zeta'}{\zeta}\Bigr)(2+it)\,\Phi(2+it)\,dt\;=\;\sum_{n\ge1}\frac{\Lambda(n)\,g(\log n)}{\sqrt n}.
+\]
+On $\mathrm{Re}\,s=\sigma$ the transform $t\mapsto\Phi(\sigma+it)$ is the Fourier transform of the Schwartz function $u\mapsto g(u)e^{(\sigma-1/2)u}$, so Fourier inversion gives $g(v)e^{(\sigma-1/2)v}=\frac1{2\pi}\int e^{-itv}\Phi(\sigma+it)\,dt$. For $\sigma=2$ and $v=\log n$ this evaluates the $n$-th Dirichlet term $\Lambda(n)\,n^{-(2+it)}=\Lambda(n)\,n^{-2}e^{-it\log n}$ to $\Lambda(n)n^{-2}\cdot n^{3/2}g(\log n)=\Lambda(n)g(\log n)/\sqrt n$. Mathlib's $-\zeta'/\zeta=\sum_n\Lambda(n)n^{-s}$ on $\mathrm{Re}\,s>1$ is then integrated term by term: the sum and the integral commute because $\sum_n\Lambda(n)n^{-2}<\infty$ and $\Phi(2+i\,\cdot)$ is integrable. Applied to $u\mapsto g(-u)$, whose transform at $s$ is $\Phi(1-s)$, the same statement gives the terms $\Lambda(n)g(-\log n)/\sqrt n$, completing the prime side of the Weil form.
+\section{Explicit formula, stage E6c: reflection symmetry and the location of the zeros of $\xi$}
+\lean{GppXiReflection.logDeriv_xi_one_sub,GppXiReflection.isTestFunction_neg,GppXiReflection.spectralTransform_one_sub,GppXiReflection.xi_ne_zero_of_one_le_re,GppXiReflection.xi_ne_zero_of_re_le_zero,GppXiReflection.xi_zero_mem_strip,GppXiReflection.xi_eq_zero_iff_nontrivial}
+The functional equation $\xi(1-s)=\xi(s)$ gives $\xi'/\xi(1-s)=-\xi'/\xi(s)$, and the substitution $u\mapsto-u$ gives $\Phi_g(1-s)=\Phi_{g(-\cdot)}(s)$ for the spectral transform; together they turn the integral over the left vertical line of the contour into an integral over the right line against $\Phi_g(s)+\Phi_g(1-s)$. The zeros of $\xi$ are exactly the nontrivial zeros of $\zeta$: for $\mathrm{Re}\,s\ge1$ one has $\xi(s)=\tfrac12 s(s-1)\Gamma_{\mathbb R}(s)\zeta(s)\ne0$ ($\xi(1)=\tfrac12$, and $\zeta\ne0$ on $\mathrm{Re}\,s\ge1$ by Mathlib's non-vanishing theorem), and for $\mathrm{Re}\,s\le0$ the reflection reduces to that case, so every zero lies in $0<\mathrm{Re}\,s<1$, where $\xi(s)=0\iff\zeta(s)=0$. In particular $\xi$ has no zero on the vertical lines $\mathrm{Re}\,s=2$ and $\mathrm{Re}\,s=-1$ that bound the contour.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.
+
+
 \chapter{Axiom Inventory}\label{sec:axiom-inventory}
 
 \noindent\textbf{Re-audited 2026-08-30} directly against the source tree (\texttt{grep -rn
@@ -8104,7 +8294,7 @@ tree --- genuinely eliminated, not renamed:
 Open results are parked as \texttt{theorem foo : True := trivial} (or
 \texttt{$\forall$ (\_ : True), True}) --- the repo's deliberate convention, carrying a doc
 comment that names the precise upstream gap, rather than smuggling the claim in as an axiom
-or leaving a live \texttt{sorry}. There are currently \textbf{124} such stubs.
+or leaving a live \texttt{sorry}. There are currently \textbf{119} such stubs.
 
 \medskip
 \noindent\textbf{That number was wrong until 2026-08-31, and the way it was wrong is worth
@@ -8586,6 +8776,162 @@ definition of $\Lambda_0$ as a Mellin transform, with no continuation step. With
 which is $s(s-1)\Lambda(s)/2=\xi(s)$ for $s\ne0,1$. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The identification of $B(s)$ with
 Astra's $A(s-\tfrac12)=4\int_0^\infty\Phi(u)e^{(2s-1)u}\,du$ (two integrations by parts) is not formalized. Classical; not claimed novel. No claim about RH.
 
+\section{The centred two-point kernel is a rank-two correction}
+\lean{GppRankTwoCentring.centred_quadratic_form,GppRankTwoCentring.centred_quadratic_form_of_neutral}
+Source: Codex, GPP-bridge PR \#11 comment 6380730175, on Turbo's Wave 295 decomposition $K^c(m,n)=K_1(m,n)-u(m)-u(n)+C$. For a finite real vector $r$ with
+$S=\sum_mr_m$ and $U=\sum_mu(m)r_m$, $r^{\mathsf T}K^cr=r^{\mathsf T}K_1r-2SU+CS^2$; on the neutral subspace $S=0$ the centred and uncentred forms coincide. Daniel Toupin /
+Golden Physics Project, with AI assistance from Codex and Claude Code. No positivity claim; for $r_n=\Lambda(n)-1$, $S=\psi(X)-\lfloor X\rfloor$ is not bounded here. No claim about RH.
+\section{Astra's half-wave boundary identity}
+\lean{GppThetaHalfWave.deriv_psi_one,GppThetaHalfWave.halfWaveA_eq_integral,GppThetaHalfWave.halfWaveA_eq_halfWave,GppThetaHalfWave.halfWaveA_add_reflect,GppThetaHalfWave.halfWaveA_add_reflect_eq_xi}
+Source: Astra, \texttt{work/2026-10-24\_astra\_phi\_halfwave\_boundary\_identity.md} (GPP-bridge PR \#11 comment 6379118669). With Riemann's kernel $\Phi$ put
+$A(z)=4\int_0^\infty\Phi(u)e^{2zu}\,du$. The substitution $x=e^{4u}$ gives $A(s-\tfrac12)=\int_1^\infty x^{s/2}(2x\psi''+3\psi')\,dx$; two integrations by parts, using
+$e^{-\pi(x-1)}$ decay of $\psi,\psi',\psi''$ on $[1,\infty)$ and $-2\psi'(1)=\tfrac14+\tfrac12\psi(1)$ (the derivative of theta inversion at $1$), give, for every $s\in\mathbb C$,
+$A(s-\tfrac12)=\tfrac14+(s-\tfrac12)\psi(1)+s(s-1)I(s)/2$. With the theta split, $A(s-\tfrac12)+A(\tfrac12-s)=\tfrac12+s(s-1)\Lambda_0(s)/2$, which is $\xi(s)$ for $s\ne0,1$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The endpoint expansion of $A(it)$ is not formalized; near-cancellation of the two
+waves at large height is generic. Classical; not claimed novel. No claim about RH.
+
+\section{Uniform-in-\texorpdfstring{$K$}{K} bounds for geometric Toeplitz and folded Hankel blocks}
+\lean{GppArchRowSum.schur_test,GppArchRowSum.toeplitz_row_sum,GppArchRowSum.toeplitz_form_le,GppArchRowSum.geom_partial_le,GppArchRowSum.toeplitz_form_le_geom,GppArchRowSum.gram_form_le_trace}
+Source: Codex, GPP-bridge PR \#11 comment 6381970052. Schur test: row and column sums of $|K|$ at most $R$ give $|v^{\mathsf T}Kv|\le R\|v\|^2$. A Toeplitz kernel
+$A(|i-j|)$ on $\{0,\dots,n-1\}$ has rows of $|A|$ summing to at most $|A_0|+2\sum_{1\le d<n}|A_d|$; if $|A_d|\le|A_2|q^{d-2}$ for $d\ge2$ with $0\le q<1$, then
+$|v^{\mathsf T}Tv|\le(|A_0|+2|A_1|+2|A_2|/(1-q))\|v\|^2$ for every $n$. For $C=-\sum_\lambda h_\lambda h_\lambda^{\mathsf T}$, $0\le-v^{\mathsf T}Cv\le(\sum_\lambda\|h_\lambda\|^2)\|v\|^2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The identification with Discovery2's gamma entries and the enclosures of $A_0,A_1$
+are not formalized; this bounds the pure gamma Arch blocks only. No claim about RH.
+\section{One spectral atom: Toeplitz plus Hankel is a rank-one square}
+\lean{GppAtomSquare.toeplitz_form,GppAtomSquare.hankel_form,GppAtomSquare.add_form,GppAtomSquare.sub_form,GppAtomSquare.add_form_nonneg,GppAtomSquare.sub_form_nonneg}
+Source: Codex, GPP-bridge PR \#11 comment 6382027722; identified by Turbo's Wave 310 as the mechanism of the Wave 308 $\gamma_1$ near-cancellation. Hypotheses: one real
+spectral atom, $D_{ij}=m\cos(\omega(i-j))$, $C_{ij}=m\cos(\omega(i+j)+2\alpha)$. With $a=\sum_jv_j\cos(\omega j+\alpha)$, $b=\sum_jv_j\sin(\omega j+\alpha)$:
+$v^{\mathsf T}Dv=m(a^2+b^2)$, $v^{\mathsf T}Cv=m(a^2-b^2)$, so $v^{\mathsf T}(D+C)v=2ma^2$ and $v^{\mathsf T}(D-C)v=2mb^2$, both $\ge0$ for $m\ge0$ and every $K$. Daniel Toupin /
+Golden Physics Project, with AI assistance from Codex, Turbo and Claude Code. Finite algebra only; the block identification and the rest of the spectrum are not
+addressed. No claim about RH.
+
+\section{The cross-Arch moment matrix is positive definite, with a near-null direction}
+\lean{GppCrossArchMoment.moment_form_eq,GppCrossArchMoment.moment_form_nonneg,GppCrossArchMoment.moment_form_pos,GppCrossArchMoment.moment_form_of_vanishing}
+Source: Codex, GPP-bridge PR \#11 comment 6376886553. For $M_{jk}=\sum_nc_n^2r_n^{j+k}$ ($j,k<K$) and $P_v(x)=\sum_{j<K}v_jx^j$: $v^{\mathsf T}Mv=\sum_nc_n^2P_v(r_n)^2$; with distinct
+nodes, nonzero weights and at least $K$ nodes, $M$ is positive definite (Vandermonde, via a polynomial of degree $<K$ with $\ge K$ roots); if $P_v$ vanishes at the
+nodes in $S$, only the remaining nodes contribute (the Rayleigh witness behind $\lambda_{\min}\le e^{-X_K}/(\Lambda_K^2(1-e^{-7/5}))$). Daniel Toupin / Golden Physics
+Project, with AI assistance from Codex and Claude Code. The tail size estimate and the identification with the Arch modes are not formalized. No claim about RH.
+
+\section{A sequence witness of nonclosability survives every bounded perturbation}
+\lean{GppNonclosablePerturbation.not_isClosable_of_tendsto,GppNonclosablePerturbation.not_isClosable_vadd}
+Source: Codex, GPP-bridge \texttt{work/codex/2026-10-24\_pr11\_wave327\_strategic\_pivot\_source\_ward.md} (commit 5f5c9a3). If a partial linear map $B$ has test vectors
+$x_n\to0$ with $Bx_n\to g\ne0$, then $(0,g)$ lies in the closure of its graph, so $B$ is not closable; the same sequence shows $C+B$ is not closable for every continuous
+linear $C$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Abstract operator theory; the GCD / critical-M\"obius packets that
+supply the sequence are not constructed here. No claim about RH.
+
+\section{Midpoint symmetry turns the sine-squared convolution into the shifted autocorrelation}
+\lean{GppSine2Convolution.autocorr_neg,GppSine2Convolution.conv_eq_autocorr,GppSine2Convolution.bump_symm,GppSine2Convolution.bump_conv_eq_autocorr}
+Source: Codex, GPP-bridge PR \#11 comment 6377118601. With $G(t)=\int f(u)f(u+t)\,du$: $G$ is even, and if $f(1-x)=f(x)$ then $(f*f)(s)=G(s-1)$. The bump
+$b(u)=\sin^2(\pi u)\mathbf 1_{[0,1]}(u)$ is symmetric about $\tfrac12$, so $(b*b)(s)=G_0(s-1)$: the step that rewrites the sewn prime kernel as an ordinary convolution.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The identities $\int e^{t/2}C_V=A_K^2$ and the parity split are not formalized.
+No claim about RH.
+
+\section{Exact duality does not locate spectral roots; a positive height does}
+\lean{GppDualityHeight.bad_dual,GppDualityHeight.good_dual,GppDualityHeight.bad_no_height,GppDualityHeight.good_height,GppDualityHeight.ftheta_coeff_bounds,GppDualityHeight.ftheta_coeff_not_int}
+Source: Codex, GPP-bridge PR \#11 comment 6389906209 (Discovery2 PR \#20). With $q=16$ and $J=\begin{psmallmatrix}0&1\\-1&0\end{psmallmatrix}$ over $\mathbb Q$, both
+$F_{\rm bad}=\mathrm{diag}(8,2)$ and $F_{\rm good}=\begin{psmallmatrix}0&-16\\1&0\end{psmallmatrix}$ satisfy $F^{\mathsf T}JF=qJ$; $F_{\rm bad}$ admits no positive definite $H$ with
+$F^{\mathsf T}HF=qH$ (the $(0,0)$ entry forces $64h_{00}=16h_{00}$), while $F_{\rm good}$ admits $H=\mathrm{diag}(1,16)$. Duality alone does not put the spectrum on $|\lambda|=\sqrt q$. Integrality gate (PR \#11 6389930457): the would-be local coefficient $2^{1/4}+2^{-1/4}$ of $F_{1/4}$ at $p=2$ lies strictly between $2$ and $3$, so it is not an integer, unlike $\#\mathbb P^1(\mathbb F_p)=p+1$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. $F_{\rm bad}$ is abstract, not a geometric Frobenius. No claim about RH or BSD.
+
+\section{A global mirror does not confine zeros to its fixed line: \texorpdfstring{$\mathbb P^1_{\mathbb Z}$}{P1}}
+\lean{GppP1Mirror.p1Xi_mirror,GppP1Mirror.differentiable_p1Xi,GppP1Mirror.p1Xi_zeros_off_mirror}
+Source: Codex, GPP-bridge PR \#11 comment 6390241157 (a correction of Codex's own phrase). With $\xi$ entire and $\xi(1-s)=\xi(s)$, the completion
+$\Xi(s)=\xi(s)\xi(s-1)$ of $\zeta(\mathbb P^1_{\mathbb Z},s)=\zeta(s)\zeta(s-1)$ is entire with $\Xi(2-s)=\Xi(s)$, yet every critical-line zero $\rho$ of $\xi$ gives zeros of $\Xi$ at
+$\rho$ and $\rho+1$, on $\operatorname{Re}s=\tfrac12$ and $\tfrac32$, off the mirror line $\operatorname{Re}s=1$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and
+Claude Code. Existence of critical-line zeros (Hardy) is a hypothesis here; the weight grading is not formalized. No claim about RH or BSD.
+
+\section{Leading minors of a symmetric \texorpdfstring{$3\times3$}{3x3} form: positive definite or signature \texorpdfstring{$(2,1)$}{(2,1)}}
+\lean{GppSylvester3.ldl3_identity,GppSylvester3.posDef_of_minors,GppSylvester3.signature_two_one_of_minors}
+Source: Codex, GPP-bridge PR \#11 comment 6390445769 (Discovery2 PR \#21). For $\begin{psmallmatrix}a&b&c\\b&d&e\\c&e&f\end{psmallmatrix}$ with $\Delta_1=a$, $\Delta_2=ad-b^2$, $\Delta_3=\det$:
+$a\Delta_2Q(x)=\Delta_2(ax_1+bx_2+cx_3)^2+(\Delta_2x_2+(ae-bc)x_3)^2+a\Delta_3x_3^2$; minors $(+,+,+)$ give positive definiteness, and $(+,+,-)$ give positivity on $x_3=0$ and an
+explicit negative vector (inertia $(2,1)$). Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The Arb-certified site intervals are not
+plugged in. No claim about RH or BSD.
+
+\section{The \texorpdfstring{$C_2$}{C2} class-character projection of the \texorpdfstring{$D=-20$}{D=-20} Epstein counts}
+\lean{GppC2ClassCharacter.idem_plus,GppC2ClassCharacter.idem_minus,GppC2ClassCharacter.idem_orth,GppC2ClassCharacter.idem_sum,GppC2ClassCharacter.g_mul_plus,GppC2ClassCharacter.g_mul_minus,GppC2ClassCharacter.inv_fourier,GppC2ClassCharacter.sol_bound_Q0,GppC2ClassCharacter.sol_bound_Q1,GppC2ClassCharacter.f0_not_mult,GppC2ClassCharacter.Aplus_mult_2_3,GppC2ClassCharacter.Aminus_mult_2_3}
+Source: Codex, GPP-bridge PR \#11 comment 6390593150 (Discovery2 PR \#22), from Grok's S99 Epstein audit. With $g^2=1$ and $2$ invertible, $e_\pm=(1\pm g)/2$ are complementary
+orthogonal idempotents with $ge_\pm=\pm e_\pm$. For $Q_0=x^2+5y^2$, $Q_1=2x^2+2xy+3y^2$ and $f_j=r_j/2$, every solution of $Q_j=n$ lies in $[-n,n]^2$; $f_0(2)=f_0(3)=0$ but
+$f_0(6)=2$, while $A_\pm=f_0\pm f_1$ give $A_+(2,3,6)=(1,2,2)$ and $A_-(2,3,6)=(-1,-2,2)$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex, Grok and
+Claude Code. Only the pair $(2,3)$ is checked; the ideal-class and Hecke $L$-function identifications and Euler products (classical) are not formalized. No claim about RH,
+GRH or BSD.
+
+\section{The \texorpdfstring{$q$}{q}-binomial annihilator and its pole cancellation}
+\lean{GppQBinomialEdge.gauss_mul_prod,GppQBinomialEdge.prod_expand,GppQBinomialEdge.prod_eq_sum_vK,GppQBinomialEdge.laplace_train,GppQBinomialEdge.laplace_train_annihilated,GppQBinomialEdge.codex_B_K_eq_zero}
+Source: Codex, \texttt{work/codex/2026-10-23\_wave234\_full\_s1\_annihilator\_pnt\_residual\_q\_binomial.md} (Discovery2 PR \#12). With the Gaussian binomial $[M,j]_q$ (q-Pascal rule;
+closed form $[M,j]_q\prod_{l<j}(1-q^{l+1})=\prod_{l<j}(1-q^{M-l})$), $\prod_{m<M}(z-r_0q^mw)=\sum_{j\le M}(-r_0)^jq^{\binom j2}[M,j]_qz^{M-j}w^j$, so the annihilator
+$P(z)=\prod_{m<M}(z-r_0q^m)$ has $v_{M-j}=(-r_0)^jq^{\binom j2}[M,j]_q$. For a train $V=\sum_jv_jb(\cdot-a_0-j\delta)$,
+$\int e^{\sigma u}V=e^{\sigma a_0}\bigl(\int e^{\sigma u}b\bigr)P(e^{\sigma\delta})$, which vanishes when $r_0=e^{\sigma\delta}$; at $\sigma=-\tfrac12$, $\delta=\tfrac7{10}$ this is Codex's $B_K=0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The $K\to\infty$ edge limit, the sewing square $A_K^2$ and any PNT comparison are not
+formalized. No claim about RH.
+
+\section{Astra's balanced-regulator Volterra identity}
+\lean{GppBalancedRegulator.mul_integral_exp,GppBalancedRegulator.volterra_atom,GppBalancedRegulator.volterra_sum,GppBalancedRegulator.primeSignal_eq,GppBalancedRegulator.volterra_primeSignal,GppBalancedRegulator.volterra_cont,GppBalancedRegulator.continuum_eq,GppBalancedRegulator.balanced_eq,GppBalancedRegulator.balanced_zero_eq,GppBalancedRegulator.volterra_balanced}
+Source: Astra, \texttt{work/2026-10-20\_astra\_balanced\_regulator\_transfer.md}. With $M_e(t)=2\sum_{n\le e^t}\Lambda(n)n^{-e}(n^{-1/2}-e^{-t/2})$,
+$C_e(t)=2\int_1^{e^t}(x^{-1/2}-e^{-t/2})x^{-e}dx+2(1-e^{-t/2})$ and $J_e=M_e-C_e$, for every real $e$ and $t\ge0$:
+$J_e(t)=e^{-et}J_0(t)+e(1+2e)\int_0^te^{-eu}J_0(u)\,du+e(1-2e)\int_0^te^{-(t-u)/2}e^{-eu}J_0(u)\,du$. Proof: each piece is a superposition of atoms
+$g_{e,s}(t)=e^{-es}\max(e^{-s/2}-e^{-t/2},0)$; the identity holds for each atom (closed-form exponential integrals), for finite sums, and for continuum
+superpositions by one Fubini swap. Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The Laplace factorization and pole-transfer
+criterion are not formalized. At $e=0$, $J_0(\log X)=2\sum_{n\le X}\Lambda(n)/\sqrt n-2\psi(X)/\sqrt X-2\sqrt X+2$ (Astra, Laplace-growth audit). No claim about RH.
+
+\section{The \texorpdfstring{$\mathfrak{su}(2)$}{su(2)} ladder on the equator modes \texorpdfstring{$H_N$}{H\_N}}
+\lean{GppEquatorSU2.comm_HE,GppEquatorSU2.comm_HF,GppEquatorSU2.comm_EF,GppEquatorSU2.E_preserves,GppEquatorSU2.F_preserves,GppEquatorSU2.H_preserves,GppEquatorSU2.casimir,GppEquatorSU2.detailed_balance,GppEquatorSU2.adjoint}
+Source: Codex, GPP-bridge PR \#11 comment 6392046099 (Discovery2 PR \#23), a finite model of Daniel's equator hypothesis. On $H_N=\mathrm{span}\{e^{ik\varphi}:0\le k<N\}$,
+$Ee_k=ke_{k-1}$, $Fe_k=(N-1-k)e_{k+1}$, $He_k=(N-1-2k)e_k$ satisfy $[H,E]=2E$, $[H,F]=-2F$, $[E,F]=H$, preserve $H_N$, and $H^2+2(EF+FE)=(N-1)(N+1)$, i.e. $J^2=j(j+1)$ with
+$j=(N-1)/2$. With weights $w_k=1/\binom{N-1}{k}$, $\langle Ec,d\rangle_w=\langle c,Fd\rangle_w$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code.
+Classical spin-$j$ representation; the CAR Fock singlet count, the thermal falsifier and any black-hole entropy reading are not formalized. No claim about RH or BSD.
+
+\section{The free angular spectrum at the Hawking temperature has bounded entropy}
+\lean{GppEquatorThermal.hF_eq_binary,GppEquatorThermal.hF_le,GppEquatorThermal.hF_zero,GppEquatorThermal.term_le,GppEquatorThermal.thermalEntropy_le}
+Source: Codex, GPP-bridge PR \#11 comments 6392046099 and 6392063911 (Discovery2 PR \#23), the thermal falsifier. With $h_F(x)=\log(1+e^{-x})+x/(e^x+1)$ the binary entropy of
+the Fermi occupation, $h_F(x)\le(1+x)e^{-x}$ for $x\ge0$, and for the free spectrum $\varepsilon_\ell=\ell/R$ at $\beta_H=4\pi R$,
+$S_N=\sum_{\ell<N}(2\ell+1)h_F(4\pi\ell)\le\log2+10^{-3}$ for every $N$, against $N^2\log2$ for the maximal CAR Fock entropy. Daniel Toupin / Golden Physics Project, with AI
+assistance from Codex and Claude Code. Falsifier of one naive model; not a black-hole entropy statement. No claim about RH or BSD.
+
+\section{Half-density dilations in every boundary dimension}
+\lean{GppHalfDensityDilation.integral_normSq_dilate,GppHalfDensityDilation.dilate_homogeneous,GppHalfDensityDilation.norm_eigen,GppHalfDensityDilation.norm_eigen_eq_one_iff,GppHalfDensityDilation.norm_eigen_eq_one_iff_shadow}
+Source: Codex, GPP-bridge PR \#11 comment 6392669042, anchoring the equator thread in the existing holographic chain (\texttt{GppConformalShadowPrincipalSeries},
+\texttt{GppPrincipalSeriesDilationBridge}). On a $d$-dimensional real inner-product space with Haar measure, $(U_af)(x)=a^{d/2}f(ax)$ preserves $\int|f|^2$; the
+homogeneous mode $|x|^{-\Delta}$ has eigenvalue $\lambda_a(\Delta)=a^{d/2}a^{-\Delta}$ with $|\lambda_a(\Delta)|=a^{d/2-\operatorname{Re}\Delta}$, so for $a\ne1$,
+$|\lambda_a(\Delta)|=1\iff\operatorname{Re}\Delta=d/2\iff d-\Delta=\overline\Delta$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code.
+The principal-series completion and any $S^1\to S^2$ intertwiner are not constructed. No claim about RH, BSD or black-hole entropy.
+
+\section{Fixed-shift correlations vanish while the support grows like \texorpdfstring{$X^{2/3}$}{X\^{}(2/3)}}
+\lean{GppSparseChowla.gap_gt,GppSparseChowla.s_strictMono,GppSparseChowla.shift_pair_le,GppSparseChowla.corr_eventually_const,GppSparseChowla.mem_support_iff_cube,GppSparseChowla.count_ge,GppSparseChowla.count_le}
+Source: Codex, \texttt{work/codex/2026-10-21\_sparse\_fixedshift\_chowla\_cesaro\_energy\_obstruction.md}. With $s_k=\lfloor k^{3/2}\rfloor=\lfloor\sqrt{k^3}\rfloor$ and $a$ the
+indicator of $\{s_k:k\ge1\}$: $s_{k+1}>s_k+h$ for $k\ge(h+1)^2$; for every fixed $h\ge1$ the correlation $\sum_{n<X}a_na_{n+h}$ is constant for $X>s_{(h+1)^2}$; and
+$A(X)=\#\{k\ge1:s_k\le X\}$ satisfies $m^3<(X+1)^2\Rightarrow m\le A(X)$, $(X+1)^2\le(m+1)^3\Rightarrow A(X)\le m$, i.e.\ $A(X)=X^{2/3}+O(1)$. Fixed-shift input
+cannot control the Ces\`aro energy. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The real asymptotics and $E_N\sim3N^{1/3}$ are
+not formalized; the sequence is not multiplicative. No claim about RH.
+
+\section{Gamma-free Poisson transport: channel identities and the intensity budget}
+\lean{GppPoissonTransport.poisson_total,GppPoissonTransport.poisson_mean,GppPoissonTransport.poisson_mgf,GppPoissonTransport.poisson_kl,GppPoissonTransport.pair_logMgf,GppPoissonTransport.V_eq,GppPoissonTransport.tilt_mean,GppPoissonTransport.tilt_kl,GppPoissonTransport.tilt_kl_le,GppPoissonTransport.alpha_eq,GppPoissonTransport.budget_lt_four,GppPoissonTransport.budget_gt_four}
+Source: Astra, \texttt{work/2026-10-16\_astra\_gamma\_free\_poisson\_transport.md}. For Poisson weights $p_\lambda(k)=e^{-\lambda}\lambda^k/k!$: total mass $1$, mean $\lambda$,
+$\sum e^{ck}p_\lambda(k)=\exp(\lambda(e^c-1))$ and $\sum p_\mu\log(p_\mu/p_\lambda)=\mu\log(\mu/\lambda)-\mu+\lambda$; the pair log-mgf is $2\lambda(\cosh(t/2)-1)$, giving
+$V(t)=8(\cosh(t/2)-1)$ at $\lambda=4$. Tilting to rates $\alpha e^{\pm u/2}$ gives mean $\alpha\sinh(u/2)$ and relative entropy $u\alpha\sinh(u/2)-2\alpha(\cosh(u/2)-1)$; the
+prime-power intensity is $2\Lambda(n)/(n-1)$, and $\sum_{n=2}^5 2\Lambda(n)/(n-1)<4<\sum_{n\in\{2,3,4,5,7\}}2\Lambda(n)/(n-1)$. Daniel Toupin / Golden Physics Project,
+with AI assistance from Astra and Claude Code. The probability layer, the Gibbs inequality and the Legendre transform are not formalized. No claim about RH.
+
+\section{Celestial nodal picture: exact reflection and two falsifiers}
+\lean{GppCelestialNodal.dimension_circles_coincide,GppCelestialNodal.xi_conj,GppCelestialNodal.G_reflect,GppCelestialNodal.G_im_eq_zero_of_norm_one,GppCelestialNodal.Ftheta_one_sub,GppCelestialNodal.Ftheta_conj,GppCelestialNodal.Ftheta_zeros_off_line,GppCelestialNodal.Ftheta_critical_eq_normSq,GppCelestialNodal.norm_cayley_lt_one_iff,GppCelestialNodal.norm_cayley_eq_one_iff,GppCelestialNodal.cayley_shifted_zero}
+Source: Codex, GPP-bridge PR \#11 comment 6393727134 (Discovery2 PR \#24). With $\Delta_d=ds$ and $w_d(\Delta)=(\Delta-d)/\Delta$, $w_d(ds)=(s-1)/s$ for every $d\ne0$, so the
+dimension circles coincide. $\xi(\bar s)=\overline{\xi(s)}$ for all $s$; $G(w)=\xi(1/(1-w))$ satisfies $G(1/\bar w)=\overline{G(w)}$, so $\operatorname{Im}G=0$ on $|w|=1$.
+The adversary $F_\theta(s)=\xi(s-\tfrac14)\xi(s+\tfrac14)$ has both symmetries yet zeros on $\operatorname{Re}s=\tfrac14,\tfrac34$. Daniel Toupin / Golden Physics Project, with
+AI assistance from Codex and Claude Code. Discovery2 \#25: $F_\theta(\tfrac12+it)=|\xi(\tfrac34+it)|^2\ge0$, and the chart $w_{h,a}(s)=(s-\tfrac12-ih-a)/(s-\tfrac12-ih+a)$ ($a>0$) sends $\operatorname{Re}s>\tfrac12$ to $|w|<1$, $\operatorname{Re}s=\tfrac12$ to $|w|=1$, and $\rho+\tfrac14$ to $w=-\tfrac13$ when $h=\gamma$, $a=\tfrac12$. Nodal crossings are a coordinate pullback; ``all zeros equatorial'' is RH and is not proved. No claim about RH or BSD.
+
+\section{Slowing or freezing finitely many prime rotations moves no zeta zero}
+\lean{GppPrimeSlowdown.slow_re_pos,GppPrimeSlowdown.one_sub_cpow_ne_zero,GppPrimeSlowdown.multiplier_ne_zero,GppPrimeSlowdown.differentiableAt_multiplier,GppPrimeSlowdown.zeros_invariant,GppPrimeSlowdown.R_tendsto_one,GppPrimeSlowdown.R_eq_zero,GppPrimeSlowdown.no_locallyUniform_limit}
+Source: Codex, GPP-bridge PR \#11 comment 6394506081. For a finite set $P$ of $p\ge2$ and $\alpha_p\in[0,1]$, put $s'_p=\tfrac12+\alpha_p(s-\tfrac12)$ and
+$M(s)=\prod_{p\in P}(1-p^{-s})/(1-p^{-s'_p})$. On $\operatorname{Re}s>0$ every factor is nonzero ($|p^{-z}|=p^{-\operatorname{Re}z}<1$), $M$ is holomorphic and nowhere zero, so
+$\zeta(s)M(s)=0\iff\zeta(s)=0$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite Euler-factor edit only; the functional equation
+need not survive. All-prime freezing is singular (Codex 6394642859): $R_n(s)=\zeta(s)\prod_{p<n}(1-p^{-s})\to1$ on $\operatorname{Re}s>1$ and vanishes at every zero, so on an open preconnected $D\not\ni1$ meeting $\operatorname{Re}s>1$ and containing a zero, no subsequence converges locally uniformly (identity theorem). Elementary, not claimed novel. No claim about RH.
+
+\section{Legendre's sieve for rough integers}
+\lean{GppRoughSieve.sum_moebius_divisors,GppRoughSieve.legendre,GppRoughSieve.abs_count_sub_le}
+Source: Codex, \texttt{work/codex/2026-10-25\_rough\_source\_pole\_subtraction\_tempered\_escape.md}. For $P\ge1$ and $A_P(N)=\#\{1\le n\le N:\gcd(n,P)=1\}$:
+$\sum_{d\mid m}\mu(d)=[m=1]$, $A_P(N)=\sum_{d\mid P}\mu(d)\lfloor N/d\rfloor$, and $|A_P(N)-c_PN|\le\tau(P)$ with $c_P=\sum_{d\mid P}\mu(d)/d$. For $P=\prod_{p\le y}p$ this is
+Codex's $A_y(t)-c_yt=O_y(1)$ with constant $2^{\pi(y)}$. Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The Laplace
+reconstruction and the Mertens-based tempered-escape no-go are not formalized. No claim about RH.
+
 \section{The ground-state hypothesis implies RH (conditional)}
 \lean{GppGroundStateDetector.laplace_K_eq,GppGroundStateDetector.riemannZeta₁_ne_zero_of_bounded,GppGroundStateDetector.riemannHypothesis_of_bounded,GppGroundStateDetector.riemannHypothesis_of_ground_state}
 Sources: Codex, \texttt{work/codex/2026-10-22\_single\_packet\_detecting\_train\_stationary\_sewing\_frontier.md} \S3--\S4; Astra,
@@ -8598,4 +8944,300 @@ Codex, Astra, Turbo and Claude Code. A conditional theorem: with $v=0$ the hypot
 content only once $(v,U_t)$ is constructed from the boundary state, which is open. The converse (RH $\Rightarrow$ $K$ bounded) needs the explicit formula and is
 not formalized. RH is not claimed.
 
+
+\section{Finite positive-ground-state transform and Poincar\'e transport}
+\lean{GppGroundStateTransform.transformed_apply,GppGroundStateTransform.picone_form_identity,GppGroundStateTransform.picone_form_nonneg,GppGroundStateTransform.poincare_transport}
+Source: Codex, GPP-bridge PR \#11 handoff of 30 October (Priority 1), building on the edge identity of \texttt{GroundStatePicone}. On a finite set $X$ let $w$ be symmetric, $V$ real and
+$(H\psi)(x)=V(x)\psi(x)-\sum_yw(x,y)\psi(y)$. If $H\varphi=E_0\varphi$ then for every real $f$: $((H-E_0)(\varphi f))(x)=\sum_yw(x,y)\varphi(y)(f(x)-f(y))$ and
+$\sum_x\varphi f\,((H-E_0)(\varphi f))=\tfrac12\sum_{x,y}w\,\varphi(x)\varphi(y)(f(x)-f(y))^2$, which is $\ge0$ when $w\ge0$. A Poincar\'e inequality $\operatorname{Var}_{\varphi^2}(f)\le C\,D_\varphi(f)$ then gives
+$\sum\psi^2\le C\langle\psi,(H-E_0)\psi\rangle$ for every $\psi\perp\varphi$, via $f=\psi/\varphi$ (needs $\varphi>0$).
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Real scalars on a finite set only; the complex case, uniqueness of the ground state, the Gibbs/Fisher algebra (Priority 2) and any uniform-in-volume constant $C$
+are not formalized, and the Poincar\'e inequality is a hypothesis. Not a gap certificate for any Yang--Mills Hamiltonian. No claim about RH.
+\section{Convolution squares are positive-type on any abelian group with an invariant measure}
+\lean{GppConvolutionSquareGroup.integrable_shift_mul_shift_group,GppConvolutionSquareGroup.convolution_shift_group,GppConvolutionSquareGroup.convolution_square_positive_type_group}
+Source: \texttt{haar\_positivity\_weil\_wightman.tex}, thm:haar-square-positive. The proof for $\mathbb R$ uses only translation invariance of the measure, so for an additive commutative group $G$
+with a right-invariant measure $\mu$ and integrable bounded real $f$, $P(x)=\int f(y)f(y-x)\,d\mu$ satisfies $0\le\sum_{i,j}\bar c_ic_jP(x_i-x_j)$ for all finite families (as a complex number).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. This is the abstract statement only: instantiating it to the id\`ele class group needs that group as a topological
+group with a Haar measure, which Mathlib lacks, so the $C_k$ case stays a named stub. Positivity of a Haar square is unconditional and is not Weil positivity (RH-equivalent); a Haar square
+need not be reflection positive (\texttt{HaarSquareNotReflection}). No claim about RH.
+\section{Local Euler factors on the critical line: unitarity, density sign, mirror overlap}
+\lean{GppARPLocalFactors.norm_one_sub_cpow_conj,GppARPLocalFactors.local_gamma_unitary,GppARPLocalFactors.twisted_gamma_pair_unitary,GppARPLocalFactors.re_div_one_sub,GppARPLocalFactors.local_density_sign_pos,GppARPLocalFactors.local_density_sign_neg,GppARPLocalFactors.mirror_overlap_sq,GppARPLocalFactors.defect_lower,GppARPLocalFactors.mirror_product_tendsto_zero,GppARPLocalFactors.mirror_product_tendsto_zero_sigma}
+Source: Grok, \texttt{GPPDiscovery5/derivation/ARP.md} \S G.6 items 3, 4 and 6; the mirror overlap and its Kakutani-type dichotomy are due to Astra (PR \#11, 26 October).
+For $p>0$ and real $a,t$, $|1-p^{-(a+it)}|=|1-p^{-(a-it)}|$ (conjugation), so at $s=\tfrac12+it$ the local gamma factor $\gamma_p(s)=L_p(1-s)/L_p(s)$ has modulus $1$,
+and for real $\theta\ne\pm\tfrac12$ the pair product $\gamma_p^{(\theta)}(s)\gamma_p^{(-\theta)}(s)$ is unimodular on $\operatorname{Re}s=\tfrac12$.
+$\operatorname{Re}[z/(1-z)]=(\operatorname{Re}z-|z|^2)/|1-z|^2$ takes both signs on $|z|=r\in(0,1)$ (witnesses $z=\pm r$).
+With $R^2=(1-a^2)(1-b^2)/(1-ab)^2$: $1-R^2=(a-b)^2/(1-ab)^2$, and for $a=p^{-m}$, $b=p^{-(1-m)}$, $0<m<\tfrac12$, each prime has $1-R_p^2\ge c/p$ with $c=(1-2^{-(1-2m)})^2$,
+so by $\sum_p1/p=\infty$ the partial products $\prod_{p<N}R_p^2\to0$; the same holds for every $\sigma\in(0,1)$, $\sigma\ne\tfrac12$ by the symmetry $R(a,b)=R(b,a)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Grok, Astra and Claude Code. Finite local identities and the divergence of the partial products only: the twisted factor
+$\gamma_p^{(\theta)}$ alone being non-unimodular is not formalized, and no measure-theoretic Kakutani equivalence is claimed. No claim about RH.
+
+\section{Finite Gibbs/Fisher algebra in the energy eigenbasis}
+\lean{GppGibbsFisher.trace_double_commutator,GppGibbsFisher.fisher_term,GppGibbsFisher.fisher_form_eq,GppGibbsFisher.ground_double_commutator}
+Source: Codex, GPP-bridge PR \#11 handoff of 30 October (Priority 2). With $H=\operatorname{diag}(E)$, $p_i=e^{-\beta E_i}/Z$, $\rho_\beta=\operatorname{diag}(p)$, $A=(a_{ij})$ Hermitian and $X=i[A,\rho_\beta]$:
+$\operatorname{Tr}(\rho_\beta[A,[H,A]])=\sum_{ij}p_i\cdot2(E_j-E_i)|a_{ij}|^2$ (as a matrix-trace identity), and
+$\sum_{ij}|X_{ij}|^2\,\frac{\log p_i-\log p_j}{p_i-p_j}=\beta\operatorname{Tr}(\rho_\beta[A,[H,A]])$, with the divided difference taken as $1/p_i$ when $p_i=p_j$ (where $X_{ij}=0$ anyway). For $\Omega=e_0$,
+$\sum_j2(E_j-E_0)|a_{0j}|^2=2\langle A_c\Omega,(H-E_0)A_c\Omega\rangle$ with $A_c\Omega=A\Omega-\langle\Omega,A\Omega\rangle\Omega$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite eigenbasis algebra only: the analytic statement that the Hessian of the relative entropy along $e^{isA}\rho_\beta e^{-isA}$ equals this form
+(matrix logarithm, second derivative in $s$) is not formalized, nor is zero-temperature convergence or any infinite-dimensional or uniform-in-volume extension. No claim about RH or Yang--Mills.
+
+\section{Twisted convolution squares: cos and cosh polarization}
+\lean{GppTwistConvolution.twist_cos_sum,GppTwistConvolution.twist_cosh_krein,GppTwistConvolution.parallelogram_cplx}
+Source: Grok, \texttt{GPPDiscovery5/derivation/ARP.md} \S G.6 items 1 and 2. With $\tilde f(u)=f(-u)$ and $(f*\tilde g)(r)=\int f(u)g(u-r)\,du$: the cos and sin twists satisfy
+$(fc*\widetilde{fc})(r)+(fs*\widetilde{fs})(r)=\cos(\theta r)\,(f*\tilde f)(r)$ with $fc=f\cos\theta\cdot$, $fs=f\sin\theta\cdot$, and for $h_\pm=e^{\pm\theta u}f$,
+$(h_+*\tilde h_-)(r)+(h_-*\tilde h_+)(r)=2\cosh(\theta r)\,(f*\tilde f)(r)$; also $|A+iB|^2+|A-iB|^2=2|A|^2+2|B|^2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. Correction to the source: item 1 is stated there with a factor $2$ on the left, but $\cos a\cos b+\sin a\sin b=\cos(a-b)$ gives $\cos(\theta r)$ with no factor $2$ under the stated convention; the $2$ is correct for item 2.
+Real $f$ on $\mathbb R$ with Lebesgue measure. No claim about RH.
+
+\section{Pick matrix of a conjugate pole pair}
+\lean{GppPickConjugatePole.pickM_eq,GppPickConjugatePole.pickM_im_pos,GppPickConjugatePole.pick_kernel_eq,GppPickConjugatePole.pick_diag_pos,GppPickConjugatePole.pick_det,GppPickConjugatePole.pick_det_neg}
+Source: Astra, \texttt{work/2026-10-10\_astra\_pick\_continuation.md} \S2. For $m(k)=\frac1{\gamma+ia-k}+\frac1{\gamma-ia-k}$ ($a>0$) and nodes $k_j=\gamma+iy_j$, $y_j>a$: $m(\gamma+iy)=\frac{2iy}{y^2-a^2}$, so $\operatorname{Im}m>0$ at every node;
+the Pick kernel $\frac{m(k_i)-\overline{m(k_j)}}{k_i-\overline{k_j}}$ equals the real number $\frac{2(u_i+u_j)}{y_i+y_j}$ with $u=\frac{y}{y^2-a^2}$; the diagonal entries are positive; and
+$\det\operatorname{Pick}(k_1,k_2)=\frac{-4a^2(y_1-y_2)^2}{(y_1^2-a^2)^2(y_2^2-a^2)^2}<0$ for $y_1\ne y_2$. So pointwise correct sign does not imply a jointly positive (Pick) extension.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The exact two-node computation only: the note's criterion (RH iff all real-node Pick matrices are positive semidefinite, via Nevanlinna--Pick interpolation and analytic continuation), the polynomial $G(k)$ control values and the binary64 diagnostics are not formalized. No claim about RH.
+\section{The exact path sum-of-squares identity}
+\lean{GppPathSOS.term_identity,GppPathSOS.path_sos,GppPathSOS.sin_pos_idx,GppPathSOS.path_sos_nonneg,GppPathSOS.edge_amgm,GppPathSOS.edge_sum_le}
+Source: Codex, GPP-bridge PR \#11 comment 6539964860 (31 October), from \texttt{short\_support\_nilpotent\_tower.md}. For $k\ge1$, $\theta=\pi/(k+1)$, $w_j=\sin(j\theta)$ and complex $a_1,\dots,a_k$:
+$2\cos\theta\sum_{j=1}^k|a_j|^2-2\operatorname{Re}\sum_{j=1}^{k-1}\bar a_ja_{j+1}=\sum_{j=1}^{k-1}w_jw_{j+1}\,|a_j/w_j-a_{j+1}/w_{j+1}|^2\ge0$, so $2\operatorname{Re}\sum\bar a_ja_{j+1}\le2\cos\theta\sum|a_j|^2$
+(the Dirichlet ground-state transform of the path Laplacian, ground state $w$). The same exact square gives the weighted edge AM--GM $2\operatorname{Re}(\bar xy)\le\frac vu|x|^2+\frac uv|y|^2$ for $u,v>0$ and its finite weighted edge sum, the graph-SOS step of Codex's Hardy--Schur prime absorption (PR \#11, 31 October); the Hardy potential and the Arb interval checks are not formalized.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite algebraic identity only: the analytic content of Codex's theorem ($Q_L[f]>\|f\|^2/200$ for $L\le5/32$, the 256-bit Arb certificate, the fiber disintegration, the gamma-tilt discount) is not formalized. No claim about RH.
+\section{Endpoint-moment tail: the exact geometric remainder}
+\lean{GppEndpointMomentTail.geom_remainder,GppEndpointMomentTail.tail_remainder_bound,GppEndpointMomentTail.sin_scaled_remainder_bound}
+Source: Astra, \texttt{work/2026-10-20\_astra\_endpoint\_moment\_arithmetic\_tail.md}. For $t,a\in\mathbb C$ with $t\ne0$, $t+a\ne0$: $\frac1{t+a}-\sum_{r<m}\frac{(-a)^r}{t^{r+1}}=\frac{(-a)^m}{t^m(t+a)}$. For complex $c_j$, real $a_j$ with $|a_j|\le A<|t|$,
+$M_r=\sum c_ja_j^r$ and $B_m=\sum|c_j||a_j|^m$: $\bigl\|\sum_j\frac{c_j}{t+a_j}-\sum_{r<m}\frac{(-1)^rM_r}{t^{r+1}}\bigr\|\le\frac{B_m}{|t|^m(|t|-A)}$, and with the prefactor $K\sin(tL)$, $K\ge0$, the bound is multiplied by $K$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Finite geometric division and the pointwise bound only: the digamma envelope for the arithmetic multiplier, the integrated error theorem, the Plancherel bookkeeping and the numerical evaluations in the note are not formalized. No claim about RH.
+
+\section{The Ces\`aro Gram operator and the discrete Casimir Jacobi form}
+\lean{GppCesaroCasimir.cesaro_gram_entry,GppCesaroCasimir.D_cesaro,GppCesaroCasimir.sum_D_sq,GppCesaroCasimir.key_ineq,GppCesaroCasimir.edge_ineq,GppCesaroCasimir.sum_AB,GppCesaroCasimir.coef_ge,GppCesaroCasimir.hardy_floor}
+Source: Codex/Discovery2, \texttt{research/2026-09-20\_cesaro\_discrete\_casimir\_principal\_series.md} \S\S1--3. With $(Cx)_n=\frac1n\sum_{k\le n}x_k$ and $(Dh)_n=nh_n-(n-1)h_{n-1}$ on sequences indexed from $1$:
+$\sum_kC_{mk}C_{nk}=1/\max(m,n)$ (the reciprocal Brownian kernel is the Ces\`aro Gram operator $CC^*$); $D(Cx)=x$; and $\sum_{n\le N+1}(Dh)_n^2=\sum_{n\le N}n(n+1)(h_n-h_{n+1})^2+(N+1)h_{N+1}^2$, so $\|Dh\|^2=\langle h,Lh\rangle=\sum n(n+1)|h_n-h_{n+1}|^2$ for finitely supported $h$.
+The one-sided $\tfrac14$ floor: $\tfrac14\sum_{n\le M}h_n^2\le\sum_{n\le M}n(n+1)(h_n-h_{n+1})^2$ for $h$ vanishing from $M+1$ on, by summing the Picone edge inequality for the ground profile $n^{-1/2}$ and the numerical bound $b^3(2b-a-c)\ge\tfrac14$ for $a=\sqrt{b^2-1}$, $c=\sqrt{b^2+1}$, $b^2\ge2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite identities and the lower bound only: the sharpness of $\tfrac14$, the identification with Stampach's Hilbert $L$-matrix, the exact spectrum $\sigma(L)=[\tfrac14,\infty)$ and \S\S4--6 of the note are not formalized. No claim about RH.
+
+\section{Arithmetic Poisson bulk: the logarithmic Hamiltonian as a Dirichlet-to-Neumann operator}
+\lean{GppArithmeticPoissonBulk.bulk_eq_cpow,GppArithmeticPoissonBulk.bulk_hasDerivAt_r,GppArithmeticPoissonBulk.bulk_hasDerivAt_t,GppArithmeticPoissonBulk.bulk_cauchy_riemann,GppArithmeticPoissonBulk.bulk_second_r,GppArithmeticPoissonBulk.bulk_second_t,GppArithmeticPoissonBulk.bulk_laplace,GppArithmeticPoissonBulk.dtn_eigen,GppArithmeticPoissonBulk.vonMangoldt_projection}
+Source: Codex/Discovery2, \texttt{research/2026-09-27\_arithmetic\_poisson\_bulk\_dtn\_hamiltonian.md} \S\S2, 3, 8. For one basis vector, $u(r,t)=a\,n^{-(r+it)}=a\,e^{-(r+it)L}$ with $L=\log n$: $\partial_ru=-Lu$, $\partial_tu=-iLu$, so $(\partial_r+i\partial_t)u=0$ and $\partial_r^2u+\partial_t^2u=0$ (the positive-frequency harmonic Hardy condition);
+at $r=t=0$ the outward normal derivative $-\partial_ru$ equals $L\,a$, i.e.\ the Dirichlet-to-Neumann operator acts as $H|n\rangle=(\log n)|n\rangle$; and $\sum_{d\ge2}\Lambda(d)[d\mid n]=\log n$, the decomposition $H=\sum_{d\ge2}\Lambda(d)P_d$ on the basis.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Termwise identities for one basis vector: the summation over $n$, convergence of the Dirichlet series, the Hardy-space interpretation, $\operatorname{Tr}e^{-\beta H}=\zeta(\beta)$ and $\|k_s\|^2=\zeta(2\sigma)$ are not formalized here. No claim about RH.
+
+\section{The prime thermofield-double dictionary}
+\lean{GppPrimeTfd.geometric_trace,GppPrimeTfd.tanh_kappa,GppPrimeTfd.tfd_norm,GppPrimeTfd.mean_occupation,GppPrimeTfd.mass_sq,GppPrimeTfd.energy_of_mass,GppPrimeTfd.mu_eq_one_iff,GppPrimeTfd.sinh_kappa_five,GppPrimeTfd.kappa_five}
+Source: Codex/Discovery2, \texttt{research/2026-09-26\_prime\_tfd\_modular\_horizon\_dictionary.md} \S\S1, 2, 5. For $p>1$ and $\kappa_p=\operatorname{arsinh}(1/\sqrt{p-1})$: the Haar valuation law $(1-1/p)p^{-a}$ sums to $1$; $\tanh\kappa_p=p^{-1/2}$; the purification is normalised, $\cosh^{-2}\kappa_p\sum_a\tanh^{2a}\kappa_p=1$;
+the mean occupation is $\sum_aa(1-1/p)p^{-a}=\frac1{p-1}=\sinh^2\kappa_p$; with $\mu_p=2\sinh\kappa_p$, $\mu_p^2=\frac4{p-1}=\frac4{e^{\log p}-1}$ and $\log p=\log(1+4/\mu_p^2)$; $\mu_p=1\iff p=5$, where $\sinh\kappa_5=\tfrac12$ and $\kappa_5=\log\varphi$, $\varphi=\frac{1+\sqrt5}2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The one-oscillator algebra only: the identification of the arithmetic and geometric modular generators (\S\S3--4), the global TFD and Hagedorn boundary (\S6) and all physical interpretation are not formalized. No claim about RH.
+
+\section{Shifted resolvent ratios of a finite real spectrum}
+\lean{GppPoissonResolventInner.norm_theta,GppPoissonResolventInner.norm_prod_theta,GppPoissonResolventInner.theta_hasDerivAt,GppPoissonResolventInner.phase_density_pos}
+Source: Codex/Discovery2, \texttt{research/2026-09-28\_poisson\_resolvent\_inner\_closure.md} \S\S1--2. For real $\gamma$ and $\omega>0$ let $\theta_\gamma(x)=\frac{\gamma-x+i\omega}{\gamma-x-i\omega}$. Then $|\theta_\gamma(x)|=1$ for real $x$ (hence $|\prod_k\theta_{\gamma_k}(x)|=1$), $\theta_\gamma'(x)=\theta_\gamma(x)\frac{2i\omega}{(\gamma-x)^2+\omega^2}$, and for a nonempty finite spectrum the phase density $2\omega\sum_k\frac1{(x-\gamma_k)^2+\omega^2}$ is strictly positive.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite algebra and calculus of the shifted ratio on the real axis only: that $\Theta$ is Schur/inner in the upper half-plane, the comparison with $\xi(\frac12\mp\omega-iz)$ and Suzuki's criterion, the CCM finite triples and the closure theorem (\S\S3--4) are not formalized. No claim about RH.
+
+\section{A graded-sphere countermodel: global mirror symmetry does not force one spectral line}
+\lean{GppGradedSphere.seed_mirror,GppGradedSphere.sphere_global_mirror,GppGradedSphere.zero_weight_zero,GppGradedSphere.zero_weight_two,GppGradedSphere.global_centre_nonzero,GppGradedSphere.weight_zero_centre,GppGradedSphere.weight_one_centre,GppGradedSphere.weight_two_centre,GppGradedSphere.tate_shift_centre,GppGradedSphere.quarter_shift_weight_not_integral}
+The polynomial $f(s)=(s-\frac12)^2$ satisfies $f(1-s)=f(s)$, and the product $F(s)=f(s)f(s-1)$ satisfies $F(2-s)=F(s)$ while $F(\frac12)=F(\frac32)=0$ and $F(1)\ne0$. Thus an ungraded whole-product mirror does not imply all zeros at its common centre. The motivic-weight centres $c_w=(w+1)/2$ give $c_0=\frac12$, $c_1=1$, $c_2=\frac32$ and $c_{w+2}=c_w+1$. The effective weight $+\frac12$ of a shifted fake factor is not integral. These are algebraic and rational-arithmetic identities for a deliberately NON-arithmetic polynomial model. The statements neither construct a zeta cohomology nor prove any spectral zero result for $\zeta$ or BSD. Source: Daniel Toupin's graded projective-sphere question; Codex, GPP-bridge PR \#11 and GPPVerify PR \#440.
+\section{The Gaussian vacuum partition function of the four-component arithmetic field}
+\lean{GppGaussianBpy.gaussian_laplace,GppGaussianBpy.mode_laplace,GppGaussianBpy.four_components,GppGaussianBpy.partition_tendsto}
+Source: Codex/Discovery2, \texttt{research/2026-09-27\_arithmetic\_free\_field\_holographic\_ladder.md} \S\S3--4. For $v>0$, $t\ge0$: $\int(2\pi v)^{-1/2}e^{-x^2/2v}e^{-tx^2}dx=(1+2tv)^{-1/2}$. One standard-normal mode with rate $t/(2\pi n^2)$ contributes $(1+t/(\pi n^2))^{-1/2}$, four components contribute $(1+t/(\pi n^2))^{-2}$, and for $\lambda>0$ ($t=\pi\lambda^2$) the partial products
+$\prod_{n\le N}(1+\lambda^2/n^2)^{-2}$ converge to $(\pi\lambda/\sinh\pi\lambda)^2$, using the Weierstrass product for $\sinh$ already in the tree; this is the squared celestial Plancherel weight.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The per-mode Gaussian integral and the limit of the product of per-mode transforms only: the cylindrical Gaussian measure on $\ell^2(\mathbb N)$, independence of the modes, the Fredholm determinant form $\det(I+2tC)^{-4/2}$ and the Mellin face $E[Q^{s/2}]=2\xi(s)$ (\S5) are not formalized. No claim about RH.
+\section{Rank-one Weil pole: the full negative-threshold Schur inequality}
+\lean{GppRankOneControls.pole_threshold_neg_iff}
+Source: Codex, GPPVerify PR \#402 (\texttt{codex/rankone-signed-schur-ineq-20261021}); completed on current main by Claude Code (one redundant tactic removed). For a symmetric invertible real matrix $A$ that is positive on $c^\perp$ and $s=c^{\mathsf T}A^{-1}c<0$:
+$A+\tfrac12cc^{\mathsf T}\succeq0\iff s\le-2$, by the exact decomposition $x=\alpha u+y$, $y\perp c$, $x^{\mathsf T}(A+\tfrac12cc^{\mathsf T})x=y^{\mathsf T}Ay+\alpha^2s(1+s/2)$. The threshold is $s\le-2$, not merely $s=-2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Finite linear algebra; no zeta-zero or Weil-form positivity is assumed. No claim about RH.
+
+\section{Positive-pole completion: a direct-sum quadratic certificate}
+\lean{GppEvenPositivePoleCompletion.two_channel_cauchy,GppEvenPositivePoleCompletion.positive_pole_completion,GppEvenPositivePoleCompletion.positive_pole_coercivity,GppEvenPositivePoleCompletion.two_component_positive_pole,GppEvenPositivePoleCompletion.pole_lambda_square_identity,GppEvenPositivePoleCompletion.pole_lambda_lower_bound,GppEvenPositivePoleCompletion.necessary_pole_lambda_budget}
+Source: Astra's 2026-10-15 even-sector lemma (audited by Grok S26), Codex formalization, GPPVerify PR \#367 (\texttt{codex/even-positive-pole-direct-sum-20261015}); completed on current main by Claude Code (the variable $\lambda$, a reserved token in Lean, renamed \texttt{lam}). The two-channel weighted Cauchy--Schwarz inequality: if $x^2\le\beta E$ then $(x+\lambda w)^2\le(\beta+\lambda^2/2)(E+2w^2)$, with its componentwise and coercivity corollaries. The factor $\lambda^2/2$ is essential.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra, Grok, Codex and Claude Code. Finite algebra only: the continuous Fourier multiplier, its Arb interval bounds, the DC-lift integral identity and RH/GRH are not formalized. No claim about RH.
+\section{Causal-diamond and York volume-reduction modules}
+\lean{GppDiamondADMHessian.quadratic_lapse_second_difference,GppDiamondADMHessian.diamond_x_hessian_diagonal,GppDiamondADMHessian.diamond_y_hessian_diagonal,GppDiamondADMHessian.diamond_z_hessian_diagonal,GppDiamondADMHessian.diamond_xy_hessian_mixed,GppDiamondADMHessian.flat_diamond_adm_hessian_is_pure_trace,GppDiamondADMHessian.flat_diamond_adm_york_magnitude,GppDiamondADMHessian.anisotropic_lapse_not_york,GppDiamondBoundaryCharge.constrained_volume_work_is_boundary_charge,GppDiamondBoundaryCharge.fixed_boundary_charge_forces_fixed_volume,GppDiamondBoundaryCharge.volume_change_requires_boundary_charge,GppDiamondBoundaryCharge.pure_gauge_interpretation_obstructed,GppDiamondExplicitBoundary.homogeneous_ball_bulk_surface_cancel,GppDiamondExplicitBoundary.homogeneous_ball_bulk_is_volume_work,GppDiamondExplicitBoundary.homogeneous_ball_surface_is_minus_york_work,GppDiamondExplicitBoundary.sphere_area_eq_three_vol_over_radius,GppDiamondExplicitBoundary.physical_three_ball_cancellation,GppDiamondExplicitBoundary.physical_three_ball_york_coefficient,GppDiamondExplicitBoundary.physical_three_ball_volume_response_nonzero,GppDiamondFlatFirstLaw.radial_polynomial_flat_green_identity,GppDiamondFlatFirstLaw.radial_polynomial_homogeneous_limit,GppDiamondFlatFirstLaw.einstein_diamond_first_law_from_green,GppDiamondFlatFirstLaw.generalized_entropy_work_from_green,GppDiamondFlatFirstLaw.entropy_stationary_iff_fixed_volume_from_green,GppDiamondFlatFirstLaw.generalized_entropy_offshell_residual,GppDiamondFlatFirstLaw.fixed_volume_entropy_iff_weighted_einstein_constraint,GppDiamondHaarNormalMoment.normal_moment_from_orthogonal_symmetries,GppDiamondHaarNormalMoment.isotropic_normal_contraction,GppDiamondHaarNormalMoment.any_constant_metric_bulk_surface_cancel,GppDiamondHaarNormalMoment.interior_trace_is_york_volume,GppDiamondHaarNormalMoment.traceless_anisotropy_invisible_to_scalar_channel,GppDiamondLapseMomentRecovery.quadratic_lapse_moment_ratio,GppDiamondLapseMomentRecovery.two_radii_determine_quadratic_constraint,GppDiamondLapseMomentRecovery.one_radius_not_enough,GppDiamondLapseMomentRecovery.small_radius_constant_coefficient,GppDiamondObserverTomography.ten_timelike_contractions_force_zero,GppDiamondObserverTomography.mixed_probe_is_timelike,GppDiamondObserverTomography.axial_probe_is_timelike,GppDiamondRadiusNoGo.flow_time_odd,GppDiamondRadiusNoGo.conformal_factor_time_odd,GppDiamondRadiusNoGo.conformal_factor_zero_midpoint,GppDiamondRadiusNoGo.radial_flow_zero_midpoint,GppDiamondRadiusNoGo.volume_radius_one_vs_two,GppDiamondRadiusNoGo.radial_volume_response_positive,GppDiamondRadiusNoGo.radial_volume_response_nonzero,GppDiamondRadiusNoGo.phase_quotient_does_not_fix_radius,GppDiamondWeightedLocalization.weighted_second_moment_exact,GppDiamondWeightedLocalization.two_radii_detect_constant_and_quadratic,GppDiamondWeightedLocalization.flat_diamond_two_radii_constraint_reconstruction,GppDoubledYorkOrientation.diagonal_york_relative_volume,GppDoubledYorkOrientation.anti_diagonal_york_total_volume,GppDoubledYorkOrientation.diagonal_york_null_on_matched_variation,GppDoubledYorkOrientation.common_volume_not_fixed_by_diagonal_reduction,GppDoubledYorkOrientation.anti_diagonal_null_iff_common_volume_fixed,GppOrientationYorkMomentMap.york_momentmap_differential_time_even,GppOrientationYorkMomentMap.entropy_blind_to_odd_york,GppOrientationYorkMomentMap.anti_symplectic,GppOrientationYorkMomentMap.york_odd,GppOrientationYorkMomentMap.volume_even,GppOrientationYorkMomentMap.york_pairs_with_even_volume,GppOrientationYorkMomentMap.york_pairing_detects_nonzero_volume,GppOrientationYorkMomentMap.orientation_invariant_family_variable_volume,GppTimeReversalVolume.traceK_time_odd,GppTimeReversalVolume.squareK_time_even,GppTimeReversalVolume.adm_scalar_constraint_time_even,GppTimeReversalVolume.momentum_constraint_time_odd,GppTimeReversalVolume.schmidt_entropy_time_even,GppTimeReversalVolume.reverse_twice,GppTimeReversalVolume.volume_time_even,GppTimeReversalVolume.two_sided_time_reversal_does_not_fix_volume,GppTimeReversalVolume.time_even_entropy_response_vanishes_on_odd_mode,GppTimeReversalVolume.even_quadratic_direction_not_null,GppYorkClockConstraint.clock_shift_preserves_constraint,GppYorkClockConstraint.size_clock_gauge_invariant,GppYorkClockConstraint.coupled_clock_constraint_does_not_fix_size,GppYorkClockConstraint.different_size_not_clock_gauge_equivalent,GppYorkClockConstraint.matching_clock_generator_forces_fixed_volume,GppYorkContinuum.continuum_york_pairing_equals_volume,GppYorkContinuum.continuum_null_forces_fixed_volume,GppYorkContinuum.continuum_fixed_volume_is_null,GppYorkContinuum.conformal_density_hasDerivAt_zero,GppYorkReduction.york_horizontal_iff_fixed_volume,GppYorkReduction.reduction_domain_forces_fixed_volume,GppYorkReduction.york_reduction_iff_volume_level,GppYorkReduction.nontrivial_volume_excludes_global_york_null,GppYorkReduction.no_unconstrained_york_reduction,GppYorkReduction.york_form_representative_invariant,GppYorkReduction.york_generator_preserves_volume,GppYorkReduction.york_quotient_pairing_well_defined,GppYorkReduction.adm_york_null_forces_fixed_volume,GppYorkReduction.adm_fixed_volume_implies_york_null,GppOrientationObservableObstruction.antisymplectic_invariant_form_zero,GppOrientationObservableObstruction.antisymplectic_fixed_tangents_isotropic,GppOrientationObservableObstruction.antisymplectic_nonzero_obstructs_descent,GppOrientationObservableObstruction.canonical_anti_symplectic_cannot_descend,GppOrientationObservableObstruction.opposite_relative_phase_same_reduced_state,GppOrientationObservableObstruction.opposite_relative_phase_distinguished_globally,GppOrientationObservableObstruction.full_ray_phase_fs_positive}
+Source: Codex, GPPVerify PRs \#452 and \#426 (drafts, \texttt{codex/volume-entanglement-localization-20261025} and \texttt{codex/york-offshell-green-final-20261023}), completed on current main by Claude Code, which found all sixteen modules build unchanged. Exact finite and polynomial statements about the flat causal diamond: the CKV lapse $N_R=(R^2-|x|^2)/(2R)$ has constant pure-trace ADM Hessian expression; the York momentum shift and the boundary-charge obstruction $dH=dC+dB$ (algebraic implication and converse); explicit flat-ball boundary compensation of the linearized scalar constraint; the flat-ball first law from the Green identity under stated hypotheses; the isotropic normal moment and unweighted York-volume response; polynomial and weighted-moment recovery of the local constraint from two radii; timelike observer tomography; the radius no-go (time-reflection symmetry and a ball modular flow do not fix the volume); York symplectic reduction forces fixed-volume tangents (and conversely); the continuum Bochner York pairing; the anti-symplectic orientation moment map, its double-sided version, the operational orientation obstruction and the time-reversal/Schmidt-entropy statement; and a finite canonical countermodel for the constraint-gauged York clock.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Not formalized, as each module states: the Einstein--Hilbert Iyer--Wald surface charge and its vanishing for small diamonds, the multidimensional divergence theorem, the Lebesgue differentiation theorem for general residuals, differentiability of the finite-diamond gravitational Hamiltonian, the CFT ball modular Hamiltonian, the JT-gravity crossed-product algebra, and the identification of the abstract anti-symplectic involution with Wigner's antiunitary time reversal. No claim about RH.
+
+\section{Hidden zeros of planar scalar tree amplitudes}
+\label{sec:hidden-zeros}
+\lean{GppHiddenZeros.amp4_eq_zero_of_u_eq_zero,GppHiddenZeros.amp5_factor_of_c14_eq_zero,GppHiddenZeros.amp5_factor_of_c13_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c13_c14_eq_zero,GppHiddenZeros.amp5_eq_zero_of_c14_c24_eq_zero,GppHiddenZeros.amp6_eq_zero_skinny_rectangle}
+\leanok
+The four-, five-, and six-point hidden-zero identities of Arkani-Hamed, Cao,
+Dong, Figueiredo and He (arXiv:2312.16282, sections 2--3) are formalized over
+an arbitrary field, with the stated linear kinematic relations and nonzero
+propagator denominators. The five-point results include factorization into
+two four-point amplitudes; the six-point result uses all fourteen hexagon
+triangulations on the skinny-rectangle locus. The general multiplicity
+statement and loop amplitudes are not formalized here. The displayed cyclic
+seeds in equation (3.6) generate eleven distinct terms under ordinary
+rotations; the definition includes the additional reflected three-term
+orbit required by the full triangulation sum. Formalization: Turbo;
+integration and independent orbit audit: Astra, Golden Physics Project.
+
+\section{The rank-one pole as a cosh-kernel form}
+\lean{GppPoleCoshSinh.pole_identity}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact completed semilocal Weil sum of squares): the pole term is $2|\int f\cosh|^2-2|\int f\sinh|^2$. For finitely many complex weights $c_j$ and real nodes $a_j$,
+$\bigl|\sum_j c_j\cosh a_j\bigr|^2-\bigl|\sum_j c_j\sinh a_j\bigr|^2=\sum_{i,j}\overline{c_i}\,c_j\cosh(a_i-a_j)$, from $\cosh a\cosh b-\sinh a\sinh b=\cosh(a-b)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The finite-sum identity only: the integral version, the shift $a=(x-L/2)/2$ and any sign statement about the completed form are not formalized. No claim about RH.
+
+\section{Mean/variance supplier: Young step, decreasing jump weight, two-channel criterion}
+\lean{GppMeanVarianceSupplier.young_sq,GppMeanVarianceSupplier.pole_lower_bound,GppMeanVarianceSupplier.jump_weight_bound,GppMeanVarianceSupplier.two_channel}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (completed Weil positivity for $L\le 29/100$ by a mean/fluctuation split $f=a+g$, $\int g=0$). Scalar pieces only: for complex $u,v$ and $0<\eta$, $\|u+v\|^2\ge(1-\eta)\|u\|^2-(\eta^{-1}-1)\|v\|^2$; for $\eta\le1$, $\|c\|\le d$, $\|S\|\le s$, $2\|c_0+c\|^2-2\|S\|^2\ge 2(1-\eta)\|c_0\|^2-2(\eta^{-1}-1)d^2-2s^2$; for $w$ antitone on $(0,L]$ and $h\ge0$ integrable, $w(L)\int_0^L h\le\int_0^L wh$; and if $Q\ge Ma^2+FG^2$ with $M\ge\kappa L$, $F\ge\kappa$ and $\|f\|^2=La^2+G^2$ then $Q\ge\kappa\|f\|^2$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The continuous variance identity $\iint|f(x+y)-f(x)|^2=L\|g\|^2$, the Cauchy bounds on the centered moments, the Weil form itself and the Arb endpoint values (hypotheses of the two-channel step) are not formalized; Codex's CI receipts are not checked here. No claim about RH.
+
+\section{Elementary gamma surplus on $(0,1]$}
+\lean{GppGammaSurplus.sinh_le_poly,GppGammaSurplus.gamma_surplus}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact gamma surplus used to improve the completed gamma jump). For $0<y\le 1$, $\sinh y\le y+y^3/6+y^5/120+y^7/5040+\tfrac{9}{322560}y^8$ (Mathlib's exponential Taylor bound at $\pm y$, $n=8$), and
+$\dfrac{e^{y/2}}{2\sinh y}\ge\dfrac1{2y}+\dfrac16$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The elementary real inequality only: the stronger constant $11/50$ on $(0,7/10]$, the completed Weil form, the triangle variance integral and the Legendre spectrum are not formalized. No claim about RH.
+
+\section{Abstract low/high Schur lift}
+\lean{GppSchurLift.schur_pointwise,GppSchurLift.schur_lift}
+Source: Codex/Discovery2, PR~\#11 comments of 2026-10-31 (finite-low / infinite-high one-sided Schur used in the prime-free completed Weil positivity chain). For a real inner product space $F$, a normed space $E$, $a:E\to\mathbb R$, a cross vector $u:E\to F$ and $c:F\to\mathbb R$ with $c(y)\ge d\|y\|^2$: for $\delta<d$, $-\|u\|^2/(d-\delta)\le(d-\delta)\|y\|^2+2\langle u,y\rangle$; and if $\delta\|x\|^2+\|u(x)\|^2/(d-\delta)\le a(x)$ for all $x$ then $\delta(\|x\|^2+\|y\|^2)\le a(x)+2\langle u(x),y\rangle+c(y)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The abstract completion of the square only: no Weil form, no Legendre spectrum, no verification of the Schur condition (Codex's Arb/LDL certificates are not formalized), and complex forms (realification) are not treated. No claim about RH.
+
+\section{Exact pieces of the thermal/KMS prime--Archimedean identity}
+\lean{GppThermalKmsPieces.gamma_ladder,GppThermalKmsPieces.gamma_split,GppThermalKmsPieces.prime_polarization}
+Source: Codex/Discovery2, PR~\#11 comment of 2026-10-31 (exact all-scale thermal/KMS identity for the completed prime--Archimedean form). For $y>0$, $\dfrac{e^{y/2}}{2\sinh y}=\sum_{k\ge0}e^{-(2k+1/2)y}$ (a geometric series); with $D=\|f-T_yf\|^2$ and $q=2N-D$, $\dfrac{2N-e^{y/2}q}{2\sinh y}=\dfrac{e^{y/2}}{2\sinh y}D-2N\dfrac{e^{y/2}-1}{2\sinh y}$; and for isometries $U_i$ and weights $c_i$ on a finite index set, $\sum c_i\|f-U_if\|^2-2(\sum c_i)\|f\|^2=-2\sum c_i\operatorname{Re}\langle f,U_if\rangle$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The elementary identities only: the Bost--Connes algebra and its KMS state, the midpoint identity, the value $\int_0^\infty r=\tfrac12\log2+\pi/4$ and the constant $\kappa_\infty$, the stabilization of the cutoff limit on compact supports, the signed pole and any positivity of the completed form are not formalized. The completed form is not a positive norm in this picture. No claim about RH.
+
+\section{The Hardy potential series}
+\lean{GppHardySeries.hardy_series,GppHardySeries.hardy_sum_two}
+Source: Codex/Discovery2, PR~\#11 comments of 2026-10-31 (quartic Hardy curvature). For $z>0$, $\log\coth(z/2)=\sum_{k\ge0}\frac{2}{2k+1}e^{-(2k+1)z}$ (the series for $\log\frac{1+x}{1-x}$ at $x=e^{-z}$), and for $|u|<a$, $\log\coth\frac{a+u}2+\log\coth\frac{a-u}2=\sum_{k\ge0}\frac{4}{2k+1}e^{-(2k+1)a}\cosh((2k+1)u)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. The series only: the derivatives $H''=\cosh/\sinh^2$ and $H''''=(\cosh^2+5)\cosh/\sinh^4$, the quartic lower bound $V\ge H(a)+H''(a)u^2/2+H''''(a)u^4/24$ and every use in the Weil form are not formalized. No claim about RH.
+
+\section{The intermediate-value step of the source-site spectral flow}
+\lean{GppSpectralFlowIVT.det_zero_of_sign_change,GppSpectralFlowIVT.exists_det_zero_Ioo_quarter}
+Source: Codex/Discovery2, PR~\#11 comment 6390537686. For a family $Q:\mathbb R\to M_n(\mathbb R)$ with entries continuous on $[a,b]$, if $\det Q(a)$ and $\det Q(b)$ have opposite strict signs then $\det Q(\theta)=0$ for some $\theta\in(a,b)$; the case $[0,\tfrac14]$ is stated separately.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Only the intermediate-value step: the certified endpoint signs, the definition of the matrix $Q(\theta)$, continuity of its entries and uniqueness of the zero are hypotheses or open, not formalized. No claim about RH.
+
+\section{Laplace representation of the power-law Hankel form}
+\lean{GppLaplaceHankelPSD.integrableOn_term,GppLaplaceHankelPSD.laplace_hankel_identity,GppLaplaceHankelPSD.hankel_psd}
+Source: Astra, \texttt{work/2026-10-22\_astra\_regulator\_hankel\_eigenvalue\_scaling.md}. For $a>0$, positive times $t_i$ and real weights $c_i$,
+$\Gamma(a)\sum_{i,j}c_ic_j(t_i+t_j)^{-a}=\int_0^\infty x^{a-1}\bigl(\sum_ic_ie^{-t_ix}\bigr)^2dx$, hence $\sum_{i,j}c_ic_j(t_i+t_j)^{-a}\ge0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. Positive semidefiniteness only: strict definiteness for distinct $t_i$ (independence of distinct exponentials), the Poisson-summation limit, the eigenvalue scaling $\lambda_{\min}(M_\varepsilon)\sim\varepsilon^{-(N-1)/2}\lambda_{\min}(B)$ and the numerical constants are not formalized. No claim about RH.
+
+\section{The regulator matrix $\varepsilon I+ww^{\mathsf T}$ and its explicit inverse}
+\lean{GppRegulatorMatrix.vecMulVec_self_mul,GppRegulatorMatrix.regulator_mul_inv}
+Source: Astra, \texttt{work/2026-10-22\_astra\_torus\_regulator\_limit.md}. For $w\in\mathbb R^n$, $\varepsilon\ne0$ and $s=w\cdot w$ with $\varepsilon+s\ne0$: $(ww^{\mathsf T})^2=s\,ww^{\mathsf T}$, and $(\varepsilon I+ww^{\mathsf T})\cdot\varepsilon^{-1}\bigl(I-(\varepsilon+s)^{-1}ww^{\mathsf T}\bigr)=I$ (the Sherman--Morrison form behind the dual quadratic form in the Poisson sum).
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra and Claude Code. The explicit inverse only: the determinant formula, the splitting of the quadratic form along $w$, the Gaussian Poisson summation on $\mathbb Z^N$, the irrationality of ratios of prime logarithms, the limit $\varepsilon^{(N-1)/2}Z_\varepsilon(t)\to(\pi/t)^{N/2}/|w|$ and the idele-class-group discussion are not formalized. No claim about RH.
+
 \end{document}
+
+\section{The sharp S1 constant as the top eigenvalue of a weighted 4-path}
+\lean{GppS1PathConstant.c0star_sq,GppS1PathConstant.path_identity,GppS1PathConstant.path_form_le,GppS1PathConstant.path_form_witness}
+Source: Grok sub-team handoff of 2026-11-03 (GPPDiscovery5 ARP.md \S P.16: the sharp joint S1 constant on the $\{2,3\}$ window from a fibre decomposition into weighted $4$-paths). For $c_2,c_3>0$ put $c_0^*=\tfrac12\bigl(c_3+\sqrt{c_3^2+4c_2^2}\bigr)$, so $c_0^{*2}=c_3c_0^*+c_2^2$. Then for all $x\in\mathbb R^4$,
+$c_0^*\|x\|^2-(2c_2x_1x_2+2c_3x_2x_3+2c_2x_3x_4)=\dfrac{(c_0^*x_1-c_2x_2)^2}{c_0^*}+c_3(x_2-x_3)^2+\dfrac{(c_0^*x_4-c_2x_3)^2}{c_0^*}\ge0,$
+with equality at $(c_2,c_0^*,c_0^*,c_2)$, so $c_0^*$ is the top eigenvalue of the weighted path.
+Daniel Toupin / Golden Physics Project, with AI assistance from Grok and Claude Code. The finite quadratic-form fact only: that the S1 constant of the Weil form equals this eigenvalue (the fibre decomposition), the numerical value $0.90093$ for $c_2=\log 2/\sqrt2$, $c_3=\log 3/\sqrt3$, and all Arb/Schur steps are not formalized. No claim about RH.
+
+\section{Golden cross-ratio conjugacy and the natural prime dilations as M\"obius maps}
+\lean{GppGoldenPrimeAction.cross_ratio_conj,GppGoldenPrimeAction.golden_cross_ratio_conj,GppGoldenPrimeAction.prime_mobius_conj,GppGoldenPrimeAction.prime_det,GppGoldenPrimeAction.hasDerivAt_P,GppGoldenPrimeAction.prime_golden_noncommute}
+Source: Codex/Discovery2, notes of 2026-11-04 (golden unitary cross-ratio realization; natural prime dilations as noncommuting golden unitaries). For $\rho^2=a\rho+1$, $F_a(x)=a+1/x$ and $C(x)=(x-\rho)/(x+1/\rho)$ satisfy $C(F_a(x))=-\rho^{-2}C(x)$ (the case $a=1$, $\rho=\varphi$ is the golden step). Transporting the dilation $x\mapsto px$ by $C$ gives $P_p(y)=(A+By)/(C+Dy)$ with $A=\varphi(p-1)$, $B=\varphi+p/\varphi$, $C=p\varphi+1/\varphi$, $D=(p-1)/\varphi$; for $\varphi^2=\varphi+1$ one has $BC-AD=5p$ and $P_p'(y)=5p/(C+Dy)^2$; and for $p>1$ the golden map $G(y)=-\varphi^{-2}y$ does not commute with $P_p$ at $y=0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Codex and Claude Code. Real-variable algebra only: unitarity of the half-density operators on $L^2(\mathbb R^\times,dy/|y|)$, the two-sheet shift, the no-point-spectrum theorem, the Hecke/completed-prime identification and all numerical regressions are not formalized; nothing here selects zeta zeros. No claim about RH.
+
+\section{The weight-$\Delta$ realization of $\mathfrak{sl}(2,\mathbb R)$: Casimir $\Delta(\Delta-1)$ and unitarity iff $\operatorname{Re}\Delta=\tfrac12$}
+\lean{GppWeightRealizationCasimir.casimir_weight,GppWeightRealizationCasimir.antiHermitian_defect_pointwise,GppWeightRealizationCasimir.hasDerivAt_boundary,GppWeightRealizationCasimir.antiHermitian_defect_integral,GppWeightRealizationCasimir.antiHermitian_iff}
+Requested by Daniel Toupin: prove that the variable $s$ \emph{is} the conformal weight $\Delta$ of a principal-series sector, with no zero-location claim. On functions $f:\mathbb R\to\mathbb C$ let $P f=f'$, $D f=xf'+\Delta f$, $K f=x^2f'+2\Delta xf$ (the weight-$\Delta$ realization). Then for every twice differentiable $f$ the Casimir acts as a scalar: $D^2f-\tfrac12(PK+KP)f=\Delta(\Delta-1)f$. For $\langle f,g\rangle=\int\overline f g$ one has pointwise $\overline{Df}\,g+\overline f\,Dg=(x\overline fg)'+(2\operatorname{Re}\Delta-1)\overline fg$; hence, when the boundary term is integrable, $\langle Df,g\rangle+\langle f,Dg\rangle=(2\operatorname{Re}\Delta-1)\langle f,g\rangle$, and on a test function with $\langle f,f\rangle\ne0$, $D$ is anti-Hermitian iff $\operatorname{Re}\Delta=\tfrac12$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Generator-level statements for this concrete realization only: the group action, irreducibility, the 4D massless one-particle space and its Mellin--Plancherel decomposition into principal series, and the identification with the arithmetic $s$ beyond the Mellin character identity are not formalized. Nothing here says where any particular complex number (for example a zero of the completed zeta function) lies: whether it belongs to the unitary sector is the same question as whether $\operatorname{Re}\Delta=\tfrac12$ for it. No claim about RH.
+
+\section{Mellin--Plancherel on the line $\operatorname{Re}s=\tfrac12$: the 1D delta-normalization of the principal series}
+\lean{GppMellinPlancherel.schwartz_plancherel,GppMellinPlancherel.halfline_norm_sq,GppMellinPlancherel.mellin_half_plancherel}
+Requested by Daniel Toupin: the physical massless conformal basis is delta-function normalizable exactly on the principal series $\Delta=d/2+i\nu$ (Pasterski--Shao, \S4.2, (4.7)--(4.9); citation not checked here). In boundary dimension one this is the statement that on $\operatorname{Re}s=\tfrac12$ the Mellin transform is an isometry up to $2\pi$. For a Schwartz function $g$: $\int|\mathcal F g|^2=\int|g|^2$; for $x=e^{-u}$: $\int_{x>0}|f|^2\,dx=\int e^{-u}|f(e^{-u})|^2\,du$; and if $u\mapsto e^{-u/2}f(e^{-u})$ is a Schwartz function then $\tfrac1{2\pi}\int|\mathcal M f(\tfrac12+i\tau)|^2\,d\tau=\int_{x>0}|f|^2\,dx$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Schwartz-class functions only: extension to all of $L^2(\mathbb R_+,dx)$, surjectivity of the Mellin transform onto $L^2(\mathbb R)$ (completeness), the Klein--Gordon inner product itself and the four-dimensional $SL(2,\mathbb C)$ version are not formalized. Nothing here says that any particular complex number, such as a zero of the completed zeta function, lies on this spectrum. No claim about RH.
+
+\section{The one-dimensional Mellin weight $s=\Delta_1$ and the massless Klein--Gordon radial normalization}
+\lean{GppOneDimensionalMellinWeight.mellin_character_equals_1d_conformal_weight,GppOneDimensionalMellinWeight.conformal_shadow_characters_multiply_to_jacobian,GppOneDimensionalMellinWeight.one_dimensional_principal_iff_unitary,GppOneDimensionalMellinWeight.all_xi_zeros_principal_iff_zero_characters_unitary,GppOneDimensionalMellinWeight.massless_kg_radial_scale_invariant_iff_principal,GppOneDimensionalMellinWeight.physical_one_dimensional_kg_growth_eq_arithmetic_norm_sq,GppOneDimensionalMellinWeight.physical_massless_one_dimensional_principal_iff_kg_unitary,GppOneDimensionalMellinWeight.legacy_all_zeros_principal_false,GppOneDimensionalMellinWeight.entire_xi_eq_legacy,GppOneDimensionalMellinWeight.all_xi_zeros_kg_normalized_iff_principal,GppOneDimensionalMellinWeight.riemannHypothesis_of_all_xi_zeros_kg_normalized}
+Source: Astra (PR \#486) with Codex's entire-xi repair (PR \#488), ported with wording changes. Restoring the half-density Jacobian $e^{x/2}$ to the normalized arithmetic character $e^{x(s-1/2)}$ gives the one-dimensional conformal dilation character $e^{xs}$, i.e.\ $\Delta_1=s$ (no factor $2$); the shadow characters $\Delta_1\mapsto1-\Delta_1$ multiply to the Jacobian $e^x$. The radial massless Klein--Gordon weight $e^{(2c-d)u}$ (Pasterski--Shao, arXiv:1705.01027, (4.7)--(4.9); checked against the paper) is scale invariant iff $c=d/2$, and for $d=1$ equals $\|\chi_s(e^u)\|^2$. Restated in these terms, RH is equivalent to every zero of the entire xi having a unit-modulus character (equivalently, KG-normalized radial weight), and that statement implies Mathlib's \texttt{RiemannHypothesis}; this is a restatement, not a proof. Repair from Codex \#488: the legacy product vanishes at $0$ and $1$, so the unrestricted target with it is false independently of RH (recorded as a regression); the entire xi agrees with it elsewhere.
+Daniel Toupin / Golden Physics Project, with AI assistance from Astra, Codex and Claude Code. Radial scale dependence and the character identities only: the delta-function normalization and full Klein--Gordon inner product, a local one-dimensional CFT, the embedding into the four-dimensional celestial theory and any statement that a zero lies on the line are not formalized. No claim about RH.
+\section{Conditional theorem: weight states of a unitary dilation action lie on $\operatorname{Re}s=\tfrac12$}
+\lean{GppConditionalWeightState.weight_state_re_half,GppConditionalWeightState.xi_zeros_on_critical_line_of_correspondence,GppConditionalWeightState.riemannHypothesis_of_correspondence,GppConditionalWeightState.legacy_correspondence_empty}
+Requested by Daniel Toupin: state exactly what ``$s$ is the conformal weight of a unitary sector'' would give for the zeta zeros, with the two premises kept separate. \emph{Physical unitarity (proved):} if $U(a)$ is a norm-preserving dilation action on a complex inner product space and $\psi\ne0$ satisfies $U(a)\psi=\chi_s(a)\psi$ for all $a>0$, with $\chi_s(a)=\exp(\log a\,(s-\tfrac12))$, then $\operatorname{Re}s=\tfrac12$. \emph{Arithmetic--physics correspondence (a named hypothesis, not proved, not an axiom):} every zero of the entire completed xi function $\xi(s)=\tfrac12\bigl(1+s(s-1)\Lambda_0(s)\bigr)$ is the weight of such a state of a fixed $U$. Together they give $\operatorname{Re}\rho=\tfrac12$ for every xi zero and hence Mathlib's \texttt{RiemannHypothesis}. Repair (after Codex \#488): the earlier form used the legacy product, which Lean's totalized completed zeta makes vanish at $0$ and $1$, so that premise was unsatisfiable; this is now a recorded regression.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The correspondence hypothesis is at least as strong as RH and no Hilbert space satisfying it is constructed; the physical identification of $U$ with the massless one-particle dilation action, and the full $L^2$ Mellin--Plancherel equivalence, are not formalized here. No claim about RH.
+
+\section{The Hilbert--P\'olya target: what ``the zeros are the physical spectrum'' must mean}
+\lean{GppHilbertPolyaTarget.re_eq_half_of_realization,GppHilbertPolyaTarget.no_realization_of_off_line_zero,GppHilbertPolyaTarget.xi_zeros_on_line_of_realization,GppHilbertPolyaTarget.riemannHypothesis_of_realization}
+Requested by Daniel Toupin: make precise the claim that the arithmetic $s$ and the physical $\Delta$ are the same, zeros included. The dilation generator of the massless sector has purely continuous spectrum, so the zeros must be eigenvalues of some other symmetric operator built from the sector. For $F:\mathbb C\to\mathbb C$, a realization is a symmetric linear operator $T$ on a complex inner product space (its domain, for an unbounded operator) such that every zero $\rho$ of $F$ gives an eigenvalue $\lambda=-i(\rho-\tfrac12)$, i.e.\ $\rho=\tfrac12+i\lambda$. Proved: a realization forces $\operatorname{Re}\rho=\tfrac12$ for every zero (eigenvalues of symmetric operators are real); contrapositively, a single zero off the line rules out every realization, so functions sharing the variable and the symmetry $s\mapsto1-s$ but having off-line zeros (Davenport--Heilbronn type) admit none.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The target is the entire completed xi (the legacy product has spurious zeros at $0,1$ and admits no realization). No realization for it is constructed or assumed; its existence is equivalent in strength to RH and is open. No claim about RH.
+
+\section{Rung 1 of the Weil support ladder: the first prime switches on}
+\lean{GppWeilRungOne.primeSide_eq_kickTwo,GppWeilRungOne.weil_nonneg_iff_rung_one,GppWeilRungOne.weil_nonneg_rung_one_of_kick_nonpos,GppWeilRungOne.kickTwo_eq_zero_of_support_lt_log_two}
+Requested by Daniel Toupin: the zero-free step where Weil positivity must survive a prime entering. For $f$ supported in $[-L,L]$ with $L<\log 3$, exactly one prime power is visible and the prime side is, exactly, $\sum_n\Lambda(n)n^{-1/2}(f(\log n)+f(-\log n))=\tfrac{\log 2}{\sqrt2}\bigl(f(\log2)+f(-\log2)\bigr)$. Hence on rung 1 the Weil form $\mathrm{arch}-\mathrm{prime}$ is nonnegative iff the archimedean part dominates this single kick, and it is nonnegative whenever $\mathrm{arch}\ge0$ and $f(\log2)+f(-\log2)\le0$; below $\log2$ the kick vanishes (rung 0).
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. No zero of any L-function appears. The archimedean domination inequality on rung 1 (extending Connes--Consani past $\log 2$) and every higher rung are not proved here. No claim about RH.
+\section{The Sameness statement is exactly RH}
+\lean{GppSameness.diagMul,GppSameness.correspondence_of_zeros_on_line,GppSameness.sameness_iff_zeros_on_line}
+Target from Turbo (bridge note 2026-11-06, ``The Sameness Theorem'', occupancy form with the half-density character): a unitary dilation action $U$ on a complex Hilbert space such that every zero $\rho$ of the entire completed xi is the weight of a nonzero state, $U(a)\psi=a^{\rho-1/2}\psi$. Proved: this existence statement holds if and only if every zero of the entire xi has $\operatorname{Re}\rho=\tfrac12$. One direction is unitarity (\texttt{weight\_state\_re\_half}); for the other, on $\ell^2$ of the zero set the diagonal action by the unit-modulus characters $a^{\rho-1/2}$ is a linear isometry and each basis vector is a weight state.
+Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The converse construction uses the zero set as input, so it is not a proof of anything: the content of RH is a construction of $U$ from arithmetic data (primes, gamma factor, pole) without the zeros. Neither side is asserted. No claim about RH.
+\section{The physical premise, zero-free: arithmetic reflection positivity}
+\lean{GppArithmeticReflection.weilForm,GppArithmeticReflection.ArithmeticReflectionPositivity,GppArithmeticReflection.exists_test_function_ne_zero,GppArithmeticReflection.rung_of_reflectionPositivity,GppArithmeticReflection.weilForm_rung_zero,GppArithmeticReflection.weilForm_eq_truncation,GppArithmeticReflection.rung_positivity_iff_domination}
+Requested by Daniel Toupin: $\xi$ is built from physical states of a one-dimensional conformal theory with the celestial structure, so it must obey the physical axioms; the axiom that reaches the zeros is Osterwalder--Schrader reflection positivity. Transported to arithmetic it is positivity of the Weil form assembled from primes, the gamma factor and the pole only, $W(g)=\int g(u)\,2\cosh(u/2)\,du+A_\infty(g)-\sum_n\Lambda(n)n^{-1/2}(g(\log n)+g(-\log n))$ on autocorrelations $g=f\star\tilde f$. The premise $\forall f\in C_c^\infty,\ W(f\star\tilde f)\ge0$ is named, not asserted. (Correction 2026-11-07: first stated with Lean's \texttt{ContDiff ℝ ⊤}, which is the analytic class; analytic plus compact support forces $f=0$, so the premise was vacuous. It is now $C^\infty$, and a smooth bump witnesses that the class is nonzero.) Proved: below $\log2$ the Weil form is pole plus gamma; below $\log(N+1)$ the prime side is the finite sum over $n\le N$, so the premise on each rung is a single finite domination inequality. Normalization checked numerically (not in Lean) against the first 599 zeta zeros, agreement $\sim10^{-12}$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Weil's theorem that the premise is equivalent to RH needs the explicit formula, not yet formalized; the premise is RH-strength and open, and analogues fail for Davenport--Heilbronn and the theta-weight deformation. No claim about RH.
+
+\section{Step 0: the Weil distribution in the multiplicative variable is \texttt{weilForm}}
+\lean{GppWeilMultiplicative.integral_comp_exp_univ,GppWeilMultiplicative.multPrime_eq_primeSide,GppWeilMultiplicative.multPole_eq_poleTerm,GppWeilMultiplicative.multWeil_eq_weilForm}
+Step 0 of the full-construction brief (Daniel Toupin, via Turbo). For a test function $h$ on $(0,\infty)$ in the half-density convention, $\sum_n\Lambda(n)n^{-1/2}(h(n)+h(1/n))$ is the prime side of $u\mapsto h(e^u)$, $\int_0^\infty h(x)(x^{-1/2}+x^{-3/2})\,dx$ is its pole term, and so the multiplicative Weil form equals \texttt{weilForm} of the pullback: one Weil distribution, not two. Convention correction to the Step-0 spec: it paired half-density prime weights with uncentered pole terms; numerically the spec as written gives $-2.04\times10^{-3}$ or $+8.96\times10^{-3}$ against the zero sum $1.7100734\times10^{-4}$, while the consistent forms give $1.7100715\times10^{-4}$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. Real-valued test functions only; the complex involution and the multiplicative autocorrelation class are not yet transported. No claim about RH.
+
+\section{Meyer's spectral realization of the Weil distribution, as a named structure}
+\lean{GppMeyerSpectralWeil.MeyerSpectralWeil,GppMeyerSpectralWeil.exists_isTestFunction_ne_zero,GppMeyerSpectralWeil.MeyerTarget,GppMeyerSpectralWeil.rh_of_meyer,GppMeyerSpectralWeil.poleSpectral_eq_poleTerm}
+Replaces the stub \texttt{open\_meyer\_spectral\_weil\_identity : True}. Meyer (Duke Math.\ J.\ 127, 2005): the Weil distribution is the character of a virtual representation $\pi_+\ominus\pi_-$, poles $s=0,1$ in $\pi_+$, nontrivial zeros in $\pi_-$ with multiplicity. Carried as data, not reproved and not an axiom: multiplicities, traces, $\operatorname{tr}\pi_+g=\hat g(0)+\hat g(1)$, $\operatorname{tr}\pi_-g=\sum_\rho m(\rho)\hat g(\rho)$, and $\operatorname{tr}\pi_+g-\operatorname{tr}\pi_-g=\mathrm{prime}(g)-\mathrm{arch}(g)$, with $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$ (so $\hat g(0)+\hat g(1)$ is \texttt{poleTerm}). The target (Sameness, form MEY): the $\pi_-$ zeros are weight states of a unitary dilation action; with it every nontrivial zero has $\operatorname{Re}\rho=\tfrac12$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The structure is not constructed (it is Meyer's theorem plus the explicit formula); the target is open and RH-strength. No claim about RH.
+
+\section{Step 1: the local Tate zeta integrals at the real place and at a prime}
+\lean{LocalTate.integral_comp_abs',LocalTate.Archimedean.localZeta_even_split,LocalTate.Archimedean.localZeta_half_line,LocalTate.Archimedean.archimedean_evaluation,LocalTate.Archimedean.archimedean_evaluation_Gammaℝ,LocalTate.Finite.padic_norm_lt_one,LocalTate.Finite.padic_denom_ne_zero,LocalTate.Finite.padic_shifted_denom_ne_zero,LocalTate.Finite.finite_evaluation,LocalTate.Finite.local_functional_equation_p}
+Step 1 of the full-construction brief (blueprint by Gemini, relayed by Daniel Toupin, audited by Turbo). Archimedean: for $\operatorname{Re}s>0$, $\int_{\mathbb R}e^{-\pi x^2}|x|^{s-1}\,dx=\pi^{-s/2}\Gamma(s/2)=\Gamma_{\mathbb R}(s)$, by an even split, the substitution $x=y^{1/2}$ and the complex Gamma integral. Finite: for a prime $p$ and $\operatorname{Re}s>0$, $\sum_k(p^{-s})^k=(1-p^{-s})^{-1}$; $1-p^{-s}\neq0$ for $\operatorname{Re}s>0$ and $1-p^{s-1}\neq0$ for $\operatorname{Re}s<1$; and the local functional-equation identity of the blueprint. All blueprint obligations are discharged.
+Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo and Claude Code. Local factors only: the global Tate integral, Hecke characters and Poisson summation on the adeles are not here. No claim about RH.
+
+\section{Explicit formula, stage E1: rapid decay of the spectral transform on vertical lines}
+\lean{GppExplicitFormulaE1.shifted_hasCompactSupport,GppExplicitFormulaE1.shifted_contDiff,GppExplicitFormulaE1.spectralTransform_eq_fourier,GppExplicitFormulaE1.spectralTransform_decay}
+First stage of the explicit formula (layer 1.5 of the full-construction brief). For a smooth compactly supported $g$ and every real $\sigma$, $u\mapsto g(u)e^{(\sigma-1/2)u}$ is a Schwartz function, the spectral transform $\hat g(\sigma+it)=\int g(u)e^{(\sigma+it-1/2)u}\,du$ is its Fourier transform at $-t/2\pi$, and hence for every $k$ there is $C$ with $|t|^k|\hat g(\sigma+it)|\le C$ for all $t$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Fixed $\sigma$ only (uniformity on compact $\sigma$-intervals is not proved); stages E2 to E6 of the explicit formula are not here. No claim about RH.
+
+\section{Explicit formula, stage E2a (real): Gauss's limit for the digamma function}
+\lean{GppDigammaGauss.tendsto_digamma_real}
+For real $x>0$, $\psi(x)=(\log\Gamma)'(x)=\lim_{n\to\infty}\bigl(\log(x+n)-\sum_{k<n}\frac1{x+k}\bigr)$. The recurrence gives $(\log\Gamma)'(x+n)=\psi(x)+\sum_{k<n}\frac1{x+k}$, and log-convexity of $\Gamma$ (Bohr--Mollerup) squeezes $\log(x+n-1)\le(\log\Gamma)'(x+n)\le\log(x+n)$; this is the argument of Mathlib's \texttt{Real.deriv\_Gamma\_nat} at a general point.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Real variable only: the complex extension and the vertical-line bound $\psi(\sigma+it)=O(\log|t|)$ (stage E2b) are not here. No claim about RH.
+
+\section{Bridge transport: the autocorrelation stays a test function and squares the transform}
+\lean{GppAutocorrTransport.autocorr_eq_convolution,GppAutocorrTransport.isTestFunction_autocorr,GppAutocorrTransport.integrable_spectral,GppAutocorrTransport.spectralTransform_autocorr}
+The two named hypotheses of the Step 4 bridge spec (Turbo audit, revision 5), proved for the repo's autocorrelation $g^{\mathrm{auto}}(x)=\int g(y)g(y-x)\,dy$: it is the convolution $g\star(g\circ(-))$, hence smooth with compact support whenever $g$ is (T1); and its spectral transform is $\hat g(s)\,\hat g(1-s)$ (T2), by Fubini and the substitution $v=y-x$. At a zero $\rho$ this is the paired-form summand with coefficients $\hat g$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The bridge's remaining obligation, the tail of the spectral sum over all zeros, needs the assembled explicit formula and is not here. No claim about RH.
+\section{The id\`eles of $\mathbb Q$ and Fujisaki's lemma}
+\lean{GppIdeleQ.exists_rat_norm,GppIdeleQ.eq_one_or_neg_one,GppIdeleQ.finNorm_rat,GppIdeleQ.ideleNorm_diag,GppIdeleQ.isCompact_unitIdeles,GppIdeleQ.exists_diag_mul,GppIdeleQ.compactSpace_A1_quotient,GppIdeleQ.isFiniteMeasure_quotient,GppIdeleQ.eq_one_of_near_one,GppIdeleQ.haarK1,GppIdeleQ.exists_haar_probability,GppIdeleQ.T_preserves_L2}
+Retires \texttt{open\_adelic\_quotient\_compact\_factor}, \texttt{open\_K\_compact}, \texttt{open\_K1\_compact\_haar}, \texttt{open\_K1\_haar\_probability}, \texttt{open\_haar\_volume\_normalized} and \texttt{open\_T\_preserves\_L2} (Retired 2026-11-07). The id\`ele group of $\mathbb Q$ is $\mathbb R^\times\times\mathbb A_f^\times$ over Mathlib's finite adele ring, with the units topology. Every finite id\`ele has, place by place, the absolute values of a positive rational; a rational that is a $p$-adic unit for every $p$ is $\pm1$; hence the product formula $|q|_\infty\prod_p|q|_p=1$, the decomposition $\mathbb A^1=\mathbb Q^\times\cdot(\{\pm1\}\times\prod_p\mathbb Z_p^\times)$, compactness of $\prod_p\mathbb Z_p^\times$, and compactness of $\mathbb A^1/\mathbb Q^\times$. Every measure on the quotient that is finite on compacts is finite. $\mathbb Q^\times$ is discrete (a neighbourhood $|x_\infty-1|<\tfrac12$, $x_p\in\mathbb Z_p$ meets it only in $1$), hence closed, so $K^1=\mathbb A^1/\mathbb Q^\times$ is a compact Hausdorff group, and its normalized Haar measure is a probability measure: $\mathrm{vol}(K^1)=1$. The Haar measure is inversion invariant, so the shadow involution $a\mapsto a^{-1}$ is an isometry of $L^2(K^1)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. $\mathbb Q$ only. No claim about RH.
+
+\section{Haar squares on the id\`ele class group of $\mathbb Q$}
+\lean{GppIdeleClassGroupQ.MulPositiveType,GppIdeleClassGroupQ.haar_square_positive_type,GppIdeleClassGroupQ.haarCQ,GppIdeleClassGroupQ.haarCQ_ne_zero,GppIdeleClassGroupQ.adelic_haar_square_positive_type,GppIdeleClassGroupQ.haar_square_positive_type_haarCQ}
+Retires \texttt{open\_adelic\_haar\_square\_positive\_type} (Retired 2026-11-07). $\mathbb A_f$ is locally compact (restricted product of locally compact $\mathbb Q_p$ over compact $\mathbb Z_p$), $\mathbb Q^\times$ is discrete hence closed in the id\`eles, so $C_{\mathbb Q}=\mathbb A^\times/\mathbb Q^\times$ is a locally compact Hausdorff abelian group with a nonzero Haar measure. For every right-invariant measure on it and every integrable bounded real $\Omega$, $P(x)=\int\Omega(y)\Omega(yx^{-1})\,d\mu(y)$ is of positive type: $\sum_{ij}\bar c_ic_jP(x_ix_j^{-1})\ge0$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Positivity of a Haar square is unconditional and is not Weil positivity. No claim about RH.
+
+\section{The contracted Bianchi identity: the Einstein tensor is divergence free}
+\lean{GppContractedBianchi.dRic_symm,GppContractedBianchi.twice_div_ricci,GppContractedBianchi.divEinstein_eq_zero}
+Retires the stub \texttt{open\_bianchi\_identity : True} (Retired 2026-11-07). In components at a point, with $\nabla_lR_{abcd}$ having the Riemann symmetries $R_{abcd}=-R_{bacd}=-R_{abdc}=R_{cdab}$, satisfying the second Bianchi identity $\nabla_lR_{abcd}+\nabla_aR_{blcd}+\nabla_bR_{lacd}=0$, and with contractions by a symmetric inverse metric commuting with $\nabla$ ($\nabla g=0$): $\nabla_lR=2g^{ac}\nabla_aR_{cl}$, and hence $g^{lb}\nabla_l\bigl(R_{b\nu}-\tfrac12g_{b\nu}R\bigr)=0$ whenever $g^{-1}g=1$. Any dimension, any signature.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. The second Bianchi identity is a hypothesis (Mathlib has no Levi-Civita connection yet); everything after it is proved.
+
+\section{Spectral orbitals: the per-zero Gram object and the finite-sector ledger}
+\lean{GppSpectralOrbitals.Ec_zero,GppSpectralOrbitals.mul_Ec,GppSpectralOrbitals.Ec_eq_div,GppSpectralOrbitals.Zgamma_symm,GppSpectralOrbitals.quadForm_outer,GppSpectralOrbitals.Zgamma_quadForm,GppSpectralOrbitals.Zgamma_quadForm_nonneg,GppSpectralOrbitals.sum_Zgamma_quadForm_nonneg,GppSpectralOrbitals.ExplicitFormulaLedger,GppSpectralOrbitals.ExplicitFormulaLedger.complement_eq_sum_remaining,GppSpectralOrbitals.ExplicitFormulaLedger.complement_eq_sum,GppSpectralOrbitals.ExplicitFormulaLedger.norm_complement_le,GppSpectralOrbitals.parityVec,GppSpectralOrbitals.ExplicitFormulaLedger.ofParity,GppSpectralOrbitals.parity_complement_eq_sum}
+The passing core of Turbo's SpectralOrbitals audits (revisions 1--3, 2026-11-07), in the shape of the pipeline's own code. The kernel $E_c(z)=\sum_n z^n/(n+1)!$ satisfies $zE_c(z)=e^z-1$ and $E_c(0)=1$. The amplitude is a vector over the signed basis $\mathrm{Fin}\,K\oplus\mathrm{Fin}\,K$, $A_{\pm j}(s)=e^{\pm(s-1/2)a_j}S(\pm(s-1/2))$ with $a_j=0.35+0.7j$ and $S(z)=E_c(z)/2-(E_c(z+2\pi i)+E_c(z-2\pi i))/4$; the per-zero matrix is the outer product $Z_{ik}(\gamma)=2\operatorname{Re}[A_i(\rho)\overline{A_k(\rho)}]$ at $\rho=\tfrac12+i\gamma$, with $Q,C$ by index restriction and $P_\pm=Q\pm C$. Proved: $Z$ is symmetric and $c^{\mathsf T}Z(\gamma)c=2|\sum_ic_iA_i(\rho)|^2\ge0$, so every finite spectral block is positive semidefinite. The ledger carries the sector explicit formula $\mathrm{arch}-\mathrm{prime}=\sum_\gamma\mathrm{orb}(\gamma)-\mathrm{pole}$ as a premise field; for any $U$ containing the pole subspace and the orbitals of a chosen zero set $S$, the $U^\perp$ component of $\mathrm{arch}-\mathrm{prime}$ is exactly the sum of the $U^\perp$ components of the remaining orbitals, and its norm is at most their total norm ($S=\emptyset$: pole-only; $S=\{\gamma_1\},\{\gamma_1,\gamma_2\}$: the augmented spans of the K\,=\,5 note). On the parity channels the ledger is instantiated with the orbitals $\mathrm{orb}(\gamma)=P_\pm(\gamma)$ (blocks \emph{extracted} from $Z(\gamma)$, as in the pipeline) viewed in the Euclidean space on pair indices, and the balance stated against the measured block $\sum_\gamma P_\pm(\gamma)$.
+Daniel Toupin / Golden Physics Project, with AI assistance from Turbo and Claude Code. The explicit formula is a hypothesis, not proved here (stages E3--E6); no continuum tail and none of the numerical agreements are asserted. Not a positivity source. No claim about RH.
+
+\section{Mellin interpolation: the spectral transform hits any finite set of values}
+\lean{GppMellinInterpolation.expChar_injective,GppMellinInterpolation.linearIndependent_exp,GppMellinInterpolation.span_spectralVectors_eq_top}
+Input to the Step 4 bridge (Weil's localization argument). Blueprint by Gemini, revision 2 audited by Turbo. For a finite $S\subset\mathbb C$, the vectors $(\hat g(s))_{s\in S}$, $\hat g(s)=\int g(u)e^{(s-1/2)u}\,du$, with $g$ ranging over real smooth compactly supported test functions, span $\mathbb C^S$. Proof: the exponentials $u\mapsto e^{au}$ for distinct $a$ are linearly independent (Dedekind--Artin independence of characters $\mathbb R\to\mathbb C^\times$); a functional killing every spectral vector gives a kernel $\sum_s c_se^{(s-1/2)u}$ orthogonal to every smooth bump, hence zero, hence $c=0$; a proper subspace of $\mathbb C^S$ would be killed by a nonzero functional.
+Daniel Toupin / Golden Physics Project, with AI assistance from Gemini, Turbo and Claude Code. Span form, since real test functions satisfy $\hat g(\bar s)=\overline{\hat g(s)}$; the bridge to RH that consumes it is not here. No claim about RH.
+
+\section{Gauss's series for the digamma function}
+\lean{GppDigammaGaussSeries.digammaSeries_eq_digamma,GppDigammaGaussSeries.digammaSeries_ofReal,GppDigammaGaussSeries.eqOn_integerComplement,GppDigammaGaussSeries.analyticAt_digammaSeries,GppDigammaGaussSeries.analyticAt_digamma}
+For every $s\notin\{0,-1,-2,\dots\}$, $\psi(s)=\Gamma'(s)/\Gamma(s)=-\gamma-1/s+\sum_{n\ge1}\bigl(1/n-1/(n+s)\bigr)$. Mathlib defines \texttt{Complex.digamma} as the logarithmic derivative of $\Gamma$ and lists Gauss' representation as a TODO; this supplies it. On the positive reals the partial sums split as $(H_N-\log(N+1))+(\log(N+1)-\log(x+N+1))+(\log(x+N+1)-\sum_{k\le N}1/(x+k))+1/x$, with limits $\gamma$, $0$ and $\psi(x)$ (Gauss's limit, from Bohr--Mollerup convexity). Both sides are holomorphic on $\mathbb C\setminus\mathbb Z$ (for the series, a finite sum plus a tail bounded uniformly on a ball by $2R/(n+1)^2$), which is connected, so the identity theorem extends agreement from real points near $1/2$; positive integers come from the real case. Retires \texttt{open\_digamma\_series\_form}. Stage E2a (complex) of the explicit-formula plan.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Upstreamable to Mathlib as Gauss' representation of \texttt{Complex.digamma}. No claim about RH.
+
+\section{The Weyl tensor is traceless}
+\lean{GppWeylTensor.ricci,GppWeylTensor.scalarCurv,GppWeylTensor.weyl,GppWeylTensor.weyl_traceless,GppWeylTensor.weyl_traceless_minkowski}
+For a symmetric metric $g$ with symmetric inverse on a $d$-dimensional index set, $d\ge3$, and any 4-index array $R$, with $\mathrm{Ric}_{\mu\nu}=g^{\alpha\beta}R_{\alpha\mu\beta\nu}$ and $R=g^{\mu\nu}\mathrm{Ric}_{\mu\nu}$, the Weyl combination $C_{\alpha\mu\beta\nu}=R_{\alpha\mu\beta\nu}-\frac{1}{d-2}(g_{\alpha\beta}\mathrm{Ric}_{\mu\nu}-g_{\alpha\nu}\mathrm{Ric}_{\mu\beta}-g_{\mu\beta}\mathrm{Ric}_{\alpha\nu}+g_{\mu\nu}\mathrm{Ric}_{\alpha\beta})+\frac{R}{(d-1)(d-2)}(g_{\alpha\beta}g_{\mu\nu}-g_{\alpha\nu}g_{\mu\beta})$ satisfies $g^{\alpha\beta}C_{\alpha\mu\beta\nu}=0$. No curvature symmetries are used. Specialized to the 4D Minkowski metric, which is its own inverse. Retires \texttt{open\_weyl\_traceless}.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Pointwise linear algebra only; no manifold or connection.
+
+\section{The SU(5) Weinberg angle}
+\lean{GppWeinbergSU5.trace_T3_Y,GppWeinbergSU5.hypercharge_normalization,GppWeinbergSU5.sin_sq_eq_trace_ratio,GppWeinbergSU5.weinberg_su5,GppWeinbergSU5.weinberg_su5_ten,GppWeinbergSU5.hypercharge_normalization_ten}
+The Georgi--Glashow derivation as finite algebra. On the $\mathbf 5$, $T_3=\mathrm{diag}(0,0,0,\tfrac12,-\tfrac12)$ and $Y=\mathrm{diag}(-\tfrac13,-\tfrac13,-\tfrac13,\tfrac12,\tfrac12)$ are traceless and trace-orthogonal, with $Q=T_3+Y$. One simple group means one coupling, so the hypercharge coupling is fixed by $\mathrm{Tr}(Y^2)/\mathrm{Tr}(T_3^2)=5/3$: $g'^2=\tfrac35g^2$. For any trace-orthogonal pair, $g'^2/(g^2+g'^2)=\mathrm{Tr}(T_3^2)/\mathrm{Tr}(Q^2)$, which on the $\mathbf 5$ is $3/8$; the $\mathbf{10}=\Lambda^2\mathbf 5$ gives the same ratios. Retires \texttt{open\_weinberg\_angle\_full\_derivation}.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code. Tree level at the unification scale; renormalization-group running to $M_Z$ is not included.
+
+\section{Euler's second sum}
+\lean{GppEulerSumTwo.f_add_f_swap,GppEulerSumTwo.tsum_f,GppEulerSumTwo.hasSum_inner_shift,GppEulerSumTwo.tsum_inner,GppEulerSumTwo.hasSum_harmonic_div_cube,GppEulerSumTwo.euler_sums_assemble}
+$\sum_{n\ge1}H_n/n^3=\pi^4/72=\tfrac54\zeta(4)$. With $f(m,n)=1/(m^2n(m+n))$: $f(m,n)+f(n,m)=1/(m^2n^2)$, so the swap symmetry gives $\sum f=\zeta(2)^2/2=\pi^4/72$; and $f(m,n)=m^{-3}(1/n-1/(n+m))$, whose row sums telescope to $H_m/m^3$. Equivalently $\zeta(3,1)=\pi^4/360$. With the first Euler sum, $\pi^4/120+\pi^4/72=2\zeta(4)$, the paper's route to $M_2=1/90$. Retires \texttt{open\_euler\_sum\_two\_gap}, whose docstring said the swap trick could not apply; it applies after one change of summand.
+Daniel Toupin / Golden Physics Project, with AI assistance from Claude Code.

@@ -26,9 +26,6 @@ spectral variable `t` (with `θ = t L`) is `τ_p(t) = L · P_a(tL)`.
 ## Checks and scope
 
 All claims check (the sign remark in the note, `e^{±itL}`, is immaterial since the cosine is even).
-**Not formalized:** the global statements (§§5–7): the infinite baseline `Σ log p` diverges, the
-Archimedean background delay, the link with the oscillating zero density, and the sharpened RH
-target. No RH claim.
 -/
 
 open GppSU11Prime

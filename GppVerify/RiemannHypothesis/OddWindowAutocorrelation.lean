@@ -14,7 +14,7 @@ For the odd window `g = sinh(t/2)` on `[−h, h]`, the overlap `∫ g(s) g(s+t) 
 input to the full signed Weil evaluation `Q_h = P_h − W_ℝ − W_p`. At `h = 4`, Claude Code's
 independent mpmath check reproduces `Q_4 = +0.0698371091`, and Codex's Abel/Chebyshev identity
 to about `10⁻¹⁴`. `Q_h` is numerically positive for `h = 1, …, 8` (not certified). Positivity of
-`Q_h` for one test family is a witness consistent with RH, not a proof. **No RH claim.**
+`Q_h` for one test family is a witness consistent with RH, not a proof.
 -/
 
 namespace GppOddWindowAutocorrelation

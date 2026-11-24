@@ -33,7 +33,11 @@ require identifying it with `ψ`, and states precisely what the identification s
 Mathlib 4.33.1 has `Complex.digamma` with `digamma_zero`, `digamma_one`, `digamma_one_half`,
 `digamma_apply_add_one` and `meromorphic_digamma`, and its own module header lists Gauss'
 representation under `TODO`. So the identification is a **LIBRARY GAP**, and
-`open_digamma_series_form` stays until it closes.
+`open_digamma_series_form` stayed until it closed.
+
+**Closed 2026-11-07** in `DigammaGaussSeries.lean` (`digammaSeries_eq_digamma`): the
+uniqueness input is the identity theorem on `ℂ ∖ ℤ`, fed by agreement on the positive reals,
+which comes from Gauss's limit (`DigammaGaussLimit.lean`, Bohr–Mollerup convexity).
 
 Worth being exact about the size of what is left, because the stub's docstring reads as if the
 whole series were open. Convergence and the functional equation are where a formalization of a

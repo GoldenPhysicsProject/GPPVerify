@@ -16,9 +16,6 @@ Put `θ(x) = 1 + 2ψ(x)` and `f(u) = e^u θ(e^{4u})`.
   `f₁ = e^u(θ + 8xψ′)` and `f₂ = e^u(θ + 48xψ′ + 32x²ψ″)`, where `x = e^{4u}`.
 * `phi_eq_f`: `Φ(u) = (f″(u) − f(u))/16`.
 * `phi_even`: `Φ(−u) = Φ(u)`, because differentiation turns even into odd into even.
-
-**Scope.** Positivity of `Φ`, its decay, and the cosine representation `Ξ(t) = 2∫Φ(u)cos(ut)du`
-are not formalized. No claim about RH.
 -/
 
 open Real

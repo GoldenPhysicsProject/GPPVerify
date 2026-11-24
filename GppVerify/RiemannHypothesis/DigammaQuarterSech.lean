@@ -15,9 +15,7 @@ Proved here from Mathlib's `Complex.digamma = logDeriv Gamma` and the Gamma refl
 * `digamma_conj`: `ψ(z̄) = conj ψ(z)` off the poles.
 * `re_digamma_quarter_sub`: the stated identity, for every real `r`.
 
-**Scope.** This is the pointwise digamma identity only. Grok's alternative form through
-`∫₀^∞ cos(rx)/cosh(x/2) dx` is not formalized here, and nothing below uses the Davenport–Heilbronn
-Weil form itself. No RH claim.
+**Scope.** This is the pointwise digamma identity only.
 -/
 
 namespace GppDigammaQuarterSech

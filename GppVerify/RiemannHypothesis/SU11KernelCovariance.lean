@@ -23,9 +23,6 @@ reproducing kernels of the lowest-weight (holomorphic) representations of `SU(1,
 These are exact identities, valid for `‖a‖ < 1` and `‖u‖, ‖v‖ < 1`. They say that the Szegő and
 Bergman kernels are `SU(1,1)`-covariant of weights `1/2` and `1`; they do **not** say anything about the
 arithmetic kernel `ζ(1 + z + w̄)`, which is covariant only at leading order near the boundary pole.
-Not formalized: the group law/cocycle for compositions of automorphisms, the Hilbert-space completion
-and unitarity of the resulting representation, and general `k` (non-integer `2k` needs a choice of
-branch for `(1 − u v̄)^{-2k}`). No RH claim.
 -/
 
 open ComplexConjugate

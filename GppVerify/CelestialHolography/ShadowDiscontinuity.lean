@@ -56,12 +56,12 @@ lemma disc_equals_two_i_im (u v : ℝ) :
 lemma shadow_equals_conj_on_principal_series (lam : ℝ) :
     let s : ℂ := 1 + Complex.I * lam
     starRingEnd ℂ s = 2 - s := by
-  simp only [RCLike.star_def]
+  simp only 
   apply Complex.ext <;>
-    simp [Complex.conj_re, Complex.conj_im, Complex.add_re, Complex.add_im,
+    simp [Complex.add_re, Complex.add_im,
           Complex.mul_re, Complex.mul_im, Complex.I_re, Complex.I_im,
           Complex.ofReal_re, Complex.ofReal_im, Complex.sub_re, Complex.sub_im,
-          Complex.one_re, Complex.one_im] <;>
+          Complex.one_re, Complex.one_im];
     ring
 
 /-- The residue at a simple pole z₀ of f(z)/(z-z₀): algebraic identity. -/

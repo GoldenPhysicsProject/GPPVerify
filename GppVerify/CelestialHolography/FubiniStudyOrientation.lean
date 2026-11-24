@@ -9,8 +9,7 @@ The *unsigned* Haar/FS probability density is invariant, whereas the
 *oriented* FS two-form is anti-invariant under the anti-holomorphic antipode.
 
 The actual Weil polar cross-pair admits an exact even-minus-odd
-decomposition. Orientation explains its sign; it does NOT prove Weil
-positivity, which needs compensation by true prime/gamma energy.
+decomposition.
 -/
 
 namespace GppFSOrientation

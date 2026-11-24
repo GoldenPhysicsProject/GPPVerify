@@ -9,8 +9,7 @@ g_n = -r^(n+1) and proves (J - E)g = e_0 coordinatewise, where
 E=r+r⁻¹, r≠0 and J is the half-line adjacency matrix.
 
 When |r|<1, the column belongs to ℓ² and thus determines the true
-resolvent column at E off the spectral band. The analytic invertibility
-and ℓ² uniqueness statement is not yet formalized here.
+resolvent column at E off the spectral band.
 
 The finite algebra itself fixes the sign convention and refutes the
 isolated energy sign flip proposed by an independent numerical checker.

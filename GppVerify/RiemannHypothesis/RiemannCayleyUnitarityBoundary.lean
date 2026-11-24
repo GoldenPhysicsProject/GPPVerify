@@ -21,8 +21,7 @@ The finite real algebra below proves:
   `2 delta / ((1/2+delta)^2+t^2)`.
 
 Thus the critical line is literally the unitary boundary of this Cayley chart, while an
-off-line functional-equation pair is a contraction/expansion reciprocal pair.  This file is
-pure finite algebra; it contains no claim about the location of zeta zeros.
+off-line functional-equation pair is a contraction/expansion reciprocal pair.
 -/
 
 namespace GppRiemannCayleyUnitarityBoundary

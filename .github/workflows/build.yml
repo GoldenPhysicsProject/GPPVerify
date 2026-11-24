@@ -25,7 +25,7 @@ jobs:
 
       - name: Install elan
         run: |
-          curl -sSfL \
+          curl -sSfL --retry 5 --retry-all-errors --retry-delay 10 \
             https://github.com/leanprover/elan/releases/latest/download/elan-x86_64-unknown-linux-gnu.tar.gz \
             | tar xz
           ./elan-init -y --default-toolchain none
@@ -91,6 +91,15 @@ jobs:
             echo "=== $module ==="
             lake build "$module"
           done
+      - name: Two-vector projection regression checks
+        run: lake env lean scripts/check_two_vector_projection.lean
+
+      - name: Tate parity test-vector regression checks
+        run: lake env lean scripts/check_archimedean_tate_parity.lean
+
+      - name: Casimir parameter geography regression checks
+        run: lake env lean scripts/check_casimir_parameter_geography.lean
+
       - name: Unused-hypothesis gate (FAILS the build)
         # A hypothesis in a theorem's signature that the proof never uses is a lie about
         # what the theorem depends on. It is also how vacuous declarations disguise
@@ -147,6 +156,7 @@ jobs:
           # No `--run`: the script has no `main`, so `--run` exits nonzero on
           # "unknown declaration 'main'" even when the audit succeeded.
           # Any `sorryAx` in this output means a flagship theorem rests on a sorry.
+          set -o pipefail
           lake env lean scripts/check_axioms.lean | tee /tmp/axioms.log
           if grep -F "sorryAx" /tmp/axioms.log; then
             echo "::error::A flagship theorem depends on sorryAx."
@@ -181,7 +191,10 @@ jobs:
         # Environment-level check on the elaborated theorem types, independent of source formatting:
         # no reflexivity stubs (`a = a`), and the number of `True`-conclusion theorems must equal the
         # stub count the text gate (`check_stub_naming.py`) reports for the same tree.
+        # pipefail: without it `tee` masks the script's own failure (`throwError` on a refl-stub),
+        # so the refl half of this gate never failed CI (found 2026-11-11, primesEquiv.congr_simp).
         run: |
+          set -o pipefail
           lake env lean scripts/check_native_stubs.lean | tee /tmp/native_stubs.log
           native=$(grep -oP 'true-stubs \(conclusion True\): \K[0-9]+' /tmp/native_stubs.log)
           text=$(python3 scripts/check_stub_naming.py | grep -oP 'agrees with the tree \(\K[0-9]+')
@@ -193,3 +206,24 @@ jobs:
 
       - name: Landing-page claim gate (FAILS the build)
         run: python3 scripts/check_landing_claims.py
+
+      - name: Status-claim gate (FAILS the build)
+        # No stale status claims in comments, docstrings or notes. On 2026-11-22 a
+        # docstring asserting the Weil explicit formula "is not formalized" was
+        # trusted over the tree that had formalized it; PR #672 swept ~816 such
+        # sentences, and this gate makes the sweep permanent — the disclaimer
+        # pattern family fails the build at write time, outside the adjudicated
+        # record classes allowlisted in scripts/status_claims_allowlist.txt.
+        run: python3 scripts/check_status_claims.py
+
+      - name: Named-pointer gate (FAILS the build)
+        # Existence is claimed by naming a declaration; the names registered in
+        # scripts/named_pointers.txt must resolve to declarations in the tree.
+        run: python3 scripts/check_named_pointers.py
+
+      - name: Published-counts gate (FAILS the build)
+        # The counts the repo states about itself (landing page, blueprint,
+        # README) are written from the tree by sync_published_counts.py; this is
+        # that script in --check mode, so a hand-edited or drifted count fails
+        # here instead of being discovered months later.
+        run: python3 scripts/sync_published_counts.py --check

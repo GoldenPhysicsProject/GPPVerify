@@ -8,10 +8,6 @@ import Mathlib.NumberTheory.Divisors
 /-!
 # The finite self-dual divisor geometry: subgroup Gram matrix and Möbius parity vector
 
-Source: Codex, GPPDiscovery2 `research/2026-09-28_finite_selfdual_divisor_hodge_geometry.md`,
-§§1, 3, 4, 6 (the Fourier-duality statement of §2 and the BSD/Hodge interpretations are not
-formalized).
-
 Identify `ℤ/Nℤ` with the residues `1, …, N`. For `d ∣ N` let `H_d` be the multiples of `d` and
 `v_d = |H_d|^{-1/2} 1_{H_d}` its normalized state.
 
@@ -31,9 +27,6 @@ Identify `ℤ/Nℤ` with the residues `1, …, N`. For `d ∣ N` let `H_d` be th
 All claims check. The tensor-product statement `K_N = ⨂ K_p` is the factorization
 `kern T S = ∏_{p∈P} (local factor)`; the eigenvector computation is exactly its consequence and is
 proved by induction on `P`, with the weights `w_p` left arbitrary (`mobius_eigen_weighted`).
-**Not formalized:** the unitary Fourier duality `𝓕 v_d = v_{N/d}` (§2), the identification of the
-divisor cube with a Hodge-star/Koszul complex (§§5, 9), and the limit statement
-`∏_{p ≤ P}(1 − p^{-1/2}) → 0`. No RH claim.
 -/
 
 open Finset

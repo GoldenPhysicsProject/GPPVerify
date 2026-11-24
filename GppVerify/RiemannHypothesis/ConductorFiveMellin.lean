@@ -20,8 +20,8 @@ the completed odd conductor-5 Dirichlet L-function.
 * `theta_mellin`: the series identity, with the termwise interchange justified by absolute
   summability (`s > 1`).
 
-Real `s` only; the complex continuation is classical and **not formalized**. This is a
-Tate-type identity, not Weil positivity. **No RH claim.**
+ This is a
+Tate-type identity, not Weil positivity.
 -/
 
 namespace GppConductorFiveMellin

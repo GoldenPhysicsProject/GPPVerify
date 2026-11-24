@@ -27,8 +27,7 @@ the two coefficient sequences coincide and `∑ cₖ (3e/8)ᵏ < ∞`. The `ℝ�
 Not found in Mathlib (Mathlib 4.33.1 pin, searched `Pringsheim`); candidate for upstreaming.
 
 **Use in this project.** Codex's one-sided Cayley–Laguerre criterion (GPP-bridge PR #11,
-2026-10-11): `RH ⇔ E_n ≤ C(n+1)^k` for the pole-cancelled Laguerre prime sums `E_n`. The analytic
-step is exactly this theorem; the arithmetic bound remains open (RH-strength).
+2026-10-11): `RH ⇔ E_n ≤ C(n+1)^k` for the pole-cancelled Laguerre prime sums `E_n`.
 -/
 
 open scoped ENNReal NNReal

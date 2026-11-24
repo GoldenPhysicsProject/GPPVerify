@@ -9,8 +9,8 @@ distributional.  Its projective formula may depend on a choice of scale/regulari
 for nonnegative target homogeneity the ambiguity is a homogeneous polynomial which is
 annihilated by the corresponding Penrose/X-ray transform.
 
-This module formalizes the quotient logic only.  It does not prove the analytic
-projective Fourier integral.  The point is that once two regularizations differ by a
+This module formalizes the quotient logic only.
+  The point is that once two regularizations differ by a
 Penrose-null term, they define exactly the same bulk field, so the field-level transform
 is well-defined on the quotient even when a representative is not unique.
 -/

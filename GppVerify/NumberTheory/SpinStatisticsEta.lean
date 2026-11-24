@@ -24,8 +24,6 @@ restating it as bare rational arithmetic.
 * `eta_four_eq`: the explicit numerical value `η(4) = 7π⁴/720`, combining
   the ratio with Mathlib's `riemannZeta_four`.
 
-## What is not claimed
-
 Nothing about the *physical* identification of this ratio with a
 fermion/boson thermal-capacity ratio is formalized here — that is a
 statement about Bose–Einstein / Fermi–Dirac statistics in a QFT, well

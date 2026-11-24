@@ -7,7 +7,7 @@
 import Mathlib.NumberTheory.LSeries.RiemannZeta
 import Mathlib.NumberTheory.LSeries.HurwitzZetaEven
 import Mathlib.NumberTheory.LSeries.AbstractFuncEq
-import Mathlib.Analysis.Distribution.SchwartzSpace
+import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
 import GppVerify.RiemannHypothesis.ExpNotTempered
 import Mathlib.MeasureTheory.Measure.Haar.Basic
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
@@ -24,7 +24,7 @@ namespace GppRH
 /-- Companion imaginary part: Im(1 - conj rho) = Im(rho). -/
 lemma companion_im_eq (rho : Complex) :
     (1 - starRingEnd Complex rho).im = rho.im := by
-  simp [Complex.sub_im, Complex.one_im, RCLike.star_def, Complex.conj_im]
+  simp [Complex.sub_im, Complex.one_im, Complex.conj_im]
 
 /-- When Re(rho) != 1/2, the companion 1 - conj(rho) is distinct from rho. -/
 lemma companion_ne_of_off_critical (rho : Complex) (h : rho.re ≠ 1 / 2) :
@@ -33,7 +33,7 @@ lemma companion_ne_of_off_critical (rho : Complex) (h : rho.re ≠ 1 / 2) :
   apply h
   have hre : (1 - starRingEnd Complex rho).re = rho.re :=
     congr_arg Complex.re heq
-  simp [Complex.sub_re, Complex.one_re, RCLike.star_def, Complex.conj_re] at hre
+  simp [Complex.sub_re, Complex.one_re, Complex.conj_re] at hre
   linarith
 
 /-- Functional equation: zeta(rho) = 0 implies zeta(1 - rho) = 0. -/
@@ -51,7 +51,7 @@ private lemma mellin_conj_of_im_zero {f : ℝ → ℂ} (hf : ∀ t, (f t).im = 0
   simp only [mellin]
   rw [← integral_conj]
   refine setIntegral_congr_fun measurableSet_Ioi fun t ht => ?_
-  simp only [map_smul, smul_eq_mul, map_mul]
+  simp only [smul_eq_mul, map_mul]
   congr 1
   · rw [cpow_def_of_ne_zero (ofReal_ne_zero.mpr (ne_of_gt ht)),
         cpow_def_of_ne_zero (ofReal_ne_zero.mpr (ne_of_gt ht)),
@@ -78,9 +78,9 @@ private lemma completedHurwitzZetaEven₀_zero_conj (s : ℂ) :
 
 private lemma completedHurwitzZetaEven_zero_conj (s : ℂ) :
     completedHurwitzZetaEven 0 (conj s) = conj (completedHurwitzZetaEven 0 s) := by
-  simp only [completedHurwitzZetaEven_eq, show (0 : UnitAddCircle) = 0 from rfl, if_true]
+  simp only [completedHurwitzZetaEven_eq, if_true]
   rw [completedHurwitzZetaEven₀_zero_conj]
-  simp [map_sub, map_div₀, map_one, conj_two_eq]
+  simp [map_sub, map_one]
 
 private lemma Gammaℝ_conj_eq (s : ℂ) : Gammaℝ (conj s) = conj (Gammaℝ s) := by
   simp only [Gammaℝ]
@@ -319,12 +319,8 @@ theorem simpleStripZeros_iff_deriv_ne_zero :
     exact (zeta_analyticAt_of_strip hr).analyticOrderAt_eq_one_of_zero_deriv_ne_zero
       hr.1 (h r hr)
 
-/-- K = A¹/Q* is compact. (Tate 1950) -/
-theorem open_K_compact : True := by
-  -- Placeholder: Full formalization requires Fujisaki's lemma / adelic topology in Mathlib.
-  -- This is the compactness of the norm-1 idèle class group, standard in class field theory.
-  -- See also HaarMeasure.lean sorries.
-  trivial
+-- K = A¹/Q× is compact: retired 2026-11-07, proved as `GppIdeleQ.compactSpace_A1_quotient`
+-- (RiemannHypothesis/IdeleQ.lean, Fujisaki's lemma for `ℚ`).
 
 /-- Haar-square convolution operators are positive trace-class on H_1.
     (vol(K) = 1, Hilbert-Schmidt, Reed-Simon VI.22) -/

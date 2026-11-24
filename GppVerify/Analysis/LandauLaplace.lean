@@ -28,8 +28,8 @@ The continuous companion of `GppLandau.landau` (Dirichlet series) and `GppPrings
 **Use.** This is the analytic input to the one-sided criterion `GppOneSidedRH`
 (`RiemannHypothesis/OneSidedPsiRH.lean`), which applies it to the defect
 `ψ(eᵗ) − eᵗ + C e^{at} ≥ 0` and proves that `ψ(x) ≥ x − C x^a` excludes zeros of `ζ` with `Re s > a`.
-That is a conditional theorem; the lower bound on `ψ` is RH-strength and open. Nothing here
-claims RH.
+That is a conditional theorem; the lower bound on `ψ` is its RH-strength
+hypothesis.
 -/
 
 open MeasureTheory Set Complex

@@ -25,9 +25,9 @@ The ratio is independent of `a`, and `e^{2/15} ≥ 17/15 > 16/15` gives the ineq
 
 Scope: this is a no-go for the **naive** positive transfer through Gaussian
 subordination. `g_a` is a mixed amplitude `⟨δ_a, e^{tΔ} δ_0⟩`, not a diagonal norm, so
-no OS positivity is to be expected. It says nothing about the completed `K(t)`, whose OS
-positivity is RH-equivalent (v34 heat criterion). The Archimedean/Gamma part must actively
-restore positivity. No RH claim.
+no OS positivity is to be expected.
+ The Archimedean/Gamma part must actively
+restore positivity.
 -/
 
 namespace GppNoGo.GaussianHeatOS

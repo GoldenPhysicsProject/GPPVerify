@@ -28,10 +28,7 @@ step (in momentum space `zr = e^{iθ}`, `zl = e^{-iθ}`).
   `T² = 2 cos θ · T − (1 + ε²m²) I`, so after the normalisation `T/√(1+ε²m²)` the eigenphases `ω`
   obey `cos ω = cos θ / √(1+ε²m²)`, the lattice dispersion whose `ε → 0` limit is `E² = p² + m²`.
 
-Scope: exact finite algebra in 1+1 dimensions. The continuum limit, the normalisation to a unitary
-step, and any 3+1-dimensional version are not formalized; the 3+1 checkerboard is a known open
-problem. This supports "mass is the rate of reversals" in the checkerboard model; it does not prove
-the zitter temporal-lift conjecture of the paper, which concerns a covariant 3+1 construction.
+Scope: exact finite algebra in 1+1 dimensions.
 -/
 
 open Finset

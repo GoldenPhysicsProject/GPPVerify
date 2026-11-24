@@ -20,7 +20,7 @@ noncomputable def celestialCompletedPhaseResponse (Δ : ℂ) : ℂ :=
 
 theorem half_argument_re_eq_half {Δ : ℂ} (hΔ : Δ.re = 1) :
     (Δ / 2).re = 1 / 2 := by
-  simp [Complex.div_re, hΔ]
+  simp [hΔ]
 
 theorem celestialCompletedResponse_re_eq_zero
     {Δ : ℂ} (hΔ : Δ.re = 1)
@@ -77,9 +77,8 @@ theorem celestialCompletedPhaseResponse_shadow_odd
 
 /-- **Principal-axis conjugation oddness.** On `Re Δ = 1`, scalar shadow is exactly
 complex conjugation. Hence the completed-zeta logarithmic response is odd under
-conjugation on the celestial principal-series axis. This is a direct combination
-of functional-equation reflection with the positive-real half-density dictionary;
-it makes no claim that a zero lies on this axis. -/
+conjugation on the celestial principal-series axis.
+-/
 theorem celestialCompletedResponse_conj_odd_on_principal
     {Δ : ℂ} (hΔre : Δ.re = 1) (hΔ0 : Δ ≠ 0) (hΔ2 : Δ ≠ 2) :
     celestialCompletedResponse Δ =

@@ -72,7 +72,7 @@ theorem quarterComptonPhase_eq_Uq :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [restEvolutionPhase, betaRest, Matrix.one_apply,
+      [restEvolutionPhase, betaRest, 
        Real.cos_pi_div_two, Real.sin_pi_div_two]
 
 /-- Equivalently a physical spin half-turn is the same matrix `Uq`. -/
@@ -86,7 +86,7 @@ theorem spinTwoPi_eq_neg_one :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [spinRotationX, restEvolutionPhase, betaRest, Matrix.one_apply,
+      [spinRotationX, restEvolutionPhase, betaRest, 
        Real.cos_pi, Real.sin_pi]
 
 /-- A `4pi` spin rotation closes. -/
@@ -96,7 +96,7 @@ theorem spinFourPi_eq_one :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp (config := { decide := true })
-      [spinRotationX, restEvolutionPhase, betaRest, Matrix.one_apply,
-       Real.cos_two_pi, Real.sin_two_pi, h4, Complex.cos_two_pi, Complex.sin_two_pi]
+      [spinRotationX, restEvolutionPhase, betaRest, 
+       h4, Complex.cos_two_pi, Complex.sin_two_pi]
 
 end GppComptonSpinRotationLock

@@ -26,8 +26,7 @@ This gives a natural algebraic interpolation:
 * the sign `mu -> -mu` is invisible to `U=mu^2`, matching the fact that mass magnitude is
   even while oriented phase/four-momentum can carry a separate sign.
 
-This does NOT prove that the curved Penrose/NSF potential `P(k,k)` literally equals mass
-squared.  Rather, it isolates the exact SL(2) normal form that a successful massless-to-
+  Rather, it isolates the exact SL(2) normal form that a successful massless-to-
 massive twistor deformation would have to realize.
 -/
 

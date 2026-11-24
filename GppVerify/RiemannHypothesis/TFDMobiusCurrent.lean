@@ -20,7 +20,7 @@ Let `Ω_β = ζ(β)^{−1/2} Σ_{n≥1} n^{−β/2} |n, n⟩` (`β > 1`) and `V_
 **Scope.** The Hilbert space `ℓ²(ℕ) ⊗ ℓ²(ℕ)` is not constructed. The matrix coefficient is its
 basis expansion (a convergent real series), as in `GppPrimeTFD`. The critical limit `β → 1` exists
 only for the finite-local coefficient `d^{−1/2}`, not for the vector. The Cayley rewriting of each
-prime channel (note §6) is in `GppPrimeCayley`. **No RH claim.**
+prime channel (note §6) is in `GppPrimeCayley`.
 -/
 
 namespace GppTFDMobiusCurrent

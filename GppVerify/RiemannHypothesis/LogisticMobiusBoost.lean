@@ -20,10 +20,9 @@ Let `p(x) = 1/(4 cosh²(x/2)) = eˣ/(1 + eˣ)²` be the logistic density and `r 
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the Mellin/Laplace ratio representation, the compact
-principal-series (circle) interpretation of the boost action, the Hilbert-space unitarity of the
-boost on `L²(p dx)`, and everything in the note beyond §§2–4. This is calculus, not a statement
-about `ζ`. No RH claim.
+All claims check.
+ This is calculus, not a statement
+about `ζ`.
 -/
 
 open Real

@@ -13,10 +13,7 @@ that hold unconditionally and do not depend on any claim about the Riemann Hypot
 celestial/automorphic bridge, or any other part of the paper's open research program:
 shadow reflection, and positivity on the principal series line `a = d/2 + it`.
 
-Not formalized here: the integral representation itself (`∫₀^∞ x^(a-1)/(1+x)^d dx =
-Γ(a)Γ(d-a)/Γ(d)`) is taken as the definition rather than derived from Mathlib's `[0,1]`-form
-Beta integral via the substitution `x = t/(1-t)` — a real but separate piece of work, not
-attempted this round. The `d=1` (dispersion) and `d=2` (celestial Cutkosky cut)
+ The `d=1` (dispersion) and `d=2` (celestial Cutkosky cut)
 specializations, and the non-Archimedean analogue `K_{q,d}`, are documented in
 `discovery/local_field_shadow/local_shadow_kernel_notes.md` together with the honest boundary
 of what is and is not established about the local-to-global bridge to automorphic forms.
@@ -43,7 +40,7 @@ theorem archKernel_shadow_eq_conj (d t : ℝ) :
   apply Complex.ext <;>
     simp [Complex.sub_re, Complex.sub_im, Complex.add_re, Complex.add_im, Complex.mul_re,
       Complex.mul_im, Complex.I_re, Complex.I_im, Complex.conj_re, Complex.conj_im,
-      Complex.ofReal_re, Complex.ofReal_im, Complex.div_re, Complex.div_im] <;> ring
+      Complex.ofReal_re, Complex.ofReal_im, Complex.div_re, Complex.div_im]; ring
 
 /-- **Principal-series positivity**: on `a = d/2 + it` (`d > 0`), `K_{∞,d}(a)` is the positive
     real number `|Γ(d/2+it)|²/Γ(d)`, cast into `ℂ`. Shadow reflection becomes Hermitian

@@ -20,12 +20,9 @@ With `Q = [[1,1],[1,0]]` (`det Q = −1`) and the minimal hyperbolic modular mat
   `Aⁿ` is `P_n = L_{2n} − 2`;
 * `periodic_odd` / `periodic_even`: `P_n = L_n²` for odd `n` and `P_n = 5 F_n²` for even `n`;
 * `fib_mod_prime_small`: `F_p ≡ χ₅(p) (mod p)` for every odd prime `p < 100`, `p ≠ 5`, checked by
-  `decide`. The congruence for all odd primes is the classical Frobenius argument in `𝔽_p[√5]`; that
-  argument is not formalized here.
+  `decide`.
 
-These are classical facts, restated in the shadow-framework vocabulary. The Artin–Mazur zeta
-`(1−z)²/(1−3z+z²)` and the entropy/residue identity `h_Haar(A) = 2 log φ = Res Λ_{ℚ(√5)}` are not
-formalized. **No RH claim:** the toral dynamical zeta is rational and carries no zeta zeros.
+These are classical facts, restated in the shadow-framework vocabulary.
 -/
 
 namespace GppGoldenLucas

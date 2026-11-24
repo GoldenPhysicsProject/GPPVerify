@@ -41,8 +41,6 @@ frame used throughout `discovery/shadow_ope/celestial_kinematics.py`):
   real number for any `w₀ > 0`, already established in `tied_leg_continuation.py`
   and `t_channel_sewing.py`), this is exactly the sign-opposition fact.
 
-## What is deliberately NOT claimed here
-
 This file does **not** formalize the Sokhotski–Plemelj discontinuity construction
 itself (`tied_leg_continuation.py`'s `disc(Δ) = -2πi/(ACB)·w₀^{Δ-3}`), the λ-integral
 closed form (`principal_series_sewing.py`'s `sech²` identity), or anything about the

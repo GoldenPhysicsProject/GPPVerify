@@ -99,9 +99,52 @@ theorem off_line_forces_companion (σ : ℝ) (h : σ ≠ 1/2) :
 
 /-! ## Scaling eigenspace dimension -/
 
-/-- In log coordinates, the eigenvalue equation Aψ = γψ has unique solution e^{iγu} -/
-theorem open_scaling_eigenspace_ode (_ : ℝ) :
-    ∀ (_ : ℂ), True := fun _ => trivial
+/-- **A1 (the ODE fact).** In log coordinates the eigenvalue equation `Aψ = γψ` is `ψ' = iγψ`.  Every
+solution `ψ : ℝ → ℂ` is a constant multiple of `e^{iγu}`: differentiating `ψ(u)·e^{−iγu}` gives
+`(iγψ − iγψ)e^{−iγu} = 0`, so it is constant.  (The statement that this one-dimensional eigenspace forces
+*multiplicity one* for each zero ordinate is a separate, adèlic matter — see the NOTE below; only the ODE
+uniqueness is proved here.) -/
+theorem scaling_eigenspace_ode (γ : ℝ) (ψ : ℝ → ℂ)
+    (hψ : ∀ u : ℝ, HasDerivAt ψ (Complex.I * γ * ψ u) u) :
+    ∀ u : ℝ, ψ u = ψ 0 * Complex.exp (Complex.I * γ * u) := by
+  set g : ℝ → ℂ := fun u => ψ u * Complex.exp (-(Complex.I * γ * u)) with hg
+  have hid : ∀ u : ℝ, HasDerivAt (fun y : ℝ => (y : ℂ)) 1 u := fun u => by
+    simpa using (hasDerivAt_id u).ofReal_comp
+  have hd : ∀ u : ℝ, HasDerivAt g 0 u := by
+    intro u
+    have h1 : HasDerivAt (fun y : ℝ => -(Complex.I * γ * (y : ℂ))) (-(Complex.I * γ * 1)) u :=
+      ((hid u).const_mul (Complex.I * γ)).neg
+    have h2 := h1.cexp
+    have h3 := (hψ u).mul h2
+    refine h3.congr_deriv ?_
+    ring
+  have hconst : ∀ u : ℝ, g u = g 0 := fun u =>
+    is_const_of_deriv_eq_zero (fun x => (hd x).differentiableAt) (fun x => (hd x).deriv) u 0
+  intro u
+  have h0 : g 0 = ψ 0 := by simp [hg]
+  have h := hconst u
+  rw [h0] at h
+  calc ψ u = g u * Complex.exp (Complex.I * γ * u) := by
+        simp only [hg]; rw [mul_assoc, ← Complex.exp_add]; simp
+    _ = ψ 0 * Complex.exp (Complex.I * γ * u) := by rw [h]
+
+/-- The exponential `e^{iγu}` is a solution, so the solution space is exactly `ℂ·e^{iγu}`. -/
+theorem scaling_eigenspace_ode_iff (γ : ℝ) (ψ : ℝ → ℂ) :
+    (∀ u : ℝ, HasDerivAt ψ (Complex.I * γ * ψ u) u) ↔
+      ∃ c : ℂ, ∀ u : ℝ, ψ u = c * Complex.exp (Complex.I * γ * u) := by
+  constructor
+  · intro h
+    exact ⟨ψ 0, scaling_eigenspace_ode γ ψ h⟩
+  · rintro ⟨c, hc⟩ u
+    have hfun : ψ = fun u : ℝ => c * Complex.exp (Complex.I * γ * (u : ℂ)) := funext hc
+    rw [hfun]
+    have hid : HasDerivAt (fun y : ℝ => (y : ℂ)) 1 u := by
+      simpa using (hasDerivAt_id u).ofReal_comp
+    have h1 : HasDerivAt (fun y : ℝ => Complex.I * γ * (y : ℂ)) (Complex.I * γ * 1) u :=
+      hid.const_mul (Complex.I * γ)
+    have := (h1.cexp).const_mul c
+    refine this.congr_deriv ?_
+    ring
 -- NOTE: The statement that the 1D eigenspace forces multiplicity 1
 -- for each zero ordinate is the key content (rh_physics24_edited, lem:eigenspace).
 -- This requires adèlic L² theory; axiomatized in AdelicL2.lean.
@@ -328,3 +371,6 @@ theorem open_arithmetic_ward_identity : True := trivial
 -- Stub `open_rh_summary` retired 2026-10-08. A summary stub asserted nothing; the module docstring and the declarations above carry the content.
 
 end GppRHProofStructure
+
+#print axioms GppRHProofStructure.scaling_eigenspace_ode
+#print axioms GppRHProofStructure.scaling_eigenspace_ode_iff

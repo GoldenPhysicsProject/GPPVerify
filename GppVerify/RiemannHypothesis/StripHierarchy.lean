@@ -25,10 +25,7 @@ is `2i Σ_{m ≥ k} (a_p^m / m) sin(m T log p)` with `a_p = p^{-1/2}` and `T = x
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the identification of the regularized factor with the product
-`Π_p B̃_{p,≥k}` as an analytic function (the exponential counterterm and the branch of the
-logarithm), the unit modulus on the real axis, and the identification of its real-axis phase
-derivative with the `m ≥ 3` part of the half-density von Mangoldt current. No RH claim.
+All claims check.
 -/
 
 open Real Complex

@@ -16,9 +16,7 @@ The reason is reduction modulo `3`: among `p-2`, `p`, and `p+2`, one is divisibl
 If all three are prime, that divisible member must itself be `3`, forcing the exceptional
 triplet.
 
-This finite theorem does not prove that infinitely many twin doublets exist (the twin-prime
-conjecture remains open), nor does it identify the doublets with a physical `SU(2)`
-representation.  It does justify treating gap-2 correlations as a genuine two-prime sector
+  It does justify treating gap-2 correlations as a genuine two-prime sector
 on top of the one-prime Euler factors.
 -/
 

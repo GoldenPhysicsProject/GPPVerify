@@ -26,9 +26,7 @@ and for each `i`: `Q_sq`: `Q_i² = 0` and `anticomm_self`: `Q_i Q_i† + Q_i† 
 
 ## Scope
 
-Algebra of finitely many modes with the standard Jordan–Wigner-type sign. It does **not** say the
-primes are physical modes of a supersymmetric theory, it has no annihilation dynamics, and it says
-nothing about zeros. No RH claim.
+Algebra of finitely many modes with the standard Jordan–Wigner-type sign.
 -/
 
 open Function
@@ -106,7 +104,7 @@ theorem Q_cross_lt {i j : Fin m} (h : i < j) (ψ : Cfg m → ℂ) (s : Cfg m) :
   by_cases hbi : b i = false <;> by_cases hbj : b j = false <;>
     by_cases hki : k i = 0 <;> by_cases hkj : k j = 0 <;>
     simp [Q, hij, hji, hbi, hbj, hki, hkj, update_of_ne, update_comm hij,
-      kl_update_gt h, kl_update_lt h] <;> ring
+      kl_update_gt h, kl_update_lt h]; ring
 
 /-- **`Q_i Q_j + Q_j Q_i = 0`** for distinct modes (this is what the Klein factors are for). -/
 theorem Q_cross {i j : Fin m} (hij : i ≠ j) (ψ : Cfg m → ℂ) (s : Cfg m) :
@@ -122,8 +120,8 @@ theorem Qd_cross_lt {i j : Fin m} (h : i < j) (ψ : Cfg m → ℂ) (s : Cfg m) :
   have hji : j ≠ i := hij.symm
   by_cases hbi : b i = false <;> by_cases hbj : b j = false <;>
     by_cases hki : k i = 0 <;> by_cases hkj : k j = 0 <;>
-    simp [Q, Qd, hij, hji, hbi, hbj, hki, hkj, update_of_ne, update_comm hij,
-      kl_update_gt h, kl_update_lt h, kl_update_lt' h] <;> ring
+    simp [Qd, hij, hji, hbi, hbj, hki, hkj, update_of_ne, update_comm hij,
+      kl_update_gt h, kl_update_lt' h] <;> ring
 
 theorem Qd_cross {i j : Fin m} (hij : i ≠ j) (ψ : Cfg m → ℂ) (s : Cfg m) :
     Qd i (Qd j ψ) s + Qd j (Qd i ψ) s = 0 := by
@@ -139,7 +137,7 @@ theorem anticomm_cross_lt {i j : Fin m} (h : i < j) (ψ : Cfg m → ℂ) (s : Cf
   by_cases hbi : b i = false <;> by_cases hbj : b j = false <;>
     by_cases hki : k i = 0 <;> by_cases hkj : k j = 0 <;>
     simp [Q, Qd, hij, hji, hbi, hbj, hki, hkj, update_of_ne, update_comm hij,
-      kl_update_gt h, kl_update_lt h, kl_update_lt' h] <;> ring
+      kl_update_gt h, kl_update_lt h] <;> ring
 
 theorem anticomm_cross_gt {i j : Fin m} (h : j < i) (ψ : Cfg m → ℂ) (s : Cfg m) :
     Q i (Qd j ψ) s + Qd j (Q i ψ) s = 0 := by
@@ -149,7 +147,7 @@ theorem anticomm_cross_gt {i j : Fin m} (h : j < i) (ψ : Cfg m → ℂ) (s : Cf
   by_cases hbi : b i = false <;> by_cases hbj : b j = false <;>
     by_cases hki : k i = 0 <;> by_cases hkj : k j = 0 <;>
     simp [Q, Qd, hij, hji, hbi, hbj, hki, hkj, update_of_ne, update_comm hij,
-      kl_update_gt h, kl_update_lt h, kl_update_lt' h] <;> ring
+      kl_update_gt h, kl_update_lt' h] <;> ring
 
 /-- **`Q_i Q_j† + Q_j† Q_i = 0`** for distinct modes. -/
 theorem anticomm_cross {i j : Fin m} (hij : i ≠ j) (ψ : Cfg m → ℂ) (s : Cfg m) :
@@ -183,7 +181,7 @@ theorem anticomm_self (i : Fin m) (ψ : Cfg m → ℂ) (s : Cfg m) :
     · obtain ⟨j, hj⟩ := Nat.exists_eq_succ_of_ne_zero hk
       have h := sqrt_mul_self_succ j
       have e1 : update k i (j + 1) = k := update_eq_self_iff.mpr hj.symm
-      simp [Q, Qd, N, hb, hk, hj, kl_update_self, e1, e2]
+      simp [Q, Qd, N, hb, hj, kl_update_self, e1, e2]
       rw [key, hkl, h]; ring
   · have hne : k i + 1 ≠ 0 := by omega
     have e2 : update b i true = b := update_eq_self_iff.mpr hb.symm

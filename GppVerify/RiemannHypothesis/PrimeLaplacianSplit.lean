@@ -16,13 +16,10 @@ in particular it is bounded below by `−2 S ‖f‖²` with `S = Σ c_n` (`prim
 ## Checks and scope
 
 All statements check; they are one-line consequences of the polarization identity and are recorded
-because the note builds its network picture on them. **Not formalized:** the semilocal Weil matrix
-`Q_λ`, the Archimedean and pole blocks `W02`, `WR`, the identification of the compression to the interval
-(the identity above is for the whole-line isometry; on the compressed interval the translation is only a
-contraction), and the open absorption of the negative scalar mass by the boundary and Archimedean channels.
-The parity-threshold numerics (§10) are numerical evidence in the note, not claimed here. Codex's
+because the note builds its network picture on them.
+ Codex's
 GPPVerify PR #236 (`codex/passive-network-lemmas`) covers the positive-parent-to-Kron transfer and
-DtN channels; this module does not overlap it. No RH claim.
+DtN channels; this module does not overlap it.
 -/
 
 open scoped InnerProductSpace

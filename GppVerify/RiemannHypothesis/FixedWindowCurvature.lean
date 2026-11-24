@@ -5,9 +5,6 @@ import Mathlib.Algebra.BigOperators.Ring.Finset
 /-!
 # The fixed-window prime source as a discrete curvature
 
-Source: Codex, `research/codex/2026-10-05_fixed_window_second_difference_euler_ratio.md`, §§1, 4
-(the exact identities; the arithmetic estimate they are used for is open).
-
 For `ℓ > 0`, finitely many weights `a_n` at positions `x_n = log n`, and `B(t) = Σ a_n (t − x_n)₊`:
 
 * `hinge_second_diff`: `(y + ℓ)₊ − 2 y₊ + (y − ℓ)₊ = (ℓ − |y|)₊`;
@@ -22,11 +19,7 @@ For `ℓ > 0`, finitely many weights `a_n` at positions `x_n = log n`, and `B(t)
 
 ## Checks and scope
 
-All claims check. **Not formalized:** the definition of `C_ℓ`, `D_ℓ` from the Weil form (they enter only
-through the stated identity), the infinite sum over all `n ≥ 2`, the Dirichlet series `ζ(s)/ζ(s+1)` and its
-logarithmic derivative, and — above all — the arithmetic bound `C_ℓ = e^{o(t)}`, which is the **open**
-step; the note stresses that symmetry alone cannot give it (the Davenport–Heilbronn control has the same
-reflection picture). No RH claim.
+All claims check.
 -/
 
 open Real Finset

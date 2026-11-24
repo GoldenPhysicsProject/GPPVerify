@@ -13,10 +13,6 @@ mathematics: Codex/GPT.
 * `pole_lambda_square_identity`: `(d+½)(a − 2bλ + (d+½)λ²) = (d+½)a − b² + ((d+½)λ − b)²`.
 * `pole_lambda_lower_bound`: `(d+½)a − b² ≤ (d+½)(a − 2bλ + (d+½)λ²)` (the optimal `λ` quadratic).
 * `necessary_pole_lambda_budget`: `C(β + λ²/2) < 1` forces `Cλ² < 2` for `C > 0`, `β ≥ 0`.
-
-The last one is the geometry behind Grok's S26 `h = ½` bound (`C = 7.376444421930428`,
-`|λ| < 0.5207046554`); that numerical statement is not formalized. **Scope.** Real algebra only; nothing
-here proves `m ≥ c`, the continuum lift, a residual tail bound, or RH/GRH.
 -/
 
 namespace GppPoleParameterBudget

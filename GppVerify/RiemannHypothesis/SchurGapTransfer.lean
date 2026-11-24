@@ -25,10 +25,7 @@ channel is gapped is decided entirely by `S`. That is the note's point, and it i
 
 ## Scope
 
-Finite-dimensional linear algebra only. The note's identifications of `A`, `B`, `C` with the
-causal prime Koszul bulk, the determinant-line coupling and the pole/Archimedean channel, and
-the statement "RH is positivity of this Schur complement", are not formalized here. The note's
-§6 Yang–Mills programme is, as the note says, a research template and is not claimed.
+Finite-dimensional linear algebra only.
 -/
 
 open Matrix

@@ -16,8 +16,7 @@ Likewise the reduced Compton length is
     lambda_C = hbar / (m c) = c tau_C.
 
 The exact identities below isolate the kinematic core of the program's phrase
-"mass -> clock/ruler". They do not claim that every physical mass is dynamically generated
-by spontaneous scale-symmetry breaking. The dynamical origin of `m` is a separate theory
+"mass -> clock/ruler". The dynamical origin of `m` is a separate theory
 question; once a nonzero mass scale exists, the reciprocal clock/ruler statements are exact.
 -/
 

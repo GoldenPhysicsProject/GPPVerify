@@ -41,7 +41,7 @@ theorem conj_Q_eq_inv (k : ℝ) :
       simp only [map_div₀]
     _ = Hplus k / Hminus k := by rw [hstarMinus, hstarPlus]
     _ = (Hminus k / Hplus k)⁻¹ := by
-      simp [div_eq_mul_inv, hminus0, hplus0, mul_comm]
+      simp [div_eq_mul_inv]
 
 /-- The phase ratio has unit modulus, restated in the phase notation. -/
 theorem norm_Q (k : ℝ) : ‖Q k‖ = 1 := by

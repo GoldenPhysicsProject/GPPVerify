@@ -19,8 +19,7 @@ operator `B_χ = ¼ Σ_{a=1}^{4} χ̄(a) e(a/5)` acts on `z ∈ Ẑ` through `x 
 * `B_mul_Bbar`: `B_χ(x) · B_χ̄(x) = −5/16` if `5 ∤ x`, and `0` otherwise.
 
 So the Hermitian square is positive and the unreflected opposite-character product is negative. The
-sign is forced by the parity of `χ`. The Bost–Connes algebra itself, the KMS expectations, and the
-`L(s,χ)` Mellin period are audited but **not formalized here**. **No RH claim.**
+sign is forced by the parity of `χ`.
 -/
 
 namespace GppQuarticGaussFive

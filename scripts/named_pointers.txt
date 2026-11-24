@@ -1,0 +1,26 @@
+# Named pointers guarded by scripts/check_named_pointers.py.
+#
+# One fully qualified declaration name per line. These are the load-bearing
+# existence claims the repo's prose makes by pointing: the README's account of
+# what is in the tree, and the declarations PR #672's sweep pointed at when it
+# removed the stale sentences claiming they did not exist. If a name here stops
+# resolving to a declaration in the tree — renamed, moved, deleted — the gate
+# fails, and the prose that points at it gets fixed in the same change.
+#
+# This registry guards the names it lists. It is not a general prose parser:
+# a name mentioned in prose but not registered here is not checked.
+
+# The Weil explicit formula, assembled (ExplicitFormulaAssembly.lean, stages E1–E6e).
+# Two docstrings' "not formalized" claims about these are what started PR #672.
+GppExplicitFormulaAssembly.explicit_formula_even
+GppExplicitFormulaAssembly.explicit_formula_zeroSum
+
+# The sparse-cutoff criterion (SparseCutoffCriterion.lean) — the sweep's second
+# stale instance: asserted unformalized in MobiusEchoPassivity.lean; in tree.
+GppSparseCutoff.riemannHypothesis_of_nat_subpower
+
+# Names the README cites for the dictionary and the RH reduction.
+GppFE.critical_line_is_fixed_locus
+GppHolographicRP.reflectionForm_nonneg_iff
+GppWeilCriterion.rh_of_weil_pairedForm_nonneg
+GppWeilCriterion.rh_iff_weil_pairedForm_nonneg

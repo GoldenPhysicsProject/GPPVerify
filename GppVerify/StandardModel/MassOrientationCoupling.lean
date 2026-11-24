@@ -152,7 +152,7 @@ theorem momentum_spinor_decomposition {p00 p11 : ℝ} {p01 : ℂ}
       = p01 / (Real.sqrt p00 : ℂ) := by
     rw [map_div₀, starRingEnd_apply, starRingEnd_apply, star_star, Complex.conj_ofReal]
   simp only [lambda1, lambda2, Complex.conj_ofReal, map_zero, mul_zero, zero_mul, add_zero,
-    zero_add, sub_zero, hconjB]
+    sub_zero, hconjB]
   refine ⟨hA2C, ?_, ?_, ?_⟩
   · field_simp
   · rw [div_mul_div_comm, mul_comm ((starRingEnd ℂ) p01) p01, Complex.mul_conj, hA2C, hCC]

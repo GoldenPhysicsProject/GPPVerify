@@ -22,10 +22,6 @@ the helicity is the weight difference `p-q`, the same exchange sends `+4` to `-4
 spin-two helicity `+2` to `-2`.
 
 This is the exact representation-theoretic core a curved googly reconstruction must carry.
-It does not prove that a particular ambitwistor/Penrose transform reconstructs the two
-Weyl spinors from one contact geometry; it proves that *if* the two `SL(2)` factors of the
-contact/ruling geometry are the spacetime half-spin factors, then factor exchange has
-exactly the required action on the full Einstein curvature representations.
 -/
 
 namespace GppSpinorWeylBidegreeGoogly

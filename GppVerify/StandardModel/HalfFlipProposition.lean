@@ -114,10 +114,10 @@ trying to enact an antiunitary/transpose operation as a quantum channel.
 `GppVerify/QuantumInformation/ChoiMatrix.lean` builds the Choi-matrix /
 complete-positivity framework (forward direction of Choi's theorem), and
 `GppVerify/QuantumInformation/TransposeNotCompletelyPositive.lean` proves
-Choi(transpose) = SWAP and concludes non-complete-positivity. What remains open
-is the *general* `d`-dimensional statement (antisymmetric subspace of dimension
-`d(d-1)/2`) and the converse of Choi's theorem (not needed here). Verified
-numerically for d = 2..5 in the companion script. -/
+Choi(transpose) = SWAP and concludes non-complete-positivity.
+ Verified
+numerically for d = 2..5 in the companion script. 
+-/
 theorem no_enactment :
     ¬ GppChoiMatrix.CompletelyPositive GppHalfFlipMatrix.transposeMap :=
   GppHalfFlipMatrix.transposeMap_not_completelyPositive

@@ -18,9 +18,7 @@ section 3). On `[-L, L]` with the normalised indicator `f_L = (2L)^{-1/2} 1_{[-L
 Astra's 60-digit numerical values at `L = 6` (`267.6208481632745` and `262.9586956420191`) were
 re-checked independently before this file was written.
 
-**Scope.** Elementary integrals and a finite sum. It says nothing about the spectrum of the prime
-operator, about the Archimedean term, or about any zero of ζ. The operator-level essential-spectrum
-argument of the note is not formalized here. No RH claim.
+**Scope.** Elementary integrals and a finite sum.
 -/
 
 namespace GppIndicatorPole

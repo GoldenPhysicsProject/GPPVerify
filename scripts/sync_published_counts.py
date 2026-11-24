@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """Rewrite every published count that is derived from the Lean tree, so it matches the tree.
 
-Two surfaces publish those counts, and two different gates check them:
+Three surfaces publish those counts, and a gate checks each of them:
 
 * `index.html` — the stat strip (`Lean Modules`, `Open Stubs`, `Axioms`) and the same numbers
   stated in prose in the `og:description` meta tag. Gated by `check_landing_claims.py`.
 * `blueprint/src/web.tex` — the sentence "There are currently \\textbf{N} such stubs."
   Gated by `check_stub_naming.py`.
+* `README.md` — the sentence "The library holds N Lean modules." and the per-directory
+  file counts in the Layout table. Gated by this script's own `--check` mode, which the
+  Build workflow runs alongside the other two gates. The README counts joined the set on
+  2026-11-23: the sentence still read "about 1,200" against a 1,459-module tree, and the
+  Layout table's largest row read 585 against 795 files — the same staleness as the other
+  two surfaces, on the one surface nobody had thought to gate. A hand-written count is a
+  claim about the tree that the tree keeps falsifying; the fix is the same as everywhere
+  else in this script: the number is written from the tree, or it is not written.
 
 ## Why this exists
 
@@ -50,8 +58,8 @@ with a shorter fuse: it would write a number the gate then rejects.
 
 ## What it does NOT touch
 
-Only the derived counts, and only where a gate already looks. Theorem-card names, file paths,
-source links, badges, and every other word of prose on either surface stay exactly as written
+Only the derived counts, and only where a gate looks. Theorem-card names, file paths,
+source links, badges, and every other word of prose on any surface stay exactly as written
 — those are claims a person made, and a claim that has gone false is a thing for a person to
 fix, not for a script to quietly rewrite into truth. The distinction this script draws is
 between a number the tree computes and a statement someone chose to make.
@@ -151,6 +159,65 @@ def sync_blueprint(tex: str, counts: dict[str, int]) -> str:
     )
 
 
+README = REPO / "README.md"
+
+# The README's module sentence. The count is written exactly (no "about"): a rounded
+# number is still a claim, and it goes stale at the same speed as an exact one while
+# telling the reader less.
+README_MODULES = re.compile(r"The library holds (?:about )?[\d,]+ Lean modules")
+
+# One Layout-table row: `| <dirs> | <count> | <contents> |`. Only the count cell is
+# rewritten, and only on rows whose first cell leads with a `GppVerify/…` directory —
+# those are the rows stating a count of tree files. Rows for `discovery/`, `docs/` and
+# the rest carry no count and are not touched.
+README_TABLE_ROW = re.compile(r"^(\|[^|]*\| )[\d,]+( \|.*)$")
+
+
+def _lean_files_under(rel: str) -> int:
+    base = REPO / rel
+    if not base.is_dir():
+        return 0
+    return sum(1 for _ in base.rglob("*.lean"))
+
+
+def _layout_row_dirs(first_cell: str) -> list[str]:
+    """Directories a Layout row counts, or [] if the row is not a tree-count row.
+
+    The lead token must be a full `GppVerify/…` path. Combined rows name the first
+    directory in full and the rest bare (`` `ThreadHT/` ``), and a bare token after a
+    `GppVerify/` lead is its sibling under `GppVerify/`.
+    """
+    tokens = re.findall(r"`([^`]+)`", first_cell)
+    dirs: list[str] = []
+    for tok in tokens:
+        if not tok.endswith("/"):
+            continue
+        if tok.startswith("GppVerify/"):
+            dirs.append(tok.rstrip("/"))
+        elif dirs and "/" not in tok.rstrip("/"):
+            dirs.append("GppVerify/" + tok.rstrip("/"))
+        else:
+            return []
+    return dirs
+
+
+def sync_readme(text: str, counts: dict[str, int]) -> str:
+    """Rewrite the README's module sentence and its Layout-table file counts."""
+    text = README_MODULES.sub(
+        f"The library holds {counts['modules']:,} Lean modules", text
+    )
+    lines = []
+    for line in text.split("\n"):
+        m = README_TABLE_ROW.match(line)
+        if m:
+            dirs = _layout_row_dirs(m.group(1))
+            if dirs:
+                total = sum(_lean_files_under(d) for d in dirs)
+                line = f"{m.group(1)}{total:,}{m.group(2)}"
+        lines.append(line)
+    return "\n".join(lines)
+
+
 def main() -> int:
     check_only = "--check" in sys.argv[1:]
     counts = tree_counts()
@@ -163,6 +230,7 @@ def main() -> int:
     surfaces = [
         (LANDING, "landing page", lambda t: sync_og(sync_stats(t, counts), counts)),
         (REPO / BLUEPRINT, "blueprint", lambda t: sync_blueprint(t, counts)),
+        (README, "README", lambda t: sync_readme(t, counts)),
     ]
 
     stale: list[str] = []

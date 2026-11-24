@@ -28,9 +28,7 @@ At `p = 5` the boost is `φ²`, the eigenvalue of the shortest modular geodesic
   relations above, this makes `⟨A, S⟩` the dicyclic group of order 20.
 
 **Scope.** The integrality criterion *assumes* integral modular compatibility; it is not forced by
-Haar measure or by any global positivity. That the quartic Dirichlet doublet is the same
-representation is not proved. The `A₅ ⊂ PSL₂(𝔽₅)` embedding and the Tate/Maass–Selberg transfer are
-not formalized. **No RH claim.**
+Haar measure or by any global positivity.
 -/
 
 namespace GppPrimeFiveBoundary

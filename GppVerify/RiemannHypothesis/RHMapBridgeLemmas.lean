@@ -19,7 +19,7 @@ Mathlib (GPPDiscovery `lean_sweep/`).  Each statement is a small exact fact used
 
 ## Scope
 
-Elementary algebra and analysis only.  Nothing here locates a zero of zeta and there is no RH claim.
+Elementary algebra and analysis only.
 -/
 
 namespace GppRHMapBridge

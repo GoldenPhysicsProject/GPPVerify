@@ -134,7 +134,7 @@ theorem integral_zero_shift_kernel_eq_two_div_pi :
     integrable_zero_shift_kernel
     scaledTanh_tendsto_atBot
     scaledTanh_tendsto_atTop
-  convert h using 1 <;> ring
+  convert h using 1; ring
 
 /-- At `lambda = 0`, the shifted kernel is exactly the zero-shift kernel. -/
 theorem integral_sech_convolution_zero :

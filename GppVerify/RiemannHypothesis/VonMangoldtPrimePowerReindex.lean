@@ -46,7 +46,7 @@ theorem cosineSummand_primePower
   norm_cast
   rw [Nat.cast_pow, Real.log_pow]
   push_cast
-  congr 2 <;> ring
+  congr 2; ring
 
 /-- Exact global reindexing from natural numbers to canonical prime-power coordinates. -/
 theorem cosine_tsum_eq_primePower_pair_tsum (a t : ℝ) :

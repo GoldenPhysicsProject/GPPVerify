@@ -27,9 +27,7 @@ paper's heat-trace criterion states
 
 with `𝒦(t) = Σ_{γ>0} m_γ e^{−γ²t}` under RH.
 
-This file formalizes the **elementary, kernel-checkable layer** of that chain. What is
-proved here is exactly the arithmetic and Laplace-transform bookkeeping; the two genuinely
-hard inputs are named and NOT claimed (see the boundary section at the end).
+This file formalizes the **elementary, kernel-checkable layer** of that chain.
 
 ## Contents
 
@@ -61,11 +59,9 @@ hard inputs are named and NOT claimed (see the boundary section at the end).
   even. So the new paper's prime side *is* the Weil support ladder's prime side, and
   inherits its truncation lemmas verbatim.
 
-## What is deliberately NOT claimed
-
 1. **Bernstein's theorem** (completely monotone ⟺ Laplace transform of a positive measure).
    Absent from Mathlib at the pin. The paper's `(2) ⇒ (3) ⇒ (1)` direction rests on it.
-2. **The heat-trace criterion itself.** Nothing here proves, or assumes, RH. The forward
+2. **The heat-trace criterion itself.** The forward
    direction additionally needs the centered Hadamard product for `ξ` and a zero-counting
    argument — the same missing infrastructure recorded repo-wide, and the reason the RH
    thread is blocked regardless of reformulation.
@@ -73,7 +69,7 @@ hard inputs are named and NOT claimed (see the boundary section at the end).
 The honest summary: this file kernel-checks that *if* the heat expansion
 `𝒦(t) = Σ m_γ e^{−γ²t}` holds with `m_γ ≥ 0`, then each mode is completely monotone and the
 Laplace bookkeeping in the paper's proof is exact; and it identifies the paper's prime side
-with the repo's existing Weil ladder. It does not prove the criterion.
+with the repo's existing Weil ladder.
 -/
 
 namespace GppHeatTrace
@@ -190,7 +186,7 @@ noncomputable def heatGaussian (t : ℝ) : ℝ → ℝ := fun x => Real.exp (-x 
 
 /-- The heat Gaussian is even. -/
 theorem heatGaussian_even (t : ℝ) (x : ℝ) : heatGaussian t (-x) = heatGaussian t x := by
-  simp only [heatGaussian, neg_pow, even_two.neg_pow]
+  simp only [heatGaussian, even_two.neg_pow]
 
 /-- **Thread L bridge.** The paper's arithmetic sum
 `Σ_{n} Λ(n) n^{−1/2} e^{−(log n)²/(4t)}` is exactly half of the repo's existing

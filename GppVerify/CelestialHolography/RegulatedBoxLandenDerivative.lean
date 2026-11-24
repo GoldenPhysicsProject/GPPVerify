@@ -72,7 +72,7 @@ theorem landenCombination_hasDerivAt_zero
       HasDerivAt (fun t : ℝ => (Real.log (1 + t)) ^ 2 / 2)
         (Real.log (1 + x) / (1 + x)) x := by
     refine ((hlog.pow 2).div_const 2).congr_deriv ?_
-    norm_num <;> ring
+    norm_num; ring
 
   have hsum := (hpos.add hneg).add hlogsq
   have hcoef :

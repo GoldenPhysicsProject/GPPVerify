@@ -57,13 +57,13 @@ def It (v : Orientation4) : Orientation4 :=
 /-- Both microscopic orientations are genuine complex structures. -/
 theorem Iq_sq_neg (v : Orientation4) : Iq (Iq v) = -v := by
   rcases v with ⟨a,b,c,d⟩
-  simp [Iq, Complex.I_mul_I]
+  simp [Iq]
   ring_nf
   simp [Complex.I_sq]
 
  theorem It_sq_neg (v : Orientation4) : It (It v) = -v := by
   rcases v with ⟨a,b,c,d⟩
-  simp [It, Complex.I_mul_I]
+  simp [It]
   ring_nf
   simp [Complex.I_sq]
 
@@ -71,13 +71,13 @@ theorem Iq_sq_neg (v : Orientation4) : Iq (Iq v) = -v := by
 theorem Iq_It_commute (v : Orientation4) :
     Iq (It v) = It (Iq v) := by
   rcases v with ⟨a,b,c,d⟩
-  simp [Iq, It, Complex.I_mul_I]
+  simp [Iq, It]
 
 /-- Their relative product is exactly the observable alignment grading. -/
 theorem minus_Iq_It_eq_chi (v : Orientation4) :
     - Iq (It v) = chi v := by
   rcases v with ⟨a,b,c,d⟩
-  simp [Iq, It, chi, Complex.I_mul_I]
+  simp [Iq, It, chi]
   ring_nf
   simp [Complex.I_sq]
 

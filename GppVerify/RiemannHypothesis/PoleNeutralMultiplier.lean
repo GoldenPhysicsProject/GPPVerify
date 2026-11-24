@@ -16,7 +16,7 @@ Source: Codex, GPPDiscovery2 `research/2026-09-30_neutralization_preserves_zero_
 
 Consequence (the note's §4, ARGUED here, since it needs Weil test-space interpolation): positivity of
 the Weil form on the neutral subspace is RH-equivalent. A factorization `L₀* A L₀ = B*B` would be
-an RH proof, not a lemma. **No RH claim.**
+an RH proof, not a lemma.
 -/
 
 namespace GppPoleNeutralMultiplier

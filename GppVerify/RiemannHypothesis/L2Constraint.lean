@@ -41,7 +41,7 @@ lemma conj_eq_shadow_iff_critical (s : ℂ) :
     starRingEnd ℂ s = 1 - s → s.re = 1 / 2 := by
   intro h
   have hre := congr_arg Complex.re h
-  simp [RCLike.star_def, Complex.conj_re, Complex.sub_re, Complex.one_re] at hre
+  simp [Complex.conj_re, Complex.sub_re, Complex.one_re] at hre
   linarith
 
 /-- On the principal series s = 1/2 + iγ, the character weight e^{iγ log|a|}
@@ -62,7 +62,7 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
     have hmc : ‖z * starRingEnd ℂ z‖ = ‖z‖ ^ 2 := by
       rw [norm_mul, sq]
       congr 1
-      simp [RCLike.star_def, Complex.norm_conj]
+      simp 
     rw [h, norm_one] at hmc
     linarith [hmc.symm]
   nlinarith [norm_nonneg z, sq_nonneg (‖z‖ - 1)]
@@ -71,21 +71,13 @@ lemma norm_one_of_mul_conj_eq_one (z : ℂ) (h : z * starRingEnd ℂ z = 1) : �
 -- §2  L² infrastructure axioms (awaiting Mathlib adèlic theory)
 -- ============================================================
 
-/-- K¹ = A¹/Q× is compact with finite Haar measure.
-    (Fujisaki's lemma; Weil 1974 Ch. IV §2.)
+-- K¹ = A¹/Q× is compact with finite Haar measure: retired 2026-11-07. Compactness is
+-- `GppIdeleQ.compactSpace_A1_quotient` and finiteness of every measure that is finite on compacts
+-- is `GppIdeleQ.isFiniteMeasure_quotient` (RiemannHypothesis/IdeleQ.lean, Fujisaki's lemma for `ℚ`).
 
-    Gap, restated 2026-09-01 against Mathlib 4.33.1. The old wording named a *module* —
-    "Gap: Mathlib.NumberTheory.NumberField.Adeles" — and that module now exists, so as
-    written the gap reads as closed when the mathematics is untouched. What is actually
-    missing: the idèle group `A×` (Mathlib has the adele *ring* only), its norm-1
-    subgroup, the quotient by `Q×`, and any compactness statement about it — there is no
-    `CompactSpace`/`IsCompact` anywhere in `AdeleRing.lean`. Fujisaki's lemma itself is
-    absent. Name the missing theorem, not the module. -/
-theorem open_K1_compact_haar : True := trivial
-
-/-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹).
-    Follows from adelic_haar_self_dual. -/
-theorem open_T_preserves_L2 : True := trivial
+-- The shadow involution T : a ↦ a⁻¹ preserves L²(K¹): retired 2026-11-07. Proved for `ℚ` as
+-- `GppIdeleQ.T_preserves_L2` (isometrically), from inversion invariance of the Haar measure
+-- `GppIdeleQ.haarK1` on the compact abelian group `K¹ = 𝔸¹/ℚˣ` (RiemannHypothesis/IdeleQ.lean).
 
 /-- A T-eigenfunction in L²(K¹) forces Re(s) = 1/2. This is *not* an axiom: the real
     claim is conditional on `χ_s ∈ L²(K¹)` and `χ_s` being a `T`-eigenfunction, neither
@@ -94,7 +86,7 @@ theorem open_T_preserves_L2 : True := trivial
     conclusion unconditionally would make the resulting `axiom` — and everything
     built on it — logically inconsistent: instantiated at any `s` with `s.re ≠ 1/2`
     (e.g. `s = 2`) it proves `False`. Left as a documented, content-free stub instead,
-    exactly like `open_K1_compact_haar` and `open_T_preserves_L2` above. -/
+    exactly like the (now retired) stubs above. -/
 theorem open_l2_shadow_eigenvalue_forces_critical_re_statement : True := trivial
 
 -- ============================================================

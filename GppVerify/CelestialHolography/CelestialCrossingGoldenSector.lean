@@ -32,9 +32,7 @@ crossing cusps.  Since `A` has determinant one and minimal hyperbolic trace thre
 quadratic discriminant is five and its expanding/contracting roots are `phi^(+2)` and
 `phi^(-2)`, already proved in the imported module.
 
-This file formalizes the finite quotient/cycle algebra only.  It does NOT prove that the
-physical neutral Sturm bundle has the Legendre/Gauss--Manin integral lattice, nor that
-celestial crossing promotes its pure `Gamma(2)` monodromy to the full modular action.
+This file formalizes the finite quotient/cycle algebra only.
 Those are the global bridge theorems required before this three-cycle can select a
 physical holonomy.
 -/

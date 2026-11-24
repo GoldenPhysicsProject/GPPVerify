@@ -10,8 +10,7 @@ finite-dimensional geometry is a correspondence: every point on the twistor line
 `W` pairs to zero with every point on the dual twistor line of `W^0`.
 
 This file proves that statement on the Gr(2,4) big cell.  It is the algebraic kernel
-that a genuine field-level integral/cohomological transform may use.  No claim is made
-here that the analytic Penrose/Fourier transform has already been constructed.
+that a genuine field-level integral/cohomological transform may use.
 -/
 
 namespace GppIncidenceKernelGoogly

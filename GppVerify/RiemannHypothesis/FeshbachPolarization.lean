@@ -22,10 +22,7 @@ For vectors `u, v` in a complex inner product space:
 ## Checks and scope
 
 All claims check, and the note itself stresses their limit (§4): the Gram completion exists for *any*
-real phase, so it cannot distinguish the true zeta from the shifted control. **Not formalized:** the
-phase `q̃_L`, the rank-one causal resolvent formula (§2), the Koszul/Hodge-gap obstruction (§5, a
-statement that an additive Koszul bound cannot replace the multiplicative Möbius whitening), and the
-graded Feshbach map `Γ_L` the note leaves unconstructed. No RH claim.
+real phase, so it cannot distinguish the true zeta from the shifted control.
 -/
 
 open scoped InnerProductSpace ComplexConjugate

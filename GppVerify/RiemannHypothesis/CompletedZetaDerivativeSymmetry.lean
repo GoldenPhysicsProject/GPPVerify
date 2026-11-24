@@ -16,8 +16,6 @@ Differentiating the functional equation therefore gives the exact antisymmetry
 This is a genuinely global statement about the analytically continued completed zeta
 function, not a finite Euler-product approximation.  It is one of the constraints any
 prime--Archimedean completed logarithmic-derivative operator must reproduce.
-
-No RH claim is made here.
 -/
 
 namespace GppCompletedZetaDerivative

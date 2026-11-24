@@ -37,7 +37,7 @@ For a function `B` the Schur defect kernel is `D_B(z,w) = (1 − B(z) conj B(w))
   nonvanishing `B`. Hence `D_{A/B} ⪰ 0 ⟺ D_A − D_B ⪰ 0` (`defect_quotient_psd_iff`).
 
 That last equivalence is the note's reformulation of the prime-versus-Archimedean problem as a
-kernel-domination problem. It is an equivalence of statements, not a proof of either side.
+kernel-domination problem.
 
 ## Checks
 
@@ -48,9 +48,7 @@ such objects.
 
 ## Scope
 
-Pointwise algebra and finite positive semidefiniteness. **Not formalized:** the Hardy-space
-reproducing-kernel statement (that `D_B` is the reproducing kernel of the model space), the
-infinite renormalized cascade, and the completed zeta transfer `Θ_ω`. No RH claim.
+Pointwise algebra and finite positive semidefiniteness.
 -/
 
 open Complex GppSU11Prime

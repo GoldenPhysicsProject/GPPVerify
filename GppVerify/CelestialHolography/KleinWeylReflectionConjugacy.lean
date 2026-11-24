@@ -27,8 +27,7 @@ The `t -> 0` limit leaves the group because `a_t^{-1}` diverges, matching the nu
 singularity of the pointwise reflection at flat infinity.
 
 Representation-theoretically, normalized Knapp--Stein/light intertwiners implement the
-corresponding Weyl reflection on principal-series fields.  That analytic identification
-is external and is not formalized in this file.
+corresponding Weyl reflection on principal-series fields.
 -/
 
 namespace GppKleinWeylReflectionConjugacy
@@ -51,7 +50,7 @@ def activeReflection (Lambda : ℝ) (v : Active2) : Active2 :=
 /-- The fixed Weyl element is involutive. -/
 theorem fixedWeyl_sq (v : Active2) : fixedWeyl (fixedWeyl v) = v := by
   rcases v with ⟨x,y⟩
-  simp [Active2, fixedWeyl, splitDilation, activeReflection]
+  simp [Active2, fixedWeyl]
 
 /-- Nonzero split dilation is inverted by the reciprocal parameter. -/
 theorem splitDilation_inverse

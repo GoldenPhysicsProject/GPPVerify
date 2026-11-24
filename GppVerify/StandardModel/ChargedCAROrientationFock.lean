@@ -138,7 +138,7 @@ theorem H_explicit (eps : ℝ) :
   rcases number_operators_explicit with ⟨hp,ha⟩
   rw [H, hp, ha]
   ext i j
-  fin_cases i <;> fin_cases j <;> norm_num <;> ring
+  fin_cases i <;> fin_cases j <;> norm_num; ring
 
 /-- Standard charged Dirac field core: positive-frequency particle annihilation plus
     negative-frequency antiparticle creation. -/
@@ -150,7 +150,7 @@ theorem particle_annihilator_frequency (eps : ℝ) :
   rw [H_explicit]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    norm_num [commutator, ap, Matrix.mul_apply, Fin.sum_univ_succ] <;> ring
+    norm_num [commutator, ap, Matrix.mul_apply, Fin.sum_univ_succ]; ring
 
 /-- Antiparticle creation carries the opposite `+eps` Heisenberg frequency. -/
 theorem antiparticle_creator_frequency (eps : ℝ) :
@@ -158,7 +158,7 @@ theorem antiparticle_creator_frequency (eps : ℝ) :
   rw [H_explicit]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    norm_num [commutator, aaDag, Matrix.mul_apply, Fin.sum_univ_succ] <;> ring
+    norm_num [commutator, aaDag, Matrix.mul_apply, Fin.sum_univ_succ]; ring
 
 /-- Despite the opposite frequency signs, both pieces of the charged field have the same
     physical field charge. -/

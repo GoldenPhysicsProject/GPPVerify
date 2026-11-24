@@ -22,8 +22,7 @@ amplitudes `a_n = √(1−q) q^{n/2}`:
 ## Scope
 
 Exact identities for one prime. The tensor-shift is expressed through the amplitude sequence (the
-diagonal inner product), not an operator on a constructed `ℓ²(ℕ)⊗ℓ²(ℕ)`. That the Rindler normalisation is
-physically meaningful, and the global assembly into the explicit formula, are not claimed. No RH claim.
+diagonal inner product), not an operator on a constructed `ℓ²(ℕ)⊗ℓ²(ℕ)`.
 -/
 
 open Real Filter Topology ArithmeticFunction

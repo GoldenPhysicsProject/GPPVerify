@@ -45,7 +45,7 @@ theorem natCast_neg_cpow_re
     simp only [Complex.mul_im, Complex.ofReal_re, Complex.ofReal_im,
       Complex.neg_re, Complex.neg_im, Complex.add_re, Complex.add_im,
       Complex.I_re, Complex.I_im, mul_zero, zero_mul, zero_add, add_zero,
-      mul_one, sub_zero]
+      mul_one]
     ring
   rw [hre, him]
   rw [show -Real.log n * t = -(Real.log n * t) by ring, Real.cos_neg]

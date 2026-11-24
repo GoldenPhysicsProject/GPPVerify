@@ -26,7 +26,7 @@ They commute and compose to `D_spec = R_sh R_c : z ↦ −z̄`.
 All verified by hand against the note; no corrections. The note itself records the limitation
 (§7) that even observables alone cannot see the ghost coordinate; this file formalizes only the
 finite algebra and the restatement of RH, not the physical-quotient target `R_sh = R_c` on
-`H_phys`. No RH claim.
+`H_phys`.
 -/
 
 namespace GppZeroQuartet

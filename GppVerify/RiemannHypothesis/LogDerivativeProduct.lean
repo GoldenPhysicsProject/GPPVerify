@@ -10,8 +10,6 @@ linearizes that product: there is no extra bilinear "cross term" at this stage. 
 prime--Archimedean interference appearing in a squared Dirac/operator model therefore
 comes from the operator realization of the additive logarithmic derivative, not from an
 ordinary finite product of local scalar factors.
-
-No RH claim is made here.
 -/
 
 namespace GppLogDerivativeProduct

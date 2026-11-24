@@ -26,13 +26,11 @@ This file formalizes the two layers the paper itself keeps logically separate (i
    needs an explicit six-point celestial derivation (its own boxed equation in §"Remaining
    analytic theorem"), rather than smuggling it in.
 
-**This file does NOT discharge, replace, or duplicate** the existing infrastructure stubs
+The existing infrastructure stubs
 in `GppShadowDisc` (`open_celestial_amplitude_has_cut`, `open_disc_equals_loop_integrand`,
 `open_shadow_disc_mellin_density` — all `theorem foo : True := trivial`, the repo's honest
-convention, not axioms despite older naming). Those stay exactly as they are: nothing here
-proves the analytic sewing identity for an explicit celestial amplitude, so nothing here
-justifies removing or "discharging" those stubs. See `ShadowPairSewing` below for exactly
-where that remaining gap is isolated.
+convention, not axioms despite older naming). Those stay exactly as they are: the
+analytic sewing identity is the local hypothesis isolated in `ShadowPairSewing` below.
 
 ## Loop-count convention (paper correction tracked here)
 

@@ -61,8 +61,7 @@ lemma: generic first-order whitening differs from the doubled complementary cont
 
 ## Scope
 
-Finite linear algebra, one hyperbolic identity, and coefficient bookkeeping on Fock sequences. No
-RH claim.
+Finite linear algebra, one hyperbolic identity, and coefficient bookkeeping on Fock sequences.
 -/
 
 open Matrix

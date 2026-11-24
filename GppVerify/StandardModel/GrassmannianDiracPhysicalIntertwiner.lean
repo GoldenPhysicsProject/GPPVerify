@@ -55,7 +55,7 @@ theorem Psi_N_eq_D_Uq_Psi (a b c d : ℂ) :
   rw [Psi, Matrix.mul_assoc, QN_eq_D_LQ]
   rw [Matrix.mul_smul]
   rw [← Matrix.mul_assoc, Phi_mul_L_eq_Uq_mul_Phi]
-  simp [Psi, Matrix.mul_assoc]
+  simp [Matrix.mul_assoc]
 
 /-- Actual Jacobian matrix `N/D²`. -/
 def Jmat (a b c d : ℂ) : Matrix (Fin 4) (Fin 4) ℂ :=

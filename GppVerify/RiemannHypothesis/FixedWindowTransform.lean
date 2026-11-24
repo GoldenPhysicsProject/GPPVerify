@@ -31,8 +31,6 @@ By `windowTransform_eq_zero_iff` that holds exactly when no zero has `ρ = 1/2 +
 only evaluates `H_ℓ` at an exponent with `Re λ_ρ > α ≥ 0`, which is off the imaginary axis, so
 `windowTransform_ne_zero_of_re_ne_zero` is exactly what that argument needs, and it survives.
 
-## Not formalized here
-
 The exponent theorem `σ_ℓ = κ_ℓ = Θ` itself (and `RH ⟺ κ_ℓ = 0`) rests on the explicit-formula
 zero sum and on Landau's theorem for Laplace transforms of nonnegative functions; neither is
 available in the pinned Mathlib.

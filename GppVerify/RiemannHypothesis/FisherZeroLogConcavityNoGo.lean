@@ -31,9 +31,7 @@ numerical example `A = 12, ε = 0.1, b = 1` (curvature `≤ -11.889`, first zero
 
 ## Scope
 
-This is a no-go for one proof strategy. It says nothing about the actual BPY density; the
-note's §1 identity `ξ(1/2+it)/ξ(1/2) = ⟨Ω, e^{itH}Ω⟩` is not formalized here, and nothing in this
-file bears on RH beyond ruling the naive route out.
+This is a no-go for one proof strategy.
 -/
 
 open Complex MeasureTheory Real

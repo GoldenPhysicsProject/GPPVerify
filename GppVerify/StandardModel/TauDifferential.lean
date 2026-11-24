@@ -45,8 +45,7 @@ depends on it, since every statement is about `tauJac` itself.
 
 `charpoly = t⁴ - Δ⁻⁴` is not stated as a `Matrix.charpoly` equation. `tauJac_pow_four` gives
 that the minimal polynomial divides `t⁴ - Δ⁻⁴`, and the eigenvector results exhibit two of its
-four roots; together that is the usable content. Writing it as a literal `charpoly` identity
-would need a symbolic 4×4 determinant over `Polynomial ℝ` and is not attempted.
+four roots; together that is the usable content.
 
 The claim was checked symbolically before being formalized (`sympy`: `J.charpoly` factors
 exactly as `t⁴ - Δ⁻⁴`, and `J⁴ - Δ⁻⁴I = 0`), which is also where the intermediate matrix

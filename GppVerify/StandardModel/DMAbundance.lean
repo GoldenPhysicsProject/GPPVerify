@@ -11,7 +11,7 @@ This file concerns `thm:dm-abundance` (On the Nature of Nature v5.2, third-most-
 framework states as: *the observed dark matter abundance Ω_{DM} h² ≈ 0.12 follows from
 the shadow symmetry breaking scale, fixed by c_{2D} = 0.*
 
-**Formalized scope.** That claim is not proved here. What is formalized is only that the
+**Formalized scope.** What is formalized is only that the
 observational input `0 < Ω_DM < 1` gives `0 < Ω_DM`; the observed value enters as a
 hypothesis, not as a prediction. The Boltzmann / shadow-breaking derivation is
 `open_shadow_breaking_gives_abundance` and is open. (GPPVerify2 states the same scope,

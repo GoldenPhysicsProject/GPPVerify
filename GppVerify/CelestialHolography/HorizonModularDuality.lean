@@ -4,9 +4,7 @@ import Mathlib.Tactic
 # Horizon modular duality: conditional interface
 
 This file records the exact logical interface suggested by the local Rindler / modular
-structure of a bifurcate Killing horizon.  It does NOT prove the Bisognano--Wichmann,
-Sewell, Kay--Wald, or Hartle--Hawking theorems inside Lean, and it does NOT assume that
-the Shadow duality has already been identified with Tomita modular conjugation.
+structure of a bifurcate Killing horizon.
 
 The purpose is to sharpen the Shadow horizon target.  Instead of saying that a fermion
 "hits c" and annihilates, the invariant candidate uses:

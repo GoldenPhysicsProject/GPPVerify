@@ -55,14 +55,10 @@ lemma l_infty_subset_l2_compact {α : Type*} [MeasurableSpace α]
         rw [integral_const]
         simp [Measure.real, smul_eq_mul]
 
-/-- The Haar regularization factor vol(K¹) = 1 (normalized), which makes the Plancherel
-    formula's coefficient 1.
-
-    Gap: this is a *normalization convention* on a measure that is not constructed
-    anywhere in this file — there is no `K¹` here to take the volume of. Until
-    2026-09-01 it was stated as `(1 : ℝ) = 1 := rfl`, which is true of the numeral and
-    says nothing about any measure. Renamed to `open_` so the gate counts it. -/
-lemma open_haar_volume_normalized : True := trivial
+-- The Haar normalization vol(K¹) = 1: retired 2026-11-07. `K¹ = 𝔸¹/ℚˣ` and its normalized
+-- Haar measure are now constructed, `GppIdeleQ.haarK1`, with `IsProbabilityMeasure haarK1`
+-- (RiemannHypothesis/IdeleQ.lean). The stub it replaces was a `True` placeholder; before
+-- 2026-09-01 it had been `(1 : ℝ) = 1 := rfl`.
 
 /-- The integrand of the inner product `⟨f, g⟩ = ∫ f · ḡ d×a` is sesquilinear: linear in
     `f`, conjugate-linear in `g`. Stated pointwise on the integrand, since the measure and

@@ -67,7 +67,7 @@ theorem annihilatorPlucker_from_basis (a b c d : ℝ) :
         (-c)*0-1*(-d),
         (-c)*1-0*(-d),
         1*1-0*0⟩ := by
-  apply P6.ext <;> simp [annihilatorPlucker] <;> ring
+  apply P6.ext <;> simp [annihilatorPlucker]; ring
 
 /-- Main metric-free bridge: epsilon dual of the graph-plane Plucker vector is exactly
 the annihilator-plane Plucker vector. -/

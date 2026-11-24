@@ -28,11 +28,7 @@ The identity is the elementary `*`-ring computation; the note's operator order i
 
 ## Scope
 
-Abstract `*`-ring algebra and a scalar identity. **Not formalized:** the Hilbert-space action of
-translations on `L²(ℝ)`, the theta kernel identity
-`Φ(u − a_p) − r_p Φ(u + a_p) = Σ_{p ∤ n} φ_n(u − a_p)` (a bookkeeping identity for series over
-integers coprime to `p`), the Euler-product decimation formula, and the Plancherel formula for
-`‖R_P‖²`. No RH claim.
+Abstract `*`-ring algebra and a scalar identity.
 -/
 
 open GppSU11Prime

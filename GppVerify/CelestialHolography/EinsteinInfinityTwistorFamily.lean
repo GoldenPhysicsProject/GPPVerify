@@ -25,9 +25,7 @@ inverse supplied by the opposite Clifford map scaled by `-1/Lambda`.  At `Lambda
 this family is exactly the flat infinity point and the isomorphism degenerates to the
 nilpotent exact complex formalized in `FlatInfinityChiralComplex`.
 
-This file is finite-dimensional coordinate algebra.  The identification of this family
-with the curved parallel scale tractor / local infinity twistor is an external geometric
-input, not formalized here.
+This file is finite-dimensional coordinate algebra.
 -/
 
 namespace GppEinsteinInfinityTwistorFamily

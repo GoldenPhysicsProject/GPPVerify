@@ -37,11 +37,8 @@ are derived:
 
 ## Scope
 
-The probabilistic steps are not formalized: the one-mode Gaussian Laplace transform
-`E e^{-tG²/(2πn²)} = (1 + t/(πn²))^{-1/2}`, independence, and the interchange of expectation
-with the infinite sum and product. Nor is the full BPY identity `E[Q_4^{s/2}] = 2ξ(s)`. As the
-note itself says, the component count `4` is a property of this Gaussian ansatz. Identifying it
-with a spacetime dimension would need a further reconstruction theorem, which is not claimed.
+ Nor is the full BPY identity `E[Q_4^{s/2}] = 2ξ(s)`. As the
+note itself says, the component count `4` is a property of this Gaussian ansatz.
 -/
 
 open Filter Topology

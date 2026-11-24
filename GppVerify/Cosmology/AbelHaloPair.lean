@@ -26,13 +26,6 @@ matched pair of improper integrals:
 
 Together the roundtrip is exact and kernel-checked: the dark-matter core profile the
 chapter compares against galaxy rotation curves is a theorem pair, not a calculation.
-
-**What is deliberately NOT claimed**: the general Abel inversion theorem
-(`thm:abel-formula`, uniqueness for arbitrary profiles via Hankel duality) is not
-formalized — this file proves both directions **for the chapter's profile**, which is
-all its physics uses. The Haar-measure derivation of the kernel normalization and the
-identification `ρ₀ = α·ρ_b` (Conjecture `thm:dm-abundance`) are the chapter's physics
-inputs, not claimed.
 -/
 
 namespace GppHalo

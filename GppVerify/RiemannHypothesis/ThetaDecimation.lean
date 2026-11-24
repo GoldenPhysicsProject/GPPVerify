@@ -15,9 +15,6 @@ With `φ_n(u) = (4π²n⁴e^{9u/2} − 6πn²e^{5u/2}) e^{−πn²e^{2u}}` (so `
   `g_t ∈ L²(μ) ⟺ |t| < ½ log 2`.
 
 **Scope.** The `L²` membership itself rests on the tail asymptotics `Φ(u) = e^{O(u)}e^{−πe^{2u}}`.
-Those, and the reflected left tail, are ARGUED and not formalized here. The orthogonal-projection
-identity `‖Φ(u−a_p)‖² = p^{−1}‖Φ(u+a_p)‖² + ‖(I−P_p)Φ(u−a_p)‖²` follows from `phi_decimation`
-plus Pythagoras in `ℓ²`, which is not formalized. **No RH claim.**
 -/
 
 namespace GppThetaDecimation

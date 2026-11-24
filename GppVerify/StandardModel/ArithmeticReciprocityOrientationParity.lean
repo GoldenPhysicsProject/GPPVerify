@@ -13,7 +13,7 @@ be globally compensated so that their product is `+1` (equivalently, the number 
 defects is even in the quadratic case).
 
 This file formalizes only the elementary sign consequence once the reciprocity product law
-is supplied.  It does NOT formalize Hilbert symbols or prove Hilbert reciprocity itself.
+is supplied.
 
 The possible physics use is sharply limited but intriguing: if microscopic half-flips are
 local Z2 defects while complete CPT is the global reciprocity constraint, an isolated
