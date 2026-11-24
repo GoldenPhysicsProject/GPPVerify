@@ -2709,6 +2709,7 @@ import GppVerify.RiemannHypothesis.NymanBeurlingBoundStates
 import GppVerify.RiemannHypothesis.BoundStateRenormalization
 import GppVerify.RiemannHypothesis.ArchimedeanCelestial
 import GppVerify.RiemannHypothesis.UnitaryHologramAssembly
+import GppVerify.RiemannHypothesis.BeurlingDilationInvariance
 import GppVerify.RiemannHypothesis.CausalTailEstimate
 import GppVerify.RiemannHypothesis.CausalKernels
 import GppVerify.RiemannHypothesis.CausalAbel

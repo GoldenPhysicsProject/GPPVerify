@@ -24,6 +24,7 @@ jobs:
       MODULES: >-
         GppVerify.RiemannHypothesis.ArchimedeanCelestial
         GppVerify.RiemannHypothesis.UnitaryHologramAssembly
+        GppVerify.RiemannHypothesis.BeurlingDilationInvariance
 
     steps:
       - uses: actions/checkout@v4
