@@ -1385,6 +1385,7 @@ import GppVerify.RiemannHypothesis.ExponentialConvexity
 import GppVerify.Upstream.WeierstrassFactor
 import GppVerify.Upstream.WeierstrassProduct
 import GppVerify.Upstream.OrderOfGrowth
+import GppVerify.Upstream.StoneTheorem
 import GppVerify.Upstream.ZeroCounting
 import GppVerify.Upstream.DyadicSummability
 import GppVerify.Upstream.LogDerivativeLandau
