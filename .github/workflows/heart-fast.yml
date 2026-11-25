@@ -33,6 +33,7 @@ jobs:
         GppVerify.RiemannHypothesis.MoebiusBoundaryDatum
         GppVerify.RiemannHypothesis.VonMangoldtOrbit
         GppVerify.RiemannHypothesis.MertensMellin
+        GppVerify.RiemannHypothesis.ConformalShadow
 
     steps:
       - uses: actions/checkout@v4
