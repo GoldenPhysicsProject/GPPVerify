@@ -38,6 +38,7 @@ jobs:
         GppVerify.RiemannHypothesis.UnitaryDilationWeights
         GppVerify.RiemannHypothesis.ZeroHilbertSpace
         GppVerify.RiemannHypothesis.InstantiatedFromRH
+        GppVerify.RiemannHypothesis.WeilFormHilbert
 
     steps:
       - uses: actions/checkout@v4
