@@ -46,7 +46,7 @@ specific, named step, and both are recorded here.
 
 ## What is here
 
-The library holds 1,496 Lean modules. Each major directory carries its own
+The library holds 1,497 Lean modules. Each major directory carries its own
 README with the map of that layer; this section is the index of them.
 
 - **The dictionary itself.** Shadow/functional-equation identification, dilation-unitarity
@@ -155,7 +155,7 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 | `GppVerify/GeneralRelativity/` | 20 | causal diamonds and boundary charges in GR form |
 | `GppVerify/NumberTheory/` | 20 | zeta values, Euler sums, BSD point counts, shadow Euler identities |
 | `GppVerify/ThreadWeilParity/` | 16 | the Weil parity thread |
-| `GppVerify/Upstream/` | 30 | [Mathlib staging](GppVerify/Upstream/README.md) |
+| `GppVerify/Upstream/` | 31 | [Mathlib staging](GppVerify/Upstream/README.md) |
 | `GppVerify/Analysis/` | 7 | Landau and Pringsheim theory for Dirichlet series |
 | `GppVerify/Cosmology/` | 4 | cosmological sectors |
 | `GppVerify/QuantumInformation/` | 4 | quantum information sectors |

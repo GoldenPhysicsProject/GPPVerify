@@ -2,7 +2,7 @@
 
 The staging area for Mathlib contribution: files written Mathlib-only,
 in Mathlib's naming and header conventions, proved here and intended for
-`leanprover-community/mathlib4`. Twenty-six files. Status
+`leanprover-community/mathlib4`. Twenty-seven files. Status
 is recorded per file; at the time of writing one pull request is open
 and the rest are staged, none merged yet.
 
@@ -107,5 +107,17 @@ they are equally acceptable upstream.
   `Real.integrable_fourier_of_nonneg` (a nonnegative Fourier transform of an integrable function
   continuous at `0` is integrable, by Gaussian duality and monotone convergence). The limit uses
   Mathlib's Lévy continuity theorem and Prokhorov compactness. **Status: staged.**
+
+## Operator theory
+
+- `StoneTheorem.lean`: **Stone's theorem**, generator direction. A strongly continuous
+  one-parameter group of isometries of a complex Hilbert space
+  (`StronglyContinuousUnitaryGroup E`) has a self-adjoint generator, a `LinearPMap` with domain the
+  vectors whose orbit is differentiable at `0` (`isSelfAdjoint_generator`, packaged as `stone`),
+  built on Mathlib's `LinearPMap.adjoint`. The proof shows the domain is dense (averages
+  `ε⁻¹ ∫₀^ε U s z ds`), the generator symmetric (differentiating `⟪U t x, U t y⟫`), and `A ± i`
+  surjective (the resolvent `∫₀^∞ e^{-t} U t z dt`, and the reflected group for `A - i`). The
+  converse direction (every self-adjoint operator generates a group) needs the spectral theorem.
+  Mathlib-only imports. **Status: staged.**
 
 Back to the [library README](../../README.md).
