@@ -29,8 +29,8 @@ namespace GppWeilDilation
 /-- Translation of the log variable, as a linear self-map of the test space. -/
 def tshift (t : ℝ) : testSubmodule →ₗ[ℝ] testSubmodule where
   toFun f := ⟨GppZeroHilbert.shift t f.1, GppZeroHilbert.isTestFunction_shift t f.2⟩
-  map_add' f g := Subtype.ext rfl
-  map_smul' c f := Subtype.ext rfl
+  map_add' _ _ := Subtype.ext rfl
+  map_smul' _ _ := Subtype.ext rfl
 
 @[simp] theorem tshift_val (t : ℝ) (f : testSubmodule) :
     ((tshift t f : testSubmodule) : ℝ → ℝ) = GppZeroHilbert.shift t f.1 := rfl
@@ -59,7 +59,7 @@ theorem norm_tshift (hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f
   exact (sq_eq_sq₀ (norm_nonneg _) (norm_nonneg _)).1 h
 
 /-- The extension of translation by `t` to `H`. -/
-def Uop (hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f, ι g⟫_ℝ) (t : ℝ) : H →L[ℝ] H :=
+def Uop (_hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f, ι g⟫_ℝ) (t : ℝ) : H →L[ℝ] H :=
   (ι ∘ₗ tshift t).extendOfNorm ι
 
 theorem Uop_bound (hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f, ι g⟫_ℝ) (t : ℝ) :

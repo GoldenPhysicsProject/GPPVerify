@@ -72,7 +72,7 @@ theorem norm_Phi_eq (hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f
   exact (sq_eq_sq₀ (norm_nonneg _) (norm_nonneg _)).1 (h1.trans h2.symm)
 
 /-- **The isometric embedding `J` of the arithmetic Hilbert space into `ℓ²(zeros)`.** -/
-def Jmap (hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f, ι g⟫_ℝ) : K →L[ℝ] H :=
+def Jmap (_hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f, ι g⟫_ℝ) : K →L[ℝ] H :=
   (Phi hL).extendOfNorm ι
 
 theorem Jmap_bound (hι : ∀ f g : testSubmodule, weilBilFun f.1 g.1 = ⟪ι f, ι g⟫_ℝ) :
