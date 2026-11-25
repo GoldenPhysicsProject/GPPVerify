@@ -37,6 +37,7 @@ jobs:
         GppVerify.RiemannHypothesis.ConformalPrincipalSeries
         GppVerify.RiemannHypothesis.UnitaryDilationWeights
         GppVerify.RiemannHypothesis.ZeroHilbertSpace
+        GppVerify.RiemannHypothesis.InstantiatedFromRH
 
     steps:
       - uses: actions/checkout@v4
