@@ -2727,6 +2727,8 @@ import GppVerify.RiemannHypothesis.InstantiatedFromRH
 import GppVerify.RiemannHypothesis.WeilFormHilbert
 import GppVerify.RiemannHypothesis.WeilDilationGroup
 import GppVerify.RiemannHypothesis.WeilZeroEmbedding
+import GppVerify.RiemannHypothesis.ExponentialSumUnique
+import GppVerify.RiemannHypothesis.WeilZeroSurjective
 import GppVerify.RiemannHypothesis.CausalTailEstimate
 import GppVerify.RiemannHypothesis.CausalKernels
 import GppVerify.RiemannHypothesis.CausalAbel

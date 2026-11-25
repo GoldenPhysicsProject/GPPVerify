@@ -41,6 +41,8 @@ jobs:
         GppVerify.RiemannHypothesis.WeilFormHilbert
         GppVerify.RiemannHypothesis.WeilDilationGroup
         GppVerify.RiemannHypothesis.WeilZeroEmbedding
+        GppVerify.RiemannHypothesis.ExponentialSumUnique
+        GppVerify.RiemannHypothesis.WeilZeroSurjective
 
     steps:
       - uses: actions/checkout@v4
