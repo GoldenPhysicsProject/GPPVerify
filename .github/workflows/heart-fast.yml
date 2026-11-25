@@ -40,6 +40,7 @@ jobs:
         GppVerify.RiemannHypothesis.InstantiatedFromRH
         GppVerify.RiemannHypothesis.WeilFormHilbert
         GppVerify.RiemannHypothesis.WeilDilationGroup
+        GppVerify.RiemannHypothesis.WeilZeroEmbedding
 
     steps:
       - uses: actions/checkout@v4
