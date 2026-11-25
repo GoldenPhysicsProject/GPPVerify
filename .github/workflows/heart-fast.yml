@@ -35,6 +35,7 @@ jobs:
         GppVerify.RiemannHypothesis.MertensMellin
         GppVerify.RiemannHypothesis.ConformalShadow
         GppVerify.RiemannHypothesis.ConformalPrincipalSeries
+        GppVerify.RiemannHypothesis.UnitaryDilationWeights
 
     steps:
       - uses: actions/checkout@v4
