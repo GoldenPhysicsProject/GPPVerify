@@ -34,6 +34,7 @@ jobs:
         GppVerify.RiemannHypothesis.VonMangoldtOrbit
         GppVerify.RiemannHypothesis.MertensMellin
         GppVerify.RiemannHypothesis.ConformalShadow
+        GppVerify.RiemannHypothesis.ConformalPrincipalSeries
 
     steps:
       - uses: actions/checkout@v4
