@@ -67,7 +67,7 @@ theorem pole_kform_eq {n : ℕ} (x c : Fin n → ℝ) :
     ring
   rw [hexpand, h1, h2]
   congr 1
-  simp [Finset.sum_sub_distrib]
+  simp [mul_sub, Finset.sum_sub_distrib]
 
 /-- **PROVED**: on the cosh hyperplane, the pole channel is the negative sinh square. -/
 theorem pole_kform_on_hyperplane {n : ℕ} (x c : Fin n → ℝ)
@@ -85,13 +85,14 @@ def twoC (a : ℝ) : Fin 2 → ℝ := ![1, -(Real.cosh (a / 2))⁻¹]
 
 theorem twoC_cosh_sum (a : ℝ) :
     ∑ i, twoC a i * Real.cosh (twoX a i / 2) = 0 := by
-  have h : Real.cosh (a / 2) ≠ 0 := ne_of_gt Real.cosh_pos
+  have h : Real.cosh (a / 2) ≠ 0 := ne_of_gt (Real.cosh_pos _)
   simp [twoX, twoC, Fin.sum_univ_two, h]
 
 theorem twoC_sinh_sum (a : ℝ) :
     ∑ i, twoC a i * Real.sinh (twoX a i / 2) = -Real.tanh (a / 2) := by
-  have h : Real.cosh (a / 2) ≠ 0 := ne_of_gt Real.cosh_pos
-  simp [twoX, twoC, Fin.sum_univ_two, Real.tanh_eq_sinh_div_cosh, h]
+  have h : Real.cosh (a / 2) ≠ 0 := ne_of_gt (Real.cosh_pos _)
+  simp [twoX, twoC, Fin.sum_univ_two, Real.tanh_eq_sinh_div_cosh]
+  ring
 
 /-- **PROVED**: the two-point pole finite part is `-A tanh²(a/2)`. -/
 theorem pole_two_point (a : ℝ) :
