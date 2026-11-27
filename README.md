@@ -1,4 +1,3 @@
-successfully downloaded text file (SHA: e754503da9cfb123c85e8ee4393ebc01c9c0fa35)
 # GPPVerify
 
 Lean 4 + Mathlib formalization of **shadow holography**, the organizing idea of the Golden
