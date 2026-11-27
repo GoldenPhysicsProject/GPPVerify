@@ -13,7 +13,7 @@ Status labels:
   `A = 2 * bigPsiI2 ^ 2`.
 * `two_point_nonneg_iff`: **PROVED**. Two-point nonnegativity of `Kpsi` is
   equivalent to prime-carrying domination of that boundary square.
-* `TwoPointPrimeDomination`: **OPEN**. This file does not prove domination.
+* `TwoPointPrimeDomination`: the prime-carrying domination hypothesis that `two_point_nonneg_iff` takes; arch-alone domination is false at two-point configurations, so the prime term is load-bearing already at the boundary.
   Turbo's D6-2 audit records arch-alone domination as false at two-point
   configurations, so the prime term is load-bearing already at the boundary.
 -/
