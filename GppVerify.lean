@@ -1,4 +1,3 @@
-successfully downloaded text file (SHA: 6165d620037f88ec72456c93cad6a407666551e4)
 -- GPPVerify: Golden Physics Project Lean 4 Formalization
 -- Root module — imports all verified files
 -- Author: Daniel Toupin | goldenphysics.org
