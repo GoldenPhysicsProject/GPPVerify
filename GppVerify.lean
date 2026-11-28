@@ -2737,3 +2737,4 @@ import GppVerify.RiemannHypothesis.CausalTransforms
 import GppVerify.RiemannHypothesis.CausalEnergyZero
 import GppVerify.RiemannHypothesis.SparseCutoffCriterion
 import GppVerify.RiemannHypothesis.LayerSign
+import GppVerify.RiemannHypothesis.SubpowerOfRH
