@@ -25,6 +25,7 @@ jobs:
         GppVerify.RiemannHypothesis.TwoSpaceForm
         GppVerify.RiemannHypothesis.ShiftPresentation
         GppVerify.RiemannHypothesis.Ob6CofinalWidths
+        GppVerify.RiemannHypothesis.BoundaryFinitePart
 
     steps:
       - uses: actions/checkout@v4
