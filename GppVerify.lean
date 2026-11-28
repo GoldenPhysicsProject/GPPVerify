@@ -2522,6 +2522,7 @@ import GppVerify.Upstream.DigammaVerticalBounds
 import GppVerify.RiemannHypothesis.ArchEnvelope
 import GppVerify.RiemannHypothesis.KreinBridge
 import GppVerify.RiemannHypothesis.KreinHPsi
+import GppVerify.RiemannHypothesis.BoundaryFinitePart
 import GppVerify.RiemannHypothesis.KreinKpsiContinuous
 import GppVerify.RiemannHypothesis.KreinKpsiContinuousGlue
 import GppVerify.CelestialHolography.ConformalPrimaryWavefunction
