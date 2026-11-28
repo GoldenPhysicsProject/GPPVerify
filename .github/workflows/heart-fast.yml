@@ -43,6 +43,7 @@ jobs:
         GppVerify.RiemannHypothesis.WeilZeroEmbedding
         GppVerify.RiemannHypothesis.ExponentialSumUnique
         GppVerify.RiemannHypothesis.WeilZeroSurjective
+        GppVerify.RiemannHypothesis.KreinZeroIdentification
 
     steps:
       - uses: actions/checkout@v4
