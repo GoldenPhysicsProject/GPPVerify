@@ -147,7 +147,7 @@ Blueprint: `pip install leanblueprint && cd blueprint && leanblueprint build`. T
 
 | Directory | Files | Contents |
 |---|---|---|
-| `GppVerify/RiemannHypothesis/` | 840 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
+| `GppVerify/RiemannHypothesis/` | 841 | [the RH programme](GppVerify/RiemannHypothesis/README.md): functional equation, Tate layer, explicit formula, Weil positivity reductions, certificates |
 | `GppVerify/CelestialHolography/` | 334 | [the celestial side](GppVerify/CelestialHolography/README.md): shadow transform, principal series, Penrose and ambitwistor geometry |
 | `GppVerify/StandardModel/` | 132 | [the Standard Model sector](GppVerify/StandardModel/README.md): CPT and orientation, charge, Pati–Salam |
 | `GppVerify/QuantumGravity/` | 53 | [quantum gravity](GppVerify/QuantumGravity/README.md): causal diamonds, equator thermodynamics, Fisher geometry |
