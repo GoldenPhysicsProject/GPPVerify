@@ -46,7 +46,7 @@ specific, named step, and both are recorded here.
 
 ## What is here
 
-The library holds 1,505 Lean modules. Each major directory carries its own
+The library holds 1,506 Lean modules. Each major directory carries its own
 README with the map of that layer; this section is the index of them.
 
 - **The dictionary itself.** Shadow/functional-equation identification, dilation-unitarity
